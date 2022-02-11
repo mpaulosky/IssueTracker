@@ -19,7 +19,7 @@ Review the [Code Of Conduct](./documents/CODE_OF_CONDUCT.md).
 
 Some of the best ways to contribute are to try things out, file issues, and make pull-requests.
 
-Check out the [contributing page](./documents/Contributing.md) to see the best places to log issues and start discussions.
+Check out the [contributing page](./documents/CONTRIBUTING.md) to see the best places to log issues and start discussions.
 
 ****
 
