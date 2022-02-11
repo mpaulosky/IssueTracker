@@ -1,0 +1,63 @@
+name: "Build and Test"
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.gitignore'
+      - '**/*.gitattributes'
+      
+
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'The reason for running the workflow'
+        required: true
+        default: 'Manual run'
+
+jobs:
+  build-and-test:
+    name: Build-and-Test=${{matrix.os}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest windows-latest]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+      DOTNET_ADD_GLOBAL_TOOLS_TO_PATH: false
+      DOTNET_MULTILEVEL_LOOKUP: 0
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
+
+    - name: Codecov
+      uses: codecov/codecov-action@v2.0.1
+
+    - name: Upload dotnet test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: IRApplication-test-results
+        path: TestResults
+
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
