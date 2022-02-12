@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		README.md = README.md
+		CODE_METRICS.md = CODE_METRICS.md
+		codecov.yml = codecov.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerLibrary", "src\IssueTrackerLibrary\IssueTrackerLibrary.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
