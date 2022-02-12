@@ -1,5 +1,4 @@
 codecov:
-  token: "348f3d52-de36-4d65-9152-ca21368d158f"
   require_ci_to_pass: false
 
 test:
