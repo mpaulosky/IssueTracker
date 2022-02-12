@@ -6,6 +6,7 @@ comment:                  # this is a top-level key
   require_head: yes       # [yes :: must have a head report to post]
 codecov:
   require_ci_to_pass: false
+  token: 348f3d52-de36-4d65-9152-ca21368d158f
 test:
   absolute <relative> (change)
   35% <72%> (+4%)
