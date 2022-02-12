@@ -55,7 +55,7 @@ jobs:
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v2
       with:
-        name: IRApplication-test-results
+        name: IssueTracker-test-results
         path: TestResults
 
       # Use always() to always run this step to publish test results when there are test failures
