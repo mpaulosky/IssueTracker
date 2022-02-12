@@ -10,7 +10,6 @@ on:
       - '**/*.gitignore'
       - '**/*.gitattributes'
       
-
   workflow_dispatch:
     inputs:
       reason:
@@ -24,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest windows-latest]
+        os: [ubuntu-latest, windows-latest]
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -48,16 +47,16 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
+      #run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
 
     - name: Codecov
-      uses: codecov/codecov-action@v2.0.1
+      #uses: codecov/codecov-action@v2.0.1
 
     - name: Upload dotnet test results
-      uses: actions/upload-artifact@v2
-      with:
-        name: IRApplication-test-results
-        path: TestResults
+      #uses: actions/upload-artifact@v2
+      #with:
+        #name: IRApplication-test-results
+        #path: TestResults
 
       # Use always() to always run this step to publish test results when there are test failures
-      if: ${{ always() }}
+      #if: ${{ always() }}
