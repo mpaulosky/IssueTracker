@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-IssueTrackerUI-00E08DDA-E837-4DD5-9C9E-429A779DF71A</UserSecretsId>
     </PropertyGroup>
