@@ -1,30 +1,11 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using IssueTrackerUI;
 
-using IssueTrackerUI.Data;
+using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-	.AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
-builder.Services.AddControllersWithViews()
-	.AddMicrosoftIdentityUI();
-
-builder.Services.AddAuthorization(options =>
-{
-	// By default, all incoming requests will be authorized according to the default policy
-	options.FallbackPolicy = options.DefaultPolicy;
-});
-
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor()
-	.AddMicrosoftIdentityConsentHandler();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.ConfigureServices();
 
 var app = builder.Build();
 
@@ -43,10 +24,24 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
+app.UseRewriter(
+	new RewriteOptions().Add(
+		context =>
+		{
+			if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
+			{
+				context.HttpContext.Response.Redirect("/");
+			}
+		}
+	));
+
 app.MapControllers();
+
 app.MapBlazorHub();
+
 app.MapFallbackToPage("/_Host");
 
 app.Run();

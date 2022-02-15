@@ -20,10 +20,10 @@ public class MongoCommentData : ICommentData
 
 	public async Task<List<CommentModel>> GetAllComments()
 	{
-		List<CommentModel>? output = _cache.Get<List<CommentModel>>(_cacheName);
+		var output = _cache.Get<List<CommentModel>>(_cacheName);
 		if (output is null)
 		{
-			IAsyncCursor<CommentModel>? results = await _suggestions.FindAsync(s => s.Archived == false);
+			var results = await _suggestions.FindAsync(s => s.Archived == false);
 			output = results.ToList();
 
 			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
@@ -34,7 +34,7 @@ public class MongoCommentData : ICommentData
 
 	public async Task<List<CommentModel>> GetUsersComments(string userId)
 	{
-		List<CommentModel>? output = _cache.Get<List<CommentModel>>(userId);
+		var output = _cache.Get<List<CommentModel>>(userId);
 		if (output is null)
 		{
 			IAsyncCursor<CommentModel>? results = await _suggestions.FindAsync(s => s.Author.Id == userId);
@@ -48,19 +48,19 @@ public class MongoCommentData : ICommentData
 
 	public async Task<List<CommentModel>> GetAllApprovedComments()
 	{
-		List<CommentModel> output = await GetAllComments();
+		var output = await GetAllComments();
 		return output.ToList();
 	}
 
 	public async Task<CommentModel> GetComment(string id)
 	{
-		IAsyncCursor<CommentModel>? results = await _suggestions.FindAsync(s => s.Id == id);
+		var results = await _suggestions.FindAsync(s => s.Id == id);
 		return results.FirstOrDefault();
 	}
 
 	public async Task<List<CommentModel>> GetAllCommentsWaitingForApproval()
 	{
-		List<CommentModel> output = await GetAllComments();
+		var output = await GetAllComments();
 		return output.ToList();
 	}
 
