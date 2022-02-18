@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+﻿using IssueTrackerLibrary.Contracts;
+
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
@@ -35,11 +37,11 @@ public static class RegisterServices
 			});
 		});
 
-		builder.Services.AddSingleton<IDbConnection, DbConnection>();
-		builder.Services.AddSingleton<ICommentData, MongoCommentData>();
-		builder.Services.AddSingleton<IStatusData, MongoStatusData>();
-		builder.Services.AddSingleton<IIssueData, MongoIssueData>();
-		builder.Services.AddSingleton<IUserData, MongoUserData>();
+		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
+		builder.Services.AddSingleton<ICommentService, MongoCommentService>();
+		builder.Services.AddSingleton<IStatusService, MongoStatusService>();
+		builder.Services.AddSingleton<IIssueService, MongoIssueService>();
+		builder.Services.AddSingleton<IUserService, MongoUserService>();
 
 	}
 }

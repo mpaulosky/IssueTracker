@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>aspnet-IssueTrackerUI-00E08DDA-E837-4DD5-9C9E-429A779DF71A</UserSecretsId>
+        <RootNamespace>IssueTrackerUI</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\IssueTrackerLibrary\IssueTrackerLibrary.csproj" />
+      <ProjectReference Include="..\IssueTracker.Library\IssueTracker.Library.csproj" />
     </ItemGroup>
 
 </Project>

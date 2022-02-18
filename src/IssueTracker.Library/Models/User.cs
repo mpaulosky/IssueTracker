@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackerLibrary.Models;
 
-public class UserModel
+public class User
 {
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]

@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackerLibrary.Models;
 
-public class StatusModel
+public class Status
 {
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]

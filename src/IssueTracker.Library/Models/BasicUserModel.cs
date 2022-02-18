@@ -9,7 +9,7 @@ public class BasicUserModel
 	public BasicUserModel()
 	{
 	}
-	public BasicUserModel(UserModel user)
+	public BasicUserModel(User user)
 	{
 		Id = user.Id;
 		DisplayName = user.DisplayName;

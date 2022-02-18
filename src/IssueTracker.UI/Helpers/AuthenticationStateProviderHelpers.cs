@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using IssueTrackerLibrary.Contracts;
+
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace IssueTrackerUI.Helpers;
 
 public static class AuthenticationStateProviderHelpers
 {
 
-	public static async Task<UserModel> GetUserFromAuth(
+	public static async Task<User> GetUserFromAuth(
 		this AuthenticationStateProvider provider,
-		IUserData userData)
+		IUserService userData)
 	{
 
 		var authState = await provider.GetAuthenticationStateAsync();

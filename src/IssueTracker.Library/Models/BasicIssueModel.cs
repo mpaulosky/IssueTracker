@@ -11,9 +11,9 @@ public class BasicIssueModel
 
 	}
 
-	public BasicIssueModel(IssueModel issue)
+	public BasicIssueModel(Issue issue)
 	{
 		Id = issue.Id;
-		Issue = issue.Issue;
+		Issue = issue.IssueName;
 	}
 }
