@@ -4,13 +4,13 @@ public class User
 {
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; }
-	public string ObjectIdentifier { get; set; }
-	public string FirstName { get; set; }
-	public string LastName { get; set; }
-	public string DisplayName { get; set; }
-	public string EmailAddress { get; set; }
-	public List<BasicIssueModel> AuthoredIssues { get; set; } = new();
-	public List<BasicCommentModel> VotedOnComments { get; set; } = new();
-	public List<BasicCommentModel> AuthoredComments { get; set; } = new();
+	public string Id { get; init; }
+	public string ObjectIdentifier { get; init; }
+	public string FirstName { get; init; }
+	public string LastName { get; init; }
+	public string DisplayName { get; init; }
+	public string EmailAddress { get; init; }
+	public List<BasicIssueModel> AuthoredIssues { get; init; } = new();
+	public List<BasicCommentModel> VotedOnComments { get; init; } = new();
+	public List<BasicCommentModel> AuthoredComments { get; init; } = new();
 }

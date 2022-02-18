@@ -4,12 +4,10 @@ namespace IssueTrackerLibrary.DataAccess;
 
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
-	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<TEntity> _collection;
 
 	protected BaseRepository(IMongoDbContext context)
 	{
-		_context = context;
 		_collection = context.GetCollection<TEntity>(typeof(TEntity).Name);
 	}
 
@@ -17,7 +15,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 	{
 		var objectId = new ObjectId(id);
 
-		FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", objectId);
+		var filter = Builders<TEntity>.Filter.Eq("_id", objectId);
 
 		return await _collection.FindAsync(filter).Result.FirstOrDefaultAsync();
 	}
