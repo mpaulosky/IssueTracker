@@ -11,13 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		README.md = README.md
 		CODE_METRICS.md = CODE_METRICS.md
 		codecov.yml = codecov.yml
+		runsettings.xml = runsettings.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerLibrary", "src\IssueTrackerLibrary\IssueTrackerLibrary.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerLibraryUnitTests", "src\tests\IssueTrackerLibraryUnitTests\IssueTrackerLibraryUnitTests.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Library.UnitTests", "src\tests\IssueTracker.Library.UnitTests\IssueTracker.Library.UnitTests.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTrackerUI", "src\IssueTrackerUI\IssueTrackerUI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}"
 EndProject
