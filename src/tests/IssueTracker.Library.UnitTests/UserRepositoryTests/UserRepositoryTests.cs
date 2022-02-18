@@ -13,6 +13,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ public class UserRepositoryTests
 	private readonly Mock<IMongoCollection<User>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
 	private readonly Mock<IAsyncCursor<User>> _userCursor;
-	private List<User> _list;
+	private List<User> _list = new List<User>();
 
 	public UserRepositoryTests()
 	{
@@ -147,7 +148,7 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestFixtures.GetUsers();
+		var expected = TestFixtures.GetUsers().ToList();
 
 		await _mockCollection.Object.InsertManyAsync(expected);
 
@@ -158,7 +159,7 @@ public class UserRepositoryTests
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
-		
+
 		var result = await sut.Get().ConfigureAwait(false);
 
 		// Assert
@@ -167,8 +168,9 @@ public class UserRepositoryTests
 			It.IsAny<FindOptions<User>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().NotBeNull();
-		result.Should().HaveCount(3);
+		var items = result.ToList();
+		items.ToList().Should().NotBeNull();
+		items.ToList().Should().HaveCount(3);
 	}
 
 	[Fact()]
@@ -176,24 +178,24 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestFixtures.GetUsers();
+		var expected = TestFixtures.GetUsers().ToList();
 
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_list = new List<User>(expected);
 
 		_userCursor.Setup(_ => _.Current).Returns(_list);
-		
+
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Create(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Create(null!));
 	}
-	
-	
+
+
 	[Fact()]
 	public async Task Update_With_InvalidItemOrId_Should_Returns_An_Exception_Test()
 	{
@@ -213,15 +215,15 @@ public class UserRepositoryTests
 		_list = new List<User>();
 
 		_userCursor.Setup(_ => _.Current).Returns(_list);
-		
+
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update(null, expected));
+		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update(null!, expected));
 		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update("", expected));
-		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Update(userId, null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Update(userId, null!));
 	}
 }
