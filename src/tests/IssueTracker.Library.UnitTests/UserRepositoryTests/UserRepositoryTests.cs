@@ -23,9 +23,9 @@ namespace IssueTrackerLibraryUnitTests.UserRepositoryTests;
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
-	private Mock<IMongoCollection<User>> _mockCollection;
-	private Mock<IMongoDbContext> _mockContext;
-	private Mock<IAsyncCursor<User>> _userCursor;
+	private readonly Mock<IMongoCollection<User>> _mockCollection;
+	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IAsyncCursor<User>> _userCursor;
 	private List<User> _list;
 
 	public UserRepositoryTests()
@@ -54,16 +54,16 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
+		const string userId = "5dc1039a1521eaa36835e541";
+		const string objectIdentifier = "5dc1039a1521eaa36835e542";
+		const string firstName = "Jim";
+		const string lastName = "Text";
+		const string displayName = "jimtest";
+		const string email = "jim.test@test.com";
 
 		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
 
-		_mockCollection.Object.InsertOne(expected);
+		await _mockCollection.Object.InsertOneAsync(expected);
 
 		_list = new List<User> { expected };
 
@@ -101,12 +101,12 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
+		const string userId = "5dc1039a1521eaa36835e541";
+		const string objectIdentifier = "5dc1039a1521eaa36835e542";
+		const string firstName = "Jim";
+		const string lastName = "Text";
+		const string displayName = "jimtest";
+		const string email = "jim.test@test.com";
 
 		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
 
@@ -149,7 +149,7 @@ public class UserRepositoryTests
 
 		var expected = TestFixtures.GetUsers();
 
-		_mockCollection.Object.InsertMany(expected);
+		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_list = new List<User>(expected);
 
@@ -178,7 +178,7 @@ public class UserRepositoryTests
 
 		var expected = TestFixtures.GetUsers();
 
-		_mockCollection.Object.InsertMany(expected);
+		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_list = new List<User>(expected);
 
@@ -199,16 +199,16 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
+		const string userId = "5dc1039a1521eaa36835e541";
+		const string objectIdentifier = "5dc1039a1521eaa36835e542";
+		const string firstName = "Jim";
+		const string lastName = "Text";
+		const string displayName = "jimtest";
+		const string email = "jim.test@test.com";
 
 		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
 
-		_mockCollection.Object.InsertOne(expected);
+		await _mockCollection.Object.InsertOneAsync(expected);
 
 		_list = new List<User>();
 
@@ -224,5 +224,4 @@ public class UserRepositoryTests
 		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update("", expected));
 		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Update(userId, null));
 	}
-
 }
