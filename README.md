@@ -25,7 +25,7 @@ Check out the [contributing page](./documents/CONTRIBUTING.md) to see the best p
 * C#
 * HTML
 * Bootstrap CSS
-* Blazor WASM
+* Blazor Server
 * .Net 6
 * .Net Core Web Api
 
