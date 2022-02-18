@@ -6,7 +6,7 @@
 
 ****
 
-[![Issues Open](https://img.shields.io/github/issues/mpaulosky/IssueTracker.svg?style=flat-square&logo=github)](https://github.com/mpaulosky/IssueTracker/issues) [![CodeQL](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml) [![Build and Test Main](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml/badge.svg?branch=main&event=push)](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml) [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
+[![Issues Open](https://img.shields.io/github/issues/mpaulosky/IssueTracker.svg?style=flat-square&logo=github)](https://github.com/mpaulosky/IssueTracker/issues) [![GitHub last commit](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker.svg?style=flat-square&logo=github)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker?color=red) [![CodeQL](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml) [![Build and Test Main](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml/badge.svg?branch=main&event=push)](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml) [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
 
 ****
 
