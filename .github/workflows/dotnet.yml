@@ -64,13 +64,13 @@ jobs:
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
       - name: Codecov
-         uses: codecov/codecov-action@v2.0.1
+        uses: codecov/codecov-action@v2.0.1
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v2
-          with:
-            name: IssueTracker-test-results
-            path: TestResults
+        with:
+          name: IssueTracker-test-results
+          path: TestResults
 
       # Use always() to always run this step to publish test results when there are test failures
-      if: ${{ always() }}
+        if: ${{ always() }}
