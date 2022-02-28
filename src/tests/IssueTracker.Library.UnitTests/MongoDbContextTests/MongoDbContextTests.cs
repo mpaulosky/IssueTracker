@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-namespace IssueTrackerLibraryUnitTests.MongoDbContextTests;
+namespace IssueTracker.Library.UnitTests.MongoDbContextTests;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
