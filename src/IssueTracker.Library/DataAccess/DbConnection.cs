@@ -7,18 +7,18 @@ namespace IssueTrackerLibrary.DataAccess;
 public class DbConnection : IDbConnection
 {
 	private readonly IMongoDatabase _database;
-	public MongoClient Client { get; private set; }
-	public string DbName { get; private set; }
+	public MongoClient Client { get; }
+	public string DbName { get; }
 	
-	public string StatusCollectionName { get; private set; } = "statuses";
-	public string UserCollectionName { get; private set; } = "users";
-	public string IssueCollectionName { get; private set; } = "issues";
-	public string CommentCollectionName { get; private set; } = "comments";
+	public string StatusCollectionName { get; } = "statuses";
+	public string UserCollectionName { get; } = "users";
+	public string IssueCollectionName { get; } = "issues";
+	public string CommentCollectionName { get; } = "comments";
 
-	public IMongoCollection<Status> StatusCollection { get; private set; }
-	public IMongoCollection<User> UserCollection { get; private set; }
-	public IMongoCollection<Issue> IssueCollection { get; private set; }
-	public IMongoCollection<Comment> CommentCollection { get; private set; }
+	public IMongoCollection<Status> StatusCollection { get; }
+	public IMongoCollection<User> UserCollection { get; }
+	public IMongoCollection<Issue> IssueCollection { get; }
+	public IMongoCollection<Comment> CommentCollection { get; }
 
 
 	public DbConnection(IOptions<IssueTrackerDatabaseSettings> configuration)

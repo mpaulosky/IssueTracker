@@ -6,9 +6,13 @@ using IssueTrackerLibrary.Models;
 
 using IssueTracker.Library.UnitTests.Fixtures;
 
+using Microsoft.Extensions.Options;
+
 using MongoDB.Driver;
 
 using Moq;
+
+using NSubstitute;
 
 using System;
 using System.Collections.Generic;
@@ -24,6 +28,7 @@ namespace IssueTracker.Library.UnitTests.UserRepositoryTests;
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
+	private readonly IOptions<IssueTrackerDatabaseSettings> _options;
 	private readonly Mock<IMongoCollection<User>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
 	private readonly Mock<IAsyncCursor<User>> _userCursor;
@@ -31,6 +36,8 @@ public class UserRepositoryTests
 
 	public UserRepositoryTests()
 	{
+		_options = TestFixtures.Settings();
+
 		_userCursor = TestFixtures.MockCursor<User>();
 
 		_mockCollection = TestFixtures.MockCollection<User>(_userCursor);
@@ -38,17 +45,17 @@ public class UserRepositoryTests
 		_mockContext = TestFixtures.MockContext<User>(_mockCollection);
 	}
 
-	[Fact(DisplayName = "Get User With Id")]
+	[Fact(DisplayName = "Get User With a Valid Id")]
 	public async Task GetUser_With_Valid_Id_Should_Returns_One_User_Test()
 	{
 		// Arrange
-
+		
 		var expected = TestUsers.GetKnownUser();
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
 		_list = new List<User> { expected };
-
+		
 		_userCursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
@@ -88,20 +95,19 @@ public class UserRepositoryTests
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
 		// Arrange
-
 		var expected = TestUsers.GetKnownUser();
 
-		_mockCollection.Object.InsertOne(expected);
+		await _mockCollection.Object.InsertOneAsync(expected).ConfigureAwait(false);
 
 		_list = new List<User> { expected };
-
+		
 		_userCursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
 		//Act
 
-		var result = await sut.GetUserFromAuthentication(expected.ObjectIdentifier);
+		var result = await sut.GetUserFromAuthentication(expected.ObjectIdentifier).ConfigureAwait(false);
 
 		//Assert 
 
@@ -164,13 +170,14 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Update User")]
-	public async Task Update_With_A_Valid_Id_And_User_Should_UpdateUser_Test() 
+	public async Task Update_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
 		// Arrange
 
 		var expected = TestUsers.GetKnownUser();
 
-		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName, expected.DisplayName, "james.test@test.com");
+		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName,
+			expected.DisplayName, "james.test@test.com");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -186,7 +193,8 @@ public class UserRepositoryTests
 
 		// Assert
 
-		_mockCollection.Verify(c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(), It.IsAny<CancellationToken>()), Times.Once);
-
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

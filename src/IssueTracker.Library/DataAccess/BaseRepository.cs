@@ -1,5 +1,7 @@
 ﻿using IssueTrackerLibrary.Contracts;
 
+using static IssueTrackerLibrary.Models.CollectionNames;
+
 namespace IssueTrackerLibrary.DataAccess;
 
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
@@ -8,7 +10,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 
 	protected BaseRepository(IMongoDbContext context)
 	{
-		_collection = context.GetCollection<TEntity>(typeof(TEntity).Name);
+		_collection = context.GetCollection<TEntity>(GetCollectionName(typeof(TEntity).Name));
 	}
 
 	public async Task<TEntity> Get(string id)

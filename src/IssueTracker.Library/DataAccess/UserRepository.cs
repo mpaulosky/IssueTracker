@@ -1,5 +1,7 @@
 ﻿using IssueTrackerLibrary.Contracts;
 
+using static IssueTrackerLibrary.Models.CollectionNames;
+
 namespace IssueTrackerLibrary.DataAccess;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
@@ -8,7 +10,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
 
 	public UserRepository(IMongoDbContext context) : base(context)
 	{
-		_collection = context.GetCollection<User>("User");
+		_collection = context.GetCollection<User>(GetCollectionName(nameof(User)));
 	}
 	
 	public async Task<User> GetUserFromAuthentication(string objectId)
