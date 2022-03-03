@@ -1,15 +1,15 @@
-﻿using IssueTrackerLibrary.Contracts;
+﻿using Microsoft.Extensions.Caching.Memory;
 
-using Microsoft.Extensions.Caching.Memory;
+using static IssueTrackerLibrary.Helpers.CollectionNames;
 
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTrackerLibrary.Services;
 
 public class MongoCommentService : ICommentService
 {
 	private readonly IMongoDbContext _db;
 	private readonly IUserService _userData;
 	private readonly IMemoryCache _cache;
-	private readonly IMongoCollection<Comment> _suggestions;
+	private readonly IMongoCollection<Comment> _comments;
 	private const string _cacheName = "CommentData";
 
 	public MongoCommentService(IMongoDbContext db, IUserService userData, IMemoryCache cache)
@@ -17,7 +17,7 @@ public class MongoCommentService : ICommentService
 		_db = db;
 		_userData = userData;
 		_cache = cache;
-		// _suggestions = db.CommentCollection;
+		_comments = db.GetCollection<Comment>(GetCollectionName(nameof(Comment)));
 	}
 
 	public async Task<List<Comment>> GetAllComments()
@@ -25,7 +25,7 @@ public class MongoCommentService : ICommentService
 		var output = _cache.Get<List<Comment>>(_cacheName);
 		if (output is null)
 		{
-			var results = await _suggestions.FindAsync(s => s.Archived == false);
+			var results = await _comments.FindAsync(s => s.Archived == false);
 			output = results.ToList();
 
 			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
@@ -39,7 +39,7 @@ public class MongoCommentService : ICommentService
 		var output = _cache.Get<List<Comment>>(userId);
 		if (output is null)
 		{
-			IAsyncCursor<Comment>? results = await _suggestions.FindAsync(s => s.Author.Id == userId);
+			IAsyncCursor<Comment> results = await _comments.FindAsync(s => s.Author.Id == userId);
 			output = results.ToList();
 
 			_cache.Set(userId, output, TimeSpan.FromMinutes(1));
@@ -56,7 +56,7 @@ public class MongoCommentService : ICommentService
 
 	public async Task<Comment> GetComment(string id)
 	{
-		var results = await _suggestions.FindAsync(s => s.Id == id);
+		var results = await _comments.FindAsync(s => s.Id == id);
 		return results.FirstOrDefault();
 	}
 
@@ -68,7 +68,7 @@ public class MongoCommentService : ICommentService
 
 	public async Task UpdateComment(Comment suggestion)
 	{
-		await _suggestions.ReplaceOneAsync(s => s.Id == suggestion.Id, suggestion);
+		await _comments.ReplaceOneAsync(s => s.Id == suggestion.Id, suggestion);
 		_cache.Remove(_cacheName);
 	}
 
@@ -76,7 +76,7 @@ public class MongoCommentService : ICommentService
 	{
 		MongoClient client = _db.Client;
 
-		using IClientSessionHandle? session = await client.StartSessionAsync();
+		using IClientSessionHandle session = await client.StartSessionAsync();
 
 		session.StartTransaction();
 
@@ -121,9 +121,9 @@ public class MongoCommentService : ICommentService
 
 	public async Task CreateComment(Comment comment)
 	{
-		MongoClient client = _db.Client;
+		var client = _db.Client;
 
-		using IClientSessionHandle? session = await client.StartSessionAsync();
+		using var session = await client.StartSessionAsync();
 
 		session.StartTransaction();
 
