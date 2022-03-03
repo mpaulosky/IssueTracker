@@ -20,7 +20,7 @@
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test/develop?label=Build%20%26%20Test%20develop&logo=github)
 [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/develop/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
 [![CodeQL develop](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml?branch=develop)
-[![Build and Test](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml/badge.svg?branch=develop)](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnet.yml)
+[![Lint Code Base](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter.yml/badge.svg?branch=develop)](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter.yml)
 
 ****
 ## How to Engage, Contribute, and Give Feedback
