@@ -4,13 +4,13 @@ using static IssueTrackerLibrary.Helpers.CollectionNames;
 
 namespace IssueTrackerLibrary.Services;
 
-public class MongoStatusService : IStatusService
+public class StatusService : IStatusService
 {
 	private readonly IMongoCollection<Status> _statuses;
 	private readonly IMemoryCache _cache;
 	private const string _cacheName = "StatusData";
 
-	public MongoStatusService(IMongoDbContext db, IMemoryCache cache)
+	public StatusService(IMongoDbContext db, IMemoryCache cache)
 	{
 		_statuses = db.GetCollection<Status>(GetCollectionName(nameof(Status)));
 		_cache = cache;

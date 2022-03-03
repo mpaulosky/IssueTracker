@@ -40,10 +40,10 @@ public static class RegisterServices
 		});
 
 		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-		builder.Services.AddSingleton<ICommentService, MongoCommentService>();
-		builder.Services.AddSingleton<IStatusService, MongoStatusService>();
-		builder.Services.AddSingleton<IIssueService, MongoIssueService>();
-		builder.Services.AddSingleton<IUserService, MongoUserService>();
+		builder.Services.AddSingleton<ICommentService, CommentService>();
+		builder.Services.AddSingleton<IStatusService, StatusService>();
+		builder.Services.AddSingleton<IIssueService, IssueService>();
+		builder.Services.AddSingleton<IUserService, UserService>();
 
 	}
 }

@@ -1,10 +1,10 @@
 ﻿namespace IssueTrackerLibrary.Services;
 
-public class MongoUserService : IUserService
+public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
-	public MongoUserService(IUserRepository repository)
+	public UserService(IUserRepository repository)
 	{
 		_repo = repository;
 	}

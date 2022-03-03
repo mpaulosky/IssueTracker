@@ -4,16 +4,18 @@ using static IssueTrackerLibrary.Helpers.CollectionNames;
 
 namespace IssueTrackerLibrary.Services;
 
-public class MongoCommentService : ICommentService
+public class CommentService : ICommentService
 {
+	private readonly ICommentRepository _repository;
 	private readonly IMongoDbContext _db;
 	private readonly IUserService _userData;
 	private readonly IMemoryCache _cache;
 	private readonly IMongoCollection<Comment> _comments;
 	private const string _cacheName = "CommentData";
 
-	public MongoCommentService(IMongoDbContext db, IUserService userData, IMemoryCache cache)
+	public CommentService(ICommentRepository repository, IMongoDbContext db, IUserService userData, IMemoryCache cache)
 	{
+		_repository = repository;
 		_db = db;
 		_userData = userData;
 		_cache = cache;
@@ -25,8 +27,10 @@ public class MongoCommentService : ICommentService
 		var output = _cache.Get<List<Comment>>(_cacheName);
 		if (output is null)
 		{
-			var results = await _comments.FindAsync(s => s.Archived == false);
-			output = results.ToList();
+			//var results = await _comments.FindAsync(s => s.Archived == false);
+			var results = await _repository.Get();
+			output = (List<Comment>)results.Where(x => x.Archived == false);
+			//output = results.ToList();
 
 			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
 		}
@@ -39,7 +43,7 @@ public class MongoCommentService : ICommentService
 		var output = _cache.Get<List<Comment>>(userId);
 		if (output is null)
 		{
-			IAsyncCursor<Comment> results = await _comments.FindAsync(s => s.Author.Id == userId);
+			var results = await _comments.FindAsync(s => s.Author.Id == userId);
 			output = results.ToList();
 
 			_cache.Set(userId, output, TimeSpan.FromMinutes(1));

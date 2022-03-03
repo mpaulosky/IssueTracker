@@ -2,7 +2,7 @@
 
 namespace IssueTrackerLibrary.Services;
 
-public class MongoIssueService : IIssueService
+public class IssueService : IIssueService
 {
 	private readonly IMongoDbContext _db;
 	private readonly IUserService _userData;
@@ -10,7 +10,7 @@ public class MongoIssueService : IIssueService
 	private readonly IMongoCollection<Issue> _issues;
 	private const string _cacheName = "IssueData";
 
-	public MongoIssueService(IMongoDbContext db, IUserService userData, IMemoryCache cache)
+	public IssueService(IMongoDbContext db, IUserService userData, IMemoryCache cache)
 	{
 		_db = db;
 		_userData = userData;
