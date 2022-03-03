@@ -16,7 +16,7 @@ public class Comment
 	
 	public HashSet<string> UserVotes { get; set; } = new();
 	
-	public Status IssueStatus { get; set; }
+	public Status Status { get; set; }
 	
 	[BsonElement("archived"), BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; } = false;
