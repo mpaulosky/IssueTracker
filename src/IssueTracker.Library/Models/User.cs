@@ -1,7 +1,6 @@
 ﻿namespace IssueTrackerLibrary.Models;
 
 [Serializable]
-
 public class User
 {
 	[BsonId, BsonElement("_id"), BsonRepresentation(BsonType.ObjectId)]
