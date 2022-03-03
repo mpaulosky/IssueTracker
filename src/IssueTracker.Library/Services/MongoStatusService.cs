@@ -1,10 +1,8 @@
-﻿using IssueTrackerLibrary.Contracts;
-
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 using static IssueTrackerLibrary.Helpers.CollectionNames;
 
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTrackerLibrary.Services;
 
 public class MongoStatusService : IStatusService
 {

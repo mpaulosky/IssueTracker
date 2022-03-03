@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 
+using System.Linq;
+
 using IssueTrackerLibrary.Contracts;
 using IssueTrackerLibrary.DataAccess;
 using IssueTrackerLibrary.Models;
@@ -17,7 +19,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,7 +47,7 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get User With a Valid Id")]
-	public async Task GetUser_With_Valid_Id_Should_Returns_One_User_Test()
+	public async Task Get_With_Valid_Id_Should_Returns_One_User_Test()
 	{
 		// Arrange
 		
@@ -181,7 +182,7 @@ public class UserRepositoryTests
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		_list = new List<User>();
+		_list = new List<User>(){updatedUser};
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 

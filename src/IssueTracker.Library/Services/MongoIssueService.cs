@@ -1,9 +1,6 @@
-﻿using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.Helpers;
+﻿using Microsoft.Extensions.Caching.Memory;
 
-using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTrackerLibrary.Services;
 
 public class MongoIssueService : IIssueService
 {

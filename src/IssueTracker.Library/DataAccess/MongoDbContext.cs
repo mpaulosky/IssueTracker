@@ -1,7 +1,4 @@
-﻿using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.Helpers;
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace IssueTrackerLibrary.DataAccess;
 
