@@ -1,4 +1,5 @@
 ﻿using IssueTrackerLibrary.Contracts;
+using IssueTrackerLibrary.Helpers;
 
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;

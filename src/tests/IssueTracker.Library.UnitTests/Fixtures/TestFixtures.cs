@@ -1,4 +1,5 @@
 ﻿using IssueTrackerLibrary.Contracts;
+using IssueTrackerLibrary.Helpers;
 using IssueTrackerLibrary.Models;
 
 using Microsoft.Extensions.Options;

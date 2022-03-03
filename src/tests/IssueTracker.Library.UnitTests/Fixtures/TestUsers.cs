@@ -72,7 +72,13 @@ public static class TestUsers
 		return user;
 	}
 
-	public static User GetUser(string userId, string objectIdentifier, string firstName, string lastName, string displayName, string email)
+	public static User GetUser(
+		string userId, 
+		string objectIdentifier, 
+		string firstName, 
+		string lastName,
+		string displayName, 
+		string email)
 	{
 		var expected = new User()
 		{
@@ -89,5 +95,4 @@ public static class TestUsers
 
 		return expected;
 	}
-
 }

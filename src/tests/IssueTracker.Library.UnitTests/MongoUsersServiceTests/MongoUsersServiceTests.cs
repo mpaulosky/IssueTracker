@@ -2,6 +2,7 @@
 
 using IssueTrackerLibrary.Contracts;
 using IssueTrackerLibrary.DataAccess;
+using IssueTrackerLibrary.Helpers;
 using IssueTrackerLibrary.Models;
 
 using Microsoft.Extensions.Options;

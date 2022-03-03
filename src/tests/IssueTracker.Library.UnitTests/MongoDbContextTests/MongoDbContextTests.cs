@@ -3,6 +3,7 @@
 using IssueTracker.Library.UnitTests.Fixtures;
 
 using IssueTrackerLibrary.DataAccess;
+using IssueTrackerLibrary.Helpers;
 using IssueTrackerLibrary.Models;
 
 using Microsoft.Extensions.Options;
@@ -14,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Xunit;
 
-using static IssueTrackerLibrary.Models.CollectionNames;
+using static IssueTrackerLibrary.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.UnitTests.MongoDbContextTests;
 

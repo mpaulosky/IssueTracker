@@ -6,13 +6,13 @@ using IssueTrackerLibrary.Models;
 
 using IssueTracker.Library.UnitTests.Fixtures;
 
+using IssueTrackerLibrary.Helpers;
+
 using Microsoft.Extensions.Options;
 
 using MongoDB.Driver;
 
 using Moq;
-
-using NSubstitute;
 
 using System;
 using System.Collections.Generic;
@@ -31,16 +31,16 @@ public class UserRepositoryTests
 	private readonly IOptions<IssueTrackerDatabaseSettings> _options;
 	private readonly Mock<IMongoCollection<User>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
-	private readonly Mock<IAsyncCursor<User>> _userCursor;
+	private readonly Mock<IAsyncCursor<User>> _cursor;
 	private List<User> _list = new();
 
 	public UserRepositoryTests()
 	{
 		_options = TestFixtures.Settings();
 
-		_userCursor = TestFixtures.MockCursor<User>();
+		_cursor = TestFixtures.MockCursor<User>();
 
-		_mockCollection = TestFixtures.MockCollection<User>(_userCursor);
+		_mockCollection = TestFixtures.MockCollection<User>(_cursor);
 
 		_mockContext = TestFixtures.MockContext<User>(_mockCollection);
 	}
@@ -56,7 +56,7 @@ public class UserRepositoryTests
 
 		_list = new List<User> { expected };
 		
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
@@ -101,7 +101,7 @@ public class UserRepositoryTests
 
 		_list = new List<User> { expected };
 		
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
@@ -122,7 +122,7 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Users")]
-	public async Task GetUsers_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
+	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
 	{
 		// Arrange
 
@@ -132,7 +132,7 @@ public class UserRepositoryTests
 
 		_list = new List<User>(expected);
 
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
@@ -183,7 +183,7 @@ public class UserRepositoryTests
 
 		_list = new List<User>();
 
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
