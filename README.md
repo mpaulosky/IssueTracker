@@ -14,6 +14,7 @@
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test/main?label=Build%20%26%20Test%20main&logo=github)
 [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
 [![CodeQL main](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml?branch=main)
+[![Lint Code Base](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter.yml)
 #### Develop Branch
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/develop?label=last%20commit%20develop&logo=github)
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test/develop?label=Build%20%26%20Test%20develop&logo=github)
