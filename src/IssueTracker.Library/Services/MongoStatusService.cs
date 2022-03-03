@@ -1,8 +1,8 @@
-﻿using IssueTrackerLibrary.Contracts;
+﻿using Microsoft.Extensions.Caching.Memory;
 
-using Microsoft.Extensions.Caching.Memory;
+using static IssueTrackerLibrary.Helpers.CollectionNames;
 
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTrackerLibrary.Services;
 
 public class MongoStatusService : IStatusService
 {
@@ -12,7 +12,7 @@ public class MongoStatusService : IStatusService
 
 	public MongoStatusService(IMongoDbContext db, IMemoryCache cache)
 	{
-		// _statuses = db.StatusCollection;
+		_statuses = db.GetCollection<Status>(GetCollectionName(nameof(Status)));
 		_cache = cache;
 	}
 

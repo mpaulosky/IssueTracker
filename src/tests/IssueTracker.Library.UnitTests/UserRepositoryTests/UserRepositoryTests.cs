@@ -1,10 +1,16 @@
 ﻿using FluentAssertions;
 
+using System.Linq;
+
 using IssueTrackerLibrary.Contracts;
 using IssueTrackerLibrary.DataAccess;
 using IssueTrackerLibrary.Models;
 
-using IssueTrackerLibraryUnitTests.Fixtures;
+using IssueTracker.Library.UnitTests.Fixtures;
+
+using IssueTrackerLibrary.Helpers;
+
+using Microsoft.Extensions.Options;
 
 using MongoDB.Driver;
 
@@ -18,62 +24,46 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-namespace IssueTrackerLibraryUnitTests.UserRepositoryTests;
+namespace IssueTracker.Library.UnitTests.UserRepositoryTests;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
-	private Mock<IMongoCollection<User>> _mockCollection;
-	private Mock<IMongoDbContext> _mockContext;
-	private Mock<IAsyncCursor<User>> _userCursor;
-	private List<User> _list;
+	private readonly IOptions<IssueTrackerDatabaseSettings> _options;
+	private readonly Mock<IMongoCollection<User>> _mockCollection;
+	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IAsyncCursor<User>> _cursor;
+	private List<User> _list = new();
 
 	public UserRepositoryTests()
 	{
-		_userCursor = new Mock<IAsyncCursor<User>>();
-		_userCursor
-			.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
-			.Returns(true)
-			.Returns(false);
-		_userCursor
-			.SetupSequence(_ => _.MoveNextAsync(It.IsAny<CancellationToken>()))
-			.Returns(Task.FromResult(true))
-			.Returns(Task.FromResult(false));
+		_options = TestFixtures.Settings();
 
-		_mockCollection = new Mock<IMongoCollection<User>>();
-		_mockCollection.Setup(op => op.FindAsync(It.IsAny<FilterDefinition<User>>(),
-			It.IsAny<FindOptions<User, User>>(),
-			It.IsAny<CancellationToken>())).ReturnsAsync(_userCursor.Object);
+		_cursor = TestFixtures.MockCursor<User>();
 
-		_mockContext = new Mock<IMongoDbContext>();
-		_mockContext.Setup(c => c.GetCollection<User>(typeof(User).Name)).Returns(_mockCollection.Object);
+		_mockCollection = TestFixtures.MockCollection<User>(_cursor);
+
+		_mockContext = TestFixtures.MockContext<User>(_mockCollection);
 	}
 
-	[Fact()]
-	public async Task GetUser_With_ValidContext_Should_Returns_OneUser_Test()
+	[Fact(DisplayName = "Get User With a Valid Id")]
+	public async Task Get_With_Valid_Id_Should_Returns_One_User_Test()
 	{
 		// Arrange
+		
+		var expected = TestUsers.GetKnownUser();
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
-
-		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
-
-		_mockCollection.Object.InsertOne(expected);
+		await _mockCollection.Object.InsertOneAsync(expected);
 
 		_list = new List<User> { expected };
-
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
 		//Act
 
-		var result = await sut.Get(userId);
+		var result = await sut.Get(expected.Id);
 
 		//Assert 
 
@@ -85,42 +75,40 @@ public class UserRepositoryTests
 			It.IsAny<FindOptions<User>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Id.Should().BeSameAs(userId);
-		result.ObjectIdentifier.Should().BeSameAs(objectIdentifier);
-		result.FirstName.Should().BeSameAs(firstName);
-		result.LastName.Should().BeSameAs(lastName);
-		result.DisplayName.Should().BeSameAs(displayName);
-		result.EmailAddress.Should().BeSameAs(email);
-		result.AuthoredComments.Should().HaveCount(0);
-		result.AuthoredIssues.Should().HaveCount(0);
-		result.VotedOnComments.Should().HaveCount(0);
+		result.Should().BeEquivalentTo(expected);
 	}
 
-	[Fact()]
-	public async Task GetUserFromAuthentication_With_ValidContext_Should_Returns_OneUser_Test()
+	[Fact(DisplayName = "Get User With Invalid Id")]
+	public async Task Get_With_Invalid_Id_Should_Return_Null_Result_TestAsync()
 	{
 		// Arrange
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
+		var sut = new UserRepository(_mockContext.Object);
 
-		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
+		// Act
 
-		_mockCollection.Object.InsertOne(expected);
+		// Assert
+
+		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
+	}
+
+	[Fact(DisplayName = "GetUserFromAuthentication")]
+	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
+	{
+		// Arrange
+		var expected = TestUsers.GetKnownUser();
+
+		await _mockCollection.Object.InsertOneAsync(expected).ConfigureAwait(false);
 
 		_list = new List<User> { expected };
-
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
 		//Act
 
-		var result = await sut.GetUserFromAuthentication(objectIdentifier);
+		var result = await sut.GetUserFromAuthentication(expected.ObjectIdentifier).ConfigureAwait(false);
 
 		//Assert 
 
@@ -131,34 +119,26 @@ public class UserRepositoryTests
 			It.IsAny<FindOptions<User>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Id.Should().BeSameAs(userId);
-		result.ObjectIdentifier.Should().BeSameAs(objectIdentifier);
-		result.FirstName.Should().BeSameAs(firstName);
-		result.LastName.Should().BeSameAs(lastName);
-		result.DisplayName.Should().BeSameAs(displayName);
-		result.EmailAddress.Should().BeSameAs(email);
-		result.AuthoredComments.Should().HaveCount(0);
-		result.AuthoredIssues.Should().HaveCount(0);
-		result.VotedOnComments.Should().HaveCount(0);
+		result.Should().BeEquivalentTo(expected);
 	}
 
-	[Fact()]
-	public async Task GetUsers_With_ValidContext_Should_Return_AListOfUsers_Test()
+	[Fact(DisplayName = "Get Users")]
+	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
 	{
 		// Arrange
 
-		var expected = TestFixtures.GetUsers();
+		var expected = TestUsers.GetUsers().ToList();
 
-		_mockCollection.Object.InsertMany(expected);
+		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_list = new List<User>(expected);
 
-		_userCursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
-		
+
 		var result = await sut.Get().ConfigureAwait(false);
 
 		// Assert
@@ -167,62 +147,55 @@ public class UserRepositoryTests
 			It.IsAny<FindOptions<User>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().NotBeNull();
-		result.Should().HaveCount(3);
+		var items = result.ToList();
+		items.ToList().Should().NotBeNull();
+		items.ToList().Should().HaveCount(3);
 	}
 
-	[Fact()]
-	public async Task Create_With_InvalidItem_Should_Returns_ArgumentNullException_Test()
+	[Fact(DisplayName = "Create User")]
+	public async Task Create_With_Valid_User_Should_Insert_A_New_User_TestAsync()
 	{
 		// Arrange
 
-		var expected = TestFixtures.GetUsers();
-
-		_mockCollection.Object.InsertMany(expected);
-
-		_list = new List<User>(expected);
-
-		_userCursor.Setup(_ => _.Current).Returns(_list);
-		
+		var newUser = TestUsers.GetKnownUser();
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
+		await sut.Create(newUser);
+
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Create(null));
+		//Verify if InsertOneAsync is called once 
+		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default(CancellationToken)), Times.Once);
 	}
-	
-	
-	[Fact()]
-	public async Task Update_With_InvalidItemOrId_Should_Returns_An_Exception_Test()
+
+	[Fact(DisplayName = "Update User")]
+	public async Task Update_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
 		// Arrange
 
-		var userId = "5dc1039a1521eaa36835e541";
-		var objectIdentifier = "5dc1039a1521eaa36835e542";
-		var firstName = "Jim";
-		var lastName = "Text";
-		var displayName = "jimtest";
-		var email = "jim.test@test.com";
+		var expected = TestUsers.GetKnownUser();
 
-		var expected = TestFixtures.GetUser(userId, objectIdentifier, firstName, lastName, displayName, email);
+		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName,
+			expected.DisplayName, "james.test@test.com");
 
-		_mockCollection.Object.InsertOne(expected);
+		await _mockCollection.Object.InsertOneAsync(expected);
 
-		_list = new List<User>();
+		_list = new List<User>(){updatedUser};
 
-		_userCursor.Setup(_ => _.Current).Returns(_list);
-		
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
 		var sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
+		await sut.Update(updatedUser.Id, updatedUser);
+
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update(null, expected));
-		await Assert.ThrowsAsync<ArgumentException>(() => sut.Update("", expected));
-		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Update(userId, null));
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
-
 }

@@ -1,6 +1,4 @@
-﻿using IssueTrackerLibrary.Contracts;
-
-namespace IssueTrackerLibrary.DataAccess;
+﻿namespace IssueTrackerLibrary.Services;
 
 public class MongoUserService : IUserService
 {

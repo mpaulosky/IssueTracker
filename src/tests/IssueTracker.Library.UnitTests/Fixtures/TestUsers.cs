@@ -1,47 +1,17 @@
-﻿using FluentAssertions;
-
-using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.DataAccess;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Models;
-
-using Microsoft.Extensions.Options;
-
-using NSubstitute;
+﻿using IssueTrackerLibrary.Models;
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
-using Xunit;
-
-namespace IssueTracker.Library.UnitTests.MongoUsersDataTests;
+namespace IssueTracker.Library.UnitTests.Fixtures;
 
 [ExcludeFromCodeCoverage]
-public class MongoUsersServiceTests
+public static class TestUsers
 {
-	private IOptions<IssueTrackerDatabaseSettings> _options;
-
-	public MongoUsersServiceTests()
+	public static IEnumerable<User> GetUsers()
 	{
-		var settings = new IssueTrackerDatabaseSettings()
-		{
-			DatabaseName = "TestDb", ConnectionString = "mongodb://tes123"
-		};
-
-		_options = Options.Create(settings);
-
-	}
-	
-	/*
-	[Fact()]
-	public async Task GetUsers_With_StateUnderTest_Should_Return_A_List_of_Users_Test()
-	{
-		// Arrange
-		var _context = Substitute.For<MongoDbContext>(_options);
-		
-		var expected = new List<UserModel>
+		var expected = new List<User>
 		{
 			new()
 			{
@@ -80,15 +50,49 @@ public class MongoUsersServiceTests
 				AuthoredComments = new List<BasicCommentModel>()
 			},
 		};
-		await _context.UserCollection.InsertManyAsync(expected).ConfigureAwait(false);
-		
-		var _sut = new MongoUserService(_context);
 
-		// Act
-		var users = await _sut.GetUsers().ConfigureAwait(false);
-		
-		// Assert
-		users.Should().NotBeNull();
+		return expected;
 	}
-*/
+
+	public static User GetKnownUser()
+	{
+		var user = new User()
+		{
+			Id = "5dc1039a1521eaa36835e541",
+			ObjectIdentifier = "5dc1039a1521eaa36835e542",
+			FirstName = "Jim",
+			LastName = "Test",
+			DisplayName = "jimtest",
+			EmailAddress = "jim.test@test.com",
+			AuthoredIssues = new List<BasicIssueModel>(),
+			VotedOnComments = new List<BasicCommentModel>(),
+			AuthoredComments = new List<BasicCommentModel>()
+		};
+
+		return user;
+	}
+
+	public static User GetUser(
+		string userId, 
+		string objectIdentifier, 
+		string firstName, 
+		string lastName,
+		string displayName, 
+		string email)
+	{
+		var expected = new User()
+		{
+			Id = userId,
+			ObjectIdentifier = objectIdentifier,
+			FirstName = firstName,
+			LastName = lastName,
+			DisplayName = "jimtest",
+			EmailAddress = "jim.test@test.com",
+			AuthoredIssues = new List<BasicIssueModel>(),
+			VotedOnComments = new List<BasicCommentModel>(),
+			AuthoredComments = new List<BasicCommentModel>()
+		};
+
+		return expected;
+	}
 }

@@ -33,30 +33,44 @@ jobs:
       DOTNET_MULTILEVEL_LOOKUP: 0
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Fetch all history for all tags and branches
+        run: |
+          git fetch --prune --unshallow
 
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
-    - name: Restores
-      run: dotnet restore
+      - name: Restores
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
+      - name: Test
+        run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
 
-    - name: Codecov
-      uses: codecov/codecov-action@v2.0.1
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
 
-    - name: Upload dotnet test results
-      uses: actions/upload-artifact@v2
-      with:
-        name: IssueTracker-test-results
-        path: TestResults
+      - name: Use GitVersion
+        id: gitversion # step id used as reference for output values
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - run: |
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+
+      - name: Codecov
+        uses: codecov/codecov-action@v2.0.1
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: IssueTracker-test-results
+          path: TestResults
 
       # Use always() to always run this step to publish test results when there are test failures
-      if: ${{ always() }}
+        if: ${{ always() }}

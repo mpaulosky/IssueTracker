@@ -1,8 +1,6 @@
-﻿using IssueTrackerLibrary.Contracts;
+﻿using Microsoft.Extensions.Caching.Memory;
 
-using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTrackerLibrary.Services;
 
 public class MongoIssueService : IIssueService
 {
@@ -17,16 +15,16 @@ public class MongoIssueService : IIssueService
 		_db = db;
 		_userData = userData;
 		_cache = cache;
-		// _issues = db.IssueCollection;
+		_issues = db.GetCollection<Issue>(CollectionNames.GetCollectionName(nameof(Issue)));
 	}
 
 	public async Task<List<Issue>> GetAllIssues()
 	{
-		List<Issue>? output = _cache.Get<List<Issue>>(_cacheName);
+		var output = _cache.Get<List<Issue>>(_cacheName);
 		
 		if (output is null)
 		{
-			IAsyncCursor<Issue>? results = await _issues.FindAsync(s => s.Archived == false);
+			var results = await _issues.FindAsync(s => s.Archived == false);
 			output = results.ToList();
 
 			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
@@ -37,11 +35,11 @@ public class MongoIssueService : IIssueService
 
 	public async Task<List<Issue>> GetUsersIssues(string userId)
 	{
-		List<Issue>? output = _cache.Get<List<Issue>>(userId);
+		var output = _cache.Get<List<Issue>>(userId);
 		
 		if (output is null)
 		{
-			IAsyncCursor<Issue>? results = await _issues.FindAsync(s => s.Author.Id == userId);
+			var results = await _issues.FindAsync(s => s.Author.Id == userId);
 			output = results.ToList();
 
 			_cache.Set(userId, output, TimeSpan.FromMinutes(1));
@@ -58,7 +56,7 @@ public class MongoIssueService : IIssueService
 
 	public async Task<Issue> GetIssue(string id)
 	{
-		IAsyncCursor<Issue>? results = await _issues.FindAsync(s => s.Id == id);
+		var results = await _issues.FindAsync(s => s.Id == id);
 		return results.FirstOrDefault();
 	}
 
@@ -76,9 +74,9 @@ public class MongoIssueService : IIssueService
 
 	public async Task UpvoteIssue(string suggestionId, string userId)
 	{
-		MongoClient client = _db.Client;
+		var client = _db.Client;
 
-		using IClientSessionHandle? session = await client.StartSessionAsync();
+		using var session = await client.StartSessionAsync();
 
 		session.StartTransaction();
 

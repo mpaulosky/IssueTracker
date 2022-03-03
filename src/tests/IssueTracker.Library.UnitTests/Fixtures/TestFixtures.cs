@@ -1,76 +1,61 @@
-﻿using IssueTrackerLibrary.Models;
+﻿using IssueTrackerLibrary.Contracts;
+using IssueTrackerLibrary.Helpers;
+using IssueTrackerLibrary.Models;
 
-using MongoDB.Bson;
+using Microsoft.Extensions.Options;
 
-using System;
-using System.Collections.Generic;
+using MongoDB.Driver;
+
+using Moq;
+
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace IssueTrackerLibraryUnitTests.Fixtures;
+namespace IssueTracker.Library.UnitTests.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
 {
-	public static IEnumerable<User> GetUsers()
+	public static Mock<IAsyncCursor<T>> MockCursor<T>()
 	{
-		var expected = new List<User>
-		{
-			new()
-			{
-				Id = Guid.NewGuid().ToString(),
-				ObjectIdentifier = Guid.NewGuid().ToString(),
-				FirstName = "Jim",
-				LastName = "Test",
-				DisplayName = "jimtest",
-				EmailAddress = "jim.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
-			},
-			new()
-			{
-				Id = Guid.NewGuid().ToString(),
-				ObjectIdentifier = Guid.NewGuid().ToString(),
-				FirstName = "Sam",
-				LastName = "Test",
-				DisplayName = "samtest",
-				EmailAddress = "sam.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
-			},
-			new ()
-			{
-				Id = Guid.NewGuid().ToString(),
-				ObjectIdentifier = Guid.NewGuid().ToString(),
-				FirstName = "Tim",
-				LastName = "Test",
-				DisplayName = "timtest",
-				EmailAddress = "tim.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
-			},
-		};
-		
-		return expected;
+		var cursor = new Mock<IAsyncCursor<T>>();
+		cursor
+			.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
+			.Returns(true)
+			.Returns(false);
+		cursor
+			.SetupSequence(_ => _.MoveNextAsync(It.IsAny<CancellationToken>()))
+			.Returns(Task.FromResult(true))
+			.Returns(Task.FromResult(false));
+		return cursor;
 	}
 
-	public static User GetUser(string userId, string objectIdentifier, string firstName, string lastName, string displayName, string email)
+	public static Mock<IMongoCollection<T>> MockCollection<T>(Mock<IAsyncCursor<T>> cursor)
 	{
-		var expected = new User()
+		var collection = new Mock<IMongoCollection<T>>();
+		collection.Setup(op => op.FindAsync(
+			It.IsAny<FilterDefinition<T>>(),
+			It.IsAny<FindOptions<T, T>>(),
+			It.IsAny<CancellationToken>())).ReturnsAsync(cursor.Object);
+		return collection;
+	}
+
+	public static Mock<IMongoDbContext> MockContext<T>(Mock<IMongoCollection<T>> collection)
+	{
+		var context = new Mock<IMongoDbContext>();
+		context.Setup(c => c.GetCollection<T>(It.IsAny<string>())).Returns(collection.Object);
+
+		return context;
+	}
+
+	public static IOptions<IssueTrackerDatabaseSettings> Settings()
+	{
+		var settings = new IssueTrackerDatabaseSettings()
 		{
-			Id = userId,
-			ObjectIdentifier = objectIdentifier,
-			FirstName = firstName,
-			LastName = lastName,
-			DisplayName = "jimtest",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel>(),
-			VotedOnComments = new List<BasicCommentModel>(),
-			AuthoredComments = new List<BasicCommentModel>()
+			DatabaseName = "TestDb", ConnectionString = "mongodb://tes123"
 		};
 
-		return expected;
+		return Options.Create(settings);
 	}
 }
