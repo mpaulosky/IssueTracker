@@ -78,8 +78,8 @@ public class UserRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 	}
 
-	[Fact(DisplayName = "Get User With Invalid Id")]
-	public async Task Get_With_Invalid_Id_Should_Return_Null_Result_TestAsync()
+	[Fact(DisplayName = "Get User With Empty String Id")]
+	public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
 	{
 		// Arrange
 
@@ -90,6 +90,20 @@ public class UserRepositoryTests
 		// Assert
 
 		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
+	}
+
+	[Fact(DisplayName = "Get User With null Id")]
+	public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new UserRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(null));
 	}
 
 	[Fact(DisplayName = "GetUserFromAuthentication")]

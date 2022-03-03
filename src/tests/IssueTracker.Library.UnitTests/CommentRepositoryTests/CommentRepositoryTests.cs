@@ -15,6 +15,7 @@ using Moq;
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
@@ -45,7 +46,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
-	public async Task Get_With_Valid_Id_Should_Returns_One_Comment_Test()
+	public async Task Get_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
 		// Arrange
 
@@ -76,8 +77,8 @@ public class CommentRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 	}
 
-	[Fact(DisplayName = "Get Comment With Invalid Id")]
-	public async Task Get_With_Invalid_Id_Should_Return_Null_Result_TestAsync()
+	[Fact(DisplayName = "Get Comment With Empty String Id")]
+	public async Task Get_With_Empty_String_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
 	{
 		// Arrange
 
@@ -89,9 +90,24 @@ public class CommentRepositoryTests
 
 		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
 	}
+	
+	[Fact(DisplayName = "Get Comment With Null Id")]
+	public async Task Get_With_Null_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new CommentRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(null));
+	}
+
 
 	[Fact(DisplayName = "Get Comments")]
-	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Comments_Test()
+	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Comments_TestAsync()
 	{
 		// Arrange
 
@@ -120,6 +136,66 @@ public class CommentRepositoryTests
 		items.ToList().Should().HaveCount(3);
 	}
 
+	[Fact(DisplayName = "Get Users Comments with valid Id")]
+	public async Task GetUsersComments_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
+	{
+		// Arrange
+
+		const string expectedUserId = "5dc1039a1521eaa36835e542";
+		var expected = TestComments.GetComments().ToList();
+
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_list = new List<Comment>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		var sut = new CommentRepository(_mockContext.Object);
+
+		// Act
+
+		var result = await sut.GetUsersComments(expectedUserId).ConfigureAwait(false);
+
+		// Assert
+
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Comment>>(),
+			It.IsAny<FindOptions<Comment>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+		var items = result.ToList();
+		items.ToList().Should().NotBeNull();
+		items.ToList().Should().HaveCount(2);
+	}
+
+	[Fact(DisplayName = "Get Users Comments With empty string")]
+	public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new CommentRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.GetUsersComments(""));
+	}
+	
+	[Fact(DisplayName = "Get Users Comments With Null Id")]
+	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new CommentRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.GetUsersComments(null));
+	}
+
+
 	[Fact(DisplayName = "Create Comment")]
 	public async Task Create_With_Valid_Comment_Should_Insert_A_New_Comment_TestAsync()
 	{
@@ -139,7 +215,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Update Comment")]
-	public async Task Update_With_A_Valid_Id_And_Comment_Should_UpdateComment_Test()
+	public async Task Update_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
 	{
 		// Arrange
 

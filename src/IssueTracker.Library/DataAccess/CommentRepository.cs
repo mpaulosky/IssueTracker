@@ -9,4 +9,13 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
 	{
 		_collection = context.GetCollection<Comment>(GetCollectionName(nameof(Comment)));
 	}
+
+	public async Task<List<Comment>> GetUsersComments(string userId)
+	{
+		var objectId = new ObjectId(userId);
+
+		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
+		
+		return results.ToList();
+	}
 }

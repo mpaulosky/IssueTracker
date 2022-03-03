@@ -76,8 +76,8 @@ public class StatusRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 	}
 
-	[Fact(DisplayName = "Get Status With Invalid Id")]
-	public async Task Get_With_Invalid_Id_Should_Return_Null_Result_TestAsync()
+	[Fact(DisplayName = "Get Status With Empty String Id")]
+	public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
 	{
 		// Arrange
 
@@ -88,6 +88,20 @@ public class StatusRepositoryTests
 		// Assert
 
 		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
+	}
+
+	[Fact(DisplayName = "Get Status With Null Id")]
+	public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new StatusRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(null));
 	}
 
 	[Fact(DisplayName = "Get Statuses")]

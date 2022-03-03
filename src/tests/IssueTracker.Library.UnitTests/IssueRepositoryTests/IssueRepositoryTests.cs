@@ -76,8 +76,8 @@ public class IssueRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 	}
 	
-	[Fact(DisplayName = "Get Issue With Invalid Id")]
-	public async Task Get_With_Invalid_Id_Should_Return_Null_Result_TestAsync()
+	[Fact(DisplayName = "Get Issue With Empty String Id")]
+	public async Task Get_With_Empty_String_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
 	{
 		// Arrange
 
@@ -88,6 +88,20 @@ public class IssueRepositoryTests
 		// Assert
 
 		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
+	}
+	
+	[Fact(DisplayName = "Get Issue With Null Id")]
+	public async Task Get_With_Null_Id_Should_Return_A_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+
+		var sut = new IssueRepository(_mockContext.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(null));
 	}
 	
 	[Fact(DisplayName = "Get Issues")]
