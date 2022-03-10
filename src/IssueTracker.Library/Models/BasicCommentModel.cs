@@ -6,6 +6,11 @@ public class BasicCommentModel
 	public string Id { get; set; }
 	public string Comment { get; set; }
 
+	public BasicCommentModel()
+	{
+		
+	}
+	
 	public BasicCommentModel(Comment comment)
 	{
 		Id = comment.Id;

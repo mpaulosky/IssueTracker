@@ -1,33 +1,17 @@
-﻿using FluentAssertions;
-
-using IssueTracker.Library.UnitTests.Fixtures;
-
-using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.DataAccess;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Models;
-
-using Microsoft.Extensions.Options;
-
-using MongoDB.Driver;
-
-using Moq;
+﻿using MongoDB.Driver;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Xunit;
 
 namespace IssueTracker.Library.UnitTests.StatusRepositoryTests;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
 {
-		private readonly IOptions<IssueTrackerDatabaseSettings> _options;
+	private StatusRepository _sut;
 	private readonly Mock<IMongoCollection<Status>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
 	private readonly Mock<IAsyncCursor<Status>> _cursor;
@@ -35,33 +19,31 @@ public class StatusRepositoryTests
 
 	public StatusRepositoryTests()
 	{
-		_options = TestFixtures.Settings();
+		_cursor = TestFixtures.GetMockCursor<Status>(_list);
 
-		_cursor = TestFixtures.MockCursor<Status>();
+		_mockCollection = TestFixtures.GetMockCollection<Status>(_cursor);
 
-		_mockCollection = TestFixtures.MockCollection<Status>(_cursor);
-
-		_mockContext = TestFixtures.MockContext<Status>(_mockCollection);
+		_mockContext = TestFixtures.GetMockContext<Status>();
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
 	public async Task Get_With_Valid_Id_Should_Returns_One_Status_Test()
 	{
 		// Arrange
-		
+
 		var expected = TestStatuses.GetKnownStatus();
 
-		await _mockCollection.Object.InsertOneAsync(expected);
-
 		_list = new List<Status> { expected };
-		
+
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		var sut = new StatusRepository(_mockContext.Object);
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		//Act
 
-		var result = await sut.Get(expected.Id);
+		var result = await _sut.Get(expected.Id);
 
 		//Assert 
 
@@ -74,6 +56,7 @@ public class StatusRepositoryTests
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
+		result.StatusName.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Get Status With Empty String Id")]
@@ -81,13 +64,15 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		var sut = new StatusRepository(_mockContext.Object);
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
 		// Assert
 
-		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => sut.Get(""));
+		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.Get(""));
 	}
 
 	[Fact(DisplayName = "Get Status With Null Id")]
@@ -95,13 +80,15 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		var sut = new StatusRepository(_mockContext.Object);
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => sut.Get(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.Get(null));
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
@@ -111,17 +98,17 @@ public class StatusRepositoryTests
 
 		var expected = TestStatuses.GetStatuses().ToList();
 
-		await _mockCollection.Object.InsertManyAsync(expected);
-
 		_list = new List<Status>(expected);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		var sut = new StatusRepository(_mockContext.Object);
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		var result = await sut.Get().ConfigureAwait(false);
+		var result = await _sut.Get().ConfigureAwait(false);
 
 		// Assert
 
@@ -140,11 +127,14 @@ public class StatusRepositoryTests
 		// Arrange
 
 		var newStatus = TestStatuses.GetKnownStatus();
-		var sut = new StatusRepository(_mockContext.Object);
+		
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		await sut.Create(newStatus);
+		await _sut.Create(newStatus);
 
 		// Assert
 
@@ -163,15 +153,17 @@ public class StatusRepositoryTests
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		_list = new List<Status>(){updatedStatus};
+		_list = new List<Status>() { updatedStatus };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		var sut = new StatusRepository(_mockContext.Object);
+		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		await sut.Update(updatedStatus.Id, updatedStatus);
+		await _sut.Update(updatedStatus.Id, updatedStatus);
 
 		// Assert
 

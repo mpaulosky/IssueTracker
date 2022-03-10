@@ -1,153 +1,108 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-using static IssueTrackerLibrary.Helpers.CollectionNames;
-
 namespace IssueTrackerLibrary.Services;
 
 public class CommentService : ICommentService
 {
 	private readonly ICommentRepository _repository;
-	private readonly IMongoDbContext _db;
-	private readonly IUserService _userData;
 	private readonly IMemoryCache _cache;
-	private readonly IMongoCollection<Comment> _comments;
 	private const string _cacheName = "CommentData";
 
-	public CommentService(ICommentRepository repository, IMongoDbContext db, IUserService userData, IMemoryCache cache)
+	public CommentService(ICommentRepository repository, IMemoryCache cache)
 	{
 		_repository = repository;
-		_db = db;
-		_userData = userData;
 		_cache = cache;
-		_comments = db.GetCollection<Comment>(GetCollectionName(nameof(Comment)));
 	}
 
 	public async Task<List<Comment>> GetAllComments()
 	{
 		var output = _cache.Get<List<Comment>>(_cacheName);
-		if (output is null)
-		{
-			//var results = await _comments.FindAsync(s => s.Archived == false);
-			var results = await _repository.Get();
-			output = (List<Comment>)results.Where(x => x.Archived == false);
-			//output = results.ToList();
 
-			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
+		if (output is not null)
+		{
+			return output;
 		}
+
+		var results = await _repository.GetComments();
+
+		output = results.Where(x => x.Archived == false).ToList();
+
+		_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
 
 	public async Task<List<Comment>> GetUsersComments(string userId)
 	{
-		var output = _cache.Get<List<Comment>>(userId);
-		if (output is null)
+		if (string.IsNullOrWhiteSpace(userId))
 		{
-			var results = await _comments.FindAsync(s => s.Author.Id == userId);
-			output = results.ToList();
-
-			_cache.Set(userId, output, TimeSpan.FromMinutes(1));
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
 		}
+
+		var output = _cache.Get<List<Comment>>(userId);
+
+		if (output is not null)
+		{
+			return output;
+		}
+
+		var results = await _repository.GetUsersComments(userId);
+
+		output = results.ToList();
+
+		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
 
-	public async Task<List<Comment>> GetAllApprovedComments()
-	{
-		var output = await GetAllComments();
-		return output.ToList();
-	}
-
 	public async Task<Comment> GetComment(string id)
 	{
-		var results = await _comments.FindAsync(s => s.Id == id);
-		return results.FirstOrDefault();
+		if (string.IsNullOrWhiteSpace(id))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
+		}
+
+		var result = await _repository.GetComment(id);
+
+		return result;
 	}
 
-	public async Task<List<Comment>> GetAllCommentsWaitingForApproval()
+	public async Task Create(Comment comment)
 	{
-		var output = await GetAllComments();
-		return output.ToList();
+		if (comment == null)
+		{
+			throw new ArgumentNullException(nameof(comment));
+		}
+
+		_repository.CreateComment(comment);
 	}
 
-	public async Task UpdateComment(Comment suggestion)
+	public async Task Update(Comment comment)
 	{
-		await _comments.ReplaceOneAsync(s => s.Id == suggestion.Id, suggestion);
+		if (comment == null)
+		{
+			throw new ArgumentNullException(nameof(comment));
+		}
+
+		await _repository.UpdateComment(comment.Id, comment);
+
 		_cache.Remove(_cacheName);
 	}
 
 	public async Task UpvoteComment(string commentId, string userId)
 	{
-		MongoClient client = _db.Client;
-
-		using IClientSessionHandle session = await client.StartSessionAsync();
-
-		session.StartTransaction();
-
-		try
+		if (userId == null)
 		{
-			// IMongoDatabase? db = client.GetDatabase(_db.DbName);
-			// IMongoCollection<Comment>? suggestionsInTransaction = db.GetCollection<Comment>(_db.CommentCollectionName);
-			// Comment? comment = (await suggestionsInTransaction.FindAsync(s => s.Id == commentId)).First();
-
-			// bool isUpvote = comment.UserVotes.Add(userId);
-			// if (isUpvote == false)
-			// {
-			// 	comment.UserVotes.Remove(userId);
-			// }
-			//
-			// await suggestionsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment);
-			//
-			// IMongoCollection<User>? usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
-			User user = await _userData.GetUser(userId);
-
-			// if (isUpvote)
-			// {
-			// 	user.VotedOnComments.Add(new BasicCommentModel(comment));
-			// }
-			// else
-			// {
-			// 	BasicCommentModel commentToRemove = user.VotedOnComments.First(s => s.Id == commentId);
-			// 	user.VotedOnComments.Remove(commentToRemove);
-			// }
-			// await usersInTransaction.ReplaceOneAsync(session, u => u.Id == userId, user);
-
-			await session.CommitTransactionAsync();
-
-			_cache.Remove(_cacheName);
+			throw new ArgumentNullException(nameof(userId));
 		}
-		catch (Exception ex)
+
+		if (string.IsNullOrWhiteSpace(commentId))
 		{
-			await session.AbortTransactionAsync();
-			throw;
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(commentId));
 		}
-	}
 
-	public async Task CreateComment(Comment comment)
-	{
-		var client = _db.Client;
+		await _repository.UpvoteComment(commentId, userId);
 
-		using var session = await client.StartSessionAsync();
-
-		session.StartTransaction();
-
-		try
-		{
-			// IMongoDatabase? db = client.GetDatabase(_db.DbName);
-			// IMongoCollection<Comment>? suggestionsInTransaction = db.GetCollection<Comment>(_db.CommentCollectionName);
-			// await suggestionsInTransaction.InsertOneAsync(session, comment);
-			//
-			// IMongoCollection<User>? usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
-			// User user = await _userData.GetUser(comment.Author.Id);
-			// user.AuthoredComments.Add(new BasicCommentModel(comment));
-			// await usersInTransaction.ReplaceOneAsync(session, u => u.Id == user.Id, user);
-			//
-			// await session.CommitTransactionAsync();
-		}
-		catch (Exception ex)
-		{
-			await session.AbortTransactionAsync();
-			throw;
-		}
+		_cache.Remove(_cacheName);
 	}
 }

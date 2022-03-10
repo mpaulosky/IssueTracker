@@ -1,8 +1,5 @@
-﻿using IssueTrackerLibrary.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace IssueTracker.Library.UnitTests.Fixtures;
 
@@ -21,9 +18,9 @@ public static class TestUsers
 				LastName = "Test",
 				DisplayName = "jimtest",
 				EmailAddress = "jim.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
+				AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
+				VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id=Guid.NewGuid().ToString(), Comment=Guid.NewGuid().ToString()}},
+				AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString()}}
 			},
 			new()
 			{
@@ -33,9 +30,9 @@ public static class TestUsers
 				LastName = "Test",
 				DisplayName = "samtest",
 				EmailAddress = "sam.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
+				AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(){Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString()}},
+				VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id=Guid.NewGuid().ToString(), Comment=Guid.NewGuid().ToString()}},
+				AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString()}}
 			},
 			new ()
 			{
@@ -45,9 +42,9 @@ public static class TestUsers
 				LastName = "Test",
 				DisplayName = "timtest",
 				EmailAddress = "tim.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel>(),
-				VotedOnComments = new List<BasicCommentModel>(),
-				AuthoredComments = new List<BasicCommentModel>()
+				AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(){Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString()}},
+				VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id=Guid.NewGuid().ToString(), Comment=Guid.NewGuid().ToString()}},
+				AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(){Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString()}}
 			},
 		};
 
@@ -64,9 +61,9 @@ public static class TestUsers
 			LastName = "Test",
 			DisplayName = "jimtest",
 			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel>(),
-			VotedOnComments = new List<BasicCommentModel>(),
-			AuthoredComments = new List<BasicCommentModel>()
+			AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
+			VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())},
+			AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())}
 		};
 
 		return user;

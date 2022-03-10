@@ -1,10 +1,9 @@
-﻿using IssueTrackerLibrary.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace IssueTracker.Library.UnitTests.Fixtures;
 
+[ExcludeFromCodeCoverage]
 public static class TestComments
 {
 	public static Comment GetKnownComment()
@@ -14,9 +13,9 @@ public static class TestComments
 			Id = "5dc1039a1521eaa36835e541",
 			CommentName = "Test Comment",
 			Archived = false,
-			Author = new BasicUserModel() { Id = "5dc1039a1521eaa36835e542", DisplayName = "Test User" },
+			Author = new BasicUserModel(id: "5dc1039a1521eaa36835e541", displayName: "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new HashSet<string>(),
+			UserVotes = new(),
 			Status = new Status()
 		};
 
@@ -32,7 +31,7 @@ public static class TestComments
 				Id = Guid.NewGuid().ToString(),
 				CommentName = "Test Comment 1",
 				Archived = false,
-				Author = new BasicUserModel() { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
+				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
 				Status = new Status()
@@ -42,8 +41,7 @@ public static class TestComments
 				Id = Guid.NewGuid().ToString(),
 				CommentName = "Test Comment 2",
 				Archived = false,
-				Author = new BasicUserModel() { Id = "5dc1039a1521eaa36835e542", DisplayName = "Test User" },
-				DateCreated = DateTime.UtcNow,
+				Author = new BasicUserModel(TestUsers.GetKnownUser()),
 				UserVotes = new HashSet<string>(),
 				Status = new Status()
 			},
@@ -52,7 +50,7 @@ public static class TestComments
 				Id = Guid.NewGuid().ToString(),
 				CommentName = "Test Comment 3",
 				Archived = false,
-				Author = new BasicUserModel() { Id = "5dc1039a1521eaa36835e542", DisplayName = "Test User" },
+				Author = new BasicUserModel("5dc1039a1521eaa36835e542", "Test User"),
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
 				Status = new Status()

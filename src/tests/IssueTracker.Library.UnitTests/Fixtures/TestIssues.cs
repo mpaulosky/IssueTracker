@@ -1,8 +1,5 @@
-﻿using IssueTrackerLibrary.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace IssueTracker.Library.UnitTests.Fixtures;
 

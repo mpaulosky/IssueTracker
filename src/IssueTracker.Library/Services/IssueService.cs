@@ -106,7 +106,7 @@ public class IssueService : IIssueService
 
 	public async Task CreateIssue(Issue suggestion)
 	{
-		MongoClient client = _db.Client;
+		var client = _db.Client;
 
 		using var session = await client.StartSessionAsync();
 

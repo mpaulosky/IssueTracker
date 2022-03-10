@@ -17,12 +17,15 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 
 		var filter = Builders<TEntity>.Filter.Eq("_id", objectId);
 
-		return await _collection.FindAsync(filter).Result.FirstOrDefaultAsync();
+		var result = await _collection.FindAsync(filter);
+
+		return result.FirstOrDefault();
 	}
 
 	public async Task<IEnumerable<TEntity>> Get()
 	{
 		var all = await _collection.FindAsync(Builders<TEntity>.Filter.Empty);
+		
 		return await all.ToListAsync();
 	}
 
@@ -33,6 +36,6 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 
 	public async Task Update(string id, TEntity obj)
 	{
-		await  _collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", id), obj);
+		await _collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", id), obj);
 	}
 }

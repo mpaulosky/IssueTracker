@@ -1,19 +1,6 @@
-﻿using FluentAssertions;
-
-using IssueTracker.Library.UnitTests.Fixtures;
-
-using IssueTrackerLibrary.DataAccess;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Models;
-
-using Microsoft.Extensions.Options;
-
-using NSubstitute;
+﻿using NSubstitute;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-
-using Xunit;
 
 using static IssueTrackerLibrary.Helpers.CollectionNames;
 
@@ -22,7 +9,7 @@ namespace IssueTracker.Library.UnitTests.MongoDbContextTests;
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
 {
-	private readonly IOptions<IssueTrackerDatabaseSettings> _options;
+	private readonly IOptions<DatabaseSettings> _options;
 	
 	public MongoDbContextTests()
 	{

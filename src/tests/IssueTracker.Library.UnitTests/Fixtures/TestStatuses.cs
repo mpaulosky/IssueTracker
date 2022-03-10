@@ -1,10 +1,9 @@
-﻿using IssueTrackerLibrary.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace IssueTracker.Library.UnitTests.Fixtures;
 
+[ExcludeFromCodeCoverage]
 public static class TestStatuses
 {
 	public static Status GetKnownStatus()

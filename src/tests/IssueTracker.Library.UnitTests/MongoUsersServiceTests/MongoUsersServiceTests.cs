@@ -1,31 +1,13 @@
-﻿using FluentAssertions;
-
-using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.DataAccess;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Models;
-
-using Microsoft.Extensions.Options;
-
-using NSubstitute;
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-
-using Xunit;
-
-namespace IssueTracker.Library.UnitTests.MongoUsersDataTests;
+﻿namespace IssueTracker.Library.UnitTests.MongoUsersDataTests;
 
 [ExcludeFromCodeCoverage]
 public class MongoUsersServiceTests
 {
-	private IOptions<IssueTrackerDatabaseSettings> _options;
+	private IOptions<DatabaseSettings> _options;
 
 	public MongoUsersServiceTests()
 	{
-		var settings = new IssueTrackerDatabaseSettings()
+		var settings = new DatabaseSettings()
 		{
 			DatabaseName = "TestDb", ConnectionString = "mongodb://tes123"
 		};
