@@ -6,32 +6,66 @@ namespace IssueTrackerLibrary.Services;
 
 public class StatusService : IStatusService
 {
-	private readonly IMongoCollection<Status> _statuses;
+	private readonly IStatusRepository _repository;
 	private readonly IMemoryCache _cache;
 	private const string _cacheName = "StatusData";
 
-	public StatusService(IMongoDbContext db, IMemoryCache cache)
+	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
-		_statuses = db.GetCollection<Status>(GetCollectionName(nameof(Status)));
+		_repository = repository;
 		_cache = cache;
+	}
+
+	public async Task<Status> GetStatus(string id)
+	{
+		if (string.IsNullOrWhiteSpace(id))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
+		}
+
+		var results = await _repository.GetStatus(id);
+		
+		return results;
 	}
 
 	public async Task<List<Status>> GetAllStatuses()
 	{
 		var output = _cache.Get<List<Status>>(_cacheName);
-		if (output is null)
+		if (output is not null)
 		{
-			var results = await _statuses.FindAsync(_ => true);
-			output = results.ToList();
-
-			_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
+			return output;
 		}
+
+		var results = await _repository.GetStatuses();
+		output = results.ToList();
+
+		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
 
 		return output;
 	}
 
 	public Task CreateStatus(Status status)
 	{
-		return _statuses.InsertOneAsync(status);
+		if (status == null)
+		{
+			throw new ArgumentNullException(nameof(status));
+		}
+
+		return _repository.CreateStatus(status);
+	}
+
+	public Task UpdateStatus(string id, Status status)
+	{
+		if (string.IsNullOrWhiteSpace(id))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
+		}
+
+		if (status == null)
+		{
+			throw new ArgumentNullException(nameof(status));
+		}
+
+		return _repository.UpdateStatus(id, status);
 	}
 }

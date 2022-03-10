@@ -27,7 +27,7 @@ public class StatusRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
-	public async Task Get_With_Valid_Id_Should_Returns_One_Status_Test()
+	public async Task GetStatus_With_Valid_Id_Should_Returns_One_Status_Test()
 	{
 		// Arrange
 
@@ -43,7 +43,7 @@ public class StatusRepositoryTests
 
 		//Act
 
-		var result = await _sut.Get(expected.Id);
+		var result = await _sut.GetStatus(expected.Id);
 
 		//Assert 
 
@@ -60,7 +60,7 @@ public class StatusRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Status With Empty String Id")]
-	public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
+	public async Task GetStatus_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
 	{
 		// Arrange
 
@@ -72,7 +72,7 @@ public class StatusRepositoryTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.Get(""));
+		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetStatus(""));
 	}
 
 	[Fact(DisplayName = "Get Status With Null Id")]
@@ -88,11 +88,11 @@ public class StatusRepositoryTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.Get(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null));
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
-	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
+	public async Task GetStatuses_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
 	{
 		// Arrange
 
@@ -108,7 +108,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		var result = await _sut.Get().ConfigureAwait(false);
+		var result = await _sut.GetStatuses().ConfigureAwait(false);
 
 		// Assert
 
@@ -134,7 +134,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		await _sut.Create(newStatus);
+		await _sut.CreateStatus(newStatus);
 
 		// Assert
 
@@ -143,7 +143,7 @@ public class StatusRepositoryTests
 	}
 
 	[Fact(DisplayName = "Update Status")]
-	public async Task Update_With_A_Valid_Id_And_Status_Should_UpdateStatus_Test()
+	public async Task UpdateStatus_With_A_Valid_Id_And_Status_Should_UpdateStatus_Test()
 	{
 		// Arrange
 
@@ -163,7 +163,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		await _sut.Update(updatedStatus.Id, updatedStatus);
+		await _sut.UpdateStatus(updatedStatus.Id, updatedStatus);
 
 		// Assert
 
