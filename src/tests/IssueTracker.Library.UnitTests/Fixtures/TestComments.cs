@@ -15,7 +15,7 @@ public static class TestComments
 			Archived = false,
 			Author = new BasicUserModel(id: "5dc1039a1521eaa36835e541", displayName: "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new(),
+			UserVotes = new HashSet<string>(){"5dc1039a1521eaa36835e545"},
 			Status = new Status()
 		};
 
@@ -34,6 +34,8 @@ public static class TestComments
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
+				
+				
 				Status = new Status()
 			},
 			new()

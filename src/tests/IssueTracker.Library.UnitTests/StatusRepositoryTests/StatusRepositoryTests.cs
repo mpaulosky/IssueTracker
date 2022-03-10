@@ -23,7 +23,7 @@ public class StatusRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection<Status>(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext<Status>();
+		_mockContext = TestFixtures.GetMockContext();
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]

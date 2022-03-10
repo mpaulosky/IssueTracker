@@ -28,7 +28,7 @@ public class CommentRepositoryTests
 		_mockCollection = TestFixtures.GetMockCollection<Comment>(_cursor);
 		_mockUserCollection = TestFixtures.GetMockCollection<User>(_userCursor);
 
-		_mockContext = TestFixtures.GetMockContext<Comment>();
+		_mockContext = TestFixtures.GetMockContext();
 	}
 
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
@@ -250,8 +250,9 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
-		
-		_users = new List<User>(){TestUsers.GetKnownUser()};
+
+		var user = TestUsers.GetKnownUser();
+		_users = new List<User>(){user};
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 		
@@ -265,6 +266,9 @@ public class CommentRepositoryTests
 	
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c.InsertOneAsync(newComment, null, default(CancellationToken)), Times.Once);
+		_mockUserCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 	
 	[Fact(DisplayName = "Update Comment")]
@@ -296,10 +300,15 @@ public class CommentRepositoryTests
 	}
 
 
-	[Fact(DisplayName = "Upvote Comment With Null Id")]
-	public async Task UpvoteComment_With_Null_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
+	[InlineData(null, "1")]
+	[InlineData("", "1")]
+	[InlineData("1", "")]
+	[InlineData("1", null)]
+	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_IndexOutOfRangeException_TestAsync(string commentId, string userId)
 	{
 		// Arrange
+		
 		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new CommentRepository(_mockContext.Object);
@@ -308,11 +317,42 @@ public class CommentRepositoryTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
+		await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.UpvoteComment(commentId, userId));
 	}
 
-	[Fact(DisplayName = "Upvote Comment With Valid Comment")]
-	public async Task UpvoteComment_With_A_Valid_Comment_Should_Return_Success_TestAsync()
+	[Fact(DisplayName = "Upvote Comment With Valid Comment and User")]
+	public async Task UpvoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
+	{
+		// Arrange
+		
+		var expected = TestComments.GetKnownComment();
+
+		_list = new List<Comment> { expected };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
+
+		var user = TestUsers.GetKnownUserWithNoVotedOn();
+		_users = new List<User>(){user};
+
+		_userCursor.Setup(_ => _.Current).Returns(_users);
+		
+		_sut = new CommentRepository(_mockContext.Object);
+	
+		// Act
+	
+		await _sut.UpvoteComment(expected.Id, user.Id);
+	
+		// Assert
+	
+		expected.UserVotes.Count.Should().BeGreaterThan(1);
+		user.VotedOnComments.Count.Should().BeGreaterThan(0);
+	}
+
+	[Fact(DisplayName = "Upvote Comment With User Already Voted")]
+	public async  Task UpvoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
 	{
 		// Arrange
 		
@@ -338,13 +378,6 @@ public class CommentRepositoryTests
 	
 		// Assert
 	
-		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<Comment>>(), expected, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-		
-		_mockUserCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-	}
-
+		expected.UserVotes.Count.Should().Be(0);
+		user.VotedOnComments.Count.Should().Be(0);	}
 }

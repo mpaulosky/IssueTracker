@@ -55,7 +55,7 @@ public static class TestUsers
 	{
 		var user = new User()
 		{
-			Id = "5dc1039a1521eaa36835e541",
+			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
 			LastName = "Test",
@@ -63,6 +63,25 @@ public static class TestUsers
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
 			VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())},
+			AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())}
+		};
+
+		return user;
+	}
+
+
+	public static User GetKnownUserWithNoVotedOn()
+	{
+		var user = new User()
+		{
+			Id = "5dc1039a1521eaa36835e541",
+			ObjectIdentifier = "5dc1039a1521eaa36835e542",
+			FirstName = "Jim",
+			LastName = "Test",
+			DisplayName = "jimtest",
+			EmailAddress = "jim.test@test.com",
+			AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
+			VotedOnComments = new List<BasicCommentModel>(),
 			AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())}
 		};
 

@@ -25,7 +25,7 @@ public class IssueRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection<Issue>(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext<Issue>();
+		_mockContext = TestFixtures.GetMockContext();
 	}
 
 	[Fact(DisplayName = "Get Issue With a Valid Id")]

@@ -9,9 +9,9 @@ namespace IssueTracker.Library.UnitTests.Fixtures;
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
 {
-	public static Mock<IAsyncCursor<T>> GetMockCursor<T>(List<T> list)
+	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(List<TEntity> list) where TEntity : class
 	{
-		var cursor = new Mock<IAsyncCursor<T>>();
+		var cursor = new Mock<IAsyncCursor<TEntity>>();
 		cursor.Setup(_ => _.Current).Returns(list);
 		cursor
 			.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
@@ -24,28 +24,28 @@ public static class TestFixtures
 		return cursor;
 	}
 
-	public static Mock<IMongoCollection<T>> GetMockCollection<T>(Mock<IAsyncCursor<T>> cursor)
+	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor) where TEntity : class
 	{
-		var collection = new Mock<IMongoCollection<T>> { Name = CollectionNames.GetCollectionName(nameof(T)) };
+		var collection = new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
 				op.FindAsync
 				(
-					It.IsAny<FilterDefinition<T>>(),
-					It.IsAny<FindOptions<T, T>>(),
+					It.IsAny<FilterDefinition<TEntity>>(),
+					It.IsAny<FindOptions<TEntity, TEntity>>(),
 					It.IsAny<CancellationToken>()
 				))
 			.ReturnsAsync(cursor.Object);
 		collection.Setup(op =>
 			op.InsertOneAsync
 			(
-				It.IsAny<T>(),
+				It.IsAny<TEntity>(),
 				It.IsAny<InsertOneOptions>(),
 				It.IsAny<CancellationToken>()
 			)).Returns(Task.CompletedTask);
 		return collection;
 	}
 
-	public static Mock<IMongoDbContext> GetMockContext<T>()
+	public static Mock<IMongoDbContext> GetMockContext()
 	{
 		var mockClient = new Mock<IMongoClient>();
 		var context = new Mock<IMongoDbContext>();

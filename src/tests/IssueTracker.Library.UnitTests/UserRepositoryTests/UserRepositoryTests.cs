@@ -24,7 +24,7 @@ public class UserRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection<User>(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext<User>();
+		_mockContext = TestFixtures.GetMockContext();
 	}
 
 	[Fact(DisplayName = "Get User With a Valid Id")]
