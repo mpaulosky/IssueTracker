@@ -1,16 +1,17 @@
-﻿using NSubstitute;
+﻿
+using NSubstitute;
 
 using System;
 
 using static IssueTrackerLibrary.Helpers.CollectionNames;
 
-namespace IssueTracker.Library.UnitTests.MongoDbContextTests;
+namespace IssueTracker.Library.UnitTests.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
 {
 	private readonly IOptions<DatabaseSettings> _options;
-	
+
 	public MongoDbContextTests()
 	{
 		_options = TestFixtures.Settings();
@@ -22,9 +23,9 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
-		
+
 		// Assert
 
 		context.Should().NotBeNull();
@@ -38,11 +39,11 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
 
 		// Assert
-		
+
 		Assert.Throws<ArgumentException>(() => context.GetCollection<User>(""));
 	}
 
@@ -52,12 +53,12 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
 		var myCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
-		
+
 		// Assert
-		
+
 		myCollection.Should().NotBeNull();
 		myCollection.CollectionNamespace.CollectionName.Should().BeSameAs("users");
 	}

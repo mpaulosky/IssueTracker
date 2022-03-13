@@ -1,11 +1,12 @@
-﻿using MongoDB.Driver;
+﻿
+using MongoDB.Driver;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IssueTracker.Library.UnitTests.StatusRepositoryTests;
+namespace IssueTracker.Library.UnitTests.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
@@ -130,7 +131,7 @@ public class StatusRepositoryTests
 		// Arrange
 
 		var newStatus = TestStatuses.GetKnownStatus();
-		
+
 		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new StatusRepository(_mockContext.Object);
@@ -142,7 +143,7 @@ public class StatusRepositoryTests
 		// Assert
 
 		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => c.InsertOneAsync(newStatus, null, default(CancellationToken)), Times.Once);
+		_mockCollection.Verify(c => c.InsertOneAsync(newStatus, null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Status")]

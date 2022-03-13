@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿
+using MongoDB.Driver;
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IssueTracker.Library.UnitTests.CommentRepositoryTests;
+namespace IssueTracker.Library.UnitTests.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
@@ -19,7 +20,7 @@ public class CommentRepositoryTests
 	private readonly Mock<IAsyncCursor<User>> _userCursor;
 	private List<Comment> _list = new();
 	private List<User> _users = new();
-	
+
 	public CommentRepositoryTests()
 	{
 		_cursor = TestFixtures.GetMockCursor(_list);
@@ -32,38 +33,38 @@ public class CommentRepositoryTests
 
 		_sut = new CommentRepository(_mockContext.Object);
 	}
-		
+
 	[Fact(DisplayName = "Create Comment With Valid Comment")]
 	public async Task CreateComment_With_A_Valid_Comment_Should_Return_Success_TestAsync()
 	{
 		// Arrange
-		
+
 		var newComment = TestComments.GetKnownComment();
 
 		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUser();
-		_users = new List<User> {user};
+		_users = new List<User> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
+
 		_sut = new CommentRepository(_mockContext.Object);
-	
+
 		// Act
-	
+
 		await _sut.CreateComment(newComment);
-	
+
 		// Assert
-	
+
 		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => 
-			c.InsertOneAsync(newComment, null, default(CancellationToken)), Times.Once);
+		_mockCollection.Verify(c =>
+			c.InsertOneAsync(newComment, null, default), Times.Once);
 		_mockUserCollection.Verify(
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
-	
+
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
 	public async Task GetComment_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
@@ -173,13 +174,13 @@ public class CommentRepositoryTests
 		// Arrange
 
 		const string expectedUserId = "5dc1039a1521eaa36835e542";
-		
+
 		var expected = TestComments.GetComments().ToList();
 
 		_list = new List<Comment>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
-		
+
 		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new CommentRepository(_mockContext.Object);
@@ -200,7 +201,7 @@ public class CommentRepositoryTests
 		items[0].Author.Id.Should().NotBeNull();
 		items[0].Author.DisplayName.Should().NotBeNull();
 	}
-	
+
 	// TODO: Move to the CommentService Tests
 	// [Fact(DisplayName = "Get Users Comments With empty string")]
 	// public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
@@ -217,7 +218,7 @@ public class CommentRepositoryTests
 	//
 	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUsersComments(""));
 	// }
-	
+
 	// TODO: Move to the CommentService Tests
 	// [Fact(DisplayName = "Get Users Comments With Null Id")]
 	// public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
@@ -234,7 +235,7 @@ public class CommentRepositoryTests
 	//
 	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
 	// }
-	
+
 	// TODO: Move to the CommentService Tests
 	// [Fact(DisplayName = "Create Comment With Invalid Comment Throws Exception")]
 	// public async Task Create_With_Invalid_Comment_Should_Return_InvalidOperationException_TestAsync()
@@ -257,7 +258,7 @@ public class CommentRepositoryTests
 	//
 	// 	await Assert.ThrowsAsync<NullReferenceException>(() => _sut.CreateComment(null));
 	// }
-	
+
 	[Fact(DisplayName = "Update Comment")]
 	public async Task UpdateComment_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
 	{
@@ -267,7 +268,7 @@ public class CommentRepositoryTests
 
 		var updatedComment = TestComments.GetComment(expected.Id, "Test Comment Update", expected.Archived);
 
-		_list = new List<Comment> {updatedComment};
+		_list = new List<Comment> { updatedComment };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -311,7 +312,7 @@ public class CommentRepositoryTests
 	public async Task UpvoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
 	{
 		// Arrange
-		
+
 		var expected = TestComments.GetKnownComment();
 
 		_list = new List<Comment> { expected };
@@ -322,27 +323,27 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUserWithNoVotedOn();
-		_users = new List<User> {user};
+		_users = new List<User> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
+
 		_sut = new CommentRepository(_mockContext.Object);
-	
+
 		// Act
-	
+
 		await _sut.UpvoteComment(expected.Id, user.Id);
-	
+
 		// Assert
-	
+
 		expected.UserVotes.Count.Should().BeGreaterThan(1);
 		user.VotedOnComments.Count.Should().BeGreaterThan(0);
 	}
 
 	[Fact(DisplayName = "Upvote Comment With User Already Voted")]
-	public async  Task UpvoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
+	public async Task UpvoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
 	{
 		// Arrange
-		
+
 		var expected = TestComments.GetKnownComment();
 
 		_list = new List<Comment> { expected };
@@ -353,18 +354,19 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUser();
-		_users = new List<User> {user};
+		_users = new List<User> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
+
 		_sut = new CommentRepository(_mockContext.Object);
-	
+
 		// Act
-	
+
 		await _sut.UpvoteComment(expected.Id, user.Id);
-	
+
 		// Assert
-	
+
 		expected.UserVotes.Count.Should().Be(0);
-		user.VotedOnComments.Count.Should().Be(0);	}
+		user.VotedOnComments.Count.Should().Be(0);
+	}
 }

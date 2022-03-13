@@ -1,11 +1,12 @@
-﻿using MongoDB.Driver;
+﻿
+using MongoDB.Driver;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IssueTracker.Library.UnitTests.UserRepositoryTests;
+namespace IssueTracker.Library.UnitTests.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
@@ -26,14 +27,14 @@ public class UserRepositoryTests
 
 		_sut = new UserRepository(_mockContext.Object);
 	}
-	
+
 	[Fact(DisplayName = "CreateUser with a valid user")]
 	public async Task CreateUser_With_Valid_User_Should_Insert_A_New_User_TestAsync()
 	{
 		// Arrange
 
 		var newUser = TestUsers.GetKnownUser();
-		
+
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
@@ -46,7 +47,7 @@ public class UserRepositoryTests
 
 		//Verify if InsertOneAsync is called once 
 
-		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default(CancellationToken)), Times.Once);
+		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "GetUser With a Valid Id")]
@@ -57,9 +58,9 @@ public class UserRepositoryTests
 		var expected = TestUsers.GetKnownUser();
 
 		_list = new List<User> { expected };
-		
+
 		_cursor.Setup(_ => _.Current).Returns(_list);
-		
+
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
@@ -73,7 +74,7 @@ public class UserRepositoryTests
 		result.Should().NotBeNull();
 
 		//Verify if FindAsync is called once
-		
+
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<User>>(),
 			It.IsAny<FindOptions<User>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
@@ -124,7 +125,7 @@ public class UserRepositoryTests
 		_list = new List<User> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
-		
+
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
@@ -155,11 +156,11 @@ public class UserRepositoryTests
 
 		_list = new List<User>(expected);
 
-		 _cursor.Setup(_ => _.Current).Returns(_list);
-		 
-		 _mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		 
-		 _sut = new UserRepository(_mockContext.Object);
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
@@ -198,18 +199,18 @@ public class UserRepositoryTests
 
 		_list = new List<User> { updatedUser };
 
-		 _cursor.Setup(_ => _.Current).Returns(_list);
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		 _mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		 _sut = new UserRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
 		await _sut.UpdateUser(updatedUser.Id, updatedUser);
 
 		// Assert
-		
+
 		_mockCollection.Verify(
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
