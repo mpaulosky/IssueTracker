@@ -14,7 +14,28 @@ public class CommentService : ICommentService
 		_cache = cache;
 	}
 
-	public async Task<List<Comment>> GetAllComments()
+	public async Task Create(Comment comment)
+	{
+		if (comment == null)
+		{
+			throw new ArgumentNullException(nameof(comment));
+		}
+
+		await _repository.CreateComment(comment);
+	}
+
+	public async Task<Comment> GetComment(string id)
+	{
+		if (string.IsNullOrWhiteSpace(id))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
+		}
+
+		var result = await _repository.GetComment(id);
+
+		return result;
+	}
+	public async Task<List<Comment>> GetComments()
 	{
 		var output = _cache.Get<List<Comment>>(_cacheName);
 
@@ -55,29 +76,8 @@ public class CommentService : ICommentService
 		return output;
 	}
 
-	public async Task<Comment> GetComment(string id)
-	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
 
-		var result = await _repository.GetComment(id);
-
-		return result;
-	}
-
-	public async Task Create(Comment comment)
-	{
-		if (comment == null)
-		{
-			throw new ArgumentNullException(nameof(comment));
-		}
-
-		await _repository.CreateComment(comment);
-	}
-
-	public async Task Update(Comment comment)
+	public async Task UpdateComment(Comment comment)
 	{
 		if (comment == null)
 		{

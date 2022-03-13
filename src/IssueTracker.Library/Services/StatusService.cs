@@ -16,6 +16,16 @@ public class StatusService : IStatusService
 		_cache = cache;
 	}
 
+	public Task CreateStatus(Status status)
+	{
+		if (status == null)
+		{
+			throw new ArgumentNullException(nameof(status));
+		}
+
+		return _repository.CreateStatus(status);
+	}
+
 	public async Task<Status> GetStatus(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
@@ -28,7 +38,7 @@ public class StatusService : IStatusService
 		return results;
 	}
 
-	public async Task<List<Status>> GetAllStatuses()
+	public async Task<List<Status>> GetStatuses()
 	{
 		var output = _cache.Get<List<Status>>(_cacheName);
 		if (output is not null)
@@ -44,28 +54,13 @@ public class StatusService : IStatusService
 		return output;
 	}
 
-	public Task CreateStatus(Status status)
+	public Task UpdateStatus(Status status)
 	{
 		if (status == null)
 		{
 			throw new ArgumentNullException(nameof(status));
 		}
 
-		return _repository.CreateStatus(status);
-	}
-
-	public Task UpdateStatus(string id, Status status)
-	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
-
-		if (status == null)
-		{
-			throw new ArgumentNullException(nameof(status));
-		}
-
-		return _repository.UpdateStatus(id, status);
+		return _repository.UpdateStatus(status.Id, status);
 	}
 }

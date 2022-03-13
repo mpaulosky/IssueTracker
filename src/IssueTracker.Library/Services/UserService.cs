@@ -9,6 +9,16 @@ public class UserService : IUserService
 		_repo = repository;
 	}
 
+	public Task CreateUser(User user)
+	{
+		if (user == null)
+		{
+			throw new ArgumentNullException(nameof(user));
+		}
+
+		return _repo.CreateUser(user);
+	}
+
 	public async Task<User> GetUser(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
@@ -17,14 +27,14 @@ public class UserService : IUserService
 		}
 
 		var results = await _repo.GetUser(id);
-		
+
 		return results;
 	}
 
 	public async Task<List<User>> GetUsers()
 	{
 		var results = await _repo.GetUsers();
-		
+
 		return results.ToList();
 	}
 
@@ -36,19 +46,10 @@ public class UserService : IUserService
 		}
 
 		var results = await _repo.GetUserFromAuthentication(objectId);
-		
+
 		return results;
 	}
 
-	public Task CreateUser(User user)
-	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
-
-		return _repo.CreateUser(user);
-	}
 
 	public Task UpdateUser(User user)
 	{
