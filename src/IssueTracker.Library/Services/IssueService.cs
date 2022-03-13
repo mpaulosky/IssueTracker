@@ -4,131 +4,117 @@ namespace IssueTrackerLibrary.Services;
 
 public class IssueService : IIssueService
 {
-	private readonly IMongoDbContext _db;
-	private readonly IUserService _userData;
+	private readonly IIssueRepository _repository;
 	private readonly IMemoryCache _cache;
-	private readonly IMongoCollection<Issue> _issues;
 	private const string _cacheName = "IssueData";
 
-	public IssueService(IMongoDbContext db, IUserService userData, IMemoryCache cache)
+	/// <summary>
+	/// IssueService
+	/// </summary>
+	/// <param name="repository"></param>
+	/// <param name="cache"></param>
+	public IssueService(IIssueRepository repository, IMemoryCache cache)
 	{
-		_db = db;
-		_userData = userData;
+		_repository = repository;
 		_cache = cache;
-		_issues = db.GetCollection<Issue>(CollectionNames.GetCollectionName(nameof(Issue)));
 	}
 
-	public async Task<List<Issue>> GetAllIssues()
+	/// <summary>
+	/// CreateIssue
+	/// </summary>
+	/// <param name="issue"></param>
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task CreateIssue(Issue issue)
 	{
-		var output = _cache.Get<List<Issue>>(_cacheName);
-		
-		if (output is null)
+		if (issue == null)
 		{
-			var results = await _issues.FindAsync(s => s.Archived == false);
-			output = results.ToList();
-
-			_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
+			throw new ArgumentNullException(nameof(issue));
 		}
 
-		return output;
+		await _repository.CreateIssue(issue);
 	}
 
-	public async Task<List<Issue>> GetUsersIssues(string userId)
-	{
-		var output = _cache.Get<List<Issue>>(userId);
-		
-		if (output is null)
-		{
-			var results = await _issues.FindAsync(s => s.Author.Id == userId);
-			output = results.ToList();
-
-			_cache.Set(userId, output, TimeSpan.FromMinutes(1));
-		}
-
-		return output;
-	}
-
-	public async Task<List<Issue>> GetAllApprovedIssues()
-	{
-		List<Issue> output = await GetAllIssues();
-		return output.ToList();
-	}
-
+	/// <summary>
+	/// GetIssue
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns>An Issue</returns>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<Issue> GetIssue(string id)
 	{
-		var results = await _issues.FindAsync(s => s.Id == id);
-		return results.FirstOrDefault();
+		if (string.IsNullOrWhiteSpace(id))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
+		}
+
+		var results = await _repository.GetIssue(id);
+
+		return results;
 	}
 
-	public async Task<List<Issue>> GetAllIssuesWaitingForApproval()
+	/// <summary>
+	/// GetAllIssues
+	/// </summary>
+	/// <returns>A List of All Issues</returns>
+	public async Task<List<Issue>> GetIssues()
 	{
-		List<Issue> output = await GetAllIssues();
-		return output.ToList();
+		var output = _cache.Get<List<Issue>>(_cacheName);
+
+		if (output is not null)
+		{
+			return output;
+		}
+
+		var results = await _repository.GetIssues();
+
+		output = results.ToList();
+
+		_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
+
+		return output;
 	}
 
-	public async Task UpdateIssue(Issue suggestion)
+	/// <summary>
+	/// GetUsersIssues
+	/// </summary>
+	/// <param name="userId"></param>
+	/// <returns>A list of User Issues</returns>
+	public async Task<List<Issue>> GetUsersIssues(string userId)
 	{
-		await _issues.ReplaceOneAsync(s => s.Id == suggestion.Id, suggestion);
+		if (string.IsNullOrWhiteSpace(userId))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
+		}
+
+		var output = _cache.Get<List<Issue>>(userId);
+
+		if (output is not null)
+		{
+			return output;
+		}
+
+		var results = await _repository.GetUsersIssues(userId);
+		
+		output = results.ToList();
+
+		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
+
+		return output;
+	}
+
+	/// <summary>
+	/// UpdateIssue
+	/// </summary>
+	/// <param name="issue"></param>
+	public async Task UpdateIssue(Issue issue)
+	{
+		if (issue == null)
+		{
+			throw new ArgumentNullException(nameof(issue));
+		}
+
+		await _repository.UpdateIssue(issue.Id, issue);
+		
 		_cache.Remove(_cacheName);
-	}
-
-	public async Task UpvoteIssue(string suggestionId, string userId)
-	{
-		var client = _db.Client;
-
-		using var session = await client.StartSessionAsync();
-
-		session.StartTransaction();
-
-		try
-		{
-			// IMongoDatabase? db = client.GetDatabase(_db.DbName);
-			// IMongoCollection<Issue>? suggestionsInTransaction = db.GetCollection<Issue>(_db.IssueCollectionName);
-			// Issue? suggestion = (await suggestionsInTransaction.FindAsync(s => s.Id == suggestionId)).First();
-			//
-			// await suggestionsInTransaction.ReplaceOneAsync(session, s => s.Id == suggestionId, suggestion);
-			//
-			// IMongoCollection<User>? usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
-			// User user = await _userData.GetUser(userId);
-			//
-			// await usersInTransaction.ReplaceOneAsync(session, u => u.Id == userId, user);
-			//
-			// await session.CommitTransactionAsync();
-			//
-			// _cache.Remove(_cacheName);
-		}
-		catch (Exception ex)
-		{
-			await session.AbortTransactionAsync();
-			throw;
-		}
-	}
-
-	public async Task CreateIssue(Issue suggestion)
-	{
-		var client = _db.Client;
-
-		using var session = await client.StartSessionAsync();
-
-		session.StartTransaction();
-
-		try
-		{
-			// IMongoDatabase? db = client.GetDatabase(_db.DbName);
-			// IMongoCollection<Issue>? suggestionsInTransaction = db.GetCollection<Issue>(_db.IssueCollectionName);
-			// await suggestionsInTransaction.InsertOneAsync(session, suggestion);
-			//
-			// IMongoCollection<User>? usersInTransaction = db.GetCollection<User>(_db.UserCollectionName);
-			// User user = await _userData.GetUser(suggestion.Author.Id);
-			// user.AuthoredIssues.Add(new BasicIssueModel(suggestion));
-			// await usersInTransaction.ReplaceOneAsync(session, u => u.Id == user.Id, user);
-			//
-			// await session.CommitTransactionAsync();
-		}
-		catch (Exception ex)
-		{
-			await session.AbortTransactionAsync();
-			throw;
-		}
 	}
 }

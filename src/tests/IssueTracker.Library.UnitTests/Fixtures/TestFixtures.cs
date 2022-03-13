@@ -1,5 +1,11 @@
 ﻿using MongoDB.Driver;
 
+using Moq;
+using Moq.Language.Flow;
+
+using NSubstitute;
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,6 +48,15 @@ public static class TestFixtures
 				It.IsAny<InsertOneOptions>(),
 				It.IsAny<CancellationToken>()
 			)).Returns(Task.CompletedTask);
+		// collection.Setup(op =>
+		// 	op.ReplaceOneAsync
+		// 	(
+		// 		It.IsAny<FilterDefinition<TEntity>>(), 
+		// 		It.IsAny<TEntity>(), 
+		// 		It.IsAny<ReplaceOptions>(),
+		// 		It.IsAny<CancellationToken>()
+		// 	)).ReturnnsAsync();
+		
 		return collection;
 	}
 
@@ -51,7 +66,9 @@ public static class TestFixtures
 		var context = new Mock<IMongoDbContext>();
 		var mockSession = new Mock<IClientSessionHandle>();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
-		context.Setup(op => op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult<IClientSessionHandle>(mockSession.Object));
+		context.Setup(op => 
+			op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
+			.Returns(Task.FromResult(mockSession.Object));
 
 		return context;
 	}

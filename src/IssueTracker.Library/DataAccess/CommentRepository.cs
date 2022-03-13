@@ -15,38 +15,6 @@ public class CommentRepository : ICommentRepository
 		_userCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
 	}
 
-	public async Task<Comment> GetComment(string id)
-	{
-		var objectId = new ObjectId(id);
-
-		var filter = Builders<Comment>.Filter.Eq("_id", objectId);
-
-		var result = await _collection.FindAsync(filter);
-
-		return result.FirstOrDefault();
-	}
-
-	public async Task<IEnumerable<Comment>> GetComments()
-	{
-		var all = await _collection.FindAsync(Builders<Comment>.Filter.Empty);
-		
-		return await all.ToListAsync();
-	}
-
-	public async Task UpdateComment(string id, Comment comment)
-	{
-		await _collection.ReplaceOneAsync(Builders<Comment>.Filter.Eq("_id", id), comment);
-	}
-
-	public async Task<List<Comment>> GetUsersComments(string userId)
-	{
-		var objectId = new ObjectId(userId);
-
-		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
-		
-		return results.ToList();
-	}
-
 	public async Task CreateComment(Comment comment)
 	{
 		using var session = await _context.Client.StartSessionAsync();
@@ -69,11 +37,45 @@ public class CommentRepository : ICommentRepository
 
 			await session.CommitTransactionAsync();
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			await session.AbortTransactionAsync();
 			throw;
 		}
+	}
+
+	public async Task<Comment> GetComment(string id)
+	{
+		var objectId = new ObjectId(id);
+
+		var filter = Builders<Comment>.Filter.Eq("_id", objectId);
+
+		var result = await _collection.FindAsync(filter);
+
+		return result.FirstOrDefault();
+	}
+
+	public async Task<IEnumerable<Comment>> GetComments()
+	{
+		var all = await _collection.FindAsync(Builders<Comment>.Filter.Empty);
+		
+		return await all.ToListAsync();
+	}
+
+	public async Task UpdateComment(string id, Comment comment)
+	{
+		var objectId = new ObjectId(id);
+
+		await _collection.ReplaceOneAsync(Builders<Comment>.Filter.Eq("_id", objectId), comment);
+	}
+
+	public async Task<List<Comment>> GetUsersComments(string userId)
+	{
+		var objectId = new ObjectId(userId);
+
+		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
+		
+		return results.ToList();
 	}
 
 	public async Task UpvoteComment(string commentId, string userId)
@@ -84,7 +86,7 @@ public class CommentRepository : ICommentRepository
 
 		try
 		{
-			IMongoCollection<Comment>? commentsInTransaction = _collection;
+			var commentsInTransaction = _collection;
 			
 			var comment = (await commentsInTransaction.FindAsync(s => s.Id == commentId)).First();
 
@@ -115,7 +117,7 @@ public class CommentRepository : ICommentRepository
 
 			await session.CommitTransactionAsync();
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			await session.AbortTransactionAsync();
 			throw;

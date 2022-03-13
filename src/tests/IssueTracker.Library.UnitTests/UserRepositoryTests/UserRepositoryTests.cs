@@ -1,9 +1,7 @@
-﻿using System.Linq;
+﻿using MongoDB.Driver;
 
-using MongoDB.Driver;
-
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,15 +18,39 @@ public class UserRepositoryTests
 
 	public UserRepositoryTests()
 	{
-		_cursor = TestFixtures.GetMockCursor<User>(_list);
+		_cursor = TestFixtures.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection<User>(_cursor);
+		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = TestFixtures.GetMockContext();
+
+		_sut = new UserRepository(_mockContext.Object);
+	}
+	
+	[Fact(DisplayName = "CreateUser with a valid user")]
+	public async Task CreateUser_With_Valid_User_Should_Insert_A_New_User_TestAsync()
+	{
+		// Arrange
+
+		var newUser = TestUsers.GetKnownUser();
+		
+		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new UserRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.CreateUser(newUser);
+
+		// Assert
+
+		//Verify if InsertOneAsync is called once 
+
+		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default(CancellationToken)), Times.Once);
 	}
 
-	[Fact(DisplayName = "Get User With a Valid Id")]
-	public async Task Get_With_Valid_Id_Should_Returns_One_User_Test()
+	[Fact(DisplayName = "GetUser With a Valid Id")]
+	public async Task GetUser_With_Valid_Id_Should_Returns_One_User_Test()
 	{
 		// Arrange
 
@@ -63,36 +85,37 @@ public class UserRepositoryTests
 		result.FirstName.Length.Should().BeGreaterThan(1);
 		result.EmailAddress.Length.Should().BeGreaterThan(1);
 	}
+	// TODO: Move to UserService Tests
+	// [Fact(DisplayName = "Get User With Empty String Id")]
+	// public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
+	// {
+	// 	// Arrange
+	//
+	// 	_sut = new UserRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUser(""));
+	// }
 
-	[Fact(DisplayName = "Get User With Empty String Id")]
-	public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
-	{
-		// Arrange
+	// TODO: Move to UserService Tests
+	// [Fact(DisplayName = "Get User With null Id")]
+	// public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
+	// {
+	// 	// Arrange
+	//
+	// 	_sut = new UserRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUser(null));
+	// }
 
-		_sut = new UserRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUser(""));
-	}
-
-	[Fact(DisplayName = "Get User With null Id")]
-	public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	{
-		// Arrange
-
-		_sut = new UserRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUser(null));
-	}
-
-	[Fact(DisplayName = "GetUserFromAuthentication")]
+	[Fact(DisplayName = "GetUser From Authentication")]
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
 		// Arrange
@@ -124,7 +147,7 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Users")]
-	public async Task Get_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
+	public async Task GetUsers_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
 	{
 		// Arrange
 
@@ -162,30 +185,9 @@ public class UserRepositoryTests
 		items[0].AuthoredComments[0].Comment.Length.Should().BeGreaterThan(1);
 	}
 
-	[Fact(DisplayName = "Create User")]
-	public async Task Create_With_Valid_User_Should_Insert_A_New_User_TestAsync()
-	{
-		// Arrange
 
-		var newUser = TestUsers.GetKnownUser();
-		
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new UserRepository(_mockContext.Object);
-
-		// Act
-
-		await _sut.CreateUser(newUser);
-
-		// Assert
-
-		//Verify if InsertOneAsync is called once 
-
-		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default(CancellationToken)), Times.Once);
-	}
-
-	[Fact(DisplayName = "Update User")]
-	public async Task Update_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
+	[Fact(DisplayName = "Update User with a valid Id and User")]
+	public async Task UpdateUser_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
 		// Arrange
 
@@ -194,7 +196,7 @@ public class UserRepositoryTests
 		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName,
 			expected.DisplayName, "james.test@test.com");
 
-		_list = new List<User>() { updatedUser };
+		_list = new List<User> { updatedUser };
 
 		 _cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -207,8 +209,7 @@ public class UserRepositoryTests
 		await _sut.UpdateUser(updatedUser.Id, updatedUser);
 
 		// Assert
-
-
+		
 		_mockCollection.Verify(
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);

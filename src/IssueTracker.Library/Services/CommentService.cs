@@ -74,7 +74,7 @@ public class CommentService : ICommentService
 			throw new ArgumentNullException(nameof(comment));
 		}
 
-		_repository.CreateComment(comment);
+		await _repository.CreateComment(comment);
 	}
 
 	public async Task Update(Comment comment)

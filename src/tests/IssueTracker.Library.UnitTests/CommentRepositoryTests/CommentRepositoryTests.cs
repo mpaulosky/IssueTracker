@@ -22,15 +22,48 @@ public class CommentRepositoryTests
 	
 	public CommentRepositoryTests()
 	{
-		_cursor = TestFixtures.GetMockCursor<Comment>(_list);
-		_userCursor = TestFixtures.GetMockCursor<User>(_users);
+		_cursor = TestFixtures.GetMockCursor(_list);
+		_userCursor = TestFixtures.GetMockCursor(_users);
 
-		_mockCollection = TestFixtures.GetMockCollection<Comment>(_cursor);
-		_mockUserCollection = TestFixtures.GetMockCollection<User>(_userCursor);
+		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
 		_mockContext = TestFixtures.GetMockContext();
-	}
 
+		_sut = new CommentRepository(_mockContext.Object);
+	}
+		
+	[Fact(DisplayName = "Create Comment With Valid Comment")]
+	public async Task CreateComment_With_A_Valid_Comment_Should_Return_Success_TestAsync()
+	{
+		// Arrange
+		
+		var newComment = TestComments.GetKnownComment();
+
+		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
+
+		var user = TestUsers.GetKnownUser();
+		_users = new List<User> {user};
+
+		_userCursor.Setup(_ => _.Current).Returns(_users);
+		
+		_sut = new CommentRepository(_mockContext.Object);
+	
+		// Act
+	
+		await _sut.CreateComment(newComment);
+	
+		// Assert
+	
+		//Verify if InsertOneAsync is called once 
+		_mockCollection.Verify(c => 
+			c.InsertOneAsync(newComment, null, default(CancellationToken)), Times.Once);
+		_mockUserCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
+	}
+	
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
 	public async Task GetComment_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
@@ -66,38 +99,40 @@ public class CommentRepositoryTests
 		result.Status.Should().NotBeNull();
 	}
 
-	[Fact(DisplayName = "Get Comment With Empty String Id")]
-	public async Task GetComment_With_Empty_String_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
-	{
-		// Arrange
-		
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	// TODO: Move to the CommentService Tests
+	// [Fact(DisplayName = "Get Comment With Empty String Id")]
+	// public async Task GetComment_With_Empty_String_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	// {
+	// 	// Arrange
+	// 	
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	//
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetComment(""));
+	// }
 
-		_sut = new CommentRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetComment(""));
-	}
-	
-	[Fact(DisplayName = "Get Comment With Null Id")]
-	public async Task GetComment_With_Null_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
-	{
-		// Arrange
-		
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-
-		_sut = new CommentRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
-	}
+	// TODO: Move to the CommentService Tests
+	// [Fact(DisplayName = "Get Comment With Null Id")]
+	// public async Task GetComment_With_Null_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	// {
+	// 	// Arrange
+	// 	
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	//
+	//
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
+	// }
 
 
 	[Fact(DisplayName = "Get Comments")]
@@ -165,111 +200,63 @@ public class CommentRepositoryTests
 		items[0].Author.Id.Should().NotBeNull();
 		items[0].Author.DisplayName.Should().NotBeNull();
 	}
-
-	[Fact(DisplayName = "Get Users Comments With empty string")]
-	public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
-	{
-		// Arrange
-
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new CommentRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUsersComments(""));
-	}
 	
-	[Fact(DisplayName = "Get Users Comments With Null Id")]
-	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
-	{
-		// Arrange
-
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new CommentRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
-	}
+	// TODO: Move to the CommentService Tests
+	// [Fact(DisplayName = "Get Users Comments With empty string")]
+	// public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	// {
+	// 	// Arrange
+	//
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	//
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUsersComments(""));
+	// }
 	
-	[Fact(DisplayName = "Create Comment With No Users Throws Exception")]
-	public async Task Create_With_Out_A_User_Should_Return_InvalidOperationException_TestAsync()
-	{
-		// Arrange
-		
-		var newComment = TestComments.GetKnownComment();
-		await _mockUserCollection.Object.InsertOneAsync(TestUsers.GetKnownUser());
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
-
-		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
-		_sut = new CommentRepository(_mockContext.Object);
+	// TODO: Move to the CommentService Tests
+	// [Fact(DisplayName = "Get Users Comments With Null Id")]
+	// public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
+	// {
+	// 	// Arrange
+	//
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	//
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
+	// }
 	
-		// Act
-	
-		// Assert
-	
-		await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.CreateComment(newComment));
-	}
-	
-	[Fact(DisplayName = "Create Comment With Invalid Comment Throws Exception")]
-	public async Task Create_With_Invalid_Comment_Should_Return_InvalidOperationException_TestAsync()
-	{
-		// Arrange
-		
-		await _mockUserCollection.Object.InsertOneAsync(TestUsers.GetKnownUser());
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
-		
-		_users = new List<User>(){TestUsers.GetKnownUser()};
-
-		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
-		_sut = new CommentRepository(_mockContext.Object);
-	
-		// Act
-	
-		// Assert
-	
-		await Assert.ThrowsAsync<NullReferenceException>(() => _sut.CreateComment(null));
-	}
-		
-	[Fact(DisplayName = "Create Comment With Valid Comment")]
-	public async Task CreateComment_With_A_Valid_Comment_Should_Return_Success_TestAsync()
-	{
-		// Arrange
-		
-		var newComment = TestComments.GetKnownComment();
-
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
-
-		var user = TestUsers.GetKnownUser();
-		_users = new List<User>(){user};
-
-		_userCursor.Setup(_ => _.Current).Returns(_users);
-		
-		_sut = new CommentRepository(_mockContext.Object);
-	
-		// Act
-	
-		await _sut.CreateComment(newComment);
-	
-		// Assert
-	
-		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => c.InsertOneAsync(newComment, null, default(CancellationToken)), Times.Once);
-		_mockUserCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-	}
+	// TODO: Move to the CommentService Tests
+	// [Fact(DisplayName = "Create Comment With Invalid Comment Throws Exception")]
+	// public async Task Create_With_Invalid_Comment_Should_Return_InvalidOperationException_TestAsync()
+	// {
+	// 	// Arrange
+	// 	
+	// 	await _mockUserCollection.Object.InsertOneAsync(TestUsers.GetKnownUser());
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	// 	_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
+	// 	
+	// 	_users = new List<User>(){TestUsers.GetKnownUser()};
+	//
+	// 	_userCursor.Setup(_ => _.Current).Returns(_users);
+	// 	
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<NullReferenceException>(() => _sut.CreateComment(null));
+	// }
 	
 	[Fact(DisplayName = "Update Comment")]
 	public async Task UpdateComment_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
@@ -280,7 +267,7 @@ public class CommentRepositoryTests
 
 		var updatedComment = TestComments.GetComment(expected.Id, "Test Comment Update", expected.Archived);
 
-		_list = new List<Comment>(){updatedComment};
+		_list = new List<Comment> {updatedComment};
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -299,26 +286,26 @@ public class CommentRepositoryTests
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
-
-	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
-	[InlineData(null, "1")]
-	[InlineData("", "1")]
-	[InlineData("1", "")]
-	[InlineData("1", null)]
-	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_IndexOutOfRangeException_TestAsync(string commentId, string userId)
-	{
-		// Arrange
-		
-		_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new CommentRepository(_mockContext.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.UpvoteComment(commentId, userId));
-	}
+	// TODO: Move to the CommentService Tests
+	// [Theory(DisplayName = "Upvote Comment With Invalid inputs")]
+	// [InlineData(null, "1")]
+	// [InlineData("", "1")]
+	// [InlineData("1", "")]
+	// [InlineData("1", null)]
+	// public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_IndexOutOfRangeException_TestAsync(string commentId, string userId)
+	// {
+	// 	// Arrange
+	// 	
+	// 	_mockContext.Setup(c => c.GetCollection<Comment>(It.IsAny<string>())).Returns(_mockCollection.Object);
+	//
+	// 	_sut = new CommentRepository(_mockContext.Object);
+	//
+	// 	// Act
+	//
+	// 	// Assert
+	//
+	// 	await Assert.ThrowsAsync<InvalidOperationException>(() => _sut.UpvoteComment(commentId, userId));
+	// }
 
 	[Fact(DisplayName = "Upvote Comment With Valid Comment and User")]
 	public async Task UpvoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
@@ -335,7 +322,7 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUserWithNoVotedOn();
-		_users = new List<User>(){user};
+		_users = new List<User> {user};
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 		
@@ -366,7 +353,7 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUser();
-		_users = new List<User>(){user};
+		_users = new List<User> {user};
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 		

@@ -124,6 +124,22 @@ public static class TestIssues
 		return issue;
 	}
 
+	public static Issue GetNewIssue()
+	{
+		var issue = new Issue()
+		{
+			IssueName = "Test Issue 1",
+			Description = "A new test issue",
+			DateCreated = DateTime.UtcNow,
+			Archived = false,
+			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
+			IssueStatus = new Status(),
+			OwnerNotes = "Notes for Issue 1",
+		};
+
+		return issue;
+	}
+
 	public static Issue GetIssue(
 		string id, 
 		string issueName, 
