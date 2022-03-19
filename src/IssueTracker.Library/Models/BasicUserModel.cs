@@ -9,9 +9,16 @@ public class BasicUserModel
 	public BasicUserModel()
 	{
 	}
+	
 	public BasicUserModel(User user)
 	{
 		Id = user.Id;
 		DisplayName = user.DisplayName;
+	}
+
+	public BasicUserModel(string id, string displayName) : this()
+	{
+		Id = id;
+		DisplayName = displayName;
 	}
 }

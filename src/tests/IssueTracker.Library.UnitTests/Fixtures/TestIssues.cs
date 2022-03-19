@@ -1,8 +1,5 @@
-﻿using IssueTrackerLibrary.Models;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace IssueTracker.Library.UnitTests.Fixtures;
 
@@ -93,13 +90,13 @@ public static class TestIssues
 		return issues;
 	}
 	
-	public static Issue GetIssue()
+	public static Issue GetUpdatedIssue()
 	{
 		var issue = new Issue()
 		{
-			Id = Guid.NewGuid().ToString(),
-			IssueName = "Test Issue 1",
-			Description = "A new test issue 1",
+			Id = "5dc1039a1521eaa36835e542",
+			IssueName = "Updated Test Issue 1",
+			Description = "Updated A new test issue 1",
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
@@ -117,6 +114,22 @@ public static class TestIssues
 			Id = "5dc1039a1521eaa36835e542",
 			IssueName = "Test Issue 1",
 			Description = "A new test issue 1",
+			DateCreated = DateTime.UtcNow,
+			Archived = false,
+			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
+			IssueStatus = new Status(),
+			OwnerNotes = "Notes for Issue 1",
+		};
+
+		return issue;
+	}
+
+	public static Issue GetNewIssue()
+	{
+		var issue = new Issue()
+		{
+			IssueName = "Test Issue 1",
+			Description = "A new test issue",
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },

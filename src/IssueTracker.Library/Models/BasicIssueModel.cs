@@ -8,9 +8,9 @@ public class BasicIssueModel
 
 	public BasicIssueModel()
 	{
-
+		
 	}
-
+	
 	public BasicIssueModel(Issue issue)
 	{
 		Id = issue.Id;

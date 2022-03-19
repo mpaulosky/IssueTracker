@@ -1,6 +1,10 @@
 ﻿namespace IssueTrackerLibrary.Contracts;
 
-public interface IIssueRepository : IBaseRepository<Issue>
+public interface IIssueRepository
 {
-	Task<List<Issue>> GetUsersIssues(string userId);
+	Task CreateIssue(Issue issue);
+	Task<Issue> GetIssue(string id);
+	Task<IEnumerable<Issue>> GetIssues();
+	Task<IEnumerable<Issue>> GetUsersIssues(string userId);
+	Task UpdateIssue(string id, Issue issue);
 }

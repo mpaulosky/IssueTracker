@@ -1,0 +1,10 @@
+﻿global using FluentAssertions;
+global using IssueTracker.Library.UnitTests.Fixtures;
+global using IssueTrackerLibrary.Contracts;
+global using IssueTrackerLibrary.DataAccess;
+global using IssueTrackerLibrary.Helpers;
+global using IssueTrackerLibrary.Models;
+global using Moq;
+global using Xunit;
+global using Microsoft.Extensions.Options;
+global using System.Diagnostics.CodeAnalysis;

@@ -12,10 +12,9 @@ public static class RegisterServices
 {
 	public static void ConfigureServices(this WebApplicationBuilder builder)
 	{
-
 		// Add services to the container.
-		
-		builder.Services.Configure<IssueTrackerDatabaseSettings>(
+
+		builder.Services.Configure<DatabaseSettings>(
 			builder.Configuration.GetSection("MongoDbSettings"));
 
 		builder.Services.AddRazorPages();
@@ -39,11 +38,14 @@ public static class RegisterServices
 			});
 		});
 
-		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
-		builder.Services.AddSingleton<ICommentService, MongoCommentService>();
-		builder.Services.AddSingleton<IStatusService, MongoStatusService>();
-		builder.Services.AddSingleton<IIssueService, MongoIssueService>();
-		builder.Services.AddSingleton<IUserService, MongoUserService>();
-
+		builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
+		builder.Services.AddSingleton<ICommentService, CommentService>();
+		builder.Services.AddSingleton<IStatusService, StatusService>();
+		builder.Services.AddSingleton<IIssueService, IssueService>();
+		builder.Services.AddSingleton<IUserService, UserService>();
+		builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
+		builder.Services.AddSingleton<IStatusRepository, StatusRepository>();
+		builder.Services.AddSingleton<IIssueRepository, IssueRepository>();
+		builder.Services.AddSingleton<IUserRepository, UserRepository>();
 	}
 }

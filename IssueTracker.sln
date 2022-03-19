@@ -12,6 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		CODE_METRICS.md = CODE_METRICS.md
 		codecov.yml = codecov.yml
 		runsettings.xml = runsettings.xml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		REFERENCES.md = REFERENCES.md
+		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"

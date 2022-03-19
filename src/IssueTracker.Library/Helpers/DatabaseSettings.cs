@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackerLibrary.Helpers;
 
-public class IssueTrackerDatabaseSettings
+public class DatabaseSettings : IDatabaseSettings
 {
 	public string ConnectionString { get; set; } = null!;
 
