@@ -1,12 +1,22 @@
 ﻿namespace IssueTrackerLibrary.Services;
 
-public class MongoUserService : IUserService
+public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
-	public MongoUserService(IUserRepository repository)
+	public UserService(IUserRepository repository)
 	{
 		_repo = repository;
+	}
+
+	public Task CreateUser(User user)
+	{
+		if (user == null)
+		{
+			throw new ArgumentNullException(nameof(user));
+		}
+
+		return _repo.CreateUser(user);
 	}
 
 	public async Task<User> GetUser(string id)
@@ -16,13 +26,15 @@ public class MongoUserService : IUserService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var results = await _repo.Get(id);
+		var results = await _repo.GetUser(id);
+
 		return results;
 	}
 
 	public async Task<List<User>> GetUsers()
 	{
-		var results = await _repo.Get();
+		var results = await _repo.GetUsers();
+
 		return results.ToList();
 	}
 
@@ -34,18 +46,10 @@ public class MongoUserService : IUserService
 		}
 
 		var results = await _repo.GetUserFromAuthentication(objectId);
+
 		return results;
 	}
 
-	public Task CreateUser(User user)
-	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
-
-		return _repo.Create(user);
-	}
 
 	public Task UpdateUser(User user)
 	{
@@ -54,6 +58,6 @@ public class MongoUserService : IUserService
 			throw new ArgumentNullException(nameof(user));
 		}
 
-		return _repo.Update(user.Id, user);
+		return _repo.UpdateUser(user.Id, user);
 	}
 }

@@ -2,9 +2,8 @@
 
 public interface IMongoDbContext
 {
+	IMongoDatabase Database { get; }
+	IMongoClient Client { get; }
 	string DbName { get; }
-	
-	MongoClient Client { get; }
-	
 	IMongoCollection<T> GetCollection<T>(string name);
 }

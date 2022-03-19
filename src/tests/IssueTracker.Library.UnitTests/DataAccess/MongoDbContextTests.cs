@@ -1,29 +1,17 @@
-﻿using FluentAssertions;
-
-using IssueTracker.Library.UnitTests.Fixtures;
-
-using IssueTrackerLibrary.DataAccess;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Models;
-
-using Microsoft.Extensions.Options;
-
+﻿
 using NSubstitute;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-
-using Xunit;
 
 using static IssueTrackerLibrary.Helpers.CollectionNames;
 
-namespace IssueTracker.Library.UnitTests.MongoDbContextTests;
+namespace IssueTracker.Library.UnitTests.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
 {
-	private readonly IOptions<IssueTrackerDatabaseSettings> _options;
-	
+	private readonly IOptions<DatabaseSettings> _options;
+
 	public MongoDbContextTests()
 	{
 		_options = TestFixtures.Settings();
@@ -35,9 +23,9 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
-		
+
 		// Assert
 
 		context.Should().NotBeNull();
@@ -51,11 +39,11 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
 
 		// Assert
-		
+
 		Assert.Throws<ArgumentException>(() => context.GetCollection<User>(""));
 	}
 
@@ -65,12 +53,12 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		
+
 		var context = Substitute.For<MongoDbContext>(_options);
 		var myCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
-		
+
 		// Assert
-		
+
 		myCollection.Should().NotBeNull();
 		myCollection.CollectionNamespace.CollectionName.Should().BeSameAs("users");
 	}

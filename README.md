@@ -25,11 +25,11 @@
 ****
 ## How to Engage, Contribute, and Give Feedback
 
-Review the [Code Of Conduct](./documents/CODE_OF_CONDUCT.md).
+Review the [Code Of Conduct](./CODE_OF_CONDUCT.md).
 
 Some of the best ways to contribute are to try things out, file issues, and make pull-requests.
 
-Check out the [contributing page](./documents/CONTRIBUTING.md) to see the best places to log issues and start discussions.
+Check out the [contributing page](./CONTRIBUTING.md) to see the best places to log issues and start discussions.
 
 ****
 ## Software References
@@ -46,4 +46,4 @@ Check out the [contributing page](./documents/CONTRIBUTING.md) to see the best p
 
 ## Code of conduct
 
-See the [CODE-OF-CONDUCT](./documents/CODE_OF_CONDUCT.md) document.
+See the [CODE-OF-CONDUCT](./CODE_OF_CONDUCT.md) document.

@@ -2,6 +2,11 @@
 
 public interface IStatusService
 {
-	Task<List<Status>> GetAllStatuses();
 	Task CreateStatus(Status status);
+	
+	Task<Status> GetStatus(string id);
+	
+	Task<List<Status>> GetStatuses();
+	
+	Task UpdateStatus(Status status);
 }
