@@ -111,4 +111,39 @@ public static class TestUsers
 
 		return expected;
 	}
+
+	public static User GetNewUser()
+	{
+		var user = new User()
+		{
+			ObjectIdentifier = "5dc1039a1521eaa36835e542",
+			FirstName = "Jim",
+			LastName = "Test",
+			DisplayName = "jimtest",
+			EmailAddress = "jim.test@test.com",
+			AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
+			VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())},
+			AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())}
+		};
+
+		return user;
+	}
+
+	public static User GetUpdatedUser()
+	{
+		var user = new User()
+		{
+			Id = "5dc1039a1521eaa36835e545",
+			ObjectIdentifier = "5dc1039a1521eaa36835e542",
+			FirstName = "Jim",
+			LastName = "Test",
+			DisplayName = "jimtestUpdate",
+			EmailAddress = "jim.test@test.com",
+			AuthoredIssues = new List<BasicIssueModel>(){new BasicIssueModel(TestIssues.GetKnownIssue())},
+			VotedOnComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())},
+			AuthoredComments = new List<BasicCommentModel>(){new BasicCommentModel(TestComments.GetKnownComment())}
+		};
+
+		return user;
+	}
 }

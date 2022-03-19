@@ -31,4 +31,18 @@ public static class TestStatuses
 		
 		return statuses;
 	}
+
+	public static Status GetNewStatus()
+	{
+		var status = new Status() { StatusDescription = "New Status", StatusName = "New", };
+		
+		return status;
+	}
+
+	public static Status GetUpdatedStatus()
+	{
+		var status = new Status() { Id = "5dc1039a1521eaa36835e541", StatusDescription = "Updated New Status", StatusName = "New", };
+		
+		return status;
+	}
 }
