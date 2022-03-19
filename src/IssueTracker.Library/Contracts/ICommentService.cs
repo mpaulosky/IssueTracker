@@ -2,7 +2,7 @@
 
 public interface ICommentService
 {
-	Task Create(Comment comment);
+	Task CreateComment(Comment comment);
 	
 	Task<Comment> GetComment(string id);
 	
