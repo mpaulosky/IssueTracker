@@ -4,7 +4,7 @@ public interface IIssueRepository
 {
 	Task CreateIssue(Issue issue);
 	Task<Issue> GetIssue(string id);
-	Task<List<Issue>> GetIssues();
-	Task<List<Issue>> GetUsersIssues(string userId);
+	Task<IEnumerable<Issue>> GetIssues();
+	Task<IEnumerable<Issue>> GetUsersIssues(string userId);
 	Task UpdateIssue(string id, Issue issue);
 }

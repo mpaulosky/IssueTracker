@@ -2,13 +2,13 @@
 
 public interface ICommentRepository
 {
-	public Task<Comment> GetComment(string id);
+	Task<Comment> GetComment(string id);
 	
-	public Task<IEnumerable<Comment>> GetComments();
+	Task<IEnumerable<Comment>> GetComments();
 	
-	public Task UpdateComment(string id, Comment obj);
+	Task UpdateComment(string id, Comment obj);
 	
-	Task<List<Comment>> GetUsersComments(string userId);
+	Task<IEnumerable<Comment>> GetUsersComments(string userId);
 	
 	Task CreateComment(Comment comment);
 	

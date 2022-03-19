@@ -69,13 +69,13 @@ public class CommentRepository : ICommentRepository
 		await _collection.ReplaceOneAsync(Builders<Comment>.Filter.Eq("_id", objectId), comment);
 	}
 
-	public async Task<List<Comment>> GetUsersComments(string userId)
+	public async Task<IEnumerable<Comment>> GetUsersComments(string userId)
 	{
 		var objectId = new ObjectId(userId);
 
 		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
 		
-		return results.ToList();
+		return await results.ToListAsync();
 	}
 
 	public async Task UpvoteComment(string commentId, string userId)

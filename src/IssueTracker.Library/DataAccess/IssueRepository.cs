@@ -55,20 +55,20 @@ public class IssueRepository : IIssueRepository
 		return result.FirstOrDefault();
 	}
 
-	public async Task<List<Issue>> GetIssues()
+	public async Task<IEnumerable<Issue>> GetIssues()
 	{
 		var all = await _collection.FindAsync(Builders<Issue>.Filter.Empty);
 
 		return await all.ToListAsync();
 	}
 
-	public async Task<List<Issue>> GetUsersIssues(string userId)
+	public async Task<IEnumerable<Issue>> GetUsersIssues(string userId)
 	{
 		var objectId = new ObjectId(userId);
 
 		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
 
-		return results.ToList();
+		return await results.ToListAsync();
 	}
 
 	public async Task UpdateIssue(string id, Issue issue)
