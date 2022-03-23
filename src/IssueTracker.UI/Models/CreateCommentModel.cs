@@ -2,12 +2,12 @@
 
 namespace IssueTrackerUI.Models;
 
-public class CreateIssueModel
+public class CreateCommentModel
 {
 	[Required]
-	[MaxLength(75)]
-	public string Issue { get; set; }
-
+	[MaxLength(100)]
+	public string Comment { get; set; }
+	
 	[Required]
 	[MaxLength(500)]
 	public string Description { get; set; }
