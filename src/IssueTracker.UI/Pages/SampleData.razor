@@ -1,6 +1,27 @@
 ﻿@page "/SampleData"
-<h3>SampleData</h3>
+@inject IIssueService _issueService
+@inject ICommentService _commentService
+@inject IUserService _userService
+@inject IStatusService _statusService
 
-@code {
-	
+<h3>Sample Data</h3>
+
+@if (_commentsCreated)
+{
+	<h4>Comments have been created</h4>
 }
+else
+{
+	<button class="btn btn-primary" @onclick="CreateComments">Create Comments</button>
+}
+
+@if (_statusesCreated)
+{
+	<h4>Statuses have been created</h4>
+}
+else
+{
+	<button class="btn btn-primary" @onclick="CreateStatuses">Create Statuses</button>
+}
+
+<button class="btn btn-danger" @onclick="GenerateSampleData">Generate Sample Data</button>

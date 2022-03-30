@@ -1,5 +1,3 @@
-using IssueTracker.Library.Models;
-
 namespace IssueTracker.UI.Pages;
 
 public partial class SampleData
