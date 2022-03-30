@@ -1,9 +1,4 @@
-﻿using IssueTrackerLibrary.Services;
-
-using System;
-using System.Threading.Tasks;
-
-namespace IssueTracker.Library.UnitTests.Services;
+﻿namespace IssueTracker.Library.UnitTests.Services;
 
 [ExcludeFromCodeCoverage]
 public class UserServiceTests

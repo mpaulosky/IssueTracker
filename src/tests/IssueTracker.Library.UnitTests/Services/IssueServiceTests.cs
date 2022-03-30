@@ -1,14 +1,4 @@
-﻿using IssueTrackerLibrary.Services;
-
-using Microsoft.Extensions.Caching.Memory;
-
-using Xunit;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace IssueTracker.Library.UnitTests.Services;
 
