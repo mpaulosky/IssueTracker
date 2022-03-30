@@ -1,6 +1,9 @@
-﻿using static IssueTrackerLibrary.Helpers.CollectionNames;
+﻿using IssueTracker.Library.Contracts;
+using IssueTracker.Library.Models;
 
-namespace IssueTrackerLibrary.DataAccess;
+using static IssueTracker.Library.Helpers.CollectionNames;
+
+namespace IssueTracker.Library.DataAccess;
 
 public class UserRepository : IUserRepository
 {

@@ -1,6 +1,6 @@
-﻿using static IssueTrackerLibrary.Helpers.CollectionNames;
+﻿using static IssueTracker.Library.Helpers.CollectionNames;
 
-namespace IssueTrackerLibrary.DataAccess;
+namespace IssueTracker.Library.DataAccess;
 
 public class CommentRepository : ICommentRepository
 {
