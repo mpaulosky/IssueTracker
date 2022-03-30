@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using IssueTracker.Library.Contracts;
+using IssueTracker.Library.Helpers;
 
-namespace IssueTrackerLibrary.DataAccess;
+using Microsoft.Extensions.Options;
+
+namespace IssueTracker.Library.DataAccess;
 
 public class MongoDbContext : IMongoDbContext
 {

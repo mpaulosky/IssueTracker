@@ -1,4 +1,4 @@
-﻿namespace IssueTrackerLibrary.Models;
+﻿namespace IssueTracker.Library.Models;
 
 public class BasicUserModel
 {

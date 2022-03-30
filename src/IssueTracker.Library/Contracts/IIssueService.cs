@@ -1,4 +1,4 @@
-﻿namespace IssueTrackerLibrary.Contracts;
+﻿namespace IssueTracker.Library.Contracts;
 
 public interface IIssueService
 {

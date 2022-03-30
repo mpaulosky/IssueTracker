@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using IssueTracker.Library.Contracts;
+using IssueTracker.Library.Models;
 
-namespace IssueTrackerLibrary.Services;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace IssueTracker.Library.Services;
 
 public class CommentService : ICommentService
 {
