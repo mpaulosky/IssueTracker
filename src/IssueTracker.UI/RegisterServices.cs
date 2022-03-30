@@ -1,12 +1,8 @@
-﻿using IssueTrackerLibrary.Contracts;
-using IssueTrackerLibrary.Helpers;
-using IssueTrackerLibrary.Services;
-
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
-namespace IssueTrackerUI;
+namespace IssueTracker.UI;
 
 public static class RegisterServices
 {
@@ -38,7 +34,7 @@ public static class RegisterServices
 			});
 		});
 
-		builder.Services.AddScoped<IMongoDbContext, MongoDbContext>();
+		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();
 		builder.Services.AddSingleton<IIssueService, IssueService>();

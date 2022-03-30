@@ -1,9 +1,6 @@
-﻿
-using NSubstitute;
+﻿using NSubstitute;
 
-using System;
-
-using static IssueTrackerLibrary.Helpers.CollectionNames;
+using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.UnitTests.DataAccess;
 

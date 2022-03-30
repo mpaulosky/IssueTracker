@@ -1,15 +1,5 @@
 ﻿using MongoDB.Driver;
 
-using Moq;
-using Moq.Language.Flow;
-
-using NSubstitute;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace IssueTracker.Library.UnitTests.Fixtures;
 
 [ExcludeFromCodeCoverage]

@@ -1,4 +1,4 @@
-﻿namespace IssueTrackerLibrary.Helpers;
+﻿namespace IssueTracker.Library.Helpers;
 
 public class DatabaseSettings : IDatabaseSettings
 {

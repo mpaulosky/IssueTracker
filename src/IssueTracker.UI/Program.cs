@@ -1,4 +1,4 @@
-using IssueTrackerUI;
+using IssueTracker.UI;
 
 using Microsoft.AspNetCore.Rewrite;
 

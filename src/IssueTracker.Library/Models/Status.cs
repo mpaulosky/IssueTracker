@@ -1,4 +1,4 @@
-﻿namespace IssueTrackerLibrary.Models;
+﻿namespace IssueTracker.Library.Models;
 
 [Serializable]
 public class Status
