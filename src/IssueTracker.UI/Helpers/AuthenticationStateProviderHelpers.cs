@@ -1,8 +1,6 @@
-﻿using IssueTrackerLibrary.Contracts;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 
-using Microsoft.AspNetCore.Components.Authorization;
-
-namespace IssueTrackerUI.Helpers;
+namespace IssueTracker.UI.Helpers;
 
 public static class AuthenticationStateProviderHelpers
 {
@@ -11,7 +9,7 @@ public static class AuthenticationStateProviderHelpers
 		IUserService userData)
 	{
 		var authState = await provider.GetAuthenticationStateAsync();
-		string objectId = authState.User.Claims
+		string? objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		return await userData.GetUserFromAuthentication(objectId);
 	}
