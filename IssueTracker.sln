@@ -8,37 +8,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		README.md = README.md
-		CODE_METRICS.md = CODE_METRICS.md
 		codecov.yml = codecov.yml
-		runsettings.xml = runsettings.xml
+		CODE_METRICS.md = CODE_METRICS.md
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE = LICENSE
+		README.md = README.md
 		REFERENCES.md = REFERENCES.md
+		runsettings.xml = runsettings.xml
 		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Library.UnitTests", "src\tests\IssueTracker.Library.UnitTests\IssueTracker.Library.UnitTests.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.UnitTests", "src\tests\IssueTracker.Library.UnitTests\IssueTracker.Library.UnitTests.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{433C6767-848A-4EAD-8DA4-F4FBA978A6FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UI.UnitTests", "src\tests\IssueTracker.UI.UnitTests\IssueTracker.UI.UnitTests.csproj", "{75D73FE5-7166-4386-A247-4F73B9BCFDBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A9FA12D9-95E2-48B0-80B8-5454EF697A8E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -53,11 +49,22 @@ Global
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D73FE5-7166-4386-A247-4F73B9BCFDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D73FE5-7166-4386-A247-4F73B9BCFDBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D73FE5-7166-4386-A247-4F73B9BCFDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D73FE5-7166-4386-A247-4F73B9BCFDBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{433C6767-848A-4EAD-8DA4-F4FBA978A6FB} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
 		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
 		{A8CE7670-B6FF-4798-9B38-8EF702DDBC00} = {433C6767-848A-4EAD-8DA4-F4FBA978A6FB}
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
+		{433C6767-848A-4EAD-8DA4-F4FBA978A6FB} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
+		{75D73FE5-7166-4386-A247-4F73B9BCFDBE} = {433C6767-848A-4EAD-8DA4-F4FBA978A6FB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9FA12D9-95E2-48B0-80B8-5454EF697A8E}
 	EndGlobalSection
 EndGlobal
