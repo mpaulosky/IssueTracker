@@ -91,36 +91,6 @@ public class IssueRepositoryTests
 		result.Description.Length.Should().BeGreaterThan(1);
 	}
 
-	// TODO: Move to IssueService Tests
-	// [Fact(DisplayName = "Get Issue With Empty String Id")]
-	// public async Task GetIssue_With_Empty_String_Id_Should_Return_An_IndexOutOfRangeException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_sut = new IssueRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetIssue(""));
-	// }
-
-	// TODO: Move to IssueService Tests
-	// [Fact(DisplayName = "Get Issue With Null Id")]
-	// public async Task GetIssue_With_Null_Id_Should_Return_A_ArgumentNullException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_sut = new IssueRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssue(null));
-	// }
-
 	[Fact(DisplayName = "Get Issues")]
 	public async Task GetIssues_With_Valid_Context_Should_Return_A_List_Of_Issues_Test()
 	{

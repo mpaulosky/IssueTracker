@@ -55,40 +55,6 @@ public class StatusRepositoryTests
 		result.StatusName.Length.Should().BeGreaterThan(1);
 	}
 
-	// TODO: Move to the StatusService Tests
-	// [Fact(DisplayName = "Get Status With Empty String Id")]
-	// public async Task GetStatus_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
-	//
-	// 	_sut = new StatusRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetStatus(""));
-	// }
-
-	// TODO: Move to the StatusService Tests
-	// [Fact(DisplayName = "Get Status With Null Id")]
-	// public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
-	//
-	// 	_sut = new StatusRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null));
-	// }
-
 	[Fact(DisplayName = "Get Statuses")]
 	public async Task GetStatuses_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
 	{

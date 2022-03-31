@@ -80,35 +80,6 @@ public class UserRepositoryTests
 		result.FirstName.Length.Should().BeGreaterThan(1);
 		result.EmailAddress.Length.Should().BeGreaterThan(1);
 	}
-	// TODO: Move to UserService Tests
-	// [Fact(DisplayName = "Get User With Empty String Id")]
-	// public async Task Get_With_Empty_String_Id_Should_Return_A_IndexOutOfRangeException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_sut = new UserRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<IndexOutOfRangeException>(() => _sut.GetUser(""));
-	// }
-
-	// TODO: Move to UserService Tests
-	// [Fact(DisplayName = "Get User With null Id")]
-	// public async Task Get_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	// {
-	// 	// Arrange
-	//
-	// 	_sut = new UserRepository(_mockContext.Object);
-	//
-	// 	// Act
-	//
-	// 	// Assert
-	//
-	// 	await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUser(null));
-	// }
 
 	[Fact(DisplayName = "GetUser From Authentication")]
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
@@ -179,7 +150,6 @@ public class UserRepositoryTests
 		items[0].AuthoredComments[0].Id.Length.Should().BeGreaterThan(1);
 		items[0].AuthoredComments[0].Comment.Length.Should().BeGreaterThan(1);
 	}
-
 
 	[Fact(DisplayName = "Update User with a valid Id and User")]
 	public async Task UpdateUser_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
