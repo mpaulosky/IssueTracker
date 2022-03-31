@@ -15,5 +15,9 @@
     <ItemGroup>
       <ProjectReference Include="..\IssueTracker.Library\IssueTracker.Library.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <Folder Include="wwwroot\images\" />
+    </ItemGroup>
 
 </Project>
