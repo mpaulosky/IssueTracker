@@ -1,0 +1,92 @@
+﻿@page "/Profile"
+
+@attribute [Authorize]
+@inject AuthenticationStateProvider authProvider
+@inject IIssueService issueService
+@inject IUserService userService
+@inject NavigationManager navManager
+
+<h1>My Profile</h1>
+
+<div>
+	<div>
+		<button @onclick="ClosePage"></button>
+	</div>
+</div>
+
+<div>
+	<h2>My Account</h2>
+	<p>
+		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
+	</p>
+</div>
+
+@if (issues?.Count > 0)
+{
+	<div>
+		<h2>Issues</h2>
+		<p>These are your issues that are currently active.</p>
+		<hr />
+		@foreach (var s in issues)
+		{
+			<hr />
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div>@s.IssueStatus.StatusName</div>
+				<p>@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@if (archived?.Count > 0)
+{
+	<div>
+		<h2>Archived Issues</h2>
+		<p>These are your issues that were active but did not gain enough traction.</p>
+		<hr />
+		@foreach (var s in archived)
+		{
+			<hr />
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div>@s.IssueStatus.StatusName</div>
+				<p>@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@code {
+	private User loggedInUser;
+	private List<Issue> issues;
+	private List<Issue> archived;
+
+	protected override async Task OnInitializedAsync()
+	{
+		loggedInUser = await authProvider.GetUserFromAuth(userService);
+
+		var results = await issueService.GetUsersIssues(loggedInUser.Id);
+
+		if (loggedInUser is not null && results is not null)
+		{
+			issues = results.OrderByDescending(s => s.DateCreated).ToList();
+			archived = issues.Where(s => s.Archived).ToList();
+		}
+	}
+
+	private void ClosePage()
+	{
+		navManager.NavigateTo("/");
+	}
+}
