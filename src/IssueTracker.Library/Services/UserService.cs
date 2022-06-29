@@ -1,7 +1,4 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.Models;
-
-namespace IssueTracker.Library.Services;
+﻿namespace IssueTracker.Library.Services;
 
 public class UserService : IUserService
 {

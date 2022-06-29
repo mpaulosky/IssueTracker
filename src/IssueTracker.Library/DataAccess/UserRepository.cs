@@ -1,7 +1,4 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.Models;
-
-using static IssueTracker.Library.Helpers.CollectionNames;
+﻿using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 

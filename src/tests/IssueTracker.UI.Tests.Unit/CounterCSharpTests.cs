@@ -1,4 +1,4 @@
-namespace IssueTracker.UI.UnitTests;
+namespace IssueTracker.UI.Tests.Unit;
 
 /// <summary>
 /// These tests are written entirely in C#.

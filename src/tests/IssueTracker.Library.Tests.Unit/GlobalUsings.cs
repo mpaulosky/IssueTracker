@@ -1,5 +1,5 @@
 ﻿global using FluentAssertions;
-global using IssueTracker.Library.UnitTests.Fixtures;
+global using IssueTracker.Library.Tests.Unit.Fixtures;
 global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.DataAccess;
 global using IssueTracker.Library.Helpers;

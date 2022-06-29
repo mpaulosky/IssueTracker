@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace IssueTracker.Library.UnitTests.Fixtures;
+namespace IssueTracker.Library.Tests.Unit.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestFixtures

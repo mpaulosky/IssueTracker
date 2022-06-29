@@ -2,7 +2,7 @@
 
 using static IssueTracker.Library.Helpers.CollectionNames;
 
-namespace IssueTracker.Library.UnitTests.DataAccess;
+namespace IssueTracker.Library.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests

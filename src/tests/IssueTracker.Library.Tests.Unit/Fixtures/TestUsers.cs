@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.UnitTests.Fixtures;
+﻿namespace IssueTracker.Library.Tests.Unit.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestUsers

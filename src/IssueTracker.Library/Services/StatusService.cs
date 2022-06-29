@@ -1,7 +1,4 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.Models;
-
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace IssueTracker.Library.Services;
 
