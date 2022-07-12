@@ -5,14 +5,14 @@ public static class TestComments
 {
 	public static CommentModel GetKnownComment()
 	{
-		var comment = new CommentModel()
+		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			CommentName = "Test Comment",
 			Archived = false,
-			Author = new BasicUserModel(id: "5dc1039a1521eaa36835e541", displayName: "Test User"),
+			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new HashSet<string>() { "5dc1039a1521eaa36835e545" },
+			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
 			Status = new StatusModel()
 		};
 
@@ -21,14 +21,14 @@ public static class TestComments
 
 	public static CommentModel GetUpdatedComment()
 	{
-		var comment = new CommentModel()
+		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			CommentName = "Update Test Comment",
 			Archived = false,
-			Author = new BasicUserModel(id: "5dc1039a1521eaa36835e541", displayName: "Test User"),
+			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new HashSet<string>() { "5dc1039a1521eaa36835e545" },
+			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
 			Status = new StatusModel()
 		};
 
@@ -113,19 +113,19 @@ public static class TestComments
 
 	public static CommentModel GetComment(string id, string commentName, bool archived)
 	{
-		var comment = new CommentModel() { Id = id, CommentName = commentName, Archived = archived, };
+		var comment = new CommentModel { Id = id, CommentName = commentName, Archived = archived };
 
 		return comment;
 	}
 
 	public static CommentModel GetNewComment()
 	{
-		var comment = new CommentModel()
+		var comment = new CommentModel
 		{
 			CommentName = "Test Comment",
 			Archived = false,
-			Author = new BasicUserModel(id: "5dc1039a1521eaa36835e541", displayName: "Test User"),
-			DateCreated = DateTime.UtcNow,
+			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
+			DateCreated = DateTime.UtcNow
 		};
 
 		return comment;

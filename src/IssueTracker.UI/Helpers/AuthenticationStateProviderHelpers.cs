@@ -8,7 +8,7 @@ public static class AuthenticationStateProviderHelpers
 	{
 		var authState = await provider.GetAuthenticationStateAsync();
 
-		var objectId = authState.User.Claims
+		string objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 
 		return await userService.GetUserFromAuthentication(objectId);

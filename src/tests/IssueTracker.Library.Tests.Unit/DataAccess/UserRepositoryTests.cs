@@ -5,11 +5,11 @@ namespace IssueTracker.Library.Tests.Unit.DataAccess;
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
-	private UserRepository _sut;
+	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
-	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
 	private List<UserModel> _list = new();
+	private UserRepository _sut;
 
 	public UserRepositoryTests()
 	{

@@ -1,0 +1,69 @@
+﻿@page "/Create"
+@using IssueTracker.UI.Models
+
+@attribute [Authorize]
+
+@inject AuthenticationStateProvider AuthProvider
+@inject IIssueService IssueService
+@inject IUserService UserService
+@inject NavigationManager NavManager
+
+<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
+
+<div class="row justify-content-center create-form">
+	<div class="col-xl-8 col-lg-10 form-layout">
+		<div class="close-button-section">
+			<button class="btn btn-close" @onclick="ClosePage"></button>
+		</div>
+		<div class="input-section">
+			<EditForm Model="newIssue" OnValidSubmit="CreateNewIssue">
+				<DataAnnotationsValidator/>
+				<ValidationSummary/>
+				<div class="input-section">
+					<label for="issue-text" class="form-label fw-bold text-uppercase">Issue Title</label>
+					<div class="input-description">Add a brief title for the Issue you are reporting.</div>
+					<InputText id="issue-text" class="form-control valid" @bind-Value="newIssue.Issue"/>
+				</div>
+				<div class="input-section">
+					<label for="description" class="form-label fw-bold text-uppercase">Description</label>
+					<div class="input-description">Describe in detail the issue and it's results.</div>
+					<InputTextArea id="description" class="form-control valid" @bind-Value="newIssue.Description"/>
+				</div>
+				<div class="center-children">
+					<button class="btn btn-main btn-lg text-uppercase" type="submit">Submit Issue</button>
+				</div>
+			</EditForm>
+		</div>
+	</div>
+</div>
+
+@code {
+	private CreateIssueModel newIssue = new();
+	private UserModel _loggedInUser;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+	}
+
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
+	}
+
+	private async Task CreateNewIssue()
+	{
+		IssueModel s = new()
+		{
+			IssueName = newIssue.Issue,
+			Description = newIssue.Description,
+			Author = new BasicUserModel(_loggedInUser)
+		};
+
+
+		await IssueService.CreateIssue(s);
+		newIssue = new CreateIssueModel();
+		ClosePage();
+	}
+
+}

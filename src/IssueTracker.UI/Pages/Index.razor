@@ -1,10 +1,10 @@
 @page "/"
-@inject AuthenticationStateProvider authProvider
-@inject IUserService userService
-@inject IIssueService issueService
-@inject IStatusService statusService
-@inject NavigationManager navManager
-@inject ProtectedSessionStorage sessionStorage
+@inject AuthenticationStateProvider AuthProvider
+@inject IUserService UserService
+@inject IIssueService IssueService
+@inject IStatusService StatusService
+@inject NavigationManager NavManager
+@inject ProtectedSessionStorage SessionStorage
 
 
 <PageTitle>Index</PageTitle>
@@ -16,30 +16,30 @@
 </div>
 
 <div class="row">
-	<div class="issues-count col-md-4 text-light mt-2">@issues?.Count Issues</div>
+	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
-		<button class="btn btn-order @SortedByNewClass(true)" @onclick="(() => OrderByNew(true))">New</button>
-		<button class="btn btn-order @SortedByNewClass(false)" @onclick="(() => OrderByNew(false))">Popular</button>
+		<button class="btn btn-order @SortedByNewClass(true)" @onclick="() => OrderByNew(true)">New</button>
+		<button class="btn btn-order @SortedByNewClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search"
-					 aria-label="Search box" class="form-control rounded-control"
-					 @oninput="((txt) => OnSearchInput((string)txt.Value))" />
+					aria-label="Search box" class="form-control rounded-control"
+					@oninput="txt => OnSearchInput((string)txt.Value)"/>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-8 col-xl-9">
-		@if (issues is not null)
+		@if (_issues is not null)
 		{
-			@foreach (var s in issues)
+			@foreach (var s in _issues)
 			{
 				<div class="issue-entry">
-						<div class="issue-entry-text">
-						<div class="issue-entry-text-title" @onclick="(() => OpenDetails(s))">
+					<div class="issue-entry-text">
+						<div class="issue-entry-text-title" @onclick="() => OpenDetails(s)">
 							@s.Description
 						</div>
-						</div>
+					</div>
 					<div class="issue-entry-status @GetIssueStatusClass(s)">
 						<div class="issue-entry-status-text">
 							@s.IssueStatus?.StatusName
@@ -52,88 +52,88 @@
 </div>
 
 @code {
-	private UserModel loggedInUser = new();
-	private List<IssueModel> issues;
-	private List<StatusModel> statuses;
+	private UserModel _loggedInUser = new();
+	private List<IssueModel> _issues;
+	private List<StatusModel> _statuses;
 
-	private string selectedStatus = "All";
-	private string searchText = "";
-	bool isSortedByNew = true;
+	private string _selectedStatus = "All";
+	private string _searchText = "";
+	bool _isSortedByNew = true;
 
-	protected async override Task OnInitializedAsync()
+	protected override async Task OnInitializedAsync()
 	{
-		issues = await issueService.GetIssues();
-		statuses = await statusService.GetStatuses();
+		_issues = await IssueService.GetIssues();
+		_statuses = await StatusService.GetStatuses();
 		await LoadAndVerifyUser();
 	}
 
 	private void LoadCreatePage()
 	{
-		if (loggedInUser is not null)
+		if (_loggedInUser is not null)
 		{
-			navManager.NavigateTo("/Create");
+			NavManager.NavigateTo("/Create");
 		}
 		else
 		{
-			navManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
+			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
 		}
 	}
 
 	private async Task LoadAndVerifyUser()
 	{
-		var authState = await authProvider.GetAuthenticationStateAsync();
-		string objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
+		var authState = await AuthProvider.GetAuthenticationStateAsync();
+		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 
 		if (string.IsNullOrWhiteSpace(objectId) == false)
 		{
-			loggedInUser = await userService.GetUserFromAuthentication(objectId) ?? new();
+			_loggedInUser = await UserService.GetUserFromAuthentication(objectId) ?? new UserModel();
 
-			string firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
-			string lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
-			string displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
-			string email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
+			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
+			var lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
+			var displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
+			var email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
-			bool isDirty = false;
-			if (objectId.Equals(loggedInUser.ObjectIdentifier) == false)
+			var isDirty = false;
+			if (objectId.Equals(_loggedInUser.ObjectIdentifier) == false)
 			{
 				isDirty = true;
-				loggedInUser.ObjectIdentifier = objectId;
+				_loggedInUser.ObjectIdentifier = objectId;
 			}
-			if (firstName.Equals(loggedInUser.FirstName) == false)
+			if (firstName.Equals(_loggedInUser.FirstName) == false)
 			{
 				isDirty = true;
-				loggedInUser.FirstName = firstName;
+				_loggedInUser.FirstName = firstName;
 			}
-			if (lastName.Equals(loggedInUser.LastName) == false)
+			if (lastName.Equals(_loggedInUser.LastName) == false)
 			{
 				isDirty = true;
-				loggedInUser.LastName = lastName;
+				_loggedInUser.LastName = lastName;
 			}
-			if (displayName.Equals(loggedInUser.DisplayName) == false)
+			if (displayName.Equals(_loggedInUser.DisplayName) == false)
 			{
 				isDirty = true;
-				loggedInUser.DisplayName = displayName;
+				_loggedInUser.DisplayName = displayName;
 			}
-			if (email.Equals(loggedInUser.EmailAddress) == false)
+			if (email.Equals(_loggedInUser.EmailAddress) == false)
 			{
 				isDirty = true;
-				loggedInUser.EmailAddress = email;
+				_loggedInUser.EmailAddress = email;
 			}
 			if (isDirty)
 			{
-				if (string.IsNullOrWhiteSpace(loggedInUser.Id))
+				if (string.IsNullOrWhiteSpace(_loggedInUser.Id))
 				{
-					await userService.CreateUser(loggedInUser);
+					await UserService.CreateUser(_loggedInUser);
 				}
 				else
 				{
-					await userService.UpdateUser(loggedInUser);
+					await UserService.UpdateUser(_loggedInUser);
 				}
 			}
 		}
 	}
 
-	protected async override Task OnAfterRenderAsync(bool firstRender)
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
@@ -145,73 +145,73 @@
 
 	private async Task LoadFilterState()
 	{
-		//var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedCategory));
-		//selectedCategory = stringResults.Success ? stringResults.Value : "All";
+	//var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedCategory));
+	//selectedCategory = stringResults.Success ? stringResults.Value : "All";
 
-		var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedStatus));
-		selectedStatus = stringResults.Success ? stringResults.Value : "All";
+		ProtectedBrowserStorageResult<string> stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedStatus));
+		_selectedStatus = stringResults.Success ? stringResults.Value : "All";
 
-		stringResults = await sessionStorage.GetAsync<string>(nameof(searchText));
-		searchText = stringResults.Success ? stringResults.Value : "";
+		stringResults = await SessionStorage.GetAsync<string>(nameof(_searchText));
+		_searchText = stringResults.Success ? stringResults.Value : "";
 
-		var boolResults = await sessionStorage.GetAsync<bool>(nameof(isSortedByNew));
-		isSortedByNew = boolResults.Success ? boolResults.Value : true;
+		ProtectedBrowserStorageResult<bool> boolResults = await SessionStorage.GetAsync<bool>(nameof(_isSortedByNew));
+		_isSortedByNew = boolResults.Success ? boolResults.Value : true;
 	}
 
 	private async Task SaveFilterState()
 	{
-		//await sessionStorage.SetAsync(nameof(selectedCategory), selectedCategory);
-		await sessionStorage.SetAsync(nameof(selectedStatus), selectedStatus);
-		await sessionStorage.SetAsync(nameof(searchText), searchText);
-		await sessionStorage.SetAsync(nameof(isSortedByNew), isSortedByNew);
+	//await sessionStorage.SetAsync(nameof(selectedCategory), selectedCategory);
+		await SessionStorage.SetAsync(nameof(_selectedStatus), _selectedStatus);
+		await SessionStorage.SetAsync(nameof(_searchText), _searchText);
+		await SessionStorage.SetAsync(nameof(_isSortedByNew), _isSortedByNew);
 	}
 
 	private async Task FilterSuggestions()
 	{
-		var output = await issueService.GetIssues();
+		List<IssueModel> output = await IssueService.GetIssues();
 
-		//if (selectedCategory != "All")
-		//{
-		//	output = output.Where(s => s.Category?.CategoryName == selectedCategory).ToList();
-		//}
+	//if (selectedCategory != "All")
+	//{
+	//	output = output.Where(s => s.Category?.CategoryName == selectedCategory).ToList();
+	//}
 
-		if (selectedStatus != "All")
+		if (_selectedStatus != "All")
 		{
-			output = output.Where(s => s.IssueStatus?.StatusName == selectedStatus).ToList();
+			output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
 		}
 
-		if (string.IsNullOrWhiteSpace(searchText) == false)
+		if (string.IsNullOrWhiteSpace(_searchText) == false)
 		{
 			output = output.Where(
-					s => s.IssueName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-					s.Description.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
-			).ToList();
+				s => s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
+						s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase)
+				).ToList();
 		}
 
-		if (isSortedByNew)
+		if (_isSortedByNew)
 		{
 			output = output.OrderByDescending(s => s.DateCreated).ToList();
 		}
-		//else
-		//{
-		//	output = output.OrderByDescending(s => s.UserVotes.Count)
-		//									.ThenByDescending(s => s.DateCreated).ToList();
-		//}
+	//else
+	//{
+	//	output = output.OrderByDescending(s => s.UserVotes.Count)
+	//									.ThenByDescending(s => s.DateCreated).ToList();
+	//}
 
-		issues = output;
+		_issues = output;
 
 		await SaveFilterState();
 	}
 
 	private async Task OrderByNew(bool isNew)
 	{
-		isSortedByNew = isNew;
+		_isSortedByNew = isNew;
 		await FilterSuggestions();
 	}
 
 	private async Task OnSearchInput(string searchInput)
 	{
-		searchText = searchInput;
+		_searchText = searchInput;
 		await FilterSuggestions();
 	}
 
@@ -223,7 +223,7 @@
 
 	private async Task OnStatusClick(string status = "All")
 	{
-		selectedStatus = status;
+		_selectedStatus = status;
 		await FilterSuggestions();
 	}
 
@@ -288,19 +288,16 @@
 
 	private void OpenDetails(IssueModel issue)
 	{
-		navManager.NavigateTo($"/Details/{issue.Id}");
+		NavManager.NavigateTo($"/Details/{issue.Id}");
 	}
 
 	private string SortedByNewClass(bool isNew)
 	{
-		if (isNew == isSortedByNew)
+		if (isNew == _isSortedByNew)
 		{
 			return "sort-selected";
 		}
-		else
-		{
-			return "";
-		}
+		return "";
 	}
 
 	//private string GetVoteClass(SuggestionModel suggestion)
@@ -326,14 +323,14 @@
 			return "suggestion-entry-status-none";
 		}
 
-		string output = issue.IssueStatus.StatusName switch
+		var output = issue.IssueStatus.StatusName switch
 		{
 			"Completed" => "suggestion-entry-status-completed",
 			"Watching" => "suggestion-entry-status-watching",
 			"Upcoming" => "suggestion-entry-status-upcoming",
 			"Dismissed" => "suggestion-entry-status-dismissed",
-			_ => "suggestion-entry-status-none",
-		};
+			_ => "suggestion-entry-status-none"
+			};
 
 		return output;
 	}
@@ -352,13 +349,11 @@
 
 	private string GetSelectedStatus(string status = "All")
 	{
-		if (status == selectedStatus)
+		if (status == _selectedStatus)
 		{
 			return "selected-status";
 		}
-		else
-		{
-			return "";
-		}
+		return "";
 	}
+
 }

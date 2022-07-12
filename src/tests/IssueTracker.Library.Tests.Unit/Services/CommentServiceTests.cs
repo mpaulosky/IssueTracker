@@ -5,12 +5,10 @@ namespace IssueTracker.Library.Tests.Unit.Services;
 [ExcludeFromCodeCoverage]
 public class CommentServiceTests
 {
-	private CommentService _sut;
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-
-	delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private CommentService _sut;
 
 	public CommentServiceTests()
 	{
@@ -338,4 +336,6 @@ public class CommentServiceTests
 
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpvoteComment(commentId, userId));
 	}
+
+	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
 }

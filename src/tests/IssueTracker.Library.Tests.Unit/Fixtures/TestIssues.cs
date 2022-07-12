@@ -16,7 +16,7 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 1",
+				OwnerNotes = "Notes for Issue 1"
 			},
 			new()
 			{
@@ -27,7 +27,7 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 2",
+				OwnerNotes = "Notes for Issue 2"
 			},
 			new()
 			{
@@ -38,10 +38,10 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 3",
-			},
+				OwnerNotes = "Notes for Issue 3"
+			}
 		};
-		
+
 		return issues;
 	}
 
@@ -58,7 +58,7 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 1",
+				OwnerNotes = "Notes for Issue 1"
 			},
 			new()
 			{
@@ -69,7 +69,7 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 2",
+				OwnerNotes = "Notes for Issue 2"
 			},
 			new()
 			{
@@ -80,16 +80,16 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 3",
-			},
+				OwnerNotes = "Notes for Issue 3"
+			}
 		};
-		
+
 		return issues;
 	}
-	
+
 	public static IssueModel GetUpdatedIssue()
 	{
-		var issue = new IssueModel()
+		var issue = new IssueModel
 		{
 			Id = "5dc1039a1521eaa36835e542",
 			IssueName = "Updated Test Issue 1",
@@ -98,7 +98,7 @@ public static class TestIssues
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1",
+			OwnerNotes = "Notes for Issue 1"
 		};
 
 		return issue;
@@ -106,7 +106,7 @@ public static class TestIssues
 
 	public static IssueModel GetKnownIssue()
 	{
-		var issue = new IssueModel()
+		var issue = new IssueModel
 		{
 			Id = "5dc1039a1521eaa36835e542",
 			IssueName = "Test Issue 1",
@@ -115,7 +115,7 @@ public static class TestIssues
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1",
+			OwnerNotes = "Notes for Issue 1"
 		};
 
 		return issue;
@@ -123,7 +123,7 @@ public static class TestIssues
 
 	public static IssueModel GetNewIssue()
 	{
-		var issue = new IssueModel()
+		var issue = new IssueModel
 		{
 			IssueName = "Test Issue 1",
 			Description = "A new test issue",
@@ -131,22 +131,22 @@ public static class TestIssues
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1",
+			OwnerNotes = "Notes for Issue 1"
 		};
 
 		return issue;
 	}
 
 	public static IssueModel GetIssue(
-		string id, 
-		string issueName, 
-		string description, 
-		DateTime dateCreated, 
+		string id,
+		string issueName,
+		string description,
+		DateTime dateCreated,
 		bool archived,
-		StatusModel status, 
+		StatusModel status,
 		string ownerNotes)
 	{
-		var issue = new IssueModel()
+		var issue = new IssueModel
 		{
 			Id = id,
 			IssueName = issueName,
@@ -154,7 +154,7 @@ public static class TestIssues
 			DateCreated = dateCreated,
 			Archived = archived,
 			IssueStatus = status,
-			OwnerNotes = ownerNotes,
+			OwnerNotes = ownerNotes
 		};
 
 		return issue;

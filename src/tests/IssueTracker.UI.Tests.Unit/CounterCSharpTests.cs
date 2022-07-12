@@ -1,8 +1,8 @@
 namespace IssueTracker.UI.Tests.Unit;
 
 /// <summary>
-/// These tests are written entirely in C#.
-/// Learn more at https://bunit.dev/docs/getting-started/writing-tests.html#creating-basic-tests-in-cs-files
+///   These tests are written entirely in C#.
+///   Learn more at https://bunit.dev/docs/getting-started/writing-tests.html#creating-basic-tests-in-cs-files
 /// </summary>
 public class CounterCSharpTests : TestContext
 {

@@ -1,0 +1,91 @@
+﻿@page "/Admin"
+
+@attribute [Authorize(Policy = "Admin")]
+@inject AuthenticationStateProvider AuthProvider
+@inject IIssueService IssueService
+@inject IUserService UserService
+@inject NavigationManager NavManager
+
+<h1 class="page-heading text-light text-uppercase mb-4">Admin</h1>
+
+<div class="row justify-content-center create-form">
+	<div class="col-xl-8 col-lg-10 form-layout">
+		<div class="close-button-section">
+			<button class="btn btn-close" @onclick="ClosePage"></button>
+		</div>
+
+
+		@if (_issues?.Count > 0)
+		{
+			<div>
+				<h2>Issues</h2>
+				<p>These are the issues that are currently active.</p>
+				<hr/>
+				@foreach (var s in _issues)
+				{
+					<hr/>
+					<div>
+						@s.IssueName
+					</div>
+					<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+					<p>@s.Description</p>
+					@if (s.IssueStatus is not null)
+					{
+						<div>@s.IssueStatus.StatusName</div>
+						<p>@((MarkupString)s.OwnerNotes)</p>
+					}
+				}
+			</div>
+		}
+
+		@if (_archived?.Count > 0)
+		{
+			<div>
+				<h2>Archived Issues</h2>
+				<p>These are the issues that were active but are now archived.</p>
+				<hr/>
+				@foreach (var s in _archived)
+				{
+					<hr/>
+					<div>
+						@s.IssueName
+					</div>
+					<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+					<p>@s.Description</p>
+					@if (s.IssueStatus is not null)
+					{
+						<div>@s.IssueStatus.StatusName</div>
+						<p>@((MarkupString)s.OwnerNotes)</p>
+					}
+				}
+			</div>
+		}
+	</div>
+</div>
+
+
+@code {
+	private UserModel _loggedInUser;
+	private List<IssueModel> _issues;
+	private List<IssueModel> _archived;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+
+		List<IssueModel> results = await IssueService.GetIssues();
+
+		if (_loggedInUser is not null && results is not null)
+		{
+			_issues = results.Where(s => s.Archived == false).OrderByDescending(s => s.DateCreated).ToList();
+			_archived = results.Where(s => s.Archived).ToList();
+		}
+	}
+
+
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
+	}
+
+}

@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
 	public async Task<IEnumerable<UserModel>> GetUsers()
 	{
 		var all = await _collection.FindAsync(Builders<UserModel>.Filter.Empty);
-		
+
 		return await all.ToListAsync();
 	}
 
@@ -42,7 +42,7 @@ public class UserRepository : IUserRepository
 	public async Task<UserModel> GetUserFromAuthentication(string objectId)
 	{
 		var results = await _collection.FindAsync(u => u.ObjectIdentifier == objectId);
-		
+
 		return results.FirstOrDefault();
 	}
 }

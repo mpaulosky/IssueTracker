@@ -4,8 +4,8 @@ namespace IssueTracker.Library.DataAccess;
 
 public class IssueRepository : IIssueRepository
 {
-	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<IssueModel> _collection;
+	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	public IssueRepository(IMongoDbContext context)
@@ -18,21 +18,21 @@ public class IssueRepository : IIssueRepository
 	public async Task CreateIssue(IssueModel issue)
 	{
 		using var session = await _context.Client.StartSessionAsync();
-		
+
 		session.StartTransaction();
 
 		try
 		{
 			var issuesInTransaction = _collection;
-			
+
 			await issuesInTransaction.InsertOneAsync(issue);
 
 			var usersInTransaction = _userCollection;
-			
+
 			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id)).First();
-			
+
 			user.AuthoredIssues.Add(new BasicIssueModel(issue));
-			
+
 			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
 
 			await session.CommitTransactionAsync();
