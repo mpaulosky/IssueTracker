@@ -2,15 +2,15 @@
 
 public interface ICommentService
 {
-	Task CreateComment(Comment comment);
+	Task CreateComment(CommentModel comment);
 	
-	Task<Comment> GetComment(string id);
+	Task<CommentModel> GetComment(string id);
 	
-	Task<List<Comment>> GetComments();
+	Task<List<CommentModel>> GetComments();
 	
-	Task<List<Comment>> GetUsersComments(string userId);
+	Task<List<CommentModel>> GetUsersComments(string userId);
 	
-	Task UpdateComment(Comment comment);
+	Task UpdateComment(CommentModel comment);
 	
 	Task UpvoteComment(string commentId, string userId);
 }

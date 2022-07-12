@@ -1,0 +1,101 @@
+﻿@page "/Profile"
+
+@attribute [Authorize]
+@inject AuthenticationStateProvider authProvider
+@inject IIssueService issueService
+@inject IUserService userService
+@inject NavigationManager navManager
+
+<PageTitle>Profile</PageTitle>
+
+<h1 class="page-heading text-light text-uppercase mb-4">My Profile</h1>
+
+<div class="row">
+	<div class="col-12 close-button-section">
+		<button class="btn btn-close" @onclick="ClosePage"></button>
+	</div>
+</div>
+
+<div class="form-layout mb-3">
+	<h2 class="my-submission-heading">My Account</h2>
+	<p>
+		You are currently signed up to receive emails when the status
+		of your suggestion changes. Would you like to opt out of
+		receiving these emails?
+		<button class="btn btn-danger">
+			Turn Off Notifications
+		</button>
+	</p>
+	<p class="my-submission-text">
+		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
+	</p>
+</div>
+@if (issues?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-submission-heading">Issues</h2>
+		<p>These are your issues that are currently active.</p>
+		<hr />
+		@foreach (var s in issues)
+		{
+			<hr class ="my-submission-separator" />
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div>@s.IssueStatus.StatusName</div>
+				<p>@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@if (archived?.Count > 0)
+{
+	<div>
+		<h2>Archived Issues</h2>
+		<p>These are your issues that were active but did not gain enough traction.</p>
+		<hr />
+		@foreach (var s in archived)
+		{
+			<hr />
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div>@s.IssueStatus.StatusName</div>
+				<p>@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@code {
+	private UserModel loggedInUser;
+	private List<IssueModel> issues;
+	private List<IssueModel> archived;
+
+	protected override async Task OnInitializedAsync()
+	{
+		loggedInUser = await authProvider.GetUserFromAuth(userService);
+
+		var results = await issueService.GetUsersIssues(loggedInUser.Id);
+
+		if (loggedInUser is not null && results is not null)
+		{
+			issues = results.OrderByDescending(s => s.DateCreated).ToList();
+			archived = issues.Where(s => s.Archived).ToList();
+		}
+	}
+
+	private void ClosePage()
+	{
+		navManager.NavigateTo("/");
+	}
+}

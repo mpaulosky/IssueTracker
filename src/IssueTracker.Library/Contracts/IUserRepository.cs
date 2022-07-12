@@ -2,13 +2,13 @@
 
 public interface IUserRepository
 {
-	Task<User> GetUser(string id);
+	Task<UserModel> GetUser(string id);
 	
-	Task<IEnumerable<User>> GetUsers();
+	Task<IEnumerable<UserModel>> GetUsers();
 	
-	Task CreateUser(User user);
+	Task CreateUser(UserModel user);
 
-	Task UpdateUser(string id, User user);
+	Task UpdateUser(string id, UserModel user);
 
-	Task<User> GetUserFromAuthentication(string id);
+	Task<UserModel> GetUserFromAuthentication(string id);
 }

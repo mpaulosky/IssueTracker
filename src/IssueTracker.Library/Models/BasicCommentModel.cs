@@ -11,7 +11,7 @@ public class BasicCommentModel
 		
 	}
 	
-	public BasicCommentModel(Comment comment)
+	public BasicCommentModel(CommentModel comment)
 	{
 		Id = comment.Id;
 		Comment = comment.CommentName;

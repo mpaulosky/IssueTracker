@@ -6,10 +6,10 @@ public static class CollectionNames
 	{
 		return entityName switch
 		{
-			"Comment" => "comments",
-			"Issue" => "issues",
-			"Status" => "statuses",
-			"User" => "users",
+			"CommentModel" => "comments",
+			"IssueModel" => "issues",
+			"StatusModel" => "statuses",
+			"UserModel" => "users",
 			_ => ""
 		};
 	}

@@ -1,24 +1,21 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.Models;
-
-using static IssueTracker.Library.Helpers.CollectionNames;
+﻿using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 public class IssueRepository : IIssueRepository
 {
 	private readonly IMongoDbContext _context;
-	private readonly IMongoCollection<Issue> _collection;
-	private readonly IMongoCollection<User> _userCollection;
+	private readonly IMongoCollection<IssueModel> _collection;
+	private readonly IMongoCollection<UserModel> _userCollection;
 
 	public IssueRepository(IMongoDbContext context)
 	{
 		_context = context;
-		_collection = context.GetCollection<Issue>(GetCollectionName(nameof(Issue)));
-		_userCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
+		_collection = context.GetCollection<IssueModel>(GetCollectionName(nameof(IssueModel)));
+		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
-	public async Task CreateIssue(Issue issue)
+	public async Task CreateIssue(IssueModel issue)
 	{
 		using var session = await _context.Client.StartSessionAsync();
 		
@@ -47,25 +44,25 @@ public class IssueRepository : IIssueRepository
 		}
 	}
 
-	public async Task<Issue> GetIssue(string id)
+	public async Task<IssueModel> GetIssue(string id)
 	{
 		var objectId = new ObjectId(id);
 
-		var filter = Builders<Issue>.Filter.Eq("_id", objectId);
+		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
 		var result = await _collection.FindAsync(filter);
 
 		return result.FirstOrDefault();
 	}
 
-	public async Task<IEnumerable<Issue>> GetIssues()
+	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
-		var all = await _collection.FindAsync(Builders<Issue>.Filter.Empty);
+		var all = await _collection.FindAsync(Builders<IssueModel>.Filter.Empty);
 
 		return await all.ToListAsync();
 	}
 
-	public async Task<IEnumerable<Issue>> GetUsersIssues(string userId)
+	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
 		var objectId = new ObjectId(userId);
 
@@ -74,10 +71,10 @@ public class IssueRepository : IIssueRepository
 		return await results.ToListAsync();
 	}
 
-	public async Task UpdateIssue(string id, Issue issue)
+	public async Task UpdateIssue(string id, IssueModel issue)
 	{
 		var objectId = new ObjectId(id);
 
-		await _collection.ReplaceOneAsync(Builders<Issue>.Filter.Eq("_id", objectId), issue);
+		await _collection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue);
 	}
 }
