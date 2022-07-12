@@ -39,7 +39,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.CreateStatus(It.IsAny<Status>()), Times.Once);
+				x.CreateStatus(It.IsAny<StatusModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Status With Invalid Status Throws Exception")]
@@ -188,7 +188,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.UpdateStatus(It.IsAny<string>(), It.IsAny<Status>()), Times.Once);
+				x.UpdateStatus(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Status")]

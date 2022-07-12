@@ -14,7 +14,7 @@ public class StatusService : IStatusService
 		_cache = cache;
 	}
 
-	public Task CreateStatus(Status status)
+	public Task CreateStatus(StatusModel status)
 	{
 		if (status == null)
 		{
@@ -24,7 +24,7 @@ public class StatusService : IStatusService
 		return _repository.CreateStatus(status);
 	}
 
-	public async Task<Status> GetStatus(string id)
+	public async Task<StatusModel> GetStatus(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
 		{
@@ -36,9 +36,9 @@ public class StatusService : IStatusService
 		return results;
 	}
 
-	public async Task<List<Status>> GetStatuses()
+	public async Task<List<StatusModel>> GetStatuses()
 	{
-		var output = _cache.Get<List<Status>>(_cacheName);
+		var output = _cache.Get<List<StatusModel>>(_cacheName);
 		if (output is not null)
 		{
 			return output;
@@ -52,7 +52,7 @@ public class StatusService : IStatusService
 		return output;
 	}
 
-	public Task UpdateStatus(Status status)
+	public Task UpdateStatus(StatusModel status)
 	{
 		if (status == null)
 		{

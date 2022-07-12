@@ -6,13 +6,13 @@ namespace IssueTracker.Library.Tests.Unit.DataAccess;
 public class IssueRepositoryTests
 {
 	private IssueRepository _sut;
-	private readonly Mock<IMongoCollection<Issue>> _mockCollection;
-	private readonly Mock<IMongoCollection<User>> _mockUserCollection;
+	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
+	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
-	private readonly Mock<IAsyncCursor<Issue>> _cursor;
-	private readonly Mock<IAsyncCursor<User>> _userCursor;
-	private List<Issue> _list = new();
-	private List<User> _users = new();
+	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
+	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
+	private List<IssueModel> _list = new();
+	private List<UserModel> _users = new();
 
 	public IssueRepositoryTests()
 	{
@@ -34,11 +34,11 @@ public class IssueRepositoryTests
 
 		var newIssue = TestIssues.GetKnownIssue();
 
-		_mockContext.Setup(c => c.GetCollection<Issue>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUser();
-		_users = new List<User> { user };
+		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
@@ -54,7 +54,7 @@ public class IssueRepositoryTests
 		_mockCollection.Verify(c =>
 			c.InsertOneAsync(newIssue, null, default), Times.Once);
 		_mockUserCollection.Verify(c =>
-				c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), user, It.IsAny<ReplaceOptions>(),
+				c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), user, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
@@ -65,11 +65,11 @@ public class IssueRepositoryTests
 
 		var expected = TestIssues.GetKnownIssue();
 
-		_list = new List<Issue> { expected };
+		_list = new List<IssueModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Issue>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new IssueRepository(_mockContext.Object);
 
@@ -83,8 +83,8 @@ public class IssueRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Issue>>(),
-			It.IsAny<FindOptions<Issue>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
@@ -100,7 +100,7 @@ public class IssueRepositoryTests
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Issue>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new IssueRepository(_mockContext.Object);
 
@@ -110,8 +110,8 @@ public class IssueRepositoryTests
 
 		// Assert
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Issue>>(),
-			It.IsAny<FindOptions<Issue>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		var items = result.ToList();
@@ -128,11 +128,11 @@ public class IssueRepositoryTests
 
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors().ToList();
 
-		_list = new List<Issue>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
+		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Issue>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new IssueRepository(_mockContext.Object);
 
@@ -142,8 +142,8 @@ public class IssueRepositoryTests
 
 		// Assert
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Issue>>(),
-			It.IsAny<FindOptions<Issue>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		var items = result.ToList();
@@ -167,11 +167,11 @@ public class IssueRepositoryTests
 			expected.IssueStatus,
 			expected.OwnerNotes);
 
-		_list = new List<Issue> { expected };
+		_list = new List<IssueModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Issue>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new IssueRepository(_mockContext.Object);
 
@@ -184,7 +184,7 @@ public class IssueRepositoryTests
 		_mockCollection.Verify(
 			c =>
 				c.ReplaceOneAsync(
-					It.IsAny<FilterDefinition<Issue>>(), updatedIssue,
+					It.IsAny<FilterDefinition<IssueModel>>(), updatedIssue,
 					It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}

@@ -2,13 +2,13 @@
 
 public interface IIssueService
 {
-	Task CreateIssue(Issue suggestion);
+	Task CreateIssue(IssueModel suggestion);
 	
-	Task<Issue> GetIssue(string id);
+	Task<IssueModel> GetIssue(string id);
 	
-	Task<List<Issue>> GetIssues();
+	Task<List<IssueModel>> GetIssues();
 	
-	Task<List<Issue>> GetUsersIssues(string userId);
+	Task<List<IssueModel>> GetUsersIssues(string userId);
 	
-	Task UpdateIssue(Issue suggestion);
+	Task UpdateIssue(IssueModel suggestion);
 }

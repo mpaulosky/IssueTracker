@@ -24,7 +24,7 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="issue"></param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task CreateIssue(Issue issue)
+	public async Task CreateIssue(IssueModel issue)
 	{
 		if (issue == null)
 		{
@@ -40,7 +40,7 @@ public class IssueService : IIssueService
 	/// <param name="id"></param>
 	/// <returns>An Issue</returns>
 	/// <exception cref="ArgumentException"></exception>
-	public async Task<Issue> GetIssue(string id)
+	public async Task<IssueModel> GetIssue(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
 		{
@@ -56,9 +56,9 @@ public class IssueService : IIssueService
 	/// GetAllIssues
 	/// </summary>
 	/// <returns>A List of All Issues</returns>
-	public async Task<List<Issue>> GetIssues()
+	public async Task<List<IssueModel>> GetIssues()
 	{
-		var output = _cache.Get<List<Issue>>(_cacheName);
+		var output = _cache.Get<List<IssueModel>>(_cacheName);
 
 		if (output is not null)
 		{
@@ -79,14 +79,14 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="userId"></param>
 	/// <returns>A list of User Issues</returns>
-	public async Task<List<Issue>> GetUsersIssues(string userId)
+	public async Task<List<IssueModel>> GetUsersIssues(string userId)
 	{
 		if (string.IsNullOrWhiteSpace(userId))
 		{
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
 		}
 
-		var output = _cache.Get<List<Issue>>(userId);
+		var output = _cache.Get<List<IssueModel>>(userId);
 
 		if (output is not null)
 		{
@@ -106,7 +106,7 @@ public class IssueService : IIssueService
 	/// UpdateIssue
 	/// </summary>
 	/// <param name="issue"></param>
-	public async Task UpdateIssue(Issue issue)
+	public async Task UpdateIssue(IssueModel issue)
 	{
 		if (issue == null)
 		{

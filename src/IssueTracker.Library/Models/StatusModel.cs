@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.Library.Models;
 
 [Serializable]
-public class Status
+public class StatusModel
 {
 	[BsonId, BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }

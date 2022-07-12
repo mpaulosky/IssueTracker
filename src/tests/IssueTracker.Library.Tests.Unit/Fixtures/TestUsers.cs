@@ -3,9 +3,9 @@
 [ExcludeFromCodeCoverage]
 public static class TestUsers
 {
-	public static IEnumerable<User> GetUsers()
+	public static IEnumerable<UserModel> GetUsers()
 	{
-		var expected = new List<User>
+		var expected = new List<UserModel>
 		{
 			new()
 			{
@@ -48,9 +48,9 @@ public static class TestUsers
 		return expected;
 	}
 
-	public static User GetKnownUser()
+	public static UserModel GetKnownUser()
 	{
-		var user = new User()
+		var user = new UserModel()
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -67,9 +67,9 @@ public static class TestUsers
 	}
 
 
-	public static User GetKnownUserWithNoVotedOn()
+	public static UserModel GetKnownUserWithNoVotedOn()
 	{
-		var user = new User()
+		var user = new UserModel()
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -85,7 +85,7 @@ public static class TestUsers
 		return user;
 	}
 
-	public static User GetUser(
+	public static UserModel GetUser(
 		string userId, 
 		string objectIdentifier, 
 		string firstName, 
@@ -93,7 +93,7 @@ public static class TestUsers
 		string displayName, 
 		string email)
 	{
-		var expected = new User()
+		var expected = new UserModel()
 		{
 			Id = userId,
 			ObjectIdentifier = objectIdentifier,
@@ -109,9 +109,9 @@ public static class TestUsers
 		return expected;
 	}
 
-	public static User GetNewUser()
+	public static UserModel GetNewUser()
 	{
-		var user = new User()
+		var user = new UserModel()
 		{
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
@@ -126,9 +126,9 @@ public static class TestUsers
 		return user;
 	}
 
-	public static User GetUpdatedUser()
+	public static UserModel GetUpdatedUser()
 	{
-		var user = new User()
+		var user = new UserModel()
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",

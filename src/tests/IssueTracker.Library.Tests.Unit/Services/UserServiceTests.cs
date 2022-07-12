@@ -31,7 +31,7 @@ public class UserServiceTests
 
 		_userRepositoryMock
 			.Verify(x =>
-				x.CreateUser(It.IsAny<User>()), Times.Once);
+				x.CreateUser(It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create User With Invalid User Throws Exception")]
@@ -188,7 +188,7 @@ public class UserServiceTests
 
 		_userRepositoryMock
 			.Verify(x =>
-				x.UpdateUser(It.IsAny<string>(), It.IsAny<User>()), Times.Once);
+				x.UpdateUser(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid User")]

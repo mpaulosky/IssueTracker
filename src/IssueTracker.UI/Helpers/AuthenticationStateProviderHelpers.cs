@@ -2,7 +2,7 @@
 
 public static class AuthenticationStateProviderHelpers
 {
-	public static async Task<User> GetUserFromAuth(
+	public static async Task<UserModel> GetUserFromAuth(
 		this AuthenticationStateProvider provider,
 		IUserService userService)
 	{

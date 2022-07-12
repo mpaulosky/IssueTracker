@@ -6,10 +6,10 @@ namespace IssueTracker.Library.Tests.Unit.DataAccess;
 public class StatusRepositoryTests
 {
 	private StatusRepository _sut;
-	private readonly Mock<IMongoCollection<Status>> _mockCollection;
+	private readonly Mock<IMongoCollection<StatusModel>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
-	private readonly Mock<IAsyncCursor<Status>> _cursor;
-	private List<Status> _list = new();
+	private readonly Mock<IAsyncCursor<StatusModel>> _cursor;
+	private List<StatusModel> _list = new();
 
 	public StatusRepositoryTests()
 	{
@@ -29,11 +29,11 @@ public class StatusRepositoryTests
 
 		var expected = TestStatuses.GetKnownStatus();
 
-		_list = new List<Status> { expected };
+		_list = new List<StatusModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new StatusRepository(_mockContext.Object);
 
@@ -47,8 +47,8 @@ public class StatusRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Status>>(),
-			It.IsAny<FindOptions<Status>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
@@ -62,11 +62,11 @@ public class StatusRepositoryTests
 
 		var expected = TestStatuses.GetStatuses().ToList();
 
-		_list = new List<Status>(expected);
+		_list = new List<StatusModel>(expected);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new StatusRepository(_mockContext.Object);
 
@@ -76,8 +76,8 @@ public class StatusRepositoryTests
 
 		// Assert
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<Status>>(),
-			It.IsAny<FindOptions<Status>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		var items = result.ToList();
@@ -92,7 +92,7 @@ public class StatusRepositoryTests
 
 		var newStatus = TestStatuses.GetKnownStatus();
 
-		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new StatusRepository(_mockContext.Object);
 
@@ -117,11 +117,11 @@ public class StatusRepositoryTests
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		_list = new List<Status> { updatedStatus };
+		_list = new List<StatusModel> { updatedStatus };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<Status>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new StatusRepository(_mockContext.Object);
 
@@ -132,7 +132,7 @@ public class StatusRepositoryTests
 		// Assert
 
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<Status>>(), updatedStatus, It.IsAny<ReplaceOptions>(),
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

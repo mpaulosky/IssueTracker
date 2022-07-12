@@ -39,7 +39,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.CreateComment(It.IsAny<Comment>()), Times.Once);
+				x.CreateComment(It.IsAny<CommentModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Comment With Invalid Comment Throws Exception")]
@@ -281,7 +281,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpdateComment(It.IsAny<string>(), It.IsAny<Comment>()), Times.Once);
+				x.UpdateComment(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Comment")]

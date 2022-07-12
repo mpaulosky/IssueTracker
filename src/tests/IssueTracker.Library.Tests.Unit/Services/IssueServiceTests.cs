@@ -39,7 +39,7 @@ public class IssueServiceTests
 
 		_issueRepositoryMock
 			.Verify(x =>
-				x.CreateIssue(It.IsAny<Issue>()), Times.Once);
+				x.CreateIssue(It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Issue With Invalid Issue Throws Exception")]
@@ -282,7 +282,7 @@ public class IssueServiceTests
 
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<Issue>()), Times.Once);
+				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Issue")]

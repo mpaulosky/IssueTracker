@@ -6,10 +6,10 @@ namespace IssueTracker.Library.Tests.Unit.DataAccess;
 public class UserRepositoryTests
 {
 	private UserRepository _sut;
-	private readonly Mock<IMongoCollection<User>> _mockCollection;
+	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContext> _mockContext;
-	private readonly Mock<IAsyncCursor<User>> _cursor;
-	private List<User> _list = new();
+	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
+	private List<UserModel> _list = new();
 
 	public UserRepositoryTests()
 	{
@@ -29,7 +29,7 @@ public class UserRepositoryTests
 
 		var newUser = TestUsers.GetKnownUser();
 
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
 
@@ -51,11 +51,11 @@ public class UserRepositoryTests
 
 		var expected = TestUsers.GetKnownUser();
 
-		_list = new List<User> { expected };
+		_list = new List<UserModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
 
@@ -69,8 +69,8 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<User>>(),
-			It.IsAny<FindOptions<User>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
+			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
@@ -87,11 +87,11 @@ public class UserRepositoryTests
 		// Arrange
 		var expected = TestUsers.GetKnownUser();
 
-		_list = new List<User> { expected };
+		_list = new List<UserModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
 
@@ -105,8 +105,8 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<User>>(),
-			It.IsAny<FindOptions<User>>(),
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
+			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
@@ -119,11 +119,11 @@ public class UserRepositoryTests
 
 		var expected = TestUsers.GetUsers().ToList();
 
-		_list = new List<User>(expected);
+		_list = new List<UserModel>(expected);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
 
@@ -135,8 +135,8 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 
-		_mockCollection.Verify(c => c.FindAsync(FilterDefinition<User>.Empty,
-			It.IsAny<FindOptions<User>>(),
+		_mockCollection.Verify(c => c.FindAsync(FilterDefinition<UserModel>.Empty,
+			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		var items = result.ToList();
@@ -161,11 +161,11 @@ public class UserRepositoryTests
 		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName,
 			expected.DisplayName, "james.test@test.com");
 
-		_list = new List<User> { updatedUser };
+		_list = new List<UserModel> { updatedUser };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<User>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		_sut = new UserRepository(_mockContext.Object);
 
@@ -176,7 +176,7 @@ public class UserRepositoryTests
 		// Assert
 
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<User>>(), updatedUser, It.IsAny<ReplaceOptions>(),
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), updatedUser, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

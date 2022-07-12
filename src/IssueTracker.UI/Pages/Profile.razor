@@ -6,30 +6,39 @@
 @inject IUserService userService
 @inject NavigationManager navManager
 
-<h1>My Profile</h1>
+<PageTitle>Profile</PageTitle>
 
-<div>
-	<div>
-		<button @onclick="ClosePage"></button>
+<h1 class="page-heading text-light text-uppercase mb-4">My Profile</h1>
+
+<div class="row">
+	<div class="col-12 close-button-section">
+		<button class="btn btn-close" @onclick="ClosePage"></button>
 	</div>
 </div>
 
-<div>
-	<h2>My Account</h2>
+<div class="form-layout mb-3">
+	<h2 class="my-submission-heading">My Account</h2>
 	<p>
+		You are currently signed up to receive emails when the status
+		of your suggestion changes. Would you like to opt out of
+		receiving these emails?
+		<button class="btn btn-danger">
+			Turn Off Notifications
+		</button>
+	</p>
+	<p class="my-submission-text">
 		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
 	</p>
 </div>
-
 @if (issues?.Count > 0)
 {
-	<div>
-		<h2>Issues</h2>
+	<div class="form-layout mb-3">
+		<h2 class="my-submission-heading">Issues</h2>
 		<p>These are your issues that are currently active.</p>
 		<hr />
 		@foreach (var s in issues)
 		{
-			<hr />
+			<hr class ="my-submission-separator" />
 			<div>
 				@s.IssueName
 			</div>
@@ -68,9 +77,9 @@
 }
 
 @code {
-	private User loggedInUser;
-	private List<Issue> issues;
-	private List<Issue> archived;
+	private UserModel loggedInUser;
+	private List<IssueModel> issues;
+	private List<IssueModel> archived;
 
 	protected override async Task OnInitializedAsync()
 	{

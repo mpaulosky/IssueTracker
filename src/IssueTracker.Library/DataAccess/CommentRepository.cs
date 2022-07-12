@@ -1,21 +1,23 @@
-﻿using static IssueTracker.Library.Helpers.CollectionNames;
+﻿using IssueTracker.Library.Models;
+
+using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 public class CommentRepository : ICommentRepository
 {
 	private readonly IMongoDbContext _context;
-	private readonly IMongoCollection<Comment> _collection;
-	private readonly IMongoCollection<User> _userCollection;
+	private readonly IMongoCollection<CommentModel> _collection;
+	private readonly IMongoCollection<UserModel> _userCollection;
 	
 	public CommentRepository(IMongoDbContext context)
 	{
 		_context = context;
-		_collection = context.GetCollection<Comment>(GetCollectionName(nameof(Comment)));
-		_userCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
+		_collection = context.GetCollection<CommentModel>(GetCollectionName(nameof(CommentModel)));
+		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
-	public async Task CreateComment(Comment comment)
+	public async Task CreateComment(CommentModel comment)
 	{
 		using var session = await _context.Client.StartSessionAsync();
 		
@@ -44,32 +46,32 @@ public class CommentRepository : ICommentRepository
 		}
 	}
 
-	public async Task<Comment> GetComment(string id)
+	public async Task<CommentModel> GetComment(string id)
 	{
 		var objectId = new ObjectId(id);
 
-		var filter = Builders<Comment>.Filter.Eq("_id", objectId);
+		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 		var result = await _collection.FindAsync(filter);
 
 		return result.FirstOrDefault();
 	}
 
-	public async Task<IEnumerable<Comment>> GetComments()
+	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
-		var all = await _collection.FindAsync(Builders<Comment>.Filter.Empty);
+		var all = await _collection.FindAsync(Builders<CommentModel>.Filter.Empty);
 		
 		return await all.ToListAsync();
 	}
 
-	public async Task UpdateComment(string id, Comment comment)
+	public async Task UpdateComment(string id, CommentModel comment)
 	{
 		var objectId = new ObjectId(id);
 
-		await _collection.ReplaceOneAsync(Builders<Comment>.Filter.Eq("_id", objectId), comment);
+		await _collection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment);
 	}
 
-	public async Task<IEnumerable<Comment>> GetUsersComments(string userId)
+	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
 	{
 		var objectId = new ObjectId(userId);
 

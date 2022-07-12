@@ -41,7 +41,7 @@ public class MongoDbContextTests
 
 		// Assert
 
-		Assert.Throws<ArgumentException>(() => context.GetCollection<User>(""));
+		Assert.Throws<ArgumentException>(() => context.GetCollection<UserModel>(""));
 	}
 
 	[Fact()]
@@ -52,7 +52,7 @@ public class MongoDbContextTests
 		// Act
 
 		var context = Substitute.For<MongoDbContext>(_options);
-		var myCollection = context.GetCollection<User>(GetCollectionName(nameof(User)));
+		var myCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert
 

@@ -3,23 +3,23 @@
 [ExcludeFromCodeCoverage]
 public static class TestStatuses
 {
-	public static Status GetKnownStatus()
+	public static StatusModel GetKnownStatus()
 	{
-		var status = new Status() { Id = "5dc1039a1521eaa36835e541", StatusDescription = "New Status", StatusName = "New", };
+		var status = new StatusModel() { Id = "5dc1039a1521eaa36835e541", StatusDescription = "New Status", StatusName = "New", };
 		
 		return status;
 	}
 
-	public static Status GetStatus(string id, string statusDescription, string statusName)
+	public static StatusModel GetStatus(string id, string statusDescription, string statusName)
 	{
-		var status = new Status() { Id = id, StatusDescription = statusDescription, StatusName = statusName };
+		var status = new StatusModel() { Id = id, StatusDescription = statusDescription, StatusName = statusName };
 
 		return status;
 	}
 
-	public static IEnumerable<Status> GetStatuses()
+	public static IEnumerable<StatusModel> GetStatuses()
 	{
-		var statuses = new List<Status>
+		var statuses = new List<StatusModel>
 		{
 			new() { Id = Guid.NewGuid().ToString(), StatusDescription = "New Status", StatusName = "New",},
 			new() { Id = Guid.NewGuid().ToString(), StatusDescription = "New Status", StatusName = "New",},
@@ -29,16 +29,16 @@ public static class TestStatuses
 		return statuses;
 	}
 
-	public static Status GetNewStatus()
+	public static StatusModel GetNewStatus()
 	{
-		var status = new Status() { StatusDescription = "New Status", StatusName = "New", };
+		var status = new StatusModel() { StatusDescription = "New Status", StatusName = "New", };
 		
 		return status;
 	}
 
-	public static Status GetUpdatedStatus()
+	public static StatusModel GetUpdatedStatus()
 	{
-		var status = new Status() { Id = "5dc1039a1521eaa36835e541", StatusDescription = "Updated New Status", StatusName = "New", };
+		var status = new StatusModel() { Id = "5dc1039a1521eaa36835e541", StatusDescription = "Updated New Status", StatusName = "New", };
 		
 		return status;
 	}

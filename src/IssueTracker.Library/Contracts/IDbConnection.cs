@@ -9,8 +9,8 @@ public interface IDbConnection
 	string UserCollectionName { get; }
 	string IssueCollectionName { get; }
 	string CommentCollectionName { get; }
-	IMongoCollection<Status> StatusCollection { get; }
-	IMongoCollection<User> UserCollection { get; }
-	IMongoCollection<Issue> IssueCollection { get; }
-	IMongoCollection<Comment> CommentCollection { get; }
+	IMongoCollection<StatusModel> StatusCollection { get; }
+	IMongoCollection<UserModel> UserCollection { get; }
+	IMongoCollection<IssueModel> IssueCollection { get; }
+	IMongoCollection<CommentModel> CommentCollection { get; }
 }

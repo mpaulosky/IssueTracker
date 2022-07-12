@@ -2,13 +2,13 @@
 
 public interface IUserService
 {
-	Task CreateUser(User user);
+	Task CreateUser(UserModel user);
 	
-	Task<User> GetUser(string id);
+	Task<UserModel> GetUser(string id);
 	
-	Task<User> GetUserFromAuthentication(string objectId);
+	Task<UserModel> GetUserFromAuthentication(string objectId);
 	
-	Task<List<User>> GetUsers();
+	Task<List<UserModel>> GetUsers();
 	
-	Task UpdateUser(User user);
+	Task UpdateUser(UserModel user);
 }

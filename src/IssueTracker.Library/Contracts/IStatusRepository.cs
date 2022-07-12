@@ -2,11 +2,11 @@
 
 public interface IStatusRepository
 {
-	Task<Status> GetStatus(string id);
+	Task<StatusModel> GetStatus(string id);
 	
-	Task<IEnumerable<Status>> GetStatuses();
+	Task<IEnumerable<StatusModel>> GetStatuses();
 	
-	Task CreateStatus(Status status);
+	Task CreateStatus(StatusModel status);
 
-	Task UpdateStatus(string id, Status status);
+	Task UpdateStatus(string id, StatusModel status);
 }

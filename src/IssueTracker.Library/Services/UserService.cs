@@ -9,7 +9,7 @@ public class UserService : IUserService
 		_repo = repository;
 	}
 
-	public Task CreateUser(User user)
+	public Task CreateUser(UserModel user)
 	{
 		if (user == null)
 		{
@@ -19,7 +19,7 @@ public class UserService : IUserService
 		return _repo.CreateUser(user);
 	}
 
-	public async Task<User> GetUser(string id)
+	public async Task<UserModel> GetUser(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
 		{
@@ -31,14 +31,14 @@ public class UserService : IUserService
 		return results;
 	}
 
-	public async Task<List<User>> GetUsers()
+	public async Task<List<UserModel>> GetUsers()
 	{
 		var results = await _repo.GetUsers();
 
 		return results.ToList();
 	}
 
-	public async Task<User> GetUserFromAuthentication(string objectId)
+	public async Task<UserModel> GetUserFromAuthentication(string objectId)
 	{
 		if (string.IsNullOrWhiteSpace(objectId))
 		{
@@ -51,7 +51,7 @@ public class UserService : IUserService
 	}
 
 
-	public Task UpdateUser(User user)
+	public Task UpdateUser(UserModel user)
 	{
 		if (user == null)
 		{

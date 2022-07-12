@@ -14,7 +14,7 @@ public class CommentService : ICommentService
 		_cache = cache;
 	}
 
-	public async Task CreateComment(Comment comment)
+	public async Task CreateComment(CommentModel comment)
 	{
 		if (comment == null)
 		{
@@ -24,7 +24,7 @@ public class CommentService : ICommentService
 		await _repository.CreateComment(comment);
 	}
 
-	public async Task<Comment> GetComment(string id)
+	public async Task<CommentModel> GetComment(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
 		{
@@ -36,9 +36,9 @@ public class CommentService : ICommentService
 		return result;
 	}
 	
-	public async Task<List<Comment>> GetComments()
+	public async Task<List<CommentModel>> GetComments()
 	{
-		var output = _cache.Get<List<Comment>>(_cacheName);
+		var output = _cache.Get<List<CommentModel>>(_cacheName);
 
 		if (output is not null)
 		{
@@ -54,14 +54,14 @@ public class CommentService : ICommentService
 		return output;
 	}
 
-	public async Task<List<Comment>> GetUsersComments(string userId)
+	public async Task<List<CommentModel>> GetUsersComments(string userId)
 	{
 		if (string.IsNullOrWhiteSpace(userId))
 		{
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
 		}
 
-		var output = _cache.Get<List<Comment>>(userId);
+		var output = _cache.Get<List<CommentModel>>(userId);
 
 		if (output is not null)
 		{
@@ -77,7 +77,7 @@ public class CommentService : ICommentService
 		return output;
 	}
 
-	public async Task UpdateComment(Comment comment)
+	public async Task UpdateComment(CommentModel comment)
 	{
 		if (comment == null)
 		{
