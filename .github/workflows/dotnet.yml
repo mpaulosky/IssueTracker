@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ ubuntu-latest ]
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -71,6 +71,6 @@ jobs:
         with:
           name: IssueTracker-test-results
           path: TestResults
-
-      # Use always() to always run this step to publish test results when there are test failures
+        
+        # Use always() to always run this step to publish test results when there are test failures
         if: ${{ always() }}

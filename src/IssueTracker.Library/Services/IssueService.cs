@@ -4,12 +4,12 @@ namespace IssueTracker.Library.Services;
 
 public class IssueService : IIssueService
 {
-	private readonly IIssueRepository _repository;
-	private readonly IMemoryCache _cache;
 	private const string _cacheName = "IssueData";
+	private readonly IMemoryCache _cache;
+	private readonly IIssueRepository _repository;
 
 	/// <summary>
-	/// IssueService
+	///   IssueService
 	/// </summary>
 	/// <param name="repository"></param>
 	/// <param name="cache"></param>
@@ -20,7 +20,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// CreateIssue
+	///   CreateIssue
 	/// </summary>
 	/// <param name="issue"></param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -35,7 +35,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetIssue
+	///   GetIssue
 	/// </summary>
 	/// <param name="id"></param>
 	/// <returns>An Issue</returns>
@@ -53,7 +53,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetAllIssues
+	///   GetAllIssues
 	/// </summary>
 	/// <returns>A List of All Issues</returns>
 	public async Task<List<IssueModel>> GetIssues()
@@ -75,7 +75,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetUsersIssues
+	///   GetUsersIssues
 	/// </summary>
 	/// <param name="userId"></param>
 	/// <returns>A list of User Issues</returns>
@@ -94,7 +94,7 @@ public class IssueService : IIssueService
 		}
 
 		var results = await _repository.GetUsersIssues(userId);
-		
+
 		output = results.ToList();
 
 		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
@@ -103,7 +103,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// UpdateIssue
+	///   UpdateIssue
 	/// </summary>
 	/// <param name="issue"></param>
 	public async Task UpdateIssue(IssueModel issue)
@@ -114,7 +114,7 @@ public class IssueService : IIssueService
 		}
 
 		await _repository.UpdateIssue(issue.Id, issue);
-		
+
 		_cache.Remove(_cacheName);
 	}
 }

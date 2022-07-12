@@ -2,14 +2,10 @@
 
 public class BasicUserModel
 {
-	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; }
-	public string DisplayName { get; set; }
-
 	public BasicUserModel()
 	{
 	}
-	
+
 	public BasicUserModel(UserModel user)
 	{
 		Id = user.Id;
@@ -21,4 +17,9 @@ public class BasicUserModel
 		Id = id;
 		DisplayName = displayName;
 	}
+
+	[BsonRepresentation(BsonType.ObjectId)]
+	public string Id { get; set; }
+
+	public string DisplayName { get; set; }
 }

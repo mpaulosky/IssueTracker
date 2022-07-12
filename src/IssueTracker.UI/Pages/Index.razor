@@ -18,13 +18,13 @@
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
-		<button class="btn btn-order @SortedByNewClass(true)" @onclick="(() => OrderByNew(true))">New</button>
-		<button class="btn btn-order @SortedByNewClass(false)" @onclick="(() => OrderByNew(false))">Popular</button>
+		<button class="btn btn-order @SortedByNewClass(true)" @onclick="() => OrderByNew(true)">New</button>
+		<button class="btn btn-order @SortedByNewClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search"
-					 aria-label="Search box" class="form-control rounded-control"
-					 @oninput="((txt) => OnSearchInput((string)txt.Value))" />
+					aria-label="Search box" class="form-control rounded-control"
+					@oninput="txt => OnSearchInput((string)txt.Value)"/>
 	</div>
 </div>
 
@@ -35,11 +35,11 @@
 			@foreach (var s in issues)
 			{
 				<div class="issue-entry">
-						<div class="issue-entry-text">
-						<div class="issue-entry-text-title" @onclick="(() => OpenDetails(s))">
+					<div class="issue-entry-text">
+						<div class="issue-entry-text-title" @onclick="() => OpenDetails(s)">
 							@s.Description
 						</div>
-						</div>
+					</div>
 					<div class="issue-entry-status @GetIssueStatusClass(s)">
 						<div class="issue-entry-status-text">
 							@s.IssueStatus?.StatusName
@@ -82,18 +82,18 @@
 	private async Task LoadAndVerifyUser()
 	{
 		var authState = await authProvider.GetAuthenticationStateAsync();
-		string objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
+		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 
 		if (string.IsNullOrWhiteSpace(objectId) == false)
 		{
-			loggedInUser = await userService.GetUserFromAuthentication(objectId) ?? new();
+			loggedInUser = await userService.GetUserFromAuthentication(objectId) ?? new UserModel();
 
-			string firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
-			string lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
-			string displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
-			string email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
+			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
+			var lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
+			var displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
+			var email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 
-			bool isDirty = false;
+			var isDirty = false;
 			if (objectId.Equals(loggedInUser.ObjectIdentifier) == false)
 			{
 				isDirty = true;
@@ -133,7 +133,7 @@
 		}
 	}
 
-	protected async override Task OnAfterRenderAsync(bool firstRender)
+	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
@@ -145,22 +145,22 @@
 
 	private async Task LoadFilterState()
 	{
-		//var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedCategory));
-		//selectedCategory = stringResults.Success ? stringResults.Value : "All";
+	//var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedCategory));
+	//selectedCategory = stringResults.Success ? stringResults.Value : "All";
 
-		var stringResults = await sessionStorage.GetAsync<string>(nameof(selectedStatus));
+		ProtectedBrowserStorageResult<string> stringResults = await sessionStorage.GetAsync<string>(nameof(selectedStatus));
 		selectedStatus = stringResults.Success ? stringResults.Value : "All";
 
 		stringResults = await sessionStorage.GetAsync<string>(nameof(searchText));
 		searchText = stringResults.Success ? stringResults.Value : "";
 
-		var boolResults = await sessionStorage.GetAsync<bool>(nameof(isSortedByNew));
+		ProtectedBrowserStorageResult<bool> boolResults = await sessionStorage.GetAsync<bool>(nameof(isSortedByNew));
 		isSortedByNew = boolResults.Success ? boolResults.Value : true;
 	}
 
 	private async Task SaveFilterState()
 	{
-		//await sessionStorage.SetAsync(nameof(selectedCategory), selectedCategory);
+	//await sessionStorage.SetAsync(nameof(selectedCategory), selectedCategory);
 		await sessionStorage.SetAsync(nameof(selectedStatus), selectedStatus);
 		await sessionStorage.SetAsync(nameof(searchText), searchText);
 		await sessionStorage.SetAsync(nameof(isSortedByNew), isSortedByNew);
@@ -168,12 +168,12 @@
 
 	private async Task FilterSuggestions()
 	{
-		var output = await issueService.GetIssues();
+		List<IssueModel> output = await issueService.GetIssues();
 
-		//if (selectedCategory != "All")
-		//{
-		//	output = output.Where(s => s.Category?.CategoryName == selectedCategory).ToList();
-		//}
+	//if (selectedCategory != "All")
+	//{
+	//	output = output.Where(s => s.Category?.CategoryName == selectedCategory).ToList();
+	//}
 
 		if (selectedStatus != "All")
 		{
@@ -183,20 +183,20 @@
 		if (string.IsNullOrWhiteSpace(searchText) == false)
 		{
 			output = output.Where(
-					s => s.IssueName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
-					s.Description.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
-			).ToList();
+				s => s.IssueName.Contains(searchText, StringComparison.InvariantCultureIgnoreCase) ||
+						s.Description.Contains(searchText, StringComparison.InvariantCultureIgnoreCase)
+				).ToList();
 		}
 
 		if (isSortedByNew)
 		{
 			output = output.OrderByDescending(s => s.DateCreated).ToList();
 		}
-		//else
-		//{
-		//	output = output.OrderByDescending(s => s.UserVotes.Count)
-		//									.ThenByDescending(s => s.DateCreated).ToList();
-		//}
+	//else
+	//{
+	//	output = output.OrderByDescending(s => s.UserVotes.Count)
+	//									.ThenByDescending(s => s.DateCreated).ToList();
+	//}
 
 		issues = output;
 
@@ -297,10 +297,7 @@
 		{
 			return "sort-selected";
 		}
-		else
-		{
-			return "";
-		}
+		return "";
 	}
 
 	//private string GetVoteClass(SuggestionModel suggestion)
@@ -326,14 +323,14 @@
 			return "suggestion-entry-status-none";
 		}
 
-		string output = issue.IssueStatus.StatusName switch
+		var output = issue.IssueStatus.StatusName switch
 		{
 			"Completed" => "suggestion-entry-status-completed",
 			"Watching" => "suggestion-entry-status-watching",
 			"Upcoming" => "suggestion-entry-status-upcoming",
 			"Dismissed" => "suggestion-entry-status-dismissed",
-			_ => "suggestion-entry-status-none",
-		};
+			_ => "suggestion-entry-status-none"
+			};
 
 		return output;
 	}
@@ -356,9 +353,7 @@
 		{
 			return "selected-status";
 		}
-		else
-		{
-			return "";
-		}
+		return "";
 	}
+
 }

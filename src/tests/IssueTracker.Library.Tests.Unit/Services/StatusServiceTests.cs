@@ -5,12 +5,10 @@ namespace IssueTracker.Library.Tests.Unit.Services;
 [ExcludeFromCodeCoverage]
 public class StatusServiceTests
 {
-	private StatusService _sut;
-	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-
-	delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
+	private StatusService _sut;
 
 	public StatusServiceTests()
 	{
@@ -204,4 +202,6 @@ public class StatusServiceTests
 
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateStatus(null));
 	}
+
+	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
 }

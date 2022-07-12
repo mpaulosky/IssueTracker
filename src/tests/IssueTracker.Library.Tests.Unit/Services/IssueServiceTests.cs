@@ -5,12 +5,10 @@ namespace IssueTracker.Library.Tests.Unit.Services;
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests
 {
-	private IssueService _sut;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-
-	delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private IssueService _sut;
 
 	public IssueServiceTests()
 	{
@@ -234,7 +232,7 @@ public class IssueServiceTests
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
 	}
-	
+
 	[Fact(DisplayName = "Get Users Issues With empty string")]
 	public async Task GetUsersIssues_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync()
 	{
@@ -269,15 +267,15 @@ public class IssueServiceTests
 		// Arrange
 
 		var updatedIssue = TestIssues.GetUpdatedIssue();
-		
+
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
 		await _sut.UpdateIssue(updatedIssue);
-		
+
 		// Assert
-		
+
 		_sut.Should().NotBeNull();
 
 		_issueRepositoryMock
@@ -298,4 +296,6 @@ public class IssueServiceTests
 
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null));
 	}
+
+	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
 }

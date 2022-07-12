@@ -5,13 +5,13 @@ namespace IssueTracker.Library.Tests.Unit.DataAccess;
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
 {
-	private IssueRepository _sut;
-	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
-	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
 	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
+	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
+	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<IssueModel> _list = new();
+	private IssueRepository _sut;
 	private List<UserModel> _users = new();
 
 	public IssueRepositoryTests()
@@ -54,7 +54,7 @@ public class IssueRepositoryTests
 		_mockCollection.Verify(c =>
 			c.InsertOneAsync(newIssue, null, default), Times.Once);
 		_mockUserCollection.Verify(c =>
-				c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), user, It.IsAny<ReplaceOptions>(),
+			c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), user, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
@@ -186,6 +186,6 @@ public class IssueRepositoryTests
 				c.ReplaceOneAsync(
 					It.IsAny<FilterDefinition<IssueModel>>(), updatedIssue,
 					It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

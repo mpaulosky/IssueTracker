@@ -10,11 +10,7 @@ public class CreateCommentModel
 		Description = description ?? throw new ArgumentNullException(nameof(description));
 	}
 
-	[Required]
-	[MaxLength(100)]
-	public string Comment { get; }
-	
-	[Required]
-	[MaxLength(500)]
-	public string Description { get; init; }
+	[Required] [MaxLength(100)] public string Comment { get; }
+
+	[Required] [MaxLength(500)] public string Description { get; init; }
 }

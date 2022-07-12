@@ -14,7 +14,7 @@ public class MongoDbContextTests
 		_options = TestFixtures.Settings();
 	}
 
-	[Fact()]
+	[Fact]
 	public void MongoDbContext_With_Valid_Data_Should_Return_A_Context_Test()
 	{
 		// Arrange
@@ -30,7 +30,7 @@ public class MongoDbContextTests
 		context.DbName.Should().Be("TestDb");
 	}
 
-	[Fact()]
+	[Fact]
 	public void GetCollection_With_EmptyName_Should_Fail_Test()
 	{
 		// Arrange
@@ -44,7 +44,7 @@ public class MongoDbContextTests
 		Assert.Throws<ArgumentException>(() => context.GetCollection<UserModel>(""));
 	}
 
-	[Fact()]
+	[Fact]
 	public void GetCollection_With_ValidName_Should_ReturnACollection_Test()
 	{
 		// Arrange

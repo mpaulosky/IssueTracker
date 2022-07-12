@@ -35,10 +35,10 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-submission-heading">Issues</h2>
 		<p>These are your issues that are currently active.</p>
-		<hr />
+		<hr/>
 		@foreach (var s in issues)
 		{
-			<hr class ="my-submission-separator" />
+			<hr class="my-submission-separator"/>
 			<div>
 				@s.IssueName
 			</div>
@@ -58,10 +58,10 @@
 	<div>
 		<h2>Archived Issues</h2>
 		<p>These are your issues that were active but did not gain enough traction.</p>
-		<hr />
+		<hr/>
 		@foreach (var s in archived)
 		{
-			<hr />
+			<hr/>
 			<div>
 				@s.IssueName
 			</div>
@@ -85,7 +85,7 @@
 	{
 		loggedInUser = await authProvider.GetUserFromAuth(userService);
 
-		var results = await issueService.GetUsersIssues(loggedInUser.Id);
+		List<IssueModel> results = await issueService.GetUsersIssues(loggedInUser.Id);
 
 		if (loggedInUser is not null && results is not null)
 		{
@@ -98,4 +98,5 @@
 	{
 		navManager.NavigateTo("/");
 	}
+
 }

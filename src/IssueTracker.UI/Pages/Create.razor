@@ -1,7 +1,7 @@
 ﻿@page "/Create"
+@using IssueTracker.UI.Models
 
 @attribute [Authorize]
-@using IssueTracker.UI.Models
 
 @inject AuthenticationStateProvider AuthProvider
 @inject IIssueService IssueService
@@ -11,11 +11,11 @@
 <h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
 
 <div class="row justify-content-center create-form">
-		<div class="col-xl-8 col-lg-10 form-layout">
-			<div class="close-button-section">
-				<button class="btn btn-close" @onclick="ClosePage"></button>
-			</div>
-			<div class="input-section">
+	<div class="col-xl-8 col-lg-10 form-layout">
+		<div class="close-button-section">
+			<button class="btn btn-close" @onclick="ClosePage"></button>
+		</div>
+		<div class="input-section">
 			<EditForm Model="newIssue" OnValidSubmit="CreateNewIssue">
 				<DataAnnotationsValidator/>
 				<ValidationSummary/>
@@ -33,20 +33,17 @@
 					<button class="btn btn-main btn-lg text-uppercase" type="submit">Submit Issue</button>
 				</div>
 			</EditForm>
-			</div>
 		</div>
+	</div>
 </div>
 
 @code {
 	private CreateIssueModel newIssue = new();
-	//private List<CategoryModel> categories;
-	private UserModel loggedInUser;
+	private UserModel _loggedInUser;
 
 	protected override async Task OnInitializedAsync()
 	{
-	//categories = await categoryData.GetAllCategories();
-
-		loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	}
 
 	private void ClosePage()
@@ -60,7 +57,7 @@
 		{
 			IssueName = newIssue.Issue,
 			Description = newIssue.Description,
-			Author = new BasicUserModel(loggedInUser)
+			Author = new BasicUserModel(_loggedInUser)
 		};
 
 

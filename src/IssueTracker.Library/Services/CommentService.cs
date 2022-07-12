@@ -4,9 +4,9 @@ namespace IssueTracker.Library.Services;
 
 public class CommentService : ICommentService
 {
-	private readonly ICommentRepository _repository;
-	private readonly IMemoryCache _cache;
 	private const string _cacheName = "CommentData";
+	private readonly IMemoryCache _cache;
+	private readonly ICommentRepository _repository;
 
 	public CommentService(ICommentRepository repository, IMemoryCache cache)
 	{
@@ -35,7 +35,7 @@ public class CommentService : ICommentService
 
 		return result;
 	}
-	
+
 	public async Task<List<CommentModel>> GetComments()
 	{
 		var output = _cache.Get<List<CommentModel>>(_cacheName);

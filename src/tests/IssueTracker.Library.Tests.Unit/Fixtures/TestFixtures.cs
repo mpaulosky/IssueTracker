@@ -20,7 +20,8 @@ public static class TestFixtures
 		return cursor;
 	}
 
-	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor) where TEntity : class
+	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor)
+		where TEntity : class
 	{
 		var collection = new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
@@ -46,7 +47,7 @@ public static class TestFixtures
 		// 		It.IsAny<ReplaceOptions>(),
 		// 		It.IsAny<CancellationToken>()
 		// 	)).ReturnnsAsync();
-		
+
 		return collection;
 	}
 
@@ -56,8 +57,8 @@ public static class TestFixtures
 		var context = new Mock<IMongoDbContext>();
 		var mockSession = new Mock<IClientSessionHandle>();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
-		context.Setup(op => 
-			op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
+		context.Setup(op =>
+				op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
 			.Returns(Task.FromResult(mockSession.Object));
 
 		return context;
@@ -65,7 +66,7 @@ public static class TestFixtures
 
 	public static IOptions<DatabaseSettings> Settings()
 	{
-		var settings = new DatabaseSettings() { DatabaseName = "TestDb", ConnectionString = "mongodb://tes123" };
+		var settings = new DatabaseSettings { DatabaseName = "TestDb", ConnectionString = "mongodb://tes123" };
 
 		return Options.Create(settings);
 	}

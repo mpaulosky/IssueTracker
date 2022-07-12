@@ -3,8 +3,8 @@
 [ExcludeFromCodeCoverage]
 public class UserServiceTests
 {
-	private UserService _sut;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
+	private UserService _sut;
 
 	public UserServiceTests()
 	{
@@ -154,7 +154,7 @@ public class UserServiceTests
 
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUserFromAuthentication(""));
 	}
-	
+
 	[Fact(DisplayName = "Get User From Authentication With Null Value")]
 	public async Task GetUserFromAuthentication_With_Null_Value_Should_Return_A_ArgumentException_Test()
 	{
@@ -168,7 +168,7 @@ public class UserServiceTests
 
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUserFromAuthentication(null));
 	}
-	
+
 	[Fact(DisplayName = "Update User With Valid User")]
 	public async Task UpdateUser_With_A_Valid_User_Should_Succeed_Test()
 	{

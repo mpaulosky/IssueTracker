@@ -4,9 +4,9 @@ namespace IssueTracker.Library.Services;
 
 public class StatusService : IStatusService
 {
-	private readonly IStatusRepository _repository;
-	private readonly IMemoryCache _cache;
 	private const string _cacheName = "StatusData";
+	private readonly IMemoryCache _cache;
+	private readonly IStatusRepository _repository;
 
 	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
@@ -32,7 +32,7 @@ public class StatusService : IStatusService
 		}
 
 		var results = await _repository.GetStatus(id);
-		
+
 		return results;
 	}
 

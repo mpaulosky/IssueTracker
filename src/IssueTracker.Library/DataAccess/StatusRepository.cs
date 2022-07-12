@@ -25,7 +25,7 @@ public class StatusRepository : IStatusRepository
 	public async Task<IEnumerable<StatusModel>> GetStatuses()
 	{
 		var all = await _collection.FindAsync(Builders<StatusModel>.Filter.Empty);
-		
+
 		return await all.ToListAsync();
 	}
 
