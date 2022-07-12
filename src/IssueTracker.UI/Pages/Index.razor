@@ -60,7 +60,7 @@
 	private string searchText = "";
 	bool isSortedByNew = true;
 
-	protected async override Task OnInitializedAsync()
+	protected override async Task OnInitializedAsync()
 	{
 		issues = await issueService.GetIssues();
 		statuses = await statusService.GetStatuses();
