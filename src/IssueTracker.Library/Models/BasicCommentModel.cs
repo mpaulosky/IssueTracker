@@ -9,7 +9,7 @@ public class BasicCommentModel
 	public BasicCommentModel(CommentModel comment)
 	{
 		Id = comment.Id;
-		Comment = comment.CommentName;
+		Comment = comment.Comment;
 	}
 
 	[BsonRepresentation(BsonType.ObjectId)]
