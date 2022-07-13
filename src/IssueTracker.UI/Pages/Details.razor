@@ -1,0 +1,100 @@
+﻿@page "/Details/{Id}"
+
+@inject AuthenticationStateProvider AuthProvider
+@inject IIssueService IssueService
+@inject NavigationManager NavManager
+@inject IUserService UserService
+
+<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+
+@if (issue is not null)
+{
+	<div class="row justify-content-center detail-form">
+		<div class="col-xl-8 col-lg-10 form-layout">
+			<div class="row issue-detail-row">
+				<div class="col-11 issue-detail">
+					<div class>
+						<div class="issue-detail-no-votes" @onclick="VoteUp">
+							<div class="text-uppercase">@GetUpvoteTopText()</div>
+							<span class="oi oi-caret-top detail-upvote"></span>
+							<div class="text-uppercase">@GetUpvoteBottomText()</div>
+						</div>
+						<div class="issue-detail-date">
+							<div>@issue.DateCreated.ToString("MM.dd.yyyy")</div>
+						</div>
+					</div>
+					<div class="issue-detail-text">
+						<div class="fw-bold mb-2 issue-detail-issue">@issue.IssueName</div>
+						<div class="mb-2 issue-detail-author">@issue.Author.DisplayName</div>
+						<div class="d-none d-md-block mb-2">@issue.Description</div>
+						<div class="issue-entry-text-category hide-at-small">Dev Questions</div>
+					</div>
+				</div>
+				<div class="col-1 close-button-section">
+					<button class="btn btn-close" @onclick="ClosePage"></button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="issue-detail-text d-block d-md-none">
+					<div>I find myself going through periods where I am spending all of my time doing training things, like watching various youtube channels that cover coding topics. The bad thing is I don&#x27;t get any real coding done while consuming all this information. How much is too much and how can you tell when you need to stop &quot;learning&quot; and start coding?</div>
+					<div class="issue-entry-text-category">Dev Questions</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@if (issue?.IssueStatus is not null)
+	{
+		<div class="row justify-content-center detail-form">
+			<div class="col-xl-8 col-lg-10 issue-results form-layout">
+				<div class="issue-detail-status-complete"></div>
+				<div class="issue-detail-status-section">
+					<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">
+						@issue.IssueStatus.StatusName
+					</div>
+					<div class="issue-detail-owner-notes">
+						@((MarkupString)issue.OwnerNotes)
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+@code {
+
+	[Parameter]
+	public string Id { get; set; }
+
+	private UserModel _loggedInUser;
+	private IssueModel issue;
+
+	protected override async Task OnInitializedAsync()
+	{
+		issue = await IssueService.GetIssue(Id);
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+	}
+
+	private async Task VoteUp()
+	{
+	}
+
+	private string GetUpvoteTopText()
+	{
+		const int userVotes = 0;
+		return userVotes > 0 ? "00" : issue.Author.Id == _loggedInUser?.Id ? "Awaiting" : "Click To";
+	}
+
+	private string GetUpvoteBottomText()
+	{
+		var userVotes = 0;
+
+		return userVotes > 1 ? "Upvotes" : "Upvote";
+	}
+
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
+	}
+
+}
