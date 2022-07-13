@@ -19,6 +19,8 @@ public class IssueModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
+	public CategoryModel Category { get; set; }
+	
 	public BasicUserModel Author { get; set; }
 
 	public StatusModel IssueStatus { get; set; }
