@@ -121,7 +121,7 @@ public partial class SampleData
 
 		var comment = new CommentModel
 		{
-			CommentName = "Test Comment 1",
+			Comment = "Test Comment 1",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
@@ -131,7 +131,7 @@ public partial class SampleData
 
 		comment = new CommentModel
 		{
-			CommentName = "Test Comment 2",
+			Comment = "Test Comment 2",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
@@ -141,7 +141,7 @@ public partial class SampleData
 
 		comment = new CommentModel
 		{
-			CommentName = "Test Comment 3",
+			Comment = "Test Comment 3",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = new HashSet<string>(),

@@ -31,9 +31,9 @@ public class StatusService : IStatusService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var results = await _repository.GetStatus(id);
+		var result = await _repository.GetStatus(id);
 
-		return results;
+		return result;
 	}
 
 	public async Task<List<StatusModel>> GetStatuses()
