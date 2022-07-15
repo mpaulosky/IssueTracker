@@ -1,10 +1,10 @@
 ﻿@page "/Profile"
 
 @attribute [Authorize]
-@inject AuthenticationStateProvider authProvider
-@inject IIssueService issueService
-@inject IUserService userService
-@inject NavigationManager navManager
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject IIssueService IssueService
+@inject IUserService UserService
 
 <PageTitle>Profile</PageTitle>
 
@@ -17,7 +17,7 @@
 </div>
 
 <div class="form-layout mb-3">
-	<h2 class="my-submission-heading">My Account</h2>
+	<h2 class="my-issue-heading">My Account</h2>
 	<p>
 		You are currently signed up to receive emails when the status
 		of your suggestion changes. Would you like to opt out of
@@ -26,19 +26,19 @@
 			Turn Off Notifications
 		</button>
 	</p>
-	<p class="my-submission-text">
+	<p class="my-issue-text">
 		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
 	</p>
 </div>
-@if (issues?.Count > 0)
+@if (_issues?.Count > 0)
 {
 	<div class="form-layout mb-3">
-		<h2 class="my-submission-heading">Issues</h2>
+		<h2 class="my-issue-heading">Issues</h2>
 		<p>These are your issues that are currently active.</p>
 		<hr/>
-		@foreach (var s in issues)
+		@foreach (var s in _issues)
 		{
-			<hr class="my-submission-separator"/>
+			<hr class="my-issue-separator" />
 			<div>
 				@s.IssueName
 			</div>
@@ -53,13 +53,13 @@
 	</div>
 }
 
-@if (archived?.Count > 0)
+@if (_archived?.Count > 0)
 {
 	<div>
 		<h2>Archived Issues</h2>
 		<p>These are your issues that were active but did not gain enough traction.</p>
 		<hr/>
-		@foreach (var s in archived)
+		@foreach (var s in _archived)
 		{
 			<hr/>
 			<div>
@@ -74,29 +74,4 @@
 			}
 		}
 	</div>
-}
-
-@code {
-	private UserModel loggedInUser;
-	private List<IssueModel> issues;
-	private List<IssueModel> archived;
-
-	protected override async Task OnInitializedAsync()
-	{
-		loggedInUser = await authProvider.GetUserFromAuth(userService);
-
-		List<IssueModel> results = await issueService.GetUsersIssues(loggedInUser.Id);
-
-		if (loggedInUser is not null && results is not null)
-		{
-			issues = results.OrderByDescending(s => s.DateCreated).ToList();
-			archived = issues.Where(s => s.Archived).ToList();
-		}
-	}
-
-	private void ClosePage()
-	{
-		navManager.NavigateTo("/");
-	}
-
 }
