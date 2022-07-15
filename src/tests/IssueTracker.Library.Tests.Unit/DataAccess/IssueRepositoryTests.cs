@@ -151,6 +151,61 @@ public class IssueRepositoryTests
 		items.ToList().Should().HaveCount(2);
 	}
 
+	[Fact(DisplayName = "GetIssues Waiting For Approval")]
+	public async Task GetIssuesWaitingForApproval_With_ListOfIssus_Should_ReturnAListOfIssuesWaitingForApproval_Test()
+	{
+		// Arrange
+
+		_list = TestIssues.GetIssues().ToList();
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new IssueRepository(_mockContext.Object);
+
+		// Act
+		
+		var result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		
+		// Assert
+
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+		var items = result.ToList();
+		items.ToList().Should().NotBeNull();
+		items.ToList().Should().HaveCount(1);
+	}
+
+	[Fact(DisplayName = "Get Approved Issues")]
+	public async Task GetApprovedIssues_With_ValidData_Should_ReturnAListOfIssues_Test()
+	{
+		// Arrange
+
+		_list = TestIssues.GetIssues().ToList();
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new IssueRepository(_mockContext.Object);
+
+		// Act
+		
+		var result = await _sut.GetApprovedIssues().ConfigureAwait(false);
+		
+		// Assert
+
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+		var items = result.ToList();
+		items.ToList().Should().NotBeNull();
+		items.ToList().Should().HaveCount(2);	}
+	
 	[Fact(DisplayName = "Update Issue with valid Issue")]
 	public async Task UpdateIssue_With_A_Valid_Id_And_Issue_Should_UpdateIssue_Test()
 	{

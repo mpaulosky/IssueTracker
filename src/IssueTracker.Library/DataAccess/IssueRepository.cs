@@ -74,7 +74,7 @@ public class IssueRepository : IIssueRepository
 	{
 		var output = await GetIssues();
 		return output.Where(x =>
-			x.ApprovedForRelease == true
+			x.ApprovedForRelease
 			&& x.Rejected == false).ToList();
 	}
 

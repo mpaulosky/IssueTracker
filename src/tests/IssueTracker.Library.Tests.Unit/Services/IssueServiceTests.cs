@@ -261,6 +261,64 @@ public class IssueServiceTests
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersIssues(null));
 	}
 
+	[Fact(DisplayName = "GetIssuesWaitingForApproval")]
+	public async Task GetIssuesWaitingForApproval_With_ValidData_Should_ReturnAListOfIssues_Test()
+	{
+		//Arrange
+
+		const int expectedCount = 1;
+
+		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+
+		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
+
+		string? keyPayload = null;
+		_memoryCacheMock
+			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+			.Callback((object k) => keyPayload = (string)k)
+			.Returns(_mockCacheEntry.Object);
+
+		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+
+		//Act
+
+		var results = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+
+		//Assert
+
+		results.Should().NotBeNull();
+		results.Count.Should().Be(expectedCount);
+	}
+
+	[Fact(DisplayName = "GetApprovedIssues")]
+	public async Task GetApprovedIssues_With_ValidData_Should_ReturnAListOfIssues_Test()
+	{
+		//Arrange
+
+		const int expectedCount = 2;
+
+		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
+
+		_issueRepositoryMock.Setup(x => x.GetApprovedIssues()).ReturnsAsync(expected);
+
+		string? keyPayload = null;
+		_memoryCacheMock
+			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+			.Callback((object k) => keyPayload = (string)k)
+			.Returns(_mockCacheEntry.Object);
+
+		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+
+		//Act
+
+		var results = await _sut.GetApprovedIssues();
+
+		//Assert
+
+		results.Should().NotBeNull();
+		results.Count.Should().Be(expectedCount);
+	}
+
 	[Fact(DisplayName = "Update Issue With Valid Issue")]
 	public async Task UpdateIssue_With_A_Valid_Issue_Should_Succeed_Test()
 	{

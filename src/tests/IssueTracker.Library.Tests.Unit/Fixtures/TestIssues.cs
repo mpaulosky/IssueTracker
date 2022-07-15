@@ -16,7 +16,9 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 1"
+				OwnerNotes = "Notes for Issue 1",
+				ApprovedForRelease = true,
+				Rejected = false
 			},
 			new()
 			{
@@ -27,7 +29,9 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 2"
+				OwnerNotes = "Notes for Issue 2",
+				ApprovedForRelease = false,
+				Rejected = false
 			},
 			new()
 			{
@@ -38,7 +42,9 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 3"
+				OwnerNotes = "Notes for Issue 3",
+				ApprovedForRelease = true,
+				Rejected = false
 			}
 		};
 
