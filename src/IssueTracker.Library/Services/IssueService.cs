@@ -117,4 +117,26 @@ public class IssueService : IIssueService
 
 		_cache.Remove(_cacheName);
 	}
+
+	/// <summary>
+	/// Get Issues Waiting For Approval
+	/// </summary>
+	/// <returns>A List of Issues Waiting For Approval</returns>
+	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
+	{
+		var results = await _repository.GetIssuesWaitingForApproval();
+
+		return results.ToList();
+	}
+
+	/// <summary>
+	/// Get Approved Issues
+	/// </summary>
+	/// <returns>A List of Approved Issues</returns>
+	public async Task<List<IssueModel>> GetApprovedIssues()
+	{
+		var results = await _repository.GetApprovedIssues();
+
+		return results.ToList();
+	}
 }
