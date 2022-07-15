@@ -32,4 +32,7 @@ public class IssueModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; } = false;
+	public bool ApprovedForRelease { get; set; }
+	public bool Rejected { get; set; }
+
 }
