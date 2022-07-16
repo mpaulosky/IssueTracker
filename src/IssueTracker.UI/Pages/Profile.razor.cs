@@ -30,7 +30,22 @@ public partial class Profile
 			_rejected = _issues.Where(s => s.Rejected).ToList();
 		}
 	}
+	private string GetIssueStatusClass(IssueModel issue)
+	{
+		if (issue is null | issue?.IssueStatus is null)
+		{
+			return "issue-profile-status issue-profile-status-none";
+		}
 
+		string output = issue.IssueStatus.StatusName switch
+		{
+			"Answered" => "issue-profile-status issue-profile-status-answered",
+			"Watching" => "issue-profile-status issue-profile-status-watching",
+			"Dismissed" => "issue-profile-status issue-profile-status-dismissed",
+			_ => "issue-profile-status issue-profile-status-none",
+		};
+		return output;
+	}
 	private void ClosePage()
 	{
 		NavManager.NavigateTo("/");
