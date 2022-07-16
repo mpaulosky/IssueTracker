@@ -6,6 +6,7 @@ public static class CollectionNames
 	{
 		return entityName switch
 		{
+			"CategoryModel" => "categories",
 			"CommentModel" => "comments",
 			"IssueModel" => "issues",
 			"StatusModel" => "statuses",

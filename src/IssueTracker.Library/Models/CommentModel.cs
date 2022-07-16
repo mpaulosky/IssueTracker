@@ -7,9 +7,9 @@ public class CommentModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
-	[BsonElement("comment_name")]
+	[BsonElement("comment")]
 	[BsonRepresentation(BsonType.String)]
-	public string CommentName { get; set; }
+	public string Comment { get; set; }
 
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]

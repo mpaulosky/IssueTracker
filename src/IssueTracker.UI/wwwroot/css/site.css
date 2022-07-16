@@ -190,7 +190,7 @@ a:hover, .btn-link:hover {
 
 .issue-entry {
   display: grid;
-  grid-template-columns: 142px 1fr 45px;
+  grid-template-columns: 1fr 45px;
   border-radius: 20px;
   margin: 20px 0;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -234,9 +234,11 @@ a:hover, .btn-link:hover {
 .issue-entry-text {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 10px;  
   padding-left: 20px;
   background-color: #FFFFFF;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
 }
 
 .issue-entry-text-title {
@@ -265,7 +267,7 @@ a:hover, .btn-link:hover {
   padding-right: 1rem;
 }
 
-.issue-entry-status-completed {
+.issue-entry-status-answered {
   background-color: #B5D43A;
   border: 1px #B5D43A solid;
 }
@@ -275,17 +277,45 @@ a:hover, .btn-link:hover {
   border: 1px solid #E9354C;
 }
 
-.issue-entry-status-upcoming {
-  background-color: #835581;
-  border: 1px solid #835581;
-}
-
 .issue-entry-status-dismissed {
   background-color: #F9C30B;
   border: 1px solid #F9C30B;
 }
 
 .issue-entry-status-none {
+  background-color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+}
+
+.issue-profile-status{
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  line-height: 1.75;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 1.2px;
+}
+.issue-profile-status-answered {
+  background-color: #B5D43A;
+  border: 1px #B5D43A solid;
+}
+
+.issue-profile-status-watching {
+  background-color: #E9354C;
+  border: 1px solid #E9354C;
+}
+
+.issue-profile-status-dismissed {
+  background-color: #F9C30B;
+  border: 1px solid #F9C30B;
+}
+
+.issue-profile-status-none {
   background-color: #FFFFFF;
   border: 1px solid #FFFFFF;
 }
@@ -466,7 +496,7 @@ a:hover, .btn-link:hover {
   margin-top: 20px;
 }
 
-.issue-detail-status-complete {
+.issue-detail-status-answered {
   background-color: #B5D43A;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
@@ -508,7 +538,7 @@ a:hover, .btn-link:hover {
   padding-bottom: 20px;
 }
 
-.submission {
+.issue {
   background-color: #FFFFFF;
   border-radius: 10px;
   padding: 1rem;
@@ -556,47 +586,50 @@ a:hover, .btn-link:hover {
   border-radius: 10px;
 }
 
-.submission-edit-approve {
-  color: #B5D43A;
+.issue-edit-approve {
+    color: #B5D43A;
 }
 
-.submission-edit-approve:hover {
-  font-weight: 700;
+    .issue-edit-approve:hover {
+        font-weight: 700;
+    }
+
+.issue-edit-reject {
+    color: #E9354C;
 }
 
-.submission-edit-reject {
-  color: #E9354C;
+    .issue-edit-reject:hover {
+        font-weight: 700;
+    }
+
+.issue-edit-icon {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
-.submission-edit-reject:hover {
-  font-weight: 700;
+    .issue-edit-icon:hover {
+        color: #39BAD8
+    }
+
+.my-issue-heading {
+    color: #000000;
+    text-transform: uppercase;
 }
 
-.submission-edit-icon {
-  padding-left: 1rem;
-  padding-right: 1rem;
+.my-issue-text {
+    margin-bottom: 0;
+    padding-left: 1rem;
 }
 
-.submission-edit-icon:hover {
-  color: #39BAD8
+.my-issue-separator {
+    color: #a9a9a9;
+    height: 2px;
+    opacity: 1;
 }
 
-.my-submission-heading {
-  color: #000000;
-  text-transform: uppercase;
+.my-ownernote-text{
+  margin-top: 5px;
 }
-
-.my-submission-text {
-  margin-bottom: 0;
-  padding-left: 1rem;
-}
-
-.my-submission-separator {
-  color: #a9a9a9;
-  height: 2px;
-  opacity: 1;
-}
-
 .issue-entry-bottom {
   display: flex;
 }
@@ -691,9 +724,9 @@ a:hover, .btn-link:hover {
     padding-left: 0.75rem;
   }
 
-  .suggest-container {
-    margin-bottom: 1rem;
-  }
+    .issue-container {
+        margin-bottom: 1rem;
+    }
 
   .create-form {
     margin: 0;
@@ -709,11 +742,11 @@ a:hover, .btn-link:hover {
     padding: 1rem;
   }
 
-  .submission {
-    margin: 0;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
+    .issue {
+        margin: 0;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
 
   .issue-results {
     padding: 0;

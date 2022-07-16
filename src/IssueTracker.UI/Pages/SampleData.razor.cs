@@ -7,6 +7,7 @@ public partial class SampleData
 	private bool _commentsCreated;
 	private UserModel _foundUser = new();
 	private bool _statusesCreated;
+	private bool _categoriesCreated;
 
 	private async Task GenerateSampleData()
 	{
@@ -18,11 +19,11 @@ public partial class SampleData
 			DisplayName = "Sample Tim Corey",
 			ObjectIdentifier = "abc-123"
 		};
-		await _userService.CreateUser(user);
+		await UserService.CreateUser(user);
 
-		_foundUser = await _userService.GetUserFromAuthentication("abc-123");
+		_foundUser = await UserService.GetUserFromAuthentication("abc-123");
 
-		var statuses = await _statusService.GetStatuses();
+		var statuses = await StatusService.GetStatuses();
 
 		IssueModel issue = new()
 		{
@@ -30,7 +31,7 @@ public partial class SampleData
 			IssueName = "Our First Issue",
 			Description = "This is a suggestion created by the sample data generation method."
 		};
-		await _issueService.CreateIssue(issue);
+		await IssueService.CreateIssue(issue);
 
 		issue = new IssueModel
 		{
@@ -40,7 +41,7 @@ public partial class SampleData
 			IssueStatus = statuses[0],
 			OwnerNotes = "This is the note for the status."
 		};
-		await _issueService.CreateIssue(issue);
+		await IssueService.CreateIssue(issue);
 
 		issue = new IssueModel
 		{
@@ -50,7 +51,7 @@ public partial class SampleData
 			IssueStatus = statuses[1],
 			OwnerNotes = "This is the note for the status."
 		};
-		await _issueService.CreateIssue(issue);
+		await IssueService.CreateIssue(issue);
 
 		issue = new IssueModel
 		{
@@ -60,7 +61,7 @@ public partial class SampleData
 			IssueStatus = statuses[2],
 			OwnerNotes = "This is the note for the status."
 		};
-		await _issueService.CreateIssue(issue);
+		await IssueService.CreateIssue(issue);
 
 		issue = new IssueModel
 		{
@@ -70,12 +71,12 @@ public partial class SampleData
 			IssueStatus = statuses[3],
 			OwnerNotes = "This is the note for the status."
 		};
-		await _issueService.CreateIssue(issue);
+		await IssueService.CreateIssue(issue);
 	}
 
 	private async Task CreateStatuses()
 	{
-		var statuses = await _statusService.GetStatuses();
+		var statuses = await StatusService.GetStatuses();
 		if (statuses?.Count > 0)
 		{
 			return;
@@ -86,33 +87,33 @@ public partial class SampleData
 			StatusName = "Completed",
 			StatusDescription = "The suggestion was accepted and the corresponding item was created."
 		};
-		await _statusService.CreateStatus(stat);
+		await StatusService.CreateStatus(stat);
 
 		stat = new StatusModel
 		{
 			StatusName = "Watching",
 			StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
 		};
-		await _statusService.CreateStatus(stat);
+		await StatusService.CreateStatus(stat);
 
 		stat = new StatusModel
 		{
 			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
-		await _statusService.CreateStatus(stat);
+		await StatusService.CreateStatus(stat);
 
 		stat = new StatusModel
 		{
 			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
-		await _statusService.CreateStatus(stat);
+		await StatusService.CreateStatus(stat);
 
 		_statusesCreated = true;
 	}
 
 	private async Task CreateComments()
 	{
-		var comments = await _commentService.GetComments();
+		var comments = await CommentService.GetComments();
 
 		if (comments?.Count > 0)
 		{
@@ -121,34 +122,82 @@ public partial class SampleData
 
 		var comment = new CommentModel
 		{
-			CommentName = "Test Comment 1",
+			Comment = "Test Comment 1",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
 			Status = new StatusModel()
 		};
-		await _commentService.CreateComment(comment);
+		await CommentService.CreateComment(comment);
 
 		comment = new CommentModel
 		{
-			CommentName = "Test Comment 2",
+			Comment = "Test Comment 2",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
 			Status = new StatusModel()
 		};
-		await _commentService.CreateComment(comment);
+		await CommentService.CreateComment(comment);
 
 		comment = new CommentModel
 		{
-			CommentName = "Test Comment 3",
+			Comment = "Test Comment 3",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = new HashSet<string>(),
 			Status = new StatusModel()
 		};
-		await _commentService.CreateComment(comment);
+		await CommentService.CreateComment(comment);
 
 		_commentsCreated = true;
 	}
+	
+	private async Task CreateCategories()
+	{
+		var categories = await CategoryService.GetCategories();
+		
+		if (categories?.Count > 0)
+		{
+			return;
+		}
+
+		CategoryModel cat = new()
+		{
+			CategoryName = "Design",
+			CategoryDescription = "An Issue with the design."
+		};
+		await CategoryService.CreateCategory(cat);
+
+		cat = new()
+		{
+			CategoryName = "Documentation",
+			CategoryDescription = "An Issue with the documentation."
+		};
+		await CategoryService.CreateCategory(cat);
+
+		cat = new()
+		{
+			CategoryName = "Implementation",
+			CategoryDescription = "An Issue with the implementation."
+		};
+		await CategoryService.CreateCategory(cat);
+
+		cat = new()
+		{
+			CategoryName = "Clarification",
+			CategoryDescription = "A quick Issue with a general question."
+		};
+		await CategoryService.CreateCategory(cat);
+
+		cat = new()
+		{
+			CategoryName = "Miscellaneous",
+			CategoryDescription = "Not sure where this fits."
+		};
+		await CategoryService.CreateCategory(cat);
+
+		_categoriesCreated = true;
+	}
+
 }

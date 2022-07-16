@@ -11,4 +11,8 @@ public interface IIssueService
 	Task<List<IssueModel>> GetUsersIssues(string userId);
 
 	Task UpdateIssue(IssueModel suggestion);
+
+	Task<List<IssueModel>> GetIssuesWaitingForApproval();
+	
+	Task<List<IssueModel>> GetApprovedIssues();
 }

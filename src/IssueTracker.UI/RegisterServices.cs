@@ -33,10 +33,13 @@ public static class RegisterServices
 		});
 
 		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
+		builder.Services.AddSingleton<ICategoryService, CategoryService>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();
 		builder.Services.AddSingleton<IIssueService, IssueService>();
 		builder.Services.AddSingleton<IUserService, UserService>();
+		
+		builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 		builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
 		builder.Services.AddSingleton<IStatusRepository, StatusRepository>();
 		builder.Services.AddSingleton<IIssueRepository, IssueRepository>();

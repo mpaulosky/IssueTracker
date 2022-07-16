@@ -62,6 +62,23 @@ public class IssueRepository : IIssueRepository
 		return await all.ToListAsync();
 	}
 
+	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
+	{
+		var output = await GetIssues();
+		return output.Where(x =>
+			x.ApprovedForRelease == false
+			&& x.Rejected == false).ToList();
+	}
+
+	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
+	{
+		var output = await GetIssues();
+		return output.Where(x =>
+			x.ApprovedForRelease
+			&& x.Rejected == false).ToList();
+	}
+
+
 	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
 		var objectId = new ObjectId(userId);

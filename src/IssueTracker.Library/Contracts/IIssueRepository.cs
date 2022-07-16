@@ -7,4 +7,7 @@ public interface IIssueRepository
 	Task<IEnumerable<IssueModel>> GetIssues();
 	Task<IEnumerable<IssueModel>> GetUsersIssues(string userId);
 	Task UpdateIssue(string id, IssueModel issue);
+	Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval();
+	Task<IEnumerable<IssueModel>> GetApprovedIssues();
+
 }

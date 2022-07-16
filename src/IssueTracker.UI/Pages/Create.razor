@@ -1,12 +1,14 @@
 ﻿@page "/Create"
-@using IssueTracker.UI.Models
+
+@using IssueTracker.UI.Components
 
 @attribute [Authorize]
 
 @inject AuthenticationStateProvider AuthProvider
-@inject IIssueService IssueService
-@inject IUserService UserService
 @inject NavigationManager NavManager
+@inject IIssueService IssueService
+@inject ICategoryService CategoryService
+@inject IUserService UserService
 
 <h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
 
@@ -15,55 +17,40 @@
 		<div class="close-button-section">
 			<button class="btn btn-close" @onclick="ClosePage"></button>
 		</div>
-		<div class="input-section">
-			<EditForm Model="newIssue" OnValidSubmit="CreateNewIssue">
+		@if (_categories is not null)
+		{
+			<EditForm Model="_issue" OnValidSubmit="CreateSuggestion">
 				<DataAnnotationsValidator/>
 				<ValidationSummary/>
 				<div class="input-section">
-					<label for="issue-text" class="form-label fw-bold text-uppercase">Issue Title</label>
-					<div class="input-description">Add a brief title for the Issue you are reporting.</div>
-					<InputText id="issue-text" class="form-control valid" @bind-Value="newIssue.Issue"/>
+					<label class="form-label fw-bold text-uppercase" for="issue-text">Suggestion</label>
+					<div class="input-description">Focus on the topic or technology you want to learn about.</div>
+					<InputText class="form-control" id="issue-text" @bind-Value="_issue.Issue" />
 				</div>
 				<div class="input-section">
-					<label for="description" class="form-label fw-bold text-uppercase">Description</label>
-					<div class="input-description">Describe in detail the issue and it's results.</div>
-					<InputTextArea id="description" class="form-control valid" @bind-Value="newIssue.Description"/>
+					<label class="form-label fw-bold text-uppercase" for="category">Category</label>
+					<div class="input-description">Choose one category.</div>
+					<div class="col-lg-8">
+						<MyInputRadioGroup id="category" @bind-Value="_issue.CategoryId">
+							@foreach (var c in _categories)
+							{
+								<div class="radio-item-group">
+									<InputRadio Value="@c.Id" id="@c.Id"/>
+									<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
+								</div>
+							}
+						</MyInputRadioGroup>
+					</div>
+				</div>
+				<div class="input-section">
+					<label class="form-label fw-bold text-uppercase" for="description">Description</label>
+					<div class="input-description">Briefly describe your suggestion.</div>
+					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description"/>
 				</div>
 				<div class="center-children">
-					<button class="btn btn-main btn-lg text-uppercase" type="submit">Submit Issue</button>
+					<button class="btn btn-main btn-lg text-uppercase" type="submit">Suggest</button>
 				</div>
 			</EditForm>
-		</div>
+		}
 	</div>
 </div>
-
-@code {
-	private CreateIssueModel newIssue = new();
-	private UserModel _loggedInUser;
-
-	protected override async Task OnInitializedAsync()
-	{
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
-	}
-
-	private void ClosePage()
-	{
-		NavManager.NavigateTo("/");
-	}
-
-	private async Task CreateNewIssue()
-	{
-		IssueModel s = new()
-		{
-			IssueName = newIssue.Issue,
-			Description = newIssue.Description,
-			Author = new BasicUserModel(_loggedInUser)
-		};
-
-
-		await IssueService.CreateIssue(s);
-		newIssue = new CreateIssueModel();
-		ClosePage();
-	}
-
-}
