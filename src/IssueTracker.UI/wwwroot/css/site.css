@@ -123,7 +123,7 @@ a:hover, .btn-link:hover {
 
 .btn-order {
   background-color: #FFFFFF;
-  border: 0px solid #DDDDDD;
+  border: 0 solid #DDDDDD;
   border-radius: 10px;
 }
 
@@ -193,7 +193,7 @@ a:hover, .btn-link:hover {
   grid-template-columns: 1fr 45px;
   border-radius: 20px;
   margin: 20px 0;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .issue-entry-no-votes,
@@ -234,8 +234,7 @@ a:hover, .btn-link:hover {
 .issue-entry-text {
   display: flex;
   flex-direction: column;
-  padding: 10px;  
-  padding-left: 20px;
+  padding: 10px 10px 10px 20px;
   background-color: #FFFFFF;
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
@@ -261,10 +260,7 @@ a:hover, .btn-link:hover {
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   display: flex;
-  padding-top: 1rem;
-  padding-left: 0.2rem;
-  padding-bottom: 1rem;
-  padding-right: 1rem;
+  padding: 1rem 1rem 1rem 0.2rem;
 }
 
 .issue-entry-status-answered {
@@ -275,6 +271,11 @@ a:hover, .btn-link:hover {
 .issue-entry-status-watching {
   background-color: #E9354C;
   border: 1px solid #E9354C;
+}
+
+.issue-entry-status-inwork {
+  background-color: #fd7e14;
+  border: 1px solid #fd7e14;
 }
 
 .issue-entry-status-dismissed {
@@ -288,10 +289,7 @@ a:hover, .btn-link:hover {
 }
 
 .issue-profile-status{
-  border-bottom-right-radius: 15px;
-  border-top-right-radius: 15px;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
+  border-radius: 15px;
   color: white;
   padding: 5px;
   text-align: center;
@@ -308,6 +306,11 @@ a:hover, .btn-link:hover {
 .issue-profile-status-watching {
   background-color: #E9354C;
   border: 1px solid #E9354C;
+}
+
+.issue-profile-status-inwork {
+  background-color: #fd7e14;
+  border: 1px solid #fd7e14;
 }
 
 .issue-profile-status-dismissed {
@@ -476,9 +479,7 @@ a:hover, .btn-link:hover {
 .issue-detail-text {
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  padding-left: 27px;
-  padding-top: 0;
+  padding: 0 10px 10px 27px;
 }
 
 .issue-detail-issue {
@@ -504,6 +505,12 @@ a:hover, .btn-link:hover {
 
 .issue-detail-status-watching {
   background-color: #E9354C;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.issue-detail-status-inwork {
+  background-color: #fd7e14;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
@@ -667,16 +674,16 @@ a:hover, .btn-link:hover {
   flex-wrap: wrap;
 }
 
-.btn-status-completed:hover {
+.btn-status-answered:hover {
   color: #B5D43A;
+}
+
+.btn-status-inwork:hover {
+  color: #fd7e14;
 }
 
 .btn-status-watching:hover {
   color: #E9354C;
-}
-
-.btn-status-upcoming:hover {
-  color: #835581;
 }
 
 .btn-status-dismissed:hover {
@@ -718,10 +725,8 @@ a:hover, .btn-link:hover {
 
   .categories,
   .statuses {
-    margin: 0;
-    margin-top: 10px;
-    padding: 0.375rem;
-    padding-left: 0.75rem;
+    margin: 10px 0 0;
+    padding: 0.375rem 0.375rem 0.375rem 0.75rem;
   }
 
     .issue-container {
@@ -729,13 +734,11 @@ a:hover, .btn-link:hover {
     }
 
   .create-form {
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
   }
 
   .detail-form {
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
   }
 
   .form-layout {
@@ -743,9 +746,8 @@ a:hover, .btn-link:hover {
   }
 
     .issue {
-        margin: 0;
-        padding: 0.5rem;
-        margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      margin: 0 0 0.5rem;
     }
 
   .issue-results {

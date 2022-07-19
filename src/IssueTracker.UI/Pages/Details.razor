@@ -1,5 +1,7 @@
 ﻿@page "/Details/{Id}"
 
+@attribute [Authorize(Policy = "Admin")]
+
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
@@ -57,10 +59,7 @@
 			<div class="@GetStatusClass()"></div>
 			<div class="issue-detail-status-section">
 				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">
-					@if (_issue.IssueStatus is not null)
-					{
-						@_issue.IssueStatus.StatusName
-					}
+					@_issue.IssueStatus.StatusName
 				</div>
 				<div class="issue-detail-owner-notes">
 					@if (_issue.OwnerNotes is not null)
@@ -88,6 +87,10 @@
 							<button @onclick="@(() => _settingStatus = "answered")"
 									class="btn issue-entry-text-category btn-archive btn-status-answered">
 								answered
+							</button>
+							<button @onclick="@(() => _settingStatus = "in work")"
+											class="btn issue-entry-text-category btn-archive btn-status-inwork">
+								in work
 							</button>
 							<button @onclick="@(() => _settingStatus = "watching")"
 									class="btn issue-entry-text-category btn-archive btn-status-watching">

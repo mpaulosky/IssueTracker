@@ -40,6 +40,7 @@ public partial class Profile
 		string output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-profile-status issue-profile-status-answered",
+			"In Work" => "issue-profile-status issue-profile-status-inwork",
 			"Watching" => "issue-profile-status issue-profile-status-watching",
 			"Dismissed" => "issue-profile-status issue-profile-status-dismissed",
 			_ => "issue-profile-status issue-profile-status-none",

@@ -1,6 +1,7 @@
 ﻿@page "/Profile"
 
 @attribute [Authorize]
+
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
@@ -10,26 +11,26 @@
 
 <h1 class="page-heading text-light text-uppercase mb-4">My Profile</h1>
 
-<div class="row">
-	<div class="col-12 close-button-section">
+<div class="form-layout mb-3">
+	<div class="close-button-section">
 		<button class="btn btn-close" @onclick="ClosePage"></button>
+	</div>
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">My Account</h2>
+		<p>
+			You are currently signed up to receive emails when the status
+			of your suggestion changes. Would you like to opt out of
+			receiving these emails?
+			<button class="btn btn-danger">
+				Turn Off Notifications
+			</button>
+		</p>
+		<p class="my-issue-text">
+			<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
+		</p>
 	</div>
 </div>
 
-<div class="form-layout mb-3">
-	<h2 class="my-issue-heading">My Account</h2>
-	<p>
-		You are currently signed up to receive emails when the status
-		of your suggestion changes. Would you like to opt out of
-		receiving these emails?
-		<button class="btn btn-danger">
-			Turn Off Notifications
-		</button>
-	</p>
-	<p class="my-issue-text">
-		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
-	</p>
-</div>
 @if (_issues?.Count > 0)
 {
 	<div class="form-layout mb-3">

@@ -289,6 +289,7 @@ public partial class Index
 		string output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",
+			"In Work" => "issue-entry-status-inwork",
 			"Watching" => "issue-entry-status-watching",
 			"Dismissed" => "issue-entry-status-dismissed",
 			_ => "issue-entry-status-none",

@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Components;
 using IssueTracker.UI.Helpers;
+using Microsoft.AspNetCore.Components;
 
 namespace IssueTracker.UI.Pages;
 
 public partial class Details
 {
 	[Parameter] public string Id { get; set; }
+	
+	private UserModel _loggedInUser;
 
 	private IssueModel _issue;
 	private List<StatusModel> _statuses;
@@ -14,8 +16,11 @@ public partial class Details
 
 	protected override async Task OnInitializedAsync()
 	{
+		
 		_issue = await IssueService.GetIssue(Id);
 		_statuses = await StatusService.GetStatuses();
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+
 	}
 
 	private async Task CompleteSetStatus()
@@ -27,11 +32,16 @@ public partial class Details
 				{
 					return;
 				}
-
 				_issue.IssueStatus = _statuses.First(s =>
 					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.OwnerNotes =
 					$"You are right, this is an important topic for developers. We created a resource about it here: <a href='{_urlText}' target='_blank'>{_urlText}</a>";
+				break;
+			case "in work":
+				_issue.IssueStatus = _statuses.First(s =>
+					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.OwnerNotes =
+					"There has been an suggested answer for this issue submitted.";
 				break;
 			case "watching":
 				_issue.IssueStatus = _statuses.First(s =>
@@ -53,11 +63,6 @@ public partial class Details
 		await IssueService.UpdateIssue(_issue);
 	}
 
-	private void ClosePage()
-	{
-		NavManager.NavigateTo("/");
-	}
-
 	private string GetStatusClass()
 	{
 		if (_issue is null | _issue?.IssueStatus is null)
@@ -68,10 +73,16 @@ public partial class Details
 		string output = _issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-detail-status-answered",
+			"In Work" => "issue-detail-status-inwork",
 			"Watching" => "issue-detail-status-watching",
 			"Dismissed" => "issue-detail-status-dismissed",
 			_ => "issue-detail-status-none",
 		};
 		return output;
+	}
+
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
 	}
 }
