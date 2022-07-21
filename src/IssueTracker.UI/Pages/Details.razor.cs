@@ -35,7 +35,7 @@ public partial class Details
 				_issue.IssueStatus = _statuses.First(s =>
 					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.OwnerNotes =
-					$"You are right, this is an important topic for developers. We created a resource about it here: <a href='{_urlText}' target='_blank'>{_urlText}</a>";
+					$"This Issue has a voted answer for it’s solution";
 				break;
 			case "in work":
 				_issue.IssueStatus = _statuses.First(s =>
@@ -47,13 +47,13 @@ public partial class Details
 				_issue.IssueStatus = _statuses.First(s =>
 					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.OwnerNotes =
-					"We noticed the interest this suggestion is getting! If more people are interested we may address this topic in an upcoming resource.";
+					"An Issue was submitted requesting help.";
 				break;
 			case "dismissed":
 				_issue.IssueStatus = _statuses.First(s =>
 					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.OwnerNotes =
-					"Sometimes a good idea doesn�t fit within our scope and vision. This is one of those ideas.";
+					"Sometimes an Issue does not have a clear solution, this is one of those.";
 				break;
 			default:
 				return;
