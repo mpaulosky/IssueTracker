@@ -64,7 +64,7 @@ jobs:
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
       - name: Codecov
-        uses: codecov/codecov-action@v2.0.1
+        uses: codecov/codecov-action@v3.1.0
 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v2
