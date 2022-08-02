@@ -67,7 +67,7 @@ jobs:
         uses: codecov/codecov-action@v3.1.0
 
       - name: Upload dotnet test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: IssueTracker-test-results
           path: TestResults
