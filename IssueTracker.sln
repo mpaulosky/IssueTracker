@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Unit", "src\tests\IssueTracker.Library.Tests.Unit\IssueTracker.Library.Tests.Unit.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Unit", "tests\IssueTracker.Library.Tests.Unit\IssueTracker.Library.Tests.Unit.csproj", "{A8CE7670-B6FF-4798-9B38-8EF702DDBC00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
 EndProject
@@ -29,9 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{433C6767-848A-4EAD-8DA4-F4FBA978A6FB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI.Tests.Unit", "src\tests\IssueTracker.UI.Tests.Unit\IssueTracker.UI.Tests.Unit.csproj", "{75D73FE5-7166-4386-A247-4F73B9BCFDBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI.Tests.Unit", "tests\IssueTracker.UI.Tests.Unit\IssueTracker.UI.Tests.Unit.csproj", "{75D73FE5-7166-4386-A247-4F73B9BCFDBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Integration", "src\tests\IssueTracker.Library.Tests.Integration\IssueTracker.Library.Tests.Integration.csproj", "{C87B0807-7ED2-465F-93E7-90FEE3DCDA7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Integration", "tests\IssueTracker.Library.Tests.Integration\IssueTracker.Library.Tests.Integration.csproj", "{C87B0807-7ED2-465F-93E7-90FEE3DCDA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
