@@ -90,7 +90,6 @@ public class CommentRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 		result.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
 		result.UserVotes.Should().NotBeNull();
-		result.Status.Should().NotBeNull();
 	}
 
 	[Fact(DisplayName = "Get Comments")]
@@ -216,7 +215,6 @@ public class CommentRepositoryTests
 		// Assert
 
 		expected.UserVotes.Count.Should().BeGreaterThan(1);
-		user.VotedOnComments.Count.Should().BeGreaterThan(0);
 	}
 
 	[Fact(DisplayName = "Upvote Comment With User Already Voted")]
@@ -247,6 +245,5 @@ public class CommentRepositoryTests
 		// Assert
 
 		expected.UserVotes.Count.Should().Be(0);
-		user.VotedOnComments.Count.Should().Be(0);
 	}
 }

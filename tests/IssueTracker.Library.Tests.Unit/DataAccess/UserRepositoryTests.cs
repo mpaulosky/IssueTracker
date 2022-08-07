@@ -76,7 +76,6 @@ public class UserRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 		result.AuthoredComments.Should().NotBeNull();
 		result.AuthoredIssues.Should().NotBeNull();
-		result.VotedOnComments.Should().NotBeNull();
 		result.FirstName.Length.Should().BeGreaterThan(1);
 		result.EmailAddress.Length.Should().BeGreaterThan(1);
 	}
@@ -142,7 +141,6 @@ public class UserRepositoryTests
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(3);
-		items[0].VotedOnComments.Should().NotBeNull();
 		items[0].AuthoredIssues[0].Id.Should().NotBeNull();
 		items[0].AuthoredIssues[0].Issue.Should().NotBeNull();
 		items[0].AuthoredComments[0].Id.Should().NotBeNull();

@@ -13,7 +13,6 @@ public static class TestComments
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
 			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
-			Status = new StatusModel()
 		};
 
 		return comment;
@@ -29,7 +28,6 @@ public static class TestComments
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
 			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
-			Status = new StatusModel()
 		};
 
 		return comment;
@@ -47,7 +45,6 @@ public static class TestComments
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			},
 			new()
 			{
@@ -56,7 +53,6 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			},
 			new()
 			{
@@ -66,7 +62,6 @@ public static class TestComments
 				Author = new BasicUserModel("5dc1039a1521eaa36835e543", "Test User"),
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			}
 		};
 
@@ -85,7 +80,6 @@ public static class TestComments
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			},
 			new()
 			{
@@ -94,7 +88,6 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			},
 			new()
 			{
@@ -104,7 +97,6 @@ public static class TestComments
 				Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 				DateCreated = DateTime.UtcNow,
 				UserVotes = new HashSet<string>(),
-				Status = new StatusModel()
 			}
 		};
 

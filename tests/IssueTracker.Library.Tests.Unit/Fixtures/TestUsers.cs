@@ -16,11 +16,6 @@ public static class TestUsers
 				DisplayName = "jimtest",
 				EmailAddress = "jim.test@test.com",
 				AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-				VotedOnComments =
-					new List<BasicCommentModel>
-					{
-						new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
-					},
 				AuthoredComments = new List<BasicCommentModel>
 				{
 					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
@@ -36,11 +31,6 @@ public static class TestUsers
 				EmailAddress = "sam.test@test.com",
 				AuthoredIssues =
 					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
-				VotedOnComments =
-					new List<BasicCommentModel>
-					{
-						new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
-					},
 				AuthoredComments = new List<BasicCommentModel>
 				{
 					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
@@ -56,11 +46,6 @@ public static class TestUsers
 				EmailAddress = "tim.test@test.com",
 				AuthoredIssues =
 					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
-				VotedOnComments =
-					new List<BasicCommentModel>
-					{
-						new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
-					},
 				AuthoredComments = new List<BasicCommentModel>
 				{
 					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
@@ -82,7 +67,6 @@ public static class TestUsers
 			DisplayName = "jimtest",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			VotedOnComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
 		};
 
@@ -101,7 +85,6 @@ public static class TestUsers
 			DisplayName = "jimtest",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			VotedOnComments = new List<BasicCommentModel>(),
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
 		};
 
@@ -125,7 +108,6 @@ public static class TestUsers
 			DisplayName = "jimtest",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel>(),
-			VotedOnComments = new List<BasicCommentModel>(),
 			AuthoredComments = new List<BasicCommentModel>()
 		};
 
@@ -142,7 +124,6 @@ public static class TestUsers
 			DisplayName = "jimtest",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			VotedOnComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
 		};
 
@@ -160,7 +141,6 @@ public static class TestUsers
 			DisplayName = "jimtestUpdate",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			VotedOnComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
 		};
 
