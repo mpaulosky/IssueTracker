@@ -1,4 +1,3 @@
-using IssueTracker.UI.Helpers;
 using IssueTracker.UI.Models;
 
 namespace IssueTracker.UI.Pages;
@@ -20,13 +19,16 @@ public partial class Create
 		NavManager.NavigateTo("/");
 	}
 
-	private async Task CreateSuggestion()
+	private async Task CreateIssue()
 	{
-		IssueModel s = new();
-		s.IssueName = _issue.Issue;
-		s.Description = _issue.Description;
-		s.Author = new BasicUserModel(_loggedInUser);
-		s.Category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		IssueModel s = new()
+			{
+				IssueName = _issue.Issue,
+				Description = _issue.Description,
+				Author = new BasicUserModel(_loggedInUser),
+				Category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId)
+			};
+		
 		if (s.Category is null)
 		{
 			_issue.CategoryId = "";
@@ -34,7 +36,9 @@ public partial class Create
 		}
 
 		await IssueService.CreateIssue(s);
+
 		_issue = new CreateIssueModel();
 		ClosePage();
+		
 	}
 }

@@ -5,6 +5,7 @@
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
+@inject ICommentService CommentService
 @inject IUserService UserService
 
 <PageTitle>Profile</PageTitle>
@@ -50,6 +51,23 @@
 				<div class="@GetIssueStatusClass(s)">@s.IssueStatus.StatusName</div>
 				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 			}
+		}
+	</div>
+}
+
+@if(_comments?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">Comments</h2>
+		<p class="my-issue-text">These are your comments that are currently active.</p>
+		<hr/>
+		@foreach (var s in _comments)
+		{
+			<hr class="my-issue-separator" />
+			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p class="my-issue-text">
+				@s.Comment
+			</p>
 		}
 	</div>
 }
