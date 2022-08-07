@@ -61,20 +61,32 @@ public class CommentService : ICommentService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
 		}
 
-		var output = _cache.Get<List<CommentModel>>(userId);
+		//var output = _cache.Get<List<CommentModel>>(userId);
 
-		if (output is not null)
-		{
-			return output;
-		}
+		//if (output is not null)
+		//{
+		//	return output;
+		//}
 
 		var results = await _repository.GetUsersComments(userId);
 
-		output = results.ToList();
+		//output = results.ToList();
 
-		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
+		//_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
-		return output;
+		return results.ToList();
+	}
+
+	public async Task<List<CommentModel>> GetIssuesComments(string issueId)
+	{
+		if (string.IsNullOrWhiteSpace(issueId))
+		{
+			throw new ArgumentException("Value cannot be null or whitespace.", nameof(issueId));
+		}
+
+		var results = await _repository.GetIssuesComments(issueId);
+		
+		return results.ToList();
 	}
 
 	public async Task UpdateComment(CommentModel comment)
@@ -91,6 +103,7 @@ public class CommentService : ICommentService
 
 	public async Task UpvoteComment(string commentId, string userId)
 	{
+
 		if (string.IsNullOrWhiteSpace(commentId))
 		{
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(commentId));
@@ -104,5 +117,6 @@ public class CommentService : ICommentService
 		await _repository.UpvoteComment(commentId, userId);
 
 		_cache.Remove(_cacheName);
+
 	}
 }

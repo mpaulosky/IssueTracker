@@ -4,14 +4,14 @@ namespace IssueTracker.Library.DataAccess;
 
 public class CommentRepository : ICommentRepository
 {
-	private readonly IMongoCollection<CommentModel> _collection;
 	private readonly IMongoDbContext _context;
+	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	public CommentRepository(IMongoDbContext context)
 	{
 		_context = context;
-		_collection = context.GetCollection<CommentModel>(GetCollectionName(nameof(CommentModel)));
+		_commentCollection = context.GetCollection<CommentModel>(GetCollectionName(nameof(CommentModel)));
 		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
@@ -23,11 +23,11 @@ public class CommentRepository : ICommentRepository
 
 		try
 		{
-			var commentsInTransaction = _collection;
+			var commentsInTransaction = _commentCollection ?? throw new ArgumentNullException(nameof(_commentCollection));
 
 			await commentsInTransaction.InsertOneAsync(comment);
 
-			var usersInTransaction = _userCollection;
+			var usersInTransaction = _userCollection ?? throw new ArgumentNullException(nameof(_userCollection));
 
 			var user = (await _userCollection.FindAsync(u => u.Id == comment.Author.Id)).First();
 
@@ -50,46 +50,60 @@ public class CommentRepository : ICommentRepository
 
 		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter);
+		var result = await _commentCollection.FindAsync(filter);
 
 		return result.FirstOrDefault();
 	}
 
 	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
-		var all = await _collection.FindAsync(Builders<CommentModel>.Filter.Empty);
+		var all = await _commentCollection.FindAsync(Builders<CommentModel>.Filter.Empty);
 
 		return await all.ToListAsync();
-	}
-
-	public async Task UpdateComment(string id, CommentModel comment)
-	{
-		var objectId = new ObjectId(id);
-
-		await _collection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment);
 	}
 
 	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
 	{
 		var objectId = new ObjectId(userId);
 
-		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
+		var results = await _commentCollection.FindAsync(s => s.Author.Id == objectId.ToString());
 
 		return await results.ToListAsync();
 	}
 
+	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
+	{
+		var objectId = new ObjectId(issueId);
+
+		var results = await _commentCollection.FindAsync(s => s.Issue.Id == objectId.ToString());
+
+		return await results.ToListAsync();
+	}
+
+	public async Task UpdateComment(string id, CommentModel comment)
+	{
+		var objectId = new ObjectId(id);
+
+		await _commentCollection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment);
+	}
+
 	public async Task UpvoteComment(string commentId, string userId)
 	{
+
 		using var session = await _context.Client.StartSessionAsync();
 
 		session.StartTransaction();
 
 		try
 		{
-			var commentsInTransaction = _collection;
+			var commentsInTransaction = _commentCollection;
+			
+			var objectId = new ObjectId(commentId);
 
-			var comment = (await commentsInTransaction.FindAsync(s => s.Id == commentId)).First();
+			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
+			var comment = (await commentsInTransaction.FindAsync(filterComment)).FirstOrDefault();
+			
 			bool isUpvote = comment.UserVotes.Add(userId);
 
 			if (isUpvote == false)
@@ -99,23 +113,8 @@ public class CommentRepository : ICommentRepository
 
 			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment);
 
-			var usersInTransaction = _userCollection;
-
-			var user = (await _userCollection.FindAsync(u => u.Id == userId)).First();
-
-			if (isUpvote)
-			{
-				user.VotedOnComments.Add(new BasicCommentModel(comment));
-			}
-			else
-			{
-				var commentToRemove = user.VotedOnComments.First(s => s.Id == commentId);
-				user.VotedOnComments.Remove(commentToRemove);
-			}
-
-			await usersInTransaction.ReplaceOneAsync(session, u => u.Id == userId, user);
-
 			await session.CommitTransactionAsync();
+			
 		}
 		catch (Exception)
 		{
