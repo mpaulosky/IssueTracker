@@ -1,4 +1,3 @@
-using IssueTracker.UI.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace IssueTracker.UI.Pages;
@@ -11,13 +10,15 @@ public partial class Details
 
 	private IssueModel _issue;
 	private List<StatusModel> _statuses;
+	private List<CommentModel> _comments;
 	private string _settingStatus = "";
 	private string _urlText = "";
 
 	protected override async Task OnInitializedAsync()
 	{
-		
+
 		_issue = await IssueService.GetIssue(Id);
+		_comments = await CommentService.GetIssuesComments(Id);
 		_statuses = await StatusService.GetStatuses();
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
@@ -25,6 +26,7 @@ public partial class Details
 
 	private async Task CompleteSetStatus()
 	{
+
 		switch (_settingStatus)
 		{
 			case "answered":
@@ -60,11 +62,14 @@ public partial class Details
 		}
 
 		_settingStatus = null;
+		
 		await IssueService.UpdateIssue(_issue);
+
 	}
 
 	private string GetStatusClass()
 	{
+
 		if (_issue is null | _issue?.IssueStatus is null)
 		{
 			return "issue-detail-status-none";
@@ -78,11 +83,77 @@ public partial class Details
 			"Dismissed" => "issue-detail-status-dismissed",
 			_ => "issue-detail-status-none",
 		};
+
 		return output;
+
 	}
 
 	private void ClosePage()
 	{
+
 		NavManager.NavigateTo("/");
+
 	}
+
+	private async Task VoteUp(CommentModel comment)
+	{
+
+		if (_loggedInUser is not null)
+		{
+			if (comment.Author.Id == _loggedInUser.Id)
+			{
+				// Can't vote on your own suggestion
+				return;
+			}
+
+			if (comment.UserVotes.Add(_loggedInUser.Id) == false)
+			{
+				comment.UserVotes.Remove(_loggedInUser.Id);
+			}
+
+			await CommentService.UpvoteComment(comment.Id, _loggedInUser.Id);
+		}
+		else
+		{
+			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
+		}
+
+	}
+
+	private string GetUpVoteTopText(CommentModel comment)
+	{
+
+		if (comment.UserVotes?.Count > 0)
+		{
+			return comment.UserVotes.Count.ToString("00");
+		}
+
+		return comment.Author.Id == _loggedInUser?.Id ? "Awaiting" : "Click To";
+
+	}
+
+	private string GetUpVoteBottomText(CommentModel comment)
+	{
+
+		return comment.UserVotes?.Count > 1 ? "UpVotes" : "UpVote";
+
+	}
+	
+	
+	private string GetVoteClass(CommentModel comment)
+	{
+
+		if (comment.UserVotes is null || comment.UserVotes.Count == 0)
+		{
+			return "issue-detail-no-votes";
+		}
+
+		return comment.UserVotes.Contains(_loggedInUser?.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
+	}
+	
+	private void OpenCommentForm(IssueModel issue)
+	{
+		NavManager.NavigateTo($"/Comment/{issue.Id}");
+	}
+
 }

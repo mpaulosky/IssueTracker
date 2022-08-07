@@ -1,12 +1,11 @@
 ﻿@page "/Details/{Id}"
 
-@attribute [Authorize(Policy = "Admin")]
-
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
 @inject IUserService UserService
 @inject IStatusService StatusService
+@inject ICommentService CommentService
 
 <h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
 
@@ -23,9 +22,9 @@
 					</div>
 					<div class="issue-detail-text">
 						<div class="fw-bold mb-2 issue-detail-issue">@_issue.IssueName</div>
-						<div class="mb-2 suggestion-detail-author">@_issue.Author.DisplayName</div>
+						<div class="mb-2 issue-detail-author">@_issue.Author.DisplayName</div>
 						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
-						<div class="suggestion-entry-text-category d-none d-md-block">
+						<div class="issue-entry-text-category d-none d-md-block">
 							@if (_issue.Category is not null)
 							{
 								@_issue.Category.CategoryName
@@ -46,6 +45,11 @@
 							@_issue.Category.CategoryName
 						}
 					</div>
+				</div>
+			</div>
+			<div class="row issue-detail-row">
+				<div class="col-11 issue-detail">
+					<btn class="btn btn-comment" @onclick="() => OpenCommentForm(_issue)">Add Comment</btn>
 				</div>
 			</div>
 		}
@@ -72,6 +76,41 @@
 	</div>
 }
 
+@if (_comments is not null && _comments.Any())
+{
+	<div class="row justify-content-center detail-form">
+		<div class="col-xl-8 col-lg-10 form-layout comment-details">
+			<div>
+				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">Comments</div>
+				@foreach (var s in _comments)
+				{
+					<div class="row issue-detail-row">
+						<div class="col-11 issue-detail">
+							<div>
+								<div class="@GetVoteClass(s)" @onclick="() => VoteUp(s)">
+									<div class="text-uppercase">@GetUpVoteTopText(s)</div>
+									<span class="oi oi-caret-top detail-upvote"></span>
+									<div class="text-uppercase">@GetUpVoteBottomText(s)</div>
+								</div>
+								<div class="issue-detail-date">
+									<div>@s.DateCreated.ToString("MM.dd.yyyy")</div>
+								</div>
+							</div>
+							<div class="issue-detail-comments-section">
+								<div class="issue-detail-text">
+									<div class="fw-bold mb-2 issue-detail-comments">Comment</div>
+									<div class="mb-2 d-none d-md-block">@s.Comment</div>
+									<div class="mb-2 issue-detail-author">@s.Author.DisplayName</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+}
+
 @if (_issue is not null)
 {
 	<AuthorizeView Policy="Admin">
@@ -85,7 +124,7 @@
 					{
 						<div class="admin-set-statuses">
 							<button @onclick="@(() => _settingStatus = "answered")"
-									class="btn issue-entry-text-category btn-archive btn-status-answered">
+											class="btn issue-entry-text-category btn-archive btn-status-answered">
 								answered
 							</button>
 							<button @onclick="@(() => _settingStatus = "in work")"
@@ -93,11 +132,11 @@
 								in work
 							</button>
 							<button @onclick="@(() => _settingStatus = "watching")"
-									class="btn issue-entry-text-category btn-archive btn-status-watching">
+											class="btn issue-entry-text-category btn-archive btn-status-watching">
 								watching
 							</button>
 							<button @onclick="@(() => _settingStatus = "dismissed")"
-									class="btn issue-entry-text-category btn-archive btn-status-dismissed">
+											class="btn issue-entry-text-category btn-archive btn-status-dismissed">
 								dismissed
 							</button>
 						</div>
@@ -106,15 +145,15 @@
 					{
 						<div>
 							<input @bind="_urlText" class="form-control rounded-control" type="text"
-								 placeholder="Url" aria-label="Content Url" />
+										placeholder="Url" aria-label="Content Url"/>
 						</div>
 						<div class="issue-entry-bottom">
 							<button class="btn btn-archive-confirm"
-									@onclick="CompleteSetStatus">
+											@onclick="CompleteSetStatus">
 								confirm
 							</button>
 							<button class="btn btn-archive-reject"
-									@onclick="(() => _settingStatus = null)">
+											@onclick="(() => _settingStatus = null)">
 								cancel
 							</button>
 						</div>
@@ -123,11 +162,11 @@
 					{
 						<div class="issue-entry-bottom">
 							<button class="btn btn-archive-confirm"
-									@onclick="CompleteSetStatus">
+											@onclick="CompleteSetStatus">
 								confirm
 							</button>
 							<button class="btn btn-archive-reject"
-									@onclick="(() => _settingStatus = null)">
+											@onclick="(() => _settingStatus = null)">
 								cancel
 							</button>
 						</div>

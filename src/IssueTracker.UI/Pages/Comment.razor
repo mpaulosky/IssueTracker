@@ -1,15 +1,105 @@
-﻿@page "/Comment"
+﻿@page "/Comment/{Id}"
+@using IssueTracker.UI.Models
 
 @attribute [Authorize]
 
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
-@inject ICategoryService CategoryService
+@inject ICommentService CommentService
 @inject IUserService UserService
 
 <h1 class="page-heading text-light text-uppercase mb-4">Comment on an Issue</h1>
 
+<div class="row justify-content-center create-form">
+	<div class="col-xl-8 col-lg-10 form-layout">
+		@if (_issue is not null)
+		{
+			<div class="row issue-detail-row">
+				<div class="col-11 issue-detail">
+					<div>
+						<div class="issue-detail-date">
+							<div>@_issue.DateCreated.ToString("MM.dd.yyyy")</div>
+						</div>
+					</div>
+					<div class="issue-detail-text">
+						<div class="fw-bold mb-2 issue-detail-issue">@_issue.IssueName</div>
+						<div class="mb-2 suggestion-detail-author">@_issue.Author.DisplayName</div>
+						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
+						<div class="suggestion-entry-text-category d-none d-md-block">
+							@if (_issue.Category is not null)
+							{
+								@_issue.Category.CategoryName
+							}
+						</div>
+					</div>
+				</div>
+				<div class="col-1 close-button-section">
+					<button class="btn btn-close" @onclick="ClosePage"></button>
+				</div>
+			</div>
+			<div class="row d-block d-md-none">
+				<div class="issue-detail-text">
+					<div>@_issue.Description</div>
+					<div class="issue-entry-text-category">
+						@if (_issue.Category is not null)
+						{
+							@_issue.Category.CategoryName
+						}
+					</div>
+				</div>
+			</div>
+			<EditForm Model="_comment" OnValidSubmit="CreateComment">
+				<DataAnnotationsValidator/>
+				<ValidationSummary/>
+				<div class="input-section">
+					<label class="form-label fw-bold text-uppercase" for="comment">Comment On the Issue</label>
+					<div class="input-description">Describe your suggested solution to the issue.</div>
+					<InputTextArea class="form-control" id="comment" @bind-Value="_comment.Comment"/>
+				</div>
+				<div class="center-children">
+					<button class="btn btn-main btn-lg text-uppercase" type="submit">Creat Comment</button>
+				</div>
+			</EditForm>
+		}
+	</div>
+</div>
+
 @code {
-	
+
+	[Parameter]
+	public string Id { get; set; }
+
+	private CreateCommentModel _comment = new();
+
+	private UserModel _loggedInUser;
+
+	private IssueModel _issue;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_issue = await IssueService.GetIssue(Id);
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+	}
+
+	private async Task CreateComment()
+	{
+		CommentModel comment = new()
+		{
+			Issue = new BasicIssueModel(_issue),
+			Author = new BasicUserModel(_loggedInUser),
+			Comment = _comment.Comment,
+		};
+
+		await CommentService.CreateComment(comment);
+
+		_comment = new CreateCommentModel();
+		ClosePage();
+	}
+
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
+	}
+
 }
