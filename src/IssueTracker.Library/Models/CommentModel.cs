@@ -7,6 +7,8 @@ public class CommentModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
+	public BasicIssueModel Issue { get; set; }
+
 	[BsonElement("comment")]
 	[BsonRepresentation(BsonType.String)]
 	public string Comment { get; set; }
@@ -19,9 +21,7 @@ public class CommentModel
 
 	public HashSet<string> UserVotes { get; set; } = new();
 
-	public StatusModel Status { get; set; }
-
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; } = false;
+	public bool Archived { get; set; }
 }
