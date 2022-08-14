@@ -1,6 +1,7 @@
 ﻿@page "/Admin"
 
 @attribute [Authorize(Policy = "Admin")]
+
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
 @inject IUserService UserService

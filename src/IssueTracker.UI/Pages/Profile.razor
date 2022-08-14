@@ -1,35 +1,37 @@
 ﻿@page "/Profile"
 
 @attribute [Authorize]
+
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
+@inject ICommentService CommentService
 @inject IUserService UserService
 
 <PageTitle>Profile</PageTitle>
 
 <h1 class="page-heading text-light text-uppercase mb-4">My Profile</h1>
 
-<div class="row">
-	<div class="col-12 close-button-section">
+<div class="form-layout mb-3">
+	<div class="close-button-section">
 		<button class="btn btn-close" @onclick="ClosePage"></button>
+	</div>
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">My Account</h2>
+		<p>
+			You are currently signed up to receive emails when the status
+			of your suggestion changes. Would you like to opt out of
+			receiving these emails?
+			<button class="btn btn-danger">
+				Turn Off Notifications
+			</button>
+		</p>
+		<p class="my-issue-text">
+			<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
+		</p>
 	</div>
 </div>
 
-<div class="form-layout mb-3">
-	<h2 class="my-issue-heading">My Account</h2>
-	<p>
-		You are currently signed up to receive emails when the status
-		of your suggestion changes. Would you like to opt out of
-		receiving these emails?
-		<button class="btn btn-danger">
-			Turn Off Notifications
-		</button>
-	</p>
-	<p class="my-issue-text">
-		<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
-	</p>
-</div>
 @if (_issues?.Count > 0)
 {
 	<div class="form-layout mb-3">
@@ -49,6 +51,23 @@
 				<div class="@GetIssueStatusClass(s)">@s.IssueStatus.StatusName</div>
 				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 			}
+		}
+	</div>
+}
+
+@if(_comments?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">Comments</h2>
+		<p class="my-issue-text">These are your comments that are currently active.</p>
+		<hr/>
+		@foreach (var s in _comments)
+		{
+			<hr class="my-issue-separator" />
+			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p class="my-issue-text">
+				@s.Comment
+			</p>
 		}
 	</div>
 }

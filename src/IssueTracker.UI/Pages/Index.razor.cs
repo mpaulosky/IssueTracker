@@ -144,11 +144,12 @@ public partial class Index
 
 		if (string.IsNullOrWhiteSpace(_searchText) == false)
 		{
-			output = output.Where(s => s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
-			                           s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
+			output = output.Where(s =>
+			s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) || 
+			s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
 				.ToList();
 		}
-
+		
 		if (_isSortedByNew)
 		{
 			output = output.OrderByDescending(s => s.DateCreated).ToList();
@@ -188,64 +189,6 @@ public partial class Index
 		await FilterSuggestions();
 	}
 
-	// private async Task VoteUp(IssueModel issue)
-	// {
-	// 	if (_loggedInUser is not null)
-	// 	{
-	// 		if (issue.Author.Id == _loggedInUser.Id)
-	// 		{
-	// 			// Can't vote on your own suggestion
-	// 			return;
-	// 		}
-	//
-	// 		if (issue.UserVotes.Add(_loggedInUser.Id) == false)
-	// 		{
-	// 			suggestion.UserVotes.Remove(_loggedInUser.Id);
-	// 		}
-	//
-	// 		await IssueService.UpvoteSuggestion(suggestion.Id, _loggedInUser.Id);
-	// 		if (_isSortedByNew == false)
-	// 		{
-	// 			_issues = _issues.OrderByDescending(s => s.UserVotes.Count).ThenByDescending(s => s.DateCreated).ToList();
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
-	// 	}
-	// }
-
-	// private string GetUpvoteTopText(IssueModel issue)
-	// {
-	// 	if (issue.UserVotes?.Count > 0)
-	// 	{
-	// 		return issue.UserVotes.Count.ToString("00");
-	// 	}
-	// 	else
-	// 	{
-	// 		if (issue.Author.Id == _loggedInUser?.Id)
-	// 		{
-	// 			return "Awaiting";
-	// 		}
-	// 		else
-	// 		{
-	// 			return "Click To";
-	// 		}
-	// 	}
-	// }
-
-	// private string GetUpvoteBottomText(IssueModel issue)
-	// {
-	// 	if (issue.UserVotes?.Count > 1)
-	// 	{
-	// 		return "Upvotes";
-	// 	}
-	// 	else
-	// 	{
-	// 		return "Upvote";
-	// 	}
-	// }
-
 	private void OpenDetails(IssueModel issue)
 	{
 		NavManager.NavigateTo($"/Details/{issue.Id}");
@@ -263,22 +206,6 @@ public partial class Index
 		}
 	}
 
-	// private string GetVoteClass(IssueModel issue)
-	// {
-	// 	if (issue.UserVotes is null || issue.UserVotes.Count == 0)
-	// 	{
-	// 		return "suggestion-entry-no-votes";
-	// 	}
-	// 	else if (issue.UserVotes.Contains(_loggedInUser?.Id))
-	// 	{
-	// 		return "suggestion-entry-voted";
-	// 	}
-	// 	else
-	// 	{
-	// 		return "suggestion-entry-not-voted";
-	// 	}
-	// }
-
 	private string GetSuggestionStatusClass(IssueModel issue)
 	{
 		if (issue is null | issue?.IssueStatus is null)
@@ -289,6 +216,7 @@ public partial class Index
 		string output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",
+			"In Work" => "issue-entry-status-inwork",
 			"Watching" => "issue-entry-status-watching",
 			"Dismissed" => "issue-entry-status-dismissed",
 			_ => "issue-entry-status-none",

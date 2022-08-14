@@ -10,6 +10,8 @@ public interface ICommentRepository
 
 	Task<IEnumerable<CommentModel>> GetUsersComments(string userId);
 
+	Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId);
+
 	Task CreateComment(CommentModel comment);
 
 	Task UpvoteComment(string commentId, string userId);

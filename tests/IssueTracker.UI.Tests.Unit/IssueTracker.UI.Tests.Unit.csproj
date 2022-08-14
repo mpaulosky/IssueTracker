@@ -36,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\IssueTracker.UI\IssueTracker.UI.csproj" />
+	  <ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
 	</ItemGroup>
 
 

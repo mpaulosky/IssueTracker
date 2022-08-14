@@ -126,7 +126,6 @@ public partial class SampleData
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
-			Status = new StatusModel()
 		};
 		await CommentService.CreateComment(comment);
 
@@ -136,7 +135,6 @@ public partial class SampleData
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = _votes,
-			Status = new StatusModel()
 		};
 		await CommentService.CreateComment(comment);
 
@@ -146,7 +144,6 @@ public partial class SampleData
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
 			UserVotes = new HashSet<string>(),
-			Status = new StatusModel()
 		};
 		await CommentService.CreateComment(comment);
 
@@ -169,28 +166,28 @@ public partial class SampleData
 		};
 		await CategoryService.CreateCategory(cat);
 
-		cat = new()
+		cat = new CategoryModel
 		{
 			CategoryName = "Documentation",
 			CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(cat);
 
-		cat = new()
+		cat = new CategoryModel
 		{
 			CategoryName = "Implementation",
 			CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(cat);
 
-		cat = new()
+		cat = new CategoryModel
 		{
 			CategoryName = "Clarification",
 			CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(cat);
 
-		cat = new()
+		cat = new CategoryModel
 		{
 			CategoryName = "Miscellaneous",
 			CategoryDescription = "Not sure where this fits."

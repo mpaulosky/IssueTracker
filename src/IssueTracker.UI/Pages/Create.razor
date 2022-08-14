@@ -19,7 +19,7 @@
 		</div>
 		@if (_categories is not null)
 		{
-			<EditForm Model="_issue" OnValidSubmit="CreateSuggestion">
+			<EditForm Model="_issue" OnValidSubmit="CreateIssue">
 				<DataAnnotationsValidator/>
 				<ValidationSummary/>
 				<div class="input-section">
@@ -48,7 +48,7 @@
 					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description"/>
 				</div>
 				<div class="center-children">
-					<button class="btn btn-main btn-lg text-uppercase" type="submit">Suggest</button>
+					<button class="btn btn-main btn-lg text-uppercase" type="submit">Creat Issue</button>
 				</div>
 			</EditForm>
 		}

@@ -10,6 +10,8 @@ public interface ICommentService
 
 	Task<List<CommentModel>> GetUsersComments(string userId);
 
+	Task<List<CommentModel>> GetIssuesComments(string issueId);
+
 	Task UpdateComment(CommentModel comment);
 
 	Task UpvoteComment(string commentId, string userId);

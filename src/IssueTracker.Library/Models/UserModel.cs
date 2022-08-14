@@ -8,7 +8,8 @@ public class UserModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
-	[BsonElement("object_identifier")] public string ObjectIdentifier { get; set; }
+	[BsonElement("object_identifier")] 
+	public string ObjectIdentifier { get; set; }
 
 	[BsonElement("first_name")]
 	[BsonRepresentation(BsonType.String)]
@@ -27,8 +28,6 @@ public class UserModel
 	public string EmailAddress { get; set; }
 
 	public List<BasicIssueModel> AuthoredIssues { get; set; } = new();
-
-	public List<BasicCommentModel> VotedOnComments { get; set; } = new();
 
 	public List<BasicCommentModel> AuthoredComments { get; set; } = new();
 }
