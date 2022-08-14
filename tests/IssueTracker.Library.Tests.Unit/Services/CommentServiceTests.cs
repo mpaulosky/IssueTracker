@@ -207,18 +207,13 @@ public class CommentServiceTests
 
 		var expected = TestComments.GetCommentsWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
 
+		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
+
 		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => keyPayload = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
-		object whatever = expected;
-		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
-				v = whatever)) // mocked value here (and/or breakpoint)
-			.Returns(true);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
