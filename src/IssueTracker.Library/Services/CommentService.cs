@@ -1,17 +1,30 @@
 ﻿namespace IssueTracker.Library.Services;
 
+/// <summary>
+/// CommentService class
+/// </summary>
 public class CommentService : ICommentService
 {
 	private const string _cacheName = "CommentData";
 	private readonly IMemoryCache _cache;
 	private readonly ICommentRepository _repository;
 
+	/// <summary>
+	/// CommentService constructor
+	/// </summary>
+	/// <param name="repository">ICommentRepository</param>
+	/// <param name="cache">IMemoryCache</param>
 	public CommentService(ICommentRepository repository, IMemoryCache cache)
 	{
 		_repository = repository;
 		_cache = cache;
 	}
 
+	/// <summary>
+	/// CreateComment method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
 		if (comment == null)
@@ -22,6 +35,12 @@ public class CommentService : ICommentService
 		await _repository.CreateComment(comment);
 	}
 
+	/// <summary>
+	/// GetComment method
+	/// </summary>
+	/// <param name="id">string</param>
+	/// <returns>Task of CommentModel</returns>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<CommentModel> GetComment(string id)
 	{
 		if (string.IsNullOrWhiteSpace(id))
@@ -34,6 +53,10 @@ public class CommentService : ICommentService
 		return result;
 	}
 
+	/// <summary>
+	/// GetComments method
+	/// </summary>
+	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
 		var output = _cache.Get<List<CommentModel>>(_cacheName);
@@ -52,6 +75,12 @@ public class CommentService : ICommentService
 		return output;
 	}
 
+	/// <summary>
+	/// GetUserComments method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of List CommentModels</returns>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<List<CommentModel>> GetUsersComments(string userId)
 	{
 		if (string.IsNullOrWhiteSpace(userId))
@@ -75,6 +104,12 @@ public class CommentService : ICommentService
 		return results.ToList();
 	}
 
+	/// <summary>
+	/// GetIssuesComments method
+	/// </summary>
+	/// <param name="issueId">string</param>
+	/// <returns>Task of List CommentModels</returns>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<List<CommentModel>> GetIssuesComments(string issueId)
 	{
 		if (string.IsNullOrWhiteSpace(issueId))
@@ -87,6 +122,11 @@ public class CommentService : ICommentService
 		return results.ToList();
 	}
 
+	/// <summary>
+	/// UpdateComment method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateComment(CommentModel comment)
 	{
 		if (comment == null)
@@ -99,6 +139,12 @@ public class CommentService : ICommentService
 		_cache.Remove(_cacheName);
 	}
 
+	/// <summary>
+	/// UpvoteComment method
+	/// </summary>
+	/// <param name="commentId">string</param>
+	/// <param name="userId">string</param>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task UpvoteComment(string commentId, string userId)
 	{
 
