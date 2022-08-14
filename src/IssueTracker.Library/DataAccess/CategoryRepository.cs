@@ -19,7 +19,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// GetCategory
+	/// GetCategory method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of CategoryModel</returns>
@@ -35,7 +35,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// GetCategories
+	/// GetCategories method
 	/// </summary>
 	/// <returns>Task of IEnumerable CategoryModel</returns>
 	public async Task<IEnumerable<CategoryModel>> GetCategories()
@@ -46,7 +46,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// CreateCategory
+	/// CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	public async Task CreateCategory(CategoryModel category)
@@ -55,7 +55,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// UpdateCategory
+	/// UpdateCategory method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <param name="category">CategoryModel</param>
