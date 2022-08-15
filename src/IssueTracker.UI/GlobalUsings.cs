@@ -6,4 +6,5 @@ global using IssueTracker.Library.Services;
 global using IssueTracker.UI.Helpers;
 global using IssueTracker.UI.Models;
 
+global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;
