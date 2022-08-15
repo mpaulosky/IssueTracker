@@ -48,7 +48,7 @@
 			<p class="my-issue-text">@s.Description</p>
 			@if (s.IssueStatus is not null)
 			{
-				<div class="@GetIssueStatusClass(s)">@s.IssueStatus.StatusName</div>
+				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
 				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 			}
 		}
@@ -88,7 +88,7 @@
 			<p>@s.Description</p>
 			@if (s.IssueStatus is not null)
 			{
-				<div class="@GetIssueStatusClass(s)">@s.IssueStatus.StatusName</div>
+				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
 				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 			}
 		}
