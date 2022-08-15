@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿namespace IssueTracker.Library.Services;
 
-namespace IssueTracker.Library.Services;
-
+/// <summary>
+/// IssueService class
+/// </summary>
 public class IssueService : IIssueService
 {
 	private const string _cacheName = "IssueData";
@@ -11,8 +12,8 @@ public class IssueService : IIssueService
 	/// <summary>
 	///   IssueService
 	/// </summary>
-	/// <param name="repository"></param>
-	/// <param name="cache"></param>
+	/// <param name="repository">IIssueRepository</param>
+	/// <param name="cache">IMemoryCache</param>
 	public IssueService(IIssueRepository repository, IMemoryCache cache)
 	{
 		_repository = repository;
@@ -20,9 +21,9 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   CreateIssue
+	/// CreateIssue method
 	/// </summary>
-	/// <param name="issue"></param>
+	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateIssue(IssueModel issue)
 	{
@@ -35,10 +36,10 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetIssue
+	/// GetIssue method
 	/// </summary>
-	/// <param name="id"></param>
-	/// <returns>An Issue</returns>
+	/// <param name="id">string</param>
+	/// <returns>Task of IssueModel</returns>
 	/// <exception cref="ArgumentException"></exception>
 	public async Task<IssueModel> GetIssue(string id)
 	{
@@ -53,9 +54,9 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetAllIssues
+	/// GetIssues method
 	/// </summary>
-	/// <returns>A List of All Issues</returns>
+	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
 		var output = _cache.Get<List<IssueModel>>(_cacheName);
@@ -75,10 +76,10 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetUsersIssues
+	/// GetUsersIssues method
 	/// </summary>
-	/// <param name="userId"></param>
-	/// <returns>A list of User Issues</returns>
+	/// <param name="userId">string</param>
+	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetUsersIssues(string userId)
 	{
 		if (string.IsNullOrWhiteSpace(userId))
@@ -103,9 +104,9 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   UpdateIssue
+	/// UpdateIssue
 	/// </summary>
-	/// <param name="issue"></param>
+	/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(IssueModel issue)
 	{
 		if (issue == null)
@@ -119,9 +120,9 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// Get Issues Waiting For Approval
+	/// GetIssuesWaitingForApproval method
 	/// </summary>
-	/// <returns>A List of Issues Waiting For Approval</returns>
+	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
 		var results = await _repository.GetIssuesWaitingForApproval();
@@ -130,9 +131,9 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// Get Approved Issues
+	/// GetApprovedIssues method
 	/// </summary>
-	/// <returns>A List of Approved Issues</returns>
+	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
 		var results = await _repository.GetApprovedIssues();

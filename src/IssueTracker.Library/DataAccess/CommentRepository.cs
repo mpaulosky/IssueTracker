@@ -2,12 +2,19 @@
 
 namespace IssueTracker.Library.DataAccess;
 
+/// <summary>
+/// CommentRepository class
+/// </summary>
 public class CommentRepository : ICommentRepository
 {
 	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
+	/// <summary>
+	/// CommentRepository constructor
+	/// </summary>
+	/// <param name="context">IMongoDbContext</param>
 	public CommentRepository(IMongoDbContext context)
 	{
 		_context = context;
@@ -15,6 +22,11 @@ public class CommentRepository : ICommentRepository
 		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
+	/// <summary>
+	/// CreateComment method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
 		using var session = await _context.Client.StartSessionAsync();
@@ -44,6 +56,11 @@ public class CommentRepository : ICommentRepository
 		}
 	}
 
+	/// <summary>
+	/// GetComment method
+	/// </summary>
+	/// <param name="id">string</param>
+	/// <returns>Task of CommentModel</returns>
 	public async Task<CommentModel> GetComment(string id)
 	{
 		var objectId = new ObjectId(id);
@@ -55,6 +72,10 @@ public class CommentRepository : ICommentRepository
 		return result.FirstOrDefault();
 	}
 
+	/// <summary>
+	/// GetComments method
+	/// </summary>
+	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
 		var all = await _commentCollection.FindAsync(Builders<CommentModel>.Filter.Empty);
@@ -62,6 +83,11 @@ public class CommentRepository : ICommentRepository
 		return await all.ToListAsync();
 	}
 
+	/// <summary>
+	/// GetUserComments method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
 	{
 		var objectId = new ObjectId(userId);
@@ -71,6 +97,11 @@ public class CommentRepository : ICommentRepository
 		return await results.ToListAsync();
 	}
 
+	/// <summary>
+	/// GetIssueComments method
+	/// </summary>
+	/// <param name="issueId">string</param>
+	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
 	{
 		var objectId = new ObjectId(issueId);
@@ -80,6 +111,11 @@ public class CommentRepository : ICommentRepository
 		return await results.ToListAsync();
 	}
 
+	/// <summary>
+	/// UpdateComment method
+	/// </summary>
+	/// <param name="id">string</param>
+	/// <param name="comment">CommentModel</param>
 	public async Task UpdateComment(string id, CommentModel comment)
 	{
 		var objectId = new ObjectId(id);
@@ -87,6 +123,11 @@ public class CommentRepository : ICommentRepository
 		await _commentCollection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment);
 	}
 
+	/// <summary>
+	/// UpvoteComment method
+	/// </summary>
+	/// <param name="commentId">string</param>
+	/// <param name="userId">string</param>
 	public async Task UpvoteComment(string commentId, string userId)
 	{
 

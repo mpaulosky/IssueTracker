@@ -2,12 +2,19 @@
 
 namespace IssueTracker.Library.DataAccess;
 
+/// <summary>
+/// IssueRepository class
+/// </summary>
 public class IssueRepository : IIssueRepository
 {
 	private readonly IMongoCollection<IssueModel> _collection;
 	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
+	/// <summary>
+	/// IssueRepository constructor
+	/// </summary>
+	/// <param name="context">IMongoDbContext</param>
 	public IssueRepository(IMongoDbContext context)
 	{
 		_context = context;
@@ -15,6 +22,10 @@ public class IssueRepository : IIssueRepository
 		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
+	/// <summary>
+	/// CreateIssue method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
 	public async Task CreateIssue(IssueModel issue)
 	{
 		using var session = await _context.Client.StartSessionAsync();
@@ -44,6 +55,11 @@ public class IssueRepository : IIssueRepository
 		}
 	}
 
+	/// <summary>
+	/// GetIssue method
+	/// </summary>
+	/// <param name="id">string</param>
+	/// <returns>Task of IssueModel</returns>
 	public async Task<IssueModel> GetIssue(string id)
 	{
 		var objectId = new ObjectId(id);
@@ -55,6 +71,10 @@ public class IssueRepository : IIssueRepository
 		return result.FirstOrDefault();
 	}
 
+	/// <summary>
+	/// GetIssues method
+	/// </summary>
+	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
 		var all = await _collection.FindAsync(Builders<IssueModel>.Filter.Empty);
@@ -62,6 +82,10 @@ public class IssueRepository : IIssueRepository
 		return await all.ToListAsync();
 	}
 
+	/// <summary>
+	/// GetIssuesWaitingForApproval method
+	/// </summary>
+	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
 	{
 		var output = await GetIssues();
@@ -70,6 +94,10 @@ public class IssueRepository : IIssueRepository
 			&& x.Rejected == false).ToList();
 	}
 
+	/// <summary>
+	/// GetApprovedIssues method
+	/// </summary>
+	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
 	{
 		var output = await GetIssues();
@@ -78,7 +106,11 @@ public class IssueRepository : IIssueRepository
 			&& x.Rejected == false).ToList();
 	}
 
-
+/// <summary>
+/// GetUserIssues method
+/// </summary>
+/// <param name="userId">string</param>
+/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
 		var objectId = new ObjectId(userId);
@@ -88,6 +120,11 @@ public class IssueRepository : IIssueRepository
 		return await results.ToListAsync();
 	}
 
+/// <summary>
+/// UpdateIssue method
+/// </summary>
+/// <param name="id">string</param>
+/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(string id, IssueModel issue)
 	{
 		var objectId = new ObjectId(id);
