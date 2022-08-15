@@ -1,7 +1,11 @@
 namespace IssueTracker.UI.Pages;
 
+/// <summary>
+/// Index page class
+/// </summary>
 public partial class Index
 {
+
 	private UserModel _loggedInUser;
 	private List<IssueModel> _issues;
 	private List<CategoryModel> _categories;
@@ -14,24 +18,38 @@ public partial class Index
 	private bool _showCategories;
 	private bool _showStatuses;
 
+	/// <summary>
+	/// OnInitializedAsync event
+	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+
 		_categories = await CategoryService.GetCategories();
 		_statuses = await StatusService.GetStatuses();
 		await LoadAndVerifyUser();
+
 	}
 
-	private async Task ArchiveSuggestion()
+	/// <summary>
+	/// Archive issue
+	/// </summary>
+	private async Task ArchiveIssue()
 	{
+
 		_archivingIssue.Archived = true;
 		await IssueService.UpdateIssue(_archivingIssue);
 		_issues.Remove(_archivingIssue);
 		_archivingIssue = null;
 		//await FilterSuggestions();
+
 	}
 
-	private void LoadCreatePage()
+	/// <summary>
+	/// LoadCreateIssuePage
+	/// </summary>
+	private void LoadCreateIssuePage()
 	{
+
 		if (_loggedInUser is not null)
 		{
 			NavManager.NavigateTo("/Create");
@@ -40,10 +58,15 @@ public partial class Index
 		{
 			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
 		}
+
 	}
 
+	/// <summary>
+	/// LoadAndVerifyUser method
+	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
+
 		var authState = await AuthProvider.GetAuthenticationStateAsync();
 		string objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (string.IsNullOrWhiteSpace(objectId) == false)
@@ -97,20 +120,31 @@ public partial class Index
 				}
 			}
 		}
+
 	}
 
+	/// <summary>
+	/// OnAfterRenderAsync event
+	/// </summary>
+	/// <param name="firstRender">bool</param>
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+
 		if (firstRender)
 		{
 			await LoadFilterState();
-			await FilterSuggestions();
+			await FilterIssues();
 			StateHasChanged();
 		}
+
 	}
 
+	/// <summary>
+	/// LoadFilterState method
+	/// </summary>
 	private async Task LoadFilterState()
 	{
+
 		var stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedCategory));
 		_selectedCategory = stringResults.Success ? stringResults.Value : "All";
 		stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedStatus));
@@ -119,19 +153,30 @@ public partial class Index
 		_searchText = stringResults.Success ? stringResults.Value : "";
 		var boolResults = await SessionStorage.GetAsync<bool>(nameof(_isSortedByNew));
 		_isSortedByNew = !boolResults.Success || boolResults.Value;
+
 	}
 
+	/// <summary>
+	/// SaveFilterState method
+	/// </summary>
 	private async Task SaveFilterState()
 	{
+
 		await SessionStorage.SetAsync(nameof(_selectedCategory), _selectedCategory);
 		await SessionStorage.SetAsync(nameof(_selectedStatus), _selectedStatus);
 		await SessionStorage.SetAsync(nameof(_searchText), _searchText);
 		await SessionStorage.SetAsync(nameof(_isSortedByNew), _isSortedByNew);
+
 	}
 
-	private async Task FilterSuggestions()
+	/// <summary>
+	/// FilterIssues method
+	/// </summary>
+	private async Task FilterIssues()
 	{
+
 		var output = await IssueService.GetApprovedIssues();
+
 		if (_selectedCategory != "All")
 		{
 			output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
@@ -160,54 +205,92 @@ public partial class Index
 		// }
 
 		_issues = output;
+		
 		await SaveFilterState();
+
 	}
 
+	/// <summary>
+	/// OrderByNew method
+	/// </summary>
+	/// <param name="isNew">bool</param>
 	private async Task OrderByNew(bool isNew)
 	{
+
 		_isSortedByNew = isNew;
-		await FilterSuggestions();
+		await FilterIssues();
+
 	}
 
+	/// <summary>
+	/// OnSearchInput method
+	/// </summary>
+	/// <param name="searchInput">string</param>
 	private async Task OnSearchInput(string searchInput)
 	{
+
 		_searchText = searchInput;
-		await FilterSuggestions();
+		await FilterIssues();
+
 	}
 
+	/// <summary>
+	/// OnCategoryClick method
+	/// </summary>
+	/// <param name="category">string</param>
 	private async Task OnCategoryClick(string category = "All")
 	{
+
 		_selectedCategory = category;
 		_showCategories = false;
-		await FilterSuggestions();
+		await FilterIssues();
+
 	}
 
+	/// <summary>
+	/// OnStatusClick method
+	/// </summary>
+	/// <param name="status">string</param>
 	private async Task OnStatusClick(string status = "All")
 	{
+
 		_selectedStatus = status;
 		_showStatuses = false;
-		await FilterSuggestions();
+		await FilterIssues();
+
 	}
 
-	private void OpenDetails(IssueModel issue)
+	/// <summary>
+	/// OpenDetailsPage method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	private void OpenDetailsPage(IssueModel issue)
 	{
+
 		NavManager.NavigateTo($"/Details/{issue.Id}");
+
 	}
 
-	private string SortedByNewClass(bool isNew)
+	/// <summary>
+	/// SortedByNewCssClass method
+	/// </summary>
+	/// <param name="isNew">bool</param>
+	/// <returns>string</returns>
+	private string SortedByNewCssClass(bool isNew)
 	{
-		if (isNew == _isSortedByNew)
-		{
-			return "sort-selected";
-		}
-		else
-		{
-			return "";
-		}
+
+		return isNew == _isSortedByNew ? "sort-selected" : "";
+
 	}
 
-	private string GetSuggestionStatusClass(IssueModel issue)
+	/// <summary>
+	/// GetIssueStatusCssClass method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	/// <returns>string</returns>
+	private string GetIssueStatusCssClass(IssueModel issue)
 	{
+
 		if (issue is null | issue?.IssueStatus is null)
 		{
 			return "suggestion-entry-status-none";
@@ -221,16 +304,32 @@ public partial class Index
 			"Dismissed" => "issue-entry-status-dismissed",
 			_ => "issue-entry-status-none",
 		};
+		
 		return output;
+
 	}
 
-	private string GetSelectedCategory(string category = "All")
+	/// <summary>
+	/// GetSelectedCategoryCssClass method
+	/// </summary>
+	/// <param name="category">string</param>
+	/// <returns>string</returns>
+	private string GetSelectedCategoryCssClass(string category = "All")
 	{
+
 		return category == _selectedCategory ? "selected-category" : "";
+
 	}
 
-	private string GetSelectedStatus(string status = "All")
+	/// <summary>
+	/// GetSelectedStatusCssClass method
+	/// </summary>
+	/// <param name="status">string</param>
+	/// <returns>string</returns>
+	private string GetSelectedStatusCssClass(string status = "All")
 	{
+
 		return status == _selectedStatus ? "selected-status" : "";
+
 	}
 }
