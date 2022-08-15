@@ -1,7 +1,11 @@
 namespace IssueTracker.UI.Pages;
 
+/// <summary>
+/// Profile page class
+/// </summary>
 public partial class Profile
 {
+
 	private UserModel _loggedInUser;
 	private List<IssueModel> _issues;
 	//private List<IssueModel> _approved;
@@ -10,8 +14,12 @@ public partial class Profile
 	//private List<IssueModel> _rejected;
 	private List<CommentModel> _comments;
 
+	/// <summary>
+	/// OnInitializedAsync event
+	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	
 		_comments = await CommentService.GetUsersComments(_loggedInUser.Id);
@@ -30,9 +38,17 @@ public partial class Profile
 		
 			//_rejected = _issues.Where(s => s.Rejected).ToList();
 		}
+
 	}
-	private string GetIssueStatusClass(IssueModel issue)
+	
+	/// <summary>
+	/// GetIssueStatusCssClass method
+	/// </summary>
+	/// <param name="issue">string</param>
+	/// <returns>string</returns>
+	private string GetIssueStatusCssClass(IssueModel issue)
 	{
+
 		if (issue is null | issue?.IssueStatus is null)
 		{
 			return "issue-profile-status issue-profile-status-none";
@@ -47,9 +63,16 @@ public partial class Profile
 			_ => "issue-profile-status issue-profile-status-none",
 		};
 		return output;
+
 	}
+	
+	/// <summary>
+	/// ClosePage method
+	/// </summary>
 	private void ClosePage()
 	{
+
 		NavManager.NavigateTo("/");
+
 	}
 }

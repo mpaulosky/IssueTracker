@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Components;
-
 namespace IssueTracker.UI.Pages;
 
+/// <summary>
+/// Details class
+/// </summary>
 public partial class Details
 {
 	[Parameter] public string Id { get; set; }
@@ -14,6 +15,9 @@ public partial class Details
 	private string _settingStatus = "";
 	private string _urlText = "";
 
+	/// <summary>
+	/// OnInitializedAsync method
+	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
 
@@ -24,6 +28,9 @@ public partial class Details
 
 	}
 
+	/// <summary>
+	/// CompleteSetStatus method
+	/// </summary>
 	private async Task CompleteSetStatus()
 	{
 
@@ -67,6 +74,10 @@ public partial class Details
 
 	}
 
+	/// <summary>
+	/// GetStatusClass method
+	/// </summary>
+	/// <returns>string</returns>
 	private string GetStatusClass()
 	{
 
@@ -88,13 +99,10 @@ public partial class Details
 
 	}
 
-	private void ClosePage()
-	{
-
-		NavManager.NavigateTo("/");
-
-	}
-
+	/// <summary>
+	/// VoteUp method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
 	private async Task VoteUp(CommentModel comment)
 	{
 
@@ -120,6 +128,11 @@ public partial class Details
 
 	}
 
+	/// <summary>
+	/// GetUpVoteTopText method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <returns>string</returns>
 	private string GetUpVoteTopText(CommentModel comment)
 	{
 
@@ -132,6 +145,11 @@ public partial class Details
 
 	}
 
+	/// <summary>
+	/// GetUpVoteBottomText method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <returns>string</returns>
 	private string GetUpVoteBottomText(CommentModel comment)
 	{
 
@@ -139,7 +157,11 @@ public partial class Details
 
 	}
 	
-	
+	/// <summary>
+	/// GetVoteClass method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <returns>string</returns>
 	private string GetVoteClass(CommentModel comment)
 	{
 
@@ -151,9 +173,23 @@ public partial class Details
 		return comment.UserVotes.Contains(_loggedInUser?.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
 	}
 	
+	/// <summary>
+	/// OpenCommentForm method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
 	private void OpenCommentForm(IssueModel issue)
 	{
 		NavManager.NavigateTo($"/Comment/{issue.Id}");
+	}
+
+	/// <summary>
+	/// ClosePage method
+	/// </summary>
+	private void ClosePage()
+	{
+
+		NavManager.NavigateTo("/");
+
 	}
 
 }
