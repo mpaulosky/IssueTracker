@@ -82,6 +82,9 @@
 						<div class="issue-entry-text-title" @onclick="(() => OpenDetailsPage(s))">
 							@s.IssueName
 						</div>
+						<div class="issue-entry-text-description">
+							@s.Description
+						</div>
 						@if (_archivingIssue is null || _archivingIssue.Id != s.Id)
 						{
 							<div class="issue-entry-bottom">

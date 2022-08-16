@@ -1,10 +1,12 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-/// Admin class
+/// Admin page class
 /// </summary>
 public partial class Admin
 {
+
+	private UserModel _loggedInUser;
 	private List<IssueModel> _issues;
 	private IssueModel _editingModel;
 	private string _currentEditingTitle = "";
@@ -17,7 +19,10 @@ public partial class Admin
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 		_issues = await IssueService.GetIssuesWaitingForApproval();
+
 	}
 
 	/// <summary>
