@@ -256,6 +256,17 @@ a:hover, .btn-link:hover {
   align-items: flex-end;
 }
 
+.issue-entry-text-author {
+  text-transform: uppercase;
+  color: darkgray;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
 .issue-entry-status {
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;

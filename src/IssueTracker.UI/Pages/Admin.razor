@@ -2,14 +2,17 @@
 
 @attribute [Authorize(Policy = "Admin")]
 
+@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
 @inject IUserService UserService
 
+<PageTitle>Admin Page</PageTitle>
+
 <h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 
 <div class="row">
-	<div class="suggestions-count col-8 mt-2">@_issues?.Count Issues</div>
+	<div class="issue-count col-8 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-4 close-button-section">
 		<button class="btn btn-close" @onclick="ClosePage"></button>
 	</div>
@@ -45,16 +48,6 @@
 					}
 				</div>
 				<div>
-					@if (s.Category is not null)
-					{
-						@s.Category.CategoryName
-
-					}
-				</div>
-				<div>
-					@s.Author.DisplayName
-				</div>
-				<div>
 					@if (_currentEditingDescription == s.Id)
 					{
 						<EditForm class="approval-edit-form" Model="@_editedDescription" OnSubmit="(() => SaveDescription(s))">
@@ -72,6 +65,33 @@
 						@s.Description
 						<span class="oi oi-pencil issue-edit-icon" @onclick="(() => EditDescription(s))"></span>
 					}
+				</div>
+				<div>
+					@if(s.Author is not null)
+					{
+						<div class="issue-entry-text-author">
+						Author: @s.Author?.DisplayName
+						</div>
+					}
+					else
+					{
+						<span class="text-muted">Author: Unknown</span>
+					}
+				</div>
+				<div>
+					@if (s.Category is not null)
+					{
+						<div class="issue-entry-bottom">
+							<div class="issue-entry-text-category">
+								Category: @s.Category?.CategoryName
+							</div>
+						</div>
+					}
+										else
+          					{
+          						<span class="text-muted">Category: Unknown</span>
+          					}
+
 				</div>
 			</div>
 		</div>
