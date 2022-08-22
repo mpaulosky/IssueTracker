@@ -151,7 +151,7 @@ public class CommentService : ICommentService
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="ArgumentException"></exception>
-	public async Task UpvoteComment(string commentId, string userId)
+	public async Task UpVoteComment(string commentId, string userId)
 	{
 
 		if (string.IsNullOrWhiteSpace(commentId))

@@ -304,7 +304,7 @@ public class CommentServiceTests
 
 		// Act
 
-		await _sut.UpvoteComment(comment.Id, testId);
+		await _sut.UpVoteComment(comment.Id, testId);
 
 		// Assert
 
@@ -329,7 +329,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpvoteComment(commentId, userId));
+		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpVoteComment(commentId, userId));
 	}
 
 	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);

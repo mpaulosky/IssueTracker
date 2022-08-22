@@ -119,7 +119,7 @@ public partial class Details
 				comment.UserVotes.Remove(_loggedInUser.Id);
 			}
 
-			await CommentService.UpvoteComment(comment.Id, _loggedInUser.Id);
+			await CommentService.UpVoteComment(comment.Id, _loggedInUser.Id);
 		}
 		else
 		{

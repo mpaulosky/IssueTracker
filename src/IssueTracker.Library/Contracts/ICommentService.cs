@@ -20,5 +20,5 @@ public interface ICommentService
 
 	Task UpdateComment(CommentModel comment);
 
-	Task UpvoteComment(string commentId, string userId);
+	Task UpVoteComment(string commentId, string userId);
 }

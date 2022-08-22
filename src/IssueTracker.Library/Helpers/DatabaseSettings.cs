@@ -6,6 +6,9 @@
 //-----------------------------------------------------------------------
 namespace IssueTracker.Library.Helpers;
 
+/// <summary>
+/// DatabaseSettings class
+/// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {
 	public string ConnectionString { get; set; } = null!;

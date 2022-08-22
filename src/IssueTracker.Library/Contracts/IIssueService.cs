@@ -19,6 +19,6 @@ public interface IIssueService
 	Task UpdateIssue(IssueModel suggestion);
 
 	Task<List<IssueModel>> GetIssuesWaitingForApproval();
-	
+
 	Task<List<IssueModel>> GetApprovedIssues();
 }
