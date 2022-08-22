@@ -1,11 +1,24 @@
-﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+﻿//-----------------------------------------------------------------------
+// <copyright file="RegisterServices.cs" company="mpaulosky">
+//     Author: Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
 namespace IssueTracker.UI;
 
+/// <summary>
+/// RegisterServices class
+/// </summary>
 public static class RegisterServices
 {
+	/// <summary>
+	/// Configures the services method.
+	/// </summary>
+	/// <param name="builder">The builder.</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder)
 	{
 		// Add services to the container.
@@ -31,6 +44,8 @@ public static class RegisterServices
 				policy.RequireClaim("jobTitle", "Admin");
 			});
 		});
+
+		// Setup DI
 
 		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 		builder.Services.AddSingleton<ICategoryService, CategoryService>();
