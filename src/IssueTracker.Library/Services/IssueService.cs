@@ -32,7 +32,7 @@ public class IssueService : IIssueService
 			throw new ArgumentNullException(nameof(issue));
 		}
 
-		await _repository.CreateIssue(issue);
+		await _repository.CreateIssue(issue).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ public class IssueService : IIssueService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var results = await _repository.GetIssue(id);
+		var results = await _repository.GetIssue(id).ConfigureAwait(true);
 
 		return results;
 	}
@@ -66,7 +66,7 @@ public class IssueService : IIssueService
 			return output;
 		}
 
-		var results = await _repository.GetIssues();
+		var results = await _repository.GetIssues().ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -94,7 +94,7 @@ public class IssueService : IIssueService
 			return output;
 		}
 
-		var results = await _repository.GetUsersIssues(userId);
+		var results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -114,7 +114,7 @@ public class IssueService : IIssueService
 			throw new ArgumentNullException(nameof(issue));
 		}
 
-		await _repository.UpdateIssue(issue.Id, issue);
+		await _repository.UpdateIssue(issue.Id, issue).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}
@@ -125,7 +125,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		var results = await _repository.GetIssuesWaitingForApproval();
+		var results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
 
 		return results.ToList();
 	}
@@ -136,7 +136,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
-		var results = await _repository.GetApprovedIssues();
+		var results = await _repository.GetApprovedIssues().ConfigureAwait(true);
 
 		return results.ToList();
 	}

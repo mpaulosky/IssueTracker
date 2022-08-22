@@ -18,8 +18,8 @@ public class IssueRepository : IIssueRepository
 	public IssueRepository(IMongoDbContext context)
 	{
 		_context = context;
-		_collection = context.GetCollection<IssueModel>(GetCollectionName(nameof(IssueModel)));
-		_userCollection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+		_collection = context?.GetCollection<IssueModel>(GetCollectionName(nameof(IssueModel)));
+		_userCollection = context?.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 	}
 
 	/// <summary>
@@ -28,7 +28,7 @@ public class IssueRepository : IIssueRepository
 	/// <param name="issue">IssueModel</param>
 	public async Task CreateIssue(IssueModel issue)
 	{
-		using var session = await _context.Client.StartSessionAsync();
+		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
 
 		session.StartTransaction();
 
@@ -36,21 +36,21 @@ public class IssueRepository : IIssueRepository
 		{
 			var issuesInTransaction = _collection;
 
-			await issuesInTransaction.InsertOneAsync(issue);
+			await issuesInTransaction.InsertOneAsync(issue).ConfigureAwait(true);
 
 			var usersInTransaction = _userCollection;
 
-			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id)).First();
+			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id).ConfigureAwait(true)).First();
 
 			user.AuthoredIssues.Add(new BasicIssueModel(issue));
 
-			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
+			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user).ConfigureAwait(true);
 
-			await session.CommitTransactionAsync();
+			await session.CommitTransactionAsync().ConfigureAwait(true);
 		}
 		catch (Exception)
 		{
-			await session.AbortTransactionAsync();
+			await session.AbortTransactionAsync().ConfigureAwait(true);
 			throw;
 		}
 	}
@@ -66,7 +66,7 @@ public class IssueRepository : IIssueRepository
 
 		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter);
+		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
 
 		return result.FirstOrDefault();
 	}
@@ -77,9 +77,9 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
-		var all = await _collection.FindAsync(Builders<IssueModel>.Filter.Empty);
+		var all = await _collection.FindAsync(Builders<IssueModel>.Filter.Empty).ConfigureAwait(true);
 
-		return await all.ToListAsync();
+		return await all.ToListAsync().ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -88,7 +88,7 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		var output = await GetIssues();
+		var output = await GetIssues().ConfigureAwait(true);
 		return output.Where(x =>
 			x.ApprovedForRelease == false
 			&& x.Rejected == false).ToList();
@@ -100,7 +100,7 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
 	{
-		var output = await GetIssues();
+		var output = await GetIssues().ConfigureAwait(true);
 		return output.Where(x =>
 			x.ApprovedForRelease
 			&& x.Rejected == false).ToList();
@@ -115,9 +115,9 @@ public class IssueRepository : IIssueRepository
 	{
 		var objectId = new ObjectId(userId);
 
-		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString());
+		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString()).ConfigureAwait(true);
 
-		return await results.ToListAsync();
+		return await results.ToListAsync().ConfigureAwait(true);
 	}
 
 /// <summary>
@@ -129,6 +129,6 @@ public class IssueRepository : IIssueRepository
 	{
 		var objectId = new ObjectId(id);
 
-		await _collection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue);
+		await _collection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue).ConfigureAwait(true);
 	}
 }

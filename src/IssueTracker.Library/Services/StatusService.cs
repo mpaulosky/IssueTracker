@@ -49,7 +49,7 @@ public class StatusService : IStatusService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var result = await _repository.GetStatus(id);
+		var result = await _repository.GetStatus(id).ConfigureAwait(true);
 
 		return result;
 	}
@@ -66,7 +66,7 @@ public class StatusService : IStatusService
 			return output;
 		}
 
-		var results = await _repository.GetStatuses();
+		var results = await _repository.GetStatuses().ConfigureAwait(true);
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));

@@ -310,7 +310,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpvoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]

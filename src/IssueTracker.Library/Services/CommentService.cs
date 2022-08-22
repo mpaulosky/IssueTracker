@@ -32,7 +32,7 @@ public class CommentService : ICommentService
 			throw new ArgumentNullException(nameof(comment));
 		}
 
-		await _repository.CreateComment(comment);
+		await _repository.CreateComment(comment).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ public class CommentService : ICommentService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var result = await _repository.GetComment(id);
+		var result = await _repository.GetComment(id).ConfigureAwait(true);
 
 		return result;
 	}
@@ -66,7 +66,7 @@ public class CommentService : ICommentService
 			return output;
 		}
 
-		var results = await _repository.GetComments();
+		var results = await _repository.GetComments().ConfigureAwait(true);
 
 		output = results.Where(x => x.Archived == false).ToList();
 
@@ -95,7 +95,7 @@ public class CommentService : ICommentService
 		//	return output;
 		//}
 
-		var results = await _repository.GetUsersComments(userId);
+		var results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
 
 		//output = results.ToList();
 
@@ -117,7 +117,7 @@ public class CommentService : ICommentService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(issueId));
 		}
 
-		var results = await _repository.GetIssuesComments(issueId);
+		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
 		
 		return results.ToList();
 	}
@@ -134,7 +134,7 @@ public class CommentService : ICommentService
 			throw new ArgumentNullException(nameof(comment));
 		}
 
-		await _repository.UpdateComment(comment.Id, comment);
+		await _repository.UpdateComment(comment.Id, comment).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}
@@ -158,7 +158,7 @@ public class CommentService : ICommentService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
 		}
 
-		await _repository.UpvoteComment(commentId, userId);
+		await _repository.UpVoteComment(commentId, userId).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 

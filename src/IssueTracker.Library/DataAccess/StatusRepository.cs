@@ -29,7 +29,7 @@ public class StatusRepository : IStatusRepository
 
 		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter);
+		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
 
 		return result.FirstOrDefault();
 	}
@@ -40,9 +40,9 @@ public class StatusRepository : IStatusRepository
 	/// <returns>Task of IEnumerable StatusModel</returns>
 	public async Task<IEnumerable<StatusModel>> GetStatuses()
 	{
-		var all = await _collection.FindAsync(Builders<StatusModel>.Filter.Empty);
+		var all = await _collection.FindAsync(Builders<StatusModel>.Filter.Empty).ConfigureAwait(true);
 
-		return await all.ToListAsync();
+		return await all.ToListAsync().ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -51,7 +51,7 @@ public class StatusRepository : IStatusRepository
 	/// <param name="status">StatusModel</param>
 	public async Task CreateStatus(StatusModel status)
 	{
-		await _collection.InsertOneAsync(status);
+		await _collection.InsertOneAsync(status).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -61,6 +61,6 @@ public class StatusRepository : IStatusRepository
 	/// <param name="status">StatusModel</param>
 	public async Task UpdateStatus(string id, StatusModel status)
 	{
-		await _collection.ReplaceOneAsync(Builders<StatusModel>.Filter.Eq("_id", id), status);
+		await _collection.ReplaceOneAsync(Builders<StatusModel>.Filter.Eq("_id", id), status).ConfigureAwait(true);
 	}
 }

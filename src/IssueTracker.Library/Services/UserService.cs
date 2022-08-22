@@ -45,7 +45,7 @@ public class UserService : IUserService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var results = await _repo.GetUser(id);
+		var results = await _repo.GetUser(id).ConfigureAwait(true);
 
 		return results;
 	}
@@ -56,7 +56,7 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		var results = await _repo.GetUsers();
+		var results = await _repo.GetUsers().ConfigureAwait(true);
 
 		return results.ToList();
 	}
@@ -74,7 +74,7 @@ public class UserService : IUserService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(objectId));
 		}
 
-		var results = await _repo.GetUserFromAuthentication(objectId);
+		var results = await _repo.GetUserFromAuthentication(objectId).ConfigureAwait(true);
 
 		return results;
 	}

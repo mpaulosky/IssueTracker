@@ -29,7 +29,7 @@ public class UserRepository : IUserRepository
 
 		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter);
+		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
 
 		return result.FirstOrDefault();
 	}
@@ -40,9 +40,9 @@ public class UserRepository : IUserRepository
 	/// <returns>Task of IEnumerable UserModel</returns>
 	public async Task<IEnumerable<UserModel>> GetUsers()
 	{
-		var all = await _collection.FindAsync(Builders<UserModel>.Filter.Empty);
+		var all = await _collection.FindAsync(Builders<UserModel>.Filter.Empty).ConfigureAwait(true);
 
-		return await all.ToListAsync();
+		return await all.ToListAsync().ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -51,7 +51,7 @@ public class UserRepository : IUserRepository
 	/// <param name="user">UserModel</param>
 	public async Task CreateUser(UserModel user)
 	{
-		await _collection.InsertOneAsync(user);
+		await _collection.InsertOneAsync(user).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -61,7 +61,7 @@ public class UserRepository : IUserRepository
 	/// <param name="user">UserModel</param>
 	public async Task UpdateUser(string id, UserModel user)
 	{
-		await _collection.ReplaceOneAsync(Builders<UserModel>.Filter.Eq("_id", id), user);
+		await _collection.ReplaceOneAsync(Builders<UserModel>.Filter.Eq("_id", id), user).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -71,7 +71,7 @@ public class UserRepository : IUserRepository
 	/// <returns>Task of UserModel</returns>
 	public async Task<UserModel> GetUserFromAuthentication(string objectId)
 	{
-		var results = await _collection.FindAsync(u => u.ObjectIdentifier == objectId);
+		var results = await _collection.FindAsync(u => u.ObjectIdentifier == objectId).ConfigureAwait(true);
 
 		return results.FirstOrDefault();
 	}

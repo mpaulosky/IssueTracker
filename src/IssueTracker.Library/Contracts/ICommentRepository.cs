@@ -6,7 +6,7 @@ public interface ICommentRepository
 
 	Task<IEnumerable<CommentModel>> GetComments();
 
-	Task UpdateComment(string id, CommentModel obj);
+	Task UpdateComment(string id, CommentModel comment);
 
 	Task<IEnumerable<CommentModel>> GetUsersComments(string userId);
 
@@ -14,5 +14,5 @@ public interface ICommentRepository
 
 	Task CreateComment(CommentModel comment);
 
-	Task UpvoteComment(string commentId, string userId);
+	Task UpVoteComment(string commentId, string userId);
 }

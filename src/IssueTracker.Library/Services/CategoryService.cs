@@ -33,7 +33,7 @@ public class CategoryService : ICategoryService
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
 		}
 
-		var result = await _repository.GetCategory(id);
+		var result = await _repository.GetCategory(id).ConfigureAwait(true);
 
 		return result;
 	}
@@ -51,7 +51,7 @@ public class CategoryService : ICategoryService
 		}
 
 		
-		var results = await _repository.GetCategories();
+		var results = await _repository.GetCategories().ConfigureAwait(true);
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
