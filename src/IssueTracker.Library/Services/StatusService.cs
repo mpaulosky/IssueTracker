@@ -1,4 +1,10 @@
-﻿namespace IssueTracker.Library.Services;
+﻿//-----------------------------------------------------------------------
+// <copyright file="StatusService.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace IssueTracker.Library.Services;
 
 /// <summary>
 /// StatusService class

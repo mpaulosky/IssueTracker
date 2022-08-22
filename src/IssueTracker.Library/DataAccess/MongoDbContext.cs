@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.Options;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MongoDbContext.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using Microsoft.Extensions.Options;
 
 namespace IssueTracker.Library.DataAccess;
 

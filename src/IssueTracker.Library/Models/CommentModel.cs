@@ -1,4 +1,10 @@
-﻿namespace IssueTracker.Library.Models;
+﻿//-----------------------------------------------------------------------
+// <copyright file="CommentModel.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace IssueTracker.Library.Models;
 
 [Serializable]
 public class CommentModel

@@ -1,4 +1,10 @@
-﻿namespace IssueTracker.Library.Helpers;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DatabaseSettings.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace IssueTracker.Library.Helpers;
 
 public class DatabaseSettings : IDatabaseSettings
 {

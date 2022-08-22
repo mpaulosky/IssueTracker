@@ -1,4 +1,10 @@
-﻿using static IssueTracker.Library.Helpers.CollectionNames;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 

@@ -1,4 +1,10 @@
-﻿global using MongoDB.Bson;
+﻿//-----------------------------------------------------------------------
+// <copyright file="GlobalUsings.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+global using MongoDB.Bson;
 global using MongoDB.Bson.Serialization.Attributes;
 global using MongoDB.Driver;
 
