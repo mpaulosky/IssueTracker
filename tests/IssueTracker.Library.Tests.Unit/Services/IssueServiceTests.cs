@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace IssueTracker.Library.Tests.Unit.Services;
+namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests

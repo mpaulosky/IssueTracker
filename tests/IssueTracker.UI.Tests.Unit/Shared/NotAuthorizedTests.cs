@@ -1,9 +1,9 @@
-﻿namespace IssueTracker.UI.Tests.Unit.Shared;
+﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
 public class NotAuthorizedTests
 {
-	[Fact()]
+	[Fact]
 	public void NotAuthorized_Should_DisplayMarkup_Test()
 	{
 		// Arrange
@@ -31,5 +31,24 @@ public class NotAuthorizedTests
 					</div>
 					</div>"
 		);
+	}
+		
+	[Fact]
+	public void NotAuthorized_ClosePageButtonClick_Should_NavigateToIndexPage_Test()
+	{
+		// Arrange
+		const string expectedUri = "http://localhost/";
+		
+		using var ctx = new TestContext();
+			
+		// Act
+		var cut = ctx.RenderComponent<NotAuthorized>();
+		var buttonElement = cut.Find("button");
+		buttonElement.Click();
+
+		// Assert
+		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		navMan.Uri.Should().NotBeNull();
+		navMan.Uri.Should().Be(expectedUri);
 	}
 }

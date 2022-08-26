@@ -1,9 +1,9 @@
-﻿namespace IssueTracker.UI.Tests.Unit.Shared;
+﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
 public class LoginDisplayTests
 {
-	[Fact()]
+	[Fact]
 	public void LoginDisplay_WithOut_Authorization_Should_DisplayLoginLink_Test()
 	{
 		// Arrange
@@ -14,9 +14,10 @@ public class LoginDisplayTests
 		var cut = ctx.RenderComponent<LoginDisplay>();
 
 		// Assert
-		cut.MarkupMatches("<a class='login-link' href='MicrosoftIdentity/Account/SignIn'>Login</a>");	}
+		cut.MarkupMatches("<a class='login-link' href='MicrosoftIdentity/Account/SignIn'>Login</a>");	
+	}
 
-	[Fact()]
+	[Fact]
 	public void LoginDisplay_With_AuthenticationAndAuthorization_Should_DisplayMenu_Test()
 	{
 		// Arrange
@@ -34,7 +35,7 @@ public class LoginDisplayTests
 			);
 	}
 
-	[Fact()]
+	[Fact]
 	public void LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayMenu_Test()
 	{
 		// Arrange

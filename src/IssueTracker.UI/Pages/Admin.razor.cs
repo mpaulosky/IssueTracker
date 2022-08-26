@@ -5,24 +5,18 @@ namespace IssueTracker.UI.Pages;
 /// </summary>
 public partial class Admin
 {
-
-	private UserModel _loggedInUser;
-	private List<IssueModel> _issues;
-	private IssueModel _editingModel;
-	private string _currentEditingTitle = "";
-	private string _editedTitle = "";
 	private string _currentEditingDescription = "";
+	private string _currentEditingTitle = "";
 	private string _editedDescription = "";
+	private string _editedTitle = "";
+	private List<IssueModel> _issues;
 
 	/// <summary>
-	/// OnInitializedAsync method
+	/// OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 		_issues = await IssueService.GetIssuesWaitingForApproval();
-
 	}
 
 	/// <summary>
@@ -53,7 +47,6 @@ public partial class Admin
 	/// <param name="model">IssueModel</param>
 	private void EditTitle(IssueModel model)
 	{
-		_editingModel = model;
 		_editedTitle = model.IssueName;
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
@@ -76,7 +69,6 @@ public partial class Admin
 	/// <param name="model">IssueModel</param>
 	private void EditDescription(IssueModel model)
 	{
-		_editingModel = model;
 		_editedDescription = model.Description;
 		_currentEditingTitle = "";
 		_currentEditingDescription = model.Id;
