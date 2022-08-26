@@ -12,7 +12,6 @@ public class AdminTests
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-
 	}
 
 	[Fact]
@@ -24,21 +23,21 @@ public class AdminTests
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 
 		// Assert
 		cut.MarkupMatches
-			(
-				@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
+		(
+			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
 					<div class=""row"">
 						<div class=""issue-count col-8 text-light mt-2"">0 Issues</div>
 						<div class=""col-4 close-button-section"">
 							<button class=""btn btn-close"" ></button>
 						</div>
 					</div>"
-			);
+		);
 	}
 
 	[Fact]
@@ -47,13 +46,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 
@@ -95,13 +94,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var buttonElements = cut.FindAll("button");
@@ -130,13 +129,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -189,13 +188,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -248,13 +247,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -275,13 +274,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -291,8 +290,8 @@ public class AdminTests
 
 		// Assert
 		cut.MarkupMatches
-			(
-				@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
+		(
+			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
 					<div class=""row"">
 					  <div class=""issue-count col-8 text-light mt-2"">1 Issues</div>
 					  <div class=""col-4 close-button-section"">
@@ -318,7 +317,7 @@ public class AdminTests
 					    </div>
 					  </div>
 					</div>"
-			);
+		);
 	}
 
 	[Fact]
@@ -327,13 +326,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -354,13 +353,13 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-		
+
 		using var ctx = new TestContext();
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var spanElements = cut.FindAll("span");
@@ -370,8 +369,8 @@ public class AdminTests
 
 		// Assert
 		cut.MarkupMatches
-			(
-				@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
+		(
+			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
 					<div class=""row"">
 					  <div class=""issue-count col-8 text-light mt-2"">1 Issues</div>
 					  <div class=""col-4 close-button-section"">
@@ -397,7 +396,7 @@ public class AdminTests
 					    </div>
 					  </div>
 					</div>"
-			);
+		);
 	}
 
 	[Fact]
@@ -412,7 +411,7 @@ public class AdminTests
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var buttonElements = cut.FindAll("button");
@@ -446,7 +445,7 @@ public class AdminTests
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
-			
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		var buttonElements = cut.FindAll("button");

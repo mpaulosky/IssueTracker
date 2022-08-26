@@ -165,9 +165,9 @@ public class IssueRepositoryTests
 		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
-		
+
 		var result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
-		
+
 		// Assert
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
@@ -193,9 +193,9 @@ public class IssueRepositoryTests
 		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
-		
+
 		var result = await _sut.GetApprovedIssues().ConfigureAwait(false);
-		
+
 		// Assert
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
@@ -204,8 +204,9 @@ public class IssueRepositoryTests
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(2);	}
-	
+		items.ToList().Should().HaveCount(2);
+	}
+
 	[Fact(DisplayName = "Update Issue with valid Issue")]
 	public async Task UpdateIssue_With_A_Valid_Id_And_Issue_Should_UpdateIssue_Test()
 	{

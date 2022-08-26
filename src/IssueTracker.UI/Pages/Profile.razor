@@ -40,7 +40,7 @@
 		<hr/>
 		@foreach (var s in _issues)
 		{
-			<hr class="my-issue-separator" />
+			<hr class="my-issue-separator"/>
 			<div>
 				@s.IssueName
 			</div>
@@ -55,7 +55,7 @@
 	</div>
 }
 
-@if(_comments?.Count > 0)
+@if (_comments?.Count > 0)
 {
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Comments</h2>
@@ -63,7 +63,7 @@
 		<hr/>
 		@foreach (var s in _comments)
 		{
-			<hr class="my-issue-separator" />
+			<hr class="my-issue-separator"/>
 			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
 			<p class="my-issue-text">
 				@s.Comment

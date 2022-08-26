@@ -4,6 +4,7 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -11,12 +12,12 @@ using Microsoft.Identity.Web.UI;
 namespace IssueTracker.UI;
 
 /// <summary>
-/// RegisterServices class
+///   RegisterServices class
 /// </summary>
 public static class RegisterServices
 {
 	/// <summary>
-	/// Configures the services method.
+	///   Configures the services method.
 	/// </summary>
 	/// <param name="builder">The builder.</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder)
@@ -53,7 +54,7 @@ public static class RegisterServices
 		builder.Services.AddSingleton<IStatusService, StatusService>();
 		builder.Services.AddSingleton<IIssueService, IssueService>();
 		builder.Services.AddSingleton<IUserService, UserService>();
-		
+
 		builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 		builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
 		builder.Services.AddSingleton<IStatusRepository, StatusRepository>();

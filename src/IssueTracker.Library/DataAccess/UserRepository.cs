@@ -4,19 +4,20 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// UserRepository class
+///   UserRepository class
 /// </summary>
 public class UserRepository : IUserRepository
 {
 	private readonly IMongoCollection<UserModel> _collection;
 
 	/// <summary>
-	/// UserRepository constructor
+	///   UserRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	public UserRepository(IMongoDbContext context)
@@ -25,7 +26,7 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	/// GetUser method
+	///   GetUser method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of UserModel</returns>
@@ -41,7 +42,7 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	/// GetUsers method
+	///   GetUsers method
 	/// </summary>
 	/// <returns>Task of IEnumerable UserModel</returns>
 	public async Task<IEnumerable<UserModel>> GetUsers()
@@ -52,7 +53,7 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	/// CreateUser method
+	///   CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	public async Task CreateUser(UserModel user)
@@ -61,7 +62,7 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	/// UpdateUser method
+	///   UpdateUser method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <param name="user">UserModel</param>
@@ -71,7 +72,7 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	/// GetUserFromAuthentication method
+	///   GetUserFromAuthentication method
 	/// </summary>
 	/// <param name="objectId">string</param>
 	/// <returns>Task of UserModel</returns>

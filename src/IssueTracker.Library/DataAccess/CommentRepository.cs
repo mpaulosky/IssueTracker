@@ -4,12 +4,13 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// CommentRepository class
+///   CommentRepository class
 /// </summary>
 public class CommentRepository : ICommentRepository
 {
@@ -18,7 +19,7 @@ public class CommentRepository : ICommentRepository
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
-	/// CommentRepository constructor
+	///   CommentRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	public CommentRepository(IMongoDbContext context)
@@ -29,7 +30,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// CreateComment method
+	///   CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -54,7 +55,8 @@ public class CommentRepository : ICommentRepository
 			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user).ConfigureAwait(true);
 
 			await session.CommitTransactionAsync().ConfigureAwait(true);
-		} catch(Exception)
+		}
+		catch (Exception)
 		{
 			await session.AbortTransactionAsync().ConfigureAwait(true);
 			throw;
@@ -62,7 +64,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// GetComment method
+	///   GetComment method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of CommentModel</returns>
@@ -78,7 +80,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// GetComments method
+	///   GetComments method
 	/// </summary>
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetComments()
@@ -89,7 +91,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// GetIssueComments method
+	///   GetIssueComments method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
@@ -103,7 +105,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// GetUserComments method
+	///   GetUserComments method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
@@ -117,7 +119,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	/// UpdateComment method
+	///   UpdateComment method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <param name="comment">CommentModel</param>
@@ -125,11 +127,12 @@ public class CommentRepository : ICommentRepository
 	{
 		var objectId = new ObjectId(id);
 
-		await _commentCollection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment).ConfigureAwait(true);
+		await _commentCollection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment)
+			.ConfigureAwait(true);
 	}
 
 	/// <summary>
-	/// UpvoteComment method
+	///   UpvoteComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
@@ -151,7 +154,7 @@ public class CommentRepository : ICommentRepository
 
 			bool isUpvote = comment.UserVotes.Add(userId);
 
-			if(isUpvote == false)
+			if (isUpvote == false)
 			{
 				comment.UserVotes.Remove(userId);
 			}
@@ -159,7 +162,8 @@ public class CommentRepository : ICommentRepository
 			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment).ConfigureAwait(true);
 
 			await session.CommitTransactionAsync().ConfigureAwait(true);
-		} catch(Exception)
+		}
+		catch (Exception)
 		{
 			await session.AbortTransactionAsync().ConfigureAwait(true);
 			throw;

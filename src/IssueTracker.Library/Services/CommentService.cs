@@ -4,10 +4,11 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// CommentService class
+///   CommentService class
 /// </summary>
 public class CommentService : ICommentService
 {
@@ -16,7 +17,7 @@ public class CommentService : ICommentService
 	private readonly ICommentRepository _repository;
 
 	/// <summary>
-	/// CommentService constructor
+	///   CommentService constructor
 	/// </summary>
 	/// <param name="repository">ICommentRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -27,7 +28,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// CreateComment method
+	///   CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -42,7 +43,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// GetComment method
+	///   GetComment method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of CommentModel</returns>
@@ -60,7 +61,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// GetComments method
+	///   GetComments method
 	/// </summary>
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
@@ -82,7 +83,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// GetUserComments method
+	///   GetUserComments method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List CommentModels</returns>
@@ -111,7 +112,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// GetIssuesComments method
+	///   GetIssuesComments method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of List CommentModels</returns>
@@ -124,12 +125,12 @@ public class CommentService : ICommentService
 		}
 
 		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
-		
+
 		return results.ToList();
 	}
 
 	/// <summary>
-	/// UpdateComment method
+	///   UpdateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -146,14 +147,13 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	/// UpvoteComment method
+	///   UpvoteComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="ArgumentException"></exception>
 	public async Task UpVoteComment(string commentId, string userId)
 	{
-
 		if (string.IsNullOrWhiteSpace(commentId))
 		{
 			throw new ArgumentException("Value cannot be null or whitespace.", nameof(commentId));
@@ -167,6 +167,5 @@ public class CommentService : ICommentService
 		await _repository.UpVoteComment(commentId, userId).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
-
 	}
 }

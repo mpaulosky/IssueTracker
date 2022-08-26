@@ -4,15 +4,16 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.UI.Helpers;
 
 /// <summary>
-/// AuthenticationStateProviderHelpers class
+///   AuthenticationStateProviderHelpers class
 /// </summary>
 public static class AuthenticationStateProviderHelpers
 {
 	/// <summary>
-	/// Gets the user from authentication.
+	///   Gets the user from authentication.
 	/// </summary>
 	/// <param name="provider">The AuthenticationState provider.</param>
 	/// <param name="userService">The user service.</param>

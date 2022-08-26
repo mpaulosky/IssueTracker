@@ -1,42 +1,42 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<IsPackable>false</IsPackable>
-		<RootNamespace>IssueTracker.UI</RootNamespace>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <RootNamespace>IssueTracker.UI</RootNamespace>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<Using Include="Bunit" />
-		<Using Include="Bunit.TestDoubles" />
-		<Using Include="Microsoft.Extensions.DependencyInjection" />
-		<Using Include="Xunit" />
-	</ItemGroup>
+    <ItemGroup>
+        <Using Include="Bunit"/>
+        <Using Include="Bunit.TestDoubles"/>
+        <Using Include="Microsoft.Extensions.DependencyInjection"/>
+        <Using Include="Xunit"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="bunit" Version="1.9.8" />
-		<PackageReference Include="FluentAssertions" Version="6.7.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
-		<PackageReference Include="coverlet.collector" Version="3.1.2">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="bunit" Version="1.9.8"/>
+        <PackageReference Include="FluentAssertions" Version="6.7.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0"/>
+        <PackageReference Include="coverlet.collector" Version="3.1.2">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Moq" Version="4.18.2" />
-		<PackageReference Include="xunit" Version="2.4.2" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Moq" Version="4.18.2"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
-	  <ProjectReference Include="..\IssueTracker.Library.Tests.Unit\IssueTracker.Library.Tests.Unit.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj"/>
+        <ProjectReference Include="..\IssueTracker.Library.Tests.Unit\IssueTracker.Library.Tests.Unit.csproj"/>
+    </ItemGroup>
 
 
 </Project>

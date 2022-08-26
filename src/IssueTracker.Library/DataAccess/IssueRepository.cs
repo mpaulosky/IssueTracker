@@ -4,12 +4,13 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// IssueRepository class
+///   IssueRepository class
 /// </summary>
 public class IssueRepository : IIssueRepository
 {
@@ -18,7 +19,7 @@ public class IssueRepository : IIssueRepository
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
-	/// IssueRepository constructor
+	///   IssueRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	public IssueRepository(IMongoDbContext context)
@@ -29,7 +30,7 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
-	/// CreateIssue method
+	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	public async Task CreateIssue(IssueModel issue)
@@ -62,7 +63,7 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
-	/// GetIssue method
+	///   GetIssue method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of IssueModel</returns>
@@ -78,7 +79,7 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
-	/// GetIssues method
+	///   GetIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssues()
@@ -89,7 +90,7 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
-	/// GetIssuesWaitingForApproval method
+	///   GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
@@ -101,7 +102,7 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
-	/// GetApprovedIssues method
+	///   GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
@@ -112,11 +113,11 @@ public class IssueRepository : IIssueRepository
 			&& x.Rejected == false).ToList();
 	}
 
-/// <summary>
-/// GetUserIssues method
-/// </summary>
-/// <param name="userId">string</param>
-/// <returns>Task of IEnumerable IssueModel</returns>
+	/// <summary>
+	///   GetUserIssues method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
 		var objectId = new ObjectId(userId);
@@ -126,11 +127,11 @@ public class IssueRepository : IIssueRepository
 		return await results.ToListAsync().ConfigureAwait(true);
 	}
 
-/// <summary>
-/// UpdateIssue method
-/// </summary>
-/// <param name="id">string</param>
-/// <param name="issue">IssueModel</param>
+	/// <summary>
+	///   UpdateIssue method
+	/// </summary>
+	/// <param name="id">string</param>
+	/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(string id, IssueModel issue)
 	{
 		var objectId = new ObjectId(id);

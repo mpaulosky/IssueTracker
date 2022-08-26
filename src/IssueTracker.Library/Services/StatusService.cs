@@ -4,10 +4,11 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// StatusService class
+///   StatusService class
 /// </summary>
 public class StatusService : IStatusService
 {
@@ -16,7 +17,7 @@ public class StatusService : IStatusService
 	private readonly IStatusRepository _repository;
 
 	/// <summary>
-	/// StatusService constructor
+	///   StatusService constructor
 	/// </summary>
 	/// <param name="repository">IStatusRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -27,7 +28,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	/// CreateStatus method
+	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
@@ -43,7 +44,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	/// GetStatus method
+	///   GetStatus method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task StatusModel</returns>
@@ -61,7 +62,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	/// GetStatuses method
+	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
@@ -81,7 +82,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	/// UpdateStatus method
+	///   UpdateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>

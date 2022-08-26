@@ -4,17 +4,18 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using Microsoft.Extensions.Options;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// MongoDbContext class
+///   MongoDbContext class
 /// </summary>
 public class MongoDbContext : IMongoDbContext
 {
 	/// <summary>
-	/// MongoDbContext constructor
+	///   MongoDbContext constructor
 	/// </summary>
 	/// <param name="configuration">IOptions of DatabaseSettings</param>
 	public MongoDbContext(IOptions<DatabaseSettings> configuration)
@@ -29,7 +30,7 @@ public class MongoDbContext : IMongoDbContext
 	public string DbName { get; }
 
 	/// <summary>
-	/// GetCollection method
+	///   GetCollection method
 	/// </summary>
 	/// <param name="name">string</param>
 	/// <typeparam name="T"></typeparam>

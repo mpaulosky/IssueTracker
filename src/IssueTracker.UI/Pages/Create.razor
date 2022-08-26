@@ -1,5 +1,4 @@
 ﻿@page "/Create"
-
 @using IssueTracker.UI.Components
 
 @attribute [Authorize]
@@ -25,7 +24,7 @@
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="issue-text">Suggestion</label>
 					<div class="input-description">Focus on the topic or technology you want to learn about.</div>
-					<InputText class="form-control" id="issue-text" @bind-Value="_issue.Issue" />
+					<InputText class="form-control" id="issue-text" @bind-Value="_issue.Issue"/>
 				</div>
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="category">Category</label>

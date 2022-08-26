@@ -4,17 +4,18 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// UserService class
+///   UserService class
 /// </summary>
 public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
 	/// <summary>
-	/// UserService constructor
+	///   UserService constructor
 	/// </summary>
 	/// <param name="repository">IUserRepository</param>
 	public UserService(IUserRepository repository)
@@ -23,7 +24,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	/// CreateUser method
+	///   CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>
@@ -39,7 +40,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	/// GetUser method
+	///   GetUser method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of UserModel</returns>
@@ -57,7 +58,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	/// GetUsers method
+	///   GetUsers method
 	/// </summary>
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
@@ -68,7 +69,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	/// GetUserFromAuthentication method
+	///   GetUserFromAuthentication method
 	/// </summary>
 	/// <param name="objectId">string</param>
 	/// <returns>Task of UserModel</returns>
@@ -85,12 +86,12 @@ public class UserService : IUserService
 		return results;
 	}
 
-/// <summary>
-/// UpdateUser method
-/// </summary>
-/// <param name="user">UserModel</param>
-/// <returns>Task</returns>
-/// <exception cref="ArgumentNullException"></exception>
+	/// <summary>
+	///   UpdateUser method
+	/// </summary>
+	/// <param name="user">UserModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateUser(UserModel user)
 	{
 		if (user == null)

@@ -4,10 +4,11 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// IssueService class
+///   IssueService class
 /// </summary>
 public class IssueService : IIssueService
 {
@@ -27,7 +28,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// CreateIssue method
+	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -42,7 +43,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetIssue method
+	///   GetIssue method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of IssueModel</returns>
@@ -60,7 +61,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetIssues method
+	///   GetIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
@@ -82,7 +83,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetUsersIssues method
+	///   GetUsersIssues method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
@@ -110,7 +111,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// UpdateIssue
+	///   UpdateIssue
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(IssueModel issue)
@@ -126,7 +127,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetIssuesWaitingForApproval method
+	///   GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
@@ -137,7 +138,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetApprovedIssues method
+	///   GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()

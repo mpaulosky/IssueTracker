@@ -203,4 +203,5 @@ public class CategoryServiceTests
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateCategory(null));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);}
+	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+}

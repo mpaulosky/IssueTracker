@@ -4,23 +4,24 @@
 //     Copyright (c) .2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-/// SampleData class
+///   SampleData class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
 public partial class SampleData
 {
+	private readonly HashSet<string> _votes = new() { "1", "2", "3" };
 	private bool _categoriesCreated;
 
 	private bool _commentsCreated;
 	private UserModel _foundUser = new();
 	private bool _statusesCreated;
-	private readonly HashSet<string> _votes = new() { "1", "2", "3" };
 
 	/// <summary>
-	/// Creates the categories method.
+	///   Creates the categories method.
 	/// </summary>
 	private async Task CreateCategories()
 	{
@@ -31,46 +32,35 @@ public partial class SampleData
 			return;
 		}
 
-		CategoryModel cat = new()
+		CategoryModel cat = new() { CategoryName = "Design", CategoryDescription = "An Issue with the design." };
+		await CategoryService.CreateCategory(cat);
+
+		cat = new CategoryModel
 		{
-			CategoryName = "Design",
-			CategoryDescription = "An Issue with the design."
+			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(cat);
 
 		cat = new CategoryModel
 		{
-			CategoryName = "Documentation",
-			CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(cat);
 
 		cat = new CategoryModel
 		{
-			CategoryName = "Implementation",
-			CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(cat);
 
-		cat = new CategoryModel
-		{
-			CategoryName = "Clarification",
-			CategoryDescription = "A quick Issue with a general question."
-		};
-		await CategoryService.CreateCategory(cat);
-
-		cat = new CategoryModel
-		{
-			CategoryName = "Miscellaneous",
-			CategoryDescription = "Not sure where this fits."
-		};
+		cat = new CategoryModel { CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." };
 		await CategoryService.CreateCategory(cat);
 
 		_categoriesCreated = true;
 	}
 
 	/// <summary>
-	/// Creates the comments method.
+	///   Creates the comments method.
 	/// </summary>
 	private async Task CreateComments()
 	{
@@ -83,19 +73,13 @@ public partial class SampleData
 
 		var comment = new CommentModel
 		{
-			Comment = "Test Comment 1",
-			Archived = false,
-			Author = new BasicUserModel(_foundUser),
-			UserVotes = _votes,
+			Comment = "Test Comment 1", Archived = false, Author = new BasicUserModel(_foundUser), UserVotes = _votes
 		};
 		await CommentService.CreateComment(comment);
 
 		comment = new CommentModel
 		{
-			Comment = "Test Comment 2",
-			Archived = false,
-			Author = new BasicUserModel(_foundUser),
-			UserVotes = _votes,
+			Comment = "Test Comment 2", Archived = false, Author = new BasicUserModel(_foundUser), UserVotes = _votes
 		};
 		await CommentService.CreateComment(comment);
 
@@ -104,7 +88,7 @@ public partial class SampleData
 			Comment = "Test Comment 3",
 			Archived = false,
 			Author = new BasicUserModel(_foundUser),
-			UserVotes = new HashSet<string>(),
+			UserVotes = new HashSet<string>()
 		};
 		await CommentService.CreateComment(comment);
 
@@ -112,7 +96,7 @@ public partial class SampleData
 	}
 
 	/// <summary>
-	/// Creates the statuses method.
+	///   Creates the statuses method.
 	/// </summary>
 	private async Task CreateStatuses()
 	{
@@ -138,15 +122,13 @@ public partial class SampleData
 
 		stat = new StatusModel
 		{
-			StatusName = "Upcoming",
-			StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(stat);
 
 		stat = new StatusModel
 		{
-			StatusName = "Dismissed",
-			StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(stat);
 
@@ -154,7 +136,7 @@ public partial class SampleData
 	}
 
 	/// <summary>
-	/// Generates the sample data method.
+	///   Generates the sample data method.
 	/// </summary>
 	private async Task GenerateSampleData()
 	{
@@ -220,5 +202,4 @@ public partial class SampleData
 		};
 		await IssueService.CreateIssue(issue);
 	}
-
 }

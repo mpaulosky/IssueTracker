@@ -4,10 +4,11 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
-/// DatabaseSettings class
+///   DatabaseSettings class
 /// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {

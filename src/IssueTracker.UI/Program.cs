@@ -4,6 +4,7 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using IssueTracker.UI;
 
 using Microsoft.AspNetCore.Rewrite;

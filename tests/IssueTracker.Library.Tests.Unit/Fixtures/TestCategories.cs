@@ -47,4 +47,5 @@ public static class TestCategories
 		};
 
 		return status;
-	}}
+	}
+}

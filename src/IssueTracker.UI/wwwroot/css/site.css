@@ -683,7 +683,7 @@ a:hover, .btn-link:hover {
 
 .btn-archive-confirm,
 .btn-archive-reject,
-.btn-comment{
+.btn-comment {
   text-transform: uppercase;
   color: darkgray;
   font-family: 'Montserrat', sans-serif;
@@ -708,7 +708,7 @@ a:hover, .btn-link:hover {
   flex-wrap: wrap;
 }
 
-.comment-details{
+.comment-details {
   margin-top: 1rem
 }
 
@@ -778,12 +778,12 @@ a:hover, .btn-link:hover {
   .detail-form {
     margin: 0 0 1rem;
   }
-  
-  .comment-details{
+
+  .comment-details {
     margin-top: 12rem
   }
-  
-  .comment-form-layout{
+
+  .comment-form-layout {
     margin: 0 0 1rem 0;
   }
 

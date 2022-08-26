@@ -4,6 +4,7 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Models;
 
 [Serializable]
@@ -26,7 +27,7 @@ public class IssueModel
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
 	public CategoryModel Category { get; set; }
-	
+
 	public BasicUserModel Author { get; set; }
 
 	public StatusModel IssueStatus { get; set; }
@@ -38,7 +39,7 @@ public class IssueModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; } = false;
+
 	public bool ApprovedForRelease { get; set; }
 	public bool Rejected { get; set; }
-
 }

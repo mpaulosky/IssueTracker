@@ -4,10 +4,11 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// CategoryService class
+///   CategoryService class
 /// </summary>
 public class CategoryService : ICategoryService
 {
@@ -16,7 +17,7 @@ public class CategoryService : ICategoryService
 	private readonly ICategoryRepository _repository;
 
 	/// <summary>
-	/// CategoryService constructor
+	///   CategoryService constructor
 	/// </summary>
 	/// <param name="repository">ICategoryRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -27,7 +28,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	/// GetCategory method
+	///   GetCategory method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of CategoryModel</returns>
@@ -45,7 +46,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	/// GetCategories method
+	///   GetCategories method
 	/// </summary>
 	/// <returns>Task of List CategoryModel</returns>
 	public async Task<List<CategoryModel>> GetCategories()
@@ -56,7 +57,7 @@ public class CategoryService : ICategoryService
 			return output;
 		}
 
-		
+
 		var results = await _repository.GetCategories().ConfigureAwait(true);
 		output = results.ToList();
 
@@ -66,7 +67,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	/// CreateCategory method
+	///   CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
@@ -82,7 +83,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	/// UpdateCategory method
+	///   UpdateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>

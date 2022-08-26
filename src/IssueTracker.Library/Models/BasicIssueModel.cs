@@ -4,6 +4,7 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Models;
 
 public class BasicIssueModel
@@ -23,7 +24,6 @@ public class BasicIssueModel
 	public string Id { get; set; }
 
 	public string Issue { get; set; }
-	
-	public string Description { get; set; }
 
+	public string Description { get; set; }
 }

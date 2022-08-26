@@ -4,29 +4,29 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// CategoryRepository class
+///   CategoryRepository class
 /// </summary>
 public class CategoryRepository : ICategoryRepository
 {
-
 	private readonly IMongoCollection<CategoryModel> _collection;
 
 	/// <summary>
-	/// CategoryRepository constructor
+	///   CategoryRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	public CategoryRepository(IMongoDbContext context)
-	{ 
-		_collection = context?.GetCollection<CategoryModel>(GetCollectionName(nameof(CategoryModel))); 
+	{
+		_collection = context?.GetCollection<CategoryModel>(GetCollectionName(nameof(CategoryModel)));
 	}
 
 	/// <summary>
-	/// GetCategory method
+	///   GetCategory method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of CategoryModel</returns>
@@ -42,7 +42,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// GetCategories method
+	///   GetCategories method
 	/// </summary>
 	/// <returns>Task of IEnumerable CategoryModel</returns>
 	public async Task<IEnumerable<CategoryModel>> GetCategories()
@@ -53,17 +53,22 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	/// CreateCategory method
+	///   CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
-	public async Task CreateCategory(CategoryModel category) { await _collection.InsertOneAsync(category).ConfigureAwait(true); }
+	public async Task CreateCategory(CategoryModel category)
+	{
+		await _collection.InsertOneAsync(category).ConfigureAwait(true);
+	}
 
 	/// <summary>
-	/// UpdateCategory method
+	///   UpdateCategory method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <param name="category">CategoryModel</param>
 	public async Task UpdateCategory(string id, CategoryModel category)
-	{ await _collection.ReplaceOneAsync(Builders<CategoryModel>.Filter.Eq("_id", id),
-		category).ConfigureAwait(true); }
+	{
+		await _collection.ReplaceOneAsync(Builders<CategoryModel>.Filter.Eq("_id", id),
+			category).ConfigureAwait(true);
+	}
 }

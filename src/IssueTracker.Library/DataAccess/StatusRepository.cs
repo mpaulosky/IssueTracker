@@ -4,19 +4,20 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using static IssueTracker.Library.Helpers.CollectionNames;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// StatusRepository class
+///   StatusRepository class
 /// </summary>
 public class StatusRepository : IStatusRepository
 {
 	private readonly IMongoCollection<StatusModel> _collection;
 
 	/// <summary>
-	/// StatusRepository constructor
+	///   StatusRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	public StatusRepository(IMongoDbContext context)
@@ -25,7 +26,7 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	/// GetStatus method
+	///   GetStatus method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <returns>Task of StatusModel</returns>
@@ -41,7 +42,7 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	/// GetStatuses method
+	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of IEnumerable StatusModel</returns>
 	public async Task<IEnumerable<StatusModel>> GetStatuses()
@@ -52,7 +53,7 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	/// CreateStatus method
+	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	public async Task CreateStatus(StatusModel status)
@@ -61,7 +62,7 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	/// UpdateStatus method
+	///   UpdateStatus method
 	/// </summary>
 	/// <param name="id">string</param>
 	/// <param name="status">StatusModel</param>

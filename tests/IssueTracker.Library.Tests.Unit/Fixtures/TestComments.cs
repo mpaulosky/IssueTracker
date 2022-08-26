@@ -12,7 +12,7 @@ public static class TestComments
 			Archived = false,
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
+			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" }
 		};
 
 		return comment;
@@ -27,7 +27,7 @@ public static class TestComments
 			Archived = false,
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
-			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" },
+			UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545" }
 		};
 
 		return comment;
@@ -44,7 +44,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			},
 			new()
 			{
@@ -52,7 +52,7 @@ public static class TestComments
 				Comment = "Test Comment 2",
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			},
 			new()
 			{
@@ -61,7 +61,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e543", "Test User"),
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			}
 		};
 
@@ -79,7 +79,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			},
 			new()
 			{
@@ -87,7 +87,7 @@ public static class TestComments
 				Comment = "Test Comment 2",
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			},
 			new()
 			{
@@ -96,7 +96,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string>(),
+				UserVotes = new HashSet<string>()
 			}
 		};
 
