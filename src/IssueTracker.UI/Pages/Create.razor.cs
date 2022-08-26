@@ -1,8 +1,15 @@
+//-----------------------------------------------------------------------
+// <copyright file="Create.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
 /// Create class
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel"/>
 public partial class Create
 {
 	private CreateIssueModel _issue = new();

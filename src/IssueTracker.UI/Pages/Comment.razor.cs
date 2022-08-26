@@ -1,8 +1,15 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Comment.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace IssueTracker.UI.Pages;
 
 /// <summary>
 /// Comment page class.
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel"/>
 public partial class Comment
 {
 	[Parameter]

@@ -1,8 +1,15 @@
+//-----------------------------------------------------------------------
+// <copyright file="Details.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
 /// Details class
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel"/>
 public partial class Details
 {
 	[Parameter] public string Id { get; set; }

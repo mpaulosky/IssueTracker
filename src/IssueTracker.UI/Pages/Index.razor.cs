@@ -1,8 +1,15 @@
+//-----------------------------------------------------------------------
+// <copyright file="Index.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
 /// Index page class
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel"/>
 public partial class Index
 {
 
@@ -31,7 +38,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	/// Archive issue
+	/// Archive issue method
 	/// </summary>
 	private async Task ArchiveIssue()
 	{
@@ -45,7 +52,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	/// LoadCreateIssuePage
+	/// LoadCreateIssuePage method
 	/// </summary>
 	private void LoadCreateIssuePage()
 	{
