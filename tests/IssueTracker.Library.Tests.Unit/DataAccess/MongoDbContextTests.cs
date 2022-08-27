@@ -1,8 +1,10 @@
-﻿using NSubstitute;
+﻿using IssueTracker.Library.Fixtures;
+
+using NSubstitute;
 
 using static IssueTracker.Library.Helpers.CollectionNames;
 
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests

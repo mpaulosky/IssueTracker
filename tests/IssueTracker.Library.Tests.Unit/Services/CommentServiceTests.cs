@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using IssueTracker.Library.Fixtures;
 
-namespace IssueTracker.Library.Tests.Unit.Services;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class CommentServiceTests
@@ -114,10 +116,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -142,16 +143,15 @@ public class CommentServiceTests
 		var expected = TestComments.GetComments();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -179,10 +179,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -209,10 +208,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -332,5 +330,5 @@ public class CommentServiceTests
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpVoteComment(commentId, userId));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }

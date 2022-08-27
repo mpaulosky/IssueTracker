@@ -1,6 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using IssueTracker.Library.Fixtures;
 
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+using MongoDB.Driver;
+
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
@@ -152,7 +154,7 @@ public class IssueRepositoryTests
 	}
 
 	[Fact(DisplayName = "GetIssues Waiting For Approval")]
-	public async Task GetIssuesWaitingForApproval_With_ListOfIssus_Should_ReturnAListOfIssuesWaitingForApproval_Test()
+	public async Task GetIssuesWaitingForApproval_With_ListOfIssues_Should_ReturnAListOfIssuesWaitingForApproval_Test()
 	{
 		// Arrange
 

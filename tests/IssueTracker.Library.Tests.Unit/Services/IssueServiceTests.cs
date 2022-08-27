@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using IssueTracker.Library.Fixtures;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace IssueTracker.Library.Services;
 
@@ -115,10 +117,9 @@ public class IssueServiceTests
 
 		_issueRepositoryMock.Setup(x => x.GetIssues()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
@@ -143,16 +144,15 @@ public class IssueServiceTests
 		var expected = TestIssues.GetIssues();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -180,10 +180,9 @@ public class IssueServiceTests
 
 		_issueRepositoryMock.Setup(x => x.GetUsersIssues(It.IsAny<string>())).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
@@ -208,16 +207,15 @@ public class IssueServiceTests
 
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -272,10 +270,9 @@ public class IssueServiceTests
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
@@ -301,10 +298,9 @@ public class IssueServiceTests
 
 		_issueRepositoryMock.Setup(x => x.GetApprovedIssues()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
@@ -355,5 +351,5 @@ public class IssueServiceTests
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }

@@ -1,6 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using IssueTracker.Library.Fixtures;
 
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+using MongoDB.Driver;
+
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests

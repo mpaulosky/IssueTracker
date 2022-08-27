@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Library.Tests.Unit.Services;
+﻿using IssueTracker.Library.Fixtures;
+
+namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class UserServiceTests

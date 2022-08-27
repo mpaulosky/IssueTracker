@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace IssueTracker.Library.Tests.Unit.Fixtures;
+namespace IssueTracker.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
@@ -46,7 +46,7 @@ public static class TestFixtures
 		// 		It.IsAny<TEntity>(), 
 		// 		It.IsAny<ReplaceOptions>(),
 		// 		It.IsAny<CancellationToken>()
-		// 	)).ReturnnsAsync();
+		// 	)).ReturnsAsync();
 
 		return collection;
 	}

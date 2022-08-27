@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using IssueTracker.Library.Fixtures;
 
-namespace IssueTracker.Library.Tests.Unit.Services;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class CategoryServiceTests
@@ -114,10 +116,9 @@ public class CategoryServiceTests
 
 		_statusRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
@@ -142,16 +143,15 @@ public class CategoryServiceTests
 		var expected = TestCategories.GetCategories();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = k as string)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -203,5 +203,5 @@ public class CategoryServiceTests
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateCategory(null));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }
