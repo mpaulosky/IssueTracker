@@ -15,8 +15,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
 				OwnerNotes = "Notes for Issue 1",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 				ApprovedForRelease = true,
 				Rejected = false
 			},
@@ -28,8 +33,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
 				OwnerNotes = "Notes for Issue 2",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 				ApprovedForRelease = false,
 				Rejected = false
 			},
@@ -41,8 +51,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
 				OwnerNotes = "Notes for Issue 3",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 				ApprovedForRelease = true,
 				Rejected = false
 			}
@@ -63,8 +78,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 1"
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
+				OwnerNotes = "Notes for Issue 1",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 			},
 			new()
 			{
@@ -74,8 +94,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 2"
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
+				OwnerNotes = "Notes for Issue 2",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 			},
 			new()
 			{
@@ -85,8 +110,13 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
-				IssueStatus = new StatusModel(),
-				OwnerNotes = "Notes for Issue 3"
+				IssueStatus = new StatusModel{
+					Id = Guid.NewGuid().ToString(),
+					StatusName = "Watching",
+					StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
+				OwnerNotes = "Notes for Issue 3",
+				Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 			}
 		};
 
@@ -103,8 +133,13 @@ public static class TestIssues
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
-			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1"
+			IssueStatus = new StatusModel{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "Watching",
+				StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+			},
+			OwnerNotes = "Notes for Issue 1",
+			Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 		};
 
 		return issue;
@@ -120,8 +155,13 @@ public static class TestIssues
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
-			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1"
+			IssueStatus = new StatusModel{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "Watching",
+				StatusDescription = "The suggestion is interesting. We are watching to see how much interest there is in it."
+			},
+			OwnerNotes = "Notes for Issue 1",
+			Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 		};
 
 		return issue;
@@ -137,7 +177,8 @@ public static class TestIssues
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 			IssueStatus = new StatusModel(),
-			OwnerNotes = "Notes for Issue 1"
+			OwnerNotes = "Notes for Issue 1",
+			Category = new CategoryModel{ Id = Guid.NewGuid().ToString(), CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." },
 		};
 
 		return issue;

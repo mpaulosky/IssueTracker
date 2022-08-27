@@ -4,7 +4,6 @@
 //     Copyright (c) .2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
@@ -37,12 +36,15 @@ public partial class Comment
 	{
 		CommentModel comment = new()
 		{
-			Issue = new BasicIssueModel(_issue), Author = new BasicUserModel(_loggedInUser), Comment = _comment.Comment
+			Issue = new BasicIssueModel(_issue), 
+			Author = new BasicUserModel(_loggedInUser), 
+			Comment = _comment.Comment
 		};
 
 		await CommentService.CreateComment(comment);
 
 		_comment = new CreateCommentModel();
+
 		ClosePage();
 	}
 
