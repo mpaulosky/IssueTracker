@@ -49,7 +49,9 @@ public class LoginDisplayTests
 		// Assert
 		cut.MarkupMatches
 		(
-			"<a class='login-link' href='/Admin'>Admin</a><a class='login-link' href='/Profile'>Profile</a><a class='login-link' href='MicrosoftIdentity/Account/SignOut'>Logout</a>"
+			@"
+				<a class=""login-link"" href=""/Admin"">Admin</a><a class=""login-link"" href=""/Profile"">Profile</a><a class=""login-link"" href=""MicrosoftIdentity/Account/SignOut"">Logout</a>
+			"
 		);
 	}
 }

@@ -14,7 +14,7 @@
 <div class="row justify-content-center create-form">
 	<div class="col-xl-8 col-lg-10 form-layout">
 		<div class="close-button-section">
-			<button class="btn btn-close" @onclick="ClosePage"></button>
+			<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 		</div>
 		@if (_categories is not null)
 		{
@@ -47,7 +47,7 @@
 					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description"/>
 				</div>
 				<div class="center-children">
-					<button class="btn btn-main btn-lg text-uppercase" type="submit">Creat Issue</button>
+					<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Creat Issue</button>
 				</div>
 			</EditForm>
 		}

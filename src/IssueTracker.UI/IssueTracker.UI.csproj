@@ -7,9 +7,6 @@
         <RootNamespace>IssueTracker.UI</RootNamespace>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <AnalysisLevel>latest</AnalysisLevel>
-        <Company>$(Authors),mpaulosky</Company>
-        <Authors>$(AssemblyName),Matthew Paulosky</Authors>
-        <Copyright>2022</Copyright>
     </PropertyGroup>
 
     <ItemGroup>

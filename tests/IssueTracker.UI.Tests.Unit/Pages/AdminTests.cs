@@ -1,6 +1,4 @@
-﻿using IssueTracker.Library.Fixtures;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class AdminTests

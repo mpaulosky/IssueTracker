@@ -7,6 +7,7 @@
 
 namespace IssueTracker.Library.Models;
 
+[Serializable]
 public class BasicUserModel
 {
 	public BasicUserModel()
@@ -15,8 +16,8 @@ public class BasicUserModel
 
 	public BasicUserModel(UserModel user)
 	{
-		Id = user.Id;
-		DisplayName = user.DisplayName;
+		Id = user?.Id;
+		DisplayName = user?.DisplayName;
 	}
 
 	public BasicUserModel(string id, string displayName) : this()
@@ -25,8 +26,7 @@ public class BasicUserModel
 		DisplayName = displayName;
 	}
 
-	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; }
+	public string Id { get; init; }
 
-	public string DisplayName { get; set; }
+	public string DisplayName { get; init; }
 }

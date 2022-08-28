@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Microsoft.Extensions.Options;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -20,8 +18,13 @@ public class MongoDbContext : IMongoDbContext
 	/// <param name="configuration">IOptions of DatabaseSettings</param>
 	public MongoDbContext(IOptions<DatabaseSettings> configuration)
 	{
-		DbName = configuration.Value.DatabaseName;
-		Client = new MongoClient(configuration.Value.ConnectionString);
+		Guard.Against.Null(configuration, nameof(configuration));
+		
+		DbName = Guard.Against.NullOrEmpty(configuration.Value.DatabaseName, nameof(configuration));
+		
+		string connectionString = Guard.Against.NullOrWhiteSpace(configuration.Value.ConnectionString, nameof(connectionString));
+		Client = new MongoClient(connectionString);
+		
 		Database = Client.GetDatabase(DbName);
 	}
 
@@ -37,6 +40,10 @@ public class MongoDbContext : IMongoDbContext
 	/// <returns>IMongoCollection</returns>
 	public IMongoCollection<T> GetCollection<T>(string name)
 	{
-		return Database.GetCollection<T>(name);
+		Guard.Against.NullOrWhiteSpace(name, nameof(name));
+
+		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
+		
+		return collection;
 	}
 }

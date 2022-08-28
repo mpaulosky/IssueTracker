@@ -1,8 +1,4 @@
-﻿using IssueTracker.Library.Fixtures;
-
-using MongoDB.Driver;
-
-namespace IssueTracker.Library.DataAccess;
+﻿namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
@@ -77,7 +73,9 @@ public class CommentRepositoryTests
 
 		//Act
 
+#pragma warning disable CS8602
 		var result = await _sut.GetComment(expected.Id).ConfigureAwait(false);
+#pragma warning restore CS8602
 
 		//Assert 
 

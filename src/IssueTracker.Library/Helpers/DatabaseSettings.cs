@@ -4,7 +4,6 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
@@ -12,7 +11,7 @@ namespace IssueTracker.Library.Helpers;
 /// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {
-	public string ConnectionString { get; set; } = null!;
+	public string ConnectionString { get; set; }
 
-	public string DatabaseName { get; set; } = null!;
+	public string DatabaseName { get; set; }
 }

@@ -4,7 +4,6 @@
 //     Copyright (c) .2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
@@ -24,14 +23,6 @@ public partial class Create
 	{
 		_categories = await CategoryService.GetCategories();
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
-	}
-
-	/// <summary>
-	///   ClosePage method
-	/// </summary>
-	private void ClosePage()
-	{
-		NavManager.NavigateTo("/");
 	}
 
 	/// <summary>
@@ -57,5 +48,13 @@ public partial class Create
 
 		_issue = new CreateIssueModel();
 		ClosePage();
+	}
+	
+	/// <summary>
+	///   ClosePage method
+	/// </summary>
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
 	}
 }

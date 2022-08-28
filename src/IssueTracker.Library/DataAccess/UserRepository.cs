@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using static IssueTracker.Library.Helpers.CollectionNames;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -22,7 +20,13 @@ public class UserRepository : IUserRepository
 	/// <param name="context">IMongoDbContext</param>
 	public UserRepository(IMongoDbContext context)
 	{
-		_collection = context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+		Guard.Against.Null(context, nameof(context));
+		
+		string collectionName;
+		
+		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(collectionName));
+		
+		_collection = context.GetCollection<UserModel>(collectionName);
 	}
 
 	/// <summary>
@@ -32,11 +36,13 @@ public class UserRepository : IUserRepository
 	/// <returns>Task of UserModel</returns>
 	public async Task<UserModel> GetUser(string id)
 	{
+		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+
 		var objectId = new ObjectId(id);
 
 		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
+		var result = await _collection!.FindAsync(filter).ConfigureAwait(true);
 
 		return result.FirstOrDefault();
 	}
@@ -47,7 +53,7 @@ public class UserRepository : IUserRepository
 	/// <returns>Task of IEnumerable UserModel</returns>
 	public async Task<IEnumerable<UserModel>> GetUsers()
 	{
-		var all = await _collection.FindAsync(Builders<UserModel>.Filter.Empty).ConfigureAwait(true);
+		var all = await _collection!.FindAsync(Builders<UserModel>.Filter.Empty).ConfigureAwait(true);
 
 		return await all.ToListAsync().ConfigureAwait(true);
 	}
@@ -58,7 +64,9 @@ public class UserRepository : IUserRepository
 	/// <param name="user">UserModel</param>
 	public async Task CreateUser(UserModel user)
 	{
-		await _collection.InsertOneAsync(user).ConfigureAwait(true);
+		Guard.Against.Null(user, nameof(user));
+		
+		await _collection!.InsertOneAsync(user).ConfigureAwait(true);
 	}
 
 	/// <summary>
@@ -68,17 +76,24 @@ public class UserRepository : IUserRepository
 	/// <param name="user">UserModel</param>
 	public async Task UpdateUser(string id, UserModel user)
 	{
-		await _collection.ReplaceOneAsync(Builders<UserModel>.Filter.Eq("_id", id), user).ConfigureAwait(true);
+		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+		Guard.Against.Null(user, nameof(user));
+		
+		var filter = Guard.Against.Null(Builders<UserModel>.Filter.Eq("_id", id), nameof(FieldDefinition<UserModel>));
+
+		await _collection!.ReplaceOneAsync(filter!, user).ConfigureAwait(true);
 	}
 
 	/// <summary>
 	///   GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="objectId">string</param>
+	/// <param name="id">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserFromAuthentication(string objectId)
+	public async Task<UserModel> GetUserFromAuthentication(string id)
 	{
-		var results = await _collection.FindAsync(u => u.ObjectIdentifier == objectId).ConfigureAwait(true);
+		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+
+		var results = await _collection!.FindAsync(u => u != null && u.ObjectIdentifier == id).ConfigureAwait(true);
 
 		return results.FirstOrDefault();
 	}

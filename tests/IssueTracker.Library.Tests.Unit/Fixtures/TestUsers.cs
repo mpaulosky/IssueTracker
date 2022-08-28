@@ -13,7 +13,7 @@ public static class TestUsers
 				ObjectIdentifier = Guid.NewGuid().ToString(),
 				FirstName = "Jim",
 				LastName = "Test",
-				DisplayName = "jimtest",
+				DisplayName = "jim test",
 				EmailAddress = "jim.test@test.com",
 				AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 				AuthoredComments = new List<BasicCommentModel>
@@ -27,7 +27,7 @@ public static class TestUsers
 				ObjectIdentifier = Guid.NewGuid().ToString(),
 				FirstName = "Sam",
 				LastName = "Test",
-				DisplayName = "samtest",
+				DisplayName = "sam test",
 				EmailAddress = "sam.test@test.com",
 				AuthoredIssues =
 					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
@@ -42,7 +42,7 @@ public static class TestUsers
 				ObjectIdentifier = Guid.NewGuid().ToString(),
 				FirstName = "Tim",
 				LastName = "Test",
-				DisplayName = "timtest",
+				DisplayName = "tim test",
 				EmailAddress = "tim.test@test.com",
 				AuthoredIssues =
 					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
@@ -64,7 +64,7 @@ public static class TestUsers
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
 			LastName = "Test",
-			DisplayName = "jimtest",
+			DisplayName = "jim test",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
@@ -82,7 +82,7 @@ public static class TestUsers
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
 			LastName = "Test",
-			DisplayName = "jimtest",
+			DisplayName = "jim test",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
@@ -105,7 +105,7 @@ public static class TestUsers
 			ObjectIdentifier = objectIdentifier,
 			FirstName = firstName,
 			LastName = lastName,
-			DisplayName = "jimtest",
+			DisplayName = "jim test",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel>(),
 			AuthoredComments = new List<BasicCommentModel>()
@@ -121,7 +121,7 @@ public static class TestUsers
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
 			LastName = "Test",
-			DisplayName = "jimtest",
+			DisplayName = "jim test",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
@@ -138,7 +138,7 @@ public static class TestUsers
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
 			LastName = "Test",
-			DisplayName = "jimtestUpdate",
+			DisplayName = "jim test Update",
 			EmailAddress = "jim.test@test.com",
 			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }

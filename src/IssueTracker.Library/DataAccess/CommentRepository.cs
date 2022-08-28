@@ -4,9 +4,6 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using static IssueTracker.Library.Helpers.CollectionNames;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -14,8 +11,8 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class CommentRepository : ICommentRepository
 {
-	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoDbContext _context;
+	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
@@ -24,9 +21,19 @@ public class CommentRepository : ICommentRepository
 	/// <param name="context">IMongoDbContext</param>
 	public CommentRepository(IMongoDbContext context)
 	{
-		_context = context;
-		_commentCollection = context?.GetCollection<CommentModel>(GetCollectionName(nameof(CommentModel)));
-		_userCollection = context?.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+		_context = Guard.Against.Null(context, nameof(context));
+
+		string commentCollectionName;
+		
+		commentCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CommentModel)), nameof(commentCollectionName));
+
+		_commentCollection = _context.GetCollection<CommentModel>(commentCollectionName);
+
+		string userCollectionName;
+		
+		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
+		
+		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
 	}
 
 	/// <summary>
@@ -72,7 +79,7 @@ public class CommentRepository : ICommentRepository
 	{
 		var objectId = new ObjectId(id);
 
-		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 		var result = await _commentCollection.FindAsync(filter).ConfigureAwait(true);
 
@@ -148,7 +155,7 @@ public class CommentRepository : ICommentRepository
 
 			var objectId = new ObjectId(commentId);
 
-			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
+			FilterDefinition<CommentModel> filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 			var comment = (await commentsInTransaction.FindAsync(filterComment).ConfigureAwait(true)).FirstOrDefault();
 

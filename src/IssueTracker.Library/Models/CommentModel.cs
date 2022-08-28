@@ -24,7 +24,7 @@ public class CommentModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-	public BasicUserModel Author { get; set; }
+	public BasicUserModel Author { get; set; } = new();
 
 	public HashSet<string> UserVotes { get; set; } = new();
 

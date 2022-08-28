@@ -9,7 +9,7 @@ namespace IssueTracker.Library.Contracts;
 
 public interface IIssueService
 {
-	Task CreateIssue(IssueModel suggestion);
+	Task CreateIssue(IssueModel issue);
 
 	Task<IssueModel> GetIssue(string id);
 
@@ -17,7 +17,7 @@ public interface IIssueService
 
 	Task<List<IssueModel>> GetUsersIssues(string userId);
 
-	Task UpdateIssue(IssueModel suggestion);
+	Task UpdateIssue(IssueModel issue);
 
 	Task<List<IssueModel>> GetIssuesWaitingForApproval();
 

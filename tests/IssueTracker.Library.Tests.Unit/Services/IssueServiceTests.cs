@@ -1,8 +1,4 @@
-﻿using IssueTracker.Library.Fixtures;
-
-using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTracker.Library.Services;
+﻿namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests

@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using static IssueTracker.Library.Helpers.CollectionNames;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -22,7 +20,12 @@ public class StatusRepository : IStatusRepository
 	/// <param name="context">IMongoDbContext</param>
 	public StatusRepository(IMongoDbContext context)
 	{
-		_collection = context.GetCollection<StatusModel>(GetCollectionName(nameof(StatusModel)));
+		Guard.Against.Null(context, nameof(context));
+
+		string collectionName;
+		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(StatusModel)), nameof(collectionName));
+		
+		_collection = context.GetCollection<StatusModel>(collectionName);
 	}
 
 	/// <summary>

@@ -4,9 +4,9 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
 namespace IssueTracker.Library.Models;
 
+[Serializable]
 public class BasicIssueModel
 {
 	public BasicIssueModel()
@@ -15,12 +15,11 @@ public class BasicIssueModel
 
 	public BasicIssueModel(IssueModel issue)
 	{
-		Id = issue.Id;
-		Issue = issue.IssueName;
-		Description = issue.Description;
+			Id = issue?.Id;
+			Issue = issue?.IssueName;
+			Description = issue?.Description;
 	}
 
-	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
 	public string Issue { get; set; }

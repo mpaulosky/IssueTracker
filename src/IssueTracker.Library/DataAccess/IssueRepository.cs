@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using static IssueTracker.Library.Helpers.CollectionNames;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>

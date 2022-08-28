@@ -1,4 +1,4 @@
-﻿using IssueTracker.Library.Fixtures;
+﻿using System.Diagnostics;
 
 namespace IssueTracker.UI.Pages;
 
@@ -152,7 +152,7 @@ public class CommentTests
 		var expected = TestIssues.GetKnownIssue();
 		_issueRepositoryMock.Setup(x => x.GetIssue(expected.Id)).ReturnsAsync(expected);
 
-		var expectedUser = TestUsers.GetKnownUser();
+		UserModel expectedUser = TestUsers.GetKnownUser();
 
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(expectedUser);
 
