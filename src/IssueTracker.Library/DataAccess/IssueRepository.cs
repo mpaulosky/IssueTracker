@@ -12,7 +12,7 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class IssueRepository : IIssueRepository
 {
-	private readonly IMongoCollection<IssueModel> _collection;
+	private readonly IMongoCollection<IssueModel> _issueCollection;
 	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
@@ -20,17 +20,29 @@ public class IssueRepository : IIssueRepository
 	///   IssueRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public IssueRepository(IMongoDbContext context)
 	{
-		_context = context;
-		_collection = context?.GetCollection<IssueModel>(GetCollectionName(nameof(IssueModel)));
-		_userCollection = context?.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+		_context = Guard.Against.Null(context, nameof(context));
+
+		string issueCollectionName;
+		
+		issueCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(IssueModel)), nameof(issueCollectionName));
+
+		_issueCollection = _context.GetCollection<IssueModel>(issueCollectionName);
+
+		string userCollectionName;
+		
+		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
+		
+		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
 	}
 
 	/// <summary>
 	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
+	/// <exception cref="Exception"></exception>
 	public async Task CreateIssue(IssueModel issue)
 	{
 		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
@@ -39,7 +51,7 @@ public class IssueRepository : IIssueRepository
 
 		try
 		{
-			var issuesInTransaction = _collection;
+			var issuesInTransaction = _issueCollection;
 
 			await issuesInTransaction.InsertOneAsync(issue).ConfigureAwait(true);
 
@@ -63,15 +75,15 @@ public class IssueRepository : IIssueRepository
 	/// <summary>
 	///   GetIssue method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
-	public async Task<IssueModel> GetIssue(string id)
+	public async Task<IssueModel> GetIssue(string issueId)
 	{
-		var objectId = new ObjectId(id);
+		var objectId = new ObjectId(issueId);
 
 		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
-		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
+		var result = await _issueCollection.FindAsync(filter).ConfigureAwait(true);
 
 		return result.FirstOrDefault();
 	}
@@ -82,7 +94,7 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
-		var all = await _collection.FindAsync(Builders<IssueModel>.Filter.Empty).ConfigureAwait(true);
+		var all = await _issueCollection.FindAsync(Builders<IssueModel>.Filter.Empty).ConfigureAwait(true);
 
 		return await all.ToListAsync().ConfigureAwait(true);
 	}
@@ -120,7 +132,7 @@ public class IssueRepository : IIssueRepository
 	{
 		var objectId = new ObjectId(userId);
 
-		var results = await _collection.FindAsync(s => s.Author.Id == objectId.ToString()).ConfigureAwait(true);
+		var results = await _issueCollection.FindAsync(s => s.Author.Id == objectId.ToString()).ConfigureAwait(true);
 
 		return await results.ToListAsync().ConfigureAwait(true);
 	}
@@ -134,6 +146,6 @@ public class IssueRepository : IIssueRepository
 	{
 		var objectId = new ObjectId(id);
 
-		await _collection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue).ConfigureAwait(true);
+		await _issueCollection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue).ConfigureAwait(true);
 	}
 }

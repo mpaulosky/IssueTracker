@@ -88,7 +88,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Comment With Null Id")]
-	public async Task GetComment_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetComment_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -98,7 +98,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetComment(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
 	}
 
 	[Fact(DisplayName = "Get Comments")]
@@ -236,7 +236,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments With Null Id")]
-	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -246,7 +246,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersComments(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
 	}
 
 	[Fact(DisplayName = "Update Comment With Valid Comment")]
@@ -309,9 +309,24 @@ public class CommentServiceTests
 
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData(null, "1")]
+	[InlineData("1", null)]
+	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(string commentId,
+		string userId)
+	{
+		// Arrange
+
+		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpVoteComment(commentId, userId));
+	}
+
+	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData("", "1")]
 	[InlineData("1", "")]
-	[InlineData("1", null)]
 	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentException_TestAsync(string commentId,
 		string userId)
 	{
@@ -325,6 +340,6 @@ public class CommentServiceTests
 
 		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpVoteComment(commentId, userId));
 	}
-
+	
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }

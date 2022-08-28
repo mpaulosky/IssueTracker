@@ -16,6 +16,7 @@ public class MongoDbContext : IMongoDbContext
 	///   MongoDbContext constructor
 	/// </summary>
 	/// <param name="configuration">IOptions of DatabaseSettings</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public MongoDbContext(IOptions<DatabaseSettings> configuration)
 	{
 		Guard.Against.Null(configuration, nameof(configuration));
@@ -38,6 +39,7 @@ public class MongoDbContext : IMongoDbContext
 	/// <param name="name">string</param>
 	/// <typeparam name="T"></typeparam>
 	/// <returns>IMongoCollection</returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public IMongoCollection<T> GetCollection<T>(string name)
 	{
 		Guard.Against.NullOrWhiteSpace(name, nameof(name));

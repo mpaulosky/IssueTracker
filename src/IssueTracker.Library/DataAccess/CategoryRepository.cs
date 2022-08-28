@@ -18,19 +18,26 @@ public class CategoryRepository : ICategoryRepository
 	///   CategoryRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public CategoryRepository(IMongoDbContext context)
 	{
-		_collection = context?.GetCollection<CategoryModel>(GetCollectionName(nameof(CategoryModel)));
+		Guard.Against.Null(context, nameof(context));
+		
+		string collectionName;
+		
+		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CategoryModel)), nameof(collectionName));
+
+		_collection = context.GetCollection<CategoryModel>(collectionName);
 	}
 
 	/// <summary>
 	///   GetCategory method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	public async Task<CategoryModel> GetCategory(string id)
+	public async Task<CategoryModel> GetCategory(string categoryId)
 	{
-		var objectId = new ObjectId(id);
+		var objectId = new ObjectId(categoryId);
 
 		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 

@@ -11,7 +11,7 @@ public interface IStatusService
 {
 	Task CreateStatus(StatusModel status);
 
-	Task<StatusModel> GetStatus(string id);
+	Task<StatusModel> GetStatus(string statusId);
 
 	Task<List<StatusModel>> GetStatuses();
 

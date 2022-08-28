@@ -110,7 +110,7 @@ public class CommentTests
 				      <div class=""col-11 issue-detail"">
 				        <div>
 				          <div class=""issue-detail-date"">
-				            <div>08.27.2022</div>
+				            <div>08.28.2022</div>
 				          </div>
 				        </div>
 				        <div class=""issue-detail-text"">

@@ -88,7 +88,7 @@ public class CategoryServiceTests
 	}
 
 	[Fact(DisplayName = "Get Category With Null Id")]
-	public async Task GetCategory_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetCategory_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -98,7 +98,7 @@ public class CategoryServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetCategory(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCategory(null));
 	}
 
 	[Fact(DisplayName = "Get Categories")]

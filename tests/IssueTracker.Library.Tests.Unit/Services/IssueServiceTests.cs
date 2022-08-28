@@ -89,7 +89,7 @@ public class IssueServiceTests
 	}
 
 	[Fact(DisplayName = "Get Issue With Null Id")]
-	public async Task GetIssue_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetIssue_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -99,7 +99,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetIssue(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssue(null));
 	}
 
 	[Fact(DisplayName = "Get Issues")]
@@ -242,7 +242,7 @@ public class IssueServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Issues With Null Id")]
-	public async Task GetUsersIssues_With_Null_Users_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetUsersIssues_With_Null_Users_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -252,7 +252,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersIssues(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersIssues(null));
 	}
 
 	[Fact(DisplayName = "GetIssuesWaitingForApproval")]

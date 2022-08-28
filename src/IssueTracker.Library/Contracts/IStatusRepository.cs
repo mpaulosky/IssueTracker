@@ -9,7 +9,7 @@ namespace IssueTracker.Library.Contracts;
 
 public interface IStatusRepository
 {
-	Task<StatusModel> GetStatus(string id);
+	Task<StatusModel> GetStatus(string statusId);
 
 	Task<IEnumerable<StatusModel>> GetStatuses();
 

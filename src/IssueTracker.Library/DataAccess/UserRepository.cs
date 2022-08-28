@@ -18,6 +18,7 @@ public class UserRepository : IUserRepository
 	///   UserRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public UserRepository(IMongoDbContext context)
 	{
 		Guard.Against.Null(context, nameof(context));
@@ -32,13 +33,13 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///   GetUser method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUser(string id)
+	public async Task<UserModel> GetUser(string userId)
 	{
-		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var objectId = new ObjectId(id);
+		var objectId = new ObjectId(userId);
 
 		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
@@ -87,13 +88,13 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///   GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserFromAuthentication(string id)
+	public async Task<UserModel> GetUserFromAuthentication(string userId)
 	{
-		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _collection!.FindAsync(u => u != null && u.ObjectIdentifier == id).ConfigureAwait(true);
+		var results = await _collection!.FindAsync(u => u != null && u.ObjectIdentifier == userId).ConfigureAwait(true);
 
 		return results.FirstOrDefault();
 	}

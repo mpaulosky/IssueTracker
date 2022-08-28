@@ -18,9 +18,10 @@ public class UserService : IUserService
 	///   UserService constructor
 	/// </summary>
 	/// <param name="repository">IUserRepository</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public UserService(IUserRepository repository)
 	{
-		_repo = repository;
+		_repo = Guard.Against.Null(repository, nameof(repository));
 	}
 
 	/// <summary>
@@ -31,10 +32,7 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateUser(UserModel user)
 	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
+		Guard.Against.Null(user, nameof(user));
 
 		return _repo.CreateUser(user);
 	}
@@ -42,17 +40,14 @@ public class UserService : IUserService
 	/// <summary>
 	///   GetUser method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<UserModel> GetUser(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<UserModel> GetUser(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUser(id).ConfigureAwait(true);
+		var results = await _repo.GetUser(userId).ConfigureAwait(true);
 
 		return results;
 	}
@@ -71,17 +66,14 @@ public class UserService : IUserService
 	/// <summary>
 	///   GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="objectId">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<UserModel> GetUserFromAuthentication(string objectId)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<UserModel> GetUserFromAuthentication(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(objectId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(objectId));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUserFromAuthentication(objectId).ConfigureAwait(true);
+		var results = await _repo.GetUserFromAuthentication(userId).ConfigureAwait(true);
 
 		return results;
 	}
@@ -94,10 +86,7 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateUser(UserModel user)
 	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
+		Guard.Against.Null(user, nameof(user));
 
 		return _repo.UpdateUser(user.Id, user);
 	}

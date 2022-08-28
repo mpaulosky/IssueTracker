@@ -11,7 +11,7 @@ public interface ICommentService
 {
 	Task CreateComment(CommentModel comment);
 
-	Task<CommentModel> GetComment(string id);
+	Task<CommentModel> GetComment(string commentId);
 
 	Task<List<CommentModel>> GetComments();
 

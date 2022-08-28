@@ -21,10 +21,11 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="repository">IIssueRepository</param>
 	/// <param name="cache">IMemoryCache</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public IssueService(IIssueRepository repository, IMemoryCache cache)
 	{
-		_repository = repository;
-		_cache = cache;
+		_repository = Guard.Against.Null(repository, nameof(repository));
+		_cache = Guard.Against.Null(cache, nameof(cache));
 	}
 
 	/// <summary>
@@ -34,10 +35,7 @@ public class IssueService : IIssueService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateIssue(IssueModel issue)
 	{
-		if (issue == null)
-		{
-			throw new ArgumentNullException(nameof(issue));
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
 		await _repository.CreateIssue(issue).ConfigureAwait(true);
 	}
@@ -45,17 +43,14 @@ public class IssueService : IIssueService
 	/// <summary>
 	///   GetIssue method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<IssueModel> GetIssue(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<IssueModel> GetIssue(string issueId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetIssue(id).ConfigureAwait(true);
+		var results = await _repository.GetIssue(issueId).ConfigureAwait(true);
 
 		return results;
 	}
@@ -87,12 +82,10 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<IssueModel>> GetUsersIssues(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(userId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
 		var output = _cache.Get<List<IssueModel>>(userId);
 
@@ -114,12 +107,10 @@ public class IssueService : IIssueService
 	///   UpdateIssue
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateIssue(IssueModel issue)
 	{
-		if (issue == null)
-		{
-			throw new ArgumentNullException(nameof(issue));
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
 		await _repository.UpdateIssue(issue.Id, issue).ConfigureAwait(true);
 

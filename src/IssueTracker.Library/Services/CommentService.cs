@@ -21,10 +21,11 @@ public class CommentService : ICommentService
 	/// </summary>
 	/// <param name="repository">ICommentRepository</param>
 	/// <param name="cache">IMemoryCache</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public CommentService(ICommentRepository repository, IMemoryCache cache)
 	{
-		_repository = repository;
-		_cache = cache;
+		_repository = Guard.Against.Null(repository, nameof(repository));
+		_cache = Guard.Against.Null(cache, nameof(cache));
 	}
 
 	/// <summary>
@@ -34,10 +35,7 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
-		if (comment == null)
-		{
-			throw new ArgumentNullException(nameof(comment));
-		}
+		Guard.Against.Null(comment, nameof(comment));
 
 		await _repository.CreateComment(comment).ConfigureAwait(true);
 	}
@@ -45,17 +43,14 @@ public class CommentService : ICommentService
 	/// <summary>
 	///   GetComment method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="commentId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<CommentModel> GetComment(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<CommentModel> GetComment(string commentId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		var result = await _repository.GetComment(id).ConfigureAwait(true);
+		var result = await _repository.GetComment(commentId).ConfigureAwait(true);
 
 		return result;
 	}
@@ -87,26 +82,12 @@ public class CommentService : ICommentService
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List CommentModels</returns>
-	/// <exception cref="ArgumentException"></exception>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<CommentModel>> GetUsersComments(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(userId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
-		}
-
-		//var output = _cache.Get<List<CommentModel>>(userId);
-
-		//if (output is not null)
-		//{
-		//	return output;
-		//}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
 		var results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
-
-		//output = results.ToList();
-
-		//_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return results.ToList();
 	}
@@ -116,13 +97,10 @@ public class CommentService : ICommentService
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of List CommentModels</returns>
-	/// <exception cref="ArgumentException"></exception>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<CommentModel>> GetIssuesComments(string issueId)
 	{
-		if (string.IsNullOrWhiteSpace(issueId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(issueId));
-		}
+		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
 		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
 
@@ -136,10 +114,7 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateComment(CommentModel comment)
 	{
-		if (comment == null)
-		{
-			throw new ArgumentNullException(nameof(comment));
-		}
+		Guard.Against.Null(comment, nameof(comment));
 
 		await _repository.UpdateComment(comment.Id, comment).ConfigureAwait(true);
 
@@ -151,18 +126,12 @@ public class CommentService : ICommentService
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
-	/// <exception cref="ArgumentException"></exception>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpVoteComment(string commentId, string userId)
 	{
-		if (string.IsNullOrWhiteSpace(commentId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(commentId));
-		}
+		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		if (string.IsNullOrWhiteSpace(userId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
 		await _repository.UpVoteComment(commentId, userId).ConfigureAwait(true);
 

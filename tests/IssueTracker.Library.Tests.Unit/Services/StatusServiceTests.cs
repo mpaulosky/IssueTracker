@@ -88,7 +88,7 @@ public class StatusServiceTests
 	}
 
 	[Fact(DisplayName = "Get Status With Null Id")]
-	public async Task GetStatus_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetStatus_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -98,7 +98,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null));
 	}
 
 	[Fact(DisplayName = "Get Statuses")]

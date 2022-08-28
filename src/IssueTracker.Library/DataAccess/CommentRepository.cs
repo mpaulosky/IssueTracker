@@ -19,6 +19,7 @@ public class CommentRepository : ICommentRepository
 	///   CommentRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public CommentRepository(IMongoDbContext context)
 	{
 		_context = Guard.Against.Null(context, nameof(context));
@@ -40,7 +41,7 @@ public class CommentRepository : ICommentRepository
 	///   CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
-	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="Exception"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
 		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
@@ -73,11 +74,11 @@ public class CommentRepository : ICommentRepository
 	/// <summary>
 	///   GetComment method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="commentId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetComment(string id)
+	public async Task<CommentModel> GetComment(string commentId)
 	{
-		var objectId = new ObjectId(id);
+		var objectId = new ObjectId(commentId);
 
 		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
@@ -143,6 +144,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
+	/// <exception cref="Exception"></exception>
 	public async Task UpVoteComment(string commentId, string userId)
 	{
 		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);

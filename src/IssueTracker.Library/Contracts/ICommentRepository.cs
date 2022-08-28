@@ -9,7 +9,7 @@ namespace IssueTracker.Library.Contracts;
 
 public interface ICommentRepository
 {
-	Task<CommentModel> GetComment(string id);
+	Task<CommentModel> GetComment(string commentId);
 
 	Task<IEnumerable<CommentModel>> GetComments();
 

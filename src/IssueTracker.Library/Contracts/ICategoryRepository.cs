@@ -9,7 +9,7 @@ namespace IssueTracker.Library.Contracts;
 
 public interface ICategoryRepository
 {
-	Task<CategoryModel> GetCategory(string id);
+	Task<CategoryModel> GetCategory(string categoryId);
 
 	Task<IEnumerable<CategoryModel>> GetCategories();
 

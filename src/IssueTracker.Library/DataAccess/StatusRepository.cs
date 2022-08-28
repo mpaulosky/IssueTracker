@@ -18,6 +18,7 @@ public class StatusRepository : IStatusRepository
 	///   StatusRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public StatusRepository(IMongoDbContext context)
 	{
 		Guard.Against.Null(context, nameof(context));
@@ -31,11 +32,11 @@ public class StatusRepository : IStatusRepository
 	/// <summary>
 	///   GetStatus method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="statusId">string</param>
 	/// <returns>Task of StatusModel</returns>
-	public async Task<StatusModel> GetStatus(string id)
+	public async Task<StatusModel> GetStatus(string statusId)
 	{
-		var objectId = new ObjectId(id);
+		var objectId = new ObjectId(statusId);
 
 		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 

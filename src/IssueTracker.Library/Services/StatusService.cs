@@ -21,10 +21,11 @@ public class StatusService : IStatusService
 	/// </summary>
 	/// <param name="repository">IStatusRepository</param>
 	/// <param name="cache">IMemoryCache</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
-		_repository = repository;
-		_cache = cache;
+		_repository = Guard.Against.Null(repository, nameof(repository));
+		_cache = Guard.Against.Null(cache, nameof(cache));
 	}
 
 	/// <summary>
@@ -35,10 +36,7 @@ public class StatusService : IStatusService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateStatus(StatusModel status)
 	{
-		if (status == null)
-		{
-			throw new ArgumentNullException(nameof(status));
-		}
+		Guard.Against.Null(status, nameof(status));
 
 		return _repository.CreateStatus(status);
 	}
@@ -46,17 +44,14 @@ public class StatusService : IStatusService
 	/// <summary>
 	///   GetStatus method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="statusId">string</param>
 	/// <returns>Task StatusModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<StatusModel> GetStatus(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<StatusModel> GetStatus(string statusId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		var result = await _repository.GetStatus(id).ConfigureAwait(true);
+		var result = await _repository.GetStatus(statusId).ConfigureAwait(true);
 
 		return result;
 	}
@@ -89,10 +84,7 @@ public class StatusService : IStatusService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateStatus(StatusModel status)
 	{
-		if (status == null)
-		{
-			throw new ArgumentNullException(nameof(status));
-		}
+		Guard.Against.Null(status, nameof(status));
 
 		return _repository.UpdateStatus(status.Id, status);
 	}
