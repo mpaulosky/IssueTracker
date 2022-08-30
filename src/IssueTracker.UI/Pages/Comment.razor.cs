@@ -4,6 +4,7 @@
 //     Copyright (c) .2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
@@ -25,6 +26,7 @@ public partial class Comment
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 		_issue = await IssueService.GetIssue(Id);
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	}

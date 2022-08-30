@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///   SampleData class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
+[ExcludeFromCodeCoverage]
 public partial class SampleData
 {
 	private readonly HashSet<string> _votes = new() { "1", "2", "3" };
@@ -108,7 +109,7 @@ public partial class SampleData
 
 		StatusModel stat = new()
 		{
-			StatusName = "Completed",
+			StatusName = "Answered",
 			StatusDescription = "The suggestion was accepted and the corresponding item was created."
 		};
 		await StatusService.CreateStatus(stat);
@@ -167,7 +168,7 @@ public partial class SampleData
 			Author = new BasicUserModel(_foundUser),
 			IssueName = "Our Second Issue",
 			Description = "This is a issue created by the sample data generation method.",
-			IssueStatus = statuses[0],
+			IssueStatus = new BasicStatusModel(statuses[0]),
 			OwnerNotes = "This is the note for the status."
 		};
 		await IssueService.CreateIssue(issue);
@@ -177,7 +178,7 @@ public partial class SampleData
 			Author = new BasicUserModel(_foundUser),
 			IssueName = "Our Third Issue",
 			Description = "This is a issue created by the sample data generation method.",
-			IssueStatus = statuses[1],
+			IssueStatus = new BasicStatusModel(statuses[1]),
 			OwnerNotes = "This is the note for the status."
 		};
 		await IssueService.CreateIssue(issue);
@@ -187,7 +188,7 @@ public partial class SampleData
 			Author = new BasicUserModel(_foundUser),
 			IssueName = "Our Forth Issue",
 			Description = "This is a issue created by the sample data generation method.",
-			IssueStatus = statuses[2],
+			IssueStatus = new BasicStatusModel(statuses[2]),
 			OwnerNotes = "This is the note for the status."
 		};
 		await IssueService.CreateIssue(issue);
@@ -197,7 +198,7 @@ public partial class SampleData
 			Author = new BasicUserModel(_foundUser),
 			IssueName = "Our Fifth Issue",
 			Description = "This is a issue created by the sample data generation method.",
-			IssueStatus = statuses[3],
+			IssueStatus = new BasicStatusModel(statuses[3]),
 			OwnerNotes = "This is the note for the status."
 		};
 		await IssueService.CreateIssue(issue);

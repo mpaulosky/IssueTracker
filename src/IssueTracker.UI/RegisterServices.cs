@@ -5,15 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
-
 namespace IssueTracker.UI;
 
 /// <summary>
 ///   RegisterServices class
 /// </summary>
+[ExcludeFromCodeCoverage]
 public static class RegisterServices
 {
 	/// <summary>

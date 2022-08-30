@@ -106,7 +106,7 @@ public class StatusServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 4;
 
 		var expected = TestStatuses.GetStatuses();
 
@@ -134,7 +134,7 @@ public class StatusServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 4;
 
 		var expected = TestStatuses.GetStatuses();
 

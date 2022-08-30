@@ -28,6 +28,8 @@ public partial class Details
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
+		
 		_issue = await IssueService.GetIssue(Id);
 		_comments = await CommentService.GetIssuesComments(Id);
 		_statuses = await StatusService.GetStatuses();
@@ -47,26 +49,26 @@ public partial class Details
 					return;
 				}
 
-				_issue.IssueStatus = _statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"This Issue has a voted answer for it’s solution";
 				break;
 			case "in work":
-				_issue.IssueStatus = _statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"There has been an suggested answer for this issue submitted.";
 				break;
 			case "watching":
-				_issue.IssueStatus = _statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"An Issue was submitted requesting help.";
 				break;
 			case "dismissed":
-				_issue.IssueStatus = _statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"Sometimes an Issue does not have a clear solution, this is one of those.";
 				break;
@@ -80,16 +82,11 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetStatusClass method
+	///   GetStatusCssClass method
 	/// </summary>
-	/// <returns>string</returns>
-	private string GetStatusClass()
+	/// <returns>string css class</returns>
+	private string GetStatusCssClass()
 	{
-		if (_issue is null | _issue?.IssueStatus is null)
-		{
-			return "issue-detail-status-none";
-		}
-
 		string output = _issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-detail-status-answered",
@@ -112,7 +109,7 @@ public partial class Details
 		{
 			if (comment.Author.Id == _loggedInUser.Id)
 			{
-				// Can't vote on your own suggestion
+				// Can't vote on your own comments
 				return;
 			}
 
@@ -155,11 +152,11 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetVoteClass method
+	///   GetVoteCssClass method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
-	/// <returns>string</returns>
-	private string GetVoteClass(CommentModel comment)
+	/// <returns>string css class</returns>
+	private string GetVoteCssClass(CommentModel comment)
 	{
 		if (comment.UserVotes is null || comment.UserVotes.Count == 0)
 		{

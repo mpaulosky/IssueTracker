@@ -30,19 +30,14 @@ public partial class Create
 	/// </summary>
 	private async Task CreateIssue()
 	{
+		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
-			Category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId)
+			Category = new BasicCategoryModel(category)
 		};
-
-		if (s.Category is null)
-		{
-			_issue.CategoryId = "";
-			return;
-		}
 
 		await IssueService.CreateIssue(s);
 

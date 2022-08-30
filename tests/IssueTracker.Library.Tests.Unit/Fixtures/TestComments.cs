@@ -61,7 +61,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e543", "Test User"),
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string>()
+				UserVotes = new HashSet<string> {"5dc1039a1521eaa36835e545", "5dc1039a1521eaa36835e544"  }
 			}
 		};
 

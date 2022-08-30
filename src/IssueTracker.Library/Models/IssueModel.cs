@@ -25,11 +25,11 @@ public class IssueModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-	public CategoryModel Category { get; set; }
+	public BasicCategoryModel Category { get; set; }
 
 	public BasicUserModel Author { get; set; }
 
-	public StatusModel IssueStatus { get; set; }
+	public BasicStatusModel IssueStatus { get; set; }
 
 	[BsonElement("owner_notes")]
 	[BsonRepresentation(BsonType.String)]

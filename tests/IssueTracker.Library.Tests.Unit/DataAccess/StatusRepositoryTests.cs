@@ -57,7 +57,8 @@ public class StatusRepositoryTests
 	public async Task GetStatuses_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
 	{
 		// Arrange
-
+		const int expectedCount = 4;
+		
 		var expected = TestStatuses.GetStatuses().ToList();
 
 		_list = new List<StatusModel>(expected);
@@ -80,7 +81,7 @@ public class StatusRepositoryTests
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(3);
+		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Create Status")]

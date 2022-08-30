@@ -107,7 +107,7 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 6;
 
 		var expected = TestIssues.GetIssues();
 
@@ -135,10 +135,9 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 6;
 
 		var expected = TestIssues.GetIssues();
-
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -260,7 +259,7 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 1;
+		const int expectedCount = 3;
 
 		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
 
@@ -288,7 +287,7 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 2;
+		const int expectedCount = 3;
 
 		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
 

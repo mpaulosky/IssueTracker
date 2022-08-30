@@ -1,5 +1,6 @@
 ﻿namespace IssueTracker.UI.Shared;
 
+[ExcludeFromCodeCoverage]
 public class MainLayoutTests
 {
 	[Fact()]

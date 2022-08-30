@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UI;
-
 using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);

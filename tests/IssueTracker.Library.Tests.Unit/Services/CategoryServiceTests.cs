@@ -106,7 +106,7 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 5;
 
 		var expected = TestCategories.GetCategories();
 
@@ -134,7 +134,7 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 5;
 
 		var expected = TestCategories.GetCategories();
 

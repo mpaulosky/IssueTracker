@@ -93,7 +93,7 @@ public class IssueRepositoryTests
 	public async Task GetIssues_With_Valid_Context_Should_Return_A_List_Of_Issues_Test()
 	{
 		// Arrange
-
+		const int expectedCount = 6;
 		_list = TestIssues.GetIssues().ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -114,7 +114,7 @@ public class IssueRepositoryTests
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(3);
+		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Get Users Issues")]
@@ -153,7 +153,7 @@ public class IssueRepositoryTests
 	public async Task GetIssuesWaitingForApproval_With_ListOfIssues_Should_ReturnAListOfIssuesWaitingForApproval_Test()
 	{
 		// Arrange
-
+		const int expectedCount = 3;
 		_list = TestIssues.GetIssues().ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -174,14 +174,14 @@ public class IssueRepositoryTests
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(1);
+		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Get Approved Issues")]
 	public async Task GetApprovedIssues_With_ValidData_Should_ReturnAListOfIssues_Test()
 	{
 		// Arrange
-
+		const int expectedCount = 2;
 		_list = TestIssues.GetIssues().ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -195,14 +195,13 @@ public class IssueRepositoryTests
 		var result = await _sut.GetApprovedIssues().ConfigureAwait(false);
 
 		// Assert
-
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
 			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(2);
+		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Update Issue with valid Issue")]
@@ -219,7 +218,8 @@ public class IssueRepositoryTests
 			expected.DateCreated,
 			expected.Archived,
 			expected.IssueStatus,
-			expected.OwnerNotes);
+			expected.OwnerNotes, 
+			expected.Category);
 
 		_list = new List<IssueModel> { expected };
 
