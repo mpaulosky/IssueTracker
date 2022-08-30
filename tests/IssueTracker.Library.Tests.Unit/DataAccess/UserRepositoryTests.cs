@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests

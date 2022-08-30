@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Tests.Unit.Services;
+﻿namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class UserServiceTests
@@ -84,7 +84,7 @@ public class UserServiceTests
 	}
 
 	[Fact(DisplayName = "Get User With Null Id")]
-	public async Task GetUser_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetUser_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -94,7 +94,7 @@ public class UserServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUser(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUser(null));
 	}
 
 	[Fact(DisplayName = "Get Users")]
@@ -156,7 +156,7 @@ public class UserServiceTests
 	}
 
 	[Fact(DisplayName = "Get User From Authentication With Null Value")]
-	public async Task GetUserFromAuthentication_With_Null_Value_Should_Return_A_ArgumentException_Test()
+	public async Task GetUserFromAuthentication_With_Null_Value_Should_Return_A_ArgumentNullException_Test()
 	{
 		//Arrange
 
@@ -166,7 +166,7 @@ public class UserServiceTests
 
 		//Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUserFromAuthentication(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUserFromAuthentication(null));
 	}
 
 	[Fact(DisplayName = "Update User With Valid User")]

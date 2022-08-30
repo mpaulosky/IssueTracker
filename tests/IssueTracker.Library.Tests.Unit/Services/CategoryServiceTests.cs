@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTracker.Library.Tests.Unit.Services;
+﻿namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class CategoryServiceTests
@@ -90,7 +88,7 @@ public class CategoryServiceTests
 	}
 
 	[Fact(DisplayName = "Get Category With Null Id")]
-	public async Task GetCategory_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetCategory_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -100,7 +98,7 @@ public class CategoryServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetCategory(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCategory(null));
 	}
 
 	[Fact(DisplayName = "Get Categories")]
@@ -108,16 +106,15 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 5;
 
 		var expected = TestCategories.GetCategories();
 
 		_statusRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
@@ -137,21 +134,20 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 5;
 
 		var expected = TestCategories.GetCategories();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = k as string)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -203,4 +199,5 @@ public class CategoryServiceTests
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateCategory(null));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);}
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+}

@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="col-1 close-button-section">
-					<button class="btn btn-close" @onclick="ClosePage"></button>
+					<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 				</div>
 			</div>
 			<div class="row d-block d-md-none">
@@ -57,7 +57,7 @@
 					<InputTextArea class="form-control" id="comment" @bind-Value="_comment.Comment"/>
 				</div>
 				<div class="center-children">
-					<button class="btn btn-main btn-lg text-uppercase" type="submit">Creat Comment</button>
+					<button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Creat Comment</button>
 				</div>
 			</EditForm>
 		}

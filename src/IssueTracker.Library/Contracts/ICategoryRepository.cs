@@ -1,8 +1,15 @@
-﻿namespace IssueTracker.Library.Contracts;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICategoryRepository.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Contracts;
 
 public interface ICategoryRepository
 {
-	Task<CategoryModel> GetCategory(string id);
+	Task<CategoryModel> GetCategory(string categoryId);
 
 	Task<IEnumerable<CategoryModel>> GetCategories();
 

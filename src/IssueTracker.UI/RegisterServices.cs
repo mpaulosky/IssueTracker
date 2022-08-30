@@ -1,11 +1,22 @@
-﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.Identity.Web;
-using Microsoft.Identity.Web.UI;
+﻿//-----------------------------------------------------------------------
+// <copyright file="RegisterServices.cs" company="mpaulosky">
+//     Author: Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace IssueTracker.UI;
 
+/// <summary>
+///   RegisterServices class
+/// </summary>
+[ExcludeFromCodeCoverage]
 public static class RegisterServices
 {
+	/// <summary>
+	///   Configures the services method.
+	/// </summary>
+	/// <param name="builder">The builder.</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder)
 	{
 		// Add services to the container.
@@ -32,13 +43,15 @@ public static class RegisterServices
 			});
 		});
 
+		// Setup DI
+
 		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 		builder.Services.AddSingleton<ICategoryService, CategoryService>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();
 		builder.Services.AddSingleton<IIssueService, IssueService>();
 		builder.Services.AddSingleton<IUserService, UserService>();
-		
+
 		builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 		builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
 		builder.Services.AddSingleton<IStatusRepository, StatusRepository>();

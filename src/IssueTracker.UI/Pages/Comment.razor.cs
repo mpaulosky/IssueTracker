@@ -1,58 +1,60 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Comment.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.UI.Pages;
 
 /// <summary>
-/// Comment page class.
+///   Comment page class.
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Comment
 {
-	[Parameter]
-	public string Id { get; set; }
-
 	private CreateCommentModel _comment = new();
-
-	private UserModel _loggedInUser;
 
 	private IssueModel _issue;
 
+	private UserModel _loggedInUser;
+
+	[Parameter] public string Id { get; set; }
+
 	/// <summary>
-	/// OnInitializedAsync event.
+	///   OnInitializedAsync event.
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
+		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 		_issue = await IssueService.GetIssue(Id);
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
-
 	}
 
 	/// <summary>
-	/// CreateComment method.
+	///   CreateComment method.
 	/// </summary>
 	private async Task CreateComment()
 	{
-
 		CommentModel comment = new()
 		{
-			Issue = new BasicIssueModel(_issue),
-			Author = new BasicUserModel(_loggedInUser),
-			Comment = _comment.Comment,
+			Issue = new BasicIssueModel(_issue), 
+			Author = new BasicUserModel(_loggedInUser), 
+			Comment = _comment.Comment
 		};
 
 		await CommentService.CreateComment(comment);
 
 		_comment = new CreateCommentModel();
-		ClosePage();
 
+		ClosePage();
 	}
 
 	/// <summary>
-	/// ClosePage method.
+	///   ClosePage method.
 	/// </summary>
 	private void ClosePage()
 	{
-
 		NavManager.NavigateTo("/");
-
 	}
-	
 }

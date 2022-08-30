@@ -1,7 +1,14 @@
-﻿namespace IssueTracker.Library.Services;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IssueService.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// IssueService class
+///   IssueService class
 /// </summary>
 public class IssueService : IIssueService
 {
@@ -14,47 +21,42 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="repository">IIssueRepository</param>
 	/// <param name="cache">IMemoryCache</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public IssueService(IIssueRepository repository, IMemoryCache cache)
 	{
-		_repository = repository;
-		_cache = cache;
+		_repository = Guard.Against.Null(repository, nameof(repository));
+		_cache = Guard.Against.Null(cache, nameof(cache));
 	}
 
 	/// <summary>
-	/// CreateIssue method
+	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateIssue(IssueModel issue)
 	{
-		if (issue == null)
-		{
-			throw new ArgumentNullException(nameof(issue));
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.CreateIssue(issue);
+		await _repository.CreateIssue(issue).ConfigureAwait(true);
 	}
 
 	/// <summary>
-	/// GetIssue method
+	///   GetIssue method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<IssueModel> GetIssue(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<IssueModel> GetIssue(string issueId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetIssue(id);
+		var results = await _repository.GetIssue(issueId).ConfigureAwait(true);
 
 		return results;
 	}
 
 	/// <summary>
-	/// GetIssues method
+	///   GetIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
@@ -66,7 +68,7 @@ public class IssueService : IIssueService
 			return output;
 		}
 
-		var results = await _repository.GetIssues();
+		var results = await _repository.GetIssues().ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -76,16 +78,14 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// GetUsersIssues method
+	///   GetUsersIssues method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<IssueModel>> GetUsersIssues(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(userId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(userId));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
 		var output = _cache.Get<List<IssueModel>>(userId);
 
@@ -94,7 +94,7 @@ public class IssueService : IIssueService
 			return output;
 		}
 
-		var results = await _repository.GetUsersIssues(userId);
+		var results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -104,39 +104,37 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	/// UpdateIssue
+	///   UpdateIssue
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateIssue(IssueModel issue)
 	{
-		if (issue == null)
-		{
-			throw new ArgumentNullException(nameof(issue));
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.UpdateIssue(issue.Id, issue);
+		await _repository.UpdateIssue(issue.Id, issue).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}
 
 	/// <summary>
-	/// GetIssuesWaitingForApproval method
+	///   GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		var results = await _repository.GetIssuesWaitingForApproval();
+		var results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	/// GetApprovedIssues method
+	///   GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
-		var results = await _repository.GetApprovedIssues();
+		var results = await _repository.GetApprovedIssues().ConfigureAwait(true);
 
 		return results.ToList();
 	}

@@ -1,8 +1,15 @@
-﻿namespace IssueTracker.Library.Contracts;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IUserRepository.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Contracts;
 
 public interface IUserRepository
 {
-	Task<UserModel> GetUser(string id);
+	Task<UserModel> GetUser(string userId);
 
 	Task<IEnumerable<UserModel>> GetUsers();
 
@@ -10,5 +17,5 @@ public interface IUserRepository
 
 	Task UpdateUser(string id, UserModel user);
 
-	Task<UserModel> GetUserFromAuthentication(string id);
+	Task<UserModel> GetUserFromAuthentication(string userId);
 }

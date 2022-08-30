@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTracker.Library.Tests.Unit.Services;
+﻿namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class CommentServiceTests
@@ -90,7 +88,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Comment With Null Id")]
-	public async Task GetComment_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetComment_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -100,7 +98,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetComment(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
 	}
 
 	[Fact(DisplayName = "Get Comments")]
@@ -114,10 +112,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -142,16 +139,15 @@ public class CommentServiceTests
 		var expected = TestComments.GetComments();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -179,10 +175,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -209,10 +204,9 @@ public class CommentServiceTests
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
@@ -242,7 +236,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments With Null Id")]
-	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetUsersComments_With_Null_Users_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -252,7 +246,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersComments(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
 	}
 
 	[Fact(DisplayName = "Update Comment With Valid Comment")]
@@ -304,20 +298,35 @@ public class CommentServiceTests
 
 		// Act
 
-		await _sut.UpvoteComment(comment.Id, testId);
+		await _sut.UpVoteComment(comment.Id, testId);
 
 		// Assert
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpvoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData(null, "1")]
+	[InlineData("1", null)]
+	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(string commentId,
+		string userId)
+	{
+		// Arrange
+
+		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
+
+		// Act
+
+		// Assert
+
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpVoteComment(commentId, userId));
+	}
+
+	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData("", "1")]
 	[InlineData("1", "")]
-	[InlineData("1", null)]
 	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentException_TestAsync(string commentId,
 		string userId)
 	{
@@ -329,8 +338,8 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpvoteComment(commentId, userId));
+		await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpVoteComment(commentId, userId));
 	}
-
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }

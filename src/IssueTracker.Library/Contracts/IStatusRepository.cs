@@ -1,8 +1,15 @@
-﻿namespace IssueTracker.Library.Contracts;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IStatusRepository.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Contracts;
 
 public interface IStatusRepository
 {
-	Task<StatusModel> GetStatus(string id);
+	Task<StatusModel> GetStatus(string statusId);
 
 	Task<IEnumerable<StatusModel>> GetStatuses();
 

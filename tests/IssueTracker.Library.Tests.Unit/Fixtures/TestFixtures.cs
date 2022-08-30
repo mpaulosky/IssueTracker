@@ -1,11 +1,9 @@
-﻿using MongoDB.Driver;
-
-namespace IssueTracker.Library.Tests.Unit.Fixtures;
+﻿namespace IssueTracker.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
 {
-	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(List<TEntity> list) where TEntity : class
+	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(List<TEntity> list) where TEntity : class?
 	{
 		var cursor = new Mock<IAsyncCursor<TEntity>>();
 		cursor.Setup(_ => _.Current).Returns(list);
@@ -21,7 +19,7 @@ public static class TestFixtures
 	}
 
 	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor)
-		where TEntity : class
+		where TEntity : class?
 	{
 		var collection = new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
@@ -46,7 +44,7 @@ public static class TestFixtures
 		// 		It.IsAny<TEntity>(), 
 		// 		It.IsAny<ReplaceOptions>(),
 		// 		It.IsAny<CancellationToken>()
-		// 	)).ReturnnsAsync();
+		// 	)).ReturnsAsync();
 
 		return collection;
 	}

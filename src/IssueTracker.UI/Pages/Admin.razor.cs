@@ -1,32 +1,27 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-/// Admin page class
+///   Admin page class
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Admin
 {
-
-	private UserModel _loggedInUser;
-	private List<IssueModel> _issues;
-	private IssueModel _editingModel;
-	private string _currentEditingTitle = "";
-	private string _editedTitle = "";
 	private string _currentEditingDescription = "";
+	private string _currentEditingTitle = "";
 	private string _editedDescription = "";
+	private string _editedTitle = "";
+	private List<IssueModel> _issues;
 
 	/// <summary>
-	/// OnInitializedAsync method
+	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 		_issues = await IssueService.GetIssuesWaitingForApproval();
-
 	}
 
 	/// <summary>
-	/// ApproveIssue method
+	///   ApproveIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private async Task ApproveIssue(IssueModel issue)
@@ -37,7 +32,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	/// RejectIssue method
+	///   RejectIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private async Task RejectIssue(IssueModel issue)
@@ -48,19 +43,18 @@ public partial class Admin
 	}
 
 	/// <summary>
-	/// EditTitle method
+	///   EditTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private void EditTitle(IssueModel model)
 	{
-		_editingModel = model;
 		_editedTitle = model.IssueName;
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
 	}
 
 	/// <summary>
-	/// SaveTitle method
+	///   SaveTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private async Task SaveTitle(IssueModel model)
@@ -71,19 +65,18 @@ public partial class Admin
 	}
 
 	/// <summary>
-	/// EditDescription method
+	///   EditDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private void EditDescription(IssueModel model)
 	{
-		_editingModel = model;
 		_editedDescription = model.Description;
 		_currentEditingTitle = "";
 		_currentEditingDescription = model.Id;
 	}
 
 	/// <summary>
-	/// SaveDescription method
+	///   SaveDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private async Task SaveDescription(IssueModel model)
@@ -94,7 +87,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	/// ClosePage method
+	///   ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

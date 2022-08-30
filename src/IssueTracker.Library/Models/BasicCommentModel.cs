@@ -1,5 +1,12 @@
-﻿namespace IssueTracker.Library.Models;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BasicCommentModel.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace IssueTracker.Library.Models;
 
+[Serializable]
 public class BasicCommentModel
 {
 	public BasicCommentModel()
@@ -8,11 +15,10 @@ public class BasicCommentModel
 
 	public BasicCommentModel(CommentModel comment)
 	{
-		Id = comment.Id;
-		Comment = comment.Comment;
+		Id = comment?.Id;
+		Comment = comment?.Comment;
 	}
 
-	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
 	public string Comment { get; set; }

@@ -1,16 +1,23 @@
+//-----------------------------------------------------------------------
+// <copyright file="Create.razor.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) .2022 All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-/// Create class
+///   Create class
 /// </summary>
+/// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Create
 {
-	private CreateIssueModel _issue = new();
 	private List<CategoryModel> _categories;
+	private CreateIssueModel _issue = new();
 	private UserModel _loggedInUser;
-	
+
 	/// <summary>
-	/// OnInitializedAsync method
+	///   OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
@@ -19,36 +26,30 @@ public partial class Create
 	}
 
 	/// <summary>
-	/// ClosePage method
-	/// </summary>
-	private void ClosePage()
-	{
-		NavManager.NavigateTo("/");
-	}
-
-	/// <summary>
-	/// CreateIssue method
+	///   CreateIssue method
 	/// </summary>
 	private async Task CreateIssue()
 	{
+		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
 		IssueModel s = new()
-			{
-				IssueName = _issue.Issue,
-				Description = _issue.Description,
-				Author = new BasicUserModel(_loggedInUser),
-				Category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId)
-			};
-		
-		if (s.Category is null)
 		{
-			_issue.CategoryId = "";
-			return;
-		}
+			IssueName = _issue.Issue,
+			Description = _issue.Description,
+			Author = new BasicUserModel(_loggedInUser),
+			Category = new BasicCategoryModel(category)
+		};
 
 		await IssueService.CreateIssue(s);
 
 		_issue = new CreateIssueModel();
 		ClosePage();
-		
+	}
+	
+	/// <summary>
+	///   ClosePage method
+	/// </summary>
+	private void ClosePage()
+	{
+		NavManager.NavigateTo("/");
 	}
 }

@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
@@ -75,7 +73,9 @@ public class CommentRepositoryTests
 
 		//Act
 
+#pragma warning disable CS8602
 		var result = await _sut.GetComment(expected.Id).ConfigureAwait(false);
+#pragma warning restore CS8602
 
 		//Assert 
 
@@ -188,7 +188,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Upvote Comment With Valid Comment and User")]
-	public async Task UpvoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
+	public async Task UpVoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
 	{
 		// Arrange
 
@@ -210,7 +210,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpvoteComment(expected.Id, user.Id);
+		await _sut.UpVoteComment(expected.Id, user.Id);
 
 		// Assert
 
@@ -218,7 +218,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Upvote Comment With User Already Voted")]
-	public async Task UpvoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
+	public async Task UpVoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
 	{
 		// Arrange
 
@@ -240,7 +240,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpvoteComment(expected.Id, user.Id);
+		await _sut.UpVoteComment(expected.Id, user.Id);
 
 		// Assert
 

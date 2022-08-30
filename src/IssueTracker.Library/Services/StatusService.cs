@@ -1,7 +1,14 @@
-﻿namespace IssueTracker.Library.Services;
+﻿//-----------------------------------------------------------------------
+// <copyright file="StatusService.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// StatusService class
+///   StatusService class
 /// </summary>
 public class StatusService : IStatusService
 {
@@ -10,52 +17,47 @@ public class StatusService : IStatusService
 	private readonly IStatusRepository _repository;
 
 	/// <summary>
-	/// StatusService constructor
+	///   StatusService constructor
 	/// </summary>
 	/// <param name="repository">IStatusRepository</param>
 	/// <param name="cache">IMemoryCache</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
-		_repository = repository;
-		_cache = cache;
+		_repository = Guard.Against.Null(repository, nameof(repository));
+		_cache = Guard.Against.Null(cache, nameof(cache));
 	}
 
 	/// <summary>
-	/// CreateStatus method
+	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateStatus(StatusModel status)
 	{
-		if (status == null)
-		{
-			throw new ArgumentNullException(nameof(status));
-		}
+		Guard.Against.Null(status, nameof(status));
 
 		return _repository.CreateStatus(status);
 	}
 
 	/// <summary>
-	/// GetStatus method
+	///   GetStatus method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="statusId">string</param>
 	/// <returns>Task StatusModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<StatusModel> GetStatus(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<StatusModel> GetStatus(string statusId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		var result = await _repository.GetStatus(id);
+		var result = await _repository.GetStatus(statusId).ConfigureAwait(true);
 
 		return result;
 	}
 
 	/// <summary>
-	/// GetStatuses method
+	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
@@ -66,7 +68,7 @@ public class StatusService : IStatusService
 			return output;
 		}
 
-		var results = await _repository.GetStatuses();
+		var results = await _repository.GetStatuses().ConfigureAwait(true);
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
@@ -75,17 +77,14 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	/// UpdateStatus method
+	///   UpdateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateStatus(StatusModel status)
 	{
-		if (status == null)
-		{
-			throw new ArgumentNullException(nameof(status));
-		}
+		Guard.Against.Null(status, nameof(status));
 
 		return _repository.UpdateStatus(status.Id, status);
 	}

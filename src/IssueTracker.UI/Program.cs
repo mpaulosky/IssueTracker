@@ -1,4 +1,9 @@
-using IssueTracker.UI;
+//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="mpaulosky">
+//     Author: Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Rewrite;
 

@@ -19,24 +19,24 @@
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
-		<button class="btn btn-order @SortedByNewCssClass(true)" @onclick="(() => OrderByNew(true))">New</button>
-		<button class="btn btn-order @SortedByNewCssClass(false)" @onclick="(() => OrderByNew(false))">Popular</button>
+		<button class="btn btn-order @SortedByNewCssClass(true)" @onclick="() => OrderByNew(true)">New</button>
+		<button class="btn btn-order @SortedByNewCssClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search"
 					aria-label="Search box" class="form-control rounded-control"
-					@oninput="((txt) => OnSearchInput((string)txt.Value))"/>
+					@oninput="txt => OnSearchInput((string)txt.Value)"/>
 	</div>
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null && _showCategories)
 		{
 			<div class="categories">
 				<span class="text-uppercase fw-bold">Category</span>
-				<div class="@GetSelectedCategoryCssClass()" @onclick="(() => OnCategoryClick())">All</div>
+				<div class="@GetSelectedCategoryCssClass()" @onclick="() => OnCategoryClick()">All</div>
 				@foreach (var c in _categories)
 				{
 					<div class="@GetSelectedCategoryCssClass(c.CategoryName)"
-							@onclick="(() => OnCategoryClick(c.CategoryName))">
+							@onclick="() => OnCategoryClick(c.CategoryName)">
 						@c.CategoryName
 					</div>
 				}
@@ -44,7 +44,7 @@
 		}
 		else
 		{
-			<div class="categories" @onclick="(() => _showCategories = true)">
+			<div class="categories" @onclick="() => _showCategories = true">
 				<span class="selected-category">@_selectedCategory</span>
 			</div>
 		}
@@ -53,11 +53,11 @@
 		{
 			<div class="statuses">
 				<span class="text-uppercase fw-bold">Status</span>
-				<div class="@GetSelectedStatusCssClass()" @onclick="(() => OnStatusClick())">All</div>
+				<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
 				@foreach (var s in _statuses)
 				{
 					<div class="@GetSelectedStatusCssClass(s.StatusName)"
-							@onclick="(() => OnStatusClick(s.StatusName))">
+							@onclick="() => OnStatusClick(s.StatusName)">
 						@s.StatusName
 					</div>
 				}
@@ -65,7 +65,7 @@
 		}
 		else
 		{
-			<div class="statuses" @onclick="(() => _showStatuses = true)">
+			<div class="statuses" @onclick="() => _showStatuses = true">
 				<span class="selected-status">@_selectedStatus</span>
 			</div>
 		}
@@ -79,7 +79,7 @@
 			<Virtualize Items="@_issues" Context="s" OverscanCount="10">
 				<div class="issue-entry">
 					<div class="issue-entry-text">
-						<div class="issue-entry-text-title" @onclick="(() => OpenDetailsPage(s))">
+						<div class="issue-entry-text-title" @onclick="() => OpenDetailsPage(s)">
 							@s.IssueName
 						</div>
 						<div class="issue-entry-text-description">
@@ -88,11 +88,11 @@
 						@if (_archivingIssue is null || _archivingIssue.Id != s.Id)
 						{
 							<div class="issue-entry-bottom">
-								<div class="issue-entry-text-category" @onclick="(() => OpenDetailsPage(s))">
+								<div class="issue-entry-text-category" @onclick="() => OpenDetailsPage(s)">
 									@s.Category?.CategoryName
 								</div>
 								<AuthorizeView Policy="Admin">
-									<button @onclick="(() => _archivingIssue = s)" class="btn issue-entry-text-category btn-archive">
+									<button @onclick="() => _archivingIssue = s" class="btn issue-entry-text-category btn-archive">
 										archive
 									</button>
 								</AuthorizeView>
@@ -104,7 +104,7 @@
 								<button class="btn btn-archive btn-archive-confirm" @onclick="ArchiveIssue">
 									confirm
 								</button>
-								<button class="btn btn-archive btn-archive-reject" @onclick="(() => _archivingIssue = null)">
+								<button class="btn btn-archive btn-archive-reject" @onclick="() => _archivingIssue = null">
 									cancel
 								</button>
 							</div>
@@ -124,10 +124,10 @@
 		{
 			<div class="categories">
 				<span class="text-uppercase fw-bold">Category</span>
-				<div class="@GetSelectedCategoryCssClass()" @onclick="(() => OnCategoryClick())">All</div>
+				<div class="@GetSelectedCategoryCssClass()" @onclick="() => OnCategoryClick()">All</div>
 				@foreach (var c in _categories)
 				{
-					<div class="@GetSelectedCategoryCssClass(c.CategoryName)" @onclick="(() => OnCategoryClick(c.CategoryName))">@c.CategoryName</div>
+					<div class="@GetSelectedCategoryCssClass(c.CategoryName)" @onclick="() => OnCategoryClick(c.CategoryName)">@c.CategoryName</div>
 				}
 			</div>
 		}
@@ -135,10 +135,10 @@
 		{
 			<div class="statuses">
 				<span class="text-uppercase fw-bold">Status</span>
-				<div class="@GetSelectedStatusCssClass()" @onclick="(() => OnStatusClick())">All</div>
+				<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
 				@foreach (var s in _statuses)
 				{
-					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="(() => OnStatusClick(s.StatusName))">@s.StatusName</div>
+					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">@s.StatusName</div>
 				}
 			</div>
 		}

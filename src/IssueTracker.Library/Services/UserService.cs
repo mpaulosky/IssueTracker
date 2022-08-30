@@ -1,96 +1,92 @@
-﻿namespace IssueTracker.Library.Services;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserService.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Services;
 
 /// <summary>
-/// UserService class
+///   UserService class
 /// </summary>
 public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
 	/// <summary>
-	/// UserService constructor
+	///   UserService constructor
 	/// </summary>
 	/// <param name="repository">IUserRepository</param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public UserService(IUserRepository repository)
 	{
-		_repo = repository;
+		_repo = Guard.Against.Null(repository, nameof(repository));
 	}
 
 	/// <summary>
-	/// CreateUser method
+	///   CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateUser(UserModel user)
 	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
+		Guard.Against.Null(user, nameof(user));
 
 		return _repo.CreateUser(user);
 	}
 
 	/// <summary>
-	/// GetUser method
+	///   GetUser method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<UserModel> GetUser(string id)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<UserModel> GetUser(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUser(id);
+		var results = await _repo.GetUser(userId).ConfigureAwait(true);
 
 		return results;
 	}
 
 	/// <summary>
-	/// GetUsers method
+	///   GetUsers method
 	/// </summary>
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		var results = await _repo.GetUsers();
+		var results = await _repo.GetUsers().ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	/// GetUserFromAuthentication method
+	///   GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="objectId">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
-	/// <exception cref="ArgumentException"></exception>
-	public async Task<UserModel> GetUserFromAuthentication(string objectId)
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task<UserModel> GetUserFromAuthentication(string userId)
 	{
-		if (string.IsNullOrWhiteSpace(objectId))
-		{
-			throw new ArgumentException("Value cannot be null or whitespace.", nameof(objectId));
-		}
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUserFromAuthentication(objectId);
+		var results = await _repo.GetUserFromAuthentication(userId).ConfigureAwait(true);
 
 		return results;
 	}
 
-/// <summary>
-/// UpdateUser method
-/// </summary>
-/// <param name="user">UserModel</param>
-/// <returns>Task</returns>
-/// <exception cref="ArgumentNullException"></exception>
+	/// <summary>
+	///   UpdateUser method
+	/// </summary>
+	/// <param name="user">UserModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateUser(UserModel user)
 	{
-		if (user == null)
-		{
-			throw new ArgumentNullException(nameof(user));
-		}
+		Guard.Against.Null(user, nameof(user));
 
 		return _repo.UpdateUser(user.Id, user);
 	}

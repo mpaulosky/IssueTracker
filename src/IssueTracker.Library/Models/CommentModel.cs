@@ -1,4 +1,11 @@
-﻿namespace IssueTracker.Library.Models;
+﻿//-----------------------------------------------------------------------
+// <copyright file="CommentModel.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Models;
 
 [Serializable]
 public class CommentModel
@@ -17,7 +24,7 @@ public class CommentModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-	public BasicUserModel Author { get; set; }
+	public BasicUserModel Author { get; set; } = new();
 
 	public HashSet<string> UserVotes { get; set; } = new();
 

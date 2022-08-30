@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace IssueTracker.Library.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CategoryRepositoryTests
@@ -59,7 +57,7 @@ public class CategoryRepositoryTests
 	public async Task GetCategories_With_Valid_Context_Should_Return_A_List_Of_Categories_Test()
 	{
 		// Arrange
-
+		const int expectedCount = 5;
 		var expected = TestCategories.GetCategories().ToList();
 
 		_list = new List<CategoryModel>(expected);
@@ -82,7 +80,7 @@ public class CategoryRepositoryTests
 
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(3);
+		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Create Category")]

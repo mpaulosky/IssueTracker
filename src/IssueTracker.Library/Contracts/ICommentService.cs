@@ -1,10 +1,17 @@
-﻿namespace IssueTracker.Library.Contracts;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICommentService.cs" company="mpaulosky">
+//     Author:  Matthew Paulosky
+//     Copyright (c) . All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Contracts;
 
 public interface ICommentService
 {
 	Task CreateComment(CommentModel comment);
 
-	Task<CommentModel> GetComment(string id);
+	Task<CommentModel> GetComment(string commentId);
 
 	Task<List<CommentModel>> GetComments();
 
@@ -14,5 +21,5 @@ public interface ICommentService
 
 	Task UpdateComment(CommentModel comment);
 
-	Task UpvoteComment(string commentId, string userId);
+	Task UpVoteComment(string commentId, string userId);
 }

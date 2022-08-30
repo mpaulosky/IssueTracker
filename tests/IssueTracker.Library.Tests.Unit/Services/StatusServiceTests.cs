@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace IssueTracker.Library.Tests.Unit.Services;
+﻿namespace IssueTracker.Library.Services;
 
 [ExcludeFromCodeCoverage]
 public class StatusServiceTests
@@ -90,7 +88,7 @@ public class StatusServiceTests
 	}
 
 	[Fact(DisplayName = "Get Status With Null Id")]
-	public async Task GetStatus_With_Null_Id_Should_Return_An_ArgumentException_TestAsync()
+	public async Task GetStatus_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 
@@ -100,7 +98,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null));
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
@@ -108,16 +106,15 @@ public class StatusServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 4;
 
 		var expected = TestStatuses.GetStatuses();
 
 		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(expected);
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
@@ -137,21 +134,20 @@ public class StatusServiceTests
 	{
 		//Arrange
 
-		const int expectedCount = 3;
+		const int expectedCount = 4;
 
 		var expected = TestStatuses.GetStatuses();
 
 
-		string? keyPayload = null;
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => keyPayload = (string)k)
+			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
 		object whatever = expected;
 		_memoryCacheMock
 			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
-			.Callback(new OutDelegate<object, object>((object k, out object v) =>
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
@@ -203,5 +199,5 @@ public class StatusServiceTests
 		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateStatus(null));
 	}
 
-	private delegate void OutDelegate<TIn, TOut>(TIn input, out TOut output);
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }
