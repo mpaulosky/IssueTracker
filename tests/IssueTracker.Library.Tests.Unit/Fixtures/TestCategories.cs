@@ -7,7 +7,9 @@ public static class TestCategories
 	{
 		var status = new CategoryModel
 		{
-			Id = "5dc1039a1521eaa36835e541", CategoryDescription = "New Category", CategoryName = "New"
+			Id = "5dc1039a1521eaa36835e541",
+			CategoryDescription = "New Category",
+			CategoryName = "New"
 		};
 
 		return status;
@@ -45,7 +47,9 @@ public static class TestCategories
 	{
 		var status = new CategoryModel
 		{
-			Id = "5dc1039a1521eaa36835e541", CategoryDescription = "Updated New Category", CategoryName = "New"
+			Id = "5dc1039a1521eaa36835e541",
+			CategoryDescription = "Updated New Category",
+			CategoryName = "New"
 		};
 
 		return status;

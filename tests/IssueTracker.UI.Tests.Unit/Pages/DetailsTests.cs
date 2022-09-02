@@ -42,7 +42,7 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, null);
 		}))).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+
 	}
 
 	[Fact]
@@ -51,7 +51,7 @@ public class DetailsTests
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -63,12 +63,12 @@ public class DetailsTests
 		// Act
 
 		// Assert
-			Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Details>((parameter =>
-  		{
-  			parameter.Add(p => p.Id, null);
-  		})));
-}
-	
+		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Details>((parameter =>
+		{
+			parameter.Add(p => p.Id, null);
+		})));
+	}
+
 	[Fact]
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
@@ -91,9 +91,9 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
-		
+
 		cut.Find("#close-page").Click();
-		
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
@@ -107,7 +107,7 @@ public class DetailsTests
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
 		_expectedComments = TestComments.GetComments().ToList();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -134,7 +134,7 @@ public class DetailsTests
 				</div>"
 		);
 	}
-	
+
 	[Fact]
 	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
 	{
@@ -142,7 +142,7 @@ public class DetailsTests
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
 		_expectedComments = TestComments.GetComments().ToList();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -200,10 +200,10 @@ public class DetailsTests
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
 		_expectedComments = TestComments.GetComments().ToList();
-		
+
 		SetupMocks();
 		SetMemoryCache();
-		
+
 		string expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
 		using var ctx = new TestContext();
@@ -216,9 +216,9 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
-		
+
 		cut.Find("#create-comment").Click();
-		
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
@@ -226,7 +226,7 @@ public class DetailsTests
 	}
 
 	[Theory(DisplayName = "Validate Status Styles")]
-	[InlineData(0,"issue-detail-status-watching")]
+	[InlineData(0, "issue-detail-status-watching")]
 	[InlineData(1, "issue-detail-status-answered")]
 	[InlineData(2, "issue-detail-status-inwork")]
 	[InlineData(3, "issue-detail-status-dismissed")]
@@ -238,7 +238,7 @@ public class DetailsTests
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[index];
 		_expectedComments = TestComments.GetComments().ToList();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -254,10 +254,10 @@ public class DetailsTests
 		}));
 
 		var results = cut.FindAll("div");
-		
+
 		// Assert
 		var items = results.Where(x => x.ClassName == expected);
-		
+
 		items.ToList().Count.Should().Be(1);
 	}
 
@@ -282,9 +282,9 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
-		
+
 		cut.FindAll("#vote")[0].Click();
-		
+
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
@@ -312,9 +312,9 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
-		
+
 		cut.FindAll("#vote")[2].Click();
-		
+
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
@@ -328,7 +328,7 @@ public class DetailsTests
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[5];
 		_expectedComments = TestComments.GetComments().ToList();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -386,7 +386,7 @@ public class DetailsTests
 		_expectedComments = TestComments.GetComments().ToList();
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedUser.Id = "5dc1039a1521eaa36835e543";
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
@@ -400,7 +400,7 @@ public class DetailsTests
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
-		
+
 		cut.FindAll("#vote")[0].Click();
 
 		// Assert
@@ -482,9 +482,9 @@ public class DetailsTests
 					<div diff:ignoreChildren diff:ignoreAttributes></div>"
 		);
 	}
-	
+
 	[Theory(DisplayName = "Update Status")]
-	[InlineData(5,"watching")]
+	[InlineData(5, "watching")]
 	[InlineData(5, "answered")]
 	[InlineData(5, "inwork")]
 	[InlineData(5, "dismissed")]
@@ -541,7 +541,7 @@ public class DetailsTests
 		_issueRepositoryMock
 			.Setup(x => x.GetIssue(_expectedIssue.Id))
 			.ReturnsAsync(_expectedIssue);
-		
+
 		_userRepositoryMock
 			.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
@@ -563,7 +563,7 @@ public class DetailsTests
 		authContext.SetClaims(
 			new Claim(type: "objectidentifier", _expectedUser.Id)
 		);
-		
+
 		if (isAdmin)
 		{
 			authContext.SetPolicies("Admin");

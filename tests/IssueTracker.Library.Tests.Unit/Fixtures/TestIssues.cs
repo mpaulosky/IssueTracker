@@ -24,7 +24,7 @@ public static class TestIssues
 				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Design", 
+					CategoryName = "Design",
 					CategoryDescription = "An Issue with the design."
 				},
 				ApprovedForRelease = false,
@@ -47,7 +47,7 @@ public static class TestIssues
 				OwnerNotes = "Notes for Issue 2",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Documentation", 
+					CategoryName = "Documentation",
 					CategoryDescription = "An Issue with the documentation."
 				},
 				ApprovedForRelease = true,
@@ -131,7 +131,7 @@ public static class TestIssues
 				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Design", 
+					CategoryName = "Design",
 					CategoryDescription = "An Issue with the design."
 				},
 				ApprovedForRelease = false,
@@ -234,7 +234,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			},
 		};
 
@@ -261,7 +262,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			},
 		};
 
@@ -281,7 +283,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			},
 		};
 

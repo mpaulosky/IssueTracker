@@ -15,12 +15,12 @@ public class BasicIssueModel
 
 	public BasicIssueModel(IssueModel issue)
 	{
-			Id = issue?.Id;
-			Issue = issue?.IssueName;
-			Description = issue?.Description;
-			Category = issue?.Category;
-			Status = issue?.IssueStatus;
-			Author = issue?.Author;
+		Id = issue?.Id;
+		Issue = issue?.IssueName;
+		Description = issue?.Description;
+		Category = issue?.Category;
+		Status = issue?.IssueStatus;
+		Author = issue?.Author;
 	}
 
 	public string Id { get; set; }

@@ -13,10 +13,10 @@ public class IndexTests
 	private readonly Mock<IDataProtectionProvider> _dataProtectionProviderMock;
 	private readonly Mock<IDataProtector> _dataProtectorMock;
 	private ProtectedSessionStorage SessionStorage;
-	
+
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	
+
 	private UserModel _expectedUser;
 	private List<IssueModel> _expectedIssues;
 	private List<CategoryModel> _expectedCategories;
@@ -52,7 +52,7 @@ public class IndexTests
 		using var ctx = new TestContext();
 
 		ctx.JSInterop.Setup<String>("sessionStorage.getItem", _ => true);
-		
+
 		_dataProtectorMock.Setup(sut => sut.Protect(It.IsAny<byte[]>())).Returns(Encoding.UTF8.GetBytes(base64UserSessionJson));
 		_dataProtectorMock.Setup(sut => sut.Unprotect(It.IsAny<byte[]>())).Returns(Encoding.UTF8.GetBytes(userSessionJson));
 
@@ -125,7 +125,7 @@ public class IndexTests
 			.ReturnsAsync(_expectedUser);
 
 		_categoryRepositoryMock
-			.Setup(x=>x.GetCategories())
+			.Setup(x => x.GetCategories())
 			.ReturnsAsync(_expectedCategories);
 
 		_statusRepositoryMock

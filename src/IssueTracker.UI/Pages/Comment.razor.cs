@@ -38,8 +38,8 @@ public partial class Comment
 	{
 		CommentModel comment = new()
 		{
-			Issue = new BasicIssueModel(_issue), 
-			Author = new BasicUserModel(_loggedInUser), 
+			Issue = new BasicIssueModel(_issue),
+			Author = new BasicUserModel(_loggedInUser),
 			Comment = _comment.Comment
 		};
 

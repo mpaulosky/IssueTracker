@@ -15,7 +15,7 @@ public class UserModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
-	[BsonElement("object_identifier")] 
+	[BsonElement("object_identifier")]
 	public string ObjectIdentifier { get; set; }
 
 	[BsonElement("first_name")]
@@ -34,7 +34,7 @@ public class UserModel
 	[BsonRepresentation(BsonType.String)]
 	public string EmailAddress { get; set; }
 
-	public List<BasicIssueModel> AuthoredIssues { get; set; } = new();
+	public List<BasicIssueModel> AuthoredIssues { get; set; } = new List<BasicIssueModel>();
 
-	public List<BasicCommentModel> AuthoredComments { get; set; } = new();
+	public List<BasicCommentModel> AuthoredComments { get; set; } = new List<BasicCommentModel>();
 }

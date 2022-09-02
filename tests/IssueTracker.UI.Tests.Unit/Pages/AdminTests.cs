@@ -22,7 +22,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 
@@ -270,7 +270,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
@@ -374,13 +374,13 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#title-text").Change("Text Change");
 		cut.Find("#submit-edit").Click();
-		
+
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
@@ -398,7 +398,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
@@ -494,7 +494,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
@@ -518,7 +518,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
@@ -615,7 +615,7 @@ public class AdminTests
 
 		// Register services
 		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#reject-issue").Click();
@@ -651,7 +651,7 @@ public class AdminTests
 		// Act
 		var cut = ctx.RenderComponent<Admin>();
 		cut.Find("#close-page").Click();
-		
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();

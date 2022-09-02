@@ -50,14 +50,14 @@ public class CategoryService : ICategoryService
 	public async Task<List<CategoryModel>> GetCategories()
 	{
 		var output = _cache.Get<List<CategoryModel>>(_cacheName);
-		
+
 		if (output is not null)
 		{
 			return output;
 		}
 
 		var results = await _repository.GetCategories().ConfigureAwait(true);
-		
+
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));

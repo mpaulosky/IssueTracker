@@ -38,19 +38,22 @@ public partial class SampleData
 
 		cat = new CategoryModel
 		{
-			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Documentation",
+			CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(cat);
 
 		cat = new CategoryModel
 		{
-			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Implementation",
+			CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(cat);
 
 		cat = new CategoryModel
 		{
-			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
+			CategoryName = "Clarification",
+			CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(cat);
 
@@ -74,13 +77,19 @@ public partial class SampleData
 
 		var comment = new CommentModel
 		{
-			Comment = "Test Comment 1", Archived = false, Author = new BasicUserModel(_foundUser), UserVotes = _votes
+			Comment = "Test Comment 1",
+			Archived = false,
+			Author = new BasicUserModel(_foundUser),
+			UserVotes = _votes
 		};
 		await CommentService.CreateComment(comment);
 
 		comment = new CommentModel
 		{
-			Comment = "Test Comment 2", Archived = false, Author = new BasicUserModel(_foundUser), UserVotes = _votes
+			Comment = "Test Comment 2",
+			Archived = false,
+			Author = new BasicUserModel(_foundUser),
+			UserVotes = _votes
 		};
 		await CommentService.CreateComment(comment);
 
@@ -123,13 +132,15 @@ public partial class SampleData
 
 		stat = new StatusModel
 		{
-			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming",
+			StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(stat);
 
 		stat = new StatusModel
 		{
-			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed",
+			StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(stat);
 

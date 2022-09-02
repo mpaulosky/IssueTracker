@@ -22,11 +22,11 @@ public class UserRepository : IUserRepository
 	public UserRepository(IMongoDbContext context)
 	{
 		Guard.Against.Null(context, nameof(context));
-		
+
 		string collectionName;
-		
+
 		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(collectionName));
-		
+
 		_collection = context.GetCollection<UserModel>(collectionName);
 	}
 
@@ -66,7 +66,7 @@ public class UserRepository : IUserRepository
 	public async Task CreateUser(UserModel user)
 	{
 		Guard.Against.Null(user, nameof(user));
-		
+
 		await _collection!.InsertOneAsync(user).ConfigureAwait(true);
 	}
 
@@ -79,7 +79,7 @@ public class UserRepository : IUserRepository
 	{
 		Guard.Against.NullOrWhiteSpace(id, nameof(id));
 		Guard.Against.Null(user, nameof(user));
-		
+
 		var filter = Guard.Against.Null(Builders<UserModel>.Filter.Eq("_id", id), nameof(FieldDefinition<UserModel>));
 
 		await _collection!.ReplaceOneAsync(filter!, user).ConfigureAwait(true);

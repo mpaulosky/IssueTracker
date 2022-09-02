@@ -58,7 +58,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 		const int expectedCount = 4;
-		
+
 		var expected = TestStatuses.GetStatuses().ToList();
 
 		_list = new List<StatusModel>(expected);
