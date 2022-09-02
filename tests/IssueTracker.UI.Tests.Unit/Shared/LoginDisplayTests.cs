@@ -43,7 +43,7 @@ public class LoginDisplayTests
 		var authContext = ctx.AddTestAuthorization();
 		authContext.SetAuthorized("TEST USER");
 		authContext.SetPolicies("Admin");
-		
+
 		// Act
 		var cut = ctx.RenderComponent<LoginDisplay>();
 

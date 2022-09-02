@@ -20,7 +20,7 @@ public class CreateTests
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 	}
-	
+
 	[Fact]
 	public void Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
@@ -35,7 +35,7 @@ public class CreateTests
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Create>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+
 	}
 
 	[Fact]
@@ -57,7 +57,7 @@ public class CreateTests
 		// Act
 		var cut = ctx.RenderComponent<Create>();
 		cut.Find("#close-page").Click();
-		
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
@@ -78,10 +78,10 @@ public class CreateTests
 
 		SetAuthenticationAndAuthorization(ctx, false);
 		RegisterServices(ctx);
-		
+
 		// Act
 		var cut = ctx.RenderComponent<Create>();
-		
+
 		// Assert
 		cut.MarkupMatches
 			(
@@ -161,7 +161,7 @@ public class CreateTests
 		inputs[1].Change("5dc1039a1521eaa36835e541");
 		cut.Find("#description").Change("Test Description");
 		cut.Find("#submit").Click();
-		
+
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
@@ -182,7 +182,7 @@ public class CreateTests
 		authContext.SetClaims(
 			new Claim(type: "objectidentifier", _expectedUser.Id)
 		);
-		
+
 		if (isAdmin)
 		{
 			authContext.SetPolicies("Admin");

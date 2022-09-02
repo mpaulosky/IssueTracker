@@ -143,19 +143,19 @@ public partial class Index
 	private async Task LoadFilterState()
 	{
 		var stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedCategory));
-		
+
 		_selectedCategory = stringResults.Success ? stringResults.Value : "All";
-		
+
 		stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedStatus));
-		
+
 		_selectedStatus = stringResults.Success ? stringResults.Value : "All";
-		
+
 		stringResults = await SessionStorage.GetAsync<string>(nameof(_searchText));
-		
+
 		_searchText = stringResults.Success ? stringResults.Value : "";
-		
+
 		var boolResults = await SessionStorage.GetAsync<bool>(nameof(_isSortedByNew));
-		
+
 		_isSortedByNew = !boolResults.Success || boolResults.Value;
 	}
 

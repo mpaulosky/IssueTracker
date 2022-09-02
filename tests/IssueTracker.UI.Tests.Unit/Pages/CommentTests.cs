@@ -16,11 +16,11 @@ public class CommentTests
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
-		
+
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 	}
-	
+
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
@@ -35,7 +35,7 @@ public class CommentTests
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+
 	}
 
 	[Fact]
@@ -44,15 +44,15 @@ public class CommentTests
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
 		using var ctx = new TestContext();
-			
+
 		SetAuthenticationAndAuthorization(ctx, false);
 		RegisterServices(ctx);
-		
+
 		// Act
 
 		// Assert
@@ -69,12 +69,12 @@ public class CommentTests
 		const string expectedUri = "http://localhost/";
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
 		using var ctx = new TestContext();
-			
+
 		SetAuthenticationAndAuthorization(ctx, false);
 		RegisterServices(ctx);
 
@@ -98,12 +98,12 @@ public class CommentTests
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
-		
+
 		SetupMocks();
 		SetMemoryCache();
 
 		using var ctx = new TestContext();
-			
+
 		SetAuthenticationAndAuthorization(ctx, false);
 		RegisterServices(ctx);
 

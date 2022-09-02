@@ -22,9 +22,9 @@ public class CategoryRepository : ICategoryRepository
 	public CategoryRepository(IMongoDbContext context)
 	{
 		Guard.Against.Null(context, nameof(context));
-		
+
 		string collectionName;
-		
+
 		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CategoryModel)), nameof(collectionName));
 
 		_collection = context.GetCollection<CategoryModel>(collectionName);

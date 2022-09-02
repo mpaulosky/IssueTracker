@@ -15,7 +15,7 @@ public class UserModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
 
-	[BsonElement("object_identifier")] 
+	[BsonElement("object_identifier")]
 	public string ObjectIdentifier { get; set; }
 
 	[BsonElement("first_name")]

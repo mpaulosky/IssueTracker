@@ -218,7 +218,7 @@ public class IssueRepositoryTests
 			expected.DateCreated,
 			expected.Archived,
 			expected.IssueStatus,
-			expected.OwnerNotes, 
+			expected.OwnerNotes,
 			expected.Category);
 
 		_list = new List<IssueModel> { expected };

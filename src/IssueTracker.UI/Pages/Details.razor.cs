@@ -30,7 +30,7 @@ public partial class Details
 	{
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
-		
+
 		_issue = await IssueService.GetIssue(Id);
 		_comments = await CommentService.GetIssuesComments(Id);
 		_statuses = await StatusService.GetStatuses();

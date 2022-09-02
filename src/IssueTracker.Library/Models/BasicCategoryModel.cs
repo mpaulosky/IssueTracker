@@ -12,7 +12,7 @@ public class BasicCategoryModel
 		CategoryName = category?.CategoryName;
 		CategoryDescription = category?.CategoryDescription;
 	}
-	
+
 	public string CategoryName { get; init; }
 
 	public string CategoryDescription { get; init; }

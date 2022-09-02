@@ -21,7 +21,7 @@ public class ProfileTests
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 	}
-	
+
 	[Fact]
 	public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
@@ -36,7 +36,7 @@ public class ProfileTests
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Profile>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+
 	}
 
 	[Fact]
@@ -53,19 +53,19 @@ public class ProfileTests
 
 		using var ctx = new TestContext();
 
-		SetAuthenticationAndAuthorization(ctx, false,true);
+		SetAuthenticationAndAuthorization(ctx, false, true);
 		RegisterServices(ctx);
 
 		// Act
 		var cut = ctx.RenderComponent<Profile>();
-		
+
 		cut.Find("#close-page").Click();
-		
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-		
+
 	}
 
 	[Fact]
@@ -81,12 +81,12 @@ public class ProfileTests
 
 		using var ctx = new TestContext();
 
-		SetAuthenticationAndAuthorization(ctx, false,true);
+		SetAuthenticationAndAuthorization(ctx, false, true);
 		RegisterServices(ctx);
 
 		// Act
 		var cut = ctx.RenderComponent<Profile>();
-		
+
 		// Assert
 		cut.MarkupMatches
 		(
@@ -222,13 +222,13 @@ public class ProfileTests
 				</div>"
 			);
 	}
-	
+
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
 			.Setup(x => x.GetUsersIssues(_expectedUser.Id))
 			.ReturnsAsync(_expectedIssues);
-		
+
 		_userRepositoryMock
 			.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
@@ -241,15 +241,15 @@ public class ProfileTests
 	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin, bool isAuth)
 	{
 		var authContext = ctx.AddTestAuthorization();
-		
+
 		if (isAuth)
 		{
 			authContext.SetAuthorized(_expectedUser.DisplayName);
 			authContext.SetClaims(
 				new Claim(type: "objectidentifier", _expectedUser.Id)
-			); 
+			);
 		}
-	
+
 		if (isAdmin)
 		{
 			authContext.SetPolicies("Admin");

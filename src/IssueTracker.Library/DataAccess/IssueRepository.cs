@@ -26,15 +26,15 @@ public class IssueRepository : IIssueRepository
 		_context = Guard.Against.Null(context, nameof(context));
 
 		string issueCollectionName;
-		
+
 		issueCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(IssueModel)), nameof(issueCollectionName));
 
 		_issueCollection = _context.GetCollection<IssueModel>(issueCollectionName);
 
 		string userCollectionName;
-		
+
 		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
-		
+
 		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
 	}
 

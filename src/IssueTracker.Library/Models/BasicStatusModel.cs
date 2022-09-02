@@ -12,7 +12,7 @@ public class BasicStatusModel
 		StatusName = status?.StatusName;
 		StatusDescription = status?.StatusDescription;
 	}
-	
+
 	public string StatusName { get; init; }
 
 	public string StatusDescription { get; init; }

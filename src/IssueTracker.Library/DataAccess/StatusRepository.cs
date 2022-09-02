@@ -25,7 +25,7 @@ public class StatusRepository : IStatusRepository
 
 		string collectionName;
 		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(StatusModel)), nameof(collectionName));
-		
+
 		_collection = context.GetCollection<StatusModel>(collectionName);
 	}
 

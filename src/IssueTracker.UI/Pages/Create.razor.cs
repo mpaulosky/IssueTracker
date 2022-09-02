@@ -44,7 +44,7 @@ public partial class Create
 		_issue = new CreateIssueModel();
 		ClosePage();
 	}
-	
+
 	/// <summary>
 	///   ClosePage method
 	/// </summary>

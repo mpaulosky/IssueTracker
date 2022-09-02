@@ -25,15 +25,15 @@ public class CommentRepository : ICommentRepository
 		_context = Guard.Against.Null(context, nameof(context));
 
 		string commentCollectionName;
-		
+
 		commentCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CommentModel)), nameof(commentCollectionName));
 
 		_commentCollection = _context.GetCollection<CommentModel>(commentCollectionName);
 
 		string userCollectionName;
-		
+
 		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
-		
+
 		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
 	}
 
