@@ -28,12 +28,12 @@ public partial class Details
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 		
 		_issue = await IssueService.GetIssue(Id);
 		_comments = await CommentService.GetIssuesComments(Id);
 		_statuses = await StatusService.GetStatuses();
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	}
 
 	/// <summary>
@@ -120,10 +120,6 @@ public partial class Details
 
 			await CommentService.UpVoteComment(comment.Id, _loggedInUser.Id);
 		}
-		else
-		{
-			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
-		}
 	}
 
 	/// <summary>
@@ -172,7 +168,10 @@ public partial class Details
 	/// <param name="issue">IssueModel</param>
 	private void OpenCommentForm(IssueModel issue)
 	{
-		NavManager.NavigateTo($"/Comment/{issue.Id}");
+		if (_loggedInUser is not null)
+		{
+			NavManager.NavigateTo($"/Comment/{issue.Id}");
+		}
 	}
 
 	/// <summary>

@@ -94,7 +94,7 @@ public class UserRepository : IUserRepository
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _collection!.FindAsync(u => u != null && u.ObjectIdentifier == userId).ConfigureAwait(true);
+		var results = await _collection.FindAsync(u => u != null && u.ObjectIdentifier == userId).ConfigureAwait(true);
 
 		return results.FirstOrDefault();
 	}

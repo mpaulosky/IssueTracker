@@ -14,29 +14,21 @@
 
 <div class="form-layout mb-3">
 	<div class="close-button-section">
-		<button class="btn btn-close" @onclick="ClosePage"></button>
+		<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 	</div>
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">@_loggedInUser?.DisplayName Account</h2>
-		<p>
-			You are currently signed up to receive emails when the status
-			of your suggestion changes. Would you like to opt out of
-			receiving these emails?
-			<button class="btn btn-danger">
-				Turn Off Notifications
-			</button>
-		</p>
 		<p class="my-issue-text">
 			<a href="MicrosoftIdentity/Account/EditProfile">Edit My Profile</a>
 		</p>
 	</div>
 </div>
 
-@if (_issues?.Count > 0)
+@if (_approved?.Count > 0)
 {
 	<div class="form-layout mb-3">
-		<h2 class="my-issue-heading">Issues</h2>
-		<p class="my-issue-text">These are your issues that are currently active.</p>
+		<h2 class="my-issue-heading">Approved Issues</h2>
+		<p class="my-issue-text">These are your issues that are currently available for comment.</p>
 		<hr/>
 		@foreach (var s in _issues)
 		{
@@ -46,6 +38,75 @@
 			</div>
 			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
 			<p class="my-issue-text">@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@if (_pending?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">Pending Issues</h2>
+		<p class="my-issue-text">These are your issues that are currently under review by admin.</p>
+		<hr/>
+		@foreach (var s in _issues)
+		{
+			<hr class="my-issue-separator"/>
+			<div>
+				@s.IssueName
+			</div>
+			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p class="my-issue-text">@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@if (_rejected?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">Rejected Issues</h2>
+		<p>These are your issues that were rejected by the admin for being out of the scope of this application.</p>
+		<hr/>
+		@foreach (var s in _archived)
+		{
+			<hr class="my-issue-separator"/>
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
+			@if (s.IssueStatus is not null)
+			{
+				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
+			}
+		}
+	</div>
+}
+
+@if (_archived?.Count > 0)
+{
+	<div class="form-layout mb-3">
+		<h2 class="my-issue-heading">Archived Issues</h2>
+		<p>These are your issues that are archived for future review.</p>
+		<hr/>
+		@foreach (var s in _archived)
+		{
+			<hr class="my-issue-separator"/>
+			<div>
+				@s.IssueName
+			</div>
+			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+			<p>@s.Description</p>
 			@if (s.IssueStatus is not null)
 			{
 				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
@@ -68,29 +129,6 @@
 			<p class="my-issue-text">
 				@s.Comment
 			</p>
-		}
-	</div>
-}
-
-@if (_archived?.Count > 0)
-{
-	<div class="form-layout mb-3">
-		<h2 class="my-issue-heading">Archived Issues</h2>
-		<p>These are your issues that were active but did not gain enough traction.</p>
-		<hr/>
-		@foreach (var s in _archived)
-		{
-			<hr class="my-issue-separator"/>
-			<div>
-				@s.IssueName
-			</div>
-			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p>@s.Description</p>
-			@if (s.IssueStatus is not null)
-			{
-				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
-				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
-			}
 		}
 	</div>
 }

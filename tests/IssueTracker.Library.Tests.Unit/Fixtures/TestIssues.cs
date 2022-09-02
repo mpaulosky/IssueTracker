@@ -59,7 +59,7 @@ public static class TestIssues
 				IssueName = "Test Issue 3",
 				Description = "A new test issue 3",
 				DateCreated = DateTime.UtcNow,
-				Archived = false,
+				Archived = true,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new BasicStatusModel
 					{
