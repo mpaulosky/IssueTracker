@@ -39,23 +39,6 @@ public class CreateTests
 	}
 
 	[Fact]
-	public void Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
-	{
-		// Arrange
-		using var ctx = new TestContext();
-
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
-
-		// Act
-
-		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Create>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-
-	}
-
-	[Fact]
 	public void Create_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
 		// Arrange

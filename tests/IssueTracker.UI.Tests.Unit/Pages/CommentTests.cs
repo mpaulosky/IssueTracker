@@ -39,23 +39,6 @@ public class CommentTests
 	}
 
 	[Fact]
-	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
-	{
-		// Arrange
-		using var ctx = new TestContext();
-
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
-
-		// Act
-
-		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-
-	}
-
-	[Fact]
 	public void Comment_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialize_Test()
 	{
 		// Arrange
