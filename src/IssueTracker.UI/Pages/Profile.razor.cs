@@ -13,11 +13,10 @@ namespace IssueTracker.UI.Pages;
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Profile
 {
-	//private List<IssueModel> _approved;
+	private List<IssueModel> _approved;
 	private List<IssueModel> _archived;
-
-	//private List<IssueModel> _pending;
-	//private List<IssueModel> _rejected;
+	private List<IssueModel> _pending;
+	private List<IssueModel> _rejected;
 	private List<CommentModel> _comments;
 	private List<IssueModel> _issues;
 
@@ -28,7 +27,7 @@ public partial class Profile
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
 
 		_comments = await CommentService.GetUsersComments(_loggedInUser.Id);
 
@@ -38,13 +37,13 @@ public partial class Profile
 		{
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
-			//_approved = _issues.Where(s => s.ApprovedForRelease && s.Archived == false & s.Rejected == false).ToList();
+			_approved = _issues.Where(s => s.ApprovedForRelease && s.Archived == false & s.Rejected == false).ToList();
 
 			_archived = _issues.Where(s => s.Archived && s.Rejected == false).ToList();
 
-			//_pending = _issues.Where(s => s.ApprovedForRelease == false && s.Rejected == false).ToList();
+			_pending = _issues.Where(s => s.ApprovedForRelease == false && s.Rejected == false).ToList();
 
-			//_rejected = _issues.Where(s => s.Rejected).ToList();
+			_rejected = _issues.Where(s => s.Rejected).ToList();
 		}
 	}
 
@@ -55,11 +54,6 @@ public partial class Profile
 	/// <returns>string</returns>
 	private string GetIssueStatusCssClass(IssueModel issue)
 	{
-		if (issue is null | issue?.IssueStatus is null)
-		{
-			return "issue-profile-status issue-profile-status-none";
-		}
-
 		string output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-profile-status issue-profile-status-answered",

@@ -21,8 +21,8 @@ public partial class Create
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
 		_categories = await CategoryService.GetCategories();
-		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	}
 
 	/// <summary>

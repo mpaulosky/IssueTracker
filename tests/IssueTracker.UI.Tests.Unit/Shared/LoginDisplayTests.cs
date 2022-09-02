@@ -18,7 +18,7 @@ public class LoginDisplayTests
 	}
 
 	[Fact]
-	public void LoginDisplay_With_AuthenticationAndAuthorization_Should_DisplayMenu_Test()
+	public void LoginDisplay_With_AuthenticationAndAuthorization_Should_DisplayProfileAndLogoutLinks_Test()
 	{
 		// Arrange
 		using var ctx = new TestContext();
@@ -36,7 +36,7 @@ public class LoginDisplayTests
 	}
 
 	[Fact]
-	public void LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayMenu_Test()
+	public void LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayAminAndProfileAndLogoutLinks_Test()
 	{
 		// Arrange
 		using var ctx = new TestContext();
