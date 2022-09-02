@@ -61,6 +61,7 @@ public class ProfileTests
 
 		cut.Find("#close-page").Click();
 
+
 		// Assert
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
