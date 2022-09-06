@@ -1,18 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.DataProtection;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class IndexTests
+public class IndexTests : TestContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private readonly Mock<IDataProtectionProvider> _dataProtectionProviderMock;
-	private readonly Mock<IDataProtector> _dataProtectorMock;
-	private ProtectedSessionStorage SessionStorage;
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
@@ -28,8 +22,6 @@ public class IndexTests
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
-		_dataProtectionProviderMock = new Mock<IDataProtectionProvider>();
-		_dataProtectorMock = new Mock<IDataProtector>();
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
@@ -43,25 +35,20 @@ public class IndexTests
 		_expectedIssues = TestIssues.GetIssues().ToList();
 		_expectedCategories = TestCategories.GetCategories().ToList();
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
-		var userSessionJson = string.Empty;
-		string base64UserSessionJson = Convert.ToBase64String(Encoding.ASCII.GetBytes(userSessionJson));
 
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
+		// using var ctx = new TestContext();
 
-		ctx.JSInterop.Setup<String>("sessionStorage.getItem", _ => true);
+		this.JSInterop.Setup<String>("localStorage.getItem", _ => true);
 
-		_dataProtectorMock.Setup(sut => sut.Protect(It.IsAny<byte[]>())).Returns(Encoding.UTF8.GetBytes(base64UserSessionJson));
-		_dataProtectorMock.Setup(sut => sut.Unprotect(It.IsAny<byte[]>())).Returns(Encoding.UTF8.GetBytes(userSessionJson));
+		SetAuthenticationAndAuthorization(this, true);
+		RegisterServices(this);
 
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
 
 		// Act
-		var cut = ctx.RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		// Assert
 		cut.MarkupMatches
@@ -131,8 +118,6 @@ public class IndexTests
 		_statusRepositoryMock
 			.Setup(x => x.GetStatuses())
 			.ReturnsAsync(_expectedStatuses);
-
-		_dataProtectionProviderMock.Setup(s => s.CreateProtector(It.IsAny<string>())).Returns(_dataProtectorMock.Object);
 	}
 
 	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin)
@@ -155,7 +140,7 @@ public class IndexTests
 		ctx.Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
 		ctx.Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object));
 		ctx.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
-		ctx.Services.AddSingleton(new ProtectedSessionStorage(ctx.JSInterop.JSRuntime, _dataProtectionProviderMock.Object));
+		ctx.Services.AddBlazoredLocalStorage();
 	}
 
 	private void SetMemoryCache()

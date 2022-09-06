@@ -20,7 +20,7 @@ public class CommentTests
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 	}
-	
+
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
@@ -35,7 +35,7 @@ public class CommentTests
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+
 	}
 
 	[Fact]

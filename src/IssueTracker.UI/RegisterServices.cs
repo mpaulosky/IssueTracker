@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Blazored.LocalStorage;
+
 namespace IssueTracker.UI;
 
 /// <summary>
@@ -42,6 +44,8 @@ public static class RegisterServices
 				policy.RequireClaim("jobTitle", "Admin");
 			});
 		});
+
+		builder.Services.AddBlazoredLocalStorage();
 
 		// Setup DI
 
