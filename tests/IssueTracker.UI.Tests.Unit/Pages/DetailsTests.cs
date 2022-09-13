@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class DetailsTests
+public class DetailsTests : TestContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
@@ -29,16 +29,14 @@ public class DetailsTests
 	public void Details_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
+		this.AddTestAuthorization();
 
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Details>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, null);
 		}))).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
@@ -55,15 +53,13 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Details>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, null);
 		})));
@@ -81,13 +77,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -95,7 +89,7 @@ public class DetailsTests
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -111,13 +105,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -146,13 +138,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -206,13 +196,11 @@ public class DetailsTests
 
 		string expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -220,7 +208,7 @@ public class DetailsTests
 		cut.Find("#create-comment").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -242,13 +230,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -272,13 +258,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -302,13 +286,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -332,13 +314,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -390,13 +370,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -498,13 +476,11 @@ public class DetailsTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Details>((parameter =>
+		var cut = RenderComponent<Details>((parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		}));
@@ -556,9 +532,9 @@ public class DetailsTests
 			.ReturnsAsync(_expectedStatuses);
 	}
 
-	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = ctx.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim(type: "objectidentifier", _expectedUser.Id)
@@ -570,13 +546,13 @@ public class DetailsTests
 		}
 	}
 
-	private void RegisterServices(TestContext ctx)
+	private void RegisterServices()
 	{
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		this.Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
+		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
 			_memoryCacheMock.Object));
-		ctx.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

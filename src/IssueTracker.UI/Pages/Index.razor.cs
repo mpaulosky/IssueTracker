@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly] 
 public partial class Index
 {
 	private IssueModel _archivingIssue;
@@ -45,7 +46,6 @@ public partial class Index
 		await IssueService.UpdateIssue(_archivingIssue);
 		_issues.Remove(_archivingIssue);
 		_archivingIssue = null;
-		//await FilterSuggestions();
 	}
 
 	/// <summary>
@@ -142,21 +142,25 @@ public partial class Index
 	/// </summary>
 	private async Task LoadFilterState()
 	{
-		var stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedCategory));
+		if (SessionStorage is not null)
+		{
+			var stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedCategory));
 
-		_selectedCategory = stringResults.Success ? stringResults.Value : "All";
+			_selectedCategory = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
 
-		stringResults = await SessionStorage.GetAsync<string>(nameof(_selectedStatus));
+			stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedStatus));
 
-		_selectedStatus = stringResults.Success ? stringResults.Value : "All";
+			_selectedStatus = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
 
-		stringResults = await SessionStorage.GetAsync<string>(nameof(_searchText));
+			stringResults = await SessionStorage.GetItemAsync<string>(nameof(_searchText));
 
-		_searchText = stringResults.Success ? stringResults.Value : "";
+			_searchText = string.IsNullOrWhiteSpace(stringResults) ? "" : stringResults;
 
-		var boolResults = await SessionStorage.GetAsync<bool>(nameof(_isSortedByNew));
+			var boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
 
-		_isSortedByNew = !boolResults.Success || boolResults.Value;
+			_isSortedByNew = boolResults;
+		}
+
 	}
 
 	/// <summary>
@@ -164,10 +168,10 @@ public partial class Index
 	/// </summary>
 	private async Task SaveFilterState()
 	{
-		await SessionStorage.SetAsync(nameof(_selectedCategory), _selectedCategory);
-		await SessionStorage.SetAsync(nameof(_selectedStatus), _selectedStatus);
-		await SessionStorage.SetAsync(nameof(_searchText), _searchText);
-		await SessionStorage.SetAsync(nameof(_isSortedByNew), _isSortedByNew);
+		await SessionStorage.SetItemAsync(nameof(_selectedCategory), _selectedCategory);
+		await SessionStorage.SetItemAsync(nameof(_selectedStatus), _selectedStatus);
+		await SessionStorage.SetItemAsync(nameof(_searchText), _searchText);
+		await SessionStorage.SetItemAsync(nameof(_isSortedByNew), _isSortedByNew);
 	}
 
 	/// <summary>
@@ -199,10 +203,6 @@ public partial class Index
 		{
 			output = output.OrderByDescending(s => s.DateCreated).ToList();
 		}
-		// else
-		// {
-		// 	output = output.OrderByDescending(s => s.UserVotes.Count).ThenByDescending(s => s.DateCreated).ToList();
-		// }
 
 		_issues = output;
 

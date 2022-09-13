@@ -13,5 +13,6 @@
   public class $CLASS$ {$END$}
 }</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=4A7CF34DDB497048977BF222DCC238FF/UITag/@EntryValue">Class/Interface</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=givenname/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=objectidentifier/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Usings/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

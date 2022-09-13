@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CommentTests
+public class CommentTests : TestContext
 {
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
@@ -20,22 +20,19 @@ public class CommentTests
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 	}
-	
+
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
+		this.AddTestAuthorization();
 
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-		
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
 	}
 
 	[Fact]
@@ -48,15 +45,13 @@ public class CommentTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Comment>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>((parameter =>
 		{
 			parameter.Add(p => p.Id, null);
 		})));
@@ -73,13 +68,11 @@ public class CommentTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Comment>((parameter =>
+		var cut = RenderComponent<Comment>((parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
@@ -87,7 +80,7 @@ public class CommentTests
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -102,13 +95,11 @@ public class CommentTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Comment>((parameter =>
+		var cut = RenderComponent<Comment>((parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
@@ -130,9 +121,9 @@ public class CommentTests
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 	}
 
-	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = ctx.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim(type: "objectidentifier", _expectedUser.Id)
@@ -143,11 +134,11 @@ public class CommentTests
 		}
 	}
 
-	private void RegisterServices(TestContext ctx)
+	private void RegisterServices()
 	{
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object));
+		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()
