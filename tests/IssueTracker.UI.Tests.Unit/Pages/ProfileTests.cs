@@ -75,13 +75,11 @@ public class ProfileTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
 		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Profile>();
+		var cut = RenderComponent<Profile>();
 
 		// Assert
 		cut.MarkupMatches
