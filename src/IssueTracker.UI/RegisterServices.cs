@@ -45,7 +45,7 @@ public static class RegisterServices
 			});
 		});
 
-		builder.Services.AddBlazoredLocalStorage();
+		builder.Services.AddBlazoredSessionStorage();
 
 		// Setup DI
 

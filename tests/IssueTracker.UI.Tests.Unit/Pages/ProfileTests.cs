@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class ProfileTests
+public class ProfileTests : TestContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
@@ -26,16 +26,14 @@ public class ProfileTests
 	public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
+		this.AddTestAuthorization();
 
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Profile>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
 
 	}
 
@@ -50,19 +48,17 @@ public class ProfileTests
 
 		SetupMocks();
 		SetMemoryCache();
-
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false, true);
-		RegisterServices(ctx);
+		
+		SetAuthenticationAndAuthorization(false, true);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Profile>();
+		var cut = RenderComponent<Profile>();
 
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 
@@ -81,8 +77,8 @@ public class ProfileTests
 
 		using var ctx = new TestContext();
 
-		SetAuthenticationAndAuthorization(ctx, false, true);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false, true);
+		RegisterServices();
 
 		// Act
 		var cut = ctx.RenderComponent<Profile>();
@@ -238,9 +234,9 @@ public class ProfileTests
 			.ReturnsAsync(_expectedComments);
 	}
 
-	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin, bool isAuth)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		var authContext = ctx.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -256,12 +252,12 @@ public class ProfileTests
 		}
 	}
 
-	private void RegisterServices(TestContext ctx)
+	private void RegisterServices()
 	{
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
 			_memoryCacheMock.Object));
-		ctx.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

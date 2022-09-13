@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class AdminTests
+public class AdminTests : TestContext
 {
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
@@ -18,13 +18,10 @@ public class AdminTests
 	public void Admin_With_No_Issues_Should_DisplayHeaderAndIssueCountOfZero_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.MarkupMatches
@@ -46,13 +43,11 @@ public class AdminTests
 		SetupRepositoryMock();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
 		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.MarkupMatches
@@ -75,8 +70,7 @@ public class AdminTests
 				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -97,8 +91,7 @@ public class AdminTests
 				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -140,13 +133,10 @@ public class AdminTests
 		SetupRepositoryMock();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#approve-issue").Click();
 
 		// Assert
@@ -162,100 +152,96 @@ public class AdminTests
 		SetupRepositoryMock();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 
 		// Assert
 		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>
-				      <form class=""approval-edit-form"" >
-				        <input id=""title-text"" class=""form-control approval-edit-field valid"" value=""Test Issue 1""  >
-				        <button id=""submit-edit"" class=""btn"" type=""submit"">
-				          <span class=""oi oi-check issue-edit-approve""></span>
-				        </button>
-				        <button id=""reject-edit"" type=""button"" class=""btn"" >
-				          <span class=""oi oi-x issue-edit-reject""></span>
-				        </button>
-				      </form>
-				    </div>
-				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Miscellaneous</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>"
+		(@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
+<div class=""row"">
+  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
+  <div class=""col-4 close-button-section"">
+    <button id=""close-page"" class=""btn btn-close"" ></button>
+  </div>
+</div>
+<div class=""row issue"">
+  <div class=""col-lg-2 col-md-3 col-sm-4"">
+    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
+    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
+  </div>
+  <div class=""col-lg-10 col-md-9 col-sm-8"">
+    <div>
+      <form class=""approval-edit-form"" >
+        <input id=""title-text"" class=""form-control approval-edit-field valid"" value=""Test Issue 1""  >
+        <button id=""submit-edit"" class=""btn"" type=""submit"">
+          <span class=""oi oi-check issue-edit-approve""></span>
+        </button>
+        <button id=""reject-edit"" type=""button"" class=""btn"" >
+          <span class=""oi oi-x issue-edit-reject""></span>
+        </button>
+      </form>
+    </div>
+    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
+    </div>
+    <div>
+      <div class=""issue-entry-text-author"" diff:ignore>
+      </div>
+    </div>
+    <div>
+      <div class=""issue-entry-bottom"">
+        <div class=""issue-entry-text-category"">
+          Category: Design</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=""row issue"">
+  <div class=""col-lg-2 col-md-3 col-sm-4"">
+    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
+    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
+  </div>
+  <div class=""col-lg-10 col-md-9 col-sm-8"">
+    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
+    </div>
+    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
+    </div>
+    <div>
+      <div class=""issue-entry-text-author"" diff:ignore>
+      </div>
+    </div>
+    <div>
+      <div class=""issue-entry-bottom"">
+        <div class=""issue-entry-text-category"">
+          Category: Miscellaneous</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=""row issue"">
+  <div class=""col-lg-2 col-md-3 col-sm-4"">
+    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
+    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
+  </div>
+  <div class=""col-lg-10 col-md-9 col-sm-8"">
+    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
+    </div>
+    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
+    </div>
+    <div>
+      <div class=""issue-entry-text-author"" diff:ignore>
+      </div>
+    </div>
+    <div>
+      <div class=""issue-entry-bottom"">
+        <div class=""issue-entry-text-category"">
+          Category: Design</div>
+      </div>
+    </div>
+  </div>
+</div>"
 		);
 	}
 
@@ -266,13 +252,10 @@ public class AdminTests
 		SetupRepositoryMock();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 
 		// Assert
@@ -305,8 +288,7 @@ public class AdminTests
 				      </form>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -327,8 +309,7 @@ public class AdminTests
 				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -349,8 +330,7 @@ public class AdminTests
 				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -369,14 +349,11 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#title-text").Change("Text Change");
 		cut.Find("#submit-edit").Click();
@@ -393,14 +370,11 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#reject-edit").Click();
 
@@ -425,8 +399,7 @@ public class AdminTests
 				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -447,8 +420,7 @@ public class AdminTests
 				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -469,8 +441,7 @@ public class AdminTests
 				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -489,14 +460,11 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#submit-description").Click();
@@ -513,14 +481,11 @@ public class AdminTests
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
-
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#reject-description").Click();
@@ -546,8 +511,7 @@ public class AdminTests
 				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -568,8 +532,7 @@ public class AdminTests
 				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -590,8 +553,7 @@ public class AdminTests
 				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
 				    </div>
 				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
+				      <div class=""issue-entry-text-author"" diff:ignore></div>
 				    </div>
 				    <div>
 				      <div class=""issue-entry-bottom"">
@@ -611,13 +573,10 @@ public class AdminTests
 		SetupRepositoryMock();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#reject-issue").Click();
 
 		// Assert
@@ -643,17 +602,15 @@ public class AdminTests
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		using var ctx = new TestContext();
-
 		// Register services
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
 		// Act
-		var cut = ctx.RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}

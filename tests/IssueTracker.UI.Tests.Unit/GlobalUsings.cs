@@ -1,7 +1,5 @@
 ﻿// Global using directives
 
-global using Blazored.LocalStorage;
-
 global using Bunit;
 
 global using FluentAssertions;

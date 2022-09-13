@@ -6,7 +6,7 @@
 @inject IIssueService IssueService
 @inject ICategoryService CategoryService
 @inject IStatusService StatusService
-@inject Blazored.LocalStorage.ILocalStorageService SessionStorage
+@inject ISessionStorageService SessionStorage
 
 <PageTitle>Issue Tracker</PageTitle>
 
@@ -19,8 +19,8 @@
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
-		<button class="btn btn-order @SortedByNewCssClass(true)" @onclick="() => OrderByNew(true)">New</button>
-		<button class="btn btn-order @SortedByNewCssClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
+		<button id="sort-by-new" class="btn btn-order @SortedByNewCssClass(true)" @onclick="() => OrderByNew(true)">New</button>
+		<button id="sort-by-popular" class="btn btn-order @SortedByNewCssClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search"
@@ -76,7 +76,7 @@
 	<div class="col-md-8 col-xl-9">
 		@if (_issues is not null)
 		{
-			<Virtualize Items="@_issues" Context="s" OverscanCount="10">
+			<Virtualize Context="s" Items="@_issues" OverscanCount="10">
 				<div class="issue-entry">
 					<div class="issue-entry-text">
 						<div class="issue-entry-text-title" @onclick="() => OpenDetailsPage(s)">
@@ -92,7 +92,7 @@
 									@s.Category?.CategoryName
 								</div>
 								<AuthorizeView Policy="Admin">
-									<button @onclick="() => _archivingIssue = s" class="btn issue-entry-text-category btn-archive">
+									<button id="archive" @onclick="() => _archivingIssue = s" class="btn issue-entry-text-category btn-archive">
 										archive
 									</button>
 								</AuthorizeView>
@@ -101,10 +101,10 @@
 						else
 						{
 							<div class="issue-entry-bottom">
-								<button class="btn btn-archive btn-archive-confirm" @onclick="ArchiveIssue">
+								<button id="confirm" class="btn btn-archive btn-archive-confirm" @onclick="ArchiveIssue">
 									confirm
 								</button>
-								<button class="btn btn-archive btn-archive-reject" @onclick="() => _archivingIssue = null">
+								<button id="reject" class="btn btn-archive btn-archive-reject" @onclick="() => _archivingIssue = null">
 									cancel
 								</button>
 							</div>

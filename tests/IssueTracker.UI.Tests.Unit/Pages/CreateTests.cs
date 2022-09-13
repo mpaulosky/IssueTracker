@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CreateTests
+public class CreateTests : TestContext
 {
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
@@ -25,16 +25,14 @@ public class CreateTests
 	public void Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
+		this.AddTestAuthorization();
 
-		ctx.AddTestAuthorization();
-
-		RegisterServices(ctx);
+		RegisterServices();
 
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => ctx.RenderComponent<Create>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Create>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
 
 	}
 
@@ -49,17 +47,15 @@ public class CreateTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Create>();
+		var cut = RenderComponent<Create>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -74,13 +70,11 @@ public class CreateTests
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
-
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 		// Act
-		var cut = ctx.RenderComponent<Create>();
+		var cut = RenderComponent<Create>();
 
 		// Assert
 		cut.MarkupMatches
@@ -149,12 +143,12 @@ public class CreateTests
 
 		using var ctx = new TestContext();
 
-		SetAuthenticationAndAuthorization(ctx, false);
-		RegisterServices(ctx);
+		SetAuthenticationAndAuthorization(false);
+		RegisterServices();
 
 
 		// Act
-		var cut = ctx.RenderComponent<Create>();
+		var cut = RenderComponent<Create>();
 
 		cut.Find("#issue-text").Change("Test Issue");
 		var inputs = cut.FindAll("input");
@@ -175,9 +169,9 @@ public class CreateTests
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 	}
 
-	private void SetAuthenticationAndAuthorization(TestContext ctx, bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = ctx.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim(type: "objectidentifier", _expectedUser.Id)
@@ -189,12 +183,12 @@ public class CreateTests
 		}
 	}
 
-	private void RegisterServices(TestContext ctx)
+	private void RegisterServices()
 	{
-		ctx.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		ctx.Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object,
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object,
 			_memoryCacheMock.Object));
-		ctx.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

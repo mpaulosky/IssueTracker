@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly] 
 public partial class Index
 {
 	private IssueModel _archivingIssue;
@@ -45,7 +46,6 @@ public partial class Index
 		await IssueService.UpdateIssue(_archivingIssue);
 		_issues.Remove(_archivingIssue);
 		_archivingIssue = null;
-		//await FilterSuggestions();
 	}
 
 	/// <summary>
@@ -142,21 +142,25 @@ public partial class Index
 	/// </summary>
 	private async Task LoadFilterState()
 	{
-		var stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedCategory));
+		if (SessionStorage is not null)
+		{
+			var stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedCategory));
 
-		_selectedCategory = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
+			_selectedCategory = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
 
-		stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedStatus));
+			stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedStatus));
 
-		_selectedStatus = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
+			_selectedStatus = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
 
-		stringResults = await SessionStorage.GetItemAsync<string>(nameof(_searchText));
+			stringResults = await SessionStorage.GetItemAsync<string>(nameof(_searchText));
 
-		_searchText = string.IsNullOrWhiteSpace(stringResults) ? "" : stringResults;
+			_searchText = string.IsNullOrWhiteSpace(stringResults) ? "" : stringResults;
 
-		var boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
+			var boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
 
-		_isSortedByNew = boolResults;
+			_isSortedByNew = boolResults;
+		}
+
 	}
 
 	/// <summary>

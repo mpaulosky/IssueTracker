@@ -14,7 +14,7 @@ public static class TestIssues
 				Description = "A new test issue 1",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
-				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
+				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "jim test" },
 				IssueStatus = new BasicStatusModel
 					{
 						StatusName = "Watching",
