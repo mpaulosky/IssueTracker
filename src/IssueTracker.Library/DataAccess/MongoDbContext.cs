@@ -10,7 +10,7 @@ namespace IssueTracker.Library.DataAccess;
 /// <summary>
 ///   MongoDbContext class
 /// </summary>
-public class MongoDbContext : IMongoDbContext
+public class MongoDbContext : IMongoDbContextFactory
 {
 	/// <summary>
 	///   MongoDbContext constructor

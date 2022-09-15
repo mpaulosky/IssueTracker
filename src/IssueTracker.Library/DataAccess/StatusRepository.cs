@@ -19,12 +19,11 @@ public class StatusRepository : IStatusRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public StatusRepository(IMongoDbContext context)
+	public StatusRepository(IMongoDbContextFactory context)
 	{
 		Guard.Against.Null(context, nameof(context));
-
-		string collectionName;
-		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(StatusModel)), nameof(collectionName));
+		
+		string collectionName = GetCollectionName(nameof(StatusModel));
 
 		_collection = context.GetCollection<StatusModel>(collectionName);
 	}
@@ -36,13 +35,11 @@ public class StatusRepository : IStatusRepository
 	/// <returns>Task of StatusModel</returns>
 	public async Task<StatusModel> GetStatus(string statusId)
 	{
-		var objectId = new ObjectId(statusId);
+		var filter = Builders<StatusModel>.Filter.Eq("_id", statusId);
 
-		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
+		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
-		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
-
-		return result.FirstOrDefault();
+		return result;
 	}
 
 	/// <summary>
@@ -51,9 +48,11 @@ public class StatusRepository : IStatusRepository
 	/// <returns>Task of IEnumerable StatusModel</returns>
 	public async Task<IEnumerable<StatusModel>> GetStatuses()
 	{
-		var all = await _collection.FindAsync(Builders<StatusModel>.Filter.Empty).ConfigureAwait(true);
+		var filter = Builders<StatusModel>.Filter.Empty;
+		
+		var result = (await _collection.FindAsync(filter)).ToList();
 
-		return await all.ToListAsync().ConfigureAwait(true);
+		return result;
 	}
 
 	/// <summary>
@@ -62,7 +61,7 @@ public class StatusRepository : IStatusRepository
 	/// <param name="status">StatusModel</param>
 	public async Task CreateStatus(StatusModel status)
 	{
-		await _collection.InsertOneAsync(status).ConfigureAwait(true);
+		await _collection.InsertOneAsync(status);
 	}
 
 	/// <summary>
@@ -72,6 +71,8 @@ public class StatusRepository : IStatusRepository
 	/// <param name="status">StatusModel</param>
 	public async Task UpdateStatus(string id, StatusModel status)
 	{
-		await _collection.ReplaceOneAsync(Builders<StatusModel>.Filter.Eq("_id", id), status).ConfigureAwait(true);
+		var filter = Builders<StatusModel>.Filter.Eq("_id", id);
+
+		await _collection.ReplaceOneAsync(filter, status);
 	}
 }

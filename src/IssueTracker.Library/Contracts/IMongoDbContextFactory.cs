@@ -7,7 +7,7 @@
 
 namespace IssueTracker.Library.Contracts;
 
-public interface IMongoDbContext
+public interface IMongoDbContextFactory
 {
 	IMongoDatabase Database { get; }
 

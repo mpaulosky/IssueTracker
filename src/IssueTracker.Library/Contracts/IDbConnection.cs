@@ -7,7 +7,7 @@
 
 namespace IssueTracker.Library.Contracts;
 
-public interface IDbConnection
+public interface IDbConnectionFactory
 {
 	string DbName { get; }
 

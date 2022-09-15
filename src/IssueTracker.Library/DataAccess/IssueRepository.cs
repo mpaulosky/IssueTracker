@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using MongoDB.Bson;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -12,8 +14,8 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class IssueRepository : IIssueRepository
 {
+	private readonly IMongoDbContextFactory _context;
 	private readonly IMongoCollection<IssueModel> _issueCollection;
-	private readonly IMongoDbContext _context;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
@@ -21,19 +23,15 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public IssueRepository(IMongoDbContext context)
+	public IssueRepository(IMongoDbContextFactory context)
 	{
 		_context = Guard.Against.Null(context, nameof(context));
 
-		string issueCollectionName;
-
-		issueCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(IssueModel)), nameof(issueCollectionName));
+		string issueCollectionName = GetCollectionName(nameof(IssueModel));
 
 		_issueCollection = _context.GetCollection<IssueModel>(issueCollectionName);
 
-		string userCollectionName;
-
-		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
+		string userCollectionName = GetCollectionName(nameof(UserModel));
 
 		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
 	}
@@ -53,21 +51,21 @@ public class IssueRepository : IIssueRepository
 		{
 			var issuesInTransaction = _issueCollection;
 
-			await issuesInTransaction.InsertOneAsync(issue).ConfigureAwait(true);
+			await issuesInTransaction.InsertOneAsync(issue);
 
 			var usersInTransaction = _userCollection;
 
-			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id).ConfigureAwait(true)).First();
+			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id)).First();
 
 			user.AuthoredIssues.Add(new BasicIssueModel(issue));
 
-			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user).ConfigureAwait(true);
+			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
 
-			await session.CommitTransactionAsync().ConfigureAwait(true);
+			await session.CommitTransactionAsync();
 		}
 		catch (Exception)
 		{
-			await session.AbortTransactionAsync().ConfigureAwait(true);
+			await session.AbortTransactionAsync();
 			throw;
 		}
 	}
@@ -79,13 +77,11 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IssueModel</returns>
 	public async Task<IssueModel> GetIssue(string issueId)
 	{
-		var objectId = new ObjectId(issueId);
+		var filter = Builders<IssueModel>.Filter.Eq("_id", issueId);
 
-		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+		var result = (await _issueCollection.FindAsync(filter)).FirstOrDefault();
 
-		var result = await _issueCollection.FindAsync(filter).ConfigureAwait(true);
-
-		return result.FirstOrDefault();
+		return result;
 	}
 
 	/// <summary>
@@ -94,9 +90,11 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
-		var all = await _issueCollection.FindAsync(Builders<IssueModel>.Filter.Empty).ConfigureAwait(true);
+		var filter = Builders<IssueModel>.Filter.Empty;
+		
+		var results = (await _issueCollection.FindAsync(filter)).ToList();
 
-		return await all.ToListAsync().ConfigureAwait(true);
+		return results;
 	}
 
 	/// <summary>
@@ -105,10 +103,11 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		var output = await GetIssues().ConfigureAwait(true);
-		return output.Where(x =>
-			x.ApprovedForRelease == false
-			&& x.Rejected == false).ToList();
+		var output = await GetIssues();
+		
+		var results = output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
+
+		return results;
 	}
 
 	/// <summary>
@@ -117,10 +116,11 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
 	{
-		var output = await GetIssues().ConfigureAwait(true);
-		return output.Where(x =>
-			x.ApprovedForRelease
-			&& x.Rejected == false).ToList();
+		var output = await GetIssues();
+		
+		var results = output.Where(x => x.ApprovedForRelease && x.Rejected == false).ToList();
+
+		return results;
 	}
 
 	/// <summary>
@@ -130,11 +130,9 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
-		var objectId = new ObjectId(userId);
+		var results = (await _issueCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
-		var results = await _issueCollection.FindAsync(s => s.Author.Id == objectId.ToString()).ConfigureAwait(true);
-
-		return await results.ToListAsync().ConfigureAwait(true);
+		return results;
 	}
 
 	/// <summary>
@@ -144,8 +142,8 @@ public class IssueRepository : IIssueRepository
 	/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(string id, IssueModel issue)
 	{
-		var objectId = new ObjectId(id);
+		var filter = Builders<IssueModel>.Filter.Eq("_id", id);
 
-		await _issueCollection.ReplaceOneAsync(Builders<IssueModel>.Filter.Eq("_id", objectId), issue).ConfigureAwait(true);
+		await _issueCollection.ReplaceOneAsync(filter, issue);
 	}
 }

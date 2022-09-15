@@ -11,7 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly] 
+[UsedImplicitly]
 public partial class Index
 {
 	private IssueModel _archivingIssue;
@@ -20,7 +20,7 @@ public partial class Index
 	private List<IssueModel> _issues;
 
 	private UserModel _loggedInUser;
-	private string _searchText = "";
+	private string _searchText = string.Empty;
 	private string _selectedCategory = "All";
 	private string _selectedStatus = "All";
 	private bool _showCategories;
@@ -154,13 +154,12 @@ public partial class Index
 
 			stringResults = await SessionStorage.GetItemAsync<string>(nameof(_searchText));
 
-			_searchText = string.IsNullOrWhiteSpace(stringResults) ? "" : stringResults;
+			_searchText = string.IsNullOrWhiteSpace(stringResults) ? string.Empty : stringResults;
 
 			var boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
 
 			_isSortedByNew = boolResults;
 		}
-
 	}
 
 	/// <summary>
@@ -267,7 +266,7 @@ public partial class Index
 	/// <returns>string</returns>
 	private string SortedByNewCssClass(bool isNew)
 	{
-		return isNew == _isSortedByNew ? "sort-selected" : "";
+		return isNew == _isSortedByNew ? "sort-selected" : string.Empty;
 	}
 
 	/// <summary>
@@ -275,7 +274,7 @@ public partial class Index
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <returns>string</returns>
-	private string GetIssueStatusCssClass(IssueModel issue)
+	private static string GetIssueStatusCssClass(IssueModel issue)
 	{
 		string output = issue.IssueStatus.StatusName switch
 		{
@@ -296,7 +295,7 @@ public partial class Index
 	/// <returns>string</returns>
 	private string GetSelectedCategoryCssClass(string category = "All")
 	{
-		return category == _selectedCategory ? "selected-category" : "";
+		return category == _selectedCategory ? "selected-category" : string.Empty;
 	}
 
 	/// <summary>
@@ -306,6 +305,6 @@ public partial class Index
 	/// <returns>string</returns>
 	private string GetSelectedStatusCssClass(string status = "All")
 	{
-		return status == _selectedStatus ? "selected-status" : "";
+		return status == _selectedStatus ? "selected-status" : string.Empty;
 	}
 }

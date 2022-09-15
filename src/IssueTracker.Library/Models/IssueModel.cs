@@ -39,7 +39,11 @@ public class IssueModel
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
 
+	[BsonElement("approved_for_release")]
+	[BsonRepresentation(BsonType.Boolean)]
 	public bool ApprovedForRelease { get; set; }
 
+	[BsonElement("rejected")]
+	[BsonRepresentation(BsonType.Boolean)]
 	public bool Rejected { get; set; }
 }

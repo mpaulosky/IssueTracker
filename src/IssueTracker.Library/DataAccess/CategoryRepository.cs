@@ -19,13 +19,11 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public CategoryRepository(IMongoDbContext context)
+	public CategoryRepository(IMongoDbContextFactory context)
 	{
 		Guard.Against.Null(context, nameof(context));
-
-		string collectionName;
-
-		collectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CategoryModel)), nameof(collectionName));
+				
+		string collectionName = GetCollectionName(nameof(CategoryModel));
 
 		_collection = context.GetCollection<CategoryModel>(collectionName);
 	}
@@ -37,13 +35,11 @@ public class CategoryRepository : ICategoryRepository
 	/// <returns>Task of CategoryModel</returns>
 	public async Task<CategoryModel> GetCategory(string categoryId)
 	{
-		var objectId = new ObjectId(categoryId);
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", categoryId);
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
-
-		var result = await _collection.FindAsync(filter).ConfigureAwait(true);
-
-		return result.FirstOrDefault();
+		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		
+		return result;
 	}
 
 	/// <summary>
@@ -52,9 +48,11 @@ public class CategoryRepository : ICategoryRepository
 	/// <returns>Task of IEnumerable CategoryModel</returns>
 	public async Task<IEnumerable<CategoryModel>> GetCategories()
 	{
-		var all = await _collection.FindAsync(Builders<CategoryModel>.Filter.Empty).ConfigureAwait(true);
+		var filter = Builders<CategoryModel>.Filter.Empty;
+		
+		var result = (await _collection!.FindAsync(filter)).ToList();
 
-		return await all.ToListAsync().ConfigureAwait(true);
+		return result;
 	}
 
 	/// <summary>
@@ -63,7 +61,7 @@ public class CategoryRepository : ICategoryRepository
 	/// <param name="category">CategoryModel</param>
 	public async Task CreateCategory(CategoryModel category)
 	{
-		await _collection.InsertOneAsync(category).ConfigureAwait(true);
+		await _collection!.InsertOneAsync(category);
 	}
 
 	/// <summary>
@@ -73,7 +71,8 @@ public class CategoryRepository : ICategoryRepository
 	/// <param name="category">CategoryModel</param>
 	public async Task UpdateCategory(string id, CategoryModel category)
 	{
-		await _collection.ReplaceOneAsync(Builders<CategoryModel>.Filter.Eq("_id", id),
-			category).ConfigureAwait(true);
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", id);
+				
+		await _collection.ReplaceOneAsync(filter, category);
 	}
 }

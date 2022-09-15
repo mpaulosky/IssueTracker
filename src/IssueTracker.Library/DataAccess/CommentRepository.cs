@@ -4,6 +4,7 @@
 //     Copyright (c) . All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -11,7 +12,7 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class CommentRepository : ICommentRepository
 {
-	private readonly IMongoDbContext _context;
+	private readonly IMongoDbContextFactory _context;
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoCollection<UserModel> _userCollection;
 
@@ -20,21 +21,17 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public CommentRepository(IMongoDbContext context)
+	public CommentRepository(IMongoDbContextFactory context)
 	{
 		_context = Guard.Against.Null(context, nameof(context));
 
-		string commentCollectionName;
+		string commentCollectionName = GetCollectionName(nameof(CommentModel));
 
-		commentCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(CommentModel)), nameof(commentCollectionName));
+		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
 
-		_commentCollection = _context.GetCollection<CommentModel>(commentCollectionName);
+		string userCollectionName = GetCollectionName(nameof(UserModel));
 
-		string userCollectionName;
-
-		userCollectionName = Guard.Against.NullOrWhiteSpace(GetCollectionName(nameof(UserModel)), nameof(userCollectionName));
-
-		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
+		_userCollection = context.GetCollection<UserModel>(userCollectionName);
 	}
 
 	/// <summary>
@@ -50,23 +47,23 @@ public class CommentRepository : ICommentRepository
 
 		try
 		{
-			var commentsInTransaction = _commentCollection;
+			var commentsInTransaction = _commentCollection!;
 
-			await commentsInTransaction.InsertOneAsync(comment).ConfigureAwait(true);
+			await commentsInTransaction.InsertOneAsync(comment);
 
 			var usersInTransaction = _userCollection;
 
-			var user = (await _userCollection.FindAsync(u => u.Id == comment.Author.Id).ConfigureAwait(true)).First();
+			var user = (await _userCollection!.FindAsync(u => u.Id == comment.Author.Id).ConfigureAwait(true)).First();
 
 			user.AuthoredComments.Add(new BasicCommentModel(comment));
 
-			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user).ConfigureAwait(true);
+			var replaceOneResult = await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
 
-			await session.CommitTransactionAsync().ConfigureAwait(true);
+			await session.CommitTransactionAsync();
 		}
 		catch (Exception)
 		{
-			await session.AbortTransactionAsync().ConfigureAwait(true);
+			await session.AbortTransactionAsync();
 			throw;
 		}
 	}
@@ -78,13 +75,11 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of CommentModel</returns>
 	public async Task<CommentModel> GetComment(string commentId)
 	{
-		var objectId = new ObjectId(commentId);
+		var filter = Builders<CommentModel>.Filter.Eq("_id", commentId);
 
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-		var result = await _commentCollection.FindAsync(filter).ConfigureAwait(true);
-
-		return result.FirstOrDefault();
+		var result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
+		
+		return result;
 	}
 
 	/// <summary>
@@ -93,9 +88,11 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
-		var all = await _commentCollection.FindAsync(Builders<CommentModel>.Filter.Empty).ConfigureAwait(true);
+		var filter = Builders<CommentModel>.Filter.Empty;
+		
+		var results = (await _commentCollection.FindAsync(filter)).ToList();
 
-		return await all.ToListAsync().ConfigureAwait(true);
+		return results;
 	}
 
 	/// <summary>
@@ -105,11 +102,9 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
 	{
-		var objectId = new ObjectId(issueId);
+		var results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
 
-		var results = await _commentCollection.FindAsync(s => s.Issue.Id == objectId.ToString()).ConfigureAwait(true);
-
-		return await results.ToListAsync().ConfigureAwait(true);
+		return results;
 	}
 
 	/// <summary>
@@ -119,11 +114,9 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
 	{
-		var objectId = new ObjectId(userId);
+		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
-		var results = await _commentCollection.FindAsync(s => s.Author.Id == objectId.ToString()).ConfigureAwait(true);
-
-		return await results.ToListAsync().ConfigureAwait(true);
+		return results;
 	}
 
 	/// <summary>
@@ -133,10 +126,9 @@ public class CommentRepository : ICommentRepository
 	/// <param name="comment">CommentModel</param>
 	public async Task UpdateComment(string id, CommentModel comment)
 	{
-		var objectId = new ObjectId(id);
+		var filter = Builders<CommentModel>.Filter.Eq("_id", id);
 
-		await _commentCollection.ReplaceOneAsync(Builders<CommentModel>.Filter.Eq("_id", objectId), comment)
-			.ConfigureAwait(true);
+		await _commentCollection.ReplaceOneAsync(filter, comment);
 	}
 
 	/// <summary>
@@ -159,7 +151,7 @@ public class CommentRepository : ICommentRepository
 
 			FilterDefinition<CommentModel> filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-			var comment = (await commentsInTransaction.FindAsync(filterComment).ConfigureAwait(true)).FirstOrDefault();
+			var comment = (await commentsInTransaction.FindAsync(filterComment)).FirstOrDefault();
 
 			bool isUpvote = comment.UserVotes.Add(userId);
 
@@ -168,13 +160,13 @@ public class CommentRepository : ICommentRepository
 				comment.UserVotes.Remove(userId);
 			}
 
-			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment).ConfigureAwait(true);
+			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment);
 
-			await session.CommitTransactionAsync().ConfigureAwait(true);
+			await session.CommitTransactionAsync();
 		}
 		catch (Exception)
 		{
-			await session.AbortTransactionAsync().ConfigureAwait(true);
+			await session.AbortTransactionAsync();
 			throw;
 		}
 	}

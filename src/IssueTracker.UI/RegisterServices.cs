@@ -46,10 +46,13 @@ public static class RegisterServices
 		});
 
 		builder.Services.AddBlazoredSessionStorage();
+		
+		builder.Services.AddHealthChecks()
+							.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
 
 		// Setup DI
 
-		builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
+		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContext>();
 		builder.Services.AddSingleton<ICategoryService, CategoryService>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();
