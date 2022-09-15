@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Blazored.LocalStorage;
-
 namespace IssueTracker.UI;
 
 /// <summary>
