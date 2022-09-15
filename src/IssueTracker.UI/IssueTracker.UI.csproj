@@ -7,10 +7,10 @@
         <RootNamespace>IssueTracker.UI</RootNamespace>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <AnalysisLevel>latest</AnalysisLevel>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
         <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
         <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
         <PackageReference Include="Microsoft.Identity.Web" Version="1.25.2" />
