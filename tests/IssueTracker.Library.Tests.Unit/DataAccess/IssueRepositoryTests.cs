@@ -5,7 +5,7 @@ public class IssueRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
 	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<IssueModel> _list = new();

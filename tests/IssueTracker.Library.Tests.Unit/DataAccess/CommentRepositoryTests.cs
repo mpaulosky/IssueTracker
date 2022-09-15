@@ -5,7 +5,7 @@ public class CommentRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<CommentModel>> _cursor;
 	private readonly Mock<IMongoCollection<CommentModel>> _mockCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<CommentModel> _list = new();

@@ -5,7 +5,7 @@ public class CategoryRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<CategoryModel>> _cursor;
 	private readonly Mock<IMongoCollection<CategoryModel>> _mockCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<CategoryModel> _list = new();
 	private CategoryRepository _sut;
 

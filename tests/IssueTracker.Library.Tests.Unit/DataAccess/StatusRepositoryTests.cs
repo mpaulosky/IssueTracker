@@ -5,7 +5,7 @@ public class StatusRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<StatusModel>> _cursor;
 	private readonly Mock<IMongoCollection<StatusModel>> _mockCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<StatusModel> _list = new();
 	private StatusRepository _sut;
 

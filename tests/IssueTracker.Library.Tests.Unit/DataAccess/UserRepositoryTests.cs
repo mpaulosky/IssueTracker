@@ -5,7 +5,7 @@ public class UserRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
-	private readonly Mock<IMongoDbContext> _mockContext;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<UserModel> _list = new();
 	private UserRepository _sut;
 

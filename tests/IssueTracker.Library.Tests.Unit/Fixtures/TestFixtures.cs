@@ -49,10 +49,10 @@ public static class TestFixtures
 		return collection;
 	}
 
-	public static Mock<IMongoDbContext> GetMockContext()
+	public static Mock<IMongoDbContextFactory> GetMockContext()
 	{
 		var mockClient = new Mock<IMongoClient>();
-		var context = new Mock<IMongoDbContext>();
+		var context = new Mock<IMongoDbContextFactory>();
 		var mockSession = new Mock<IClientSessionHandle>();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
 		context.Setup(op =>
