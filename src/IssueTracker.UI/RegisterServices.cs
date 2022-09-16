@@ -47,7 +47,7 @@ public static class RegisterServices
 
 		builder.Services.AddHealthChecks()
 			.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
-		
+
 		// Setup DI
 
 		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContext>();
@@ -56,7 +56,7 @@ public static class RegisterServices
 		builder.Services.AddSingleton<IStatusService, StatusService>();
 		builder.Services.AddSingleton<IIssueService, IssueService>();
 		builder.Services.AddSingleton<IUserService, UserService>();
-		
+
 		builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 		builder.Services.AddSingleton<ICommentRepository, CommentRepository>();
 		builder.Services.AddSingleton<IStatusRepository, StatusRepository>();
