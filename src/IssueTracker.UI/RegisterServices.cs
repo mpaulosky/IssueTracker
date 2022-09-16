@@ -1,7 +1,7 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="RegisterServices.cs" company="mpaulosky">
 //     Author: Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//     Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -44,9 +44,9 @@ public static class RegisterServices
 		});
 
 		builder.Services.AddBlazoredSessionStorage();
-		
+
 		builder.Services.AddHealthChecks()
-							.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
+			.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
 
 		// Setup DI
 
