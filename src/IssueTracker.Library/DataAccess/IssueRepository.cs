@@ -1,11 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="IssueRepository.cs" company="mpaulosky">
 //     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//     Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using MongoDB.Bson;
 
 namespace IssueTracker.Library.DataAccess;
 
@@ -91,7 +89,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
 		var filter = Builders<IssueModel>.Filter.Empty;
-		
+
 		var results = (await _issueCollection.FindAsync(filter)).ToList();
 
 		return results;
@@ -104,7 +102,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
 	{
 		var output = await GetIssues();
-		
+
 		var results = output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
 
 		return results;
@@ -117,7 +115,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
 	{
 		var output = await GetIssues();
-		
+
 		var results = output.Where(x => x.ApprovedForRelease && x.Rejected == false).ToList();
 
 		return results;

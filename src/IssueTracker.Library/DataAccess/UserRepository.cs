@@ -1,7 +1,7 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="UserRepository.cs" company="mpaulosky">
 //     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//     Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
