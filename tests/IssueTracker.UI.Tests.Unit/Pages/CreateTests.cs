@@ -1,15 +1,17 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using AngleSharp.Dom;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext
 {
-	private readonly Mock<IIssueRepository> _issueRepositoryMock;
-	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
+	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private UserModel _expectedUser;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private List<CategoryModel> _expectedCategories;
+	private UserModel _expectedUser;
 
 	public CreateTests()
 	{
@@ -32,8 +34,8 @@ public class CreateTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Create>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Create>()).Message.Should()
+			.Be("Value cannot be null. (Parameter 'userId')");
 	}
 
 	[Fact]
@@ -51,16 +53,16 @@ public class CreateTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
-	[Fact()]
+	[Fact]
 	public void Create_With_AuthorizedUser_Should_DisplayPage_Test()
 	{
 		// Arrange
@@ -74,12 +76,12 @@ public class CreateTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		// Assert
 		cut.MarkupMatches
-			(
-				@"<h1 class=""page-heading text-light text-uppercase mb-4"">Create An Issue</h1>
+		(
+			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Create An Issue</h1>
 					<div class=""row justify-content-center create-form"">
 					  <div class=""col-xl-8 col-lg-10 form-layout"">
 					    <div class=""close-button-section"">
@@ -128,10 +130,10 @@ public class CreateTests : TestContext
 					    </form>
 					  </div>
 					</div>"
-			);
+		);
 	}
 
-	[Fact()]
+	[Fact]
 	public void Create_With_ValidInput_Should_SaveNewIssue_Test()
 	{
 		// Arrange
@@ -141,17 +143,17 @@ public class CreateTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		using var ctx = new TestContext();
+		using TestContext ctx = new TestContext();
 
 		SetAuthenticationAndAuthorization(false);
 		RegisterServices();
 
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		cut.Find("#issue-text").Change("Test Issue");
-		var inputs = cut.FindAll("input");
+		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
 		inputs[1].Change("5dc1039a1521eaa36835e541");
 		cut.Find("#description").Change("Test Description");
 		cut.Find("#submit").Click();
@@ -171,10 +173,10 @@ public class CreateTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
-			new Claim(type: "objectidentifier", _expectedUser.Id)
+			new Claim("objectidentifier", _expectedUser.Id)
 		);
 
 		if (isAdmin)
@@ -185,7 +187,8 @@ public class CreateTests : TestContext
 
 	private void RegisterServices()
 	{
-		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
+			_memoryCacheMock.Object));
 		Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object,
 			_memoryCacheMock.Object));
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));

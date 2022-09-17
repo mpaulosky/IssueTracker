@@ -21,7 +21,7 @@ public class IssueServiceTests
 	{
 		// Arrange
 
-		var issue = TestIssues.GetNewIssue();
+		IssueModel issue = TestIssues.GetNewIssue();
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -57,7 +57,7 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		IssueModel expected = TestIssues.GetKnownIssue();
 
 		_issueRepositoryMock.Setup(x => x.GetIssue(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -66,7 +66,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var result = await _sut.GetIssue(expected.Id);
+		IssueModel? result = await _sut.GetIssue(expected.Id);
 
 		//Assert
 
@@ -109,7 +109,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 6;
 
-		var expected = TestIssues.GetIssues();
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues();
 
 		_issueRepositoryMock.Setup(x => x.GetIssues()).ReturnsAsync(expected);
 
@@ -122,7 +122,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetIssues();
+		List<IssueModel>? results = await _sut.GetIssues();
 
 		//Assert
 
@@ -137,7 +137,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 6;
 
-		var expected = TestIssues.GetIssues();
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues();
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -155,7 +155,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetIssues();
+		List<IssueModel>? results = await _sut.GetIssues();
 
 		//Assert
 
@@ -171,7 +171,8 @@ public class IssueServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestIssues.GetIssuesWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
+		List<IssueModel> expected = TestIssues.GetIssuesWithDuplicateAuthors()
+			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_issueRepositoryMock.Setup(x => x.GetUsersIssues(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -184,7 +185,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersIssues(expectedUser);
+		List<IssueModel>? results = await _sut.GetUsersIssues(expectedUser);
 
 		//Assert
 
@@ -200,7 +201,8 @@ public class IssueServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestIssues.GetIssuesWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
+		List<IssueModel> expected = TestIssues.GetIssuesWithDuplicateAuthors()
+			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -218,7 +220,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersIssues(expectedUser);
+		List<IssueModel>? results = await _sut.GetUsersIssues(expectedUser);
 
 		//Assert
 
@@ -261,7 +263,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
 
@@ -274,7 +276,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		List<IssueModel>? results = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
 
 		//Assert
 
@@ -289,7 +291,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
 
 		_issueRepositoryMock.Setup(x => x.GetApprovedIssues()).ReturnsAsync(expected);
 
@@ -302,7 +304,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetApprovedIssues();
+		List<IssueModel>? results = await _sut.GetApprovedIssues();
 
 		//Assert
 
@@ -315,7 +317,7 @@ public class IssueServiceTests
 	{
 		// Arrange
 
-		var updatedIssue = TestIssues.GetUpdatedIssue();
+		IssueModel updatedIssue = TestIssues.GetUpdatedIssue();
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 

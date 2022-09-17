@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CategoryService.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-///   CategoryService class
+///		CategoryService class
 /// </summary>
 public class CategoryService : ICategoryService
 {
@@ -17,7 +17,7 @@ public class CategoryService : ICategoryService
 	private readonly ICategoryRepository _repository;
 
 	/// <summary>
-	///   CategoryService constructor
+	///		CategoryService constructor
 	/// </summary>
 	/// <param name="repository">ICategoryRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -29,7 +29,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///   GetCategory method
+	///		GetCategory method
 	/// </summary>
 	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
@@ -38,25 +38,25 @@ public class CategoryService : ICategoryService
 	{
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
 
-		var result = await _repository.GetCategory(categoryId).ConfigureAwait(true);
+		CategoryModel result = await _repository.GetCategory(categoryId).ConfigureAwait(true);
 
 		return result;
 	}
 
 	/// <summary>
-	///   GetCategories method
+	///		GetCategories method
 	/// </summary>
 	/// <returns>Task of List CategoryModel</returns>
 	public async Task<List<CategoryModel>> GetCategories()
 	{
-		var output = _cache.Get<List<CategoryModel>>(_cacheName);
+		List<CategoryModel> output = _cache.Get<List<CategoryModel>>(_cacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		var results = await _repository.GetCategories().ConfigureAwait(true);
+		IEnumerable<CategoryModel> results = await _repository.GetCategories().ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -66,7 +66,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///   CreateCategory method
+	///		CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
@@ -79,7 +79,7 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///   UpdateCategory method
+	///		UpdateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>

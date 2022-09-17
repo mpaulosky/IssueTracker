@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CommentService.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-///   CommentService class
+///		CommentService class
 /// </summary>
 public class CommentService : ICommentService
 {
@@ -17,7 +17,7 @@ public class CommentService : ICommentService
 	private readonly ICommentRepository _repository;
 
 	/// <summary>
-	///   CommentService constructor
+	///		CommentService constructor
 	/// </summary>
 	/// <param name="repository">ICommentRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -29,7 +29,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///   CreateComment method
+	///		CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -41,7 +41,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///   GetComment method
+	///		GetComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <returns>Task of CommentModel</returns>
@@ -50,25 +50,25 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		var result = await _repository.GetComment(commentId).ConfigureAwait(true);
+		CommentModel result = await _repository.GetComment(commentId).ConfigureAwait(true);
 
 		return result;
 	}
 
 	/// <summary>
-	///   GetComments method
+	///		GetComments method
 	/// </summary>
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
-		var output = _cache.Get<List<CommentModel>>(_cacheName);
+		List<CommentModel> output = _cache.Get<List<CommentModel>>(_cacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		var results = await _repository.GetComments().ConfigureAwait(true);
+		IEnumerable<CommentModel> results = await _repository.GetComments().ConfigureAwait(true);
 
 		output = results.Where(x => x.Archived == false).ToList();
 
@@ -78,7 +78,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///   GetUserComments method
+	///		GetUserComments method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List CommentModels</returns>
@@ -87,13 +87,13 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
+		IEnumerable<CommentModel> results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	///   GetIssuesComments method
+	///		GetIssuesComments method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of List CommentModels</returns>
@@ -102,13 +102,13 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
+		IEnumerable<CommentModel> results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	///   UpdateComment method
+	///		UpdateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -122,7 +122,7 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///   UpvoteComment method
+	///		UpvoteComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>

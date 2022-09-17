@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using AngleSharp.Dom;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
@@ -9,10 +11,10 @@ public class DetailsTests : TestContext
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private IssueModel _expectedIssue;
-	private UserModel _expectedUser;
 	private List<CommentModel> _expectedComments;
+	private IssueModel _expectedIssue;
 	private List<StatusModel> _expectedStatuses;
+	private UserModel _expectedUser;
 
 	public DetailsTests()
 	{
@@ -36,11 +38,10 @@ public class DetailsTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, null);
-		}))).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-
+		})).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
 	}
 
 	[Fact]
@@ -59,10 +60,10 @@ public class DetailsTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, null);
-		})));
+		}));
 	}
 
 	[Fact]
@@ -81,15 +82,15 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -109,10 +110,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		// Assert
 		cut.MarkupMatches
@@ -142,10 +143,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		// Assert
 		cut.MarkupMatches
@@ -200,15 +201,15 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.Find("#create-comment").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -234,15 +235,15 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
-		var results = cut.FindAll("div");
+		IRefreshableElementCollection<IElement> results = cut.FindAll("div");
 
 		// Assert
-		var items = results.Where(x => x.ClassName == expected);
+		IEnumerable<IElement> items = results.Where(x => x.ClassName == expected);
 
 		items.ToList().Count.Should().Be(1);
 	}
@@ -262,10 +263,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.FindAll("#vote")[0].Click();
 
@@ -290,10 +291,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.FindAll("#vote")[2].Click();
 
@@ -318,18 +319,18 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.Find("#answered").Click();
 		cut.Find("#input-answer").Change("");
 		cut.Find("#confirm-answered-status").Click();
 
 		cut.MarkupMatches
-			(
-				@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
+		(
+			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
 					<div diff:ignoreChildren diff:ignoreAttributes>
 					</div>
 					<div diff:ignoreChildren diff:ignoreAttributes>
@@ -356,7 +357,7 @@ public class DetailsTests : TestContext
 							</div>
 						</div>
 				</div>"
-			);
+		);
 	}
 
 	[Fact]
@@ -374,10 +375,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.FindAll("#vote")[0].Click();
 
@@ -480,10 +481,10 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>((parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		switch (statusId)
 		{
@@ -534,10 +535,10 @@ public class DetailsTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
-			new Claim(type: "objectidentifier", _expectedUser.Id)
+			new Claim("objectidentifier", _expectedUser.Id)
 		);
 
 		if (isAdmin)
@@ -548,11 +549,13 @@ public class DetailsTests : TestContext
 
 	private void RegisterServices()
 	{
-		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		this.Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
-		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
-		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object,
+			_memoryCacheMock.Object));
+		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+			_memoryCacheMock.Object));
+		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

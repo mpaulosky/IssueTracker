@@ -1,43 +1,45 @@
 //-----------------------------------------------------------------------
 // <copyright file="Profile.razor.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) .2022 All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022.2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///   Profile page class
+///		Profile page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Profile
 {
 	private List<IssueModel> _approved;
 	private List<IssueModel> _archived;
-	private List<IssueModel> _pending;
-	private List<IssueModel> _rejected;
 	private List<CommentModel> _comments;
 	private List<IssueModel> _issues;
 
 	private UserModel _loggedInUser;
+	private List<IssueModel> _pending;
+	private List<IssueModel> _rejected;
 
 	/// <summary>
-	///   OnInitializedAsync event
+	///		OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
+			"AuthProvider.GetUserFromAuth(UserService) != null");
 
 		_comments = await CommentService.GetUsersComments(_loggedInUser.Id);
 
-		var results = await IssueService.GetUsersIssues(_loggedInUser.Id);
+		List<IssueModel> results = await IssueService.GetUsersIssues(_loggedInUser.Id);
 
 		if (results is not null)
 		{
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
-			_approved = _issues.Where(s => s.ApprovedForRelease && s.Archived == false & s.Rejected == false).ToList();
+			_approved = _issues.Where(s => s.ApprovedForRelease && (s.Archived == false) & (s.Rejected == false))
+				.ToList();
 
 			_archived = _issues.Where(s => s.Archived && s.Rejected == false).ToList();
 
@@ -48,7 +50,7 @@ public partial class Profile
 	}
 
 	/// <summary>
-	///   GetIssueStatusCssClass method
+	///		GetIssueStatusCssClass method
 	/// </summary>
 	/// <param name="issue">string</param>
 	/// <returns>string</returns>
@@ -66,7 +68,7 @@ public partial class Profile
 	}
 
 	/// <summary>
-	///   ClosePage method
+	///		ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

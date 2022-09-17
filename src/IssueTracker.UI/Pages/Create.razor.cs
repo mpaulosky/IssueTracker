@@ -1,13 +1,14 @@
 //-----------------------------------------------------------------------
 // <copyright file="Create.razor.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) .2022 All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022.2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///   Create class
+///		Create class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Create
@@ -17,20 +18,21 @@ public partial class Create
 	private UserModel _loggedInUser;
 
 	/// <summary>
-	///   OnInitializedAsync method
+	///		OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
+			"AuthProvider.GetUserFromAuth(UserService) != null");
 		_categories = await CategoryService.GetCategories();
 	}
 
 	/// <summary>
-	///   CreateIssue method
+	///		CreateIssue method
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		CategoryModel category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,
@@ -46,7 +48,7 @@ public partial class Create
 	}
 
 	/// <summary>
-	///   ClosePage method
+	///		ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

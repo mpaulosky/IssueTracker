@@ -25,7 +25,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestStatuses.GetKnownStatus();
+		StatusModel expected = TestStatuses.GetKnownStatus();
 
 		_list = new List<StatusModel> { expected };
 
@@ -37,7 +37,7 @@ public class StatusRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetStatus(expected.Id);
+		StatusModel? result = await _sut.GetStatus(expected.Id);
 
 		//Assert 
 
@@ -59,7 +59,7 @@ public class StatusRepositoryTests
 		// Arrange
 		const int expectedCount = 4;
 
-		var expected = TestStatuses.GetStatuses().ToList();
+		List<StatusModel> expected = TestStatuses.GetStatuses().ToList();
 
 		_list = new List<StatusModel>(expected);
 
@@ -71,7 +71,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetStatuses().ConfigureAwait(false);
+		IEnumerable<StatusModel>? result = await _sut.GetStatuses().ConfigureAwait(false);
 
 		// Assert
 
@@ -79,7 +79,7 @@ public class StatusRepositoryTests
 			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<StatusModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -89,7 +89,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		var newStatus = TestStatuses.GetKnownStatus();
+		StatusModel newStatus = TestStatuses.GetKnownStatus();
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -110,9 +110,9 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestStatuses.GetKnownStatus();
+		StatusModel expected = TestStatuses.GetKnownStatus();
 
-		var updatedStatus = TestStatuses.GetStatus(expected.Id, expected.StatusDescription, "Updated New");
+		StatusModel updatedStatus = TestStatuses.GetStatus(expected.Id, expected.StatusDescription, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -131,7 +131,8 @@ public class StatusRepositoryTests
 		// Assert
 
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus, It.IsAny<ReplaceOptions>(),
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
+				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

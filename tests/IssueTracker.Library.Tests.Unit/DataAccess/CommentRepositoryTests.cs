@@ -30,12 +30,12 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var newComment = TestComments.GetKnownComment();
+		CommentModel newComment = TestComments.GetKnownComment();
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		var user = TestUsers.GetKnownUser();
+		UserModel user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
@@ -61,7 +61,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -74,7 +74,7 @@ public class CommentRepositoryTests
 		//Act
 
 #pragma warning disable CS8602
-		var result = await _sut.GetComment(expected.Id).ConfigureAwait(false);
+		CommentModel? result = await _sut.GetComment(expected.Id).ConfigureAwait(false);
 #pragma warning restore CS8602
 
 		//Assert 
@@ -97,7 +97,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestComments.GetComments().ToList();
+		List<CommentModel> expected = TestComments.GetComments().ToList();
 
 		await _mockCollection.Object.InsertManyAsync(expected);
 
@@ -111,7 +111,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetComments().ConfigureAwait(false);
+		IEnumerable<CommentModel>? result = await _sut.GetComments().ConfigureAwait(false);
 
 		// Assert
 
@@ -119,7 +119,7 @@ public class CommentRepositoryTests
 			It.IsAny<FindOptions<CommentModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<CommentModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(3);
 	}
@@ -132,7 +132,7 @@ public class CommentRepositoryTests
 		const int expectedCount = 2;
 		const string expectedUserId = "5dc1039a1521eaa36835e543";
 
-		var expected = TestComments.GetComments().ToList();
+		List<CommentModel> expected = TestComments.GetComments().ToList();
 
 		_list = new List<CommentModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
 
@@ -144,7 +144,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetUsersComments(expectedUserId).ConfigureAwait(false);
+		IEnumerable<CommentModel>? result = await _sut.GetUsersComments(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -152,7 +152,7 @@ public class CommentRepositoryTests
 			It.IsAny<FindOptions<CommentModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<CommentModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 		items[0].Author.Id.Should().NotBeNull();
@@ -164,9 +164,10 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
-		var updatedComment = TestComments.GetComment(expected.Id, "Test Comment Update", expected.Archived);
+		CommentModel updatedComment =
+			TestComments.GetComment(expected.Id, "Test Comment Update", expected.Archived);
 
 		_list = new List<CommentModel> { updatedComment };
 
@@ -183,7 +184,8 @@ public class CommentRepositoryTests
 		// Assert
 
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CommentModel>>(), updatedComment, It.IsAny<ReplaceOptions>(),
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CommentModel>>(), updatedComment,
+				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
@@ -192,7 +194,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -201,7 +203,7 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		var user = TestUsers.GetKnownUserWithNoVotedOn();
+		UserModel user = TestUsers.GetKnownUserWithNoVotedOn();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
@@ -222,7 +224,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -231,7 +233,7 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		var user = TestUsers.GetKnownUser();
+		UserModel user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);

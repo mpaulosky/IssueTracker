@@ -3,17 +3,17 @@
 [ExcludeFromCodeCoverage]
 public class MainLayoutTests
 {
-	[Fact()]
+	[Fact]
 	public void MainLayout_Should_DisplayMainLayout_Test()
 	{
 		// Arrange
-		using var ctx = new TestContext();
-		var authContext = ctx.AddTestAuthorization();
+		using TestContext ctx = new TestContext();
+		TestAuthorizationContext authContext = ctx.AddTestAuthorization();
 		authContext.SetAuthorized("TEST USER");
 		authContext.SetPolicies("Admin");
 
 		// Act
-		var cut = ctx.RenderComponent<MainLayout>();
+		IRenderedComponent<MainLayout> cut = ctx.RenderComponent<MainLayout>();
 
 		// Assert
 		cut.MarkupMatches

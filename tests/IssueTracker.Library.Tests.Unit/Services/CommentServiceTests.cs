@@ -21,7 +21,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		var comment = TestComments.GetNewComment();
+		CommentModel comment = TestComments.GetNewComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -57,7 +57,7 @@ public class CommentServiceTests
 	{
 		//Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
 		_commentRepositoryMock.Setup(x => x.GetComment(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -65,7 +65,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var result = await _sut.GetComment(expected.Id);
+		CommentModel? result = await _sut.GetComment(expected.Id);
 
 		//Assert
 
@@ -108,7 +108,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		IEnumerable<CommentModel> expected = TestComments.GetComments();
 
 		_commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(expected);
 
@@ -121,7 +121,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetComments();
+		List<CommentModel>? results = await _sut.GetComments();
 
 		//Assert
 
@@ -136,7 +136,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		IEnumerable<CommentModel> expected = TestComments.GetComments();
 
 
 		_memoryCacheMock
@@ -155,7 +155,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetComments();
+		List<CommentModel>? results = await _sut.GetComments();
 
 		//Assert
 
@@ -171,7 +171,8 @@ public class CommentServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestComments.GetCommentsWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
+		List<CommentModel> expected = TestComments.GetCommentsWithDuplicateAuthors()
+			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -184,7 +185,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersComments(expectedUser);
+		List<CommentModel>? results = await _sut.GetUsersComments(expectedUser);
 
 		//Assert
 
@@ -200,7 +201,8 @@ public class CommentServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestComments.GetCommentsWithDuplicateAuthors().Where(x => x.Author.Id == expectedUser).ToList();
+		List<CommentModel> expected = TestComments.GetCommentsWithDuplicateAuthors()
+			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -213,7 +215,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersComments(expectedUser);
+		List<CommentModel>? results = await _sut.GetUsersComments(expectedUser);
 
 		//Assert
 
@@ -254,7 +256,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		var updatedComment = TestComments.GetUpdatedComment();
+		CommentModel updatedComment = TestComments.GetUpdatedComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -292,7 +294,7 @@ public class CommentServiceTests
 
 		const string testId = "5dc1039a1521eaa36835e543";
 
-		var comment = TestComments.GetKnownComment();
+		CommentModel comment = TestComments.GetKnownComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -310,7 +312,8 @@ public class CommentServiceTests
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData(null, "1")]
 	[InlineData("1", null)]
-	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(string commentId,
+	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(
+		string commentId,
 		string userId)
 	{
 		// Arrange
@@ -327,7 +330,8 @@ public class CommentServiceTests
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]
 	[InlineData("", "1")]
 	[InlineData("1", "")]
-	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentException_TestAsync(string commentId,
+	public async Task UpvoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentException_TestAsync(
+		string commentId,
 		string userId)
 	{
 		// Arrange

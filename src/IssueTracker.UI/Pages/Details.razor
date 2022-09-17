@@ -14,8 +14,8 @@
 <div class="row justify-content-center detail-form">
 	<div class="col-xl-8 col-lg-10 form-layout">
 		@if (_issue is not null)
-		{
-			<div class="row issue-detail-row">
+	{
+		<div class="row issue-detail-row">
 				<div class="col-11 issue-detail">
 					<div>
 						<div class="issue-detail-date">
@@ -28,9 +28,9 @@
 						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
 						<div class="issue-entry-text-category d-none d-md-block">
 							@if (_issue.Category is not null)
-							{
-								@_issue.Category.CategoryName
-							}
+						{
+							@_issue.Category.CategoryName
+						}
 						</div>
 					</div>
 				</div>
@@ -38,23 +38,23 @@
 					<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 				</div>
 			</div>
-			<div class="row d-block d-md-none">
+		<div class="row d-block d-md-none">
 				<div class="issue-detail-text">
 					<div>@_issue.Description</div>
 					<div class="issue-entry-text-category">
 						@if (_issue.Category is not null)
-						{
-							@_issue.Category.CategoryName
-						}
+					{
+						@_issue.Category.CategoryName
+					}
 					</div>
 				</div>
 			</div>
-			<div class="row issue-detail-row">
+		<div class="row issue-detail-row">
 				<div class="col-11 issue-detail">
 					<btn id="create-comment" class="btn btn-comment" @onclick="() => OpenCommentForm(_issue)">Add Comment</btn>
 				</div>
 			</div>
-		}
+	}
 	</div>
 </div>
 
@@ -69,9 +69,9 @@
 				</div>
 				<div class="issue-detail-owner-notes">
 					@if (_issue.OwnerNotes is not null)
-					{
-						@((MarkupString)_issue.OwnerNotes)
-					}
+				{
+					@((MarkupString)_issue.OwnerNotes)
+				}
 				</div>
 			</div>
 		</div>
@@ -85,8 +85,8 @@
 			<div>
 				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">Comments</div>
 				@foreach (var s in _comments)
-				{
-					<div class="row issue-detail-row">
+			{
+				<div class="row issue-detail-row">
 						<div class="col-11 issue-detail">
 							<div>
 								<div id="vote" class="@GetVoteCssClass(s)" @onclick="() => VoteUp(s)">
@@ -107,7 +107,7 @@
 							</div>
 						</div>
 					</div>
-				}
+			}
 			</div>
 		</div>
 	</div>
@@ -123,8 +123,8 @@
 						Set Status
 					</div>
 					@if (string.IsNullOrWhiteSpace(_settingStatus))
-					{
-						<div class="admin-set-statuses">
+				{
+					<div class="admin-set-statuses">
 							<button id="answered" @onclick="@(() => _settingStatus = "answered")"
 											class="btn issue-entry-text-category btn-archive btn-status-answered">
 								answered
@@ -142,14 +142,14 @@
 								dismissed
 							</button>
 						</div>
-					}
-					else if (_settingStatus == "answered")
-					{
-						<div>
+				}
+				else if (_settingStatus == "answered")
+				{
+					<div>
 							<input id="input-answer" @bind="_urlText" class="form-control rounded-control" type="text"
 										placeholder="Url" aria-label="Content Url"/>
 						</div>
-						<div class="issue-entry-bottom">
+					<div class="issue-entry-bottom">
 							<button id="confirm-answered-status" class="btn btn-archive-confirm"
 											@onclick="CompleteSetStatus">
 								confirm
@@ -159,10 +159,10 @@
 								cancel
 							</button>
 						</div>
-					}
-					else
-					{
-						<div class="issue-entry-bottom">
+				}
+				else
+				{
+					<div class="issue-entry-bottom">
 							<button id="confirm-status-change" class="btn btn-archive-confirm"
 											@onclick="CompleteSetStatus">
 								confirm
@@ -172,7 +172,7 @@
 								cancel
 							</button>
 						</div>
-					}
+				}
 				</div>
 			</div>
 		</div>

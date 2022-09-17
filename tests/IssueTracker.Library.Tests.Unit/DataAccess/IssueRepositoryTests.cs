@@ -30,12 +30,12 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		var newIssue = TestIssues.GetKnownIssue();
+		IssueModel newIssue = TestIssues.GetKnownIssue();
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		var user = TestUsers.GetKnownUser();
+		UserModel user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
@@ -61,7 +61,7 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		IssueModel expected = TestIssues.GetKnownIssue();
 
 		_list = new List<IssueModel> { expected };
 
@@ -73,7 +73,7 @@ public class IssueRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetIssue(expected.Id);
+		IssueModel? result = await _sut.GetIssue(expected.Id);
 
 		//Assert 
 
@@ -104,7 +104,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetIssues().ConfigureAwait(false);
+		IEnumerable<IssueModel>? result = await _sut.GetIssues().ConfigureAwait(false);
 
 		// Assert
 
@@ -112,7 +112,7 @@ public class IssueRepositoryTests
 			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<IssueModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -124,7 +124,7 @@ public class IssueRepositoryTests
 
 		const string expectedUserId = "5dc1039a1521eaa36835e541";
 
-		var expected = TestIssues.GetIssuesWithDuplicateAuthors().ToList();
+		List<IssueModel> expected = TestIssues.GetIssuesWithDuplicateAuthors().ToList();
 
 		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
 
@@ -136,7 +136,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetUsersIssues(expectedUserId).ConfigureAwait(false);
+		IEnumerable<IssueModel>? result = await _sut.GetUsersIssues(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -144,13 +144,14 @@ public class IssueRepositoryTests
 			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<IssueModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(2);
 	}
 
 	[Fact(DisplayName = "GetIssues Waiting For Approval")]
-	public async Task GetIssuesWaitingForApproval_With_ListOfIssues_Should_ReturnAListOfIssuesWaitingForApproval_Test()
+	public async Task
+		GetIssuesWaitingForApproval_With_ListOfIssues_Should_ReturnAListOfIssuesWaitingForApproval_Test()
 	{
 		// Arrange
 		const int expectedCount = 3;
@@ -164,7 +165,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		IEnumerable<IssueModel>? result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
 
 		// Assert
 
@@ -172,7 +173,7 @@ public class IssueRepositoryTests
 			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<IssueModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -192,14 +193,14 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetApprovedIssues().ConfigureAwait(false);
+		IEnumerable<IssueModel>? result = await _sut.GetApprovedIssues().ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
 			It.IsAny<FindOptions<IssueModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<IssueModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -209,9 +210,9 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		IssueModel expected = TestIssues.GetKnownIssue();
 
-		var updatedIssue = TestIssues.GetIssue(
+		IssueModel updatedIssue = TestIssues.GetIssue(
 			expected.Id,
 			"Test Issue 1 updated",
 			"A new test issue 1 updated",

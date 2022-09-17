@@ -1,18 +1,18 @@
 //-----------------------------------------------------------------------
 // <copyright file="Program.cs" company="mpaulosky">
-//     Author: Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author: Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Rewrite;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.ConfigureServices();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

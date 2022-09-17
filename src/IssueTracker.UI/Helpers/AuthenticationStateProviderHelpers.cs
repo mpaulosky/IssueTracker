@@ -1,19 +1,19 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="AuthenticationStateProviderHelpers.cs" company="mpaulosky">
-//     Author: Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author: Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.UI.Helpers;
 
 /// <summary>
-///   AuthenticationStateProviderHelpers class
+///		AuthenticationStateProviderHelpers class
 /// </summary>
 public static class AuthenticationStateProviderHelpers
 {
 	/// <summary>
-	///   Gets the user from authentication.
+	///		Gets the user from authentication.
 	/// </summary>
 	/// <param name="provider">The AuthenticationState provider.</param>
 	/// <param name="userService">The user service.</param>
@@ -22,7 +22,7 @@ public static class AuthenticationStateProviderHelpers
 		this AuthenticationStateProvider provider,
 		IUserService userService)
 	{
-		var authState = await provider.GetAuthenticationStateAsync();
+		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
 
 		string objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;

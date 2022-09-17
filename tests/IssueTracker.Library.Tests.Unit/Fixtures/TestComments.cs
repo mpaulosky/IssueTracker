@@ -5,7 +5,7 @@ public static class TestComments
 {
 	public static CommentModel GetKnownComment()
 	{
-		var comment = new CommentModel
+		CommentModel comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			Comment = "Test Comment",
@@ -20,7 +20,7 @@ public static class TestComments
 
 	public static CommentModel GetUpdatedComment()
 	{
-		var comment = new CommentModel
+		CommentModel comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			Comment = "Update Test Comment",
@@ -35,7 +35,7 @@ public static class TestComments
 
 	public static IEnumerable<CommentModel> GetComments()
 	{
-		var comments = new List<CommentModel>
+		List<CommentModel> comments = new List<CommentModel>
 		{
 			new()
 			{
@@ -61,7 +61,7 @@ public static class TestComments
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e543", "Test User"),
 				DateCreated = DateTime.UtcNow,
-				UserVotes = new HashSet<string> {"5dc1039a1521eaa36835e545", "5dc1039a1521eaa36835e544"  }
+				UserVotes = new HashSet<string> { "5dc1039a1521eaa36835e545", "5dc1039a1521eaa36835e544" }
 			}
 		};
 
@@ -70,7 +70,7 @@ public static class TestComments
 
 	public static IEnumerable<CommentModel> GetCommentsWithDuplicateAuthors()
 	{
-		var comments = new List<CommentModel>
+		List<CommentModel> comments = new List<CommentModel>
 		{
 			new()
 			{
@@ -105,14 +105,14 @@ public static class TestComments
 
 	public static CommentModel GetComment(string id, string commentName, bool archived)
 	{
-		var comment = new CommentModel { Id = id, Comment = commentName, Archived = archived };
+		CommentModel comment = new CommentModel { Id = id, Comment = commentName, Archived = archived };
 
 		return comment;
 	}
 
 	public static CommentModel GetNewComment()
 	{
-		var comment = new CommentModel
+		CommentModel comment = new CommentModel
 		{
 			Comment = "Test Comment",
 			Archived = false,

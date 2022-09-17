@@ -1,21 +1,21 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="UserService.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-///   UserService class
+///		UserService class
 /// </summary>
 public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
 	/// <summary>
-	///   UserService constructor
+	///		UserService constructor
 	/// </summary>
 	/// <param name="repository">IUserRepository</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -25,7 +25,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	///   CreateUser method
+	///		CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>
@@ -38,7 +38,7 @@ public class UserService : IUserService
 	}
 
 	/// <summary>
-	///   GetUser method
+	///		GetUser method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
@@ -47,24 +47,24 @@ public class UserService : IUserService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUser(userId);
+		UserModel results = await _repo.GetUser(userId);
 
 		return results;
 	}
 
 	/// <summary>
-	///   GetUsers method
+	///		GetUsers method
 	/// </summary>
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		var results = await _repo.GetUsers();
+		IEnumerable<UserModel> results = await _repo.GetUsers();
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	///   GetUserFromAuthentication method
+	///		GetUserFromAuthentication method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
@@ -73,13 +73,13 @@ public class UserService : IUserService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUserFromAuthentication(userId);
+		UserModel results = await _repo.GetUserFromAuthentication(userId);
 
 		return results;
 	}
 
 	/// <summary>
-	///   UpdateUser method
+	///		UpdateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>

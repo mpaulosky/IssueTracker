@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------
 // <copyright file="Details.razor.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) .2022 All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022.2022 All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///   Details class
+///		Details class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Details
@@ -24,11 +24,12 @@ public partial class Details
 	[Parameter] public string Id { get; set; }
 
 	/// <summary>
-	///   OnInitializedAsync method
+	///		OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService), "AuthProvider.GetUserFromAuth(UserService) != null");
+		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
+			"AuthProvider.GetUserFromAuth(UserService) != null");
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 
 		_issue = await IssueService.GetIssue(Id);
@@ -37,7 +38,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   CompleteSetStatus method
+	///		CompleteSetStatus method
 	/// </summary>
 	private async Task CompleteSetStatus()
 	{
@@ -50,25 +51,25 @@ public partial class Details
 				}
 
 				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
+					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"This Issue has a voted answer for it’s solution";
 				break;
 			case "in work":
 				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
+					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"There has been an suggested answer for this issue submitted.";
 				break;
 			case "watching":
 				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
+					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"An Issue was submitted requesting help.";
 				break;
 			case "dismissed":
 				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					String.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
+					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 				_issue.OwnerNotes =
 					"Sometimes an Issue does not have a clear solution, this is one of those.";
 				break;
@@ -82,7 +83,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetStatusCssClass method
+	///		GetStatusCssClass method
 	/// </summary>
 	/// <returns>string css class</returns>
 	private string GetStatusCssClass()
@@ -100,7 +101,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   VoteUp method
+	///		VoteUp method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	private async Task VoteUp(CommentModel comment)
@@ -123,7 +124,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetUpVoteTopText method
+	///		GetUpVoteTopText method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <returns>string</returns>
@@ -138,7 +139,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetUpVoteBottomText method
+	///		GetUpVoteBottomText method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <returns>string</returns>
@@ -148,7 +149,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   GetVoteCssClass method
+	///		GetVoteCssClass method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <returns>string css class</returns>
@@ -163,7 +164,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   OpenCommentForm method
+	///		OpenCommentForm method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private void OpenCommentForm(IssueModel issue)
@@ -175,7 +176,7 @@ public partial class Details
 	}
 
 	/// <summary>
-	///   ClosePage method
+	///		ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

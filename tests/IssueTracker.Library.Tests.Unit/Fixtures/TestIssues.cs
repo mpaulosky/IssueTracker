@@ -5,7 +5,7 @@ public static class TestIssues
 {
 	public static IEnumerable<IssueModel> GetIssues()
 	{
-		var issues = new List<IssueModel>
+		List<IssueModel> issues = new List<IssueModel>
 		{
 			new()
 			{
@@ -16,16 +16,15 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "jim test" },
 				IssueStatus = new BasicStatusModel
-					{
-						StatusName = "Watching",
-						StatusDescription =
-							"The suggestion is interesting. We are watching to see how much interest there is in it."
-					},
+				{
+					StatusName = "Watching",
+					StatusDescription =
+						"The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
 				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Design",
-					CategoryDescription = "An Issue with the design."
+					CategoryName = "Design", CategoryDescription = "An Issue with the design."
 				},
 				ApprovedForRelease = false,
 				Rejected = false
@@ -39,16 +38,15 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new BasicStatusModel
-					{
-						StatusName = "Answered",
-						StatusDescription =
-							"The issue was answered and the answer was accepted."
-					},
+				{
+					StatusName = "Answered",
+					StatusDescription =
+						"The issue was answered and the answer was accepted."
+				},
 				OwnerNotes = "Notes for Issue 2",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Documentation",
-					CategoryDescription = "An Issue with the documentation."
+					CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
 				},
 				ApprovedForRelease = true,
 				Rejected = false
@@ -62,11 +60,11 @@ public static class TestIssues
 				Archived = true,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new BasicStatusModel
-					{
-						StatusName = "In Work",
-						StatusDescription =
-							"An answer to this issue has been submitted."
-					},
+				{
+					StatusName = "In Work",
+					StatusDescription =
+						"An answer to this issue has been submitted."
+				},
 				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
@@ -84,15 +82,16 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e545", DisplayName = "jim test" },
 				IssueStatus = new BasicStatusModel
-					{
-						StatusName = "Dismissed",
-						StatusDescription =
-							"The suggestion was not something that we are going to undertake."
-					},
+				{
+					StatusName = "Dismissed",
+					StatusDescription =
+						"The suggestion was not something that we are going to undertake."
+				},
 				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
+					CategoryName = "Clarification",
+					CategoryDescription = "A quick Issue with a general question."
 				},
 				ApprovedForRelease = true,
 				Rejected = true
@@ -106,11 +105,11 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new BasicStatusModel
-					{
-						StatusName = "Watching",
-						StatusDescription =
-							"The suggestion is interesting. We are watching to see how much interest there is in it."
-					},
+				{
+					StatusName = "Watching",
+					StatusDescription =
+						"The suggestion is interesting. We are watching to see how much interest there is in it."
+				},
 				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
@@ -127,12 +126,11 @@ public static class TestIssues
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
-				IssueStatus = new(),
+				IssueStatus = new BasicStatusModel(),
 				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
-					CategoryName = "Design",
-					CategoryDescription = "An Issue with the design."
+					CategoryName = "Design", CategoryDescription = "An Issue with the design."
 				},
 				ApprovedForRelease = false,
 				Rejected = false
@@ -144,7 +142,7 @@ public static class TestIssues
 
 	public static IEnumerable<IssueModel> GetIssuesWithDuplicateAuthors()
 	{
-		var issues = new List<IssueModel>
+		List<IssueModel> issues = new()
 		{
 			new()
 			{
@@ -165,7 +163,7 @@ public static class TestIssues
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
-				},
+				}
 			},
 			new()
 			{
@@ -186,7 +184,7 @@ public static class TestIssues
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
-				},
+				}
 			},
 			new()
 			{
@@ -207,7 +205,7 @@ public static class TestIssues
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
-				},
+				}
 			}
 		};
 
@@ -216,7 +214,7 @@ public static class TestIssues
 
 	public static IssueModel GetUpdatedIssue()
 	{
-		var issue = new IssueModel
+		IssueModel issue = new()
 		{
 			Id = "5dc1039a1521eaa36835e542",
 			IssueName = "Updated Test Issue 1",
@@ -234,9 +232,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous",
-				CategoryDescription = "Not sure where this fits."
-			},
+				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+			}
 		};
 
 		return issue;
@@ -244,7 +241,7 @@ public static class TestIssues
 
 	public static IssueModel GetKnownIssue()
 	{
-		var issue = new IssueModel
+		IssueModel issue = new()
 		{
 			Id = "5dc1039a1521eaa36835e542",
 			IssueName = "Test Issue 1",
@@ -262,9 +259,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous",
-				CategoryDescription = "Not sure where this fits."
-			},
+				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+			}
 		};
 
 		return issue;
@@ -272,7 +268,7 @@ public static class TestIssues
 
 	public static IssueModel GetNewIssue()
 	{
-		var issue = new IssueModel
+		IssueModel issue = new()
 		{
 			IssueName = "Test Issue 1",
 			Description = "A new test issue",
@@ -283,9 +279,8 @@ public static class TestIssues
 			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous",
-				CategoryDescription = "Not sure where this fits."
-			},
+				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+			}
 		};
 
 		return issue;
@@ -301,7 +296,7 @@ public static class TestIssues
 		string ownerNotes,
 		BasicCategoryModel category)
 	{
-		var issue = new IssueModel
+		IssueModel issue = new()
 		{
 			Id = id,
 			IssueName = issueName,

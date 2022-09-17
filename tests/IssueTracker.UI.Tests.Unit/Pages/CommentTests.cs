@@ -3,11 +3,11 @@
 [ExcludeFromCodeCoverage]
 public class CommentTests : TestContext
 {
-	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
-	private readonly Mock<IUserRepository> _userRepositoryMock;
+	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private IssueModel _expectedIssue;
 	private UserModel _expectedUser;
 
@@ -32,7 +32,8 @@ public class CommentTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>()).Message.Should()
+			.Be("Value cannot be null. (Parameter 'userId')");
 	}
 
 	[Fact]
@@ -51,10 +52,10 @@ public class CommentTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>((parameter =>
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>(parameter =>
 		{
 			parameter.Add(p => p.Id, null);
-		})));
+		}));
 	}
 
 	[Fact]
@@ -72,20 +73,20 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Comment>((parameter =>
+		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
-	[Fact()]
+	[Fact]
 	public void Comment_With_ValidComment_Should_SaveTheComment_Test()
 	{
 		// Arrange
@@ -99,11 +100,11 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Comment>((parameter =>
+		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
-		}));
+		});
 
 		cut.Find("#comment").Change("Test Comment");
 		cut.Find("#submit-comment").Click();
@@ -123,10 +124,10 @@ public class CommentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
-			new Claim(type: "objectidentifier", _expectedUser.Id)
+			new Claim("objectidentifier", _expectedUser.Id)
 		);
 		if (isAdmin)
 		{
@@ -136,9 +137,11 @@ public class CommentTests : TestContext
 
 	private void RegisterServices()
 	{
-		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object));
-		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
+			_memoryCacheMock.Object));
+		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+			_memoryCacheMock.Object));
+		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

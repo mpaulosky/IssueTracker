@@ -31,19 +31,19 @@
 		<p class="my-issue-text">These are your issues that are currently available for comment.</p>
 		<hr/>
 		@foreach (var s in _issues)
-		{
-			<hr class="my-issue-separator"/>
-			<div>
+	{
+		<hr class="my-issue-separator"/>
+		<div>
 				@s.IssueName
 			</div>
-			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p class="my-issue-text">@s.Description</p>
-			@if (s.IssueStatus is not null)
-			{
-				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
-				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
-			}
+		<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+		<p class="my-issue-text">@s.Description</p>
+		@if (s.IssueStatus is not null)
+		{
+			<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+			<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 		}
+	}
 	</div>
 }
 
@@ -54,19 +54,19 @@
 		<p class="my-issue-text">These are your issues that are currently under review by admin.</p>
 		<hr/>
 		@foreach (var s in _issues)
-		{
-			<hr class="my-issue-separator"/>
-			<div>
+	{
+		<hr class="my-issue-separator"/>
+		<div>
 				@s.IssueName
 			</div>
-			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p class="my-issue-text">@s.Description</p>
-			@if (s.IssueStatus is not null)
-			{
-				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
-				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
-			}
+		<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+		<p class="my-issue-text">@s.Description</p>
+		@if (s.IssueStatus is not null)
+		{
+			<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+			<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 		}
+	}
 	</div>
 }
 
@@ -77,19 +77,19 @@
 		<p>These are your issues that were rejected by the admin for being out of the scope of this application.</p>
 		<hr/>
 		@foreach (var s in _archived)
-		{
-			<hr class="my-issue-separator"/>
-			<div>
+	{
+		<hr class="my-issue-separator"/>
+		<div>
 				@s.IssueName
 			</div>
-			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p>@s.Description</p>
-			@if (s.IssueStatus is not null)
-			{
-				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
-				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
-			}
+		<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+		<p>@s.Description</p>
+		@if (s.IssueStatus is not null)
+		{
+			<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+			<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 		}
+	}
 	</div>
 }
 
@@ -100,19 +100,19 @@
 		<p>These are your issues that are archived for future review.</p>
 		<hr/>
 		@foreach (var s in _archived)
-		{
-			<hr class="my-issue-separator"/>
-			<div>
+	{
+		<hr class="my-issue-separator"/>
+		<div>
 				@s.IssueName
 			</div>
-			<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p>@s.Description</p>
-			@if (s.IssueStatus is not null)
-			{
-				<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
-				<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
-			}
+		<p>@s.DateCreated.ToString("MM.dd.yyyy")</p>
+		<p>@s.Description</p>
+		@if (s.IssueStatus is not null)
+		{
+			<div class="@GetIssueStatusCssClass(s)">@s.IssueStatus.StatusName</div>
+			<p class="my-ownernote-text">@((MarkupString)s.OwnerNotes)</p>
 		}
+	}
 	</div>
 }
 
@@ -123,12 +123,12 @@
 		<p class="my-issue-text">These are your comments that are currently active.</p>
 		<hr/>
 		@foreach (var s in _comments)
-		{
-			<hr class="my-issue-separator"/>
-			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p class="my-issue-text">
+	{
+		<hr class="my-issue-separator"/>
+		<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
+		<p class="my-issue-text">
 				@s.Comment
 			</p>
-		}
+	}
 	</div>
 }

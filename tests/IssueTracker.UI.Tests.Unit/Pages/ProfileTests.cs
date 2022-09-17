@@ -8,9 +8,9 @@ public class ProfileTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
+	private List<CommentModel> _expectedComments;
 	private List<IssueModel> _expectedIssues;
 	private UserModel _expectedUser;
-	private List<CommentModel> _expectedComments;
 
 	public ProfileTests()
 	{
@@ -33,8 +33,8 @@ public class ProfileTests : TestContext
 		// Act
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
-
+		Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should()
+			.Be("Value cannot be null. (Parameter 'userId')");
 	}
 
 	[Fact]
@@ -48,20 +48,19 @@ public class ProfileTests : TestContext
 
 		SetupMocks();
 		SetMemoryCache();
-		
+
 		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Profile>();
+		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
 
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	[Fact]
@@ -79,7 +78,7 @@ public class ProfileTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Profile>();
+		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
 
 		// Assert
 		cut.MarkupMatches
@@ -214,7 +213,7 @@ public class ProfileTests : TestContext
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">Test Comment 3</p>
 				</div>"
-			);
+		);
 	}
 
 	private void SetupMocks()
@@ -234,13 +233,13 @@ public class ProfileTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
 			authContext.SetAuthorized(_expectedUser.DisplayName);
 			authContext.SetClaims(
-				new Claim(type: "objectidentifier", _expectedUser.Id)
+				new Claim("objectidentifier", _expectedUser.Id)
 			);
 		}
 
@@ -252,10 +251,11 @@ public class ProfileTests : TestContext
 
 	private void RegisterServices()
 	{
-		this.Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-		this.Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
-		this.Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+			_memoryCacheMock.Object));
+		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 	}
 
 	private void SetMemoryCache()

@@ -25,7 +25,7 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
 		_list = new List<CategoryModel> { expected };
 
@@ -37,7 +37,7 @@ public class CategoryRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetCategory(expected.Id);
+		CategoryModel? result = await _sut.GetCategory(expected.Id);
 
 		//Assert 
 
@@ -58,7 +58,7 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 		const int expectedCount = 5;
-		var expected = TestCategories.GetCategories().ToList();
+		List<CategoryModel> expected = TestCategories.GetCategories().ToList();
 
 		_list = new List<CategoryModel>(expected);
 
@@ -70,7 +70,7 @@ public class CategoryRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetCategories().ConfigureAwait(false);
+		IEnumerable<CategoryModel>? result = await _sut.GetCategories().ConfigureAwait(false);
 
 		// Assert
 
@@ -78,7 +78,7 @@ public class CategoryRepositoryTests
 			It.IsAny<FindOptions<CategoryModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<CategoryModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -88,7 +88,7 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		var newCategory = TestCategories.GetKnownCategory();
+		CategoryModel newCategory = TestCategories.GetKnownCategory();
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -109,9 +109,10 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
-		var updatedCategory = TestCategories.GetCategory(expected.Id, expected.CategoryDescription, "Updated New");
+		CategoryModel updatedCategory =
+			TestCategories.GetCategory(expected.Id, expected.CategoryDescription, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -130,7 +131,8 @@ public class CategoryRepositoryTests
 		// Assert
 
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory, It.IsAny<ReplaceOptions>(),
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory,
+				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
 }

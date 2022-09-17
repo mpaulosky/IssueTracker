@@ -1,19 +1,19 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MongoDbContext.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) 2022. All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-///   MongoDbContext class
+///		MongoDbContext class
 /// </summary>
 public class MongoDbContext : IMongoDbContextFactory
 {
 	/// <summary>
-	///   MongoDbContext constructor
+	///		MongoDbContext constructor
 	/// </summary>
 	/// <param name="configuration">IOptions of DatabaseSettings</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -23,7 +23,8 @@ public class MongoDbContext : IMongoDbContextFactory
 
 		DbName = Guard.Against.NullOrEmpty(configuration.Value.DatabaseName, nameof(configuration));
 
-		string connectionString = Guard.Against.NullOrWhiteSpace(configuration.Value.ConnectionString, nameof(connectionString));
+		string connectionString =
+			Guard.Against.NullOrWhiteSpace(configuration.Value.ConnectionString, nameof(connectionString));
 		Client = new MongoClient(connectionString);
 
 		Database = Client.GetDatabase(DbName);
@@ -34,7 +35,7 @@ public class MongoDbContext : IMongoDbContextFactory
 	public string DbName { get; }
 
 	/// <summary>
-	///   GetCollection method
+	///		GetCollection method
 	/// </summary>
 	/// <param name="name">string</param>
 	/// <typeparam name="T"></typeparam>

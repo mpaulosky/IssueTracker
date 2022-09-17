@@ -1,19 +1,19 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CollectionNames.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
-///   CollectionNames class
+///		CollectionNames class
 /// </summary>
 public static class CollectionNames
 {
 	/// <summary>
-	///   GetCollectionName method
+	///		GetCollectionName method
 	/// </summary>
 	/// <param name="entityName">string</param>
 	/// <returns>string collection name</returns>

@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StatusService.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-///   StatusService class
+///		StatusService class
 /// </summary>
 public class StatusService : IStatusService
 {
@@ -17,7 +17,7 @@ public class StatusService : IStatusService
 	private readonly IStatusRepository _repository;
 
 	/// <summary>
-	///   StatusService constructor
+	///		StatusService constructor
 	/// </summary>
 	/// <param name="repository">IStatusRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -29,7 +29,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	///   CreateStatus method
+	///		CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
@@ -42,7 +42,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	///   GetStatus method
+	///		GetStatus method
 	/// </summary>
 	/// <param name="statusId">string</param>
 	/// <returns>Task StatusModel</returns>
@@ -51,24 +51,24 @@ public class StatusService : IStatusService
 	{
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		var result = await _repository.GetStatus(statusId).ConfigureAwait(true);
+		StatusModel result = await _repository.GetStatus(statusId).ConfigureAwait(true);
 
 		return result;
 	}
 
 	/// <summary>
-	///   GetStatuses method
+	///		GetStatuses method
 	/// </summary>
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
 	{
-		var output = _cache.Get<List<StatusModel>>(_cacheName);
+		List<StatusModel> output = _cache.Get<List<StatusModel>>(_cacheName);
 		if (output is not null)
 		{
 			return output;
 		}
 
-		var results = await _repository.GetStatuses().ConfigureAwait(true);
+		IEnumerable<StatusModel> results = await _repository.GetStatuses().ConfigureAwait(true);
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
@@ -77,7 +77,7 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	///   UpdateStatus method
+	///		UpdateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>

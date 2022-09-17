@@ -1,23 +1,20 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="TestConnectionFactory.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) 2022. All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using System;
-using System.Linq;
 
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
-/// TestConnectionFactory class
+///		TestConnectionFactory class
 /// </summary>
 /// <seealso cref="IssueTracker.Library.Contracts.IMongoDbContextFactory" />
 public class TestConnectionFactory : IMongoDbContextFactory
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="TestConnectionFactory"/> class.
+	///		Initializes a new instance of the <see cref="TestConnectionFactory" /> class.
 	/// </summary>
 	/// <param name="configuration">The configuration.</param>
 	public TestConnectionFactory(IOptions<DatabaseSettings> configuration)
@@ -32,31 +29,31 @@ public class TestConnectionFactory : IMongoDbContextFactory
 	}
 
 	/// <summary>
-	/// Gets the database.
+	///		Gets the database.
 	/// </summary>
 	/// <value>
-	/// The database.
+	///		The database.
 	/// </value>
 	public IMongoDatabase Database { get; }
 
 	/// <summary>
-	/// Gets the client.
+	///		Gets the client.
 	/// </summary>
 	/// <value>
-	/// The client.
+	///		The client.
 	/// </value>
 	public IMongoClient Client { get; }
 
 	/// <summary>
-	/// Gets the name of the database.
+	///		Gets the name of the database.
 	/// </summary>
 	/// <value>
-	/// The name of the database.
+	///		The name of the database.
 	/// </value>
 	public string DbName { get; }
 
 	/// <summary>
-	/// Gets the collection.
+	///		Gets the collection.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="name">The name of the collection.</param>

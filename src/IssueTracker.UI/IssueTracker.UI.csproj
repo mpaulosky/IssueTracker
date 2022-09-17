@@ -11,14 +11,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
-        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-        <PackageReference Include="Microsoft.Identity.Web" Version="1.25.2" />
-        <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.2" />
+        <PackageReference Include="Blazored.SessionStorage" Version="2.2.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0"/>
+        <PackageReference Include="Microsoft.Identity.Web" Version="1.25.2"/>
+        <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\IssueTracker.Library\IssueTracker.Library.csproj" />
+        <ProjectReference Include="..\IssueTracker.Library\IssueTracker.Library.csproj"/>
     </ItemGroup>
 
 </Project>

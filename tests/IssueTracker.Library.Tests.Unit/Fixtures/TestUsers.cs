@@ -5,7 +5,7 @@ public static class TestUsers
 {
 	public static IEnumerable<UserModel> GetUsers()
 	{
-		var expected = new List<UserModel>
+		List<UserModel> expected = new List<UserModel>
 		{
 			new()
 			{
@@ -30,7 +30,10 @@ public static class TestUsers
 				DisplayName = "sam test",
 				EmailAddress = "sam.test@test.com",
 				AuthoredIssues =
-					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
+					new List<BasicIssueModel>
+					{
+						new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() }
+					},
 				AuthoredComments = new List<BasicCommentModel>
 				{
 					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
@@ -45,7 +48,10 @@ public static class TestUsers
 				DisplayName = "tim test",
 				EmailAddress = "tim.test@test.com",
 				AuthoredIssues =
-					new List<BasicIssueModel> { new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() } },
+					new List<BasicIssueModel>
+					{
+						new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() }
+					},
 				AuthoredComments = new List<BasicCommentModel>
 				{
 					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
@@ -58,7 +64,7 @@ public static class TestUsers
 
 	public static UserModel GetKnownUser()
 	{
-		var user = new UserModel
+		UserModel user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -76,7 +82,7 @@ public static class TestUsers
 
 	public static UserModel GetKnownUserWithNoVotedOn()
 	{
-		var user = new UserModel
+		UserModel user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -99,7 +105,7 @@ public static class TestUsers
 		string displayName,
 		string email)
 	{
-		var expected = new UserModel
+		UserModel expected = new UserModel
 		{
 			Id = userId,
 			ObjectIdentifier = objectIdentifier,
@@ -116,7 +122,7 @@ public static class TestUsers
 
 	public static UserModel GetNewUser()
 	{
-		var user = new UserModel
+		UserModel user = new UserModel
 		{
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
@@ -132,7 +138,7 @@ public static class TestUsers
 
 	public static UserModel GetUpdatedUser()
 	{
-		var user = new UserModel
+		UserModel user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",

@@ -1,20 +1,17 @@
 ﻿using DotNet.Testcontainers.Builders;
-
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
-
 using IssueTracker.Library.Contracts;
 using IssueTracker.Library.DataAccess;
 using IssueTracker.Library.Helpers;
 using IssueTracker.Library.Services;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-
 using Xunit;
 
 namespace IssueTracker.Library;
@@ -22,10 +19,18 @@ namespace IssueTracker.Library;
 public class IssueTrackerFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
 	private readonly TestcontainerDatabase _dbContainer =
-				new TestcontainersBuilder<MongoDbTestcontainer>()
-						.WithDatabase(
-							new MongoDbTestcontainerConfiguration { Database = "dbTest", Username = "admin", Password = "whatever" })
-		.Build();
+		new TestcontainersBuilder<MongoDbTestcontainer>()
+			.WithDatabase(
+				new MongoDbTestcontainerConfiguration
+				{
+					Database = "dbTest", Username = "admin", Password = "whatever"
+				})
+			.Build();
+
+
+	public async Task InitializeAsync() { await _dbContainer.StartAsync(); }
+
+	public new async Task DisposeAsync() { await _dbContainer.DisposeAsync(); }
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
@@ -42,13 +47,12 @@ public class IssueTrackerFactory : WebApplicationFactory<IApiMarker>, IAsyncLife
 
 				services.RemoveAll(typeof(IDbConnectionFactory));
 
-				var newDatabaseSettings = new DatabaseSettings()
+				DatabaseSettings newDatabaseSettings = new DatabaseSettings
 				{
-					DatabaseName = "dbTest",
-					ConnectionString = _dbContainer.ConnectionString
+					DatabaseName = "dbTest", ConnectionString = _dbContainer.ConnectionString
 				};
 
-				services.Configure<DatabaseSettings>((Microsoft.Extensions.Configuration.IConfiguration)newDatabaseSettings);
+				services.Configure<DatabaseSettings>((IConfiguration)newDatabaseSettings);
 
 				services.AddSingleton<IMongoDbContextFactory, TestConnectionFactory>();
 				services.AddSingleton<ICategoryService, CategoryService>();
@@ -64,9 +68,4 @@ public class IssueTrackerFactory : WebApplicationFactory<IApiMarker>, IAsyncLife
 				services.AddSingleton<IUserRepository, UserRepository>();
 			});
 	}
-
-	
-	public async Task InitializeAsync() { await _dbContainer.StartAsync(); }
-
-	public new async Task DisposeAsync() { await _dbContainer.DisposeAsync(); }
 }

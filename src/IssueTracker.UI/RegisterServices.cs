@@ -1,20 +1,20 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="RegisterServices.cs" company="mpaulosky">
-//     Author: Matthew Paulosky
-//     Copyright (c) 2022. All rights reserved.
+//		Author: Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.UI;
 
 /// <summary>
-///   RegisterServices class
+///		RegisterServices class
 /// </summary>
 [ExcludeFromCodeCoverage]
 public static class RegisterServices
 {
 	/// <summary>
-	///   Configures the services method.
+	///		Configures the services method.
 	/// </summary>
 	/// <param name="builder">The builder.</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder)

@@ -1,14 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="IssueService.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
 /// <summary>
-///   IssueService class
+///		IssueService class
 /// </summary>
 public class IssueService : IIssueService
 {
@@ -17,7 +17,7 @@ public class IssueService : IIssueService
 	private readonly IIssueRepository _repository;
 
 	/// <summary>
-	///   IssueService
+	///		IssueService
 	/// </summary>
 	/// <param name="repository">IIssueRepository</param>
 	/// <param name="cache">IMemoryCache</param>
@@ -29,7 +29,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   CreateIssue method
+	///		CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -41,7 +41,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetIssue method
+	///		GetIssue method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
@@ -50,25 +50,25 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetIssue(issueId).ConfigureAwait(true);
+		IssueModel results = await _repository.GetIssue(issueId).ConfigureAwait(true);
 
 		return results;
 	}
 
 	/// <summary>
-	///   GetIssues method
+	///		GetIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
-		var output = _cache.Get<List<IssueModel>>(_cacheName);
+		List<IssueModel> output = _cache.Get<List<IssueModel>>(_cacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		var results = await _repository.GetIssues().ConfigureAwait(true);
+		IEnumerable<IssueModel> results = await _repository.GetIssues().ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -78,7 +78,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetUsersIssues method
+	///		GetUsersIssues method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
@@ -87,14 +87,14 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var output = _cache.Get<List<IssueModel>>(userId);
+		List<IssueModel> output = _cache.Get<List<IssueModel>>(userId);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		var results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
+		IEnumerable<IssueModel> results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -104,7 +104,7 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   UpdateIssue
+	///		UpdateIssue
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
@@ -118,23 +118,23 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///   GetIssuesWaitingForApproval method
+	///		GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		var results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
+		IEnumerable<IssueModel> results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	///   GetApprovedIssues method
+	///		GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
-		var results = await _repository.GetApprovedIssues().ConfigureAwait(true);
+		IEnumerable<IssueModel> results = await _repository.GetApprovedIssues().ConfigureAwait(true);
 
 		return results.ToList();
 	}

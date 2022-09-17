@@ -1,13 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DatabaseSettings.cs" company="mpaulosky">
-//     Author:  Matthew Paulosky
-//     Copyright (c) . All rights reserved.
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
-///   DatabaseSettings class
+///		DatabaseSettings class
 /// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {

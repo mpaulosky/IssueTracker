@@ -25,7 +25,7 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var newUser = TestUsers.GetKnownUser();
+		UserModel newUser = TestUsers.GetKnownUser();
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -47,7 +47,7 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestUsers.GetKnownUser();
+		UserModel expected = TestUsers.GetKnownUser();
 
 		_list = new List<UserModel> { expected };
 
@@ -59,7 +59,7 @@ public class UserRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetUser(expected.Id);
+		UserModel? result = await _sut.GetUser(expected.Id);
 
 		//Assert 
 
@@ -82,7 +82,7 @@ public class UserRepositoryTests
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
 		// Arrange
-		var expected = TestUsers.GetKnownUser();
+		UserModel expected = TestUsers.GetKnownUser();
 
 		_list = new List<UserModel> { expected };
 
@@ -94,7 +94,7 @@ public class UserRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetUserFromAuthentication(expected.ObjectIdentifier).ConfigureAwait(false);
+		UserModel? result = await _sut.GetUserFromAuthentication(expected.ObjectIdentifier).ConfigureAwait(false);
 
 		//Assert 
 
@@ -114,7 +114,7 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestUsers.GetUsers().ToList();
+		List<UserModel> expected = TestUsers.GetUsers().ToList();
 
 		_list = new List<UserModel>(expected);
 
@@ -126,7 +126,7 @@ public class UserRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetUsers().ConfigureAwait(false);
+		IEnumerable<UserModel>? result = await _sut.GetUsers().ConfigureAwait(false);
 
 		// Assert
 
@@ -136,7 +136,7 @@ public class UserRepositoryTests
 			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
+		List<UserModel> items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(3);
 		items[0].AuthoredIssues[0].Id.Should().NotBeNull();
@@ -152,9 +152,10 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestUsers.GetKnownUser();
+		UserModel expected = TestUsers.GetKnownUser();
 
-		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James", expected.LastName,
+		UserModel updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James",
+			expected.LastName,
 			expected.DisplayName, "james.test@test.com");
 
 		_list = new List<UserModel> { updatedUser };

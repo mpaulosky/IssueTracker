@@ -1,20 +1,22 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace IssueTracker.Library.Services;
+
 public class MongoHealthCheck : IHealthCheck
 {
-	private IMongoDatabase Db { get; set; }
-	public MongoClient MongoClient { get; set; }
-
 	public MongoHealthCheck(IOptions<DatabaseSettings> configuration)
 	{
 		MongoClient = new MongoClient(configuration.Value.ConnectionString);
 		Db = MongoClient.GetDatabase(configuration.Value.DatabaseName);
 	}
 
-	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+	private IMongoDatabase Db { get; }
+	public MongoClient MongoClient { get; set; }
+
+	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
+		CancellationToken cancellationToken = default)
 	{
-		var healthCheckResultHealthy = await CheckMongoDBConnectionAsync();
+		bool healthCheckResultHealthy = await CheckMongoDBConnectionAsync();
 
 
 		if (healthCheckResultHealthy)
@@ -22,7 +24,8 @@ public class MongoHealthCheck : IHealthCheck
 			return HealthCheckResult.Healthy("MongoDB health check success");
 		}
 
-		return HealthCheckResult.Unhealthy("MongoDB health check failure"); ;
+		return HealthCheckResult.Unhealthy("MongoDB health check failure");
+		;
 	}
 
 	private async Task<bool> CheckMongoDBConnectionAsync()
