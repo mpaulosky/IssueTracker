@@ -1,7 +1,8 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="BasicCommentModel.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright File="BasicCommentModel.cs"
+//	Company="mpaulosky">
+//	Author: Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
