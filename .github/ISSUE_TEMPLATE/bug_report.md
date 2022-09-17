@@ -4,7 +4,9 @@ about: Create a report to help us improve
 title: "[BUG] "
 labels: bug
 assignees: mpaulosky
-project: @mpaulosky's IssueTracker Project
+project: mpaulosky's IssueTracker Project
+status: To Do
+milestone: 0.1.0
 ---
 
 **Describe the bug**
