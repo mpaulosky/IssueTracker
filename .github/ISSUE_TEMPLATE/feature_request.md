@@ -4,7 +4,9 @@ about: Suggest an idea for this project
 title: "[Feature]"
 labels: enhancement
 assignees: mpaulosky
-
+project: @mpaulosky's IssueTracker Project
+status: To Do
+milestone: 0.1.0
 ---
 
 **Is your feature request related to a problem? Please describe.**
