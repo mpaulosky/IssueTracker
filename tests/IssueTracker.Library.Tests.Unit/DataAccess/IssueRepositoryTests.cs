@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Library.DataAccess;
+﻿using TestingSupport.Library.Fixtures;
+
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests

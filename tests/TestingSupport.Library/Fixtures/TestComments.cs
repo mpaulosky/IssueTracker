@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.Library.Fixtures;
+﻿using IssueTracker.Library.Models;
+using System.Diagnostics.CodeAnalysis;
+
+namespace IssueTracker.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestComments
