@@ -1,89 +1,89 @@
-﻿namespace IssueTracker.UI.Pages;
-
-[ExcludeFromCodeCoverage]
-public class ProfileTests : TestContext
+﻿namespace IssueTracker.UI.Pages
 {
-	private readonly Mock<ICommentRepository> _commentRepositoryMock;
-	private readonly Mock<IIssueRepository> _issueRepositoryMock;
-	private readonly Mock<IMemoryCache> _memoryCacheMock;
-	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CommentModel> _expectedComments;
-	private List<IssueModel> _expectedIssues;
-	private UserModel _expectedUser;
-
-	public ProfileTests()
+	[ExcludeFromCodeCoverage]
+	public class ProfileTests : TestContext
 	{
-		_issueRepositoryMock = new Mock<IIssueRepository>();
-		_commentRepositoryMock = new Mock<ICommentRepository>();
-		_userRepositoryMock = new Mock<IUserRepository>();
+		private readonly Mock<ICommentRepository> _commentRepositoryMock;
+		private readonly Mock<IIssueRepository> _issueRepositoryMock;
+		private readonly Mock<IMemoryCache> _memoryCacheMock;
+		private readonly Mock<ICacheEntry> _mockCacheEntry;
+		private readonly Mock<IUserRepository> _userRepositoryMock;
+		private List<CommentModel> _expectedComments;
+		private List<IssueModel> _expectedIssues;
+		private UserModel _expectedUser;
 
-		_memoryCacheMock = new Mock<IMemoryCache>();
-		_mockCacheEntry = new Mock<ICacheEntry>();
-	}
+		public ProfileTests()
+		{
+			_issueRepositoryMock = new Mock<IIssueRepository>();
+			_commentRepositoryMock = new Mock<ICommentRepository>();
+			_userRepositoryMock = new Mock<IUserRepository>();
 
-	[Fact]
-	public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
-	{
-		// Arrange
-		this.AddTestAuthorization();
+			_memoryCacheMock = new Mock<IMemoryCache>();
+			_mockCacheEntry = new Mock<ICacheEntry>();
+		}
 
-		RegisterServices();
+		[Fact]
+		public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
+		{
+			// Arrange
+			this.AddTestAuthorization();
 
-		// Act
+			RegisterServices();
 
-		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userId')");
-	}
+			// Act
 
-	[Fact]
-	public void Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test()
-	{
-		// Arrange
-		const string expectedUri = "http://localhost/";
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssues = TestIssues.GetIssues().ToList();
-		_expectedComments = TestComments.GetComments().ToList();
+			// Assert
+			Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should()
+				.Be("Value cannot be null. (Parameter 'userId')");
+		}
 
-		SetupMocks();
-		SetMemoryCache();
+		[Fact]
+		public void Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test()
+		{
+			// Arrange
+			const string expectedUri = "http://localhost/";
+			_expectedUser = TestUsers.GetKnownUser();
+			_expectedIssues = TestIssues.GetIssues().ToList();
+			_expectedComments = TestComments.GetComments().ToList();
 
-		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
+			SetupMocks();
+			SetMemoryCache();
 
-		// Act
-		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+			SetAuthenticationAndAuthorization(false, true);
+			RegisterServices();
 
-		cut.Find("#close-page").Click();
+			// Act
+			IRenderedComponent<Profile> cut = RenderComponent<Profile>();
 
-		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
-		navMan.Uri.Should().NotBeNull();
-		navMan.Uri.Should().Be(expectedUri);
-	}
+			cut.Find("#close-page").Click();
 
-	[Fact]
-	public void Profile_With_ValidIssuesAndComments_Should_DisplayTheIssuesAndComments_Test()
-	{
-		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssues = TestIssues.GetIssues().ToList();
-		_expectedComments = TestComments.GetComments().ToList();
+			// Assert
+			FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+			navMan.Uri.Should().NotBeNull();
+			navMan.Uri.Should().Be(expectedUri);
+		}
 
-		SetupMocks();
-		SetMemoryCache();
+		[Fact]
+		public void Profile_With_ValidIssuesAndComments_Should_DisplayTheIssuesAndComments_Test()
+		{
+			// Arrange
+			_expectedUser = TestUsers.GetKnownUser();
+			_expectedIssues = TestIssues.GetIssues().ToList();
+			_expectedComments = TestComments.GetComments().ToList();
 
-		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
+			SetupMocks();
+			SetMemoryCache();
 
-		// Act
-		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+			SetAuthenticationAndAuthorization(false, true);
+			RegisterServices();
 
-		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">jim test Profile</h1>
+			// Act
+			IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+
+			// Assert
+			cut.MarkupMatches
+			(
+				@"<h1 class=""page-heading text-light text-uppercase mb-4"">jim test Profile</h1>
 				<div class=""form-layout mb-3"">
 				  <div class=""close-button-section"">
 				    <button id=""close-page"" class=""btn btn-close"" ></button>
@@ -213,56 +213,57 @@ public class ProfileTests : TestContext
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">Test Comment 3</p>
 				</div>"
-		);
-	}
-
-	private void SetupMocks()
-	{
-		_issueRepositoryMock
-			.Setup(x => x.GetUsersIssues(_expectedUser.Id))
-			.ReturnsAsync(_expectedIssues);
-
-		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser);
-
-		_commentRepositoryMock
-			.Setup(x => x.GetUsersComments(It.IsAny<string>()))
-			.ReturnsAsync(_expectedComments);
-	}
-
-	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
-	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
-
-		if (isAuth)
-		{
-			authContext.SetAuthorized(_expectedUser.DisplayName);
-			authContext.SetClaims(
-				new Claim("objectidentifier", _expectedUser.Id)
 			);
 		}
 
-		if (isAdmin)
+		private void SetupMocks()
 		{
-			authContext.SetPolicies("Admin");
+			_issueRepositoryMock
+				.Setup(x => x.GetUsersIssues(_expectedUser.Id))
+				.ReturnsAsync(_expectedIssues);
+
+			_userRepositoryMock
+				.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
+				.ReturnsAsync(_expectedUser);
+
+			_commentRepositoryMock
+				.Setup(x => x.GetUsersComments(It.IsAny<string>()))
+				.ReturnsAsync(_expectedComments);
 		}
-	}
 
-	private void RegisterServices()
-	{
-		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
-			_memoryCacheMock.Object));
-		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
-			_memoryCacheMock.Object));
-		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
-	}
+		private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
+		{
+			TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-	private void SetMemoryCache()
-	{
-		_memoryCacheMock
-			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-			.Callback((object k) => _ = (string)k)
-			.Returns(_mockCacheEntry.Object);
+			if (isAuth)
+			{
+				authContext.SetAuthorized(_expectedUser.DisplayName);
+				authContext.SetClaims(
+					new Claim("objectidentifier", _expectedUser.Id)
+				);
+			}
+
+			if (isAdmin)
+			{
+				authContext.SetPolicies("Admin");
+			}
+		}
+
+		private void RegisterServices()
+		{
+			Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
+				_memoryCacheMock.Object));
+			Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
+				_memoryCacheMock.Object));
+			Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+		}
+
+		private void SetMemoryCache()
+		{
+			_memoryCacheMock
+				.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+				.Callback((object k) => _ = (string)k)
+				.Returns(_mockCacheEntry.Object);
+		}
 	}
 }

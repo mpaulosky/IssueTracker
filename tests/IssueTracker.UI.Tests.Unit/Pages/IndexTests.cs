@@ -1,8 +1,4 @@
-﻿using AngleSharp.Dom;
-using Blazored.SessionStorage;
-using System.Threading.Tasks;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class IndexTests : TestContext

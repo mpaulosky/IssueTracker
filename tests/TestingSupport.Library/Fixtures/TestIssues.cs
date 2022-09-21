@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Fixtures;
+﻿namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestIssues

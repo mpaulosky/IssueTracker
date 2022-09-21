@@ -1,6 +1,4 @@
-﻿using AngleSharp.Dom;
-
-namespace IssueTracker.UI.Shared;
+﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
 public class NotAuthorizedTests
