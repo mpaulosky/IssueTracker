@@ -1,20 +1,4 @@
-﻿using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
-using IssueTracker.Library.Contracts;
-using IssueTracker.Library.DataAccess;
-using IssueTracker.Library.Helpers;
-using IssueTracker.Library.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using Xunit;
-
-namespace IssueTracker.Library;
+﻿namespace IssueTracker.Library;
 
 public class IssueTrackerFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
