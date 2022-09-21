@@ -22,7 +22,7 @@ public static class TestFixtures
 		where TEntity : class?
 	{
 		Mock<IMongoCollection<TEntity>> collection =
-			new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
+			new Mock<IMongoCollection<TEntity>> { Name = GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
 				op.FindAsync
 				(
