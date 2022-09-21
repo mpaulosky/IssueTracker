@@ -10,5 +10,4 @@ global using NSubstitute;
 global using System.Diagnostics.CodeAnalysis;
 global using Xunit;
 global using static IssueTracker.Library.Helpers.CollectionNames;
-global using TestingSupport.Library;
 global using TestingSupport.Library.Fixtures;

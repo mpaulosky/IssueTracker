@@ -1,4 +1,4 @@
-﻿namespace TestingSupport.Library.Fixtures;
+namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
@@ -21,7 +21,8 @@ public static class TestFixtures
 	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor)
 		where TEntity : class?
 	{
-		Mock<IMongoCollection<TEntity>> collection = new() { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
+		Mock<IMongoCollection<TEntity>> collection =
+			new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
 				op.FindAsync
 				(
