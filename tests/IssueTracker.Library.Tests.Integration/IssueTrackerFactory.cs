@@ -18,25 +18,18 @@ public class IssueTrackerFactory : WebApplicationFactory<IApiMarker>, IAsyncLife
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
-		builder.ConfigureLogging(
-			logging =>
-			{
-				//logging.ClearProviders();
-			});
-
 		builder.ConfigureTestServices(
 			services =>
 			{
 				services.RemoveAll(typeof(IHostedService));
 
 				services.RemoveAll(typeof(IDbConnectionFactory));
-
-				DatabaseSettings newDatabaseSettings = new DatabaseSettings
+				
+				services.Configure<DatabaseSettings>(options =>
 				{
-					DatabaseName = "dbTest", ConnectionString = _dbContainer.ConnectionString
-				};
-
-				services.Configure<DatabaseSettings>((IConfiguration)newDatabaseSettings);
+					options.DatabaseName = _dbContainer.Database;
+					options.ConnectionString = _dbContainer.ConnectionString;
+				});
 
 				services.AddSingleton<IMongoDbContextFactory, TestConnectionFactory>();
 				services.AddSingleton<ICategoryService, CategoryService>();

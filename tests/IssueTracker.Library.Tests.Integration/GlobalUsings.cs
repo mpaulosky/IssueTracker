@@ -16,3 +16,4 @@ global using Microsoft.Extensions.DependencyInjection.Extensions;
 global using Microsoft.Extensions.Hosting;
 global using Xunit;
 global using Bogus;
+global using TestingSupport.Library.Fixtures;
