@@ -1,5 +1,6 @@
 ﻿// Global using directives
 
+global using Bogus;
 global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.Helpers;
 global using IssueTracker.Library.Models;
