@@ -17,7 +17,7 @@ public class UserServiceTests
 	{
 		// Arrange
 
-		UserModel user = TestUsers.GetNewUser();
+		var user = TestUsers.GetNewUser();
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
@@ -53,7 +53,7 @@ public class UserServiceTests
 	{
 		//Arrange
 
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
 		_userRepositoryMock.Setup(x => x.GetUser(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -61,7 +61,7 @@ public class UserServiceTests
 
 		//Act
 
-		UserModel? result = await _sut.GetUser(expected.Id);
+		var result = await _sut.GetUser(expected.Id);
 
 		//Assert
 
@@ -104,7 +104,7 @@ public class UserServiceTests
 
 		const int expectedCount = 3;
 
-		IEnumerable<UserModel> expected = TestUsers.GetUsers();
+		var expected = TestUsers.GetUsers();
 
 		_userRepositoryMock.Setup(x => x.GetUsers()).ReturnsAsync(expected);
 
@@ -112,7 +112,7 @@ public class UserServiceTests
 
 		//Act
 
-		List<UserModel>? results = await _sut.GetUsers();
+		var results = await _sut.GetUsers();
 
 		//Assert
 
@@ -125,7 +125,7 @@ public class UserServiceTests
 	{
 		//Arrange
 
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -133,7 +133,7 @@ public class UserServiceTests
 
 		//Act
 
-		UserModel? result = await _sut.GetUserFromAuthentication(expected.Id);
+		var result = await _sut.GetUserFromAuthentication(expected.Id);
 
 		//Assert
 
@@ -174,7 +174,7 @@ public class UserServiceTests
 	{
 		// Arrange
 
-		UserModel updatedUser = TestUsers.GetUpdatedUser();
+		var updatedUser = TestUsers.GetUpdatedUser();
 
 		_sut = new UserService(_userRepositoryMock.Object);
 

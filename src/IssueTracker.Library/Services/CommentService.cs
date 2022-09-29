@@ -50,7 +50,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		CommentModel result = await _repository.GetComment(commentId).ConfigureAwait(true);
+		var result = await _repository.GetComment(commentId).ConfigureAwait(true);
 
 		return result;
 	}
@@ -61,14 +61,14 @@ public class CommentService : ICommentService
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
-		List<CommentModel> output = _cache.Get<List<CommentModel>>(_cacheName);
+		var output = _cache.Get<List<CommentModel>>(_cacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<CommentModel> results = await _repository.GetComments().ConfigureAwait(true);
+		var results = await _repository.GetComments().ConfigureAwait(true);
 
 		output = results.Where(x => x.Archived == false).ToList();
 
@@ -87,7 +87,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		IEnumerable<CommentModel> results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
+		var results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
 
 		return results.ToList();
 	}
@@ -102,7 +102,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		IEnumerable<CommentModel> results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
+		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
 
 		return results.ToList();
 	}

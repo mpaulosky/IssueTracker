@@ -68,16 +68,16 @@ public partial class Index
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
-		string objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
+		var authState = await AuthProvider.GetAuthenticationStateAsync();
+		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (string.IsNullOrWhiteSpace(objectId) == false)
 		{
 			_loggedInUser = await UserService.GetUserFromAuthentication(objectId) ?? new UserModel();
-			string firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
-			string lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
-			string displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
-			string email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
-			bool isDirty = false;
+			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
+			var lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
+			var displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
+			var email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
+			var isDirty = false;
 
 			if (objectId.Equals(_loggedInUser.ObjectIdentifier) == false)
 			{
@@ -144,7 +144,7 @@ public partial class Index
 	{
 		if (SessionStorage is not null)
 		{
-			string stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedCategory));
+			var stringResults = await SessionStorage.GetItemAsync<string>(nameof(_selectedCategory));
 
 			_selectedCategory = string.IsNullOrWhiteSpace(stringResults) ? "All" : stringResults;
 
@@ -156,7 +156,7 @@ public partial class Index
 
 			_searchText = string.IsNullOrWhiteSpace(stringResults) ? string.Empty : stringResults;
 
-			bool boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
+			var boolResults = await SessionStorage.GetItemAsync<bool>(nameof(_isSortedByNew));
 
 			_isSortedByNew = boolResults;
 		}
@@ -178,7 +178,7 @@ public partial class Index
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		List<IssueModel> output = await IssueService.GetApprovedIssues();
+		var output = await IssueService.GetApprovedIssues();
 
 		if (_selectedCategory != "All")
 		{
@@ -276,7 +276,12 @@ public partial class Index
 	/// <returns>string</returns>
 	private static string GetIssueStatusCssClass(IssueModel issue)
 	{
-		string output = issue.IssueStatus.StatusName switch
+		if (issue.IssueStatus is null)
+		{
+			return "issue-entry-status-none";
+		}
+		
+		var output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",
 			"In Work" => "issue-entry-status-inwork",

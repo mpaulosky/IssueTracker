@@ -50,7 +50,7 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		IssueModel results = await _repository.GetIssue(issueId).ConfigureAwait(true);
+		var results = await _repository.GetIssue(issueId).ConfigureAwait(true);
 
 		return results;
 	}
@@ -61,14 +61,14 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
-		List<IssueModel> output = _cache.Get<List<IssueModel>>(_cacheName);
+		var output = _cache.Get<List<IssueModel>>(_cacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<IssueModel> results = await _repository.GetIssues().ConfigureAwait(true);
+		var results = await _repository.GetIssues().ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -87,14 +87,14 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		List<IssueModel> output = _cache.Get<List<IssueModel>>(userId);
+		var output = _cache.Get<List<IssueModel>>(userId);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<IssueModel> results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
+		var results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
 
 		output = results.ToList();
 
@@ -123,7 +123,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		IEnumerable<IssueModel> results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
+		var results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
 
 		return results.ToList();
 	}
@@ -134,7 +134,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
-		IEnumerable<IssueModel> results = await _repository.GetApprovedIssues().ConfigureAwait(true);
+		var results = await _repository.GetApprovedIssues().ConfigureAwait(true);
 
 		return results.ToList();
 	}

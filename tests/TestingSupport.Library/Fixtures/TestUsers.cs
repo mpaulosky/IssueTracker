@@ -5,7 +5,7 @@ public static class TestUsers
 {
 	public static IEnumerable<UserModel> GetUsers()
 	{
-		List<UserModel> expected = new List<UserModel>
+		var expected = new List<UserModel>
 		{
 			new()
 			{
@@ -64,7 +64,7 @@ public static class TestUsers
 
 	public static UserModel GetKnownUser()
 	{
-		UserModel user = new UserModel
+		var user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -82,7 +82,7 @@ public static class TestUsers
 
 	public static UserModel GetKnownUserWithNoVotedOn()
 	{
-		UserModel user = new UserModel
+		var user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
@@ -105,7 +105,7 @@ public static class TestUsers
 		string displayName,
 		string email)
 	{
-		UserModel expected = new UserModel
+		var expected = new UserModel
 		{
 			Id = userId,
 			ObjectIdentifier = objectIdentifier,
@@ -122,7 +122,7 @@ public static class TestUsers
 
 	public static UserModel GetNewUser()
 	{
-		UserModel user = new UserModel
+		var user = new UserModel
 		{
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",
 			FirstName = "Jim",
@@ -138,7 +138,7 @@ public static class TestUsers
 
 	public static UserModel GetUpdatedUser()
 	{
-		UserModel user = new UserModel
+		var user = new UserModel
 		{
 			Id = "5dc1039a1521eaa36835e545",
 			ObjectIdentifier = "5dc1039a1521eaa36835e542",

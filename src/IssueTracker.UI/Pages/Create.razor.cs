@@ -32,7 +32,7 @@ public partial class Create
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		CategoryModel category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,

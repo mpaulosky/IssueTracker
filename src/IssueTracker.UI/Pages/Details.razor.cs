@@ -88,7 +88,12 @@ public partial class Details
 	/// <returns>string css class</returns>
 	private string GetStatusCssClass()
 	{
-		string output = _issue.IssueStatus.StatusName switch
+		if (_issue.IssueStatus is null)
+		{
+			return "issue-detail-status-none";
+		}
+		
+		var output = _issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-detail-status-answered",
 			"In Work" => "issue-detail-status-inwork",

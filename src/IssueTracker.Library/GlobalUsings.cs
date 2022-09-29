@@ -6,8 +6,10 @@
 //-----------------------------------------------------------------------
 
 global using Ardalis.GuardClauses;
+global using Bogus;
 global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.Helpers;
+global using IssueTracker.Library.Helpers.BogusFakes;
 global using IssueTracker.Library.Models;
 global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.Options;

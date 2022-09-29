@@ -5,7 +5,7 @@ public static class TestFixtures
 {
 	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(List<TEntity> list) where TEntity : class?
 	{
-		Mock<IAsyncCursor<TEntity>> cursor = new Mock<IAsyncCursor<TEntity>>();
+		var cursor = new Mock<IAsyncCursor<TEntity>>();
 		cursor.Setup(_ => _.Current).Returns(list);
 		cursor
 			.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
@@ -21,7 +21,7 @@ public static class TestFixtures
 	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor)
 		where TEntity : class?
 	{
-		Mock<IMongoCollection<TEntity>> collection =
+		var collection =
 			new Mock<IMongoCollection<TEntity>> { Name = GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
 				op.FindAsync
@@ -52,9 +52,9 @@ public static class TestFixtures
 
 	public static Mock<IMongoDbContextFactory> GetMockContext()
 	{
-		Mock<IMongoClient> mockClient = new Mock<IMongoClient>();
-		Mock<IMongoDbContextFactory> context = new Mock<IMongoDbContextFactory>();
-		Mock<IClientSessionHandle> mockSession = new Mock<IClientSessionHandle>();
+		var mockClient = new Mock<IMongoClient>();
+		var context = new Mock<IMongoDbContextFactory>();
+		var mockSession = new Mock<IClientSessionHandle>();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
 		context.Setup(op =>
 				op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
@@ -65,7 +65,7 @@ public static class TestFixtures
 
 	public static IOptions<DatabaseSettings> Settings()
 	{
-		DatabaseSettings settings =
+		var settings =
 			new DatabaseSettings { DatabaseName = "TestDb", ConnectionString = "mongodb://tes123" };
 
 		return Options.Create(settings);
@@ -73,7 +73,7 @@ public static class TestFixtures
 	
 	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionString)
 	{
-		DatabaseSettings settings =
+		var settings =
 			new DatabaseSettings { DatabaseName = databaseName, ConnectionString = connectionString };
 
 		return Options.Create(settings);

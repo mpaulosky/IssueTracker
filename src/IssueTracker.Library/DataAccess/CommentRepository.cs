@@ -12,6 +12,7 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class CommentRepository : ICommentRepository
 {
+
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoDbContextFactory _context;
 	private readonly IMongoCollection<UserModel> _userCollection;
@@ -23,15 +24,17 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="ArgumentNullException"></exception>
 	public CommentRepository(IMongoDbContextFactory context)
 	{
+
 		_context = Guard.Against.Null(context, nameof(context));
 
-		string commentCollectionName = GetCollectionName(nameof(CommentModel));
+		var commentCollectionName = GetCollectionName(nameof(CommentModel));
 
 		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
 
-		string userCollectionName = GetCollectionName(nameof(UserModel));
+		var userCollectionName = GetCollectionName(nameof(UserModel));
 
 		_userCollection = context.GetCollection<UserModel>(userCollectionName);
+
 	}
 
 	/// <summary>
@@ -41,32 +44,37 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="Exception"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
-		using IClientSessionHandle session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
+
+		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
 
 		session.StartTransaction();
 
 		try
 		{
-			IMongoCollection<CommentModel> commentsInTransaction = _commentCollection!;
+
+			var commentsInTransaction = _commentCollection!;
 
 			await commentsInTransaction.InsertOneAsync(comment);
 
-			IMongoCollection<UserModel> usersInTransaction = _userCollection;
+			var usersInTransaction = _userCollection;
 
-			UserModel user = (await _userCollection!.FindAsync(u => u.Id == comment.Author.Id).ConfigureAwait(true))
+			var user = (await _userCollection!.FindAsync(u => u.Id == comment.Author.Id).ConfigureAwait(true))
 				.First();
 
 			user.AuthoredComments.Add(new BasicCommentModel(comment));
 
-			ReplaceOneResult replaceOneResult =
+			var replaceOneResult =
 				await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
 
 			await session.CommitTransactionAsync();
+
 		}
 		catch (Exception)
 		{
+
 			await session.AbortTransactionAsync();
 			throw;
+
 		}
 	}
 
@@ -77,11 +85,13 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of CommentModel</returns>
 	public async Task<CommentModel> GetComment(string commentId)
 	{
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", commentId);
 
-		CommentModel result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
+		var filter = Builders<CommentModel>.Filter.Eq("_id", commentId);
+
+		var result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
+
 	}
 
 	/// <summary>
@@ -90,11 +100,13 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Empty;
 
-		List<CommentModel> results = (await _commentCollection.FindAsync(filter)).ToList();
+		var filter = Builders<CommentModel>.Filter.Empty;
+
+		var results = (await _commentCollection.FindAsync(filter)).ToList();
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -104,9 +116,11 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
 	{
-		List<CommentModel> results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
+
+		var results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -116,9 +130,11 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
 	{
-		List<CommentModel> results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
+
+		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -128,9 +144,11 @@ public class CommentRepository : ICommentRepository
 	/// <param name="comment">CommentModel</param>
 	public async Task UpdateComment(string id, CommentModel comment)
 	{
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", id);
+
+		var filter = Builders<CommentModel>.Filter.Eq("_id", id);
 
 		await _commentCollection.ReplaceOneAsync(filter, comment);
+
 	}
 
 	/// <summary>
@@ -141,35 +159,44 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="Exception"></exception>
 	public async Task UpVoteComment(string commentId, string userId)
 	{
-		using IClientSessionHandle session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
+
+		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
 
 		session.StartTransaction();
 
 		try
 		{
-			IMongoCollection<CommentModel> commentsInTransaction = _commentCollection;
 
-			ObjectId objectId = new ObjectId(commentId);
+			var commentsInTransaction = _commentCollection;
 
-			FilterDefinition<CommentModel> filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
+			var objectId = new ObjectId(commentId);
 
-			CommentModel comment = (await commentsInTransaction.FindAsync(filterComment)).FirstOrDefault();
+			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-			bool isUpvote = comment.UserVotes.Add(userId);
+			var comment = (await commentsInTransaction.FindAsync(filterComment)).FirstOrDefault();
+
+			var isUpvote = comment.UserVotes.Add(userId);
 
 			if (isUpvote == false)
 			{
+
 				comment.UserVotes.Remove(userId);
+
 			}
 
 			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment);
 
 			await session.CommitTransactionAsync();
+
 		}
 		catch (Exception)
 		{
+
 			await session.AbortTransactionAsync();
 			throw;
+
 		}
+
 	}
+
 }

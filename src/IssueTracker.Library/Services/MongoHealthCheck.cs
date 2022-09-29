@@ -16,7 +16,7 @@ public class MongoHealthCheck : IHealthCheck
 	public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
 		CancellationToken cancellationToken = default)
 	{
-		bool healthCheckResultHealthy = await CheckMongoDBConnectionAsync();
+		var healthCheckResultHealthy = await CheckMongoDBConnectionAsync();
 
 
 		if (healthCheckResultHealthy)

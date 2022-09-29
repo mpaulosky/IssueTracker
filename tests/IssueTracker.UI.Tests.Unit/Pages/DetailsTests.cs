@@ -80,7 +80,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -88,7 +88,7 @@ public class DetailsTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -108,7 +108,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -141,7 +141,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -193,13 +193,13 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		string expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
+		var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
 		SetAuthenticationAndAuthorization(false);
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -207,7 +207,7 @@ public class DetailsTests : TestContext
 		cut.Find("#create-comment").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -233,15 +233,15 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
 
-		IRefreshableElementCollection<IElement> results = cut.FindAll("div");
+		var results = cut.FindAll("div");
 
 		// Assert
-		IEnumerable<IElement> items = results.Where(x => x.ClassName == expected);
+		var items = results.Where(x => x.ClassName == expected);
 
 		items.ToList().Count.Should().Be(1);
 	}
@@ -261,7 +261,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -289,7 +289,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -317,7 +317,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -373,7 +373,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -479,7 +479,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
+		var cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -533,7 +533,7 @@ public class DetailsTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)

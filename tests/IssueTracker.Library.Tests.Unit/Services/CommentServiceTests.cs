@@ -21,7 +21,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		CommentModel comment = TestComments.GetNewComment();
+		var comment = TestComments.GetNewComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -57,7 +57,7 @@ public class CommentServiceTests
 	{
 		//Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		_commentRepositoryMock.Setup(x => x.GetComment(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -65,7 +65,7 @@ public class CommentServiceTests
 
 		//Act
 
-		CommentModel? result = await _sut.GetComment(expected.Id);
+		var result = await _sut.GetComment(expected.Id);
 
 		//Assert
 
@@ -108,7 +108,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		IEnumerable<CommentModel> expected = TestComments.GetComments();
+		var expected = TestComments.GetComments();
 
 		_commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(expected);
 
@@ -121,7 +121,7 @@ public class CommentServiceTests
 
 		//Act
 
-		List<CommentModel>? results = await _sut.GetComments();
+		var results = await _sut.GetComments();
 
 		//Assert
 
@@ -136,7 +136,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		IEnumerable<CommentModel> expected = TestComments.GetComments();
+		var expected = TestComments.GetComments();
 
 
 		_memoryCacheMock
@@ -155,7 +155,7 @@ public class CommentServiceTests
 
 		//Act
 
-		List<CommentModel>? results = await _sut.GetComments();
+		var results = await _sut.GetComments();
 
 		//Assert
 
@@ -171,7 +171,7 @@ public class CommentServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		List<CommentModel> expected = TestComments.GetCommentsWithDuplicateAuthors()
+		var expected = TestComments.GetCommentsWithDuplicateAuthors()
 			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
@@ -185,7 +185,7 @@ public class CommentServiceTests
 
 		//Act
 
-		List<CommentModel>? results = await _sut.GetUsersComments(expectedUser);
+		var results = await _sut.GetUsersComments(expectedUser);
 
 		//Assert
 
@@ -201,7 +201,7 @@ public class CommentServiceTests
 		const int expectedCount = 2;
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		List<CommentModel> expected = TestComments.GetCommentsWithDuplicateAuthors()
+		var expected = TestComments.GetCommentsWithDuplicateAuthors()
 			.Where(x => x.Author.Id == expectedUser).ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
@@ -215,7 +215,7 @@ public class CommentServiceTests
 
 		//Act
 
-		List<CommentModel>? results = await _sut.GetUsersComments(expectedUser);
+		var results = await _sut.GetUsersComments(expectedUser);
 
 		//Assert
 
@@ -256,7 +256,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		CommentModel updatedComment = TestComments.GetUpdatedComment();
+		var updatedComment = TestComments.GetUpdatedComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -294,7 +294,7 @@ public class CommentServiceTests
 
 		const string testId = "5dc1039a1521eaa36835e543";
 
-		CommentModel comment = TestComments.GetKnownComment();
+		var comment = TestComments.GetKnownComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 

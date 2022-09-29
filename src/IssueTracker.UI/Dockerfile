@@ -1,21 +1,17 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["src/IssueTracker.UI/IssueTracker.UI.csproj", "IssueTracker.UI/"]
-COPY ["src/IssueTracker.Library/IssueTracker.Library.csproj", "IssueTracker.Library/"]
-RUN dotnet restore "src/IssueTracker.UI/IssueTracker.UI.csproj"
-COPY . .
-WORKDIR "/src/IssueTracker.UI"
-RUN dotnet build "IssueTracker.UI.csproj" -c Release -o /app/build
+# Copy everything
+COPY . ./
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
 
-FROM build AS publish
-RUN dotnet publish "IssueTracker.UI.csproj" -c Release -o /app/publish
-
-FROM base AS final
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build-env /app/out .
+# Run this to generate it: dotnet dev-certs https -ep cert.pfx -p Test1234!
+COPY ["cert.pfx", "/https/cert.pfx"]
 ENTRYPOINT ["dotnet", "IssueTracker.UI.dll"]

@@ -9,7 +9,7 @@ public class MyInputRadioGroup<TValue> : InputRadioGroup<TValue>
 
 	protected override void OnParametersSet()
 	{
-		string fieldClass = EditContext?.FieldCssClass(FieldIdentifier) ?? string.Empty;
+		var fieldClass = EditContext?.FieldCssClass(FieldIdentifier) ?? string.Empty;
 		if (fieldClass != _fieldClass || Name != _name)
 		{
 			_fieldClass = fieldClass;

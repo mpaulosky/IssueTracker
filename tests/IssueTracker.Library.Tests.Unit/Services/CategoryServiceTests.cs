@@ -21,7 +21,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		CategoryModel status = TestCategories.GetNewCategory();
+		var status = TestCategories.GetNewCategory();
 
 		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -57,7 +57,7 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		CategoryModel expected = TestCategories.GetKnownCategory();
+		var expected = TestCategories.GetKnownCategory();
 
 		_statusRepositoryMock.Setup(x => x.GetCategory(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -65,7 +65,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		CategoryModel? result = await _sut.GetCategory(expected.Id);
+		var result = await _sut.GetCategory(expected.Id);
 
 		//Assert
 
@@ -108,7 +108,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		IEnumerable<CategoryModel> expected = TestCategories.GetCategories();
+		var expected = TestCategories.GetCategories();
 
 		_statusRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
 
@@ -121,7 +121,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		List<CategoryModel>? results = await _sut.GetCategories();
+		var results = await _sut.GetCategories();
 
 		//Assert
 
@@ -136,7 +136,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		IEnumerable<CategoryModel> expected = TestCategories.GetCategories();
+		var expected = TestCategories.GetCategories();
 
 
 		_memoryCacheMock
@@ -155,7 +155,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		List<CategoryModel>? results = await _sut.GetCategories();
+		var results = await _sut.GetCategories();
 
 		//Assert
 
@@ -168,7 +168,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		CategoryModel updatedCategory = TestCategories.GetUpdatedCategory();
+		var updatedCategory = TestCategories.GetUpdatedCategory();
 
 		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 

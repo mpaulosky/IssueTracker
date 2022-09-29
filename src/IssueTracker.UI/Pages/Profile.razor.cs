@@ -32,7 +32,7 @@ public partial class Profile
 
 		_comments = await CommentService.GetUsersComments(_loggedInUser.Id);
 
-		List<IssueModel> results = await IssueService.GetUsersIssues(_loggedInUser.Id);
+		var results = await IssueService.GetUsersIssues(_loggedInUser.Id);
 
 		if (results is not null)
 		{
@@ -56,7 +56,7 @@ public partial class Profile
 	/// <returns>string</returns>
 	private string GetIssueStatusCssClass(IssueModel issue)
 	{
-		string output = issue.IssueStatus.StatusName switch
+		var output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-profile-status issue-profile-status-answered",
 			"In Work" => "issue-profile-status issue-profile-status-inwork",

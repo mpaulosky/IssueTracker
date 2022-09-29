@@ -21,7 +21,7 @@ public class StatusServiceTests
 	{
 		// Arrange
 
-		StatusModel status = TestStatuses.GetNewStatus();
+		var status = TestStatuses.GetNewStatus();
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -57,7 +57,7 @@ public class StatusServiceTests
 	{
 		//Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
 		_statusRepositoryMock.Setup(x => x.GetStatus(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -65,7 +65,7 @@ public class StatusServiceTests
 
 		//Act
 
-		StatusModel? result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected.Id);
 
 		//Assert
 
@@ -108,7 +108,7 @@ public class StatusServiceTests
 
 		const int expectedCount = 4;
 
-		IEnumerable<StatusModel> expected = TestStatuses.GetStatuses();
+		var expected = TestStatuses.GetStatuses();
 
 		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(expected);
 
@@ -121,7 +121,7 @@ public class StatusServiceTests
 
 		//Act
 
-		List<StatusModel>? results = await _sut.GetStatuses();
+		var results = await _sut.GetStatuses();
 
 		//Assert
 
@@ -136,7 +136,7 @@ public class StatusServiceTests
 
 		const int expectedCount = 4;
 
-		IEnumerable<StatusModel> expected = TestStatuses.GetStatuses();
+		var expected = TestStatuses.GetStatuses();
 
 
 		_memoryCacheMock
@@ -155,7 +155,7 @@ public class StatusServiceTests
 
 		//Act
 
-		List<StatusModel>? results = await _sut.GetStatuses();
+		var results = await _sut.GetStatuses();
 
 		//Assert
 
@@ -168,7 +168,7 @@ public class StatusServiceTests
 	{
 		// Arrange
 
-		StatusModel updatedStatus = TestStatuses.GetUpdatedStatus();
+		var updatedStatus = TestStatuses.GetUpdatedStatus();
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 

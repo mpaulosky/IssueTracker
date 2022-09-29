@@ -53,12 +53,12 @@
 			RegisterServices();
 
 			// Act
-			IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+			var cut = RenderComponent<Profile>();
 
 			cut.Find("#close-page").Click();
 
 			// Assert
-			FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+			var navMan = Services.GetRequiredService<FakeNavigationManager>();
 			navMan.Uri.Should().NotBeNull();
 			navMan.Uri.Should().Be(expectedUri);
 		}
@@ -78,7 +78,7 @@
 			RegisterServices();
 
 			// Act
-			IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+			var cut = RenderComponent<Profile>();
 
 			// Assert
 			cut.MarkupMatches
@@ -233,7 +233,7 @@
 
 		private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 		{
-			TestAuthorizationContext authContext = this.AddTestAuthorization();
+			var authContext = this.AddTestAuthorization();
 
 			if (isAuth)
 			{

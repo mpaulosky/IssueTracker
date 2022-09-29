@@ -5,7 +5,7 @@ public static class TestIssues
 {
 	public static IEnumerable<IssueModel> GetIssues()
 	{
-		List<IssueModel> issues = new List<IssueModel>
+		var issues = new List<IssueModel>
 		{
 			new()
 			{

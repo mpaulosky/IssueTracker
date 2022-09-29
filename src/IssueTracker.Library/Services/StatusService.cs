@@ -51,7 +51,7 @@ public class StatusService : IStatusService
 	{
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		StatusModel result = await _repository.GetStatus(statusId).ConfigureAwait(true);
+		var result = await _repository.GetStatus(statusId).ConfigureAwait(true);
 
 		return result;
 	}
@@ -62,13 +62,13 @@ public class StatusService : IStatusService
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
 	{
-		List<StatusModel> output = _cache.Get<List<StatusModel>>(_cacheName);
+		var output = _cache.Get<List<StatusModel>>(_cacheName);
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<StatusModel> results = await _repository.GetStatuses().ConfigureAwait(true);
+		var results = await _repository.GetStatuses().ConfigureAwait(true);
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));

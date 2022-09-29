@@ -49,11 +49,11 @@ public class IndexTests : TestContext
 		switch (key)
 		{
 			case "_isSortedByNew":
-				bool value = await _sessionStorageService.GetItemAsync<bool>(key);
+				var value = await _sessionStorageService.GetItemAsync<bool>(key);
 				value.Should().Be((bool)Convert.ChangeType(expectedValue, typeof(bool)));
 				break;
 			default:
-				string result = await _sessionStorageService.GetItemAsync<string>(key);
+				var result = await _sessionStorageService.GetItemAsync<string>(key);
 				result.Should().Be(expectedValue);
 				break;
 		}
@@ -207,7 +207,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		// Assert
 		cut.MarkupMatches(_expectedHtml);
@@ -343,7 +343,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		// Assert
 		cut.MarkupMatches(_expectedHtml);
@@ -360,12 +360,12 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.issue-entry-text-title")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
 	}
@@ -381,11 +381,11 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -401,12 +401,12 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -437,9 +437,9 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		var buttons = cut.FindAll("#archive");
 		buttons[0].Click();
 		cut.Find("#confirm").Click();
 
@@ -464,7 +464,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.categories > div")[index].Click();
 
@@ -486,7 +486,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.statuses > div")[index].Click();
 
@@ -503,7 +503,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("#sort-by-new").Click();
 
@@ -520,7 +520,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("#sort-by-popular").Click();
 
@@ -537,7 +537,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("input").Input("test");
 
@@ -608,7 +608,7 @@ public class IndexTests : TestContext
 			return;
 		}
 
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 
 		if (difUser == false)

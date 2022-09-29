@@ -7,12 +7,15 @@
 
 using Microsoft.AspNetCore.Rewrite;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+
+var config = builder.Configuration;
+config.AddEnvironmentVariables("IssueTrackerUI_");
 
 // Add services to the container.
 builder.ConfigureServices();
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

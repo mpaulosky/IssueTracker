@@ -7,10 +7,10 @@ public class NotAuthorizedTests
 	public void NotAuthorized_Should_DisplayMarkup_Test()
 	{
 		// Arrange
-		using TestContext ctx = new TestContext();
+		using var ctx = new TestContext();
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
+		var cut = ctx.RenderComponent<NotAuthorized>();
 
 		// Assert
 		cut.MarkupMatches
@@ -39,15 +39,15 @@ public class NotAuthorizedTests
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		using TestContext ctx = new TestContext();
+		using var ctx = new TestContext();
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
-		IElement buttonElement = cut.Find("button");
+		var cut = ctx.RenderComponent<NotAuthorized>();
+		var buttonElement = cut.Find("button");
 		buttonElement.Click();
 
 		// Assert
-		FakeNavigationManager navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}

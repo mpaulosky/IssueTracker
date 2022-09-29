@@ -17,7 +17,7 @@ public class MongoDbContextTests
 
 		// Act
 
-		MongoDbContext? context = Substitute.For<MongoDbContext>(_options);
+		var context = Substitute.For<MongoDbContext>(_options);
 
 		// Assert
 
@@ -33,7 +33,7 @@ public class MongoDbContextTests
 
 		// Act
 
-		MongoDbContext? context = Substitute.For<MongoDbContext>(_options);
+		var context = Substitute.For<MongoDbContext>(_options);
 
 		// Assert
 
@@ -47,8 +47,8 @@ public class MongoDbContextTests
 
 		// Act
 
-		MongoDbContext? context = Substitute.For<MongoDbContext>(_options);
-		IMongoCollection<UserModel>? myCollection =
+		var context = Substitute.For<MongoDbContext>(_options);
+		var myCollection =
 			context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert

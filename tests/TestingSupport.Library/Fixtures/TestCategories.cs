@@ -5,7 +5,7 @@ public static class TestCategories
 {
 	public static CategoryModel GetKnownCategory()
 	{
-		CategoryModel status = new CategoryModel
+		var status = new CategoryModel
 		{
 			Id = "5dc1039a1521eaa36835e541", CategoryDescription = "New Category", CategoryName = "New"
 		};
@@ -15,7 +15,7 @@ public static class TestCategories
 
 	public static CategoryModel GetCategory(string id, string statusDescription, string statusName)
 	{
-		CategoryModel status = new CategoryModel
+		var status = new CategoryModel
 		{
 			Id = id, CategoryDescription = statusDescription, CategoryName = statusName
 		};
@@ -25,7 +25,7 @@ public static class TestCategories
 
 	public static IEnumerable<CategoryModel> GetCategories()
 	{
-		List<CategoryModel> statuses = new List<CategoryModel>
+		var statuses = new List<CategoryModel>
 		{
 			new()
 			{
@@ -64,14 +64,14 @@ public static class TestCategories
 
 	public static CategoryModel GetNewCategory()
 	{
-		CategoryModel status = new CategoryModel { CategoryDescription = "New Category", CategoryName = "New" };
+		var status = new CategoryModel { CategoryDescription = "New Category", CategoryName = "New" };
 
 		return status;
 	}
 
 	public static CategoryModel GetUpdatedCategory()
 	{
-		CategoryModel status = new CategoryModel
+		var status = new CategoryModel
 		{
 			Id = "5dc1039a1521eaa36835e541", CategoryDescription = "Updated New Category", CategoryName = "New"
 		};

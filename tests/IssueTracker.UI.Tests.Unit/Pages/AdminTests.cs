@@ -22,7 +22,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.MarkupMatches
@@ -49,7 +49,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.MarkupMatches
@@ -139,7 +139,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#approve-issue").Click();
 
 		// Assert
@@ -159,7 +159,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 
 		// Assert
@@ -260,7 +260,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 
 		// Assert
@@ -359,7 +359,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#title-text").Change("Text Change");
 		cut.Find("#submit-edit").Click();
@@ -381,7 +381,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#reject-edit").Click();
 
@@ -472,7 +472,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#submit-description").Click();
@@ -494,7 +494,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#reject-description").Click();
@@ -586,7 +586,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#reject-issue").Click();
 
 		// Assert
@@ -617,18 +617,18 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	private void SetupRepositoryMock()
 	{
-		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
 	}
 

@@ -12,6 +12,7 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class MongoDbContext : IMongoDbContextFactory
 {
+
 	/// <summary>
 	///		MongoDbContext constructor
 	/// </summary>
@@ -19,15 +20,18 @@ public class MongoDbContext : IMongoDbContextFactory
 	/// <exception cref="ArgumentNullException"></exception>
 	public MongoDbContext(IOptions<DatabaseSettings> configuration)
 	{
+
 		Guard.Against.Null(configuration, nameof(configuration));
 
 		DbName = Guard.Against.NullOrEmpty(configuration.Value.DatabaseName, nameof(configuration));
 
 		string connectionString =
 			Guard.Against.NullOrWhiteSpace(configuration.Value.ConnectionString, nameof(connectionString));
+
 		Client = new MongoClient(connectionString);
 
 		Database = Client.GetDatabase(DbName);
+
 	}
 
 	public IMongoDatabase Database { get; }
@@ -43,10 +47,13 @@ public class MongoDbContext : IMongoDbContextFactory
 	/// <exception cref="ArgumentNullException"></exception>
 	public IMongoCollection<T> GetCollection<T>(string name)
 	{
+
 		Guard.Against.NullOrWhiteSpace(name, nameof(name));
 
-		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
+		var collection = Guard.Against.Null(Database.GetCollection<T>(name));
 
 		return collection;
+
 	}
+
 }

@@ -5,7 +5,7 @@ public static class TestComments
 {
 	public static CommentModel GetKnownComment()
 	{
-		CommentModel comment = new CommentModel
+		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			Comment = "Test Comment",
@@ -20,7 +20,7 @@ public static class TestComments
 
 	public static CommentModel GetUpdatedComment()
 	{
-		CommentModel comment = new CommentModel
+		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
 			Comment = "Update Test Comment",
@@ -35,7 +35,7 @@ public static class TestComments
 
 	public static IEnumerable<CommentModel> GetComments()
 	{
-		List<CommentModel> comments = new List<CommentModel>
+		var comments = new List<CommentModel>
 		{
 			new()
 			{
@@ -70,7 +70,7 @@ public static class TestComments
 
 	public static IEnumerable<CommentModel> GetCommentsWithDuplicateAuthors()
 	{
-		List<CommentModel> comments = new List<CommentModel>
+		var comments = new List<CommentModel>
 		{
 			new()
 			{
@@ -105,14 +105,14 @@ public static class TestComments
 
 	public static CommentModel GetComment(string id, string commentName, bool archived)
 	{
-		CommentModel comment = new CommentModel { Id = id, Comment = commentName, Archived = archived };
+		var comment = new CommentModel { Id = id, Comment = commentName, Archived = archived };
 
 		return comment;
 	}
 
 	public static CommentModel GetNewComment()
 	{
-		CommentModel comment = new CommentModel
+		var comment = new CommentModel
 		{
 			Comment = "Test Comment",
 			Archived = false,

@@ -73,7 +73,7 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
+		var cut = RenderComponent<Comment>(parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
@@ -81,7 +81,7 @@ public class CommentTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -100,7 +100,7 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
+		var cut = RenderComponent<Comment>(parameter =>
 		{
 			parameter
 				.Add(p => p.Id, _expectedIssue.Id);
@@ -124,7 +124,7 @@ public class CommentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)

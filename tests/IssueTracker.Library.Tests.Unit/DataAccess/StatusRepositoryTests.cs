@@ -27,7 +27,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
 		_list = new List<StatusModel> { expected };
 
@@ -39,7 +39,7 @@ public class StatusRepositoryTests
 
 		//Act
 
-		StatusModel? result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected.Id);
 
 		//Assert 
 
@@ -61,7 +61,7 @@ public class StatusRepositoryTests
 		// Arrange
 		const int expectedCount = 4;
 
-		List<StatusModel> expected = TestStatuses.GetStatuses().ToList();
+		var expected = TestStatuses.GetStatuses().ToList();
 
 		_list = new List<StatusModel>(expected);
 
@@ -73,7 +73,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		IEnumerable<StatusModel>? result = await _sut.GetStatuses().ConfigureAwait(false);
+		var result = await _sut.GetStatuses().ConfigureAwait(false);
 
 		// Assert
 
@@ -81,7 +81,7 @@ public class StatusRepositoryTests
 			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		List<StatusModel> items = result.ToList();
+		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
 	}
@@ -91,7 +91,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		StatusModel newStatus = TestStatuses.GetKnownStatus();
+		var newStatus = TestStatuses.GetKnownStatus();
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -112,9 +112,9 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
-		StatusModel updatedStatus = TestStatuses.GetStatus(expected.Id, expected.StatusDescription, "Updated New");
+		var updatedStatus = TestStatuses.GetStatus(expected.Id, expected.StatusDescription, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
