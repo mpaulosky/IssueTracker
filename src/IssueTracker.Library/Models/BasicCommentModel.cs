@@ -21,6 +21,12 @@ public class BasicCommentModel
 		Comment = comment?.Comment;
 	}
 
+	public BasicCommentModel(string id, string comment)
+	{
+		Id = id;
+		Comment = comment;
+	}
+
 	public string Id { get; set; }
 
 	public string Comment { get; set; }

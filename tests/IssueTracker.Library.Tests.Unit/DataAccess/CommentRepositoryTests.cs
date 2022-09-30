@@ -1,6 +1,4 @@
-﻿using TestingSupport.Library.Fixtures;
-
-namespace IssueTracker.Library.DataAccess;
+﻿namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests

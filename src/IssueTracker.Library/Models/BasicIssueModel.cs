@@ -10,18 +10,21 @@ namespace IssueTracker.Library.Models;
 [Serializable]
 public class BasicIssueModel
 {
+
 	public BasicIssueModel()
 	{
 	}
 
 	public BasicIssueModel(IssueModel issue)
 	{
+
 		Id = issue?.Id;
 		Issue = issue?.IssueName;
 		Description = issue?.Description;
 		Category = issue?.Category;
 		Status = issue?.IssueStatus;
 		Author = issue?.Author;
+
 	}
 
 	public string Id { get; set; }
@@ -35,4 +38,5 @@ public class BasicIssueModel
 	public BasicStatusModel Status { get; set; }
 
 	public BasicUserModel Author { get; set; }
+
 }

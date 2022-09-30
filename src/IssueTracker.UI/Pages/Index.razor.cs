@@ -280,7 +280,7 @@ public partial class Index
 		{
 			return "issue-entry-status-none";
 		}
-		
+
 		var output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",

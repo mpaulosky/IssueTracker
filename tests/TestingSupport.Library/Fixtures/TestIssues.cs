@@ -222,7 +222,8 @@ public static class TestIssues
 				},
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			}
 		};
 
@@ -248,7 +249,8 @@ public static class TestIssues
 				},
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			}
 		};
 
@@ -267,7 +269,8 @@ public static class TestIssues
 			IssueStatus = new BasicStatusModel(),
 			Category = new BasicCategoryModel
 			{
-				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+				CategoryName = "Miscellaneous",
+				CategoryDescription = "Not sure where this fits."
 			}
 		};
 

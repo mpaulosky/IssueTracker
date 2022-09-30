@@ -24,7 +24,7 @@ public partial class SampleData
 	{
 		await SetButtonStatus();
 	}
-	
+
 	private async Task SetButtonStatus()
 	{
 		_usersCreated = (await UserService.GetUsers()).Any();
@@ -33,21 +33,21 @@ public partial class SampleData
 		_commentsCreated = (await CommentService.GetComments()).Any();
 		_issuesCreated = (await IssueService.GetIssues()).Any();
 	}
-	
+
 	/// <summary>
 	/// Creates the Users method.
 	/// </summary>
 	private async Task CreateUsers()
 	{
 		var users = await UserService.GetUsers();
-		
+
 		if (users?.Count > 0)
 		{
 			return;
 		}
-		
+
 		var items = FakeUser.GetUsers(2);
-		
+
 		foreach (var item in items)
 		{
 			await UserService.CreateUser(item);
@@ -61,7 +61,7 @@ public partial class SampleData
 	private async Task CreateCategories()
 	{
 		var categories = await CategoryService.GetCategories();
-		
+
 		if (categories?.Count > 0)
 		{
 			return;
@@ -69,34 +69,39 @@ public partial class SampleData
 
 		CategoryModel item = new()
 		{
-			CategoryName = "Design", CategoryDescription = "An Issue with the design."
+			CategoryName = "Design",
+			CategoryDescription = "An Issue with the design."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Documentation",
+			CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Implementation",
+			CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
+			CategoryName = "Clarification",
+			CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
+			CategoryName = "Miscellaneous",
+			CategoryDescription = "Not sure where this fits."
 		};
 		await CategoryService.CreateCategory(item);
-		
+
 		_categoriesCreated = true;
 	}
 
@@ -106,7 +111,7 @@ public partial class SampleData
 	private async Task CreateStatuses()
 	{
 		var statuses = await StatusService.GetStatuses();
-		
+
 		if (statuses?.Count > 0)
 		{
 			return;
@@ -140,7 +145,7 @@ public partial class SampleData
 			StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(item);
-		
+
 		_statusesCreated = true;
 	}
 
@@ -150,14 +155,14 @@ public partial class SampleData
 	private async Task CreateComments()
 	{
 		var comments = await CommentService.GetComments();
-		
+
 		if (comments?.Count > 0)
 		{
 			return;
 		}
 
 		var items = FakeComment.GetComments(4);
-		
+
 		foreach (var item in items)
 		{
 			await CommentService.CreateComment(item);
@@ -178,7 +183,7 @@ public partial class SampleData
 		}
 
 		var items = FakeIssue.GetIssues(6);
-		
+
 		foreach (var issue in items)
 		{
 			await IssueService.CreateIssue(issue);

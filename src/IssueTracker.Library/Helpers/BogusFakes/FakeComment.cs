@@ -6,21 +6,26 @@ public static class FakeComment
 	{
 
 		var commentsGenerator = new Faker<CommentModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-			.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-			.RuleFor(x => x.Issue, new BasicIssueModel(FakeIssue.GetIssues(1).First()))
-			.RuleFor(c => c.Author, f => new BasicUserModel(FakeUser.GetUsers(1).First()))
-			.RuleFor(c => c.DateCreated, f => f.Date.Past());
+		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
+		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
+		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
+		.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
-		return commentsGenerator.Generate(numberOfComments);
+		var comments = commentsGenerator.Generate(numberOfComments);
+
+		return comments;
 
 	}
 
 	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
 	{
 
-		var comments = GetComments(numberOfComments);
-		var basicComments = comments.Select(c => new BasicCommentModel(c));
+		var commentsGenerator = new Faker<BasicCommentModel>()
+			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
+
+		var basicComments = commentsGenerator.Generate(numberOfComments);
 
 		return basicComments;
 

@@ -7,18 +7,20 @@ public static class FakeIssue
 	{
 
 		var issueGenerator = new Faker<IssueModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-			.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
-			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
-			.RuleFor(f => f.IssueStatus, new BasicStatusModel(FakeStatus.GetStatuses(1).First()))
-			.RuleFor(f => f.DateCreated, f => f.Date.Past())
-			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
-			.RuleFor(f => f.Rejected, f => f.Random.Bool())
-			.RuleFor(f => f.Author, new BasicUserModel(FakeUser.GetUsers(1).First()))
-			.RuleFor(f => f.Category, new BasicCategoryModel(FakeCategory.GetCategories(1).First()))
-			.RuleFor(f => f.Archived, f => f.Random.Bool());
+		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+		.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
+		.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
+		.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
+		.RuleFor(f => f.DateCreated, f => f.Date.Past())
+		.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
+		.RuleFor(f => f.Rejected, f => f.Random.Bool())
+		.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
+		.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
+		.RuleFor(f => f.Archived, f => f.Random.Bool());
 
-		return issueGenerator.Generate(numberOfIssues);
+		var issues = issueGenerator.Generate(numberOfIssues);
+
+		return issues;
 
 	}
 
@@ -26,6 +28,7 @@ public static class FakeIssue
 	{
 
 		var issues = GetIssues(numberOfIssues);
+
 		var basicIssues = issues.Select(c => new BasicIssueModel(c));
 
 		return basicIssues;

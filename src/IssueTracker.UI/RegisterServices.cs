@@ -47,7 +47,7 @@ public static class RegisterServices
 
 		builder.Services.AddHealthChecks()
 			.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
-		
+
 		// Setup DI
 
 		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContext>();

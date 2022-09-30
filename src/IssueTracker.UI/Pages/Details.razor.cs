@@ -109,7 +109,7 @@ public partial class Details
 			return "issue-detail-status-none";
 
 		}
-		
+
 		var output = _issue.IssueStatus.StatusName switch
 		{
 

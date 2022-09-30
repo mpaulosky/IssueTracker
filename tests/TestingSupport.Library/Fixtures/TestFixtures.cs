@@ -70,7 +70,7 @@ public static class TestFixtures
 
 		return Options.Create(settings);
 	}
-	
+
 	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionString)
 	{
 		var settings =

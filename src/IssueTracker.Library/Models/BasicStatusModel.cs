@@ -21,6 +21,12 @@ public class BasicStatusModel
 		StatusDescription = status?.StatusDescription;
 	}
 
+	public BasicStatusModel(string statusName, string statusDescription)
+	{
+		StatusName = statusName;
+		StatusDescription = statusDescription;
+	}
+
 	public string StatusName { get; init; }
 
 	public string StatusDescription { get; init; }

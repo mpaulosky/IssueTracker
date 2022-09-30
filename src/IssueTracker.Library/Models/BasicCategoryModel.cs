@@ -21,6 +21,12 @@ public class BasicCategoryModel
 		CategoryDescription = category?.CategoryDescription;
 	}
 
+	public BasicCategoryModel(string categoryName, string categoryDescription)
+	{
+		CategoryName = categoryName;
+		CategoryDescription = categoryDescription;
+	}
+
 	public string CategoryName { get; init; }
 
 	public string CategoryDescription { get; init; }
