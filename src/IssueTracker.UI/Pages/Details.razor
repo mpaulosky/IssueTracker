@@ -67,12 +67,6 @@
 				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">
 					@_issue.IssueStatus.StatusName
 				</div>
-				<div class="issue-detail-owner-notes">
-					@if (_issue.OwnerNotes is not null)
-				{
-					@((MarkupString)_issue.OwnerNotes)
-				}
-				</div>
 			</div>
 		</div>
 	</div>

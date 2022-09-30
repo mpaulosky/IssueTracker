@@ -21,7 +21,6 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion is interesting. We are watching to see how much interest there is in it."
 				},
-				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Design", CategoryDescription = "An Issue with the design."
@@ -43,7 +42,6 @@ public static class TestIssues
 					StatusDescription =
 						"The issue was answered and the answer was accepted."
 				},
-				OwnerNotes = "Notes for Issue 2",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
@@ -65,7 +63,6 @@ public static class TestIssues
 					StatusDescription =
 						"An answer to this issue has been submitted."
 				},
-				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
@@ -87,7 +84,6 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion was not something that we are going to undertake."
 				},
-				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Clarification",
@@ -110,7 +106,6 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion is interesting. We are watching to see how much interest there is in it."
 				},
-				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -127,7 +122,6 @@ public static class TestIssues
 				Archived = false,
 				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "Tester" },
 				IssueStatus = new BasicStatusModel(),
-				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Design", CategoryDescription = "An Issue with the design."
@@ -159,7 +153,6 @@ public static class TestIssues
 						StatusDescription =
 							"The suggestion is interesting. We are watching to see how much interest there is in it."
 					},
-				OwnerNotes = "Notes for Issue 1",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -180,7 +173,6 @@ public static class TestIssues
 						StatusDescription =
 							"The suggestion is interesting. We are watching to see how much interest there is in it."
 					},
-				OwnerNotes = "Notes for Issue 2",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -201,7 +193,6 @@ public static class TestIssues
 						StatusDescription =
 							"The suggestion is interesting. We are watching to see how much interest there is in it."
 					},
-				OwnerNotes = "Notes for Issue 3",
 				Category = new BasicCategoryModel
 				{
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -229,7 +220,6 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion is interesting. We are watching to see how much interest there is in it."
 				},
-			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
 				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -256,7 +246,6 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion is interesting. We are watching to see how much interest there is in it."
 				},
-			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
 				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -276,7 +265,6 @@ public static class TestIssues
 			Archived = false,
 			Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Tester" },
 			IssueStatus = new BasicStatusModel(),
-			OwnerNotes = "Notes for Issue 1",
 			Category = new BasicCategoryModel
 			{
 				CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
@@ -293,7 +281,6 @@ public static class TestIssues
 		DateTime dateCreated,
 		bool archived,
 		BasicStatusModel status,
-		string ownerNotes,
 		BasicCategoryModel category)
 	{
 		IssueModel issue = new()
@@ -304,7 +291,6 @@ public static class TestIssues
 			DateCreated = dateCreated,
 			Archived = archived,
 			IssueStatus = status,
-			OwnerNotes = ownerNotes,
 			Category = category
 		};
 

@@ -104,37 +104,31 @@
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 6</p>
 				  <div class=""issue-profile-status issue-profile-status-none""></div>
-				  <p class=""my-ownernote-text"">Notes for Issue 1</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-watching"">Watching</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-dismissed"">Dismissed</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-inwork"">In Work</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 2</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 2</p>
 				  <div class=""issue-profile-status issue-profile-status-answered"">Answered</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 2</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 1</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 1</p>
 				  <div class=""issue-profile-status issue-profile-status-watching"">Watching</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 1</p>
 				</div>
 				<div class=""form-layout mb-3"">
 				  <h2 class=""my-issue-heading"">Pending Issues</h2>
@@ -145,37 +139,31 @@
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 6</p>
 				  <div class=""issue-profile-status issue-profile-status-none""></div>
-				  <p class=""my-ownernote-text"">Notes for Issue 1</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-watching"">Watching</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-dismissed"">Dismissed</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 3</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-inwork"">In Work</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 2</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 2</p>
 				  <div class=""issue-profile-status issue-profile-status-answered"">Answered</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 2</p>
 				  <hr class=""my-issue-separator"">
 				  <div>Test Issue 1</div>
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p class=""my-issue-text"">A new test issue 1</p>
 				  <div class=""issue-profile-status issue-profile-status-watching"">Watching</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 1</p>
 				</div>
 				<div class=""form-layout mb-3"">
 				  <h2 class=""my-issue-heading"">Rejected Issues</h2>
@@ -186,7 +174,6 @@
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p>A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-inwork"">In Work</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				</div>
 				<div class=""form-layout mb-3"">
 				  <h2 class=""my-issue-heading"">Archived Issues</h2>
@@ -197,7 +184,6 @@
 				  <p diff:ignoreChildren diff:ignoreAttributes></p>
 				  <p>A new test issue 3</p>
 				  <div class=""issue-profile-status issue-profile-status-inwork"">In Work</div>
-				  <p class=""my-ownernote-text"">Notes for Issue 3</p>
 				</div>
 				<div class=""form-layout mb-3"">
 				  <h2 class=""my-issue-heading"">Comments</h2>

@@ -32,10 +32,6 @@ public class IssueModel
 
 	public BasicStatusModel IssueStatus { get; set; }
 
-	[BsonElement("owner_notes")]
-	[BsonRepresentation(BsonType.String)]
-	public string OwnerNotes { get; set; }
-
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
