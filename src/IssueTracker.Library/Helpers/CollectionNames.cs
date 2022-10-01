@@ -12,6 +12,7 @@ namespace IssueTracker.Library.Helpers;
 /// </summary>
 public static class CollectionNames
 {
+
 	/// <summary>
 	///		GetCollectionName method
 	/// </summary>
@@ -19,6 +20,7 @@ public static class CollectionNames
 	/// <returns>string collection name</returns>
 	public static string GetCollectionName(string entityName)
 	{
+
 		return entityName switch
 		{
 			"CategoryModel" => "categories",
@@ -28,5 +30,7 @@ public static class CollectionNames
 			"UserModel" => "users",
 			_ => ""
 		};
+
 	}
+
 }
