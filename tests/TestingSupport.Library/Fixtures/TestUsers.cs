@@ -18,7 +18,7 @@ public static class TestUsers
 				AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
 				AuthoredComments = new List<BasicCommentModel>
 				{
-					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
+					new(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())
 				}
 			},
 			new()

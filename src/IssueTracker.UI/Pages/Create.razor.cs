@@ -38,7 +38,7 @@ public partial class Create
 			IssueName = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel(category)
+			Category = new BasicCategoryModel(category.Id, category.CategoryDescription)
 		};
 
 		await IssueService.CreateIssue(s);

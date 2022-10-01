@@ -38,4 +38,19 @@ public class FakeCategoryTests
 
 	}
 
+	[Fact]
+	public void GetBasicCategory_With_RequestForABasicCategory_Should_ReturnAFakeBasicCategory_Test()
+	{
+
+		// Arrange
+
+		// Act
+		var result = FakeCategory.GetBasicCategory();
+
+		// Assert
+		result.CategoryName.Should().NotBeNull();
+		result.CategoryDescription.Should().NotBeNull();
+
+	}
+
 }

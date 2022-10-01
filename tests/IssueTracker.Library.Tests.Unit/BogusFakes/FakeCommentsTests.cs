@@ -39,4 +39,19 @@ public class FakeCommentsTests
 
 	}
 
+	[Fact]
+	public void GetBasicComment_With_RequestForABasicComment_Should_ReturnAFakeBasicComment_Test()
+	{
+
+		// Arrange
+
+		// Act
+		var result = FakeComment.GetBasicComment();
+
+		// Assert
+		result.Id.Should().NotBeNull();
+		result.Comment.Should().NotBeNull();
+
+	}
+
 }

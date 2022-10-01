@@ -30,4 +30,20 @@ public static class FakeComment
 		return basicComments;
 
 	}
+
+	public static BasicCommentModel GetBasicComment()
+	{
+
+		var commentsGenerator = new Faker<BasicCommentModel>()
+			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
+
+		var comment = commentsGenerator.Generate();
+
+		var basicComment = new BasicCommentModel(comment.Id, comment.Comment);
+
+		return basicComment;
+
+	}
+
 }

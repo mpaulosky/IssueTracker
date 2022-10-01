@@ -58,8 +58,8 @@ public partial class Details
 
 				}
 
-				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
+				var selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
 
 				break;
 

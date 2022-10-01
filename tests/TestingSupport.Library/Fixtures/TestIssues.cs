@@ -14,19 +14,9 @@ public static class TestIssues
 				Description = "A new test issue 1",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
-				Author = new BasicUserModel { Id = Guid.NewGuid().ToString(), DisplayName = "jim test" },
-				IssueStatus = new BasicStatusModel
-				{
-					StatusName = "Watching",
-					StatusDescription =
-						"The suggestion is interesting. We are watching to see how much interest there is in it."
-				},
-				Category = new BasicCategoryModel
-				{
-					CategoryName = "Design", CategoryDescription = "An Issue with the design."
-				},
-				ApprovedForRelease = false,
-				Rejected = false
+				Author = new BasicUserModel(Guid.NewGuid().ToString(), "jim test"),
+				IssueStatus = new BasicStatusModel("Watching", "The suggestion is interesting. We are watching to see how much interest there is in it."),
+				Category = new BasicCategoryModel("Design", "An Issue with the design.")
 			},
 			new()
 			{
@@ -205,6 +195,13 @@ public static class TestIssues
 
 	public static IssueModel GetUpdatedIssue()
 	{
+		CategoryModel category = new()
+		{
+			Id = Guid.NewGuid().ToString(),
+			CategoryName = "Miscellaneous",
+			CategoryDescription = "Not sure where this fits."
+		};
+
 		IssueModel issue = new()
 		{
 			Id = "5dc1039a1521eaa36835e542",
@@ -220,11 +217,7 @@ public static class TestIssues
 					StatusDescription =
 						"The suggestion is interesting. We are watching to see how much interest there is in it."
 				},
-			Category = new BasicCategoryModel
-			{
-				CategoryName = "Miscellaneous",
-				CategoryDescription = "Not sure where this fits."
-			}
+			Category = new BasicCategoryModel(category)
 		};
 
 		return issue;

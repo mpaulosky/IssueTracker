@@ -21,7 +21,7 @@ public class BasicStatusModel
 		StatusDescription = status?.StatusDescription;
 	}
 
-	public BasicStatusModel(string statusName, string statusDescription)
+	public BasicStatusModel(string statusName, string statusDescription) : this()
 	{
 		StatusName = statusName;
 		StatusDescription = statusDescription;

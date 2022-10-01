@@ -21,7 +21,7 @@ public class BasicCommentModel
 		Comment = comment?.Comment;
 	}
 
-	public BasicCommentModel(string id, string comment)
+	public BasicCommentModel(string id, string comment) : this()
 	{
 		Id = id;
 		Comment = comment;

@@ -21,7 +21,7 @@ public class BasicCategoryModel
 		CategoryDescription = category?.CategoryDescription;
 	}
 
-	public BasicCategoryModel(string categoryName, string categoryDescription)
+	public BasicCategoryModel(string categoryName, string categoryDescription) : this()
 	{
 		CategoryName = categoryName;
 		CategoryDescription = categoryDescription;

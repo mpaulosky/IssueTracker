@@ -22,9 +22,9 @@ public static class FakeStatus
 		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
 
-		var basicComments = statusGenerator.Generate(numberOfStatuses);
+		var basicStatuses = statusGenerator.Generate(numberOfStatuses);
 
-		return basicComments;
+		return basicStatuses;
 
 	}
 
