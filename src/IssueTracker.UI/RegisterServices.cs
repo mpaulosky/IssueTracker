@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 namespace IssueTracker.UI;
 
 /// <summary>
@@ -46,7 +49,7 @@ public static class RegisterServices
 		builder.Services.AddBlazoredSessionStorage();
 
 		builder.Services.AddHealthChecks()
-			.AddCheck<MongoHealthCheck>("MongoDBConnectionCheck");
+			.AddMongoDb(mongodbConnectionString: builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString"), mongoDatabaseName: builder.Configuration.GetValue<string>("MongoDbSettings:DatabaseName"));
 
 		// Setup DI
 
