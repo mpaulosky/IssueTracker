@@ -1,7 +1,9 @@
-﻿using IssueTracker.Library.Services;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MongoDbHealthCheckBuilderExtensions.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Helpers;
 

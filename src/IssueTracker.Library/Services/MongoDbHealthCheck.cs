@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-using System.Collections.Concurrent;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MongoDbHealthCheck.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace IssueTracker.Library.Services;
 
