@@ -5,11 +5,13 @@ public class MongoDbContextTests
 {
 
 	private readonly IOptions<DatabaseSettings> _options;
+	private readonly IMongoDbContextFactory _sut;
 
 	public MongoDbContextTests()
 	{
 
 		_options = TestFixtures.Settings();
+		_sut = Substitute.For<MongoDbContext>(_options);
 
 	}
 
@@ -21,13 +23,10 @@ public class MongoDbContextTests
 
 		// Act
 
-		var context = Substitute.For<MongoDbContext>(_options);
-
 		// Assert
-
-		context.Should().NotBeNull();
-		context.Client.Should().NotBeNull();
-		context.DbName.Should().Be("TestDb");
+		_sut.Should().NotBeNull();
+		_sut.Client.Should().NotBeNull();
+		_sut.DbName.Should().Be("TestDb");
 
 	}
 
@@ -39,11 +38,8 @@ public class MongoDbContextTests
 
 		// Act
 
-		var context = Substitute.For<MongoDbContext>(_options);
-
 		// Assert
-
-		Assert.Throws<ArgumentException>(() => context.GetCollection<UserModel>(""));
+		Assert.Throws<ArgumentException>(() => _sut.GetCollection<UserModel>(""));
 
 	}
 
@@ -54,13 +50,10 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-
-		var context = Substitute.For<MongoDbContext>(_options);
 		var myCollection =
-			context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+			_sut.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert
-
 		myCollection.Should().NotBeNull();
 		myCollection.CollectionNamespace.CollectionName.Should().BeSameAs("users");
 
