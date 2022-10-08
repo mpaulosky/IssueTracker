@@ -1,11 +1,12 @@
 version: '3.0.0'
 services:
-  mongodb:
-    image: mongo:5.0.6
+  db:
+    image: mongo:latest
+    container_name: my-mongodb
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=MongoAdmin
       - MONGO_INITDB_ROOT_PASSWORD=test123
       - MONGO_INITDB_DATABASE=devissuetracker
     ports:
-      - "27017:27017"
+      - '5432:5432'
