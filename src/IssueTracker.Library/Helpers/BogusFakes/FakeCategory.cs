@@ -3,6 +3,19 @@
 public static class FakeCategory
 {
 
+	public static CategoryModel GetNewCategory()
+	{
+
+		var categoryGenerator = new Faker<CategoryModel>()
+		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
+		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
+
+		var category = categoryGenerator.Generate();
+
+		return category;
+
+	}
+
 	public static IEnumerable<CategoryModel> GetCategories(int numberOfCategories)
 	{
 

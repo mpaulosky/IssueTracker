@@ -1,13 +1,6 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.DataAccess;
-using IssueTracker.Library.Helpers.BogusFakes;
-using IssueTracker.Library.Services;
-
-using Microsoft.Extensions.Caching.Memory;
-
+﻿
 namespace IssueTracker.UI.Tests.Integration.Services.CategoryServicesTests;
 
-[ExcludeFromCodeCoverage]
 public class GetCategoryTests : IClassFixture<IssueTrackerUIFactory>
 {
 
@@ -18,18 +11,18 @@ public class GetCategoryTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		_factory = factory;
-		var repo = _factory.Services.GetRequiredService(typeof(ICategoryRepository));
-		var memCache = _factory.Services.GetRequiredService(typeof(IMemoryCache));
-		_sut = new CategoryService((ICategoryRepository)repo, (IMemoryCache)memCache);
+		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
+		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
+		_sut = new CategoryService(repo, memCache);
 
 	}
 
-	[Fact()]
-	public async Task GetCategory_With_StateUnderTest_Should_ExpectedBehaviour_TestAsync()
+	[Fact]
+	public async Task GetCategory_With_WithData_Should_ReturnAValidCategory_TestAsync()
 	{
 
 		// Arrange
-		var expected = FakeCategory.GetCategories(1).ToList()[0];
+		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
@@ -39,4 +32,49 @@ public class GetCategoryTests : IClassFixture<IssueTrackerUIFactory>
 		result.Should().BeEquivalentTo(expected);
 
 	}
+
+	[Fact]
+	public async Task GetCategory_With_WithoutData_Should_ReturnNothing_TestAsync()
+	{
+		// Arrange
+		var id = "62cf2ad6326e99d665759e5a";
+
+		// Act
+		var result = await _sut.GetCategory(id);
+
+		// Assert
+		result.Should().BeNull();
+
+	}
+
+	[Fact]
+	public async Task GetCategory_With_NullId_Should_ThrowArgumentNullException_Test()
+	{
+
+		// Arrange
+		string? id = null;
+
+		// Act
+		var act = async () => await _sut.GetCategory(id);
+
+		// Assert
+		await act.Should().ThrowAsync<ArgumentNullException>();
+
+	}
+
+	[Fact]
+	public async Task GetCategory_With_EmptyStringId_Should_ThrowArgumentException_Test()
+	{
+
+		// Arrange
+		string? id = "";
+
+		// Act
+		var act = async () => await _sut.GetCategory(id);
+
+		// Assert
+		await act.Should().ThrowAsync<ArgumentException>();
+
+	}
+
 }

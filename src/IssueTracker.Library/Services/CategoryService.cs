@@ -12,6 +12,7 @@ namespace IssueTracker.Library.Services;
 /// </summary>
 public class CategoryService : ICategoryService
 {
+
 	private const string _cacheName = "CategoryData";
 	private readonly IMemoryCache _cache;
 	private readonly ICategoryRepository _repository;
@@ -24,8 +25,10 @@ public class CategoryService : ICategoryService
 	/// <exception cref="ArgumentNullException"></exception>
 	public CategoryService(ICategoryRepository repository, IMemoryCache cache)
 	{
+
 		_repository = Guard.Against.Null(repository, nameof(repository));
 		_cache = Guard.Against.Null(cache, nameof(cache));
+
 	}
 
 	/// <summary>
@@ -36,11 +39,13 @@ public class CategoryService : ICategoryService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<CategoryModel> GetCategory(string categoryId)
 	{
+
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
 
 		var result = await _repository.GetCategory(categoryId).ConfigureAwait(true);
 
 		return result;
+
 	}
 
 	/// <summary>
@@ -49,6 +54,7 @@ public class CategoryService : ICategoryService
 	/// <returns>Task of List CategoryModel</returns>
 	public async Task<List<CategoryModel>> GetCategories()
 	{
+
 		var output = _cache.Get<List<CategoryModel>>(_cacheName);
 
 		if (output is not null)
@@ -63,6 +69,7 @@ public class CategoryService : ICategoryService
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
 
 		return output;
+
 	}
 
 	/// <summary>
@@ -73,9 +80,11 @@ public class CategoryService : ICategoryService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateCategory(CategoryModel category)
 	{
+
 		Guard.Against.Null(category, nameof(category));
 
 		return _repository.CreateCategory(category);
+
 	}
 
 	/// <summary>
@@ -86,8 +95,10 @@ public class CategoryService : ICategoryService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateCategory(CategoryModel category)
 	{
+
 		Guard.Against.Null(category, nameof(category));
 
 		return _repository.UpdateCategory(category.Id, category);
+
 	}
 }

@@ -8,11 +8,16 @@ global using Ductus.FluentDocker.Services;
 
 global using FluentAssertions;
 
+global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.Helpers;
+global using IssueTracker.Library.Helpers.BogusFakes;
+global using IssueTracker.Library.Models;
+global using IssueTracker.Library.Services;
 
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;
+global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Playwright;
 
