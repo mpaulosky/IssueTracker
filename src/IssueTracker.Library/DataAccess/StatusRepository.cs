@@ -38,8 +38,9 @@ public class StatusRepository : IStatusRepository
 	/// <returns>Task of StatusModel</returns>
 	public async Task<StatusModel> GetStatus(string statusId)
 	{
+		var objectId = new ObjectId(statusId);
 
-		var filter = Builders<StatusModel>.Filter.Eq("_id", statusId);
+		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
 		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 

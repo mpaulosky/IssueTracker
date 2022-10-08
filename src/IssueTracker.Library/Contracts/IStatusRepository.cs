@@ -9,11 +9,11 @@ namespace IssueTracker.Library.Contracts;
 
 public interface IStatusRepository
 {
-	Task<StatusModel> GetStatus(string statusId);
+	Task<StatusModel> GetStatus(string itemId);
 
 	Task<IEnumerable<StatusModel>> GetStatuses();
 
 	Task CreateStatus(StatusModel status);
 
-	Task UpdateStatus(string id, StatusModel status);
+	Task UpdateStatus(string itemId, StatusModel status);
 }

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.Library.Helpers.BogusFakes;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -34,12 +36,14 @@ public class CategoryRepository : ICategoryRepository
 	/// <summary>
 	///		GetCategory method
 	/// </summary>
-	/// <param name="categoryId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	public async Task<CategoryModel> GetCategory(string categoryId)
+	public async Task<CategoryModel> GetCategory(string itemId)
 	{
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", categoryId);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
 		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 
@@ -76,12 +80,14 @@ public class CategoryRepository : ICategoryRepository
 	/// <summary>
 	///		UpdateCategory method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="category">CategoryModel</param>
-	public async Task UpdateCategory(string id, CategoryModel category)
+	public async Task UpdateCategory(string itemId, CategoryModel category)
 	{
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", id);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter, category);
 

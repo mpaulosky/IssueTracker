@@ -17,13 +17,13 @@ public class TestContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		Initializes a new instance of the <see cref="TestContextFactory" /> class.
 	/// </summary>
-	/// <param name="configuration">The configuration.</param>
-	public TestContextFactory(IOptions<DatabaseSettings> configuration)
+	/// <param name="settings">The DatabaseSettings.</param>
+	public TestContextFactory(IDatabaseSettings settings)
 	{
 
-		DbName = configuration.Value.DatabaseName;
+		DbName = settings.DatabaseName!;
 
-		var connectionString = configuration.Value.ConnectionString;
+		var connectionString = settings.ConnectionString!;
 
 		Client = new MongoClient(connectionString);
 

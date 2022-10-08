@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.Library.Helpers.BogusFakes;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -81,12 +83,14 @@ public class CommentRepository : ICommentRepository
 	/// <summary>
 	///		GetComment method
 	/// </summary>
-	/// <param name="commentId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetComment(string commentId)
+	public async Task<CommentModel> GetComment(string itemId)
 	{
 
-		var filter = Builders<CommentModel>.Filter.Eq("_id", commentId);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 		var result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
 
@@ -140,12 +144,14 @@ public class CommentRepository : ICommentRepository
 	/// <summary>
 	///		UpdateComment method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="comment">CommentModel</param>
-	public async Task UpdateComment(string id, CommentModel comment)
+	public async Task UpdateComment(string itemId, CommentModel comment)
 	{
 
-		var filter = Builders<CommentModel>.Filter.Eq("_id", id);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 		await _commentCollection.ReplaceOneAsync(filter, comment);
 
@@ -154,10 +160,10 @@ public class CommentRepository : ICommentRepository
 	/// <summary>
 	///		UpvoteComment method
 	/// </summary>
-	/// <param name="commentId">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteComment(string commentId, string userId)
+	public async Task UpVoteComment(string itemId, string userId)
 	{
 
 		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
@@ -169,7 +175,7 @@ public class CommentRepository : ICommentRepository
 
 			var commentsInTransaction = _commentCollection;
 
-			var objectId = new ObjectId(commentId);
+			var objectId = new ObjectId(itemId);
 
 			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
@@ -184,7 +190,7 @@ public class CommentRepository : ICommentRepository
 
 			}
 
-			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == commentId, comment);
+			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == itemId, comment);
 
 			await session.CommitTransactionAsync();
 

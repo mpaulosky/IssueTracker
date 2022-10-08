@@ -9,11 +9,11 @@ namespace IssueTracker.Library.Contracts;
 
 public interface ICommentRepository
 {
-	Task<CommentModel> GetComment(string commentId);
+	Task<CommentModel> GetComment(string itemId);
 
 	Task<IEnumerable<CommentModel>> GetComments();
 
-	Task UpdateComment(string id, CommentModel comment);
+	Task UpdateComment(string itemId, CommentModel comment);
 
 	Task<IEnumerable<CommentModel>> GetUsersComments(string userId);
 
@@ -21,5 +21,5 @@ public interface ICommentRepository
 
 	Task CreateComment(CommentModel comment);
 
-	Task UpVoteComment(string commentId, string userId);
+	Task UpVoteComment(string itemId, string userId);
 }

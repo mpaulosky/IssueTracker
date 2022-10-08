@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.Library.Helpers.BogusFakes;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -34,12 +36,12 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///		GetUser method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUser(string userId)
+	public async Task<UserModel> GetUser(string itemId)
 	{
 
-		var objectId = new ObjectId(userId);
+		var objectId = new ObjectId(itemId);
 
 		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
@@ -78,12 +80,13 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///		UpdateUser method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="user">UserModel</param>
-	public async Task UpdateUser(string id, UserModel user)
+	public async Task UpdateUser(string itemId, UserModel user)
 	{
+		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<UserModel>.Filter.Eq("_id", id);
+		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
 		await _collection!.ReplaceOneAsync(filter!, user);
 
@@ -92,12 +95,12 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///		GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserFromAuthentication(string userId)
+	public async Task<UserModel> GetUserFromAuthentication(string itemId)
 	{
 
-		var filter = Builders<UserModel>.Filter.Eq("object_identifier", userId);
+		var filter = Builders<UserModel>.Filter.Eq("object_identifier", itemId);
 
 		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 

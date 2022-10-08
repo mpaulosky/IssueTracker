@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.ComponentModel.Design;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -82,10 +84,12 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
-	public async Task<IssueModel> GetIssue(string issueId)
+	public async Task<IssueModel> GetIssue(string itemId)
 	{
 
-		var filter = Builders<IssueModel>.Filter.Eq("_id", issueId);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
 		var result = (await _issueCollection.FindAsync(filter)).FirstOrDefault();
 
@@ -155,12 +159,14 @@ public class IssueRepository : IIssueRepository
 	/// <summary>
 	///		UpdateIssue method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="issue">IssueModel</param>
-	public async Task UpdateIssue(string id, IssueModel issue)
-	{
+	public async Task UpdateIssue(string itemId, IssueModel issue)
+	{ 
 
-		var filter = Builders<IssueModel>.Filter.Eq("_id", id);
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
 		await _issueCollection.ReplaceOneAsync(filter, issue);
 
