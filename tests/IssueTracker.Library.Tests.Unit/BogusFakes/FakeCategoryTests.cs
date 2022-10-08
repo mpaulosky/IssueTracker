@@ -10,13 +10,12 @@ public class FakeCategoryTests
 
 		// Arrange
 
-
 		// Act
 		var result = FakeCategory.GetCategories(1);
 
 		// Assert
 		result.Count().Should().Be(1);
-		result.First().Id.Should().NotBeNull();
+		result.First().Id.Should().BeNull();
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
 

@@ -2,13 +2,12 @@
 
 public class TestContextFactoryTests
 {
-
-	private readonly IOptions<DatabaseSettings> _options;
+	DatabaseSettings _options;
 
 	public TestContextFactoryTests()
 	{
 
-		_options = TestFixtures.Settings();
+		_options = new DatabaseSettings(connectionString: "mongodb://localhost:27017", databaseName: "TestDb");
 
 	}
 
@@ -18,7 +17,6 @@ public class TestContextFactoryTests
 		// Arrange
 
 		// Act
-
 		var context = Substitute.For<TestContextFactory>(_options);
 
 		// Assert
