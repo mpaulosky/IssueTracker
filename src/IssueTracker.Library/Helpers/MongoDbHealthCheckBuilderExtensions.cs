@@ -12,7 +12,7 @@ namespace IssueTracker.Library.Helpers;
 /// </summary>
 public static class MongoDbHealthCheckBuilderExtensions
 {
-	private const string NAME = "mongodb";
+	private const string _name = "mongodb";
 
 
 	/// <summary>
@@ -38,8 +38,11 @@ public static class MongoDbHealthCheckBuilderExtensions
 			IEnumerable<string>? tags = default,
 			TimeSpan? timeout = default)
 	{
+		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
+		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
+
 		return builder.Add(new HealthCheckRegistration(
-				name ?? NAME,
+				name ?? _name,
 				sp => new MongoDbHealthCheck(mongodbConnectionString, mongoDatabaseName),
 				failureStatus,
 				tags,

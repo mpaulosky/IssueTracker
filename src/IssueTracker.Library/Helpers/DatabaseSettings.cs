@@ -13,8 +13,21 @@ namespace IssueTracker.Library.Helpers;
 public class DatabaseSettings : IDatabaseSettings
 {
 
-	public string ConnectionString { get; set; }
+	public DatabaseSettings()
+	{
 
-	public string DatabaseName { get; set; }
+	}
+
+	public DatabaseSettings(string connectionString, string databaseName)
+	{
+
+		ConnectionString = connectionString!;
+		DatabaseName = databaseName!;
+
+	}
+
+	public string? ConnectionString { get; set; }
+
+	public string? DatabaseName { get; set; }
 
 }

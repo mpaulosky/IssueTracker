@@ -7,7 +7,7 @@ public static class FakeCategory
 	{
 
 		var categoryGenerator = new Faker<CategoryModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+		//.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
 

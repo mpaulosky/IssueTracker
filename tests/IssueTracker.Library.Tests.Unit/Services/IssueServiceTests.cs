@@ -66,7 +66,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var result = await _sut.GetIssue(expected.Id);
+		var result = await _sut.GetIssue(expected!.Id!);
 
 		//Assert
 
@@ -253,7 +253,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersIssues(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersIssues(userId: null));
 	}
 
 	[Fact(DisplayName = "GetIssuesWaitingForApproval")]
@@ -345,7 +345,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null));
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);

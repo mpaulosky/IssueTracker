@@ -112,7 +112,7 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.UpdateIssue(issue.Id, issue).ConfigureAwait(true);
+		await _repository.UpdateIssue(issue!.Id!, issue).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}

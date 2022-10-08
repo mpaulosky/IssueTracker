@@ -98,7 +98,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
 	}
 
 	[Fact(DisplayName = "Get Comments")]

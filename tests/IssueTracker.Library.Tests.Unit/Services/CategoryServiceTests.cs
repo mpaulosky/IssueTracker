@@ -49,7 +49,7 @@ public class CategoryServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null));
 	}
 
 	[Fact(DisplayName = "Get Category With Valid Id")]
