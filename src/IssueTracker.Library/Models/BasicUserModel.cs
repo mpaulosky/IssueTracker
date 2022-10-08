@@ -14,16 +14,16 @@ public class BasicUserModel
 	{
 	}
 
-	public BasicUserModel(UserModel user)
+	public BasicUserModel(UserModel? user)
 	{
-		Id = user?.Id;
-		DisplayName = user?.DisplayName;
+		Id = user!.Id!;
+		DisplayName = user!.DisplayName!;
 	}
 
 	public BasicUserModel(string id, string displayName) : this()
 	{
-		Id = id;
-		DisplayName = displayName;
+		Id = id!;
+		DisplayName = displayName!;
 	}
 
 	public string Id { get; init; }

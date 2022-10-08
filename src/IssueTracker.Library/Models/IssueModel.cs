@@ -12,25 +12,25 @@ public class IssueModel
 {
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; }
+	public string? Id { get; set; }
 
 	[BsonElement("issue_name")]
 	[BsonRepresentation(BsonType.String)]
-	public string IssueName { get; set; }
+	public string? IssueName { get; set; }
 
 	[BsonElement("description")]
 	[BsonRepresentation(BsonType.String)]
-	public string Description { get; set; }
+	public string? Description { get; set; }
 
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-	public BasicCategoryModel Category { get; set; }
+	public BasicCategoryModel? Category { get; set; }
 
-	public BasicUserModel Author { get; set; }
+	public BasicUserModel? Author { get; set; }
 
-	public BasicStatusModel IssueStatus { get; set; }
+	public BasicStatusModel? IssueStatus { get; set; }
 
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]

@@ -65,17 +65,19 @@ public static class TestFixtures
 
 	public static IOptions<DatabaseSettings> Settings()
 	{
-		var settings =
-			new DatabaseSettings { DatabaseName = "TestDb", ConnectionString = "mongodb://tes123" };
+
+		var settings = new DatabaseSettings(connectionString: "mongodb://test123", databaseName: "TestDb");
 
 		return Options.Create(settings);
+
 	}
 
 	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionString)
 	{
-		var settings =
-			new DatabaseSettings { DatabaseName = databaseName, ConnectionString = connectionString };
+
+		var settings = new DatabaseSettings(connectionString: "mongodb://test123", databaseName: "TestDb");
 
 		return Options.Create(settings);
+
 	}
 }

@@ -27,16 +27,16 @@ public class BasicIssueModel
 
 	}
 
-	public string Id { get; set; }
+	public string? Id { get; set; }
 
-	public string Issue { get; set; }
+	public string? Issue { get; set; }
 
-	public string Description { get; set; }
+	public string? Description { get; set; }
 
-	public BasicCategoryModel Category { get; set; }
+	public BasicCategoryModel? Category { get; set; }
 
-	public BasicStatusModel Status { get; set; }
+	public BasicStatusModel? Status { get; set; }
 
-	public BasicUserModel Author { get; set; }
+	public BasicUserModel? Author { get; set; }
 
 }

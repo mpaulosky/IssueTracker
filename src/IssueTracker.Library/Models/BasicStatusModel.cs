@@ -17,17 +17,22 @@ public class BasicStatusModel
 
 	public BasicStatusModel(StatusModel status)
 	{
-		StatusName = status?.StatusName;
-		StatusDescription = status?.StatusDescription;
+
+		StatusName = status!.StatusName!;
+		StatusDescription = status!.StatusDescription!;
+
 	}
 
 	public BasicStatusModel(string statusName, string statusDescription) : this()
 	{
-		StatusName = statusName;
-		StatusDescription = statusDescription;
+
+		StatusName = statusName!;
+		StatusDescription = statusDescription!;
+
 	}
 
 	public string StatusName { get; init; }
 
 	public string StatusDescription { get; init; }
+
 }

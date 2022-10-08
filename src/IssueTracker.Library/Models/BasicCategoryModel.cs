@@ -27,7 +27,7 @@ public class BasicCategoryModel
 		CategoryDescription = categoryDescription;
 	}
 
-	public string CategoryName { get; init; }
+	public string? CategoryName { get; init; }
 
-	public string CategoryDescription { get; init; }
+	public string? CategoryDescription { get; init; }
 }
