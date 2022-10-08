@@ -37,7 +37,7 @@ public class StatusRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected!.Id!);
 
 		//Assert 
 
@@ -50,7 +50,7 @@ public class StatusRepositoryTests
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
-		result.StatusName.Length.Should().BeGreaterThan(1);
+		result!.StatusName!.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
@@ -112,7 +112,7 @@ public class StatusRepositoryTests
 
 		var expected = TestStatuses.GetKnownStatus();
 
-		var updatedStatus = TestStatuses.GetStatus(expected.Id, expected.StatusDescription, "Updated New");
+		var updatedStatus = TestStatuses.GetStatus(expected!.Id!, expected!.StatusDescription!, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -126,7 +126,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		await _sut.UpdateStatus(updatedStatus.Id, updatedStatus);
+		await _sut.UpdateStatus(updatedStatus!.Id!, updatedStatus);
 
 		// Assert
 

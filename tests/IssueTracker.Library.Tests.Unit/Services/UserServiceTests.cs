@@ -61,7 +61,7 @@ public class UserServiceTests
 
 		//Act
 
-		var result = await _sut.GetUser(expected.Id);
+		var result = await _sut.GetUser(expected!.Id!);
 
 		//Assert
 
@@ -133,7 +133,7 @@ public class UserServiceTests
 
 		//Act
 
-		var result = await _sut.GetUserFromAuthentication(expected.Id);
+		var result = await _sut.GetUserFromAuthentication(expected!.Id!);
 
 		//Assert
 

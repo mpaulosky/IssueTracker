@@ -65,12 +65,12 @@ public class StatusServiceTests
 
 		//Act
 
-		var result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected!.Id!);
 
 		//Assert
 
 		result.Should().NotBeNull();
-		result.Id.Should().Be(expected.Id);
+		result!.Id!.Should().Be(expected!.Id!);
 	}
 
 	[Fact(DisplayName = "Get Status With Empty String Id")]

@@ -73,7 +73,7 @@ public class IssueRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetIssue(expected.Id);
+		var result = await _sut.GetIssue(expected!.Id!);
 
 		//Assert 
 
@@ -86,7 +86,7 @@ public class IssueRepositoryTests
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
-		result.Description.Length.Should().BeGreaterThan(1);
+		result!.Description!.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Get Issues")]
@@ -126,7 +126,7 @@ public class IssueRepositoryTests
 
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors().ToList();
 
-		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
+		_list = new List<IssueModel>(expected).Where(x => x!.Author!.Id == expectedUserId).ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -213,13 +213,13 @@ public class IssueRepositoryTests
 		var expected = TestIssues.GetKnownIssue();
 
 		var updatedIssue = TestIssues.GetIssue(
-			expected.Id,
+			expected!.Id!,
 			"Test Issue 1 updated",
 			"A new test issue 1 updated",
-			expected.DateCreated,
-			expected.Archived,
-			expected.IssueStatus,
-			expected.Category);
+			expected!.DateCreated!,
+			expected!.Archived!,
+			expected!.IssueStatus!,
+			expected!.Category!);
 
 		_list = new List<IssueModel> { expected };
 
@@ -231,7 +231,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		await _sut.UpdateIssue(updatedIssue.Id, updatedIssue);
+		await _sut.UpdateIssue(updatedIssue!.Id!, updatedIssue);
 
 		// Assert
 

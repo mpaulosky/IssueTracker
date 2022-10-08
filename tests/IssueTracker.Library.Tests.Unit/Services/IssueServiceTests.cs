@@ -172,7 +172,7 @@ public class IssueServiceTests
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
-			.Where(x => x.Author.Id == expectedUser).ToList();
+			.Where(x => x!.Author!.Id == expectedUser).ToList();
 
 		_issueRepositoryMock.Setup(x => x.GetUsersIssues(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -202,7 +202,7 @@ public class IssueServiceTests
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
-			.Where(x => x.Author.Id == expectedUser).ToList();
+			.Where(x => x!.Author!.Id == expectedUser).ToList();
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))

@@ -74,7 +74,7 @@ public class CommentRepositoryTests
 		//Act
 
 #pragma warning disable CS8602
-		var result = await _sut.GetComment(expected.Id).ConfigureAwait(false);
+		var result = await _sut.GetComment(expected!.Id!).ConfigureAwait(false);
 #pragma warning restore CS8602
 
 		//Assert 
@@ -167,7 +167,7 @@ public class CommentRepositoryTests
 		var expected = TestComments.GetKnownComment();
 
 		var updatedComment =
-			TestComments.GetComment(expected.Id, "Test Comment Update", expected.Archived);
+			TestComments.GetComment(expected!.Id!, "Test Comment Update", expected!.Archived!);
 
 		_list = new List<CommentModel> { updatedComment };
 
@@ -179,7 +179,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpdateComment(updatedComment.Id, updatedComment);
+		await _sut.UpdateComment(updatedComment!.Id!, updatedComment);
 
 		// Assert
 
@@ -212,7 +212,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpVoteComment(expected.Id, user.Id);
+		await _sut.UpVoteComment(expected!.Id!, user!.Id!);
 
 		// Assert
 
@@ -242,7 +242,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpVoteComment(expected.Id, user.Id);
+		await _sut.UpVoteComment(expected!.Id!, user!.Id!);
 
 		// Assert
 

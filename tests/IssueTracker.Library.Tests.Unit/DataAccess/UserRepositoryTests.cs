@@ -59,7 +59,7 @@ public class UserRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetUser(expected.Id);
+		var result = await _sut.GetUser(expected!.Id!);
 
 		//Assert 
 
@@ -74,8 +74,8 @@ public class UserRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 		result.AuthoredComments.Should().NotBeNull();
 		result.AuthoredIssues.Should().NotBeNull();
-		result.FirstName.Length.Should().BeGreaterThan(1);
-		result.EmailAddress.Length.Should().BeGreaterThan(1);
+		result!.FirstName!.Length.Should().BeGreaterThan(1);
+		result!.EmailAddress!.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "GetUser From Authentication")]
@@ -94,7 +94,7 @@ public class UserRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetUserFromAuthentication(expected.ObjectIdentifier).ConfigureAwait(false);
+		var result = await _sut.GetUserFromAuthentication(expected!.ObjectIdentifier!).ConfigureAwait(false);
 
 		//Assert 
 
@@ -154,9 +154,9 @@ public class UserRepositoryTests
 
 		var expected = TestUsers.GetKnownUser();
 
-		var updatedUser = TestUsers.GetUser(expected.Id, expected.ObjectIdentifier, "James",
-			expected.LastName,
-			expected.DisplayName, "james.test@test.com");
+		var updatedUser = TestUsers.GetUser(userId: expected!.Id!, expected!.ObjectIdentifier!, "James",
+			expected!.LastName!,
+			expected!.DisplayName!, "james.test@test.com");
 
 		_list = new List<UserModel> { updatedUser };
 
@@ -168,7 +168,7 @@ public class UserRepositoryTests
 
 		// Act
 
-		await _sut.UpdateUser(updatedUser.Id, updatedUser);
+		await _sut.UpdateUser(updatedUser!.Id!, updatedUser);
 
 		// Assert
 

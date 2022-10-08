@@ -65,7 +65,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var result = await _sut.GetComment(expected.Id);
+		var result = await _sut.GetComment(expected!.Id!);
 
 		//Assert
 
@@ -300,7 +300,7 @@ public class CommentServiceTests
 
 		// Act
 
-		await _sut.UpVoteComment(comment.Id, testId);
+		await _sut.UpVoteComment(comment!.Id!, testId);
 
 		// Assert
 
