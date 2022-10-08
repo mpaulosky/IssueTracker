@@ -40,14 +40,14 @@ public class UserService : IUserService
 	/// <summary>
 	///		GetUser method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of UserModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<UserModel> GetUser(string userId)
+	public async Task<UserModel> GetUser(string itemId)
 	{
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+		Guard.Against.NullOrWhiteSpace(itemId, nameof(itemId));
 
-		var results = await _repo.GetUser(userId);
+		var results = await _repo.GetUser(itemId);
 
 		return results;
 	}
@@ -88,6 +88,6 @@ public class UserService : IUserService
 	{
 		Guard.Against.Null(user, nameof(user));
 
-		return _repo.UpdateUser(user.Id, user);
+		return _repo.UpdateUser(user!.Id!, user);
 	}
 }
