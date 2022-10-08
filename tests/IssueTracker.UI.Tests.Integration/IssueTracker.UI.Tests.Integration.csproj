@@ -34,10 +34,4 @@
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="docker-compose.integration.yml">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 </Project>
