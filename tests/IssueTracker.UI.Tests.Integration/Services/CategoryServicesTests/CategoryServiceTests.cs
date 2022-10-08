@@ -3,7 +3,6 @@
 public class CategoryServiceTests : IClassFixture<IssueTrackerUIFactory>
 {
 	private readonly IssueTrackerUIFactory _factory;
-	private readonly CategoryService _sut;
 	private ICategoryRepository _repo;
 	private IMemoryCache _cache;
 

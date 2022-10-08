@@ -116,7 +116,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.UpdateComment(comment.Id, comment).ConfigureAwait(true);
+		await _repository.UpdateComment(comment!.Id!, comment).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}
