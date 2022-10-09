@@ -51,7 +51,7 @@ public class StatusService : IStatusService
 	{
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		var result = await _repository.GetStatus(statusId).ConfigureAwait(true);
+		var result = await _repository.GetStatus(statusId);
 
 		return result;
 	}
@@ -68,7 +68,7 @@ public class StatusService : IStatusService
 			return output;
 		}
 
-		var results = await _repository.GetStatuses().ConfigureAwait(true);
+		var results = await _repository.GetStatuses();
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
@@ -86,6 +86,6 @@ public class StatusService : IStatusService
 	{
 		Guard.Against.Null(status, nameof(status));
 
-		return _repository.UpdateStatus(status.Id, status);
+		return _repository.UpdateStatus(status!.Id!, status);
 	}
 }

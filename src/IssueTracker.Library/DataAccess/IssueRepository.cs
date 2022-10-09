@@ -60,7 +60,7 @@ public class IssueRepository : IIssueRepository
 
 			var usersInTransaction = _userCollection;
 
-			var user = (await _userCollection.FindAsync(u => u.Id == issue.Author.Id)).First();
+			var user = (await _userCollection.FindAsync(u => u.Id == issue!.Author!.Id)).First();
 
 			user.AuthoredIssues.Add(new BasicIssueModel(issue));
 
@@ -150,7 +150,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
 	{
 
-		var results = (await _issueCollection.FindAsync(s => s.Author.Id == userId)).ToList();
+		var results = (await _issueCollection.FindAsync(s => s.Author!.Id == userId)).ToList();
 
 		return results;
 

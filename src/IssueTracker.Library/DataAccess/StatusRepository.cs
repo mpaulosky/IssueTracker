@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.Library.Helpers.BogusFakes;
+
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -34,11 +36,11 @@ public class StatusRepository : IStatusRepository
 	/// <summary>
 	///		GetStatus method
 	/// </summary>
-	/// <param name="statusId">string</param>
+	/// <param name="itemId">string</param>
 	/// <returns>Task of StatusModel</returns>
-	public async Task<StatusModel> GetStatus(string statusId)
+	public async Task<StatusModel> GetStatus(string itemId)
 	{
-		var objectId = new ObjectId(statusId);
+		var objectId = new ObjectId(itemId);
 
 		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
@@ -77,12 +79,13 @@ public class StatusRepository : IStatusRepository
 	/// <summary>
 	///		UpdateStatus method
 	/// </summary>
-	/// <param name="id">string</param>
+	/// <param name="itemId">string</param>
 	/// <param name="status">StatusModel</param>
-	public async Task UpdateStatus(string id, StatusModel status)
+	public async Task UpdateStatus(string itemId, StatusModel status)
 	{
+		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<StatusModel>.Filter.Eq("_id", id);
+		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter, status);
 

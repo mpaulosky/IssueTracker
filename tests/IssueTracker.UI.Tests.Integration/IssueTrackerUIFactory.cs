@@ -1,13 +1,4 @@
-﻿using IssueTracker.Library.Contracts;
-using IssueTracker.Library.DataAccess;
-using IssueTracker.Library.Services;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-
-using TestingSupport.Library.Fixtures;
-
+﻿
 namespace IssueTracker.UI.Tests.Integration;
 
 public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
@@ -33,7 +24,7 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 		{
 
 			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContext));
-			services.Remove(descriptorMongoDbContext);
+			services.Remove(item: descriptorMongoDbContext!);
 
 			var dbSettings = new DatabaseSettings(_dbContainer.ConnectionString, _dbContainer.Database);
 
