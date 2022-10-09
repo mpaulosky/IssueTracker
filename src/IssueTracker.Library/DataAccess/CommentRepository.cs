@@ -121,7 +121,7 @@ public class CommentRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
+		var results = (await _commentCollection.FindAsync(s => s.Issue!.Id! == issueId)).ToList();
 
 		return results;
 

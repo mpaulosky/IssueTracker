@@ -2,6 +2,22 @@ namespace IssueTracker.Library.Helpers.BogusFakes;
 
 public static class FakeComment
 {
+
+	public static CommentModel GetNewComment()
+	{
+
+		var commentsGenerator = new Faker<CommentModel>()
+		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
+		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
+		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
+		.RuleFor(c => c.DateCreated, f => f.Date.Past());
+
+		var comment = commentsGenerator.Generate();
+
+		return comment;
+
+	}
+
 	public static IEnumerable<CommentModel> GetComments(int numberOfComments)
 	{
 
