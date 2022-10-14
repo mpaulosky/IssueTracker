@@ -14,12 +14,8 @@ public static class TestUsers
 				FirstName = "Jim",
 				LastName = "Test",
 				DisplayName = "jim test",
-				EmailAddress = "jim.test@test.com",
-				AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-				AuthoredComments = new List<BasicCommentModel>
-				{
-					new(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())
-				}
+				EmailAddress = "jim.test@test.com"
+
 			},
 			new()
 			{
@@ -28,16 +24,7 @@ public static class TestUsers
 				FirstName = "Sam",
 				LastName = "Test",
 				DisplayName = "sam test",
-				EmailAddress = "sam.test@test.com",
-				AuthoredIssues =
-					new List<BasicIssueModel>
-					{
-						new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() }
-					},
-				AuthoredComments = new List<BasicCommentModel>
-				{
-					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
-				}
+				EmailAddress = "sam.test@test.com"
 			},
 			new()
 			{
@@ -46,16 +33,7 @@ public static class TestUsers
 				FirstName = "Tim",
 				LastName = "Test",
 				DisplayName = "tim test",
-				EmailAddress = "tim.test@test.com",
-				AuthoredIssues =
-					new List<BasicIssueModel>
-					{
-						new() { Id = Guid.NewGuid().ToString(), Issue = Guid.NewGuid().ToString() }
-					},
-				AuthoredComments = new List<BasicCommentModel>
-				{
-					new() { Id = Guid.NewGuid().ToString(), Comment = Guid.NewGuid().ToString() }
-				}
+				EmailAddress = "tim.test@test.com"
 			}
 		};
 
@@ -71,9 +49,7 @@ public static class TestUsers
 			FirstName = "Jim",
 			LastName = "Test",
 			DisplayName = "jim test",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
+			EmailAddress = "jim.test@test.com"
 		};
 
 		return user;
@@ -89,9 +65,7 @@ public static class TestUsers
 			FirstName = "Jim",
 			LastName = "Test",
 			DisplayName = "jim test",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
+			EmailAddress = "jim.test@test.com"
 		};
 
 		return user;
@@ -112,9 +86,7 @@ public static class TestUsers
 			FirstName = firstName,
 			LastName = lastName,
 			DisplayName = "jim test",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel>(),
-			AuthoredComments = new List<BasicCommentModel>()
+			EmailAddress = "jim.test@test.com"
 		};
 
 		return expected;
@@ -128,9 +100,7 @@ public static class TestUsers
 			FirstName = "Jim",
 			LastName = "Test",
 			DisplayName = "jim test",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
+			EmailAddress = "jim.test@test.com"
 		};
 
 		return user;
@@ -145,9 +115,7 @@ public static class TestUsers
 			FirstName = "Jim",
 			LastName = "Test",
 			DisplayName = "jim test Update",
-			EmailAddress = "jim.test@test.com",
-			AuthoredIssues = new List<BasicIssueModel> { new(TestIssues.GetKnownIssue()) },
-			AuthoredComments = new List<BasicCommentModel> { new(TestComments.GetKnownComment()) }
+			EmailAddress = "jim.test@test.com"
 		};
 
 		return user;

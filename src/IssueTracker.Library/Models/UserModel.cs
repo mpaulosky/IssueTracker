@@ -33,8 +33,4 @@ public class UserModel
 	[BsonElement("email_address")]
 	[BsonRepresentation(BsonType.String)]
 	public string? EmailAddress { get; set; }
-
-	public List<BasicIssueModel> AuthoredIssues { get; set; } = new();
-
-	public List<BasicCommentModel> AuthoredComments { get; set; } = new();
 }

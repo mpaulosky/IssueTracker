@@ -20,10 +20,6 @@ public class FakeUserTests
 		sut.First().LastName.Should().NotBeNull();
 		sut.First().DisplayName.Should().NotBeNull();
 		sut.First().EmailAddress.Should().NotBeNull();
-		sut.First().AuthoredComments.Count.Should().Be(1);
-		sut.First().AuthoredComments[0].Id.Should().NotBeNull();
-		sut.First().AuthoredIssues.Count.Should().Be(expected: 2);
-		sut.First().AuthoredIssues[0].Id.Should().NotBeNull();
 
 	}
 
