@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		CODE_METRICS.md = CODE_METRICS.md
 		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
 		CONTRIBUTING.md = CONTRIBUTING.md
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		Global.json = Global.json
 		LICENSE = LICENSE
 		README.md = README.md
