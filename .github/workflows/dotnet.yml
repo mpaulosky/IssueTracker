@@ -53,13 +53,13 @@ jobs:
         run: dotnet test --no-restore --no-build --configuration Release --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.13
+        uses: gittools/actions/gitversion/setup@v0.9.14
         with:
           versionSpec: '5.x'
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v0.9.13
+        uses: gittools/actions/gitversion/execute@v0.9.14
       - run: |
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
