@@ -28,7 +28,10 @@ public class GetCommentTests : IClassFixture<IssueTrackerUIFactory>
 		var result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
-		result.Should().BeEquivalentTo(expected);
+		result.Id.Should().Be(expected!.Id);
+		result.Comment.Should().BeEquivalentTo(expected!.Comment);
+		result.Author.Should().BeEquivalentTo(expected!.Author);
+		result.Issue.Should().BeEquivalentTo(expected!.Issue);
 
 	}
 
@@ -54,7 +57,7 @@ public class GetCommentTests : IClassFixture<IssueTrackerUIFactory>
 		string? id = null;
 
 		// Act
-		var act = async () => await _sut.GetComment(id);
+		var act = async () => await _sut.GetComment(id!);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

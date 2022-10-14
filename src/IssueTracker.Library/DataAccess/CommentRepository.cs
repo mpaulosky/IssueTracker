@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.Library.Helpers.BogusFakes;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -17,7 +15,6 @@ public class CommentRepository : ICommentRepository
 
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 	private readonly IMongoDbContextFactory _context;
-	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
 	///		CommentRepository constructor
@@ -33,10 +30,6 @@ public class CommentRepository : ICommentRepository
 
 		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
 
-		var userCollectionName = GetCollectionName(nameof(UserModel));
-
-		_userCollection = context.GetCollection<UserModel>(userCollectionName);
-
 	}
 
 	/// <summary>
@@ -47,37 +40,8 @@ public class CommentRepository : ICommentRepository
 	public async Task CreateComment(CommentModel comment)
 	{
 
-		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
+		await _commentCollection.InsertOneAsync(comment);
 
-		session.StartTransaction();
-
-		try
-		{
-
-			var commentsInTransaction = _commentCollection!;
-
-			await commentsInTransaction.InsertOneAsync(comment);
-
-			var usersInTransaction = _userCollection;
-
-			var user = (await _userCollection!.FindAsync(u => u.Id == comment.Author.Id).ConfigureAwait(true))
-				.First();
-
-			user.AuthoredComments.Add(new BasicCommentModel(comment));
-
-			var replaceOneResult =
-				await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
-
-			await session.CommitTransactionAsync();
-
-		}
-		catch (Exception)
-		{
-
-			await session.AbortTransactionAsync();
-			throw;
-
-		}
 	}
 
 	/// <summary>
@@ -166,20 +130,14 @@ public class CommentRepository : ICommentRepository
 	public async Task UpVoteComment(string itemId, string userId)
 	{
 
-		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
-
-		session.StartTransaction();
-
 		try
 		{
-
-			var commentsInTransaction = _commentCollection;
 
 			var objectId = new ObjectId(itemId);
 
 			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-			var comment = (await commentsInTransaction.FindAsync(filterComment)).FirstOrDefault();
+			var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
 
 			var isUpvote = comment.UserVotes.Add(userId);
 
@@ -190,15 +148,12 @@ public class CommentRepository : ICommentRepository
 
 			}
 
-			await commentsInTransaction.ReplaceOneAsync(session, s => s.Id == itemId, comment);
-
-			await session.CommitTransactionAsync();
+			await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
 		}
 		catch (Exception)
 		{
 
-			await session.AbortTransactionAsync();
 			throw;
 
 		}

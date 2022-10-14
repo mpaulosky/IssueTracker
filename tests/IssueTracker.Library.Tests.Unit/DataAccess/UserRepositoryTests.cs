@@ -72,8 +72,6 @@ public class UserRepositoryTests
 			It.IsAny<CancellationToken>()), Times.Once);
 
 		result.Should().BeEquivalentTo(expected);
-		result.AuthoredComments.Should().NotBeNull();
-		result.AuthoredIssues.Should().NotBeNull();
 		result!.FirstName!.Length.Should().BeGreaterThan(1);
 		result!.EmailAddress!.Length.Should().BeGreaterThan(1);
 	}
@@ -139,12 +137,6 @@ public class UserRepositoryTests
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(3);
-		items[0].AuthoredIssues[0].Id.Should().NotBeNull();
-		items[0].AuthoredIssues[0].Issue.Should().NotBeNull();
-		items[0].AuthoredComments[0].Id.Should().NotBeNull();
-		items[0].AuthoredComments[0].Comment.Should().NotBeNull();
-		items[0].AuthoredComments[0].Id.Length.Should().BeGreaterThan(1);
-		items[0].AuthoredComments[0].Comment.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Update User with a valid Id and User")]

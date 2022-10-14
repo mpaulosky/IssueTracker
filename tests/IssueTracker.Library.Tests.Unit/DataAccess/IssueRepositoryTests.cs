@@ -6,19 +6,14 @@ public class IssueRepositoryTests
 	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
 	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
-	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
-	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<IssueModel> _list = new();
 	private IssueRepository _sut;
-	private List<UserModel> _users = new();
 
 	public IssueRepositoryTests()
 	{
 		_cursor = TestFixtures.GetMockCursor(_list);
-		_userCursor = TestFixtures.GetMockCursor(_users);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
-		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
 		_mockContext = TestFixtures.GetMockContext();
 
@@ -28,32 +23,24 @@ public class IssueRepositoryTests
 	[Fact(DisplayName = "Create Issue with valid Issue")]
 	public async Task CreateIssue_With_Valid_Issue_Should_Insert_A_New_Issue_TestAsync()
 	{
+
 		// Arrange
 
 		var newIssue = TestIssues.GetKnownIssue();
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
-
-		var user = TestUsers.GetKnownUser();
-		_users = new List<UserModel> { user };
-
-		_userCursor.Setup(_ => _.Current).Returns(_users);
 
 		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.CreateIssue(newIssue).ConfigureAwait(false);
+		await _sut.CreateIssue(newIssue);
 
 		// Assert
 
 		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c =>
-			c.InsertOneAsync(newIssue, null, default), Times.Once);
-		_mockUserCollection.Verify(c =>
-			c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), user, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
+		_mockCollection.Verify(c => c.InsertOneAsync(It.IsAny<IssueModel>(), null, default), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Get Issue With a Valid Id")]

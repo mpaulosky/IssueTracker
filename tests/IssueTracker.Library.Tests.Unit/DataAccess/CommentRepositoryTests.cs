@@ -33,7 +33,6 @@ public class CommentRepositoryTests
 		var newComment = TestComments.GetKnownComment();
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
-		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
 		var user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
@@ -49,11 +48,7 @@ public class CommentRepositoryTests
 		// Assert
 
 		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c =>
-			c.InsertOneAsync(newComment, null, default), Times.Once);
-		_mockUserCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), user, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
+		_mockCollection.Verify(c => c.InsertOneAsync(It.IsAny<CommentModel>(), null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
@@ -73,9 +68,7 @@ public class CommentRepositoryTests
 
 		//Act
 
-#pragma warning disable CS8602
 		var result = await _sut.GetComment(expected!.Id!).ConfigureAwait(false);
-#pragma warning restore CS8602
 
 		//Assert 
 

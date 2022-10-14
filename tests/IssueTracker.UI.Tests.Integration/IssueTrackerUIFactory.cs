@@ -16,7 +16,6 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 					}).Build();
 
 
-
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
 
@@ -26,6 +25,7 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContext));
 			services.Remove(item: descriptorMongoDbContext!);
 
+			//var dbSettings = new DatabaseSettings("mongodb://course:whatever@localhost:27017/?authSource=admin", DbName);
 			var dbSettings = new DatabaseSettings(_dbContainer.ConnectionString, _dbContainer.Database);
 
 			services.AddSingleton<IDatabaseSettings>(dbSettings);
@@ -56,6 +56,7 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 	public new async Task DisposeAsync()
 	{
 
+		await _dbContainer.StopAsync();
 		await _dbContainer.DisposeAsync();
 
 	}

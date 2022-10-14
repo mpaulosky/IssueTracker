@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Immutable;
+
 namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
 
 public class GetCommentsTests : IClassFixture<IssueTrackerUIFactory>
@@ -29,7 +31,11 @@ public class GetCommentsTests : IClassFixture<IssueTrackerUIFactory>
 		var result = await _sut.GetComments();
 
 		// Assert
-		result[0].Should().BeEquivalentTo(expected);
+		result.Count.Should().Be(1);
+		result[0].Id.Should().Be(expected.Id);
+		result[0].Comment.Should().BeEquivalentTo(expected.Comment);
+		result[0].Author.Should().BeEquivalentTo(expected.Author);
+		result[0].Issue.Should().BeEquivalentTo(expected.Issue);
 
 	}
 

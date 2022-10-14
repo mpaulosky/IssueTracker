@@ -31,7 +31,10 @@ public class UpdateCommentTests : IClassFixture<IssueTrackerUIFactory>
 		var result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
-		result.Should().BeEquivalentTo(expected);
+		result.Id.Should().Be(expected!.Id);
+		result.Comment.Should().Be(expected!.Comment);
+		result.Author.Should().BeEquivalentTo(expected!.Author);
+		result.Issue.Should().BeEquivalentTo(expected!.Issue);
 
 	}
 

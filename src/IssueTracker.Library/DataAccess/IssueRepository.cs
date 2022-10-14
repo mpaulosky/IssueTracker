@@ -17,7 +17,6 @@ public class IssueRepository : IIssueRepository
 
 	private readonly IMongoDbContextFactory _context;
 	private readonly IMongoCollection<IssueModel> _issueCollection;
-	private readonly IMongoCollection<UserModel> _userCollection;
 
 	/// <summary>
 	///		IssueRepository constructor
@@ -33,10 +32,6 @@ public class IssueRepository : IIssueRepository
 
 		_issueCollection = _context.GetCollection<IssueModel>(issueCollectionName);
 
-		var userCollectionName = GetCollectionName(nameof(UserModel));
-
-		_userCollection = _context.GetCollection<UserModel>(userCollectionName);
-
 	}
 
 	/// <summary>
@@ -47,35 +42,7 @@ public class IssueRepository : IIssueRepository
 	public async Task CreateIssue(IssueModel issue)
 	{
 
-		using var session = await _context.Client.StartSessionAsync().ConfigureAwait(true);
-
-		session.StartTransaction();
-
-		try
-		{
-
-			var issuesInTransaction = _issueCollection;
-
-			await issuesInTransaction.InsertOneAsync(issue);
-
-			var usersInTransaction = _userCollection;
-
-			var user = (await _userCollection.FindAsync(u => u.Id == issue!.Author!.Id)).First();
-
-			user.AuthoredIssues.Add(new BasicIssueModel(issue));
-
-			await usersInTransaction.ReplaceOneAsync(u => u.Id == user.Id, user);
-
-			await session.CommitTransactionAsync();
-
-		}
-		catch (Exception)
-		{
-
-			await session.AbortTransactionAsync();
-			throw;
-
-		}
+			await _issueCollection.InsertOneAsync(issue);
 
 	}
 
