@@ -522,7 +522,7 @@ public class DetailsTests : TestContext
 			.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetIssuesComments(It.IsAny<string>()))
+			.Setup(x => x.GetCommentsByIssue(It.IsAny<string>()))
 			.ReturnsAsync(_expectedComments);
 
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();

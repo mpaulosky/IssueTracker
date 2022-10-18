@@ -174,7 +174,7 @@ public class IssueServiceTests
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
 			.Where(x => x!.Author!.Id == expectedUser).ToList();
 
-		_issueRepositoryMock.Setup(x => x.GetUsersIssues(It.IsAny<string>())).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssuesByUser(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -185,7 +185,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersIssues(expectedUser);
+		var results = await _sut.GetIssuesByUser(expectedUser);
 
 		//Assert
 
@@ -220,7 +220,7 @@ public class IssueServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersIssues(expectedUser);
+		var results = await _sut.GetIssuesByUser(expectedUser);
 
 		//Assert
 
@@ -239,7 +239,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersIssues(""));
+		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetIssuesByUser(""));
 	}
 
 	[Fact(DisplayName = "Get Users Issues With Null Id")]
@@ -253,7 +253,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersIssues(userId: null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssuesByUser(userId: null));
 	}
 
 	[Fact(DisplayName = "GetIssuesWaitingForApproval")]

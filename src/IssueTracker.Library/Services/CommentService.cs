@@ -78,31 +78,31 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///		GetUserComments method
+	///		GetCommentsByUser method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List CommentModels</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<List<CommentModel>> GetUsersComments(string userId)
+	public async Task<List<CommentModel>> GetCommentsByUser(string userId)
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repository.GetUsersComments(userId).ConfigureAwait(true);
+		var results = await _repository.GetCommentsByUser(userId).ConfigureAwait(true);
 
 		return results.ToList();
 	}
 
 	/// <summary>
-	///		GetIssuesComments method
+	///		GetCommentsByIssue method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of List CommentModels</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<List<CommentModel>> GetIssuesComments(string issueId)
+	public async Task<List<CommentModel>> GetCommentsByIssue(string issueId)
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetIssuesComments(issueId).ConfigureAwait(true);
+		var results = await _repository.GetCommentsByIssue(issueId).ConfigureAwait(true);
 
 		return results.ToList();
 	}
@@ -116,7 +116,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.UpdateComment(comment!.Id!, comment).ConfigureAwait(true);
+		await _repository.UpdateComment(comment.Id!, comment).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
 	}

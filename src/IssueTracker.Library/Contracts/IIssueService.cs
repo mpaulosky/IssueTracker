@@ -15,11 +15,12 @@ public interface IIssueService
 
 	Task<List<IssueModel>> GetIssues();
 
-	Task<List<IssueModel>> GetUsersIssues(string userId);
+	Task<List<IssueModel>> GetIssuesByUser(string userId);
 
-	Task UpdateIssue(IssueModel issue);
+	Task<List<IssueModel>> GetApprovedIssues();
 
 	Task<List<IssueModel>> GetIssuesWaitingForApproval();
 
-	Task<List<IssueModel>> GetApprovedIssues();
+	Task UpdateIssue(IssueModel issue);
+
 }

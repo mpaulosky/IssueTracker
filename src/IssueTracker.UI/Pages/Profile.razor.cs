@@ -30,9 +30,9 @@ public partial class Profile
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
 			"AuthProvider.GetUserFromAuth(UserService) != null");
 
-		_comments = await CommentService.GetUsersComments(_loggedInUser.Id);
+		_comments = await CommentService.GetCommentsByUser(_loggedInUser.Id);
 
-		var results = await IssueService.GetUsersIssues(_loggedInUser.Id);
+		var results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
 
 		if (results is not null)
 		{

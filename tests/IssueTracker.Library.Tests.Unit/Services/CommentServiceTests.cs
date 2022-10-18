@@ -19,6 +19,7 @@ public class CommentServiceTests
 	[Fact(DisplayName = "Create Comment With Valid Values")]
 	public async Task CreateComment_With_Valid_Values_Should_Return_Test()
 	{
+
 		// Arrange
 
 		var comment = TestComments.GetNewComment();
@@ -36,6 +37,7 @@ public class CommentServiceTests
 		_commentRepositoryMock
 			.Verify(x =>
 				x.CreateComment(It.IsAny<CommentModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Create Comment With Invalid Comment Throws Exception")]
@@ -65,7 +67,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var result = await _sut.GetComment(expected!.Id!);
+		var result = await _sut.GetComment(expected.Id!);
 
 		//Assert
 
@@ -174,7 +176,7 @@ public class CommentServiceTests
 		var expected = TestComments.GetCommentsWithDuplicateAuthors()
 			.Where(x => x.Author.Id == expectedUser).ToList();
 
-		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetCommentsByUser(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -185,7 +187,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersComments(expectedUser);
+		var results = await _sut.GetCommentsByUser(expectedUser);
 
 		//Assert
 
@@ -204,7 +206,7 @@ public class CommentServiceTests
 		var expected = TestComments.GetCommentsWithDuplicateAuthors()
 			.Where(x => x.Author.Id == expectedUser).ToList();
 
-		_commentRepositoryMock.Setup(x => x.GetUsersComments(It.IsAny<string>())).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetCommentsByUser(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -215,7 +217,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetUsersComments(expectedUser);
+		var results = await _sut.GetCommentsByUser(expectedUser);
 
 		//Assert
 
@@ -234,7 +236,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetUsersComments(""));
+		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetCommentsByUser(""));
 	}
 
 	[Fact(DisplayName = "Get Users Comments With Null Id")]
@@ -248,7 +250,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetUsersComments(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCommentsByUser(null));
 	}
 
 	[Fact(DisplayName = "Update Comment With Valid Comment")]
@@ -300,7 +302,7 @@ public class CommentServiceTests
 
 		// Act
 
-		await _sut.UpVoteComment(comment!.Id!, testId);
+		await _sut.UpVoteComment(comment.Id!, testId);
 
 		// Assert
 

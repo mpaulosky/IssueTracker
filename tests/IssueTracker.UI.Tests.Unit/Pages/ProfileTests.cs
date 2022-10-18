@@ -205,7 +205,7 @@
 		private void SetupMocks()
 		{
 			_issueRepositoryMock
-				.Setup(x => x.GetUsersIssues(_expectedUser.Id))
+				.Setup(x => x.GetIssuesByUser(_expectedUser.Id))
 				.ReturnsAsync(_expectedIssues);
 
 			_userRepositoryMock
@@ -213,7 +213,7 @@
 				.ReturnsAsync(_expectedUser);
 
 			_commentRepositoryMock
-				.Setup(x => x.GetUsersComments(It.IsAny<string>()))
+				.Setup(x => x.GetCommentsByUser(It.IsAny<string>()))
 				.ReturnsAsync(_expectedComments);
 		}
 
@@ -223,9 +223,9 @@
 
 			if (isAuth)
 			{
-				authContext.SetAuthorized(_expectedUser.DisplayName);
+				authContext.SetAuthorized(_expectedUser.DisplayName!);
 				authContext.SetClaims(
-					new Claim("objectidentifier", _expectedUser.Id)
+					new Claim("objectidentifier", _expectedUser.Id!)
 				);
 			}
 

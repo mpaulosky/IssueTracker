@@ -35,7 +35,7 @@ public partial class Details
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 
 		_issue = await IssueService.GetIssue(Id);
-		_comments = await CommentService.GetIssuesComments(Id);
+		_comments = await CommentService.GetCommentsByIssue(Id);
 		_statuses = await StatusService.GetStatuses();
 
 	}

@@ -9,17 +9,19 @@ namespace IssueTracker.Library.Contracts;
 
 public interface IIssueRepository
 {
+
 	Task CreateIssue(IssueModel issue);
 
 	Task<IssueModel> GetIssue(string itemId);
 
 	Task<IEnumerable<IssueModel>> GetIssues();
 
-	Task<IEnumerable<IssueModel>> GetUsersIssues(string userId);
+	Task<IEnumerable<IssueModel>> GetApprovedIssues();
 
-	Task UpdateIssue(string itemId, IssueModel issue);
+	Task<IEnumerable<IssueModel>> GetIssuesByUser(string userId);
 
 	Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval();
 
-	Task<IEnumerable<IssueModel>> GetApprovedIssues();
+	Task UpdateIssue(string itemId, IssueModel issue);
+
 }

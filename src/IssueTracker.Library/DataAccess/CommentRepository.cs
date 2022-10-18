@@ -14,7 +14,6 @@ public class CommentRepository : ICommentRepository
 {
 
 	private readonly IMongoCollection<CommentModel> _commentCollection;
-	private readonly IMongoDbContextFactory _context;
 
 	/// <summary>
 	///		CommentRepository constructor
@@ -24,7 +23,7 @@ public class CommentRepository : ICommentRepository
 	public CommentRepository(IMongoDbContextFactory context)
 	{
 
-		_context = Guard.Against.Null(context, nameof(context));
+		Guard.Against.Null(context, nameof(context));
 
 		var commentCollectionName = GetCollectionName(nameof(CommentModel));
 
@@ -78,11 +77,11 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///		GetIssueComments method
+	///		GetCommentsByIssue method
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetIssuesComments(string issueId)
+	public async Task<IEnumerable<CommentModel>> GetCommentsByIssue(string issueId)
 	{
 
 		var results = (await _commentCollection.FindAsync(s => s.Issue!.Id! == issueId)).ToList();
@@ -92,11 +91,11 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///		GetUserComments method
+	///		GetCommentsByUser method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetUsersComments(string userId)
+	public async Task<IEnumerable<CommentModel>> GetCommentsByUser(string userId)
 	{
 
 		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
@@ -129,34 +128,22 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="Exception"></exception>
 	public async Task UpVoteComment(string itemId, string userId)
 	{
+		var objectId = new ObjectId(itemId);
 
-		try
+		var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
+
+		var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
+
+		var isUpvote = comment.UserVotes.Add(userId);
+
+		if (isUpvote == false)
 		{
 
-			var objectId = new ObjectId(itemId);
-
-			var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-			var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
-
-			var isUpvote = comment.UserVotes.Add(userId);
-
-			if (isUpvote == false)
-			{
-
-				comment.UserVotes.Remove(userId);
-
-			}
-
-			await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
+			comment.UserVotes.Remove(userId);
 
 		}
-		catch (Exception)
-		{
 
-			throw;
-
-		}
+		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
 	}
 

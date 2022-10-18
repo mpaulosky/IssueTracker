@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.ComponentModel.Design;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
@@ -15,7 +13,6 @@ namespace IssueTracker.Library.DataAccess;
 public class IssueRepository : IIssueRepository
 {
 
-	private readonly IMongoDbContextFactory _context;
 	private readonly IMongoCollection<IssueModel> _issueCollection;
 
 	/// <summary>
@@ -26,11 +23,11 @@ public class IssueRepository : IIssueRepository
 	public IssueRepository(IMongoDbContextFactory context)
 	{
 
-		_context = Guard.Against.Null(context, nameof(context));
+		Guard.Against.Null(context, nameof(context));
 
 		var issueCollectionName = GetCollectionName(nameof(IssueModel));
 
-		_issueCollection = _context.GetCollection<IssueModel>(issueCollectionName);
+		_issueCollection = context.GetCollection<IssueModel>(issueCollectionName);
 
 	}
 
@@ -46,11 +43,11 @@ public class IssueRepository : IIssueRepository
 
 	}
 
-	/// <summary>
-	///		GetIssue method
-	/// </summary>
-	/// <param name="issueId">string</param>
-	/// <returns>Task of IssueModel</returns>
+	///  <summary>
+	/// 		GetIssue method
+	///  </summary>
+	///  <param name="itemId">string</param>
+	///  <returns>Task of IssueModel</returns>
 	public async Task<IssueModel> GetIssue(string itemId)
 	{
 
@@ -114,7 +111,7 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetUsersIssues(string userId)
+	public async Task<IEnumerable<IssueModel>> GetIssuesByUser(string userId)
 	{
 
 		var results = (await _issueCollection.FindAsync(s => s.Author!.Id == userId)).ToList();

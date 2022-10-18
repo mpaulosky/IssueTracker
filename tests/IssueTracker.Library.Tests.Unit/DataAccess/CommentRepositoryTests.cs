@@ -137,7 +137,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetUsersComments(expectedUserId).ConfigureAwait(false);
+		var result = await _sut.GetCommentsByUser(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 

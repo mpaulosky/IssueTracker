@@ -123,7 +123,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetUsersIssues(expectedUserId).ConfigureAwait(false);
+		var result = await _sut.GetIssuesByUser(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 

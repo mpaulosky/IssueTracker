@@ -78,29 +78,33 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
-	///		GetUsersIssues method
+	///		GetIssuesByUser method
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<List<IssueModel>> GetUsersIssues(string userId)
+	public async Task<List<IssueModel>> GetIssuesByUser(string userId)
 	{
+
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
 		var output = _cache.Get<List<IssueModel>>(userId);
 
 		if (output is not null)
 		{
+
 			return output;
+
 		}
 
-		var results = await _repository.GetUsersIssues(userId).ConfigureAwait(true);
+		var results = await _repository.GetIssuesByUser(userId).ConfigureAwait(true);
 
 		output = results.ToList();
 
 		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return output;
+
 	}
 
 	/// <summary>
@@ -110,11 +114,13 @@ public class IssueService : IIssueService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateIssue(IssueModel issue)
 	{
+
 		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.UpdateIssue(issue!.Id!, issue).ConfigureAwait(true);
+		await _repository.UpdateIssue(issue.Id!, issue).ConfigureAwait(true);
 
 		_cache.Remove(_cacheName);
+
 	}
 
 	/// <summary>
@@ -123,9 +129,11 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
+
 		var results = await _repository.GetIssuesWaitingForApproval().ConfigureAwait(true);
 
 		return results.ToList();
+
 	}
 
 	/// <summary>
@@ -134,8 +142,11 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
+
 		var results = await _repository.GetApprovedIssues().ConfigureAwait(true);
 
 		return results.ToList();
+
 	}
+
 }
