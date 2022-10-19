@@ -17,8 +17,8 @@ public class BasicCategoryModel
 
 	public BasicCategoryModel(CategoryModel category)
 	{
-		CategoryName = category?.CategoryName;
-		CategoryDescription = category?.CategoryDescription;
+		CategoryName = category.CategoryName;
+		CategoryDescription = category.CategoryDescription;
 	}
 
 	public BasicCategoryModel(string categoryName, string categoryDescription) : this()
@@ -27,7 +27,7 @@ public class BasicCategoryModel
 		CategoryDescription = categoryDescription;
 	}
 
-	public string? CategoryName { get; init; }
+	public string CategoryName { get; init; }
 
-	public string? CategoryDescription { get; init; }
+	public string CategoryDescription { get; init; }
 }

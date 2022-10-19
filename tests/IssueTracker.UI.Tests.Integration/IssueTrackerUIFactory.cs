@@ -56,7 +56,6 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 	public new async Task DisposeAsync()
 	{
 
-		await _dbContainer.StopAsync();
 		await _dbContainer.DisposeAsync();
 
 	}

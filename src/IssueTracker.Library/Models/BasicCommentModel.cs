@@ -15,10 +15,10 @@ public class BasicCommentModel
 	{
 	}
 
-	public BasicCommentModel(CommentModel? comment)
+	public BasicCommentModel(CommentModel comment)
 	{
-		Id = comment!.Id!;
-		Comment = comment!.Comment!;
+		Id = comment.Id;
+		Comment = comment.Comment;
 	}
 
 	public BasicCommentModel(string id, string comment) : this()

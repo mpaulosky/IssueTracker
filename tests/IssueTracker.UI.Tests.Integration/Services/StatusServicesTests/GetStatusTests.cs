@@ -67,7 +67,7 @@ public class GetStatusTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		string? id = "";
+		var id = "";
 
 		// Act
 		var act = async () => await _sut.GetStatus(id);

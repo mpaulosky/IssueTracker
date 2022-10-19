@@ -18,8 +18,8 @@ public class BasicStatusModel
 	public BasicStatusModel(StatusModel status)
 	{
 
-		StatusName = status!.StatusName!;
-		StatusDescription = status!.StatusDescription!;
+		StatusName = status.StatusName;
+		StatusDescription = status.StatusDescription;
 
 	}
 

@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Immutable;
-
-namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
+﻿namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
 
 public class GetCommentsTests : IClassFixture<IssueTrackerUIFactory>
 {

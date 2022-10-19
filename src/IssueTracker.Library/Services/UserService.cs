@@ -40,14 +40,14 @@ public class UserService : IUserService
 	/// <summary>
 	///		GetUser method
 	/// </summary>
-	/// <param name="itemId">string</param>
+	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<UserModel> GetUser(string itemId)
+	public async Task<UserModel> GetUser(string userId)
 	{
-		Guard.Against.NullOrWhiteSpace(itemId, nameof(itemId));
+		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUser(itemId);
+		var results = await _repo.GetUser(userId);
 
 		return results;
 	}

@@ -12,13 +12,13 @@ public class CommentModel
 {
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string? Id { get; set; }
+	public string Id { get; set; }
 
-	public BasicIssueModel? Issue { get; set; }
+	public BasicIssueModel Issue { get; set; }
 
 	[BsonElement("comment")]
 	[BsonRepresentation(BsonType.String)]
-	public string? Comment { get; set; }
+	public string Comment { get; set; }
 
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]

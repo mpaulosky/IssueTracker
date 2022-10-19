@@ -18,25 +18,25 @@ public class BasicIssueModel
 	public BasicIssueModel(IssueModel issue)
 	{
 
-		Id = issue?.Id;
-		Issue = issue?.IssueName;
-		Description = issue?.Description;
-		Category = issue?.Category;
-		Status = issue?.IssueStatus;
-		Author = issue?.Author;
+		Id = issue.Id;
+		Issue = issue.IssueName;
+		Description = issue.Description;
+		Category = issue.Category;
+		Status = issue.IssueStatus;
+		Author = issue.Author;
 
 	}
 
-	public string? Id { get; set; }
+	public string Id { get; set; }
 
-	public string? Issue { get; set; }
+	public string Issue { get; set; }
 
-	public string? Description { get; set; }
+	public string Description { get; set; }
 
-	public BasicCategoryModel? Category { get; set; }
+	public BasicCategoryModel Category { get; set; }
 
-	public BasicStatusModel? Status { get; set; }
+	public BasicStatusModel Status { get; set; }
 
-	public BasicUserModel? Author { get; set; }
+	public BasicUserModel Author { get; set; }
 
 }

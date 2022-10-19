@@ -16,7 +16,7 @@ public class CategoryServiceTests : IClassFixture<IssueTrackerUIFactory>
 	}
 
 	[Fact]
-	public async Task CategoryService_With_InvalidCategoryRepository_Should_ThrowArgumentNullException_Test()
+	public void CategoryService_With_InvalidCategoryRepository_Should_ThrowArgumentNullException_Test()
 	{
 
 		// Arrange
@@ -31,7 +31,7 @@ public class CategoryServiceTests : IClassFixture<IssueTrackerUIFactory>
 	}
 
 	[Fact]
-	public async Task CategoryService_With_InvalidMemoryCache_Should_ThrowArgumentNullException_Test()
+	public void CategoryService_With_InvalidMemoryCache_Should_ThrowArgumentNullException_Test()
 	{
 
 		// Arrange
@@ -44,6 +44,5 @@ public class CategoryServiceTests : IClassFixture<IssueTrackerUIFactory>
 		act.Should().Throw<ArgumentNullException>();
 
 	}
-
 
 }

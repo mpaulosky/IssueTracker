@@ -18,7 +18,7 @@ public class DatabaseSettings : IDatabaseSettings
 
 	}
 
-	public DatabaseSettings(string connectionString, string databaseName)
+	public DatabaseSettings(string connectionString, string databaseName) : this()
 	{
 
 		ConnectionString = connectionString!;
@@ -26,8 +26,8 @@ public class DatabaseSettings : IDatabaseSettings
 
 	}
 
-	public string? ConnectionString { get; set; }
+	public string ConnectionString { get; set; }
 
-	public string? DatabaseName { get; set; }
+	public string DatabaseName { get; set; }
 
 }
