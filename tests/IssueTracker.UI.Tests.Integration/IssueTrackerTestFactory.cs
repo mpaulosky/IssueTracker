@@ -26,7 +26,12 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 
 			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
-			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
+			services.AddHealthChecks()
+			.AddMongoDb(
+				mongodbConnectionString: config.GetValue<string>("MongoDbSettings:ConnectionString"), 
+				mongoDatabaseName: config.GetValue<string>("MongoDbSettings:DatabaseName"));
+
+			//services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
 			services.AddSingleton<IMongoDbContextFactory, TestContextFactory>();
 			services.AddSingleton<ICategoryService, CategoryService>();
 			services.AddSingleton<ICommentService, CommentService>();
