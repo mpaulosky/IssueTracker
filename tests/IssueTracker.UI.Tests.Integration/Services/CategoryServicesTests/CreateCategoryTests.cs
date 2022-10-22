@@ -1,13 +1,14 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.CategoryServicesTests;
+﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
-public class CreateCategoryTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class CreateCategoryTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
 
-	public CreateCategoryTests(IssueTrackerUIFactory factory)
+	public CreateCategoryTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -37,7 +38,7 @@ public class CreateCategoryTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		CategoryModel? expected = null;
+		CategoryModel expected = null;
 
 		// Act
 		var act = async () => await _sut.CreateCategory(expected);

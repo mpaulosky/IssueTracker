@@ -49,7 +49,7 @@ public class MongoHealthCheckTests
 	{
 
 		// Arrange
-		const string? connectionString = null;
+		const string connectionString = null;
 		const string databaseName = "mongodb";
 
 		var services = new ServiceCollection();
@@ -80,7 +80,7 @@ public class MongoHealthCheckTests
 
 		// Arrange
 		const string connectionString = "mongodb://connectionstring";
-		const string? databaseName = null;
+		const string databaseName = null;
 
 		var services = new ServiceCollection();
 

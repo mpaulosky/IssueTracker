@@ -1,13 +1,14 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.UserServicesTests;
+﻿namespace IssueTracker.Library.Services.UserServicesTests;
 
-public class GetUserTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetUserTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserService _sut;
 
-	public GetUserTests(IssueTrackerUIFactory factory)
+	public GetUserTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -51,7 +52,7 @@ public class GetUserTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		string? id = null;
+		string id = null;
 
 		// Act
 		var act = async () => await _sut.GetUser(id);

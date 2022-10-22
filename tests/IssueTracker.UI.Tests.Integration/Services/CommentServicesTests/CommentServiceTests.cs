@@ -1,13 +1,14 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
+﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
-public class CommentServiceTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class CommentServiceTests : IClassFixture<IssueTrackerTestFactory>
 {
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private ICommentRepository _repo;
 	private IMemoryCache _memCache;
 
-	public CommentServiceTests(IssueTrackerUIFactory factory)
+	public CommentServiceTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;

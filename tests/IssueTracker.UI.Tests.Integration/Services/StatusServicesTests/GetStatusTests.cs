@@ -1,13 +1,14 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.StatusServicesTests;
+﻿namespace IssueTracker.Library.Services.StatusServicesTests;
 
-public class GetStatusTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetStatusTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
 
-	public GetStatusTests(IssueTrackerUIFactory factory)
+	public GetStatusTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -52,7 +53,7 @@ public class GetStatusTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		string? id = null;
+		string id = null;
 
 		// Act
 		var act = async () => await _sut.GetStatus(id);

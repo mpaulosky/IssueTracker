@@ -1,15 +1,20 @@
-﻿namespace IssueTracker.UI.Tests.Integration.Services.CategoryServicesTests;
+﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
-public class GetCategoriesTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetCategoriesTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
-	private CategoryService _sut;
+	private readonly IssueTrackerTestFactory _factory;
+	private readonly CategoryService _sut;
 
-	public GetCategoriesTests(IssueTrackerUIFactory factory)
+	public GetCategoriesTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
+		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
+		
 		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		_sut = new CategoryService(repo, memCache);
@@ -25,10 +30,12 @@ public class GetCategoriesTests : IClassFixture<IssueTrackerUIFactory>
 		await _sut.CreateCategory(expected);
 
 		// Act
-		var result = await _sut.GetCategories();
+		var results = await _sut.GetCategories();
 
 		// Assert
-		result[0].Should().BeEquivalentTo(expected);
+		results.Count.Should().Be(1);
+		results.First().CategoryName.Should().Be(expected.CategoryName);
+		results.First().CategoryDescription.Should().Be(expected.CategoryDescription);
 
 	}
 

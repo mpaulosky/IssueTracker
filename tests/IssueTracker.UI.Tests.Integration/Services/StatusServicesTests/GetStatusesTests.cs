@@ -1,18 +1,27 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.StatusServicesTests;
+﻿using Microsoft.AspNetCore.Http;
 
-public class GetStatusesTests : IClassFixture<IssueTrackerUIFactory>
+namespace IssueTracker.Library.Services.StatusServicesTests;
+
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetStatusesTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
 
-	public GetStatusesTests(IssueTrackerUIFactory factory)
+	public GetStatusesTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
+
+		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(StatusModel)));
+
 		var repo = (IStatusRepository)_factory.Services.GetRequiredService(typeof(IStatusRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
+		memCache.Remove("StatusData");
+
 		_sut = new StatusService(repo, memCache);
 
 	}
@@ -26,10 +35,12 @@ public class GetStatusesTests : IClassFixture<IssueTrackerUIFactory>
 		await _sut.CreateStatus(expected);
 
 		// Act
-		var result = await _sut.GetStatuses();
+		var results = await _sut.GetStatuses();
 
 		// Assert
-		result[0].Should().BeEquivalentTo(expected);
+		results.Count.Should().Be(1);
+		results.First().StatusName.Should().Be(expected.StatusName);
+		results.First().StatusDescription.Should().Be(expected.StatusDescription);
 
 	}
 

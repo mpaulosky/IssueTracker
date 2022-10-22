@@ -12,19 +12,19 @@ public class MongoDbHealthCheck : IHealthCheck
 
 	private static readonly ConcurrentDictionary<string, MongoClient> _mongoClient = new();
 	private readonly MongoClientSettings _mongoClientSettings;
-	private readonly string? _specifiedDatabase;
+	private readonly string _specifiedDatabase;
 
 
-	public MongoDbHealthCheck(string connectionString, string? databaseName = default)
+	public MongoDbHealthCheck(string connectionString, string databaseName = default)
 			: this(MongoClientSettings.FromUrl(MongoUrl.Create(connectionString)), databaseName)
 	{
 		if (databaseName == default)
 		{
-			_specifiedDatabase = MongoUrl.Create(connectionString)?.DatabaseName;
+			_specifiedDatabase = MongoUrl.Create(connectionString).DatabaseName;
 		}
 	}
 
-	public MongoDbHealthCheck(MongoClientSettings clientSettings, string? databaseName = default)
+	public MongoDbHealthCheck(MongoClientSettings clientSettings, string databaseName = default)
 	{
 		_specifiedDatabase = databaseName;
 		_mongoClientSettings = clientSettings;

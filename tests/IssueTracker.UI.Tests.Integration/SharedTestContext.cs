@@ -1,19 +1,18 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration;
+﻿namespace IssueTracker.Library;
 
 public class SharedTestContext : IAsyncLifetime
 {
 
 	public const string AppUrl = "https://localhost:7780";
 
-	private static readonly string? _localDirectory = Directory.GetCurrentDirectory();
+	private static readonly string _localDirectory = Directory.GetCurrentDirectory();
 
-	private static readonly string? _dockerComposeFile =
+	private static readonly string _dockerComposeFile =
 			Path.Combine(_localDirectory, (TemplateString)@"..\..\..\docker-compose.integration.yml");
 
-	private IPlaywright? _playwright;
+	private IPlaywright _playwright;
 
-	public IBrowser? Browser { get; private set; }
+	public IBrowser Browser { get; private set; }
 
 	private readonly ICompositeService _dockerService = new Builder()
 			.UseContainer()

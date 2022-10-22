@@ -1,13 +1,14 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
+﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
-public class UpdateCommentTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class UpdateCommentTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
 
-	public UpdateCommentTests(IssueTrackerUIFactory factory)
+	public UpdateCommentTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -43,7 +44,7 @@ public class UpdateCommentTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		CommentModel? expected = null;
+		CommentModel expected = null;
 
 		// Act
 		var act = async () => await _sut.UpdateComment(expected!);

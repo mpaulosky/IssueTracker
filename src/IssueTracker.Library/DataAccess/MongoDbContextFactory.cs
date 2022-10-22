@@ -10,15 +10,15 @@ namespace IssueTracker.Library.DataAccess;
 /// <summary>
 ///		MongoDbContext class
 /// </summary>
-public class MongoDbContext : IMongoDbContextFactory
+public class MongoDbContextFactory : IMongoDbContextFactory
 {
 
 	/// <summary>
-	///		MongoDbContext constructor
+	///		MongoDbContextFactpru constructor
 	/// </summary>
 	/// <param name="configuration">IOptions of DatabaseSettings</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public MongoDbContext(IOptions<DatabaseSettings> configuration)
+	public MongoDbContextFactory(IOptions<DatabaseSettings> configuration)
 	{
 
 		Guard.Against.Null(configuration, nameof(configuration));

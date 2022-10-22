@@ -11,7 +11,7 @@ public class MongoDbContextTests
 	{
 
 		_options = TestFixtures.Settings();
-		_sut = Substitute.For<MongoDbContext>(_options);
+		_sut = Substitute.For<MongoDbContextFactory>(_options);
 
 	}
 

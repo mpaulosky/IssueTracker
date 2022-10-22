@@ -1,12 +1,13 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.UserServicesTests;
+﻿namespace IssueTracker.Library.Services.UserServicesTests;
 
-public class UserServiceTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class UserServiceTests : IClassFixture<IssueTrackerTestFactory>
 {
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private IUserRepository _repo;
 
-	public UserServiceTests(IssueTrackerUIFactory factory)
+	public UserServiceTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;

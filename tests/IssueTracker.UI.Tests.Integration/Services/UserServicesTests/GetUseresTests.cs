@@ -1,17 +1,23 @@
-﻿
-namespace IssueTracker.UI.Tests.Integration.Services.UserServicesTests;
+﻿namespace IssueTracker.Library.Services.UserServicesTests;
 
-public class GetUseresTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetUseresTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserService _sut;
 
-	public GetUseresTests(IssueTrackerUIFactory factory)
+	public GetUseresTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
+
+		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(UserModel)));
+
 		var repo = (IUserRepository)_factory.Services.GetRequiredService(typeof(IUserRepository));
+		
 		_sut = new UserService(repo);
 
 	}
@@ -25,10 +31,13 @@ public class GetUseresTests : IClassFixture<IssueTrackerUIFactory>
 		await _sut.CreateUser(expected);
 
 		// Act
-		var result = await _sut.GetUsers();
+		var results = await _sut.GetUsers();
 
 		// Assert
-		result[0].Should().BeEquivalentTo(expected);
+		results.Count.Should().Be(1);
+		results.First().DisplayName.Should().Be(expected.DisplayName);
+		results.First().FirstName.Should().Be(expected.FirstName);
+		results.First().LastName.Should().Be(expected.LastName);
 
 	}
 

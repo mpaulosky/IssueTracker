@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>false</IsPackable>
+		<RootNamespace>IssueTracker.Library</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,6 +32,12 @@
 		<ProjectReference Include="..\..\src\IssueTracker.Library\IssueTracker.Library.csproj" />
 		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

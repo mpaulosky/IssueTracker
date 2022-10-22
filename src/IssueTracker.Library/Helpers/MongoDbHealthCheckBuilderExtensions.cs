@@ -33,13 +33,14 @@ public static class MongoDbHealthCheckBuilderExtensions
 			this IHealthChecksBuilder builder,
 			string mongodbConnectionString,
 			string mongoDatabaseName,
-			string? name = default,
-			HealthStatus? failureStatus = default,
-			IEnumerable<string>? tags = default,
-			TimeSpan? timeout = default)
+			string name = default,
+			HealthStatus failureStatus = default,
+			IEnumerable<string> tags = default,
+			TimeSpan timeout = default)
 	{
 		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
 		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
+		timeout = new TimeSpan(0, 0, 5);
 
 		return builder.Add(new HealthCheckRegistration(
 				name ?? _name,

@@ -1,22 +1,16 @@
 ﻿using IssueTracker.UI;
 
-using Microsoft.Extensions.Configuration;
-
 namespace IssueTracker.Library;
 
-public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
+[Collection("Database")]
+public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 {
+	private readonly DbFixture _dbFixture;
 
-	private readonly TestcontainerDatabase _dbContainer =
-			new TestcontainersBuilder<MongoDbTestcontainer>()
-					.WithDatabase(new MongoDbTestcontainerConfiguration
-					{
-
-						Database = "db",
-						Username = "course",
-						Password = "whatever"
-
-					}).Build();
+	public IssueTrackerTestFactory(DbFixture fixture)
+	{
+		_dbFixture = fixture;
+	}
 
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -26,12 +20,9 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 		{
 
 			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContextFactory));
-			services.Remove(item: descriptorMongoDbContext!);
+			services.Remove(item: descriptorMongoDbContext);
 
-			//var dbSettings = new DatabaseSettings("mongodb://course:whatever@localhost:27017/?authSource=admin", DbName);
-			var dbSettings = new DatabaseSettings(_dbContainer.ConnectionString, _dbContainer.Database);
-
-			services.AddSingleton<IDatabaseSettings>(dbSettings);
+			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
 			services.AddSingleton<IMongoDbContextFactory, TestContextFactory>();
 			services.AddSingleton<ICategoryService, CategoryService>();
 			services.AddSingleton<ICommentService, CommentService>();
@@ -46,20 +37,6 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 			services.AddSingleton<IUserRepository, UserRepository>();
 
 		});
-
-	}
-
-	public async Task InitializeAsync()
-	{
-
-		await _dbContainer.StartAsync();
-
-	}
-
-	public new async Task DisposeAsync()
-	{
-
-		await _dbContainer.DisposeAsync();
 
 	}
 

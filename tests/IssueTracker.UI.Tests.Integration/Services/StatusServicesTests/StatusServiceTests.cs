@@ -1,12 +1,14 @@
-﻿namespace IssueTracker.UI.Tests.Integration.Services.StatusServicesTests;
+﻿namespace IssueTracker.Library.Services.StatusServicesTests;
 
-public class StatusServiceTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class StatusServiceTests : IClassFixture<IssueTrackerTestFactory>
 {
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private IStatusRepository _repo;
 	private IMemoryCache _cache;
 
-	public StatusServiceTests(IssueTrackerUIFactory factory)
+	public StatusServiceTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;

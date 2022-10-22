@@ -1,12 +1,16 @@
-﻿namespace IssueTracker.UI.Tests.Integration.Services.CategoryServicesTests;
+﻿using IssueTracker.Library;
 
-public class CategoryServiceTests : IClassFixture<IssueTrackerUIFactory>
+namespace IssueTracker.Library.Services.CategoryServicesTests;
+
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class CategoryServiceTests : IClassFixture<IssueTrackerTestFactory>
 {
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private ICategoryRepository _repo;
 	private IMemoryCache _cache;
 
-	public CategoryServiceTests(IssueTrackerUIFactory factory)
+	public CategoryServiceTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;

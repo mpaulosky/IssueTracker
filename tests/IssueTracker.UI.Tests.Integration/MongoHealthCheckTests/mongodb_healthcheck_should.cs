@@ -1,22 +1,25 @@
-﻿namespace IssueTracker.UI.Tests.Integration.MongoHealthCheckTests;
+﻿using IssueTracker.Library;
+
+namespace IssueTracker.Library.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
-public class Mongodb_healthcheck_should : IClassFixture<IssueTrackerUIFactory>
+[Collection("Database")]
+public class Mongodb_healthcheck_should : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
-	private TestServer? _sut;
+	private readonly IssueTrackerTestFactory _factory;
+	private TestServer _sut;
 
-	public Mongodb_healthcheck_should(IssueTrackerUIFactory factory)
+	public Mongodb_healthcheck_should(IssueTrackerTestFactory factory)
 	{
-		
+
 		_factory = factory;
 
 	}
 
 	[Fact]
 	public async Task Be_healthy_if_mongodb_is_available()
-	{ 
+	{
 
 		// Arrange
 		_sut = _factory.Server;

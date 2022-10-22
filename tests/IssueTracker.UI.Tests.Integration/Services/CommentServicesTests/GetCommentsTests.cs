@@ -1,17 +1,26 @@
-﻿namespace IssueTracker.UI.Tests.Integration.Services.CommentServicesTests;
+﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
-public class GetCommentsTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class GetCommentsTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
 
-	public GetCommentsTests(IssueTrackerUIFactory factory)
+	public GetCommentsTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
+
+		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CommentModel)));
+
 		var repo = (ICommentRepository)_factory.Services.GetRequiredService(typeof(ICommentRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
+		memCache.Remove("CommentsData");
+
+
 		_sut = new CommentService(repo, memCache);
 
 	}
@@ -25,14 +34,13 @@ public class GetCommentsTests : IClassFixture<IssueTrackerUIFactory>
 		await _sut.CreateComment(expected);
 
 		// Act
-		var result = await _sut.GetComments();
+		var results = await _sut.GetComments();
 
 		// Assert
-		result.Count.Should().Be(1);
-		result[0].Id.Should().Be(expected.Id);
-		result[0].Comment.Should().BeEquivalentTo(expected.Comment);
-		result[0].Author.Should().BeEquivalentTo(expected.Author);
-		result[0].Issue.Should().BeEquivalentTo(expected.Issue);
+		results.Count.Should().Be(1);
+		results[0].Comment.Should().Be(expected.Comment);
+		results[0].Author.Should().BeEquivalentTo(expected.Author);
+		results[0].Issue.Should().BeEquivalentTo(expected.Issue);
 
 	}
 

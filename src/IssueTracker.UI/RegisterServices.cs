@@ -50,7 +50,7 @@ public static class RegisterServices
 
 		// Setup DI
 
-		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContext>();
+		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContextFactory>();
 		builder.Services.AddSingleton<ICategoryService, CategoryService>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();

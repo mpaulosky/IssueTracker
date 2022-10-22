@@ -1,12 +1,14 @@
-﻿namespace IssueTracker.UI.Tests.Integration.Services.StatusServicesTests;
+﻿namespace IssueTracker.Library.Services.StatusServicesTests;
 
-public class UpdateStatusTests : IClassFixture<IssueTrackerUIFactory>
+[ExcludeFromCodeCoverage]
+[Collection("Database")]
+public class UpdateStatusTests : IClassFixture<IssueTrackerTestFactory>
 {
 
-	private readonly IssueTrackerUIFactory _factory;
+	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
 
-	public UpdateStatusTests(IssueTrackerUIFactory factory)
+	public UpdateStatusTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -39,7 +41,7 @@ public class UpdateStatusTests : IClassFixture<IssueTrackerUIFactory>
 	{
 
 		// Arrange
-		StatusModel? expected = null;
+		StatusModel expected = null;
 
 		// Act
 		var act = async () => await _sut.UpdateStatus(expected);

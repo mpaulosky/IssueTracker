@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 using TestingSupport.Library.Fixtures;
 
-namespace IssueTracker.UI.Tests.Integration;
+namespace IssueTracker.Library;
 
 public class CustomWebApplicationFactory<TStartup>
 		: WebApplicationFactory<TStartup> where TStartup : class
