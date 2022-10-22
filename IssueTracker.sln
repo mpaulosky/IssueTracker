@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI.Tests.Unit"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSupport.Library", "tests\TestingSupport.Library\TestingSupport.Library.csproj", "{96597D13-52C5-47F5-A12C-009432BC95D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Integration", "tests\IssueTracker.UI.Tests.Integration\IssueTracker.Library.Tests.Integration.csproj", "{5921AF39-D4B7-4F03-9F7F-CD3BE3C6866B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.Integration", "tests\IssueTracker.Library.Tests.Integration\IssueTracker.Library.Tests.Integration.csproj", "{5921AF39-D4B7-4F03-9F7F-CD3BE3C6866B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

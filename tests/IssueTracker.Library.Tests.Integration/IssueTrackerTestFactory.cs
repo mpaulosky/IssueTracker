@@ -24,6 +24,9 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContextFactory));
 			services.Remove(item: descriptorMongoDbContext);
 
+			var descriptorMongoDbHealthCheck = services.FirstOrDefault(d => d.ServiceType == typeof(HealthChecksBuilderAddCheckExtensions));
+			services.Remove(item: descriptorMongoDbHealthCheck);
+
 			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
 			services.AddHealthChecks()
@@ -31,7 +34,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 				mongodbConnectionString: config.GetValue<string>("MongoDbSettings:ConnectionStrings"), 
 				mongoDatabaseName: config.GetValue<string>("MongoDbSettings:DatabaseName"));
 
-			//services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
+			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
 			services.AddSingleton<IMongoDbContextFactory, TestContextFactory>();
 			services.AddSingleton<ICategoryService, CategoryService>();
 			services.AddSingleton<ICommentService, CommentService>();
