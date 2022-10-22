@@ -2,10 +2,6 @@ global using DotNet.Testcontainers.Builders;
 global using DotNet.Testcontainers.Configurations;
 global using DotNet.Testcontainers.Containers;
 
-global using Ductus.FluentDocker.Builders;
-global using Ductus.FluentDocker.Model.Common;
-global using Ductus.FluentDocker.Services;
-
 global using FluentAssertions;
 
 global using IssueTracker.Library.Contracts;
@@ -14,13 +10,13 @@ global using IssueTracker.Library.Helpers;
 global using IssueTracker.Library.Helpers.BogusFakes;
 global using IssueTracker.Library.Models;
 global using IssueTracker.Library.Services;
+global using IssueTracker.UI;
 
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;
 global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Playwright;
 
 global using MongoDB.Driver;
 

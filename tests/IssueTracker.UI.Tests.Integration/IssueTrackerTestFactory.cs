@@ -1,4 +1,5 @@
-﻿using IssueTracker.UI;
+﻿
+using Microsoft.Extensions.Configuration;
 
 namespace IssueTracker.Library;
 
@@ -12,15 +13,18 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 		_dbFixture = fixture;
 	}
 
-
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
+
+		var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 		builder.ConfigureServices(services =>
 		{
 
 			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContextFactory));
 			services.Remove(item: descriptorMongoDbContext);
+
+			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
 			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
 			services.AddSingleton<IMongoDbContextFactory, TestContextFactory>();

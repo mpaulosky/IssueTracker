@@ -18,6 +18,7 @@ namespace IssueTracker.Library
 					.Build();
 
 			var connString = config.GetValue<string>("MongoDbSettings:ConnectionStrings");
+
 			DbName = $"test_db_{Guid.NewGuid()}";
 
 			DbContextSettings = new(connString, DbName);
