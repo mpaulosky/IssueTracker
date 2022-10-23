@@ -21,7 +21,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 
 			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
-			Console.WriteLine($"DbFixture DbContextSettings: {_dbFixture.DbContextSettings.ConnectionString}, {_dbFixture.DbContextSettings.DatabaseName}");
+			Console.WriteLine($@"DbFixture DbContextSettings: {_dbFixture.DbContextSettings.ConnectionString}, {_dbFixture.DbContextSettings.DatabaseName}");
 
 			services.AddHealthChecks()
 			.AddMongoDb(

@@ -40,12 +40,11 @@ public static class MongoDbHealthCheckBuilderExtensions
 			IEnumerable<string> tags = default,
 			TimeSpan timeout = default)
 	{
-		Console.WriteLine($"IHealthCheckBuilder AddMongoDb mongoDatabaseName: {mongoDatabaseName}");
-		Console.WriteLine($"IHealthCheckBuilder AddMongoDb name: {name}");
-		Console.WriteLine($"IHealthCheckBuilder AddMongoDb mongodbConnectionString: {mongodbConnectionString}");
-
 		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
 		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
+
+		Console.WriteLine($@"IHealthCheckBuilder AddMongoDb mongodbConnectionString: {mongodbConnectionString} mongoDatabaseName: {mongoDatabaseName} name: {name}");
+
 		timeout = new TimeSpan(0, 0, 5);
 
 		return builder.Add(new HealthCheckRegistration(
