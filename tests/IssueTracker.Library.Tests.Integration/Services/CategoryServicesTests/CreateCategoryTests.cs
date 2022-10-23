@@ -41,10 +41,9 @@ public class CreateCategoryTests : IClassFixture<IssueTrackerTestFactory>
 		CategoryModel expected = null;
 
 		// Act
-		var act = async () => await _sut.CreateCategory(expected);
 
 		// Assert
-		await act.Should().ThrowAsync<ArgumentNullException>();
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(expected));
 
 	}
 

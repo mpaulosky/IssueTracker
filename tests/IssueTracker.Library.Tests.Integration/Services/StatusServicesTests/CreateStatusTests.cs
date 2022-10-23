@@ -41,10 +41,9 @@ public class CreateStatusTests : IClassFixture<IssueTrackerTestFactory>
 		StatusModel expected = null;
 
 		// Act
-		var act = async () => await _sut.CreateStatus(status: expected!);
 
 		// Assert
-		await act.Should().ThrowAsync<ArgumentNullException>();
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(expected));
 
 	}
 

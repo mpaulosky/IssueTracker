@@ -40,10 +40,9 @@ public class CreateUserTests : IClassFixture<IssueTrackerTestFactory>
 		UserModel expected = null;
 
 		// Act
-		var act = async () => await _sut.CreateUser(expected);
 
 		// Assert
-		await act.Should().ThrowAsync<ArgumentNullException>();
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(expected));
 
 	}
 

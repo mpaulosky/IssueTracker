@@ -41,10 +41,9 @@ public class CreateCommentTests : IClassFixture<IssueTrackerTestFactory>
 		CommentModel expected = null;
 
 		// Act
-		var act = async () => await _sut.CreateComment(expected);
 
 		// Assert
-		await act.Should().ThrowAsync<ArgumentNullException>();
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(expected));
 
 	}
 
