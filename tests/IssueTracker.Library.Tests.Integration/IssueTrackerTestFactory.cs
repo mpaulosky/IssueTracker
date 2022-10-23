@@ -1,9 +1,11 @@
 ﻿
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace IssueTracker.Library;
 
 [Collection("Database")]
+[ExcludeFromCodeCoverage]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 {
 	private readonly DbFixture _dbFixture;
@@ -21,18 +23,13 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 		builder.ConfigureServices(services =>
 		{
 
-			var descriptorMongoDbContext = services.FirstOrDefault(d => d.ServiceType == typeof(MongoDbContextFactory));
-			services.Remove(item: descriptorMongoDbContext);
-
-			var descriptorMongoDbHealthCheck = services.FirstOrDefault(d => d.ServiceType == typeof(HealthChecksBuilderAddCheckExtensions));
-			services.Remove(item: descriptorMongoDbHealthCheck);
-
 			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
 			services.AddHealthChecks()
 			.AddMongoDb(
 				mongodbConnectionString: config.GetValue<string>("MongoDbSettings:ConnectionStrings"), 
-				mongoDatabaseName: config.GetValue<string>("MongoDbSettings:DatabaseName"));
+				mongoDatabaseName: config.GetValue<string>("MongoDbSettings:DatabaseName"),
+				name: "testMongodb");
 
 			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
 			services.AddSingleton<IMongoDbContextFactory, TestContextFactory>();
