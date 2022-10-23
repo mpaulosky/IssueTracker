@@ -21,6 +21,8 @@ public class DbFixture : IDisposable
 
 		DbContextSettings = new(connString, DbName);
 
+		Console.WriteLine($"DbFixture DbContextSettings: {DbContextSettings.ConnectionString}, {DbContextSettings.DatabaseName}");
+
 		DbContext = new TestContextFactory(DbContextSettings);
 
 	}

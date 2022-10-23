@@ -1,8 +1,4 @@
-﻿
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-namespace IssueTracker.Library;
+﻿namespace IssueTracker.Library;
 
 [Collection("Database")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +21,12 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 
 			services.Configure<DatabaseSettings>(config.GetSection("MongoDbSettings"));
 
+			Console.WriteLine($"DbFixture DbContextSettings: {_dbFixture.DbContextSettings.ConnectionString}, {_dbFixture.DbContextSettings.DatabaseName}");
+
 			services.AddHealthChecks()
 			.AddMongoDb(
-				mongodbConnectionString: config.GetValue<string>("MongoDbSettings:ConnectionStrings"), 
-				mongoDatabaseName: config.GetValue<string>("MongoDbSettings:DatabaseName"),
+				mongodbConnectionString: _dbFixture.DbContextSettings.ConnectionString,
+				mongoDatabaseName: _dbFixture.DbContextSettings.DatabaseName,
 				name: "testMongodb");
 
 			services.AddSingleton<IDatabaseSettings>(_dbFixture.DbContextSettings);
