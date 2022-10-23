@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
@@ -38,6 +40,10 @@ public static class MongoDbHealthCheckBuilderExtensions
 			IEnumerable<string> tags = default,
 			TimeSpan timeout = default)
 	{
+		Console.WriteLine($"IHealthCheckBuilder AddMongoDb mongoDatabaseName: {mongoDatabaseName}");
+		Console.WriteLine($"IHealthCheckBuilder AddMongoDb name: {name}");
+		Console.WriteLine($"IHealthCheckBuilder AddMongoDb mongodbConnectionString: {mongodbConnectionString}");
+
 		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
 		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
 		timeout = new TimeSpan(0, 0, 5);
