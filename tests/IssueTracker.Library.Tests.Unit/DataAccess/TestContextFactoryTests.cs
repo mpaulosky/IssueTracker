@@ -17,7 +17,7 @@ public class TestContextFactoryTests
 		// Arrange
 
 		// Act
-		var context = Substitute.For<TestContextFactory>(_options);
+		var context = Substitute.For<TestContextFactory>(_options.ConnectionString, _options.DatabaseName);
 
 		// Assert
 
@@ -32,8 +32,7 @@ public class TestContextFactoryTests
 		// Arrange
 
 		// Act
-
-		var context = Substitute.For<TestContextFactory>(_options);
+		var context = Substitute.For<TestContextFactory>(_options.ConnectionString, _options.DatabaseName);
 
 		// Assert
 
@@ -46,8 +45,7 @@ public class TestContextFactoryTests
 		// Arrange
 
 		// Act
-
-		var context = Substitute.For<TestContextFactory>(_options);
+		var context = Substitute.For<TestContextFactory>(_options.ConnectionString, _options.DatabaseName);
 		var myCollection =
 			context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 

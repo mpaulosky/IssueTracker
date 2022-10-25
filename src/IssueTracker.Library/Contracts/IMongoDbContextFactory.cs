@@ -13,6 +13,8 @@ public interface IMongoDbContextFactory
 
 	IMongoClient Client { get; }
 
+	string ConnectionString { get; }
+
 	string DbName { get; }
 
 	IMongoCollection<T> GetCollection<T>(string name);

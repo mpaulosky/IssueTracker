@@ -16,19 +16,18 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		MongoDbContextFactpru constructor
 	/// </summary>
-	/// <param name="configuration">IOptions of DatabaseSettings</param>
+	/// <param name="connectionString">Connection String</param>
+	/// <param name="databaseName">Database Name</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public MongoDbContextFactory(IOptions<DatabaseSettings> configuration)
+	/// <exception cref="ArgumentException"></exception>"
+	public MongoDbContextFactory(string connectionString, string databaseName)
 	{
 
-		Guard.Against.Null(configuration, nameof(configuration));
+		ConnectionString = Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
 
-		DbName = Guard.Against.NullOrEmpty(configuration.Value.DatabaseName, nameof(configuration));
+		DbName = Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
 
-		string connectionString =
-			Guard.Against.NullOrWhiteSpace(configuration.Value.ConnectionString, nameof(connectionString));
-
-		Client = new MongoClient(connectionString);
+		Client = new MongoClient(ConnectionString);
 
 		Database = Client.GetDatabase(DbName);
 
@@ -36,6 +35,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 
 	public IMongoDatabase Database { get; }
 	public IMongoClient Client { get; }
+	public string ConnectionString { get; }
 	public string DbName { get; }
 
 	/// <summary>

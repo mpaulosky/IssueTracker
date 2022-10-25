@@ -63,12 +63,12 @@ public static class TestFixtures
 		return context;
 	}
 
-	public static IOptions<DatabaseSettings> Settings()
+	public static DatabaseSettings Settings()
 	{
 
 		var settings = new DatabaseSettings(connectionString: "mongodb://test123", databaseName: "TestDb");
 
-		return Options.Create(settings);
+		return settings;
 
 	}
 

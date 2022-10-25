@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Microsoft.Extensions.DependencyInjection;
+
 using System.Runtime.CompilerServices;
 
 namespace IssueTracker.UI;
@@ -19,12 +21,9 @@ public static class RegisterServices
 	///		Configures the services method.
 	/// </summary>
 	/// <param name="builder">The builder.</param>
-	public static void ConfigureServices(this WebApplicationBuilder builder)
+	public static void ConfigureServices(this WebApplicationBuilder builder, ConfigurationManager config)
 	{
 		// Add services to the container.
-
-		builder.Services.Configure<DatabaseSettings>(
-			builder.Configuration.GetSection("MongoDbSettings"));
 
 		builder.Services.AddRazorPages();
 
@@ -47,14 +46,15 @@ public static class RegisterServices
 
 		builder.Services.AddBlazoredSessionStorage();
 
-		// Console.WriteLine($@"RegisterServices mongodbConnectionString: {mongodbConnectionString} mongoDatabaseName: {mongoDatabaseName} name: {name}");
-
-		builder.Services.AddHealthChecks()
-			.AddMongoDb(mongodbConnectionString: builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString"), mongoDatabaseName: builder.Configuration.GetValue<string>("MongoDbSettings:DatabaseName"));
-
 		// Setup DI
 
-		builder.Services.AddSingleton<IMongoDbContextFactory, MongoDbContextFactory>();
+		builder.Services.AddSingleton<IMongoDbContextFactory>(_ =>
+		new MongoDbContextFactory
+		(
+			config.GetValue<string>("MongoDbSettings:ConnectionString"), 
+			config.GetValue<string>("MongoDbSettings:DatabaseName"))
+		);
+
 		builder.Services.AddSingleton<ICategoryService, CategoryService>();
 		builder.Services.AddSingleton<ICommentService, CommentService>();
 		builder.Services.AddSingleton<IStatusService, StatusService>();

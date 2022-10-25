@@ -1,6 +1,4 @@
-﻿using IssueTracker.Library;
-
-namespace IssueTracker.Library.Services.CategoryServicesTests;
+﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Database")]

@@ -18,8 +18,6 @@ public class DbFixture : IDisposable
 		
 		Console.WriteLine($@"DbFixture DbContextSettings: {dbConfig.ConnectionString}, {dbConfig.DatabaseName}");
 
-		DbContext = new TestContextFactory(dbConfig);
-
 	}
 
 	private static IConfiguration LoadConfig(string appSettings)
@@ -35,7 +33,7 @@ public class DbFixture : IDisposable
 	public void Dispose()
 	{
 
-		DbContext.Client.DropDatabase(dbConfig.DatabaseName);
+		//DbContext.Client.DropDatabase(dbConfig.DatabaseName);
 
 	}
 

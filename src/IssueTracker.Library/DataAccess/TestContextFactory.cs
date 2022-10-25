@@ -15,17 +15,20 @@ public class TestContextFactory : IMongoDbContextFactory
 {
 
 	/// <summary>
-	///		Initializes a new instance of the <see cref="TestContextFactory" /> class.
+	///		MongoDbContextFactpru constructor
 	/// </summary>
-	/// <param name="settings">The DatabaseSettings.</param>
-	public TestContextFactory(IDatabaseSettings settings)
+	/// <param name="connectionString">Connection String</param>
+	/// <param name="databaseName">Database Name</param>
+	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException"></exception>"
+	public TestContextFactory(string connectionString, string databaseName)
 	{
 
-		DbName = settings.DatabaseName!;
+		ConnectionString = Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
 
-		var connectionString = settings.ConnectionString!;
+		DbName = Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
 
-		Client = new MongoClient(connectionString);
+		Client = new MongoClient(ConnectionString);
 
 		Database = Client.GetDatabase(DbName);
 
@@ -54,6 +57,11 @@ public class TestContextFactory : IMongoDbContextFactory
 	///		The name of the database.
 	/// </value>
 	public string DbName { get; }
+
+	/// <summary>
+	///		Gets the Connection String to the Database
+	/// </summary>
+	public string ConnectionString { get; }
 
 	/// <summary>
 	///		Gets the collection.

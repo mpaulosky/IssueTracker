@@ -13,7 +13,7 @@ var config = builder.Configuration;
 config.AddEnvironmentVariables("IssueTrackerUI_");
 
 // Add services to the container.
-builder.ConfigureServices();
+builder.ConfigureServices(config);
 
 var app = builder.Build();
 
@@ -26,8 +26,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseHealthChecks("/healthcheck");
 
 app.UseStaticFiles();
 

@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [ ubuntu-latest ]
 
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -45,10 +45,10 @@ jobs:
         run: |
           docker-compose up -d
 
-      #- name: Wait for MongoDb Server container
-        #uses: jakejarvis/wait-action@master
-        #with:
-          #time: '5s'
+      - name: Wait for MongoDb Server container
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '5s'
 
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3

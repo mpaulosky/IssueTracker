@@ -9,6 +9,7 @@
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<RepositoryType>git</RepositoryType>
 		<UserSecretsId>c1773cca-d680-4f40-a566-547c2639b805</UserSecretsId>
+		<Configurations>Debug;Release;Test</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
