@@ -27,7 +27,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 			services.RemoveAll(typeof(IMongoDbContextFactory));
 
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
-					new MongoDbContextFactory(_dbFixture.dbConfig.ConnectionString, _dbFixture.dbConfig.DatabaseName));
+					new MongoDbContextFactory(_dbFixture.DbConfig.ConnectionString, _dbFixture.DbConfig.DatabaseName));
 
 		});
 
