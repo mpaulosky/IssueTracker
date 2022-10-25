@@ -1,6 +1,4 @@
-﻿using IssueTracker.Library;
-
-namespace IssueTracker.Library.MongoHealthCheckTests;
+﻿namespace IssueTracker.Library.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Database")]

@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
 namespace IssueTracker.UI;
 
 /// <summary>
@@ -44,6 +46,8 @@ public static class RegisterServices
 		});
 
 		builder.Services.AddBlazoredSessionStorage();
+
+		// Console.WriteLine($@"RegisterServices mongodbConnectionString: {mongodbConnectionString} mongoDatabaseName: {mongoDatabaseName} name: {name}");
 
 		builder.Services.AddHealthChecks()
 			.AddMongoDb(mongodbConnectionString: builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString"), mongoDatabaseName: builder.Configuration.GetValue<string>("MongoDbSettings:DatabaseName"));

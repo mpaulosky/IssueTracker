@@ -21,8 +21,8 @@ public class DatabaseSettings : IDatabaseSettings
 	public DatabaseSettings(string connectionString, string databaseName) : this()
 	{
 
-		ConnectionString = connectionString!;
-		DatabaseName = databaseName!;
+		ConnectionString = connectionString;
+		DatabaseName = databaseName;
 
 	}
 
