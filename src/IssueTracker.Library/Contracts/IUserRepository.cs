@@ -17,5 +17,5 @@ public interface IUserRepository
 
 	Task UpdateUser(string itemId, UserModel user);
 
-	Task<UserModel> GetUserFromAuthentication(string itemId);
+	Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId);
 }

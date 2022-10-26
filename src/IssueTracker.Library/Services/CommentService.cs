@@ -37,7 +37,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.CreateComment(comment).ConfigureAwait(true);
+		await _repository.CreateComment(comment);
 	}
 
 	/// <summary>
@@ -50,7 +50,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		var result = await _repository.GetComment(commentId).ConfigureAwait(true);
+		var result = await _repository.GetComment(commentId);
 
 		return result;
 	}
@@ -68,7 +68,7 @@ public class CommentService : ICommentService
 			return output;
 		}
 
-		var results = await _repository.GetComments().ConfigureAwait(true);
+		var results = await _repository.GetComments();
 
 		output = results.Where(x => x.Archived == false).ToList();
 
@@ -87,7 +87,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repository.GetCommentsByUser(userId).ConfigureAwait(true);
+		var results = await _repository.GetCommentsByUser(userId);
 
 		return results.ToList();
 	}
@@ -102,7 +102,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetCommentsByIssue(issueId).ConfigureAwait(true);
+		var results = await _repository.GetCommentsByIssue(issueId);
 
 		return results.ToList();
 	}
@@ -116,7 +116,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.UpdateComment(comment.Id!, comment).ConfigureAwait(true);
+		await _repository.UpdateComment(comment.Id!, comment);
 
 		_cache.Remove(_cacheName);
 	}
@@ -133,7 +133,7 @@ public class CommentService : ICommentService
 
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		await _repository.UpVoteComment(commentId, userId).ConfigureAwait(true);
+		await _repository.UpVoteComment(commentId, userId);
 
 		_cache.Remove(_cacheName);
 	}

@@ -33,7 +33,7 @@ public class CommentTests : TestContext
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userId')");
+			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
 	}
 
 	[Fact]

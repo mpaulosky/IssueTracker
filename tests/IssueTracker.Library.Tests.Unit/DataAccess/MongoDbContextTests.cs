@@ -4,14 +4,12 @@
 public class MongoDbContextTests
 {
 
-	private readonly DatabaseSettings _options;
 	private readonly IMongoDbContextFactory _sut;
 
 	public MongoDbContextTests()
 	{
 
-		_options = TestFixtures.Settings();
-		_sut = Substitute.For<MongoDbContextFactory>(_options.ConnectionString, _options.DatabaseName);
+		_sut = Substitute.For<MongoDbContextFactory>("mongodb://test123", "TestDb");
 
 	}
 

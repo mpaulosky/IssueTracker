@@ -66,14 +66,14 @@ public class UserService : IUserService
 	/// <summary>
 	///		GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<UserModel> GetUserFromAuthentication(string userId)
+	public async Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId)
 	{
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
 
-		var results = await _repo.GetUserFromAuthentication(userId);
+		var results = await _repo.GetUserFromAuthentication(userObjectIdentifierId);
 
 		return results;
 	}

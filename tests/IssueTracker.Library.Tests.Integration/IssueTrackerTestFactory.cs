@@ -1,13 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IssueTracker.Library;
 
 [Collection("Database")]
 [ExcludeFromCodeCoverage]
-public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
+public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IDisposable
 {
 	private readonly DbFixture _dbFixture;
+	private IMongoDbContextFactory DbContext { get; set; }
 
 	public IssueTrackerTestFactory(DbFixture fixture)
 	{
@@ -29,8 +31,16 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
 					new MongoDbContextFactory(_dbFixture.DbConfig.ConnectionString, _dbFixture.DbConfig.DatabaseName));
 
+			using var serviceProvider = services.BuildServiceProvider();
+			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
+
 		});
 
+	}
+
+	public new void Dispose()
+	{
+		DbContext.Client.DropDatabase(_dbFixture.DbConfig.DatabaseName);
 	}
 
 }

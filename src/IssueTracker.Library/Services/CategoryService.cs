@@ -42,7 +42,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
 
-		var result = await _repository.GetCategory(categoryId).ConfigureAwait(true);
+		var result = await _repository.GetCategory(categoryId);
 
 		return result;
 
@@ -62,7 +62,7 @@ public class CategoryService : ICategoryService
 			return output;
 		}
 
-		var results = await _repository.GetCategories().ConfigureAwait(true);
+		var results = await _repository.GetCategories();
 
 		output = results.ToList();
 

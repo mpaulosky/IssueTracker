@@ -53,3 +53,8 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+// FEATURE : [Feature] Add a Page to add new Categories
+// FEATURE : [Feature] Add a Page to add new Status items
+// FEATURE : [Feature] Make the display of the issue a component
+// FEATURE : [Feature] Make the display of the comment a component

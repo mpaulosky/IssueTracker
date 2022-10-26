@@ -13,7 +13,7 @@ public interface IUserService
 
 	Task<UserModel> GetUser(string userId);
 
-	Task<UserModel> GetUserFromAuthentication(string userId);
+	Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId);
 
 	Task<List<UserModel>> GetUsers();
 

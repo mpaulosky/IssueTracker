@@ -15,8 +15,6 @@ public class DbFixture : IDisposable
 		DbConfig = AppConfiguration.GetSection("MongoDbSettings").Get<DatabaseSettings>();
 
 		DbConfig.DatabaseName = "test_" + Guid.NewGuid().ToString("N");
-		
-		Console.WriteLine($@"DbFixture DbContextSettings: {DbConfig.ConnectionString}, {DbConfig.DatabaseName}");
 
 	}
 
