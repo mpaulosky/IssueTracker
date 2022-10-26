@@ -95,12 +95,12 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///		GetUserFromAuthentication method
 	/// </summary>
-	/// <param name="itemId">string</param>
+	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserFromAuthentication(string itemId)
+	public async Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId)
 	{
 
-		var filter = Builders<UserModel>.Filter.Eq("object_identifier", itemId);
+		var filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
 
 		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 

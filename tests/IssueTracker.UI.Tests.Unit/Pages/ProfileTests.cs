@@ -34,7 +34,7 @@
 
 			// Assert
 			Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should()
-				.Be("Value cannot be null. (Parameter 'userId')");
+				.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
 		}
 
 		[Fact]

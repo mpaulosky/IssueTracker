@@ -33,7 +33,7 @@ public class CreateTests : TestContext
 
 		// Assert
 		Assert.Throws<ArgumentNullException>(() => RenderComponent<Create>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userId')");
+			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
 	}
 
 	[Fact]

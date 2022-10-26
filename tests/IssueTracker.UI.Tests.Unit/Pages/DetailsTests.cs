@@ -39,7 +39,7 @@ public class DetailsTests : TestContext
 		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, null);
-		})).Message.Should().Be("Value cannot be null. (Parameter 'userId')");
+		})).Message.Should().Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
 	}
 
 	[Fact]
