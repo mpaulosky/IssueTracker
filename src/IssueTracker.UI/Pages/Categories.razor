@@ -1,0 +1,46 @@
+﻿@page "/Categories"
+
+@attribute [Authorize(Policy = "Admin")]
+
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject ICategoryService CategoryService
+@inject IUserService UserService
+
+<PageTitle>Categories</PageTitle>
+
+<h1 class="page-heading text-uppercase mb-4">Categories</h1>
+
+<div class="row justify-content-center create-form">
+  <div class="col-xl-8 col-lg-10 form-layout">
+    <div class="close-button-section">
+      <button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Category Name</th>
+            <th>Category Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        @foreach (var c in _categories)
+        {
+
+          <tr>
+            <td>@c.CategoryName</td>
+            <td>@c.CategoryDescription</td>
+            <td>
+              <button id="edit-category" class="btn btn-primary" @onclick="() => _editCategory = c">Edit</button>
+              <button id="delete-category" class="btn btn-primary" @onclick="() => _deleteCategory = c">Delete</button>
+            </td>
+          </tr>
+
+        }
+      </table>
+    </div>
+
+  </div>
+
+</div>

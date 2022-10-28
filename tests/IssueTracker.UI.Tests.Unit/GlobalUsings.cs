@@ -7,6 +7,7 @@ global using Bunit;
 global using FluentAssertions;
 
 global using IssueTracker.Library.Contracts;
+global using IssueTracker.Library.Helpers.BogusFakes;
 global using IssueTracker.Library.Models;
 global using IssueTracker.Library.Services;
 

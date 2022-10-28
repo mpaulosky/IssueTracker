@@ -6,55 +6,55 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.JSInterop;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var config = builder.Configuration;
-config.AddEnvironmentVariables("IssueTrackerUI_");
-
-// Add services to the container.
-builder.ConfigureServices(config);
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+internal class Program
 {
-	app.UseExceptionHandler("/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
-}
+	private static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
 
-app.UseHttpsRedirection();
+		var config = builder.Configuration;
+		config.AddEnvironmentVariables("IssueTrackerUI_");
 
-app.UseStaticFiles();
+		// Add services to the container.
+		builder.ConfigureServices(config);
 
-app.UseRouting();
+		var app = builder.Build();
 
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.UseRewriter(
-	new RewriteOptions().Add(
-		context =>
+		// Configure the HTTP request pipeline.
+		if (!app.Environment.IsDevelopment())
 		{
-			if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
-			{
-				context.HttpContext.Response.Redirect("/");
-			}
+			app.UseExceptionHandler("/Error");
+			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+			app.UseHsts();
 		}
-	));
 
-app.MapControllers();
+		app.UseHttpsRedirection();
 
-app.MapBlazorHub();
+		app.UseStaticFiles();
 
-app.MapFallbackToPage("/_Host");
+		app.UseRouting();
 
-app.Run();
+		app.UseAuthentication();
 
-// FEATURE : [Feature] Add a Page to add new Categories
-// FEATURE : [Feature] Add a Page to add new Status items
-// FEATURE : [Feature] Make the display of the issue a component
-// FEATURE : [Feature] Make the display of the comment a component
+		app.UseAuthorization();
+
+		app.UseRewriter(
+			new RewriteOptions().Add(
+				context =>
+				{
+					if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
+						context.HttpContext.Response.Redirect("/");
+				}
+			));
+
+		app.MapControllers();
+
+		app.MapBlazorHub();
+
+		app.MapFallbackToPage("/_Host");
+
+		app.Run();
+	}
+}
