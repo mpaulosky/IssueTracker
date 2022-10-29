@@ -36,8 +36,7 @@ public class LoginDisplayTests
 	}
 
 	[Fact]
-	public void
-		LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayAminAndProfileAndLogoutLinks_Test()
+	public void LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayAminAndProfileAndLogoutLinks_Test()
 	{
 		// Arrange
 		using var ctx = new TestContext();
@@ -52,7 +51,7 @@ public class LoginDisplayTests
 		cut.MarkupMatches
 		(
 			@"
-				<a class=""login-link"" href=""/Admin"">Admin</a><a class=""login-link"" href=""/Profile"">Profile</a><a class=""login-link"" href=""MicrosoftIdentity/Account/SignOut"">Logout</a>
+				<a class=""login-link"" href=""/Admin"">Admin</a><a class=""login-link"" href=""/Categories"">Categories</a><a class=""login-link"" href=""/Profile"">Profile</a><a class=""login-link"" href=""MicrosoftIdentity/Account/SignOut"">Logout</a>
 			"
 		);
 	}
