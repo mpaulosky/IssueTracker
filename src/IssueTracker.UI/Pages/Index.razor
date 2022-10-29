@@ -78,6 +78,13 @@
 		{
 			<Virtualize Context="s" Items="@_issues" OverscanCount="10">
 				<div class="issue-entry">
+
+					<div class="issue-entry-category @GetIssueCategoryCssClass(s)">
+						<div class="issue-entry-category-text" @onclick="() => OpenDetailsPage(s)">
+							@s.Category.CategoryName
+						</div>
+					</div>
+
 					<div class="issue-entry-text">
 						<div class="issue-entry-text-title" @onclick="() => OpenDetailsPage(s)">
 							@s.IssueName
@@ -88,9 +95,6 @@
 						@if (_archivingIssue is null || _archivingIssue.Id != s.Id)
 						{
 							<div class="issue-entry-bottom">
-								<div class="issue-entry-text-category" @onclick="() => OpenDetailsPage(s)">
-									@s.Category?.CategoryName
-								</div>
 								<AuthorizeView Policy="Admin">
 									<button id="archive" @onclick="() => _archivingIssue = s" class="btn issue-entry-text-category btn-archive">
 										archive

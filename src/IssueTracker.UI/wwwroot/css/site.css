@@ -190,7 +190,7 @@ a:hover, .btn-link:hover {
 
 .issue-entry {
   display: grid;
-  grid-template-columns: 1fr 45px;
+  grid-template-columns: 45px 1fr 45px;
   border-radius: 20px;
   margin: 20px 0;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
@@ -236,8 +236,8 @@ a:hover, .btn-link:hover {
   flex-direction: column;
   padding: 10px 10px 10px 20px;
   background-color: #FFFFFF;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
+/*/*  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;*/*/
 }
 
 .issue-entry-text-title {
@@ -274,6 +274,40 @@ a:hover, .btn-link:hover {
   padding: 1rem 1rem 1rem 0.2rem;
 }
 
+.issue-entry-category {
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    display: flex;
+    padding: 1rem 1rem 1rem 0.2rem;
+}
+
+.issue-entry-status-text {
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    line-height: 1.75;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 1.2px;
+}
+
+
+.issue-entry-category-text {
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    line-height: 1.75;
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 1.2px;
+}
+
 .issue-entry-status-answered {
   background-color: #B5D43A;
   border: 1px #B5D43A solid;
@@ -297,6 +331,36 @@ a:hover, .btn-link:hover {
 .issue-entry-status-none {
   background-color: #FFFFFF;
   border: 1px solid #FFFFFF;
+}
+
+.issue-entry-category-design {
+    background-color: #B5D43A;
+    border: 1px #B5D43A solid;
+}
+
+.issue-entry-category-documentation {
+    background-color: #E9354C;
+    border: 1px solid #E9354C;
+}
+
+.issue-entry-category-implementatioin {
+    background-color: #fd7e14;
+    border: 1px solid #fd7e14;
+}
+
+.issue-entry-category-clarification {
+    background-color: #F9C30B;
+    border: 1px solid #F9C30B;
+}
+
+.issue-entry-category-miscellaneous {
+    background-color: #F9C30B;
+    border: 1px solid #F9C30B;
+}
+
+.issue-entry-category-none {
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
 }
 
 .issue-profile-status {
@@ -333,19 +397,6 @@ a:hover, .btn-link:hover {
 .issue-profile-status-none {
   background-color: #FFFFFF;
   border: 1px solid #FFFFFF;
-}
-
-.issue-entry-status-text {
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  line-height: 1.75;
-  font-weight: bold;
-  font-size: 0.8rem;
-  letter-spacing: 1.2px;
 }
 
 .login-link {

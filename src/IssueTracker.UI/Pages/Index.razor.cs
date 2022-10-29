@@ -293,6 +293,26 @@ public partial class Index
 		return output;
 	}
 
+	private static string GetIssueCategoryCssClass(IssueModel issue)
+	{
+		if (issue.Category is null)
+		{
+			return "issue-entry-category-none";
+		}
+
+		var output = issue.Category.CategoryName switch
+		{
+			"Design" => "issue-entry-category-design",
+			"Documentation" => "issue-entry-category-documentation",
+			"Implementation" => "issue-entry-category-implementation",
+			"Clarification" => "issue-entry-category-clarification",
+			"Miscellaneous" => "issue-entry-category-miscellaneous",
+			_ => "issue-entry-category-none"
+		};
+
+		return output;
+	}
+
 	/// <summary>
 	///		GetSelectedCategoryCssClass method
 	/// </summary>
