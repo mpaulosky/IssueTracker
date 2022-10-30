@@ -64,15 +64,15 @@ public class IndexTests : TestContext
 	{
 		// Arrange
 		_expectedHtml = @"
-<h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
+    <h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
 <div class=""issue-container"">
   <button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
 </div>
 <div class=""row"">
   <div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
-  <div class=""col-md-4 col-xl-5 btn-group"" diff:ignore>
-    <button class=""btn btn-order "" >New</button>
-    <button class=""btn btn-order sort-selected"" >Popular</button>
+  <div class=""col-md-4 col-xl-5 btn-group"">
+    <button id=""sort-by-new"" class=""btn btn-order "" >New</button>
+    <button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
   </div>
   <div class=""col-md-4 col-xl-3 search-box"">
     <input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
@@ -90,12 +90,14 @@ public class IndexTests : TestContext
   <div class=""col-md-8 col-xl-9"">
     <div style=""height: 0px;"" ></div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-design"">
+        <div class=""issue-entry-category-text"" >Design</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 1</div>
         <div class=""issue-entry-text-description"">A new test issue 1</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Design</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -105,12 +107,14 @@ public class IndexTests : TestContext
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-documentation"">
+        <div class=""issue-entry-category-text"" >Documentation</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 2</div>
         <div class=""issue-entry-text-description"">A new test issue 2</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Documentation</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -120,12 +124,14 @@ public class IndexTests : TestContext
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-implementation"">
+        <div class=""issue-entry-category-text"" >Implementation</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Implementation</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -135,12 +141,14 @@ public class IndexTests : TestContext
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-clarification"">
+        <div class=""issue-entry-category-text"" >Clarification</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Clarification</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -150,12 +158,14 @@ public class IndexTests : TestContext
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-miscellaneous"">
+        <div class=""issue-entry-category-text"" >Miscellaneous</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Miscellaneous</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -165,12 +175,14 @@ public class IndexTests : TestContext
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-design"">
+        <div class=""issue-entry-category-text"" >Design</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 6</div>
         <div class=""issue-entry-text-description"">A new test issue 6</div>
         <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Design</div>
-          <button id=""archive"" class=""btn issue-entry-text-category btn-archive"">
+          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
         </div>
@@ -217,16 +229,16 @@ public class IndexTests : TestContext
 	public void Index_With_DataNotAsAdmin_Should_DisplayIssuesWithOutArchiveButton_Test()
 	{
 		// Arrange
-		_expectedHtml = @"
-<h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
+		_expectedHtml = @$"
+    <h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
 <div class=""issue-container"">
   <button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
 </div>
 <div class=""row"">
   <div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
-  <div class=""col-md-4 col-xl-5 btn-group"" diff:ignore>
-    <button class=""btn btn-order "" >New</button>
-    <button class=""btn btn-order sort-selected"" >Popular</button>
+  <div class=""col-md-4 col-xl-5 btn-group"">
+    <button id=""sort-by-new"" class=""btn btn-order "" >New</button>
+    <button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
   </div>
   <div class=""col-md-4 col-xl-3 search-box"">
     <input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
@@ -244,72 +256,78 @@ public class IndexTests : TestContext
   <div class=""col-md-8 col-xl-9"">
     <div style=""height: 0px;"" ></div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-design"">
+        <div class=""issue-entry-category-text"" >Design</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 1</div>
         <div class=""issue-entry-text-description"">A new test issue 1</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Design</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-watching"">
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-documentation"">
+        <div class=""issue-entry-category-text"" >Documentation</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 2</div>
         <div class=""issue-entry-text-description"">A new test issue 2</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Documentation</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-answered"">
         <div class=""issue-entry-status-text"">Answered</div>
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-implementation"">
+        <div class=""issue-entry-category-text"" >Implementation</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Implementation</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-inwork"">
         <div class=""issue-entry-status-text"">In Work</div>
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-clarification"">
+        <div class=""issue-entry-category-text"" >Clarification</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Clarification</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-dismissed"">
         <div class=""issue-entry-status-text"">Dismissed</div>
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-miscellaneous"">
+        <div class=""issue-entry-category-text"" >Miscellaneous</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Miscellaneous</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-watching"">
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
     <div class=""issue-entry"">
+      <div class=""issue-entry-category issue-entry-category-design"">
+        <div class=""issue-entry-category-text"" >Design</div>
+      </div>
       <div class=""issue-entry-text"">
         <div class=""issue-entry-text-title"" >Test Issue 6</div>
         <div class=""issue-entry-text-description"">A new test issue 6</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"" >Design</div>
-        </div>
+        <div class=""issue-entry-bottom""></div>
       </div>
       <div class=""issue-entry-status issue-entry-status-none"">
         <div class=""issue-entry-status-text""></div>
