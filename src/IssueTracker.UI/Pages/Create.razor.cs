@@ -14,6 +14,7 @@ namespace IssueTracker.UI.Pages;
 public partial class Create
 {
 	private List<CategoryModel> _categories;
+	private List<StatusModel> _statuses;
 	private CreateIssueModel _issue = new();
 	private UserModel _loggedInUser;
 
@@ -25,6 +26,7 @@ public partial class Create
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
 			"AuthProvider.GetUserFromAuth(UserService) != null");
 		_categories = await CategoryService.GetCategories();
+		_statuses = await StatusService.GetStatuses();
 	}
 
 	/// <summary>
@@ -33,12 +35,14 @@ public partial class Create
 	private async Task CreateIssue()
 	{
 		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		var status = _statuses.Where(c => c.StatusName == "Watching").FirstOrDefault();
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel(category.Id, category.CategoryDescription)
+			Category = new BasicCategoryModel(category.CategoryName, category.CategoryDescription),
+			IssueStatus = new BasicStatusModel(status.StatusName, status.StatusDescription)
 		};
 
 		await IssueService.CreateIssue(s);
