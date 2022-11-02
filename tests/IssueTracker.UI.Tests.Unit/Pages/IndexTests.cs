@@ -89,7 +89,7 @@ public class IndexTests : TestContext
 <div class=""row"">
   <div class=""col-md-8 col-xl-9"">
     <div style=""height: 0px;"" ></div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-design"">
         <div class=""issue-entry-category-text"" >Design</div>
       </div>
@@ -97,6 +97,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 1</div>
         <div class=""issue-entry-text-description"">A new test issue 1</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -106,7 +107,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-documentation"">
         <div class=""issue-entry-category-text"" >Documentation</div>
       </div>
@@ -114,6 +115,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 2</div>
         <div class=""issue-entry-text-description"">A new test issue 2</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -123,7 +125,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Answered</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-implementation"">
         <div class=""issue-entry-category-text"" >Implementation</div>
       </div>
@@ -131,6 +133,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -140,7 +143,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">In Work</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-clarification"">
         <div class=""issue-entry-category-text"" >Clarification</div>
       </div>
@@ -148,6 +151,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -157,7 +161,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Dismissed</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-miscellaneous"">
         <div class=""issue-entry-category-text"" >Miscellaneous</div>
       </div>
@@ -165,6 +169,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 3</div>
         <div class=""issue-entry-text-description"">A new test issue 3</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -174,7 +179,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-design"">
         <div class=""issue-entry-category-text"" >Design</div>
       </div>
@@ -182,6 +187,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-text-title"" >Test Issue 6</div>
         <div class=""issue-entry-text-description"">A new test issue 6</div>
         <div class=""issue-entry-bottom"">
+          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
           <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
             archive
           </button>
@@ -255,7 +261,7 @@ public class IndexTests : TestContext
 <div class=""row"">
   <div class=""col-md-8 col-xl-9"">
     <div style=""height: 0px;"" ></div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-design"">
         <div class=""issue-entry-category-text"" >Design</div>
       </div>
@@ -268,7 +274,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-documentation"">
         <div class=""issue-entry-category-text"" >Documentation</div>
       </div>
@@ -281,7 +287,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Answered</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-implementation"">
         <div class=""issue-entry-category-text"" >Implementation</div>
       </div>
@@ -294,7 +300,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">In Work</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-clarification"">
         <div class=""issue-entry-category-text"" >Clarification</div>
       </div>
@@ -307,7 +313,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Dismissed</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-miscellaneous"">
         <div class=""issue-entry-category-text"" >Miscellaneous</div>
       </div>
@@ -320,7 +326,7 @@ public class IndexTests : TestContext
         <div class=""issue-entry-status-text"">Watching</div>
       </div>
     </div>
-    <div class=""issue-entry"">
+    <div class=""issue-entry"" diff:ignoreChildren>
       <div class=""issue-entry-category issue-entry-category-design"">
         <div class=""issue-entry-category-text"" >Design</div>
       </div>

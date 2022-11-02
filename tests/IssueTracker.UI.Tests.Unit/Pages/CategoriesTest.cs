@@ -42,35 +42,30 @@ public class CategoriesTest : TestContext
 		var cut = RenderComponent<Categories>();
 
 		// Assert
-		cut.MarkupMatches(@$"<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
-<div class=""row justify-content-center create-form"" >
-  <div class=""col-xl-8 col-lg-10 form-layout"" >
-    <div class=""close-button-section"" >
-      <button id=""close-page"" class=""btn btn-close""  ></button>
-    </div>
-    <div >
-      <table >
-        <thead >
-          <tr >
-            <th >Category Name</th>
-            <th >Category Description</th>
-            <th ></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr >
-            <td diff:ignore >Implementation</td>
-            <td diff:ignore >Incidunt sit ut.</td>
-            <td >
-              <button id=""edit-category"" class=""btn btn-primary""  >Edit</button>
-              <button id=""delete-category"" class=""btn btn-primary""  >Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>");
+		cut.MarkupMatches(@$"
+    <h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
+		<div class=""row justify-content-center create-form"" >
+			<div class=""form-layout col-xl-9 col-lg-11"" >
+				<div class=""close-button-section"" >
+					<button id=""new-category"" class=""btn category-entry-new-category""  >New Category</button>
+					<button id=""close-page"" class=""btn btn-close""  ></button>
+				</div>
+				<div class="""" >
+					<div style=""height: 0px;"" ></div>
+					<div class=""category-entry"" >
+						<div class=""category-entry-text-name"" diff:ignoreChildren >Implementation</div>
+						<div class=""category-entry-text-description"" diff:ignoreChildren >Voluptas quis doloribus enim excepturi sunt consectetur maiores dolores excepturi.</div>
+						<div >
+							<button id=""edit-category"" class=""btn btn-primary""  >Edit</button>
+						</div>
+						<div >
+							<button id=""delete-category"" class=""btn btn-primary""  >Delete</button>
+						</div>
+					</div>
+					<div style=""height: 0px;"" ></div>
+				</div>
+			</div>
+		</div>");
 
 	}
 

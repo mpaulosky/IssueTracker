@@ -4,11 +4,13 @@
 public class CreateTests : TestContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private List<CategoryModel> _expectedCategories;
+	private List<StatusModel> _expectedStatuses;
 	private UserModel _expectedUser;
 
 	public CreateTests()
@@ -16,6 +18,7 @@ public class CreateTests : TestContext
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
+		_statusRepositoryMock = new Mock<IStatusRepository>();
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
@@ -43,6 +46,7 @@ public class CreateTests : TestContext
 		const string expectedUri = "http://localhost/";
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
+		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -66,6 +70,7 @@ public class CreateTests : TestContext
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
+		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -137,6 +142,7 @@ public class CreateTests : TestContext
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
+		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -166,6 +172,8 @@ public class CreateTests : TestContext
 	{
 		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(_expectedCategories);
 
+		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(_expectedStatuses);
+
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 	}
 
@@ -185,11 +193,17 @@ public class CreateTests : TestContext
 
 	private void RegisterServices()
 	{
+
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
+
 		Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object,
 			_memoryCacheMock.Object));
+
+		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
+
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+
 	}
 
 	private void SetMemoryCache()
