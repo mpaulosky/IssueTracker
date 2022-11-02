@@ -20,6 +20,11 @@ public partial class Categories
 
 	}
 
+	private void NewCategory()
+	{
+		_categories.Add(new CategoryModel { });
+	}
+
 	/// <summary>
 	///		ClosePage method.
 	/// </summary>

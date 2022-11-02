@@ -236,8 +236,6 @@ a:hover, .btn-link:hover {
   flex-direction: column;
   padding: 10px 10px 10px 20px;
   background-color: #FFFFFF;
-/*/*  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;*/*/
 }
 
 .issue-entry-text-title {
@@ -339,8 +337,8 @@ a:hover, .btn-link:hover {
 }
 
 .issue-entry-category-documentation {
-    background-color: #E9354C;
-    border: 1px solid #E9354C;
+    background-color: #bf878e;
+    border: 1px solid #bf878e;
 }
 
 .issue-entry-category-implementatioin {
@@ -779,10 +777,34 @@ a:hover, .btn-link:hover {
   color: #B9C30B;
 }
 
-/* Done Here */
+.category-entry {
+    display: grid;
+    grid-template-columns: 150px 1fr 60px 80px;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
 
+
+.category-entry-new-category {
+    text-transform: uppercase;
+    color: darkgray;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+
+.category-entry-text-name{
+    
+}
+/* Done Here */
 @media screen and (max-width: 575px) {
-  .btn-approve, .btn-reject {
+    .btn-approve, .btn-reject {
     width: 45%;
   }
 
