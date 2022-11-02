@@ -95,6 +95,7 @@
 						@if (_archivingIssue is null || _archivingIssue.Id != s.Id)
 						{
 							<div class="issue-entry-bottom">
+								<div class="issue-entry-text-category">@s.DateCreated</div>
 								<AuthorizeView Policy="Admin">
 									<button id="archive" @onclick="() => _archivingIssue = s" class="btn issue-entry-text-category btn-archive">
 										archive
