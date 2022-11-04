@@ -1,5 +1,6 @@
 namespace TestingSupport.Library.Fixtures;
 
+[ExcludeFromCodeCoverage]
 public static class TestCategories
 {
 

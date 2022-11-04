@@ -4,6 +4,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace IssueTracker.Library;
 
+[ExcludeFromCodeCoverage]
 internal class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>
 {
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
