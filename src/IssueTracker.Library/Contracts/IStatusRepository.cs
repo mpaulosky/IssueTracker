@@ -16,4 +16,7 @@ public interface IStatusRepository
 	Task CreateStatus(StatusModel status);
 
 	Task UpdateStatus(string itemId, StatusModel status);
+
+	Task DeleteStatus(StatusModel status);
+
 }

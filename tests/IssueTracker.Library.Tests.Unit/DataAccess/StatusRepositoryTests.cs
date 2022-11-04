@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Library.DataAccess;
+﻿using MongoDB.Driver;
+
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
@@ -18,6 +20,52 @@ public class StatusRepositoryTests
 		_mockContext = TestFixtures.GetMockContext();
 
 		_sut = new StatusRepository(_mockContext.Object);
+	}
+
+	[Fact(DisplayName = "Create Status")]
+	public async Task Create_With_Valid_Status_Should_Insert_A_New_Status_TestAsync()
+	{
+
+		// Arrange
+
+		var newStatus = TestStatuses.GetKnownStatus();
+
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.CreateStatus(newStatus);
+
+		// Assert
+
+		//Verify if InsertOneAsync is called once 
+		_mockCollection.Verify(c => c.InsertOneAsync(newStatus, null, default), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "Delete Status")]
+	public async Task DeleteStatus_With_Valid_Status_Should_Delete_the_Status_TestAsync()
+	{
+
+		// Arrange
+
+		var status = TestStatuses.GetKnownStatus();
+
+		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new StatusRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.DeleteStatus(status);
+
+		// Assert
+
+		//Verify if DeleteOneAsync is called once 
+		_mockCollection.Verify(c => c.DeleteOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
@@ -82,27 +130,6 @@ public class StatusRepositoryTests
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
-	}
-
-	[Fact(DisplayName = "Create Status")]
-	public async Task Create_With_Valid_Status_Should_Insert_A_New_Status_TestAsync()
-	{
-		// Arrange
-
-		var newStatus = TestStatuses.GetKnownStatus();
-
-		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new StatusRepository(_mockContext.Object);
-
-		// Act
-
-		await _sut.CreateStatus(newStatus);
-
-		// Assert
-
-		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => c.InsertOneAsync(newStatus, null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Status")]

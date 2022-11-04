@@ -34,12 +34,39 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
+	///		CreateStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	public async Task CreateStatus(StatusModel status)
+	{
+
+		await _collection.InsertOneAsync(status);
+
+	}
+
+	/// <summary>
+	///   DeleteStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	public async Task DeleteStatus(StatusModel status)
+	{
+
+		var objectId = new ObjectId(status.Id);
+
+		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
+
+		await _collection.DeleteOneAsync(filter);
+
+	}
+
+	/// <summary>
 	///		GetStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of StatusModel</returns>
 	public async Task<StatusModel> GetStatus(string itemId)
 	{
+
 		var objectId = new ObjectId(itemId);
 
 		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
@@ -66,23 +93,13 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	///		CreateStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	public async Task CreateStatus(StatusModel status)
-	{
-
-		await _collection.InsertOneAsync(status);
-
-	}
-
-	/// <summary>
 	///		UpdateStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="status">StatusModel</param>
 	public async Task UpdateStatus(string itemId, StatusModel status)
 	{
+
 		var objectId = new ObjectId(itemId);
 
 		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
