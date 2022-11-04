@@ -43,46 +43,88 @@ public class CategoriesTest : TestContext
 
 		// Assert
 		cut.MarkupMatches(@$"
-    <h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
-		<div class=""row justify-content-center create-form"" >
+			<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
+			<div class=""row justify-content-center create-form"" >
 			<div class=""form-layout col-xl-9 col-lg-11"" >
-				<div class=""close-button-section"" >
-					<button id=""new-category"" class=""btn category-entry-new-category""  >New Category</button>
-					<button id=""close-page"" class=""btn btn-close""  ></button>
-				</div>
-				<div class="""" >
-					<div style=""height: 0px;"" ></div>
-					<div class=""category-entry"" >
-						<div class=""category-entry-text-name"" diff:ignoreChildren >Implementation</div>
-						<div class=""category-entry-text-description"" diff:ignoreChildren >Voluptas quis doloribus enim excepturi sunt consectetur maiores dolores excepturi.</div>
-						<div >
-							<button id=""edit-category"" class=""btn btn-primary""  >Edit</button>
-						</div>
-						<div >
-							<button id=""delete-category"" class=""btn btn-primary""  >Delete</button>
-						</div>
-					</div>
-					<div style=""height: 0px;"" ></div>
-				</div>
+			<div class=""close-button-section"" >
+			<button id=""close-page"" class=""btn btn-close""  ></button>
 			</div>
-		</div>");
-
-	}
-
-	[Fact]
-	public void Categories_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
-	{
-
-		// Arrange
-		this.AddTestAuthorization();
-
-		RegisterServices();
-
-		// Act
-
-		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Categories>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+			<div class="""" >
+			<button type=""button"" class=""rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4"" id:ignore  >
+			<span class=""rz-button-box"">
+			<i class=""rz-button-icon-left rzi"">add_circle_outline</i>
+			<span class=""rz-button-text"">Add New Category</span>
+			</span>
+			</button>
+			<div class=""rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable "" id:ignore >
+			<div class=""rz-data-grid-data"">
+			<table class=""rz-grid-table rz-grid-table-fixed rz-grid-table-striped "">
+			<colgroup>
+			<col id:ignore style=""width:120px"">
+			<col id:ignore style=""width:200px"">
+			<col id:ignore style=""width:156px"">
+			</colgroup>
+			<thead>
+			<tr>
+			<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text rz-sortable-column    rz-text-align-left"" scope=""col"" style=""width:120px"" >
+			<div  tabindex=""0"" >
+			<span class=""rz-column-title"" title=""Category Name"">
+			<span class=""rz-column-title-content"">Category Name</span>
+			<span class=""rz-sortable-column-icon rzi-grid-sort rzi-sort""></span>
+			</span>
+			</div>
+			</th>
+			<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text rz-sortable-column    rz-text-align-left"" scope=""col"" style=""width:200px"" >
+			<div  tabindex=""0"" >
+			<span class=""rz-column-title"" title=""Description"">
+			<span class=""rz-column-title-content"">Description</span>
+			<span class=""rz-sortable-column-icon rzi-grid-sort rzi-sort""></span>
+			</span>
+			</div>
+			</th>
+			<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text     rz-text-align-right"" scope=""col"" style=""width:156px;text-align:right;"" >
+			<div  tabindex=""-1"" >
+			<span class=""rz-column-title"">
+			<span class=""rz-column-title-content""></span>
+			</span>
+			</div>
+			</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr class=""rz-data-row  "">
+			<td rowspan=""1"" colspan=""1"" style=""width:120px"" diff:ignoreChildren  >
+			<span class=""rz-cell-data"" title="""">
+			Documentation
+			</span>
+			</td>
+			<td rowspan=""1"" colspan=""1"" style=""width:200px"" diff:ignoreChildren  >
+			<span class=""rz-cell-data"" title="""">
+			Nam rem sunt magni commodi sunt soluta quia dolores.
+			</span>
+			</td>
+			<td rowspan=""1"" colspan=""1"" style=""width:156px;text-align:right;"" diff:ignoreChildren  >
+			<span class=""rz-cell-data"" title="""">
+			<button type=""button""  class=""rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only"" id:ignore  >
+			<span class=""rz-button-box"">
+			<i class=""rz-button-icon-left rzi"">edit</i>
+			</span>
+			</button>
+			<button type=""button""  class=""rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1"" id:ignore  >
+			<span class=""rz-button-box"">
+			<i class=""rz-button-icon-left rzi"">delete</i>
+			</span>
+			</button>
+			</span>
+			</td>
+			</tr>
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>");
 
 	}
 

@@ -32,6 +32,40 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
+	///		CreateCategory method
+	/// </summary>
+	/// <param name="category">CategoryModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task CreateCategory(CategoryModel category)
+	{
+
+		Guard.Against.Null(category, nameof(category));
+
+		_cache.Remove(_cacheName);
+
+		return _repository.CreateCategory(category);
+
+	}
+
+	/// <summary>
+	///  DeleteCategory method
+	/// </summary>
+	/// <param name="category">CategoryModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task DeleteCategory(CategoryModel category)
+	{
+
+		Guard.Against.Null(category, nameof(category));
+
+		_cache.Remove(_cacheName);
+
+		return _repository.DeleteCategory(category);
+
+	}
+
+	/// <summary>
 	///		GetCategory method
 	/// </summary>
 	/// <param name="categoryId">string</param>
@@ -73,21 +107,6 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///		CreateCategory method
-	/// </summary>
-	/// <param name="category">CategoryModel</param>
-	/// <returns>Task</returns>
-	/// <exception cref="ArgumentNullException"></exception>
-	public Task CreateCategory(CategoryModel category)
-	{
-
-		Guard.Against.Null(category, nameof(category));
-
-		return _repository.CreateCategory(category);
-
-	}
-
-	/// <summary>
 	///		UpdateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
@@ -98,7 +117,10 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.Null(category, nameof(category));
 
+		_cache.Remove(_cacheName);
+
 		return _repository.UpdateCategory(category.Id, category);
 
 	}
+
 }

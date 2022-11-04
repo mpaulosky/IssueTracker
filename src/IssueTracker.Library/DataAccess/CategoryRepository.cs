@@ -93,4 +93,18 @@ public class CategoryRepository : ICategoryRepository
 
 	}
 
+	/// <summary>
+	///   DeleteCategory method
+	/// </summary>
+	/// <param name="category">CategoryModel</param>
+	public async Task DeleteCategory(CategoryModel category)
+	{
+
+		var objectId = new ObjectId(category.Id);
+
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+
+		await _collection.DeleteOneAsync(filter);
+
+	}
 }

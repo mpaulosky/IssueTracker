@@ -5,37 +5,39 @@ public class CategoryServiceTests
 {
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private readonly Mock<ICategoryRepository> _statusRepositoryMock;
+	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private CategoryService _sut;
 
 	public CategoryServiceTests()
 	{
-		_statusRepositoryMock = new Mock<ICategoryRepository>();
+		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 	}
 
 	[Fact(DisplayName = "Create Category With Valid Values")]
 	public async Task CreateCategory_With_Valid_Values_Should_Return_Test()
 	{
+
 		// Arrange
 
-		var status = TestCategories.GetNewCategory();
+		var expected = TestCategories.GetNewCategory();
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
-		await _sut.CreateCategory(status);
+		await _sut.CreateCategory(expected);
 
 		// Assert
 
 		_sut.Should().NotBeNull();
 
-		_statusRepositoryMock
+		_categoryRepositoryMock
 			.Verify(x =>
 				x.CreateCategory(It.IsAny<CategoryModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Create Category With Invalid Category Throws Exception")]
@@ -43,13 +45,37 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
 		// Assert
 
 		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null));
+	}
+
+	[Fact(DisplayName = "Delete Category")]
+	public async Task DeleteCategory_With_Valid_Values_Should_Delete_The_Category_TestAsync()
+	{
+
+		// Arrange
+
+		var expected = TestCategories.GetKnownCategory();
+
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+
+		// Act
+
+		await _sut.DeleteCategory(expected);
+
+		// Assert
+
+		_sut.Should().NotBeNull();
+
+		_categoryRepositoryMock
+			.Verify(x =>
+				x.DeleteCategory(It.IsAny<CategoryModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Get Category With Valid Id")]
@@ -59,9 +85,9 @@ public class CategoryServiceTests
 
 		var expected = TestCategories.GetKnownCategory();
 
-		_statusRepositoryMock.Setup(x => x.GetCategory(It.IsAny<string>())).ReturnsAsync(expected);
+		_categoryRepositoryMock.Setup(x => x.GetCategory(It.IsAny<string>())).ReturnsAsync(expected);
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
 
@@ -78,7 +104,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
@@ -92,7 +118,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
@@ -110,14 +136,14 @@ public class CategoryServiceTests
 
 		var expected = TestCategories.GetCategories();
 
-		_statusRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
+		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
 
@@ -151,7 +177,7 @@ public class CategoryServiceTests
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
 
@@ -170,7 +196,7 @@ public class CategoryServiceTests
 
 		var updatedCategory = TestCategories.GetUpdatedCategory();
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 
@@ -180,7 +206,7 @@ public class CategoryServiceTests
 
 		_sut.Should().NotBeNull();
 
-		_statusRepositoryMock
+		_categoryRepositoryMock
 			.Verify(x =>
 				x.UpdateCategory(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
 	}
@@ -190,7 +216,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		_sut = new CategoryService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		// Act
 

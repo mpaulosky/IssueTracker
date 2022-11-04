@@ -15,7 +15,7 @@ public class FakeCategoryTests
 
 		// Assert
 		result.Count().Should().Be(1);
-		result.First().Id.Should().BeNull();
+		result.First().Id.Should().NotBeNull();
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
 

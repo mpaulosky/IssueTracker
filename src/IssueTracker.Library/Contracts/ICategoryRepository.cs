@@ -9,6 +9,7 @@ namespace IssueTracker.Library.Contracts;
 
 public interface ICategoryRepository
 {
+
 	Task<CategoryModel> GetCategory(string itemId);
 
 	Task<IEnumerable<CategoryModel>> GetCategories();
@@ -16,4 +17,7 @@ public interface ICategoryRepository
 	Task CreateCategory(CategoryModel category);
 
 	Task UpdateCategory(string itemId, CategoryModel category);
+
+	Task DeleteCategory(CategoryModel category);
+
 }

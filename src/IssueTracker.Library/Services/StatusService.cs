@@ -12,6 +12,7 @@ namespace IssueTracker.Library.Services;
 /// </summary>
 public class StatusService : IStatusService
 {
+
 	private const string _cacheName = "StatusData";
 	private readonly IMemoryCache _cache;
 	private readonly IStatusRepository _repository;
@@ -24,8 +25,10 @@ public class StatusService : IStatusService
 	/// <exception cref="ArgumentNullException"></exception>
 	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
+
 		_repository = Guard.Against.Null(repository, nameof(repository));
 		_cache = Guard.Against.Null(cache, nameof(cache));
+
 	}
 
 	/// <summary>
@@ -36,9 +39,26 @@ public class StatusService : IStatusService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateStatus(StatusModel status)
 	{
+
 		Guard.Against.Null(status, nameof(status));
 
 		return _repository.CreateStatus(status);
+
+	}
+
+	/// <summary>
+	///  DeleteStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task DeleteStatus(StatusModel status)
+	{
+
+		Guard.Against.Null(status, nameof(status));
+
+		return _repository.DeleteStatus(status);
+
 	}
 
 	/// <summary>
@@ -47,13 +67,16 @@ public class StatusService : IStatusService
 	/// <param name="statusId">string</param>
 	/// <returns>Task StatusModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<StatusModel> GetStatus(string statusId)
 	{
+
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
 		var result = await _repository.GetStatus(statusId);
 
 		return result;
+
 	}
 
 	/// <summary>
@@ -62,18 +85,24 @@ public class StatusService : IStatusService
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
 	{
+
 		var output = _cache.Get<List<StatusModel>>(_cacheName);
+
 		if (output is not null)
 		{
+
 			return output;
+
 		}
 
 		var results = await _repository.GetStatuses();
+
 		output = results.ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
 
 		return output;
+
 	}
 
 	/// <summary>
@@ -84,8 +113,11 @@ public class StatusService : IStatusService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateStatus(StatusModel status)
 	{
+
 		Guard.Against.Null(status, nameof(status));
 
 		return _repository.UpdateStatus(status!.Id!, status);
+
 	}
+
 }

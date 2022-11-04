@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Library.DataAccess;
+﻿using MongoDB.Driver;
+
+namespace IssueTracker.Library.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CategoryRepositoryTests
@@ -18,6 +20,51 @@ public class CategoryRepositoryTests
 		_mockContext = TestFixtures.GetMockContext();
 
 		_sut = new CategoryRepository(_mockContext.Object);
+	}
+
+	[Fact(DisplayName = "Create Category")]
+	public async Task Create_With_Valid_Category_Should_Insert_A_New_Category_TestAsync()
+	{
+
+		// Arrange
+
+		var newCategory = TestCategories.GetKnownCategory();
+
+		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new CategoryRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.CreateCategory(newCategory);
+
+		// Assert
+
+		//Verify if InsertOneAsync is called once 
+		_mockCollection.Verify(c => c.InsertOneAsync(newCategory, null, default), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "Delete Category")]
+	public async Task DeleteCategory_With_Valid_Category_Should_Delete_the_Category_TestAsync()
+	{
+
+		// Arrange
+
+		var category = TestCategories.GetKnownCategory();
+
+		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new CategoryRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.DeleteCategory(category);
+
+		// Assert
+
+		_mockCollection.Verify(c => c.DeleteOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Get Category With a Valid Id")]
@@ -81,27 +128,6 @@ public class CategoryRepositoryTests
 		var items = result.ToList();
 		items.ToList().Should().NotBeNull();
 		items.ToList().Should().HaveCount(expectedCount);
-	}
-
-	[Fact(DisplayName = "Create Category")]
-	public async Task Create_With_Valid_Category_Should_Insert_A_New_Category_TestAsync()
-	{
-		// Arrange
-
-		var newCategory = TestCategories.GetKnownCategory();
-
-		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new CategoryRepository(_mockContext.Object);
-
-		// Act
-
-		await _sut.CreateCategory(newCategory);
-
-		// Assert
-
-		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => c.InsertOneAsync(newCategory, null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Category")]

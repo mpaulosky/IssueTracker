@@ -20,7 +20,7 @@ public static class FakeCategory
 	{
 
 		var categoryGenerator = new Faker<CategoryModel>()
-		//.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
 
@@ -32,6 +32,7 @@ public static class FakeCategory
 
 	public static IEnumerable<BasicCategoryModel> GetBasicCategories(int numberOfCategories)
 	{
+
 		var categoryGenerator = new Faker<BasicCategoryModel>()
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
@@ -44,19 +45,15 @@ public static class FakeCategory
 
 	public static BasicCategoryModel GetBasicCategory()
 	{
-		var categoryGenerator = new Faker<CategoryModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString())
+		var categoryGenerator = new Faker<BasicCategoryModel>()
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
 
 		var category = categoryGenerator.Generate();
 
-		var basicCategory = new BasicCategoryModel(category);
-
-		return basicCategory;
+		return category;
 
 	}
-
 
 }
 

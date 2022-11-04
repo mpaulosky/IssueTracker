@@ -10,6 +10,7 @@ namespace IssueTracker.Library.Models;
 [Serializable]
 public class CategoryModel
 {
+
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; }
@@ -21,4 +22,5 @@ public class CategoryModel
 	[BsonElement("category-description")]
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryDescription { get; set; }
+
 }
