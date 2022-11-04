@@ -41,7 +41,7 @@ public partial class Create
 			IssueName = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel(category.CategoryName, category.CategoryDescription),
+			Category = new BasicCategoryModel((string)category.CategoryName, (string)category.CategoryDescription),
 			IssueStatus = new BasicStatusModel(status.StatusName, status.StatusDescription)
 		};
 

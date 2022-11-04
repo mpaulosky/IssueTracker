@@ -24,8 +24,8 @@
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search"
-					aria-label="Search box" class="form-control rounded-control"
-					@oninput="txt => OnSearchInput((string)txt.Value)"/>
+					 aria-label="Search box" class="form-control rounded-control"
+					 @oninput="txt => OnSearchInput((string)txt.Value)" />
 	</div>
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null && _showCategories)
@@ -36,7 +36,7 @@
 				@foreach (var c in _categories)
 				{
 					<div class="@GetSelectedCategoryCssClass(c.CategoryName)"
-							@onclick="() => OnCategoryClick(c.CategoryName)">
+					 @onclick="() => OnCategoryClick(c.CategoryName)">
 						@c.CategoryName
 					</div>
 				}
@@ -57,7 +57,7 @@
 				@foreach (var s in _statuses)
 				{
 					<div class="@GetSelectedStatusCssClass(s.StatusName)"
-							@onclick="() => OnStatusClick(s.StatusName)">
+					 @onclick="() => OnStatusClick(s.StatusName)">
 						@s.StatusName
 					</div>
 				}
