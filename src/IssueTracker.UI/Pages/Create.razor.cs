@@ -15,7 +15,7 @@ public partial class Create
 {
 	private List<CategoryModel> _categories;
 	private List<StatusModel> _statuses;
-	private CreateIssueModel _issue = new();
+	private CreateIssueDto _issue = new();
 	private UserModel _loggedInUser;
 
 	/// <summary>
@@ -47,7 +47,7 @@ public partial class Create
 
 		await IssueService.CreateIssue(s);
 
-		_issue = new CreateIssueModel();
+		_issue = new CreateIssueDto();
 		ClosePage();
 	}
 

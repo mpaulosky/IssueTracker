@@ -13,7 +13,7 @@ namespace IssueTracker.UI.Pages;
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Comment
 {
-	private CreateCommentModel _comment = new();
+	private CreateCommentDto _comment = new();
 
 	private IssueModel _issue;
 
@@ -46,7 +46,7 @@ public partial class Comment
 
 		await CommentService.CreateComment(comment);
 
-		_comment = new CreateCommentModel();
+		_comment = new CreateCommentDto();
 
 		ClosePage();
 	}

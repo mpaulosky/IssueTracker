@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CreateIssueModel.cs" company="mpaulosky">
+// <copyright file="CreateIssueDto.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
@@ -14,7 +14,7 @@ public class CreateCategoryDto
 	[MinLength(3)]
 	[MaxLength(75)]
 	[Display(Name = "Name")]
-	public string CategoryNaem { get; set; }
+	public string CategoryName { get; set; }
 
 	[Required]
 	[MinLength(3)]
