@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class Mongodb_healthcheck_should : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class Mongodb_healthcheck_should : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private TestServer _sut;
+	private string _cleanupValue = "";
 
 	public Mongodb_healthcheck_should(IssueTrackerTestFactory factory)
 	{
@@ -28,6 +29,15 @@ public class Mongodb_healthcheck_should : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

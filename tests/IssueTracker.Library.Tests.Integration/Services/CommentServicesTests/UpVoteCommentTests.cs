@@ -1,11 +1,12 @@
 ﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class UpVoteCommentTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class UpVoteCommentTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
+	private string _cleanupValue;
 
 	public UpVoteCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -25,6 +26,7 @@ public class UpVoteCommentTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
 		var expected = FakeComment.GetNewComment();
 		// Clear any existing User Votes
@@ -47,6 +49,7 @@ public class UpVoteCommentTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
 		var expected = FakeComment.GetNewComment();
 
@@ -65,4 +68,12 @@ public class UpVoteCommentTests : IClassFixture<IssueTrackerTestFactory>
 
 	}
 
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
+
+	}
 }

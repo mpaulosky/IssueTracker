@@ -1,11 +1,12 @@
 ﻿namespace IssueTracker.Library.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class UserServiceTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class UserServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private IUserRepository _repo;
+	private string _cleanupValue = "";
 
 	public UserServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -27,6 +28,15 @@ public class UserServiceTests : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

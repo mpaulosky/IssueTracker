@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class UpdateCategoryTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class UpdateCategoryTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
+	private string _cleanupValue;
 
 	public UpdateCategoryTests(IssueTrackerTestFactory factory)
 	{
@@ -23,6 +24,7 @@ public class UpdateCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "categories";
 		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
@@ -41,6 +43,7 @@ public class UpdateCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		CategoryModel expected = null;
 
 		// Act
@@ -48,6 +51,15 @@ public class UpdateCategoryTests : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

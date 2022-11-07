@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetCommentsTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetCommentsTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
+	private string _cleanupValue;
 
 	public GetCommentsTests(IssueTrackerTestFactory factory)
 	{
@@ -30,6 +31,7 @@ public class GetCommentsTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "comments";
 		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
@@ -44,4 +46,12 @@ public class GetCommentsTests : IClassFixture<IssueTrackerTestFactory>
 
 	}
 
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
+
+	}
 }

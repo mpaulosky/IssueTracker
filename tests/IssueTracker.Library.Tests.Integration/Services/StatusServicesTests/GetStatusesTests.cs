@@ -3,12 +3,13 @@
 namespace IssueTracker.Library.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetStatusesTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetStatusesTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
+	private string _cleanupValue;
 
 	public GetStatusesTests(IssueTrackerTestFactory factory)
 	{
@@ -31,6 +32,7 @@ public class GetStatusesTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "statuses";
 		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
@@ -41,6 +43,15 @@ public class GetStatusesTests : IClassFixture<IssueTrackerTestFactory>
 		results.Count.Should().Be(1);
 		results.First().StatusName.Should().Be(expected.StatusName);
 		results.First().StatusDescription.Should().Be(expected.StatusDescription);
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetCategoryTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
+	private string _cleanupValue;
 
 	public GetCategoryTests(IssueTrackerTestFactory factory)
 	{
@@ -23,6 +24,7 @@ public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "categories";
 		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
@@ -38,6 +40,7 @@ public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	public async Task GetCategory_With_WithoutData_Should_ReturnNothing_TestAsync()
 	{
 		// Arrange
+		_cleanupValue = "";
 		var id = "62cf2ad6326e99d665759e5a";
 
 		// Act
@@ -53,6 +56,7 @@ public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		string id = null;
 
 		// Act
@@ -68,6 +72,7 @@ public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		var id = "";
 
 		// Act
@@ -75,6 +80,15 @@ public class GetCategoryTests : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>();
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

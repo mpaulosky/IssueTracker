@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetCommentTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
+	private string _cleanupValue;
 
 	public GetCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -22,6 +23,7 @@ public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "comments";
 		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
@@ -40,6 +42,7 @@ public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
 	public async Task GetComment_With_WithoutData_Should_ReturnNothing_TestAsync()
 	{
 		// Arrange
+		_cleanupValue = "";
 		var id = "62cf2ad6326e99d665759e5a";
 
 		// Act
@@ -55,6 +58,7 @@ public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		string id = null;
 
 		// Act
@@ -70,6 +74,7 @@ public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		var id = "";
 
 		// Act
@@ -80,4 +85,12 @@ public class GetCommentTests : IClassFixture<IssueTrackerTestFactory>
 
 	}
 
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
+
+	}
 }

@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class StatusServiceTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class StatusServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private IStatusRepository _repo;
 	private IMemoryCache _cache;
+	private string _cleanupValue = "";
 
 	public StatusServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -44,6 +45,15 @@ public class StatusServiceTests : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

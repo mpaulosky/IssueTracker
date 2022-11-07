@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.IssueServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetIssueTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueService _sut;
+	private string _cleanupValue;
 
 	public GetIssueTests(IssueTrackerTestFactory factory)
 	{
@@ -23,6 +24,7 @@ public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "issues";
 		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
@@ -41,6 +43,7 @@ public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
 	public async Task GetIssue_WithOutData_Should_ReturnNothing_TestAsync()
 	{
 		// Arrange
+		_cleanupValue = "";
 		var id = "62cf2ad6326e99d665759e5a";
 
 		// Act
@@ -56,6 +59,7 @@ public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		string id = null;
 
 		// Act
@@ -71,6 +75,7 @@ public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "";
 		var id = "";
 
 		// Act
@@ -78,6 +83,15 @@ public class GetIssueTests : IClassFixture<IssueTrackerTestFactory>
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>();
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 

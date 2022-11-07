@@ -1,12 +1,13 @@
 ﻿namespace IssueTracker.Library.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class GetIssuesByUserTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class GetIssuesByUserTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueService _sut;
+	private string _cleanupValue;
 
 	public GetIssuesByUserTests(IssueTrackerTestFactory factory)
 	{
@@ -23,6 +24,7 @@ public class GetIssuesByUserTests : IClassFixture<IssueTrackerTestFactory>
 	{
 
 		// Arrange
+		_cleanupValue = "issues";
 		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
@@ -34,6 +36,15 @@ public class GetIssuesByUserTests : IClassFixture<IssueTrackerTestFactory>
 		results.First().IssueName.Should().Be(expected.IssueName);
 		results.First().Description.Should().Be(expected.Description);
 		results.First().Author.Id.Should().Be(expected.Author.Id);
+
+	}
+
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+
+		await _factory.ResetDatabaseAsync(_cleanupValue);
 
 	}
 
