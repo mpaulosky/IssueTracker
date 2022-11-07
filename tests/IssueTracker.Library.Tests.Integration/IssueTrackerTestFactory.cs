@@ -1,21 +1,25 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿namespace IssueTracker.Library;
 
-using static System.Net.Mime.MediaTypeNames;
-
-namespace IssueTracker.Library;
-
-[Collection("Database")]
+[Collection("Test collection")]
 [ExcludeFromCodeCoverage]
-public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IDisposable
+
+public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
-	private readonly DbFixture _dbFixture;
+
+	public DatabaseSettings DbConfig { get; }
+	private IConfiguration AppConfiguration { get; }
+
 	private IMongoDbContextFactory DbContext { get; set; }
 
-	public IssueTrackerTestFactory(DbFixture fixture)
+	public IssueTrackerTestFactory()
 	{
 
-		_dbFixture = fixture;
+		AppConfiguration = LoadConfig("appsettings-integration-tests.json");
+		
+		DbConfig = AppConfiguration.GetSection("MongoDbSettings").Get<DatabaseSettings>();
 
+		DbConfig.DatabaseName = "test_" + Guid.NewGuid().ToString("N");
+		
 	}
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -29,18 +33,52 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IDispo
 			services.RemoveAll(typeof(IMongoDbContextFactory));
 
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
-					new MongoDbContextFactory(_dbFixture.DbConfig.ConnectionString, _dbFixture.DbConfig.DatabaseName));
+					new MongoDbContextFactory(DbConfig.ConnectionString, DbConfig.DatabaseName));
 
 			using var serviceProvider = services.BuildServiceProvider();
+			
 			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
 
 		});
 
 	}
 
-	public new void Dispose()
+	public async Task ResetDatabaseAsync(string collection)
 	{
-		DbContext.Client.DropDatabase(_dbFixture.DbConfig.DatabaseName);
+
+		if (string.IsNullOrWhiteSpace(collection)==false)
+		{
+
+			await DbContext.Database.DropCollectionAsync(collection);
+
+		}
+
+	}
+	
+	private static IConfiguration LoadConfig(string appSettings)
+	{
+
+		var config = new ConfigurationBuilder()
+			.AddJsonFile(appSettings, optional: false, false)
+			.AddEnvironmentVariables()
+			.Build();
+
+		return config;
+
+	}
+	
+	public async Task InitializeAsync()
+	{
+		
+		await Task.Delay(1000);
+		
+	}
+
+	public new async Task DisposeAsync()
+	{
+		
+		await DbContext.Client.DropDatabaseAsync(DbConfig.DatabaseName);
+		
 	}
 
 }

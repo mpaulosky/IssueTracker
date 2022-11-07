@@ -1,12 +1,12 @@
 ﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
-[Collection("Database")]
-public class CategoryServiceTests : IClassFixture<IssueTrackerTestFactory>
+[Collection("Test Collection")]
+public class CategoryServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
-	private ICategoryRepository _repo;
-	private IMemoryCache _cache;
+	private ICategoryRepository? _repo;
+	private IMemoryCache? _cache;
 
 	public CategoryServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -47,4 +47,10 @@ public class CategoryServiceTests : IClassFixture<IssueTrackerTestFactory>
 
 	}
 
+	public Task InitializeAsync() => Task.CompletedTask;
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetDatabaseAsync("");
+	}
 }
