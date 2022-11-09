@@ -13,7 +13,7 @@ public class AdminTests : TestContext
 
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
-		_mockCacheEntry = new Mock<ICacheEntry>()
+		_mockCacheEntry = new Mock<ICacheEntry>();
 
 	}
 
