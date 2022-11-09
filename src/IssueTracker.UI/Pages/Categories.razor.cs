@@ -29,7 +29,7 @@ public partial class Categories
 
 		_categoryToUpdate = category;
 
-		await _categoriesGrid.EditRow(category);
+		await _categoriesGrid.EditRow(_categoryToUpdate);
 
 	}
 
@@ -99,21 +99,13 @@ public partial class Categories
 
 			_categories.Remove(category);
 
-			await CategoryService.DeleteCategory(category);
-
-			await _categoriesGrid.Reload();
-
 		}
-		else
-		{
 
-			_categoriesGrid.CancelEditRow(category);
+		_categoriesGrid.CancelEditRow(category);
 
-			await CategoryService.DeleteCategory(category);
+		await CategoryService.DeleteCategory(category);
 
-			await _categoriesGrid.Reload();
-
-		}
+		await _categoriesGrid.Reload();
 
 	}
 
@@ -130,7 +122,12 @@ public partial class Categories
 	private async void OnCreateRow(CategoryModel category)
 	{
 
-		if (category == _categoryToInsert) { _categoryToInsert = null; }
+		if (category == _categoryToInsert)
+		{
+
+			_categoryToInsert = null;
+
+		}
 
 		await CategoryService.CreateCategory(category);
 
