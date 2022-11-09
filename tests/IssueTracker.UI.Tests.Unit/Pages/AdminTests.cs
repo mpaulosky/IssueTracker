@@ -3,20 +3,24 @@
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
 {
+
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 
 	public AdminTests()
 	{
+
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
-		_mockCacheEntry = new Mock<ICacheEntry>();
+		_mockCacheEntry = new Mock<ICacheEntry>()
+
 	}
 
 	[Fact]
 	public void Admin_With_No_Issues_Should_DisplayHeaderAndIssueCountOfZero_Test()
 	{
+
 		// Arrange
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
@@ -35,11 +39,13 @@ public class AdminTests : TestContext
 				  </div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_UnApprovedIssues_Should_DisplayTheIssueAndIssueCountOfOne_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -126,11 +132,13 @@ public class AdminTests : TestContext
 				  </div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_ApprovedButtonClick_Should_SetApprovedToTrue_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -146,11 +154,13 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditTitleSpanClick_Should_ShowIssueTitleEditTextBox_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -247,11 +257,13 @@ public class AdminTests : TestContext
   </div>
 </div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditDescriptionSpanClick_Should_ShowIssueDescriptionEditTextBox_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -346,11 +358,13 @@ public class AdminTests : TestContext
 				  </div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueTitleSubmit_Should_SaveChanges_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -368,11 +382,13 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueTitleReject_Should_RevertTheChanges_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -459,11 +475,13 @@ public class AdminTests : TestContext
 				  </div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueDescriptionSubmit_Should_SaveChanges_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -481,11 +499,13 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueDescriptionReject_Should_RevertTheChanges_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -573,11 +593,13 @@ public class AdminTests : TestContext
 				  </div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Admin_With_RejectButtonClick_Should_SetRejectToTrue_Test()
 	{
+
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -604,11 +626,13 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Admin_ClosePageButtonClick_Should_NavigateToIndexPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
@@ -624,19 +648,25 @@ public class AdminTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	private void SetupRepositoryMock()
 	{
+
 		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
+
 	}
 
 	private void SetMemoryCache()
 	{
+
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
 	}
+
 }

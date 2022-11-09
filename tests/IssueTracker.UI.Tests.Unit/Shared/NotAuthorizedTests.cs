@@ -3,9 +3,11 @@
 [ExcludeFromCodeCoverage]
 public class NotAuthorizedTests
 {
+
 	[Fact]
 	public void NotAuthorized_Should_DisplayMarkup_Test()
 	{
+
 		// Arrange
 		using var ctx = new TestContext();
 
@@ -31,11 +33,13 @@ public class NotAuthorizedTests
 					</div>
 					</div>"
 		);
+
 	}
 
 	[Fact]
 	public void NotAuthorized_ClosePageButtonClick_Should_NavigateToIndexPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
@@ -50,5 +54,7 @@ public class NotAuthorizedTests
 		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
+
 }
