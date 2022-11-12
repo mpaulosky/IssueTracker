@@ -14,7 +14,6 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Index
 {
-	private IssueModel _archivingIssue;
 	private List<CategoryModel> _categories;
 	private bool _isSortedByNew = true;
 	private List<IssueModel> _issues = new();
@@ -35,17 +34,6 @@ public partial class Index
 		_categories = await CategoryService.GetCategories();
 		_statuses = await StatusService.GetStatuses();
 		await LoadAndVerifyUser();
-	}
-
-	/// <summary>
-	///		Archive issue method
-	/// </summary>
-	private async Task ArchiveIssue()
-	{
-		_archivingIssue.Archived = true;
-		await IssueService.UpdateIssue(_archivingIssue);
-		_issues.Remove(_archivingIssue);
-		_archivingIssue = null;
 	}
 
 	/// <summary>
@@ -251,15 +239,6 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		OpenDetailsPage method
-	/// </summary>
-	/// <param name="issue">IssueModel</param>
-	private void OpenDetailsPage(IssueModel issue)
-	{
-		NavManager.NavigateTo($"/Details/{issue.Id}");
-	}
-
-	/// <summary>
 	///		SortedByNewCssClass method
 	/// </summary>
 	/// <param name="isNew">bool</param>
@@ -267,50 +246,6 @@ public partial class Index
 	private string SortedByNewCssClass(bool isNew)
 	{
 		return isNew == _isSortedByNew ? "sort-selected" : string.Empty;
-	}
-
-	/// <summary>
-	///		GetIssueStatusCssClass method
-	/// </summary>
-	/// <param name="issue">IssueModel</param>
-	/// <returns>string</returns>
-	private static string GetIssueStatusCssClass(IssueModel issue)
-	{
-		if (issue.IssueStatus is null)
-		{
-			return "issue-entry-status-none";
-		}
-
-		var output = issue.IssueStatus.StatusName switch
-		{
-			"Answered" => "issue-entry-status-answered",
-			"In Work" => "issue-entry-status-inwork",
-			"Watching" => "issue-entry-status-watching",
-			"Dismissed" => "issue-entry-status-dismissed",
-			_ => "issue-entry-status-none"
-		};
-
-		return output;
-	}
-
-	private static string GetIssueCategoryCssClass(IssueModel issue)
-	{
-		if (issue.Category is null)
-		{
-			return "issue-entry-category-none";
-		}
-
-		var output = issue.Category.CategoryName switch
-		{
-			"Design" => "issue-entry-category-design",
-			"Documentation" => "issue-entry-category-documentation",
-			"Implementation" => "issue-entry-category-implementation",
-			"Clarification" => "issue-entry-category-clarification",
-			"Miscellaneous" => "issue-entry-category-miscellaneous",
-			_ => "issue-entry-category-none"
-		};
-
-		return output;
 	}
 
 	/// <summary>

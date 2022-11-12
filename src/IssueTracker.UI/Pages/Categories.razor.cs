@@ -36,13 +36,6 @@ public partial class Categories
 	private async void OnUpdateRow(CategoryModel category)
 	{
 
-		if (category == _categoryToInsert)
-		{
-
-			_categoryToInsert = null;
-
-		}
-
 		_categoryToUpdate = null;
 
 		await CategoryService.UpdateCategory(category);
@@ -79,20 +72,6 @@ public partial class Categories
 
 	private async Task DeleteRow(CategoryModel category)
 	{
-
-		if (category == _categoryToInsert)
-		{
-
-			_categoryToInsert = null;
-
-		}
-
-		if (category == _categoryToUpdate)
-		{
-
-			_categoryToUpdate = null;
-
-		}
 
 		if (_categories.Contains(category))
 		{

@@ -36,13 +36,6 @@ public partial class Statuses
 	private async void OnUpdateRow(StatusModel status)
 	{
 
-		if (status == _statusToInsert)
-		{
-
-			_statusToInsert = null;
-
-		}
-
 		_statusToUpdate = null;
 
 		await StatusService.UpdateStatus(status);
@@ -79,20 +72,6 @@ public partial class Statuses
 
 	private async Task DeleteRow(StatusModel status)
 	{
-
-		if (status == _statusToInsert)
-		{
-
-			_statusToInsert = null;
-
-		}
-
-		if (status == _statusToUpdate)
-		{
-
-			_statusToUpdate = null;
-
-		}
 
 		if (_statuses.Contains(status))
 		{

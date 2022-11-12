@@ -1,5 +1,6 @@
 ﻿namespace IssueTracker.UI.Pages;
 
+[ExcludeFromCodeCoverage]
 public class StatusesTests : TestContext
 {
 
@@ -157,7 +158,7 @@ public class StatusesTests : TestContext
 	}
 
 	[Fact]
-	public void Statuses_AddNewStatusButton_Should_InserNewInputRow_Test()
+	public void Statuses_AddNewStatusButton_Should_InsertNewInputRow_Test()
 	{
 
 		// Arrange
@@ -295,6 +296,116 @@ public class StatusesTests : TestContext
 	}
 
 	[Fact]
+	public void Statuses_AddNewCategoryButton_Should_CancelInsertOnCancel_Test()
+	{
+		// Arrange
+		_expectedUser = TestUsers.GetKnownUser();
+		_expectedStatuses = FakeStatus.GetStatuses(1);
+
+		SetupMocks();
+		SetMemoryCache();
+
+		SetAuthenticationAndAuthorization(isAdmin: true);
+		RegisterServices();
+
+		// Act
+		var cut = RenderComponent<Statuses>();
+
+		cut.FindAll("button")[1].Click(); // Add New Status Button
+
+		var buttons = cut.FindAll("button").ToList();
+		
+		buttons[3].Click(); // Cancel Button
+		
+		// Assert
+		cut.MarkupMatches(@$"
+			<h1 class=""page-heading text-uppercase mb-4"" >Statuses</h1>
+			<div class=""row justify-content-center create-form"" >
+				<div class=""form-layout col-xl-9 col-lg-11"" >
+					<div class=""close-button-section"" >
+						<button id=""close-page"" class=""btn btn-close""  ></button>
+					</div>
+					<div class="""" >
+						<button type=""button"" class=""rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4"" id:ignore >
+							<span class=""rz-button-box"">
+								<i class=""rz-button-icon-left rzi"">add_circle_outline</i>
+								<span class=""rz-button-text"">Add New Status</span>
+							</span>
+						</button>
+						<div class=""rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable "" id:ignore >
+							<div class=""rz-data-grid-data"">
+								<table class=""rz-grid-table rz-grid-table-fixed rz-grid-table-striped "">
+									<colgroup>
+										<col id:ignore style=""width:120px"">
+										<col id:ignore style=""width:200px"">
+										<col id:ignore style=""width:156px"">
+									</colgroup>
+									<thead>
+										<tr>
+											<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text rz-sortable-column    rz-text-align-left"" scope=""col"" style=""width:120px"" >
+												<div  tabindex=""0"" >
+													<span class=""rz-column-title"" title=""Status Name"">
+														<span class=""rz-column-title-content"">Status Name</span>
+														<span class=""rz-sortable-column-icon rzi-grid-sort rzi-sort""></span>
+													</span>
+												</div>
+											</th>
+											<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text rz-sortable-column    rz-text-align-left"" scope=""col"" style=""width:200px"" >
+												<div  tabindex=""0"" >
+													<span class=""rz-column-title"" title=""Description"">
+														<span class=""rz-column-title-content"">Description</span>
+														<span class=""rz-sortable-column-icon rzi-grid-sort rzi-sort""></span>
+													</span>
+												</div>
+											</th>
+											<th rowspan=""1"" colspan=""1"" class=""rz-unselectable-text     rz-text-align-right"" scope=""col"" style=""width:156px;text-align:right;"" >
+												<div  tabindex=""-1"" >
+													<span class=""rz-column-title"">
+														<span class=""rz-column-title-content""></span>
+													</span>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class=""rz-data-row  "" diff:ignoreChildren >
+											<td rowspan=""1"" colspan=""1"" style=""width:120px""   >
+												<span class=""rz-cell-data"" title="""">
+													Miscellaneous
+												</span>
+											</td>
+											<td rowspan=""1"" colspan=""1"" style=""width:200px""   >
+												<span class=""rz-cell-data"" title="""">
+													Sit sunt porro.
+												</span>
+											</td>
+											<td rowspan=""1"" colspan=""1"" style=""width:156px;text-align:right;""   >
+												<span class=""rz-cell-data"" title="""">
+													<button type=""button""  class=""rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only"" id:ignore  >
+														<span class=""rz-button-box"">
+															<i class=""rz-button-icon-left rzi"">edit</i>
+														</span>
+													</button>
+													<button type=""button""  class=""rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1"" id:ignore  >
+														<span class=""rz-button-box"">
+															<i class=""rz-button-icon-left rzi"">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>"
+		);
+		
+	}
+
+	[Fact]
 	public void Statuses_AddNewStatusButton_Should_CreateNewStatus_Test()
 	{
 
@@ -362,7 +473,7 @@ public class StatusesTests : TestContext
 	}
 
 	[Fact]
-	public void Statuses_OnClickDeleteButton_Should_DeletStatus_Test()
+	public void Statuses_OnClickDeleteButton_Should_DeleteStatus_Test()
 	{
 
 		// Arrange
@@ -404,9 +515,11 @@ public class StatusesTests : TestContext
 		// Act
 		var cut = RenderComponent<Statuses>();
 
-		cut.FindAll("button")[2].Click(); // Edit Button
+		var buttons = cut.FindAll("button").ToList();
+		buttons[2].Click(); // Edit Button
 
-		cut.FindAll("button")[2].Click(); // Click Cancel Button
+		var buttons2 = cut.FindAll("button").ToList();
+		buttons2[3].Click(); // Click Cancel Button
 
 		// Assert
 		cut.MarkupMatches(@$"
