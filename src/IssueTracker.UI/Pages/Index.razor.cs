@@ -17,7 +17,7 @@ public partial class Index
 	private IssueModel _archivingIssue;
 	private List<CategoryModel> _categories;
 	private bool _isSortedByNew = true;
-	private List<IssueModel> _issues;
+	private List<IssueModel> _issues = new();
 
 	private UserModel _loggedInUser;
 	private string _searchText = string.Empty;

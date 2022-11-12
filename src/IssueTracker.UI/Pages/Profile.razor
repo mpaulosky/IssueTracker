@@ -29,10 +29,16 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Approved Issues</h2>
 		<p class="my-issue-text">These are your issues that are currently available for comment.</p>
-		<hr class="my-issue-separator" />
-		<div class="row">
-			<Issues Data="@_approved" LoggedInUser="@_loggedInUser" CanArchive=false></Issues>
-		</div>
+
+		@foreach (var item in _approved)
+		{
+
+			<div class="issue-container">
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+			</div>
+
+		}
+
 	</div>
 }
 
@@ -41,10 +47,15 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Pending Issues</h2>
 		<p class="my-issue-text">These are your issues that are currently under review by admin.</p>
-		<hr />
-		<div class="row">
-			<Issues Data="@_pending" LoggedInUser="@_loggedInUser" CanArchive=false></Issues>
-		</div>
+
+		@foreach (var item in _pending)
+		{
+
+			<div class="issue-container">
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=false />
+			</div>
+
+		}
 
 	</div>
 }
@@ -54,10 +65,15 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Rejected Issues</h2>
 		<p>These are your issues that were rejected by the admin for being out of the scope of this application.</p>
-		<hr />
-		<div class="row">
-			<Issues Data="@_rejected" LoggedInUser="@_loggedInUser" CanArchive=false></Issues>
-		</div>
+
+		@foreach (var item in _rejected)
+		{
+
+			<div class="issue-container">
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+			</div>
+
+		}
 
 	</div>
 }
@@ -67,10 +83,17 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Archived Issues</h2>
 		<p>These are your issues that are archived for future review.</p>
-		<hr />
-		<div class="row">
-			<Issues Data="@_archived" LoggedInUser="@_loggedInUser" CanArchive=false></Issues>
-		</div>
+
+		@foreach (var item in _archived)
+		{
+
+			<div class="issue-container">
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+			</div>
+
+		}
+
+
 	</div>
 }
 
@@ -79,14 +102,12 @@
 	<div class="form-layout mb-3">
 		<h2 class="my-issue-heading">Comments</h2>
 		<p class="my-issue-text">These are your comments that are currently active.</p>
-		<hr />
-		@foreach (var s in _comments)
+
+		@foreach (var _comment in _comments)
 		{
-			<hr class="my-issue-separator" />
-			<p class="my-issue-text">@s.DateCreated.ToString("MM.dd.yyyy")</p>
-			<p class="my-issue-text">
-				@s.Comment
-			</p>
+
+			<CommentComponent Item="@_comment" LoggedInUser="@_loggedInUser" />
+
 		}
 	</div>
 }

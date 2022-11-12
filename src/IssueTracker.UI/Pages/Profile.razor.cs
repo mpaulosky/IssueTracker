@@ -50,24 +50,6 @@ public partial class Profile
 	}
 
 	/// <summary>
-	///		GetIssueStatusCssClass method
-	/// </summary>
-	/// <param name="issue">string</param>
-	/// <returns>string</returns>
-	private string GetIssueStatusCssClass(IssueModel issue)
-	{
-		var output = issue.IssueStatus.StatusName switch
-		{
-			"Answered" => "issue-profile-status issue-profile-status-answered",
-			"In Work" => "issue-profile-status issue-profile-status-inwork",
-			"Watching" => "issue-profile-status issue-profile-status-watching",
-			"Dismissed" => "issue-profile-status issue-profile-status-dismissed",
-			_ => "issue-profile-status issue-profile-status-none"
-		};
-		return output;
-	}
-
-	/// <summary>
 	///		ClosePage method
 	/// </summary>
 	private void ClosePage()

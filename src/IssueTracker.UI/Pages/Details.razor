@@ -11,109 +11,26 @@
 
 <h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
 
-<div class="row justify-content-center detail-form">
-	<div class="col-xl-8 col-lg-10 form-layout">
-		@if (_issue is not null)
-		{
-			<div class="row issue-detail-row">
-				<div class="col-11 issue-detail">
-					<div>
-						<div class="issue-detail-date">
-							<div>@_issue.DateCreated.ToString("MM.dd.yyyy")</div>
-						</div>
-					</div>
-					<div class="issue-detail-text">
-						<div class="fw-bold mb-2 issue-detail-issue">@_issue.IssueName</div>
-						<div class="mb-2 issue-detail-author">@_issue.Author.DisplayName</div>
-						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
-						<div class="issue-entry-text-category d-none d-md-block">
-							@if (_issue.Category is not null)
-							{
-								@_issue.Category.CategoryName
-							}
-						</div>
-					</div>
-				</div>
-				<div class="col-1 close-button-section">
-					<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
-				</div>
-			</div>
-			<div class="row d-block d-md-none">
-				<div class="issue-detail-text">
-					<div>@_issue.Description</div>
-					<div class="issue-entry-text-category">
-						@if (_issue.Category is not null)
-						{
-							@_issue.Category.CategoryName
-						}
-					</div>
-				</div>
-			</div>
-			<div class="row issue-detail-row">
-				<div class="col-11 issue-detail">
-					<btn id="create-comment" class="btn btn-comment" @onclick="() => OpenCommentForm(_issue)">Add Comment</btn>
-				</div>
-			</div>
-		}
-	</div>
+<div class="issue-container">
+	<button @onclick="() => OpenCommentForm(_issue)" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Add Comment</button>
 </div>
 
-@if (_issue?.IssueStatus is not null)
-{
-	<div class="row justify-content-center detail-form">
-		<div class="col-xl-8 col-lg-10 issue-results form-layout">
-			<div class="@GetStatusCssClass()"></div>
-			<div class="issue-detail-status-section">
-				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">
-					@_issue.IssueStatus.StatusName
-				</div>
-			</div>
-		</div>
-	</div>
-}
+<div class="form-layout mb-3">
 
-@if (_comments is not null && _comments.Any())
-{
-	<div class="row justify-content-center detail-form">
-		<div class="col-xl-8 col-lg-10 form-layout comment-details">
-			<div>
-				<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">Comments</div>
-				@foreach (var s in _comments)
-				{
-					<div class="row issue-detail-row">
-						<div class="col-11 issue-detail">
-							<div>
-								<div id="vote" class="@GetVoteCssClass(s)" @onclick="() => VoteUp(s)">
-									<div class="text-uppercase">@GetUpVoteTopText(s)</div>
-									<span class="oi oi-caret-top detail-upvote"></span>
-									<div class="text-uppercase">@GetUpVoteBottomText(s)</div>
-								</div>
-								<div class="issue-detail-date">
-									<div>@s.DateCreated.ToString("MM.dd.yyyy")</div>
-								</div>
-							</div>
-							<div class="issue-detail-comments-section">
-								<div class="issue-detail-text">
-									<div class="fw-bold mb-2 issue-detail-comments">Comment</div>
-									<div class="mb-2 d-none d-md-block">@s.Comment</div>
-									<div class="mb-2 issue-detail-author">@s.Author.DisplayName</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				}
-			</div>
-		</div>
+	<div class="close-button-section">
+		<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 	</div>
-}
 
-@if (_issue is not null)
-{
-	<AuthorizeView Policy="Admin">
-		<div class="row justify-content-center detail-form">
-			<div class="col-xl-8 col-lg-10 form-layout admin-details">
-				<div>
-					<div class="issue-detail-status fw-bold mb-2 issue-detail-issue">
+	@if (_issue is not null)
+	{
+		<div class="issue-container">
+			<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser" CanArchive=true />
+		</div>
+
+		<AuthorizeView Policy="Admin">
+			<div class="issue-container">
+				<div class="form-layout status-entry">
+					<div class="fw-bold mb-2">
 						Set Status
 					</div>
 					@if (string.IsNullOrWhiteSpace(_settingStatus))
@@ -169,6 +86,29 @@
 					}
 				</div>
 			</div>
-		</div>
-	</AuthorizeView>
-}
+
+		</AuthorizeView>
+
+		@if (_comments is not null && _comments.Any())
+		{
+			
+			<div class="issue-container">
+				<div class="form-layout comment-details">
+					<div class="fw-bold mb-2">Comments</div>
+
+					@foreach (var _comment in _comments)
+					{
+
+						<CommentComponent Item="@_comment" LoggedInUser="@_loggedInUser" />
+					
+					}
+
+				</div>
+			</div>
+
+		}
+
+	}
+
+</div>
+

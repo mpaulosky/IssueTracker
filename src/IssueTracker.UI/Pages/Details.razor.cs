@@ -22,6 +22,7 @@ public partial class Details
 	private string _settingStatus = "";
 	private List<StatusModel> _statuses;
 	private string _urlText = "";
+
 	[Parameter] public string Id { get; set; }
 
 	/// <summary>
@@ -93,116 +94,6 @@ public partial class Details
 		_settingStatus = null;
 
 		await IssueService.UpdateIssue(_issue);
-
-	}
-
-	/// <summary>
-	///		GetStatusCssClass method
-	/// </summary>
-	/// <returns>string css class</returns>
-	private string GetStatusCssClass()
-	{
-
-		if (_issue.IssueStatus is null)
-		{
-
-			return "issue-detail-status-none";
-
-		}
-
-		var output = _issue.IssueStatus.StatusName switch
-		{
-
-			"Answered" => "issue-detail-status-answered",
-			"In Work" => "issue-detail-status-inwork",
-			"Watching" => "issue-detail-status-watching",
-			"Dismissed" => "issue-detail-status-dismissed",
-			_ => "issue-detail-status-none"
-
-		};
-
-		return output;
-
-	}
-
-	/// <summary>
-	///		VoteUp method
-	/// </summary>
-	/// <param name="comment">CommentModel</param>
-	private async Task VoteUp(CommentModel comment)
-	{
-
-		if (_loggedInUser is not null)
-		{
-
-			if (comment.Author.Id == _loggedInUser.Id)
-			{
-
-				// Can't vote on your own comments
-				return;
-
-			}
-
-			if (comment.UserVotes.Add(_loggedInUser.Id) == false)
-			{
-
-				comment.UserVotes.Remove(_loggedInUser.Id);
-
-			}
-
-			await CommentService.UpVoteComment(comment.Id, _loggedInUser.Id);
-
-		}
-
-	}
-
-	/// <summary>
-	///		GetUpVoteTopText method
-	/// </summary>
-	/// <param name="comment">CommentModel</param>
-	/// <returns>string</returns>
-	private string GetUpVoteTopText(CommentModel comment)
-	{
-
-		if (comment.UserVotes?.Count > 0)
-		{
-
-			return comment.UserVotes.Count.ToString("00");
-
-		}
-
-		return comment.Author.Id == _loggedInUser?.Id ? "Awaiting" : "Click To";
-
-	}
-
-	/// <summary>
-	///		GetUpVoteBottomText method
-	/// </summary>
-	/// <param name="comment">CommentModel</param>
-	/// <returns>string</returns>
-	private static string GetUpVoteBottomText(CommentModel comment)
-	{
-
-		return comment.UserVotes?.Count > 1 ? "UpVotes" : "UpVote";
-
-	}
-
-	/// <summary>
-	///		GetVoteCssClass method
-	/// </summary>
-	/// <param name="comment">CommentModel</param>
-	/// <returns>string css class</returns>
-	private string GetVoteCssClass(CommentModel comment)
-	{
-
-		if (comment.UserVotes is null || comment.UserVotes.Count == 0)
-		{
-
-			return "issue-detail-no-votes";
-
-		}
-
-		return comment.UserVotes.Contains(_loggedInUser?.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
 
 	}
 
