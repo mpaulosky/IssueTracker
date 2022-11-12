@@ -3,6 +3,7 @@
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
 {
+
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
@@ -16,6 +17,7 @@ public class DetailsTests : TestContext
 
 	public DetailsTests()
 	{
+
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_commentRepositoryMock = new Mock<ICommentRepository>();
@@ -23,11 +25,13 @@ public class DetailsTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+
 	}
 
 	[Fact]
 	public void Details_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
+
 		// Arrange
 		this.AddTestAuthorization();
 
@@ -40,11 +44,13 @@ public class DetailsTests : TestContext
 		{
 			parameter.Add(p => p.Id, null);
 		})).Message.Should().Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+
 	}
 
 	[Fact]
 	public void Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
@@ -62,11 +68,13 @@ public class DetailsTests : TestContext
 		{
 			parameter.Add(p => p.Id, null);
 		}));
+
 	}
 
 	[Fact]
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		const string expectedUri = "http://localhost/";
@@ -91,11 +99,13 @@ public class DetailsTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Fact]
 	public void Details_With_NonAdminUser_Should_ShowDetailsNotSetStatus_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
@@ -117,18 +127,88 @@ public class DetailsTests : TestContext
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div diff:ignoreChildren diff:ignoreAttributes>
+				<div class=""issue-container"">
+					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
 				</div>
-				<div diff:ignoreChildren diff:ignoreAttributes>
-				</div>
-				<div diff:ignoreChildren diff:ignoreAttributes>
+				<div class=""form-layout mb-3"">
+					<div class=""close-button-section"">
+						<button id=""close-page"" class=""btn btn-close"" ></button>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
+								<div class=""issue-entry-category-text"" >Miscellaneous</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 1</div>
+								<div class=""issue-entry-text-description"">A new test issue 1</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout comment-details"">
+							<div class=""fw-bold mb-2"">Comments</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Click To</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 1</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Awaiting</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 2</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">JIM TEST</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">02</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVotes</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 3</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
@@ -150,41 +230,113 @@ public class DetailsTests : TestContext
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div diff:ignoreChildren diff:ignoreAttributes>
+				<div class=""issue-container"">
+					<button id=""create-comment"" class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
 				</div>
-				<div diff:ignoreChildren diff:ignoreAttributes>
-				</div>
-				<div diff:ignoreChildren diff:ignoreAttributes>
-				</div>
-				<div class=""row justify-content-center detail-form"">
-				  <div class=""col-xl-8 col-lg-10 form-layout admin-details"">
-				    <div>
-				      <div class=""issue-detail-status fw-bold mb-2 issue-detail-issue"">
-				        Set Status
-				      </div>
-				      <div class=""admin-set-statuses"">
-				        <button id=""answered""  class=""btn issue-entry-text-category btn-archive btn-status-answered"">
-				          answered
-				        </button>
-				        <button id=""inwork""  class=""btn issue-entry-text-category btn-archive btn-status-inwork"">
-				          in work
-				        </button>
-				        <button id=""watching""  class=""btn issue-entry-text-category btn-archive btn-status-watching"">
-				          watching
-				        </button>
-				        <button id=""dismissed""  class=""btn issue-entry-text-category btn-archive btn-status-dismissed"">
-				          dismissed
-				        </button>
-				      </div>
-				    </div>
-				  </div>
+				<div class=""form-layout mb-3"">
+					<div class=""close-button-section"">
+						<button id=""close-page"" class=""btn btn-close"" ></button>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
+								<div class=""issue-entry-category-text"" >Miscellaneous</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 1</div>
+								<div class=""issue-entry-text-description"">A new test issue 1</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout status-entry"">
+							<div class=""fw-bold mb-2"">
+								Set Status
+							</div>
+							<div class=""admin-set-statuses"">
+								<button id=""answered""  class=""btn issue-entry-text-category btn-archive btn-status-answered"">
+									answered
+								</button>
+								<button id=""inwork""  class=""btn issue-entry-text-category btn-archive btn-status-inwork"">
+									in work
+								</button>
+								<button id=""watching""  class=""btn issue-entry-text-category btn-archive btn-status-watching"">
+									watching
+								</button>
+								<button id=""dismissed""  class=""btn issue-entry-text-category btn-archive btn-status-dismissed"">
+									dismissed
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout comment-details"">
+							<div class=""fw-bold mb-2"">Comments</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Click To</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 1</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Awaiting</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 2</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">JIM TEST</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">02</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVotes</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 3</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
 	public void Details_With_AddCommentClick_Should_NavigateToCommentPage_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
@@ -210,17 +362,18 @@ public class DetailsTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Theory(DisplayName = "Validate Status Styles")]
-	[InlineData(0, "issue-detail-status-watching")]
-	[InlineData(1, "issue-detail-status-answered")]
-	[InlineData(2, "issue-detail-status-inwork")]
-	[InlineData(3, "issue-detail-status-dismissed")]
-	[InlineData(4, "issue-detail-status-watching")]
-	[InlineData(5, "issue-detail-status-none")]
+	[InlineData(0, "issue-entry-status-watching")]
+	[InlineData(1, "issue-entry-status-answered")]
+	[InlineData(2, "issue-entry-status-inwork")]
+	[InlineData(3, "issue-entry-status-dismissed")]
+	[InlineData(5, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[index];
@@ -239,16 +392,17 @@ public class DetailsTests : TestContext
 		});
 
 		var results = cut.FindAll("div");
+		var items = results.Select(x => x.ClassName).Where(z=>z != null && z.Contains(expected)).ToList();
 
 		// Assert
-		var items = results.Where(x => x.ClassName == expected);
+		items.Count.Should().Be(1);
 
-		items.ToList().Count.Should().Be(1);
 	}
 
 	[Fact]
 	public void Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[0];
@@ -272,11 +426,13 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Details_WhenCommentHasVoteByUser_Should_RemoveVote_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[0];
@@ -300,11 +456,13 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Details_With_ChangingAnsweredStatusWithoutUrl_Should_Fail_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[5];
@@ -329,33 +487,104 @@ public class DetailsTests : TestContext
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-					<div diff:ignoreChildren diff:ignoreAttributes>
+				<div class=""issue-container"">
+					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
+				</div>
+				<div class=""form-layout mb-3"">
+					<div class=""close-button-section"">
+						<button id=""close-page"" class=""btn btn-close"" ></button>
 					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 6</div>
+								<div class=""issue-entry-text-description"">A new test issue 6</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-none"">
+								<div class=""issue-entry-status-text""></div>
+							</div>
+						</div>
 					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
-					</div>
-					<div class=""row justify-content-center detail-form"">
-					  <div class=""col-xl-8 col-lg-10 form-layout admin-details"">
+					<div class=""issue-container"">
+						<div class=""form-layout status-entry"">
+							<div class=""fw-bold mb-2"">
+								Set Status
+							</div>
 							<div>
-								<div class=""issue-detail-status fw-bold mb-2 issue-detail-issue"">
-									Set Status
+								<input id=""input-answer"" class=""form-control rounded-control"" type=""text"" placeholder=""Url"" aria-label=""Content Url"" value="""" >
+							</div>
+							<div class=""issue-entry-bottom"">
+								<button id=""confirm-answered-status"" class=""btn btn-archive-confirm"" >
+									confirm
+								</button>
+								<button id=""cancel-answered-status"" class=""btn btn-archive-reject"" >
+									cancel
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout comment-details"">
+							<div class=""fw-bold mb-2"">Comments</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Click To</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
 								</div>
 								<div>
-									<input id=""input-answer"" class=""form-control rounded-control"" type=""text"" placeholder=""Url"" aria-label=""Content Url"" value="""" >
+									<div class=""issue-detail-text"">Test Comment 1</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
 								</div>
-								<div class=""issue-entry-bottom"">
-									<button id=""confirm-answered-status"" class=""btn btn-archive-confirm"" >
-										confirm
-									</button>
-									<button id=""cancel-answered-status"" class=""btn btn-archive-reject"" >
-										cancel
-									</button>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Awaiting</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 2</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">JIM TEST</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">02</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVotes</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 3</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
 				</div>"
 		);
+
 	}
 
 	[Fact]
@@ -384,79 +613,105 @@ public class DetailsTests : TestContext
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-					<div diff:ignoreChildren diff:ignoreAttributes></div>
-					<div diff:ignoreChildren diff:ignoreAttributes></div>
-					<div class=""row justify-content-center detail-form"">
-					  <div class=""col-xl-8 col-lg-10 form-layout comment-details"">
-					    <div>
-					      <div class=""issue-detail-status fw-bold mb-2 issue-detail-issue"">Comments</div>
-					      <div class=""row issue-detail-row"">
-					        <div class=""col-11 issue-detail"">
-					          <div>
-					            <div id=""vote"" class=""issue-detail-no-votes"" >
-					              <div class=""text-uppercase"">Awaiting</div>
-					              <span class=""oi oi-caret-top detail-upvote""></span>
-					              <div class=""text-uppercase"">UpVote</div>
-					            </div>
-					            <div class=""issue-detail-date"">
-					              <div diff:ignoreChildren diff:ignoreAttributes></div>
-					            </div>
-					          </div>
-					          <div class=""issue-detail-comments-section"">
-					            <div class=""issue-detail-text"">
-					              <div class=""fw-bold mb-2 issue-detail-comments"">Comment</div>
-					              <div class=""mb-2 d-none d-md-block"">Test Comment 1</div>
-					              <div class=""mb-2 issue-detail-author"">Test User</div>
-					            </div>
-					          </div>
-					        </div>
-					      </div>
-					      <div class=""row issue-detail-row"">
-					        <div class=""col-11 issue-detail"">
-					          <div>
-					            <div id=""vote"" class=""issue-detail-no-votes"" >
-					              <div class=""text-uppercase"">Click To</div>
-					              <span class=""oi oi-caret-top detail-upvote""></span>
-					              <div class=""text-uppercase"">UpVote</div>
-					            </div>
-					            <div class=""issue-detail-date"">
-					              <div diff:ignoreChildren diff:ignoreAttributes></div>
-					            </div>
-					          </div>
-					          <div class=""issue-detail-comments-section"">
-					            <div class=""issue-detail-text"">
-					              <div class=""fw-bold mb-2 issue-detail-comments"">Comment</div>
-					              <div class=""mb-2 d-none d-md-block"">Test Comment 2</div>
-					              <div class=""mb-2 issue-detail-author"">jim test</div>
-					            </div>
-					          </div>
-					        </div>
-					      </div>
-					      <div class=""row issue-detail-row"">
-					        <div class=""col-11 issue-detail"">
-					          <div>
-					            <div id=""vote"" class=""issue-detail-not-voted"" >
-					              <div class=""text-uppercase"">02</div>
-					              <span class=""oi oi-caret-top detail-upvote""></span>
-					              <div class=""text-uppercase"">UpVotes</div>
-					            </div>
-					            <div class=""issue-detail-date"">
-					              <div diff:ignoreChildren diff:ignoreAttributes></div>
-					            </div>
-					          </div>
-					          <div class=""issue-detail-comments-section"">
-					            <div class=""issue-detail-text"">
-					              <div class=""fw-bold mb-2 issue-detail-comments"">Comment</div>
-					              <div class=""mb-2 d-none d-md-block"">Test Comment 3</div>
-					              <div class=""mb-2 issue-detail-author"">Test User</div>
-					            </div>
-					          </div>
-					        </div>
-					      </div>
-					    </div>
-					  </div>
+				<div class=""issue-container"">
+					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
+				</div>
+				<div class=""form-layout mb-3"">
+					<div class=""close-button-section"">
+						<button id=""close-page"" class=""btn btn-close"" ></button>
 					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes></div>"
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 1</div>
+								<div class=""issue-entry-text-description"">A new test issue 1</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">jim test</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout status-entry"">
+							<div class=""fw-bold mb-2"">
+								Set Status
+							</div>
+							<div class=""admin-set-statuses"">
+								<button id=""answered""  class=""btn issue-entry-text-category btn-archive btn-status-answered"">
+									answered
+								</button>
+								<button id=""inwork""  class=""btn issue-entry-text-category btn-archive btn-status-inwork"">
+									in work
+								</button>
+								<button id=""watching""  class=""btn issue-entry-text-category btn-archive btn-status-watching"">
+									watching
+								</button>
+								<button id=""dismissed""  class=""btn issue-entry-text-category btn-archive btn-status-dismissed"">
+									dismissed
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""form-layout comment-details"">
+							<div class=""fw-bold mb-2"">Comments</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Awaiting</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 1</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">Click To</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVote</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 2</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">JIM TEST</label>
+									</div>
+								</div>
+							</div>
+							<div id=""comment-entry"">
+								<div id=""vote"" class=""issue-detail-not-voted""  style=""grid-column-start: 1;"">
+									<div class=""text-uppercase"">02</div>
+									<span class=""oi oi-caret-top detail-upvote""></span>
+									<div class=""text-uppercase"">UpVotes</div>
+								</div>
+								<div>
+									<div class=""issue-detail-text"">Test Comment 3</div>
+									<div class=""comment-header"">
+										<label class=""category-date"">11.12.2022</label>
+										<label class=""category-author"">TEST USER</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>"
 		);
 	}
 
@@ -467,6 +722,7 @@ public class DetailsTests : TestContext
 	[InlineData(5, "dismissed")]
 	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(int index, string statusId)
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[index];
@@ -509,10 +765,12 @@ public class DetailsTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	private void SetupMocks()
 	{
+
 		_issueRepositoryMock
 			.Setup(x => x.GetIssue(_expectedIssue.Id))
 			.ReturnsAsync(_expectedIssue);
@@ -529,10 +787,12 @@ public class DetailsTests : TestContext
 		_statusRepositoryMock
 			.Setup(x => x.GetStatuses())
 			.ReturnsAsync(_expectedStatuses);
+
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
+
 		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
@@ -543,10 +803,12 @@ public class DetailsTests : TestContext
 		{
 			authContext.SetPolicies("Admin");
 		}
+
 	}
 
 	private void RegisterServices()
 	{
+
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object,
@@ -554,13 +816,17 @@ public class DetailsTests : TestContext
 		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
 			_memoryCacheMock.Object));
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+
 	}
 
 	private void SetMemoryCache()
 	{
+
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
 	}
+
 }

@@ -64,161 +64,191 @@ public class IndexTests : TestContext
 	{
 		// Arrange
 		_expectedHtml = @"
-    <h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
-<div class=""issue-container"">
-  <button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
-</div>
-<div class=""row"">
-  <div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
-  <div class=""col-md-4 col-xl-5 btn-group"">
-    <button id=""sort-by-new"" class=""btn btn-order "" >New</button>
-    <button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
-  </div>
-  <div class=""col-md-4 col-xl-3 search-box"">
-    <input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
-  </div>
-  <div class=""col-12 d-block d-md-none"">
-    <div class=""categories"" >
-      <span class=""selected-category"">All</span>
-    </div>
-    <div class=""statuses"" >
-      <span class=""selected-status"">All</span>
-    </div>
-  </div>
-</div>
-<div class=""row"">
-  <div class=""col-md-8 col-xl-9"">
-    <div style=""height: 0px;"" ></div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-design"">
-        <div class=""issue-entry-category-text"" >Design</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 1</div>
-        <div class=""issue-entry-text-description"">A new test issue 1</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-watching"">
-        <div class=""issue-entry-status-text"">Watching</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-documentation"">
-        <div class=""issue-entry-category-text"" >Documentation</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 2</div>
-        <div class=""issue-entry-text-description"">A new test issue 2</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-answered"">
-        <div class=""issue-entry-status-text"">Answered</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-implementation"">
-        <div class=""issue-entry-category-text"" >Implementation</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-inwork"">
-        <div class=""issue-entry-status-text"">In Work</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-clarification"">
-        <div class=""issue-entry-category-text"" >Clarification</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-dismissed"">
-        <div class=""issue-entry-status-text"">Dismissed</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-miscellaneous"">
-        <div class=""issue-entry-category-text"" >Miscellaneous</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-watching"">
-        <div class=""issue-entry-status-text"">Watching</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-design"">
-        <div class=""issue-entry-category-text"" >Design</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 6</div>
-        <div class=""issue-entry-text-description"">A new test issue 6</div>
-        <div class=""issue-entry-bottom"">
-          <div class=""issue-entry-text-category"">11/1/2022 8:56:11 PM</div>
-          <button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-            archive
-          </button>
-        </div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-none"">
-        <div class=""issue-entry-status-text""></div>
-      </div>
-    </div>
-    <div style=""height: 0px;"" ></div>
-  </div>
-  <div class=""col-md-4 col-xl-3 d-none d-md-block"">
-    <div class=""categories"">
-      <span class=""text-uppercase fw-bold"">Category</span>
-      <div class=""selected-category"" >All</div>
-      <div class="""" >Design</div>
-      <div class="""" >Documentation</div>
-      <div class="""" >Implementation</div>
-      <div class="""" >Clarification</div>
-      <div class="""" >Miscellaneous</div>
-    </div>
-    <div class=""statuses"">
-      <span class=""text-uppercase fw-bold"">Status</span>
-      <div class=""selected-status"" >All</div>
-      <div class="""" >Answered</div>
-      <div class="""" >Watching</div>
-      <div class="""" >In Work</div>
-      <div class="""" >Dismissed</div>
-    </div>
-  </div>
-</div>";
+			<h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
+			<div class=""issue-container"">
+				<button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
+			</div>
+			<div class=""row"">
+				<div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
+				<div class=""col-md-4 col-xl-5 btn-group"">
+					<button id=""sort-by-new"" class=""btn btn-order "" >New</button>
+					<button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
+				</div>
+				<div class=""col-md-4 col-xl-3 search-box"">
+					<input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
+				</div>
+				<div class=""col-12 d-block d-md-none"">
+					<div class=""categories"" >
+						<span class=""selected-category"">All</span>
+					</div>
+					<div class=""statuses"" >
+						<span class=""selected-status"">All</span>
+					</div>
+				</div>
+			</div>
+			<div class=""row"">
+				<div class=""col-md-8 col-xl-9"">
+					<div style=""height: 0px;"" ></div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 1</div>
+								<div class=""issue-entry-text-description"">A new test issue 1</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">jim test</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-documentation"">
+								<div class=""issue-entry-category-text"" >Documentation</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 2</div>
+								<div class=""issue-entry-text-description"">A new test issue 2</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-answered"">
+								<div class=""issue-entry-status-text"">Answered</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-implementation"">
+								<div class=""issue-entry-category-text"" >Implementation</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-inwork"">
+								<div class=""issue-entry-status-text"">In Work</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-clarification"">
+								<div class=""issue-entry-category-text"" >Clarification</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">jim test</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-dismissed"">
+								<div class=""issue-entry-status-text"">Dismissed</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
+								<div class=""issue-entry-category-text"" >Miscellaneous</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 6</div>
+								<div class=""issue-entry-text-description"">A new test issue 6</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category"">
+										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
+											archive
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-none"">
+								<div class=""issue-entry-status-text""></div>
+							</div>
+						</div>
+					</div>
+					<div style=""height: 0px;"" ></div>
+				</div>
+				<div class=""col-md-4 col-xl-3 d-none d-md-block"">
+					<div class=""categories"">
+						<span class=""text-uppercase fw-bold"">Category</span>
+						<div class=""selected-category"" >All</div>
+						<div class="""" >Design</div>
+						<div class="""" >Documentation</div>
+						<div class="""" >Implementation</div>
+						<div class="""" >Clarification</div>
+						<div class="""" >Miscellaneous</div>
+					</div>
+					<div class=""statuses"">
+						<span class=""text-uppercase fw-bold"">Status</span>
+						<div class=""selected-status"" >All</div>
+						<div class="""" >Answered</div>
+						<div class="""" >Watching</div>
+						<div class="""" >In Work</div>
+						<div class="""" >Dismissed</div>
+					</div>
+				</div>
+			</div>";
 
 		SetUpTests(true, true, false);
 
@@ -236,131 +266,167 @@ public class IndexTests : TestContext
 	{
 		// Arrange
 		_expectedHtml = @$"
-    <h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
-<div class=""issue-container"">
-  <button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
-</div>
-<div class=""row"">
-  <div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
-  <div class=""col-md-4 col-xl-5 btn-group"">
-    <button id=""sort-by-new"" class=""btn btn-order "" >New</button>
-    <button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
-  </div>
-  <div class=""col-md-4 col-xl-3 search-box"">
-    <input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
-  </div>
-  <div class=""col-12 d-block d-md-none"">
-    <div class=""categories"" >
-      <span class=""selected-category"">All</span>
-    </div>
-    <div class=""statuses"" >
-      <span class=""selected-status"">All</span>
-    </div>
-  </div>
-</div>
-<div class=""row"">
-  <div class=""col-md-8 col-xl-9"">
-    <div style=""height: 0px;"" ></div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-design"">
-        <div class=""issue-entry-category-text"" >Design</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 1</div>
-        <div class=""issue-entry-text-description"">A new test issue 1</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-watching"">
-        <div class=""issue-entry-status-text"">Watching</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-documentation"">
-        <div class=""issue-entry-category-text"" >Documentation</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 2</div>
-        <div class=""issue-entry-text-description"">A new test issue 2</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-answered"">
-        <div class=""issue-entry-status-text"">Answered</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-implementation"">
-        <div class=""issue-entry-category-text"" >Implementation</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-inwork"">
-        <div class=""issue-entry-status-text"">In Work</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-clarification"">
-        <div class=""issue-entry-category-text"" >Clarification</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-dismissed"">
-        <div class=""issue-entry-status-text"">Dismissed</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-miscellaneous"">
-        <div class=""issue-entry-category-text"" >Miscellaneous</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 3</div>
-        <div class=""issue-entry-text-description"">A new test issue 3</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-watching"">
-        <div class=""issue-entry-status-text"">Watching</div>
-      </div>
-    </div>
-    <div class=""issue-entry"" diff:ignoreChildren>
-      <div class=""issue-entry-category issue-entry-category-design"">
-        <div class=""issue-entry-category-text"" >Design</div>
-      </div>
-      <div class=""issue-entry-text"">
-        <div class=""issue-entry-text-title"" >Test Issue 6</div>
-        <div class=""issue-entry-text-description"">A new test issue 6</div>
-        <div class=""issue-entry-bottom""></div>
-      </div>
-      <div class=""issue-entry-status issue-entry-status-none"">
-        <div class=""issue-entry-status-text""></div>
-      </div>
-    </div>
-    <div style=""height: 0px;"" ></div>
-  </div>
-  <div class=""col-md-4 col-xl-3 d-none d-md-block"">
-    <div class=""categories"">
-      <span class=""text-uppercase fw-bold"">Category</span>
-      <div class=""selected-category"" >All</div>
-      <div class="""" >Design</div>
-      <div class="""" >Documentation</div>
-      <div class="""" >Implementation</div>
-      <div class="""" >Clarification</div>
-      <div class="""" >Miscellaneous</div>
-    </div>
-    <div class=""statuses"">
-      <span class=""text-uppercase fw-bold"">Status</span>
-      <div class=""selected-status"" >All</div>
-      <div class="""" >Answered</div>
-      <div class="""" >Watching</div>
-      <div class="""" >In Work</div>
-      <div class="""" >Dismissed</div>
-    </div>
-  </div>
-</div>";
+			<h1 class=""page-heading text-uppercase mb-4"">Issues</h1>
+			<div class=""issue-container"">
+				<button  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">New Issue</button>
+			</div>
+			<div class=""row"">
+				<div class=""issues-count col-md-4 text-light mt-2"">6 Issues</div>
+				<div class=""col-md-4 col-xl-5 btn-group"">
+					<button id=""sort-by-new"" class=""btn btn-order "" >New</button>
+					<button id=""sort-by-popular"" class=""btn btn-order sort-selected"" >Popular</button>
+				</div>
+				<div class=""col-md-4 col-xl-3 search-box"">
+					<input type=""text"" placeholder=""Search"" aria-label=""Search box"" class=""form-control rounded-control"" >
+				</div>
+				<div class=""col-12 d-block d-md-none"">
+					<div class=""categories"" >
+						<span class=""selected-category"">All</span>
+					</div>
+					<div class=""statuses"" >
+						<span class=""selected-status"">All</span>
+					</div>
+				</div>
+			</div>
+			<div class=""row"">
+				<div class=""col-md-8 col-xl-9"">
+					<div style=""height: 0px;"" ></div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 1</div>
+								<div class=""issue-entry-text-description"">A new test issue 1</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">jim test</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-documentation"">
+								<div class=""issue-entry-category-text"" >Documentation</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 2</div>
+								<div class=""issue-entry-text-description"">A new test issue 2</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-answered"">
+								<div class=""issue-entry-status-text"">Answered</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-implementation"">
+								<div class=""issue-entry-category-text"" >Implementation</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-inwork"">
+								<div class=""issue-entry-status-text"">In Work</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-clarification"">
+								<div class=""issue-entry-category-text"" >Clarification</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">jim test</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-dismissed"">
+								<div class=""issue-entry-status-text"">Dismissed</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
+								<div class=""issue-entry-category-text"" >Miscellaneous</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 3</div>
+								<div class=""issue-entry-text-description"">A new test issue 3</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-watching"">
+								<div class=""issue-entry-status-text"">Watching</div>
+							</div>
+						</div>
+					</div>
+					<div class=""issue-container"">
+						<div class=""issue-entry"">
+							<div class=""issue-entry-category issue-entry-category-design"">
+								<div class=""issue-entry-category-text"" >Design</div>
+							</div>
+							<div class=""issue-entry-text"">
+								<div class=""issue-entry-text-title"" >Test Issue 6</div>
+								<div class=""issue-entry-text-description"">A new test issue 6</div>
+								<div class=""issue-entry-bottom"">
+									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-author"">Tester</div>
+									<div class=""issue-entry-text-category""></div>
+								</div>
+							</div>
+							<div class=""issue-entry-status issue-entry-status-none"">
+								<div class=""issue-entry-status-text""></div>
+							</div>
+						</div>
+					</div>
+					<div style=""height: 0px;"" ></div>
+				</div>
+				<div class=""col-md-4 col-xl-3 d-none d-md-block"">
+					<div class=""categories"">
+						<span class=""text-uppercase fw-bold"">Category</span>
+						<div class=""selected-category"" >All</div>
+						<div class="""" >Design</div>
+						<div class="""" >Documentation</div>
+						<div class="""" >Implementation</div>
+						<div class="""" >Clarification</div>
+						<div class="""" >Miscellaneous</div>
+					</div>
+					<div class=""statuses"">
+						<span class=""text-uppercase fw-bold"">Status</span>
+						<div class=""selected-status"" >All</div>
+						<div class="""" >Answered</div>
+						<div class="""" >Watching</div>
+						<div class="""" >In Work</div>
+						<div class="""" >Dismissed</div>
+					</div>
+				</div>
+			</div>";
 
 		SetUpTests(true, false, false);
 
