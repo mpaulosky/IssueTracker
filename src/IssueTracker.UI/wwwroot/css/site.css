@@ -95,7 +95,7 @@ a, .btn-link {
 }
 
 .issue-container {
-    display: flex;
+    /*display: flex;*/
     justify-content: center;
     margin-bottom: 3rem;
 }
@@ -194,6 +194,45 @@ a, .btn-link {
     border-radius: 20px;
     margin: 20px 0;
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+.status-entry {
+    display: grid;
+    grid-template-columns: 100px auto;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+#comment-entry {
+    display: grid;
+    grid-template-columns: 100px auto;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+#comment-entry div {
+    padding:10px;
+}
+
+.comment-header {
+    color: #A9A9A9;
+    font-weight: bold;
+    justify-content: space-evenly;
+}
+
+.category-date {
+    color: #A9A9A9;
+    font-weight: bold;
+    float: left;
+}
+
+.category-author {
+    color: #A9A9A9;
+    font-weight: bold;
+    float:right;
 }
 
 .issue-entry-no-votes,
@@ -411,6 +450,7 @@ a, .btn-link {
     background-color: white;
     border-radius: 15px;
     padding: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
     .form-layout a {
@@ -841,6 +881,12 @@ a, .btn-link {
 
     .issue-container {
         margin-bottom: 1rem;
+    }
+
+    .profile-container {
+        margin-left: auto;
+        margin-right:auto;
+        width: 70%;
     }
 
     .create-form {

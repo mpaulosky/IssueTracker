@@ -1,0 +1,61 @@
+﻿@inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthProvider
+@inject IIssueService IssueService
+
+<div class="issue-entry">
+
+	<div class="issue-entry-category @GetIssueCategoryCssClass(Item)">
+		<div class="issue-entry-category-text" @onclick="() => OpenDetailsPage(Item)">
+			@Item.Category.CategoryName
+		</div>
+	</div>
+
+	<div class="issue-entry-text">
+		<div class="issue-entry-text-title" @onclick="() => OpenDetailsPage(Item)">
+			@Item.IssueName
+		</div>
+		<div class="issue-entry-text-description">
+			@Item.Description
+		</div>
+		<div class="issue-entry-bottom">
+			<div class="issue-entry-text-category">@Item.DateCreated.ToString("MM.dd.yyyy")</div>
+			<div class="issue-entry-text-author">@Item.Author.DisplayName</div>
+
+			@if (CanArchive)
+			{
+
+				@if (_archivingIssue is null || _archivingIssue.Id != Item.Id)
+				{
+					<div class="issue-entry-text-category">
+						<AuthorizeView Policy="Admin">
+							<button id="archive" @onclick="() => _archivingIssue = Item" class="btn issue-entry-text-category btn-archive">
+								archive
+							</button>
+						</AuthorizeView>
+					</div>
+				}
+				else
+				{
+					<div class="issue-entry-text-category">
+						<button id="confirm" class="btn btn-archive btn-archive-confirm" @onclick="ArchiveIssue">
+							confirm
+						</button>
+						<button id="reject" class="btn btn-archive btn-archive-reject" @onclick="() => _archivingIssue = null">
+							cancel
+						</button>
+					</div>
+				}
+
+			}
+		</div>
+
+	</div>
+	<div class="issue-entry-status @GetIssueStatusCssClass(Item)">
+		<div class="issue-entry-status-text">
+			@Item.IssueStatus?.StatusName
+		</div>
+	</div>
+</div>
+
+
+
