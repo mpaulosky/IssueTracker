@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="IssueComponent.razor.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace IssueTracker.UI.Shared;
 
 public partial class IssueComponent
@@ -18,11 +25,6 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueCategoryCssClass(IssueModel issue)
 	{
-		if (issue.Category is null)
-		{
-			return "issue-entry-category-none";
-		}
-
 		var output = issue.Category.CategoryName switch
 		{
 			"Design" => "issue-entry-category-design",
@@ -42,11 +44,6 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueStatusCssClass(IssueModel issue)
 	{
-		if (issue.IssueStatus is null)
-		{
-			return "issue-entry-status-none";
-		}
-
 		var output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",
