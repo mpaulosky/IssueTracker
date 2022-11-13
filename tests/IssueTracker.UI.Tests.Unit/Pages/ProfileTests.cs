@@ -108,7 +108,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 2</div>
 									<div class=""issue-entry-text-description"">A new test issue 2</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">Tester</div>
 										<div class=""issue-entry-text-category""></div>
 									</div>
@@ -131,7 +131,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 6</div>
 									<div class=""issue-entry-text-description"">A new test issue 6</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">Tester</div>
 									</div>
 								</div>
@@ -149,7 +149,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 3</div>
 									<div class=""issue-entry-text-description"">A new test issue 3</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">Tester</div>
 									</div>
 								</div>
@@ -167,7 +167,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 1</div>
 									<div class=""issue-entry-text-description"">A new test issue 1</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">jim test</div>
 									</div>
 								</div>
@@ -189,7 +189,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 3</div>
 									<div class=""issue-entry-text-description"">A new test issue 3</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">jim test</div>
 										<div class=""issue-entry-text-category""></div>
 									</div>
@@ -212,7 +212,7 @@
 									<div class=""issue-entry-text-title"" >Test Issue 3</div>
 									<div class=""issue-entry-text-description"">A new test issue 3</div>
 									<div class=""issue-entry-bottom"">
-										<div class=""issue-entry-text-category"">11.12.2022</div>
+										<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 										<div class=""issue-entry-text-author"">Tester</div>
 										<div class=""issue-entry-text-category""></div>
 									</div>
@@ -235,7 +235,7 @@
 							<div>
 								<div class=""issue-detail-text"">Test Comment 1</div>
 								<div class=""comment-header"">
-									<label class=""category-date"">11.12.2022</label>
+									<label class=""category-date"" diff:ignoreChildren>11.12.2022</label>
 									<label class=""category-author"">TEST USER</label>
 								</div>
 							</div>
@@ -249,7 +249,7 @@
 							<div>
 								<div class=""issue-detail-text"">Test Comment 2</div>
 								<div class=""comment-header"">
-									<label class=""category-date"">11.12.2022</label>
+									<label class=""category-date"" diff:ignoreChildren>11.12.2022</label>
 									<label class=""category-author"">JIM TEST</label>
 								</div>
 							</div>
@@ -263,7 +263,7 @@
 							<div>
 								<div class=""issue-detail-text"">Test Comment 3</div>
 								<div class=""comment-header"">
-									<label class=""category-date"">11.12.2022</label>
+									<label class=""category-date"" diff:ignoreChildren>11.12.2022</label>
 									<label class=""category-author"">TEST USER</label>
 								</div>
 							</div>

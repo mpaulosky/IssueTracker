@@ -143,7 +143,7 @@ public class DetailsTests : TestContext
 								<div class=""issue-entry-text-title"" >Test Issue 1</div>
 								<div class=""issue-entry-text-description"">A new test issue 1</div>
 								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 									<div class=""issue-entry-text-author"">Tester</div>
 									<div class=""issue-entry-text-category""></div>
 								</div>
@@ -153,52 +153,7 @@ public class DetailsTests : TestContext
 							</div>
 						</div>
 					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout comment-details"">
-							<div class=""fw-bold mb-2"">Comments</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Click To</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 1</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Awaiting</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 2</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">JIM TEST</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">02</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVotes</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 3</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div diff:ignoreChildren diff:ignoreAttributes>
 					</div>
 				</div>"
 		);
@@ -246,7 +201,7 @@ public class DetailsTests : TestContext
 								<div class=""issue-entry-text-title"" >Test Issue 1</div>
 								<div class=""issue-entry-text-description"">A new test issue 1</div>
 								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 									<div class=""issue-entry-text-author"">Tester</div>
 									<div class=""issue-entry-text-category"">
 										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
@@ -281,52 +236,7 @@ public class DetailsTests : TestContext
 							</div>
 						</div>
 					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout comment-details"">
-							<div class=""fw-bold mb-2"">Comments</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Click To</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 1</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Awaiting</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 2</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">JIM TEST</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">02</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVotes</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 3</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div diff:ignoreChildren diff:ignoreAttributes>
 					</div>
 				</div>"
 		);
@@ -503,7 +413,7 @@ public class DetailsTests : TestContext
 								<div class=""issue-entry-text-title"" >Test Issue 6</div>
 								<div class=""issue-entry-text-description"">A new test issue 6</div>
 								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 									<div class=""issue-entry-text-author"">Tester</div>
 									<div class=""issue-entry-text-category"">
 										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
@@ -535,52 +445,7 @@ public class DetailsTests : TestContext
 							</div>
 						</div>
 					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout comment-details"">
-							<div class=""fw-bold mb-2"">Comments</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Click To</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 1</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Awaiting</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 2</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">JIM TEST</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-voted""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">02</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVotes</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 3</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div diff:ignoreChildren diff:ignoreAttributes>
 					</div>
 				</div>"
 		);
@@ -629,7 +494,7 @@ public class DetailsTests : TestContext
 								<div class=""issue-entry-text-title"" >Test Issue 1</div>
 								<div class=""issue-entry-text-description"">A new test issue 1</div>
 								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"">11.12.2022</div>
+									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
 									<div class=""issue-entry-text-author"">jim test</div>
 									<div class=""issue-entry-text-category"">
 										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
@@ -664,52 +529,7 @@ public class DetailsTests : TestContext
 							</div>
 						</div>
 					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout comment-details"">
-							<div class=""fw-bold mb-2"">Comments</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Awaiting</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 1</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-no-votes""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">Click To</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVote</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 2</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">JIM TEST</label>
-									</div>
-								</div>
-							</div>
-							<div id=""comment-entry"">
-								<div id=""vote"" class=""issue-detail-not-voted""  style=""grid-column-start: 1;"">
-									<div class=""text-uppercase"">02</div>
-									<span class=""oi oi-caret-top detail-upvote""></span>
-									<div class=""text-uppercase"">UpVotes</div>
-								</div>
-								<div>
-									<div class=""issue-detail-text"">Test Comment 3</div>
-									<div class=""comment-header"">
-										<label class=""category-date"">11.12.2022</label>
-										<label class=""category-author"">TEST USER</label>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div diff:ignoreChildren diff:ignoreAttributes>
 					</div>
 				</div>"
 		);
