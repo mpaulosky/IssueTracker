@@ -15,7 +15,7 @@ public class GetCategoriesTests : IAsyncLifetime
 		_factory = factory;
 		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
-		
+
 		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		_sut = new CategoryService(repo, memCache);

@@ -11,7 +11,7 @@ public class DbFixture : IDisposable
 	{
 
 		AppConfiguration = LoadConfig("appsettings-integration-tests.json");
-		
+
 		DbConfig = AppConfiguration.GetSection("MongoDbSettings").Get<DatabaseSettings>();
 
 		DbConfig.DatabaseName = "test_" + Guid.NewGuid().ToString("N");

@@ -314,9 +314,9 @@ public class StatusesTests : TestContext
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
 		var buttons = cut.FindAll("button").ToList();
-		
+
 		buttons[3].Click(); // Cancel Button
-		
+
 		// Assert
 		cut.MarkupMatches(@$"
 			<h1 class=""page-heading text-uppercase mb-4"" >Statuses</h1>
@@ -402,7 +402,7 @@ public class StatusesTests : TestContext
 				</div>
 			</div>"
 		);
-		
+
 	}
 
 	[Fact]

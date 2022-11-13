@@ -15,11 +15,11 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	{
 
 		AppConfiguration = LoadConfig("appsettings-integration-tests.json");
-		
+
 		DbConfig = AppConfiguration.GetSection("MongoDbSettings").Get<DatabaseSettings>();
 
 		DbConfig.DatabaseName = "test_" + Guid.NewGuid().ToString("N");
-		
+
 	}
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -36,7 +36,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 					new MongoDbContextFactory(DbConfig.ConnectionString, DbConfig.DatabaseName));
 
 			using var serviceProvider = services.BuildServiceProvider();
-			
+
 			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
 
 		});
@@ -46,7 +46,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	public async Task ResetDatabaseAsync(string collection)
 	{
 
-		if (string.IsNullOrWhiteSpace(collection)==false)
+		if (string.IsNullOrWhiteSpace(collection) == false)
 		{
 
 			await DbContext.Database.DropCollectionAsync(collection);
@@ -54,7 +54,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		}
 
 	}
-	
+
 	private static IConfiguration LoadConfig(string appSettings)
 	{
 
@@ -66,19 +66,19 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		return config;
 
 	}
-	
+
 	public async Task InitializeAsync()
 	{
-		
+
 		await Task.Delay(1000);
-		
+
 	}
 
 	public new async Task DisposeAsync()
 	{
-		
+
 		await DbContext.Client.DropDatabaseAsync(DbConfig.DatabaseName);
-		
+
 	}
 
 }

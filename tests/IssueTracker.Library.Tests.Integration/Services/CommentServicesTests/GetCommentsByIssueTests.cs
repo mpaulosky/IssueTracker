@@ -24,7 +24,7 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 	public async Task GetCommentsByIssue_With_ValidData_Should_ReturnValidComment_Test()
 	{
 		// Arrange
-		_cleanupValue = "comments"; 
+		_cleanupValue = "comments";
 		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 

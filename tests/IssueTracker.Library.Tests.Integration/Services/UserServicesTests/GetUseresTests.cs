@@ -18,7 +18,7 @@ public class GetUseresTests : IAsyncLifetime
 		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(UserModel)));
 
 		var repo = (IUserRepository)_factory.Services.GetRequiredService(typeof(IUserRepository));
-		
+
 		_sut = new UserService(repo);
 
 	}

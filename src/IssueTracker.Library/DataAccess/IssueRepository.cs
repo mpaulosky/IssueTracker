@@ -39,7 +39,7 @@ public class IssueRepository : IIssueRepository
 	public async Task CreateIssue(IssueModel issue)
 	{
 
-			await _issueCollection.InsertOneAsync(issue);
+		await _issueCollection.InsertOneAsync(issue);
 
 	}
 
@@ -126,7 +126,7 @@ public class IssueRepository : IIssueRepository
 	/// <param name="itemId">string</param>
 	/// <param name="issue">IssueModel</param>
 	public async Task UpdateIssue(string itemId, IssueModel issue)
-	{ 
+	{
 
 		var objectId = new ObjectId(itemId);
 

@@ -302,7 +302,7 @@ public class DetailsTests : TestContext
 		});
 
 		var results = cut.FindAll("div");
-		var items = results.Select(x => x.ClassName).Where(z=>z != null && z.Contains(expected)).ToList();
+		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
 
 		// Assert
 		items.Count.Should().Be(1);

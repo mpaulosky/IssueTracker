@@ -17,11 +17,11 @@ public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLi
 
 		_dbContainer = new TestcontainersBuilder<MongoDbTestcontainer>()
 			.WithDatabase(new MongoDbTestcontainerConfiguration
-				{
-					Database = "testdb", 
-					Username = "test", 
-					Password = "whatever"
-				})
+			{
+				Database = "testdb",
+				Username = "test",
+				Password = "whatever"
+			})
 			.WithImage("mongo")
 			.WithName("testdb")
 			.Build();

@@ -51,7 +51,7 @@ public static class RegisterServices
 		builder.Services.AddSingleton<IMongoDbContextFactory>(_ =>
 		new MongoDbContextFactory
 		(
-			config.GetValue<string>("MongoDbSettings:ConnectionString"), 
+			config.GetValue<string>("MongoDbSettings:ConnectionString"),
 			config.GetValue<string>("MongoDbSettings:DatabaseName"))
 		);
 
