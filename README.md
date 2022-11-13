@@ -2,7 +2,7 @@
 
 ## New Blazor Hosted Application
 
-### A tool to track issues and their resolution
+### A tool to track issues and their resolution using a MongoDb to store documents. It includes both unit and integration tests with the integration tests using a docker container for the test MongoDb database to ensuere  clean isolated data for the tests.
 
 ****
 
@@ -30,11 +30,13 @@ Check out the [contributing page](./CONTRIBUTING.md) to see the best places to l
 
 ## Software References
 
+* .NET 7
 * C#
 * HTML
 * Bootstrap CSS
 * Blazor Server
-* .Net 6
+* MongoDb
+* Docker
 
 ## Code of conduct
 
