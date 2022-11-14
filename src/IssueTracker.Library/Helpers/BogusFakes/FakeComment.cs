@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="FakeComment.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 namespace IssueTracker.Library.Helpers.BogusFakes;
 
 public static class FakeComment

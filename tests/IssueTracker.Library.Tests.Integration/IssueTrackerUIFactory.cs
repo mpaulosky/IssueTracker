@@ -2,8 +2,6 @@
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 
-using Microsoft.VisualBasic;
-
 namespace IssueTracker.Library;
 
 [ExcludeFromCodeCoverage]

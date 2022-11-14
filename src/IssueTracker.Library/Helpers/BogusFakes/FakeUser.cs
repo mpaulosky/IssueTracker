@@ -1,4 +1,11 @@
-﻿namespace IssueTracker.Library.Helpers.BogusFakes;
+﻿//-----------------------------------------------------------------------
+// <copyright file="FakeUser.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.Library.Helpers.BogusFakes;
 
 public static class FakeUser
 {

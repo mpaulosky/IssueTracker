@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="Statuses.razor.cs" company="mpaulosky">
+//		Author:  Matthew Paulosky
+//		Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 using Radzen.Blazor;
 
 namespace IssueTracker.UI.Pages;
