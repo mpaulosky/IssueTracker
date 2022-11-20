@@ -34,23 +34,23 @@
 						<MyInputRadioGroup id="category" @bind-Value="_issue.CategoryId">
 							@foreach (var c in _categories)
 							{
-								<div class="radio-item-group">
-									<InputRadio Value="@c.Id" id="@c.Id" />
-									<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
-								</div>
+											<div class="radio-item-group">
+												<InputRadio Value="@c.Id" id="@c.Id" />
+												<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
+											</div>
 							}
-						</MyInputRadioGroup>
-					</div>
-				</div>
-				<div class="input-section">
-					<label class="form-label fw-bold text-uppercase" for="description">Description</label>
-					<div class="input-description">Briefly describe your suggestion.</div>
-					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description" />
-				</div>
-				<div class="center-children">
-					<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Creat Issue</button>
-				</div>
-			</EditForm>
+									</MyInputRadioGroup>
+								</div>
+							</div>
+							<div class="input-section">
+								<label class="form-label fw-bold text-uppercase" for="description">Description</label>
+								<div class="input-description">Briefly describe your suggestion.</div>
+								<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description" />
+							</div>
+							<div class="center-children">
+								<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Creat Issue</button>
+							</div>
+						</EditForm>
 		}
 	</div>
 </div>

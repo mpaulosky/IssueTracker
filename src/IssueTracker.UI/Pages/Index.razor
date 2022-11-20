@@ -13,19 +13,21 @@
 <h1 class="page-heading text-uppercase mb-4">Issues</h1>
 
 <div class="issue-container">
-	<button @onclick="LoadCreateIssuePage" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">New Issue</button>
+	<button @onclick="LoadCreateIssuePage" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">New
+		Issue</button>
 </div>
 
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
-		<button id="sort-by-new" class="btn btn-order @SortedByNewCssClass(true)" @onclick="() => OrderByNew(true)">New</button>
-		<button id="sort-by-popular" class="btn btn-order @SortedByNewCssClass(false)" @onclick="() => OrderByNew(false)">Popular</button>
+		<button id="sort-by-new" class="btn btn-order @SortedByNewCssClass(true)"
+			@onclick="() => OrderByNew(true)">New</button>
+		<button id="sort-by-popular" class="btn btn-order @SortedByNewCssClass(false)"
+			@onclick="() => OrderByNew(false)">Popular</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
-		<input type="text" placeholder="Search"
-			aria-label="Search box" class="form-control rounded-control"
-		@oninput="txt => OnSearchInput((string)txt.Value)" />
+		<input type="text" placeholder="Search" aria-label="Search box" class="form-control rounded-control"
+			@oninput="txt => OnSearchInput((string)txt.Value)" />
 	</div>
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null && _showCategories)
@@ -35,8 +37,7 @@
 				<div class="@GetSelectedCategoryCssClass()" @onclick="() => OnCategoryClick()">All</div>
 				@foreach (var c in _categories)
 				{
-					<div class="@GetSelectedCategoryCssClass(c.CategoryName)"
-					@onclick="() => OnCategoryClick(c.CategoryName)">
+					<div class="@GetSelectedCategoryCssClass(c.CategoryName)" @onclick="() => OnCategoryClick(c.CategoryName)">
 						@c.CategoryName
 					</div>
 				}
@@ -56,8 +57,7 @@
 				<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
 				@foreach (var s in _statuses)
 				{
-					<div class="@GetSelectedStatusCssClass(s.StatusName)"
-					@onclick="() => OnStatusClick(s.StatusName)">
+					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">
 						@s.StatusName
 					</div>
 				}
@@ -89,7 +89,8 @@
 				<div class="@GetSelectedCategoryCssClass()" @onclick="() => OnCategoryClick()">All</div>
 				@foreach (var c in _categories)
 				{
-					<div class="@GetSelectedCategoryCssClass(c.CategoryName)" @onclick="() => OnCategoryClick(c.CategoryName)">@c.CategoryName</div>
+					<div class="@GetSelectedCategoryCssClass(c.CategoryName)" @onclick="() => OnCategoryClick(c.CategoryName)">
+						@c.CategoryName</div>
 				}
 			</div>
 		}
@@ -100,7 +101,8 @@
 				<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
 				@foreach (var s in _statuses)
 				{
-					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">@s.StatusName</div>
+					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">@s.StatusName
+					</div>
 				}
 			</div>
 		}

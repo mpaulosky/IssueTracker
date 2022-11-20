@@ -4,7 +4,6 @@ global using Blazored.SessionStorage;
 
 global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.DataAccess;
-global using IssueTracker.Library.Helpers;
 global using IssueTracker.Library.Helpers.BogusFakes;
 global using IssueTracker.Library.Models;
 global using IssueTracker.Library.Services;

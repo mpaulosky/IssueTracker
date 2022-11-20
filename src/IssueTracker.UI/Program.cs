@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------
 
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.JSInterop;
 
 internal class Program
 {

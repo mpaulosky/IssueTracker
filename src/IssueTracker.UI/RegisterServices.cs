@@ -5,10 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
-
-using System.Runtime.CompilerServices;
-
 namespace IssueTracker.UI;
 
 /// <summary>
