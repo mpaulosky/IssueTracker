@@ -7,6 +7,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 {
 
 	public DatabaseSettings DbConfig { get; }
+
 	private IConfiguration AppConfiguration { get; }
 
 	private IMongoDbContextFactory DbContext { get; set; }
