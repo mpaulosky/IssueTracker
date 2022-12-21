@@ -6,7 +6,7 @@ public class UserServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private IUserRepository _repo;
-	private string _cleanupValue = "";
+	private const string _cleanupValue = "";
 
 	public UserServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -31,7 +31,10 @@ public class UserServiceTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

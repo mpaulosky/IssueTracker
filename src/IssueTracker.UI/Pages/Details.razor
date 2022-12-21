@@ -93,10 +93,10 @@
 				<div class="form-layout comment-details">
 					<div class="fw-bold mb-2">Comments</div>
 
-					@foreach (var _comment in _comments)
+					@foreach (var comment in _comments)
 					{
 
-						<CommentComponent Item="@_comment" LoggedInUser="@_loggedInUser" />
+						<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser" />
 
 					}
 

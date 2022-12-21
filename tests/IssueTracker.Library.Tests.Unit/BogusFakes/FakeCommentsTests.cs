@@ -12,10 +12,10 @@ public class FakeCommentsTests
 
 
 		// Act
-		var result = FakeComment.GetComments(1);
+		var result = FakeComment.GetComments(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().Issue.Should().NotBeNull();
 		result.First().Comment.Should().NotBeNull();
@@ -30,10 +30,10 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetBasicComments(1);
+		var result = FakeComment.GetBasicComments(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().Comment.Should().NotBeNull();
 

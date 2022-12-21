@@ -5,8 +5,7 @@
 
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
-
-	public DatabaseSettings DbConfig { get; }
+	private DatabaseSettings DbConfig { get; }
 
 	private IConfiguration AppConfiguration { get; }
 
@@ -47,12 +46,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	public async Task ResetDatabaseAsync(string collection)
 	{
 
-		if (string.IsNullOrWhiteSpace(collection) == false)
-		{
-
-			await DbContext.Database.DropCollectionAsync(collection);
-
-		}
+		if (string.IsNullOrWhiteSpace(collection) == false) await DbContext.Database.DropCollectionAsync(collection);
 
 	}
 

@@ -13,10 +13,11 @@ namespace IssueTracker.UI;
 [ExcludeFromCodeCoverage]
 public static class RegisterServices
 {
-	/// <summary>
-	///		Configures the services method.
-	/// </summary>
-	/// <param name="builder">The builder.</param>
+	///  <summary>
+	/// 		Configures the services method.
+	///  </summary>
+	///  <param name="builder">The builder.</param>
+	///  <param name="config">ConfigurationManager</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder, ConfigurationManager config)
 	{
 		// Add services to the container.

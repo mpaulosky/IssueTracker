@@ -2,10 +2,8 @@
 
 @attribute [Authorize(Policy = "Admin")]
 
-@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject ICategoryService CategoryService
-@inject IUserService UserService
 
 <PageTitle>Categories</PageTitle>
 
@@ -58,22 +56,22 @@
 						TextAlign="TextAlign.Right" Width="156px">
 							<Template Context="category">
 								<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium"
-								Click="@(args => EditRow(category))" @onclick:stopPropagation="true">
+								Click="@(_ => EditRow(category))" @onclick:stopPropagation="true">
 								</RadzenButton>
 								<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter"
-								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(args => DeleteRow(category))"
+								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(_ => DeleteRow(category))"
 								@onclick:stopPropagation="true">
 								</RadzenButton>
 							</Template>
 							<EditTemplate Context="category">
 								<RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat"
-								Size="ButtonSize.Medium" Click="@((args) => SaveRow(category))">
+								Size="ButtonSize.Medium" Click="@(_ => SaveRow(category))">
 								</RadzenButton>
 								<RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium"
-								Class="my-1 ms-1" Click="@((args) => CancelEdit(category))">
+								Class="my-1 ms-1" Click="@(_ => CancelEdit(category))">
 								</RadzenButton>
 								<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter"
-								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(args => DeleteRow(category))">
+								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(_ => DeleteRow(category))">
 								</RadzenButton>
 							</EditTemplate>
 						</RadzenDataGridColumn>

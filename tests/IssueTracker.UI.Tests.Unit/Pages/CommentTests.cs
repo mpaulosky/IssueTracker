@@ -149,13 +149,7 @@ public class CommentTests : TestContext
 
 		authContext.SetClaims(new Claim("objectidentifier", _expectedUser.Id));
 
-		if (isAdmin)
-		{
-
-			authContext.SetPolicies("Admin");
-
-		}
-
+		if (isAdmin) authContext.SetPolicies("Admin");
 	}
 
 	private void RegisterServices()

@@ -12,10 +12,10 @@ public class FakeStatusTests
 
 
 		// Act
-		var result = FakeStatus.GetStatuses(1);
+		var result = FakeStatus.GetStatuses(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().StatusName.Should().NotBeNull();
 		result.First().StatusDescription.Should().NotBeNull();
@@ -29,10 +29,10 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetBasicStatuses(1);
+		var result = FakeStatus.GetBasicStatuses(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().StatusName.Should().NotBeNull();
 		result.First().StatusDescription.Should().NotBeNull();
 

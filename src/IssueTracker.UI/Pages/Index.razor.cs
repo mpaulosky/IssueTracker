@@ -42,13 +42,9 @@ public partial class Index
 	private void LoadCreateIssuePage()
 	{
 		if (_loggedInUser is not null)
-		{
 			NavManager.NavigateTo("/Create");
-		}
 		else
-		{
 			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
-		}
 	}
 
 	/// <summary>
@@ -100,13 +96,9 @@ public partial class Index
 			if (isDirty)
 			{
 				if (string.IsNullOrWhiteSpace(_loggedInUser.Id))
-				{
 					await UserService.CreateUser(_loggedInUser);
-				}
 				else
-				{
 					await UserService.UpdateUser(_loggedInUser);
-				}
 			}
 		}
 	}
@@ -168,28 +160,17 @@ public partial class Index
 	{
 		var output = await IssueService.GetApprovedIssues();
 
-		if (_selectedCategory != "All")
-		{
-			output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
-		}
+		if (_selectedCategory != "All") output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
 
-		if (_selectedStatus != "All")
-		{
-			output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
-		}
+		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
 
 		if (string.IsNullOrWhiteSpace(_searchText) == false)
-		{
 			output = output.Where(s =>
 					s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
 					s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
 				.ToList();
-		}
 
-		if (_isSortedByNew)
-		{
-			output = output.OrderByDescending(s => s.DateCreated).ToList();
-		}
+		if (_isSortedByNew) output = output.OrderByDescending(s => s.DateCreated).ToList();
 
 		_issues = output;
 

@@ -12,6 +12,7 @@ namespace IssueTracker.UI.Pages;
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
 [ExcludeFromCodeCoverage]
+[UsedImplicitly]
 public partial class SampleData
 {
 	private bool _usersCreated;
@@ -41,17 +42,11 @@ public partial class SampleData
 	{
 		var users = await UserService.GetUsers();
 
-		if (users?.Count > 0)
-		{
-			return;
-		}
+		if (users?.Count > 0) return;
 
 		var items = FakeUser.GetUsers(2);
 
-		foreach (var item in items)
-		{
-			await UserService.CreateUser(item);
-		}
+		foreach (var item in items) await UserService.CreateUser(item);
 		_usersCreated = true;
 	}
 
@@ -62,10 +57,7 @@ public partial class SampleData
 	{
 		var categories = await CategoryService.GetCategories();
 
-		if (categories?.Count > 0)
-		{
-			return;
-		}
+		if (categories?.Count > 0) return;
 
 		CategoryModel item = new()
 		{
@@ -112,10 +104,7 @@ public partial class SampleData
 	{
 		var statuses = await StatusService.GetStatuses();
 
-		if (statuses?.Count > 0)
-		{
-			return;
-		}
+		if (statuses?.Count > 0) return;
 
 		StatusModel item = new()
 		{
@@ -156,17 +145,11 @@ public partial class SampleData
 	{
 		var comments = await CommentService.GetComments();
 
-		if (comments?.Count > 0)
-		{
-			return;
-		}
+		if (comments?.Count > 0) return;
 
 		var items = FakeComment.GetComments(4);
 
-		foreach (var item in items)
-		{
-			await CommentService.CreateComment(item);
-		}
+		foreach (var item in items) await CommentService.CreateComment(item);
 		_commentsCreated = true;
 	}
 
@@ -177,17 +160,11 @@ public partial class SampleData
 	{
 		var issues = await IssueService.GetIssues();
 
-		if (issues?.Count > 0)
-		{
-			return;
-		}
+		if (issues?.Count > 0) return;
 
 		var items = FakeIssue.GetIssues(6);
 
-		foreach (var issue in items)
-		{
-			await IssueService.CreateIssue(issue);
-		}
+		foreach (var issue in items) await IssueService.CreateIssue(issue);
 		_issuesCreated = true;
 	}
 }

@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///		Details class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly]
 public partial class Details
 {
 
@@ -52,12 +53,7 @@ public partial class Details
 
 			case "answered":
 
-				if (string.IsNullOrWhiteSpace(_urlText))
-				{
-
-					return;
-
-				}
+				if (string.IsNullOrWhiteSpace(_urlText)) return;
 
 				var selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
@@ -104,13 +100,7 @@ public partial class Details
 	private void OpenCommentForm(IssueModel issue)
 	{
 
-		if (_loggedInUser is not null)
-		{
-
-			NavManager.NavigateTo($"/Comment/{issue.Id}");
-
-		}
-
+		if (_loggedInUser is not null) NavManager.NavigateTo($"/Comment/{issue.Id}");
 	}
 
 	/// <summary>

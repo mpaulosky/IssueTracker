@@ -18,13 +18,10 @@ public class MongoDbHealthCheck : IHealthCheck
 	public MongoDbHealthCheck(string connectionString, string databaseName = default)
 			: this(MongoClientSettings.FromUrl(MongoUrl.Create(connectionString)), databaseName)
 	{
-		if (databaseName == default)
-		{
-			_specifiedDatabase = MongoUrl.Create(connectionString).DatabaseName;
-		}
+		if (databaseName == default) _specifiedDatabase = MongoUrl.Create(connectionString).DatabaseName;
 	}
 
-	public MongoDbHealthCheck(MongoClientSettings clientSettings, string databaseName = default)
+	private MongoDbHealthCheck(MongoClientSettings clientSettings, string databaseName = default)
 	{
 		_specifiedDatabase = databaseName;
 		_mongoClientSettings = clientSettings;

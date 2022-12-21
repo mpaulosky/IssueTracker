@@ -128,8 +128,7 @@ public static class TestIssues
 	{
 		List<IssueModel> issues = new()
 		{
-			new()
-			{
+			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
 				IssueName = "Test Issue 1",
 				Description = "A new test issue 1",
@@ -148,8 +147,7 @@ public static class TestIssues
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
 				}
 			},
-			new()
-			{
+			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
 				IssueName = "Test Issue 2",
 				Description = "A new test issue 2",
@@ -168,8 +166,7 @@ public static class TestIssues
 					CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits."
 				}
 			},
-			new()
-			{
+			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
 				IssueName = "Test Issue 3",
 				Description = "A new test issue 3",

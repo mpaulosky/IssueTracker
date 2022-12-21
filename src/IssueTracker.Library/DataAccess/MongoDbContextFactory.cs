@@ -14,7 +14,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 {
 
 	/// <summary>
-	///		MongoDbContextFactpru constructor
+	///		MongoDbContextFactory constructor
 	/// </summary>
 	/// <param name="connectionString">Connection String</param>
 	/// <param name="databaseName">Database Name</param>

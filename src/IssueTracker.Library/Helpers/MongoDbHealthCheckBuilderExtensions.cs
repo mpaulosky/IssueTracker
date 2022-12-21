@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-
 namespace IssueTracker.Library.Helpers;
 
 /// <summary>
@@ -49,7 +47,7 @@ public static class MongoDbHealthCheckBuilderExtensions
 
 		return builder.Add(new HealthCheckRegistration(
 				name ?? _name,
-				sp => new MongoDbHealthCheck(mongodbConnectionString, mongoDatabaseName),
+				_ => new MongoDbHealthCheck(mongodbConnectionString, mongoDatabaseName),
 				failureStatus,
 				tags,
 				timeout));

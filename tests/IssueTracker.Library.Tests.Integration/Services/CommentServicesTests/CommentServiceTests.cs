@@ -7,7 +7,7 @@ public class CommentServiceTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private ICommentRepository _repo;
 	private IMemoryCache _memCache;
-	private string _cleanupValue = "";
+	private const string _cleanupValue = "";
 
 	public CommentServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -47,7 +47,10 @@ public class CommentServiceTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

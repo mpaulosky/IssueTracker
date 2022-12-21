@@ -41,7 +41,7 @@ public class GetCategoryTests : IAsyncLifetime
 	{
 		// Arrange
 		_cleanupValue = "";
-		var id = "62cf2ad6326e99d665759e5a";
+		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
 		var result = await _sut.GetCategory(id);
@@ -73,7 +73,7 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		var id = "";
+		const string id = "";
 
 		// Act
 		var act = async () => await _sut.GetCategory(id);
@@ -83,7 +83,10 @@ public class GetCategoryTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

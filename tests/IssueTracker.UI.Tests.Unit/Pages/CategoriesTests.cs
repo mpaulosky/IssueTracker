@@ -70,7 +70,7 @@ public class CategoriesTests : TestContext
 		var cut = RenderComponent<Categories>();
 
 		// Assert
-		cut.MarkupMatches(@$"
+		cut.MarkupMatches(@"
 			<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
 			<div class=""row justify-content-center create-form"" >
 				<div class=""form-layout col-xl-9 col-lg-11"" >
@@ -177,7 +177,7 @@ public class CategoriesTests : TestContext
 		cut.FindAll("button")[1].Click(); // Add New Category Button
 
 		// Assert
-		cut.MarkupMatches(@$"
+		cut.MarkupMatches(@"
 			<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
 			<div class=""row justify-content-center create-form"" >
 				<div class=""form-layout col-xl-9 col-lg-11"" >
@@ -318,7 +318,7 @@ public class CategoriesTests : TestContext
 		buttons[3].Click(); // Cancel Button
 
 		// Assert
-		cut.MarkupMatches(@$"
+		cut.MarkupMatches(@"
 			<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
 			<div class=""row justify-content-center create-form"" >
 				<div class=""form-layout col-xl-9 col-lg-11"" >
@@ -522,7 +522,7 @@ public class CategoriesTests : TestContext
 		buttons2[3].Click(); // Click Cancel Button
 
 		// Assert
-		cut.MarkupMatches(@$"
+		cut.MarkupMatches(@"
 			<h1 class=""page-heading text-uppercase mb-4"" >Categories</h1>
 			<div class=""row justify-content-center create-form"" >
 				<div class=""form-layout col-xl-9 col-lg-11"" >
@@ -629,13 +629,7 @@ public class CategoriesTests : TestContext
 			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)
 		);
 
-		if (isAdmin)
-		{
-
-			authContext.SetPolicies("Admin");
-
-		}
-
+		if (isAdmin) authContext.SetPolicies("Admin");
 	}
 
 	private void RegisterServices()

@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///		Profile page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly]
 public partial class Profile
 {
 	private List<IssueModel> _approved;

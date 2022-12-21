@@ -16,12 +16,15 @@ public class MyInputRadioGroup<TValue> : InputRadioGroup<TValue>
 
 	protected override void OnParametersSet()
 	{
-		var fieldClass = EditContext?.FieldCssClass(FieldIdentifier) ?? string.Empty;
-		if (fieldClass != _fieldClass || Name != _name)
+		var fieldClass = EditContext?.FieldCssClass(FieldIdentifier);
+		if (fieldClass == null)
 		{
-			_fieldClass = fieldClass;
-			_name = Name;
-			base.OnParametersSet();
+			fieldClass = string.Empty;
 		}
+
+		if (fieldClass == _fieldClass && Name == _name) return;
+		_fieldClass = fieldClass;
+		_name = Name;
+		base.OnParametersSet();
 	}
 }

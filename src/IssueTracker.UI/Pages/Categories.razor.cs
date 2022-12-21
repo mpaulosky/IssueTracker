@@ -12,6 +12,7 @@ namespace IssueTracker.UI.Pages;
 /// <summary>
 ///  Categories partial class
 /// </summary>
+[UsedImplicitly]
 public partial class Categories
 {
 
@@ -59,19 +60,9 @@ public partial class Categories
 	private void CancelEdit(CategoryModel category)
 	{
 
-		if (category == _categoryToInsert)
-		{
+		if (category == _categoryToInsert) _categoryToInsert = null;
 
-			_categoryToInsert = null;
-
-		}
-
-		if (category == _categoryToUpdate)
-		{
-
-			_categoryToUpdate = null;
-
-		}
+		if (category == _categoryToUpdate) _categoryToUpdate = null;
 
 		_categoriesGrid.CancelEditRow(category);
 
@@ -80,12 +71,7 @@ public partial class Categories
 	private async Task DeleteRow(CategoryModel category)
 	{
 
-		if (_categories.Contains(category))
-		{
-
-			_categories.Remove(category);
-
-		}
+		if (_categories.Contains(category)) _categories.Remove(category);
 
 		_categoriesGrid.CancelEditRow(category);
 
@@ -108,12 +94,7 @@ public partial class Categories
 	private async void OnCreateRow(CategoryModel category)
 	{
 
-		if (category == _categoryToInsert)
-		{
-
-			_categoryToInsert = null;
-
-		}
+		if (category == _categoryToInsert) _categoryToInsert = null;
 
 		await CategoryService.CreateCategory(category);
 

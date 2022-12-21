@@ -32,7 +32,7 @@ public class DbFixture : IDisposable
 
 	public void Dispose()
 	{
-
+		GC.SuppressFinalize(this);
 	}
 
 }

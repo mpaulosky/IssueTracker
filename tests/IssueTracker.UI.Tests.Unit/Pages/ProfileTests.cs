@@ -299,10 +299,7 @@
 				);
 			}
 
-			if (isAdmin)
-			{
-				authContext.SetPolicies("Admin");
-			}
+			if (isAdmin) authContext.SetPolicies("Admin");
 		}
 
 		private void RegisterServices()

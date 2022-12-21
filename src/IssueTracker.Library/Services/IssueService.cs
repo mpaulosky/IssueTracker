@@ -63,10 +63,7 @@ public class IssueService : IIssueService
 	{
 		var output = _cache.Get<List<IssueModel>>(_cacheName);
 
-		if (output is not null)
-		{
-			return output;
-		}
+		if (output is not null) return output;
 
 		var results = await _repository.GetIssues();
 
@@ -90,12 +87,7 @@ public class IssueService : IIssueService
 
 		var output = _cache.Get<List<IssueModel>>(userId);
 
-		if (output is not null)
-		{
-
-			return output;
-
-		}
+		if (output is not null) return output;
 
 		var results = await _repository.GetIssuesByUser(userId);
 

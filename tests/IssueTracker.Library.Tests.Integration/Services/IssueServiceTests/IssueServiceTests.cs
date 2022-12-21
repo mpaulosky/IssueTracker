@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.IssueServicesTests;
+﻿namespace IssueTracker.Library.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class IssueServiceTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private IIssueRepository _repo;
 	private IMemoryCache _cache;
-	private string _cleanupValue = "";
+	private const string _cleanupValue = "";
 
 	public IssueServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -48,7 +48,10 @@ public class IssueServiceTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

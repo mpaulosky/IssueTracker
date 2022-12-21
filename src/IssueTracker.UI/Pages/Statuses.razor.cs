@@ -12,6 +12,7 @@ namespace IssueTracker.UI.Pages;
 /// <summary>
 ///  Statuses partial class
 /// </summary>
+[UsedImplicitly]
 public partial class Statuses
 {
 
@@ -59,19 +60,9 @@ public partial class Statuses
 	private void CancelEdit(StatusModel status)
 	{
 
-		if (status == _statusToInsert)
-		{
+		if (status == _statusToInsert) _statusToInsert = null;
 
-			_statusToInsert = null;
-
-		}
-
-		if (status == _statusToUpdate)
-		{
-
-			_statusToUpdate = null;
-
-		}
+		if (status == _statusToUpdate) _statusToUpdate = null;
 
 		_statusesGrid.CancelEditRow(status);
 
@@ -80,12 +71,7 @@ public partial class Statuses
 	private async Task DeleteRow(StatusModel status)
 	{
 
-		if (_statuses.Contains(status))
-		{
-
-			_statuses.Remove(status);
-
-		}
+		if (_statuses.Contains(status)) _statuses.Remove(status);
 
 		_statusesGrid.CancelEditRow(status);
 
@@ -108,12 +94,7 @@ public partial class Statuses
 	private async void OnCreateRow(StatusModel status)
 	{
 
-		if (status == _statusToInsert)
-		{
-
-			_statusToInsert = null;
-
-		}
+		if (status == _statusToInsert) _statusToInsert = null;
 
 		await StatusService.CreateStatus(status);
 

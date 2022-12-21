@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.StatusServicesTests;
+﻿namespace IssueTracker.Library.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -50,7 +50,10 @@ public class CreateIssueTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

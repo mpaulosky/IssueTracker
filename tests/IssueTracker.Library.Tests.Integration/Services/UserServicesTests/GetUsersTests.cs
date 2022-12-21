@@ -2,14 +2,14 @@
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
-public class GetUseresTests : IAsyncLifetime
+public class GetUsersTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserService _sut;
 	private string _cleanupValue;
 
-	public GetUseresTests(IssueTrackerTestFactory factory)
+	public GetUsersTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -24,7 +24,7 @@ public class GetUseresTests : IAsyncLifetime
 	}
 
 	[Fact]
-	public async Task GetUseres_With_ValidData_Should_ReturnUseres_Test()
+	public async Task GetUsers_With_ValidData_Should_ReturnUsers_Test()
 	{
 
 		// Arrange
@@ -43,7 +43,10 @@ public class GetUseresTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

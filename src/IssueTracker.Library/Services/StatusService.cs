@@ -88,12 +88,7 @@ public class StatusService : IStatusService
 
 		var output = _cache.Get<List<StatusModel>>(_cacheName);
 
-		if (output is not null)
-		{
-
-			return output;
-
-		}
+		if (output is not null) return output;
 
 		var results = await _repository.GetStatuses();
 

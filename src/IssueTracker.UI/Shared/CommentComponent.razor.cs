@@ -21,16 +21,9 @@ public partial class CommentComponent
 	{
 		if (LoggedInUser is not null)
 		{
-			if (comment.Author.Id == LoggedInUser.Id)
-			{
-				// Can't vote on your own comments
-				return;
-			}
+			if (comment.Author.Id == LoggedInUser.Id) return; // Can't vote on your own comments
 
-			if (comment.UserVotes.Add(LoggedInUser.Id) == false)
-			{
-				comment.UserVotes.Remove(LoggedInUser.Id);
-			}
+			if (comment.UserVotes.Add(LoggedInUser.Id) == false) comment.UserVotes.Remove(LoggedInUser.Id);
 
 			await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
 		}
@@ -43,10 +36,7 @@ public partial class CommentComponent
 	/// <returns>string</returns>
 	private string GetUpVoteTopText(CommentModel comment)
 	{
-		if (comment.UserVotes?.Count > 0)
-		{
-			return comment.UserVotes.Count.ToString("00");
-		}
+		if (comment.UserVotes?.Count > 0) return comment.UserVotes.Count.ToString("00");
 
 		return comment.Author.Id == LoggedInUser?.Id ? "Awaiting" : "Click To";
 	}
@@ -68,10 +58,7 @@ public partial class CommentComponent
 	/// <returns>string css class</returns>
 	private string GetVoteCssClass(CommentModel comment)
 	{
-		if (comment.UserVotes is null || comment.UserVotes.Count == 0)
-		{
-			return "issue-detail-no-votes";
-		}
+		if (comment.UserVotes is null || comment.UserVotes.Count == 0) return "issue-detail-no-votes";
 
 		return comment.UserVotes.Contains(LoggedInUser?.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
 	}

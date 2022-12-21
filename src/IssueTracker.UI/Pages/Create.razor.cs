@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///		Create class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly]
 public partial class Create
 {
 	private List<CategoryModel> _categories;
@@ -35,14 +36,14 @@ public partial class Create
 	private async Task CreateIssue()
 	{
 		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
-		var status = _statuses.Where(c => c.StatusName == "Watching").FirstOrDefault();
+		var status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel((string)category.CategoryName, (string)category.CategoryDescription),
-			IssueStatus = new BasicStatusModel(status.StatusName, status.StatusDescription)
+			Category = new BasicCategoryModel(category?.CategoryName, category?.CategoryDescription),
+			IssueStatus = new BasicStatusModel(status?.StatusName, status?.StatusDescription)
 		};
 
 		await IssueService.CreateIssue(s);

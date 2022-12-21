@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.IssueServicesTests;
+﻿namespace IssueTracker.Library.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -44,7 +44,7 @@ public class GetIssueTests : IAsyncLifetime
 	{
 		// Arrange
 		_cleanupValue = "";
-		var id = "62cf2ad6326e99d665759e5a";
+		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
 		var result = await _sut.GetIssue(id);
@@ -76,7 +76,7 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		var id = "";
+		const string id = "";
 
 		// Act
 		var act = async () => await _sut.GetIssue(id);
@@ -86,7 +86,10 @@ public class GetIssueTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

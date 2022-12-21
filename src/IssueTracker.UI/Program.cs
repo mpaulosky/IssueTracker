@@ -7,6 +7,9 @@
 
 using Microsoft.AspNetCore.Rewrite;
 
+namespace IssueTracker.UI;
+
+[UsedImplicitly]
 internal class Program
 {
 	private static void Main(string[] args)

@@ -10,7 +10,7 @@ namespace IssueTracker.UI.Shared;
 public partial class IssueComponent
 {
 	[Parameter]
-	public bool CanArchive { get; set; } = false;
+	public bool CanArchive { get; set; }
 	[Parameter]
 	public UserModel LoggedInUser { get; set; } = new();
 	[Parameter]

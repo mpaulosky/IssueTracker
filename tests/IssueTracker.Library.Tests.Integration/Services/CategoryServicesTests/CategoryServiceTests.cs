@@ -5,9 +5,9 @@
 public class CategoryServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
-	private ICategoryRepository? _repo;
-	private IMemoryCache? _cache;
-	private string _cleanupValue = "";
+	private ICategoryRepository _repo;
+	private IMemoryCache _cache;
+	private const string _cleanupValue = "";
 
 	public CategoryServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -48,7 +48,10 @@ public class CategoryServiceTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

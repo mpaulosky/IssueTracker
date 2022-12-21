@@ -63,13 +63,13 @@ public class IndexTests : TestContext
 	public void Index_With_DataAndAsAdmin_Should_DisplayIssuesWithArchiveButton_Test()
 	{
 		// Arrange
-		var _expectedChange = @"
+		const string expectedChange = @"
 					<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
 						archive
 					</button>
 				";
 
-		_expectedHtml = HtmlOutput(_expectedChange);
+		_expectedHtml = HtmlOutput(expectedChange);
 
 		SetUpTests(true, true, false);
 
@@ -392,10 +392,7 @@ public class IndexTests : TestContext
 				new Claim("email", "bob.tester@tester.com"));
 		}
 
-		if (isAdmin)
-		{
-			authContext.SetPolicies("Admin");
-		}
+		if (isAdmin) authContext.SetPolicies("Admin");
 	}
 
 	private void RegisterServices()
@@ -418,7 +415,7 @@ public class IndexTests : TestContext
 			.Returns(_mockCacheEntry.Object);
 	}
 
-	private string HtmlOutput(string expectedChange)
+	private static string HtmlOutput(string expectedChange)
 	{
 		var output = @$"
 			<h1 class=""page-heading text-uppercase mb-4"">Issues</h1>

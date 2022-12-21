@@ -11,6 +11,7 @@ namespace IssueTracker.UI.Pages;
 ///		Admin page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
+[UsedImplicitly]
 public partial class Admin
 {
 	private string _currentEditingDescription = "";

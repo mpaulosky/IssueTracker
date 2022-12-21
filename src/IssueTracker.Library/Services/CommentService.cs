@@ -63,10 +63,7 @@ public class CommentService : ICommentService
 	{
 		var output = _cache.Get<List<CommentModel>>(_cacheName);
 
-		if (output is not null)
-		{
-			return output;
-		}
+		if (output is not null) return output;
 
 		var results = await _repository.GetComments();
 

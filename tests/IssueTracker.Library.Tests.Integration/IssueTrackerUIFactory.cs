@@ -5,12 +5,12 @@ using DotNet.Testcontainers.Containers;
 namespace IssueTracker.Library;
 
 [ExcludeFromCodeCoverage]
-public class IssueTrackerUIFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
+public class IssueTrackerUiFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
 
 	private readonly MongoDbTestcontainer _dbContainer;
 
-	public IssueTrackerUIFactory()
+	public IssueTrackerUiFactory()
 	{
 
 		_dbContainer = new TestcontainersBuilder<MongoDbTestcontainer>()

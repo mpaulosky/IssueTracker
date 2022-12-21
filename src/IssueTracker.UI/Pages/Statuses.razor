@@ -2,10 +2,8 @@
 
 @attribute [Authorize(Policy = "Admin")]
 
-@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IStatusService StatusService
-@inject IUserService UserService
 
 <PageTitle>Statuses</PageTitle>
 
@@ -57,22 +55,22 @@
 						TextAlign="TextAlign.Right" Width="156px">
 							<Template Context="status">
 								<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium"
-								Click="@(args => EditRow(status))" @onclick:stopPropagation="true">
+								Click="@(_ => EditRow(status))" @onclick:stopPropagation="true">
 								</RadzenButton>
 								<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter"
-								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(args => DeleteRow(status))"
+								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(_ => DeleteRow(status))"
 								@onclick:stopPropagation="true">
 								</RadzenButton>
 							</Template>
 							<EditTemplate Context="status">
 								<RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat"
-								Size="ButtonSize.Medium" Click="@((args) => SaveRow(status))">
+								Size="ButtonSize.Medium" Click="@(_ => SaveRow(status))">
 								</RadzenButton>
 								<RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium"
-								Class="my-1 ms-1" Click="@((args) => CancelEdit(status))">
+								Class="my-1 ms-1" Click="@(_ => CancelEdit(status))">
 								</RadzenButton>
 								<RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter"
-								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(args => DeleteRow(status))">
+								Size="ButtonSize.Medium" Class="my-1 ms-1" Click="@(_ => DeleteRow(status))">
 								</RadzenButton>
 							</EditTemplate>
 						</RadzenDataGridColumn>

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace IssueTracker.Library.Services.StatusServicesTests;
+﻿namespace IssueTracker.Library.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -46,7 +44,10 @@ public class GetStatusesTests : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

@@ -4,17 +4,17 @@
 public class FakeIssuesTests
 {
 
-	[Fact()]
+	[Fact]
 	public void GetIssues_With_RequestForIssues_Should_ReturnFakeIssues_Test()
 	{
 
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetIssues(1);
+		var result = FakeIssue.GetIssues(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().IssueName.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();
@@ -24,16 +24,16 @@ public class FakeIssuesTests
 
 	}
 
-	[Fact()]
+	[Fact]
 	public void GetBasicIssues_With_RequestForBasicIssues_Should_ReturnFakeBasicIssues_Test()
 	{
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetBasicIssues(1);
+		var result = FakeIssue.GetBasicIssues(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().Issue.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();

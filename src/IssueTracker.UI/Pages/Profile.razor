@@ -103,10 +103,10 @@
 		<h2 class="my-issue-heading">Comments</h2>
 		<p class="my-issue-text">These are your comments that are currently active.</p>
 
-		@foreach (var _comment in _comments)
+		@foreach (var comment in _comments)
 		{
 
-			<CommentComponent Item="@_comment" LoggedInUser="@_loggedInUser" />
+			<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser" />
 
 		}
 	</div>

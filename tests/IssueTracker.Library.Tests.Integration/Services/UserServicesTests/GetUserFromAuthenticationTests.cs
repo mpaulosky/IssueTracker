@@ -33,7 +33,10 @@ public class GetUserFromAuthenticationTests : IAsyncLifetime
 		result.Should().BeEquivalentTo(expected);
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

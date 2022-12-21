@@ -11,10 +11,10 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var sut = FakeUser.GetUsers(1);
+		var sut = FakeUser.GetUsers(1).ToList();
 
 		// Assert
-		sut.Count().Should().Be(1);
+		sut.Count.Should().Be(1);
 		sut.First().Id.Should().NotBeNull();
 		sut.First().FirstName.Should().NotBeNull();
 		sut.First().LastName.Should().NotBeNull();
@@ -30,10 +30,10 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var sut = FakeUser.GetBasicUser(1);
+		var sut = FakeUser.GetBasicUser(1).ToList();
 
 		// Assert
-		sut.Count().Should().Be(1);
+		sut.Count.Should().Be(1);
 		sut.First().Id.Should().NotBeNull();
 		sut.First().DisplayName.Should().NotBeNull();
 

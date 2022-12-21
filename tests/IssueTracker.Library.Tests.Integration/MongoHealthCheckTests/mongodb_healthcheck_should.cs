@@ -2,14 +2,14 @@
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
-public class Mongodb_healthcheck_should : IAsyncLifetime
+public class MongodbHealthcheckShould : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
 	private TestServer _sut;
-	private string _cleanupValue = "";
+	private const string _cleanupValue = "";
 
-	public Mongodb_healthcheck_should(IssueTrackerTestFactory factory)
+	public MongodbHealthcheckShould(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -32,7 +32,10 @@ public class Mongodb_healthcheck_should : IAsyncLifetime
 
 	}
 
-	public Task InitializeAsync() => Task.CompletedTask;
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
 
 	public async Task DisposeAsync()
 	{

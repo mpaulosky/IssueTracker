@@ -11,10 +11,10 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetCategories(1);
+		var result = FakeCategory.GetCategories(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
@@ -28,10 +28,10 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetBasicCategories(1);
+		var result = FakeCategory.GetBasicCategories(1).ToList();
 
 		// Assert
-		result.Count().Should().Be(1);
+		result.Count.Should().Be(1);
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
 
