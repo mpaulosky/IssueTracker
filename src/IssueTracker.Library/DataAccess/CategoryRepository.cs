@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.Library.Helpers.BogusFakes;
-
 namespace IssueTracker.Library.DataAccess;
 
 /// <summary>
