@@ -11,7 +11,15 @@
 ![GitHub](https://img.shields.io/github/license/mpaulosky/IssueTracker?logo=github)
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/main?label=last%20commit%20main&logo=github)
+
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test/main?label=Build%20%26%20Test%20main&logo=github)
+
+![GitHub Workflow Status (branch)](https://github.com/mpaulosky/IssueTracker/actions/workflow/dotnet.yml/badge.svg?branch=main&label=Build%20%26%20Test%20main&logo=github)
+
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test/main?label=Build%20%26%20Test%20main)
+
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/IssueTracker/Build%20and%20Test?branch=main&label=Build%20%26%20Test%20main&logo=github)
+
 [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
 [![CodeQL main](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml?branch=main)
 [![Lint Code Main](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter-main.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter-main.yml)
