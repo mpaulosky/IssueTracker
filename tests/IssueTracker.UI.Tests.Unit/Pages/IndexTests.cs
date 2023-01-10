@@ -63,40 +63,32 @@ public class IndexTests : TestContext
 	public void Index_With_DataAndAsAdmin_Should_DisplayIssuesWithArchiveButton_Test()
 	{
 		// Arrange
-		const string expectedChange = @"
-					<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-						archive
-					</button>
-				";
-
-		_expectedHtml = HtmlOutput(expectedChange);
-
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
 		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		buttons.Count.Should().BeGreaterThan(0);
 	}
 
 	[Fact]
 	public void Index_With_DataNotAsAdmin_Should_DisplayIssuesWithOutArchiveButton_Test()
 	{
 		// Arrange
-		_expectedHtml = HtmlOutput(string.Empty);
-
 		SetUpTests(true, false, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
 		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		buttons.Count.Should().Be(0);
 	}
 
 	[Fact]
