@@ -3,6 +3,7 @@
 [ExcludeFromCodeCoverage]
 public class IndexTests : TestContext
 {
+
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 
@@ -11,7 +12,6 @@ public class IndexTests : TestContext
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private List<CategoryModel> _expectedCategories;
-	private string _expectedHtml;
 	private List<IssueModel> _expectedIssues;
 	private List<StatusModel> _expectedStatuses;
 
@@ -20,6 +20,7 @@ public class IndexTests : TestContext
 
 	public IndexTests()
 	{
+
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
@@ -28,6 +29,7 @@ public class IndexTests : TestContext
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
 		_sessionStorageService = this.AddBlazoredSessionStorage();
+
 	}
 
 	[Theory]
@@ -37,6 +39,7 @@ public class IndexTests : TestContext
 	[InlineData("_isSortedByNew", "false")]
 	public async Task Index_OnInitialize_Should_SaveSessionValues_Test(string key, string expectedValue)
 	{
+
 		// Arrange
 		SetUpTests(true, true, false);
 
@@ -48,6 +51,7 @@ public class IndexTests : TestContext
 		// Assert
 		switch (key)
 		{
+
 			case "_isSortedByNew":
 				var value = await _sessionStorageService.GetItemAsync<bool>(key);
 				value.Should().Be((bool)Convert.ChangeType(expectedValue, typeof(bool)));
@@ -56,12 +60,15 @@ public class IndexTests : TestContext
 				var result = await _sessionStorageService.GetItemAsync<string>(key);
 				result.Should().Be(expectedValue);
 				break;
+
 		}
+
 	}
 
 	[Fact]
 	public void Index_With_DataAndAsAdmin_Should_DisplayIssuesWithArchiveButton_Test()
 	{
+
 		// Arrange
 		SetUpTests(true, true, false);
 
@@ -73,11 +80,13 @@ public class IndexTests : TestContext
 
 		// Assert
 		buttons.Count.Should().BeGreaterThan(0);
+
 	}
 
 	[Fact]
 	public void Index_With_DataNotAsAdmin_Should_DisplayIssuesWithOutArchiveButton_Test()
 	{
+
 		// Arrange
 		SetUpTests(true, false, false);
 
@@ -89,11 +98,13 @@ public class IndexTests : TestContext
 
 		// Assert
 		buttons.Count.Should().Be(0);
+
 	}
 
 	[Fact]
 	public void Index_With_ClickingOnIssue_Should_NavigateToDetailsPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/Details";
 
@@ -110,11 +121,13 @@ public class IndexTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
+
 	}
 
 	[Fact]
 	public void Index_With_ClickOfNewIssueButton_Should_NavigateToTheCreatePage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/Create";
 
@@ -130,11 +143,13 @@ public class IndexTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Fact]
 	public void Index_With_NotAuthenticatedAnClickCreateIssue_Should_NavigateToLoginPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/MicrosoftIdentity/Account/SignIn";
 
@@ -151,11 +166,13 @@ public class IndexTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Fact]
 	public void Index_With_LoggedOnUserInfoIsDifferent_Should_UpdateUser_Test()
 	{
+
 		// Arrange
 		SetUpTests(true, false, true);
 
@@ -168,11 +185,13 @@ public class IndexTests : TestContext
 		_userRepositoryMock
 			.Verify(x =>
 				x.UpdateUser(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Index_With_ArchiveButtonClick_Should_UpdateIssueToArchived_Test()
 	{
+
 		// Arrange
 		SetUpTests(true, true, false);
 
@@ -189,6 +208,7 @@ public class IndexTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Theory]
@@ -198,9 +218,11 @@ public class IndexTests : TestContext
 	[InlineData(3, "Implementation")]
 	[InlineData(4, "Clarification")]
 	[InlineData(5, "Miscellaneous")]
-	public void Index_With_SelectingACategory_Should_FilterIssues_Test(int index, string expectedCategory)
+	public async Task Index_With_SelectingACategory_Should_FilterIssues_Test(int index, string expected)
 	{
+
 		// Arrange
+		const string sessionName = "_selectedCategory";
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -211,7 +233,9 @@ public class IndexTests : TestContext
 		cut.FindAll("div.categories > div")[index].Click();
 
 		// Assert
-		_sessionStorageService.GetItemAsync<string>("_selectedCategory").Result.Should().Be(expectedCategory);
+		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		result.Should().Be(expected);
+
 	}
 
 	[Theory]
@@ -220,9 +244,11 @@ public class IndexTests : TestContext
 	[InlineData(2, "Watching")]
 	[InlineData(3, "In Work")]
 	[InlineData(4, "Dismissed")]
-	public void Index_With_SelectingAStatus_Should_FilterTheIssues_Test(int index, string expectedStatus)
+	public async Task Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(int index, string expected)
 	{
+
 		// Arrange
+		const string sessionName = "_selectedStatus";
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -233,13 +259,17 @@ public class IndexTests : TestContext
 		cut.FindAll("div.statuses > div")[index].Click();
 
 		// Assert
-		_sessionStorageService.GetItemAsync<string>("_selectedStatus").Result.Should().Be(expectedStatus);
+		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		result.Should().Be(expected);
+
 	}
 
 	[Fact]
-	public void Index_With_SelectingSortByNewest_Should_OrderIssuesNewestFirst_Test()
+	public async Task Index_With_SelectingSortByNewest_Should_OrderIssuesNewestFirst_TestAsync()
 	{
+
 		// Arrange
+		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -250,13 +280,17 @@ public class IndexTests : TestContext
 		cut.Find("#sort-by-new").Click();
 
 		// Assert
-		_sessionStorageService.GetItemAsync<bool>("_isSortedByNew").Result.Should().BeTrue();
+		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		result.Should().BeTrue();
+
 	}
 
 	[Fact]
-	public void Index_With_SelectingSortByPopular_Should_OrderIssuesByPopularity_Test()
+	public async Task Index_With_SelectingSortByPopular_Should_OrderIssuesByPopularity_TestAsync()
 	{
+
 		// Arrange
+		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -267,13 +301,18 @@ public class IndexTests : TestContext
 		cut.Find("#sort-by-popular").Click();
 
 		// Assert
-		_sessionStorageService.GetItemAsync<bool>("_isSortedByNew").Result.Should().BeFalse();
+		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		result.Should().BeFalse();
+
 	}
 
 	[Fact]
-	public void Index_With_EnterSearchText_Should_FilterByText_Test()
+	public async Task Index_With_EnterSearchText_Should_FilterByText_TestAsync()
 	{
+
 		// Arrange
+		const string sessionName = "_searchText";
+		const string expected = "test";
 		SetUpTests(true, true, false);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -284,12 +323,15 @@ public class IndexTests : TestContext
 		cut.Find("input").Input("test");
 
 		// Assert
-		_sessionStorageService.GetItemAsync<string>("_searchText").Result.Should().Be("test");
+		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		result.Should().Be(expected);
+
 	}
 
 	[Fact]
 	public void Index_With_NewUser_Should_SaveToDatabase_Test()
 	{
+
 		SetUpTests(true, false, false, true);
 
 		_sessionStorageService = this.AddBlazoredSessionStorage();
@@ -301,10 +343,12 @@ public class IndexTests : TestContext
 		_userRepositoryMock
 			.Verify(x =>
 				x.CreateUser(It.IsAny<UserModel>()), Times.Once);
+
 	}
 
 	private void SetUpTests(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
 	{
+
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssues = TestIssues.GetIssues().ToList();
 		_expectedCategories = TestCategories.GetCategories().ToList();
@@ -317,10 +361,12 @@ public class IndexTests : TestContext
 		SetAuthenticationAndAuthorization(isAuth, isAdmin, difUser, newUser);
 
 		RegisterServices();
+
 	}
 
 	private void SetupMocks()
 	{
+
 		_issueRepositoryMock
 			.Setup(x => x.GetApprovedIssues())
 			.ReturnsAsync(_expectedIssues);
@@ -340,14 +386,18 @@ public class IndexTests : TestContext
 		_statusRepositoryMock
 			.Setup(x => x.GetStatuses())
 			.ReturnsAsync(_expectedStatuses);
+
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
 	{
+
 		if (isAuth == false)
 		{
+
 			this.AddTestAuthorization();
 			return;
+
 		}
 
 		var authContext = this.AddTestAuthorization();
@@ -355,6 +405,7 @@ public class IndexTests : TestContext
 
 		if (difUser == false)
 		{
+
 			authContext.SetClaims(
 				new Claim("objectidentifier", _expectedUser.ObjectIdentifier),
 				new Claim("name", _expectedUser.DisplayName),
@@ -362,9 +413,11 @@ public class IndexTests : TestContext
 				new Claim("surname", _expectedUser.LastName),
 				new Claim("email", _expectedUser.EmailAddress)
 			);
+
 		}
 		else
 		{
+
 			authContext.SetClaims(
 				new Claim("objectidentifier", _expectedUser.ObjectIdentifier),
 				new Claim("name", "Bob Tester"),
@@ -372,23 +425,28 @@ public class IndexTests : TestContext
 				new Claim("surname", "Tester"),
 				new Claim("email", "bob.tester@tester.com")
 			);
+
 		}
 
 		if (newUser)
 		{
+
 			authContext.SetClaims(
 				new Claim("objectidentifier", "5dc1039a1521eaa36835e547"),
 				new Claim("name", "Bob Tester"),
 				new Claim("givenname", "Bob"),
 				new Claim("surname", "Tester"),
 				new Claim("email", "bob.tester@tester.com"));
+
 		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()
 	{
+
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object,
@@ -397,14 +455,17 @@ public class IndexTests : TestContext
 			_memoryCacheMock.Object));
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 		Services.AddBlazoredSessionStorage();
+
 	}
 
 	private void SetMemoryCache()
 	{
+
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
 	}
 
 }
