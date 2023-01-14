@@ -1,5 +1,7 @@
 ﻿// Global using directives
 
+global using AngleSharp.Dom;
+
 global using Blazored.SessionStorage;
 
 global using Bunit;
