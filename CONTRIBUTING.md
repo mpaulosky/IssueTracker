@@ -6,15 +6,15 @@ The following is a set of guidelines for contributing to the project. These are 
 changed in the future. Please submit your suggestions with a pull-request to this document.
 
 - [Contributing to Issue Tracker](#contributing-to-issue-tracker)
-    - [Code of Conduct](#code-of-conduct)
+  - [Code of Conduct](#code-of-conduct)
     - [What should I know before I get started](#what-should-i-know-before-i-get-started)
-        - [Project Folder Structure](#project-folder-structure)
-        - [Design Decisions](#design-decisions)
-        - [How can I contribute](#how-can-i-contribute)
-        - [Create an Issue](#create-an-issue)
-        - [Respond to an Issue](#respond-to-an-issue)
-        - [Write code](#write-code)
-        - [Write documentation](#write-documentation)
+      - [Project Folder Structure](#project-folder-structure)
+      - [Design Decisions](#design-decisions)
+      - [How can I contribute](#how-can-i-contribute)
+      - [Create an Issue](#create-an-issue)
+      - [Respond to an Issue](#respond-to-an-issue)
+      - [Write code](#write-code)
+      - [Write documentation](#write-documentation)
 
 ## Code of Conduct
 
@@ -23,11 +23,11 @@ this code. Please report unwanted behavior to [Matthew Paulosky](mailto:matthew.
 
 ## What should I know before I get started
 
-This project is a practice project to build a Blazor application supported by api, library and sql projects.
+This project is a practice project to build a Blazor application supported by API, library and sql projects.
 
 ### Project Folder Structure
 
-This project is designed to be built and run primarily with Visual Studio 2022 or Jetbrains Rider. The folders are
+This project is designed to be built and run primarily with Visual Studio 2022 or JetBrains Rider. The folders are
 configured so that they will support editing and working in other editors and on non-Windows operating systems. We
 encourage you to develop with these other environments, because we would like to be able to support developers who use
 those tools as well. The folders are configured as follows:
@@ -37,7 +37,7 @@ those tools as well. The folders are configured as follows:
 
 /src                                    -- Usage Samples
   Client                                -- Blazor WASM  
-  Server                                -- Api
+  Server                                -- API
   Shared                                -- Library
   /tests                                -- Unit and Integration tests
     Server.Unit.Tests                   -- Unit tests
