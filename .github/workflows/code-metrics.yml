@@ -1,4 +1,6 @@
-﻿name: '.NET code metrics'
+﻿---
+
+name: '.NET code metrics'
 
 on:
   push:
