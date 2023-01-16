@@ -64,7 +64,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --no-restore --no-build --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
+        run: dotnet test --configuration Release --no-restore --no-build --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.15
