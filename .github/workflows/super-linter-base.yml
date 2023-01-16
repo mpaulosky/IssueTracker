@@ -9,7 +9,10 @@ name: Lint Code Base
 
 on:
   push:
-    branches: [main]
+    branches-ignore: [main]
+    
+  pull_request:
+    branches-ignore: [main]
 
   workflow_dispatch:
     inputs:
@@ -32,6 +35,6 @@ jobs:
       - name: Lint Code Main
         uses: github/super-linter@v4
         env:
-          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
