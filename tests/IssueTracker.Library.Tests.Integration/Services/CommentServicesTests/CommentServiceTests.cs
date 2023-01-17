@@ -25,7 +25,7 @@ public class CommentServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		var act = () => new CommentService(_repo, _memCache);
+		Func<CommentService> act = () => new CommentService(_repo, _memCache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
@@ -40,7 +40,7 @@ public class CommentServiceTests : IAsyncLifetime
 		_memCache = null;
 
 		// Act
-		var act = () => new CommentService(_repo, _memCache);
+		Func<CommentService> act = () => new CommentService(_repo, _memCache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

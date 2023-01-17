@@ -55,11 +55,11 @@ public class CreateTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -79,7 +79,7 @@ public class CreateTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		// Assert
 		cut.MarkupMatches
@@ -154,10 +154,10 @@ public class CreateTests : TestContext
 
 
 		// Act
-		var cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		cut.Find("#issue-text").Change("Test Issue");
-		var inputs = cut.FindAll("input");
+		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
 		inputs[1].Change("5dc1039a1521eaa36835e541");
 		cut.Find("#description").Change("Test Description");
 		cut.Find("#submit").Click();
@@ -179,7 +179,7 @@ public class CreateTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)

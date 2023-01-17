@@ -25,7 +25,7 @@ public class CreateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		var expected = FakeComment.GetNewComment();
+		CommentModel expected = FakeComment.GetNewComment();
 
 		// Act
 		await _sut.CreateComment(expected);
@@ -41,12 +41,11 @@ public class CreateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		CommentModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(null));
 
 	}
 

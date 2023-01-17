@@ -26,11 +26,11 @@ public class GetCommentsByUserTests : IAsyncLifetime
 	{
 		// Arrange
 		_cleanupValue = "comments";
-		var expected = FakeComment.GetNewComment();
+		CommentModel expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		var result = await _sut.GetCommentsByUser(expected.Author.Id);
+		List<CommentModel> result = await _sut.GetCommentsByUser(expected.Author.Id);
 
 		// Assert
 		result.Should().NotBeNull();

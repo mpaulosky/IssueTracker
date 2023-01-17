@@ -25,12 +25,12 @@ public class DeleteStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		var expected = FakeStatus.GetNewStatus();
+		StatusModel expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
 		await _sut.DeleteStatus(expected);
-		var result = await _sut.GetStatus(expected.Id);
+		StatusModel result = await _sut.GetStatus(expected.Id);
 
 		// Assert
 		result.Should().BeNull();
@@ -43,12 +43,11 @@ public class DeleteStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		StatusModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null));
 
 	}
 

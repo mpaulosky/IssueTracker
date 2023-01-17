@@ -22,7 +22,7 @@ public class CommentServiceTests
 
 		// Arrange
 
-		var comment = TestComments.GetNewComment();
+		CommentModel comment = TestComments.GetNewComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -59,7 +59,7 @@ public class CommentServiceTests
 	{
 		//Arrange
 
-		var expected = TestComments.GetKnownComment();
+		CommentModel expected = TestComments.GetKnownComment();
 
 		_commentRepositoryMock.Setup(x => x.GetComment(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -67,7 +67,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var result = await _sut.GetComment(expected.Id!);
+		CommentModel result = await _sut.GetComment(expected.Id!);
 
 		//Assert
 
@@ -110,7 +110,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		IEnumerable<CommentModel> expected = TestComments.GetComments();
 
 		_commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(expected);
 
@@ -123,7 +123,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetComments();
+		List<CommentModel> results = await _sut.GetComments();
 
 		//Assert
 
@@ -138,7 +138,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		IEnumerable<CommentModel> expected = TestComments.GetComments();
 
 
 		_memoryCacheMock
@@ -157,7 +157,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetComments();
+		List<CommentModel> results = await _sut.GetComments();
 
 		//Assert
 
@@ -187,7 +187,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetCommentsByUser(expectedUser);
+		List<CommentModel> results = await _sut.GetCommentsByUser(expectedUser);
 
 		//Assert
 
@@ -217,7 +217,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var results = await _sut.GetCommentsByUser(expectedUser);
+		List<CommentModel> results = await _sut.GetCommentsByUser(expectedUser);
 
 		//Assert
 
@@ -258,7 +258,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		var updatedComment = TestComments.GetUpdatedComment();
+		CommentModel updatedComment = TestComments.GetUpdatedComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -296,7 +296,7 @@ public class CommentServiceTests
 
 		const string testId = "5dc1039a1521eaa36835e543";
 
-		var comment = TestComments.GetKnownComment();
+		CommentModel comment = TestComments.GetKnownComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 

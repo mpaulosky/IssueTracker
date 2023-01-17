@@ -31,7 +31,7 @@ public class MongoDbHealthCheck : IHealthCheck
 	{
 		try
 		{
-			var mongoClient = _mongoClient.GetOrAdd(_mongoClientSettings.ToString(), _ => new MongoClient(_mongoClientSettings));
+			MongoClient mongoClient = _mongoClient.GetOrAdd(_mongoClientSettings.ToString(), _ => new MongoClient(_mongoClientSettings));
 
 			if (!string.IsNullOrEmpty(_specifiedDatabase))
 			{
@@ -39,14 +39,14 @@ public class MongoDbHealthCheck : IHealthCheck
 				// this you can list only collections on specified database.
 				// Related with issue #43
 
-				using var cursor = await mongoClient
+				using IAsyncCursor<string> cursor = await mongoClient
 						.GetDatabase(_specifiedDatabase)
 						.ListCollectionNamesAsync(cancellationToken: cancellationToken);
 				await cursor.FirstAsync(cancellationToken);
 			}
 			else
 			{
-				using var cursor = await mongoClient.ListDatabaseNamesAsync(cancellationToken);
+				using IAsyncCursor<string> cursor = await mongoClient.ListDatabaseNamesAsync(cancellationToken);
 				await cursor.FirstOrDefaultAsync(cancellationToken);
 			}
 

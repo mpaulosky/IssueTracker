@@ -41,9 +41,9 @@ public class UserRepository : IUserRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -56,7 +56,7 @@ public class UserRepository : IUserRepository
 	public async Task<IEnumerable<UserModel>> GetUsers()
 	{
 
-		var filter = Builders<UserModel>.Filter.Empty;
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Empty;
 
 		var result = (await _collection!.FindAsync(filter)).ToList();
 
@@ -84,7 +84,7 @@ public class UserRepository : IUserRepository
 	{
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
 		await _collection!.ReplaceOneAsync(filter!, user);
 
@@ -98,9 +98,9 @@ public class UserRepository : IUserRepository
 	public async Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId)
 	{
 
-		var filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
 
-		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 

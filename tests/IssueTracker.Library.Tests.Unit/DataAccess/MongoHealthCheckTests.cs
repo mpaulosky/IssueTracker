@@ -15,12 +15,12 @@ public class MongoHealthCheckTests
 		services.AddHealthChecks()
 				.AddMongoDb(connectionString, databaseName);
 
-		using var serviceProvider = services.BuildServiceProvider();
-		var options = serviceProvider.GetRequiredService<IOptions<HealthCheckServiceOptions>>();
+		using ServiceProvider serviceProvider = services.BuildServiceProvider();
+		IOptions<HealthCheckServiceOptions> options = serviceProvider.GetRequiredService<IOptions<HealthCheckServiceOptions>>();
 
 		// Act
-		var registration = options.Value.Registrations.First();
-		var check = registration.Factory(serviceProvider);
+		HealthCheckRegistration registration = options.Value.Registrations.First();
+		IHealthCheck check = registration.Factory(serviceProvider);
 
 		// Assert
 		registration.Name.Should().Be("mongodb");

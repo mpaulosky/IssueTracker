@@ -46,7 +46,7 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetBasicComment();
+		BasicCommentModel result = FakeComment.GetBasicComment();
 
 		// Assert
 		result.Id.Should().NotBeNull();

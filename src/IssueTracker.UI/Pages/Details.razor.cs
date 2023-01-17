@@ -55,7 +55,7 @@ public partial class Details
 
 				if (string.IsNullOrWhiteSpace(_urlText)) return;
 
-				var selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				StatusModel selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
 
 				break;

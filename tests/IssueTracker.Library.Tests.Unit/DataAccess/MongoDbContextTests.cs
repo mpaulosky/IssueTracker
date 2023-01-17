@@ -48,7 +48,7 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		var myCollection =
+		IMongoCollection<UserModel> myCollection =
 			_sut.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert

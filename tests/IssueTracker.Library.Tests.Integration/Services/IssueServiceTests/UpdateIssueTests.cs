@@ -25,13 +25,13 @@ public class UpdateIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		var expected = FakeIssue.GetNewIssue();
+		IssueModel expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
 		expected.Description = "Updated";
 		await _sut.UpdateIssue(expected);
-		var result = await _sut.GetIssue(expected.Id);
+		IssueModel result = await _sut.GetIssue(expected.Id);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -46,10 +46,9 @@ public class UpdateIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		IssueModel expected = null;
 
 		// Act
-		var act = async () => await _sut.UpdateIssue(expected);
+		Func<Task> act = async () => await _sut.UpdateIssue(null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

@@ -23,11 +23,11 @@ public class GetUserFromAuthenticationTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		var expected = FakeUser.GetNewUser();
+		UserModel expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
-		var result = await _sut.GetUserFromAuthentication(expected.ObjectIdentifier);
+		UserModel result = await _sut.GetUserFromAuthentication(expected.ObjectIdentifier);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);

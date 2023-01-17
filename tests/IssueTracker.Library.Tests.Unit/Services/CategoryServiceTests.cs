@@ -22,7 +22,7 @@ public class CategoryServiceTests
 
 		// Arrange
 
-		var expected = TestCategories.GetNewCategory();
+		CategoryModel expected = TestCategories.GetNewCategory();
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -60,7 +60,7 @@ public class CategoryServiceTests
 
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -83,7 +83,7 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
 		_categoryRepositoryMock.Setup(x => x.GetCategory(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -91,7 +91,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		var result = await _sut.GetCategory(expected.Id);
+		CategoryModel result = await _sut.GetCategory(expected.Id);
 
 		//Assert
 
@@ -134,7 +134,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		var expected = TestCategories.GetCategories();
+		IEnumerable<CategoryModel> expected = TestCategories.GetCategories();
 
 		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
 
@@ -147,7 +147,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		var results = await _sut.GetCategories();
+		List<CategoryModel> results = await _sut.GetCategories();
 
 		//Assert
 
@@ -162,7 +162,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		var expected = TestCategories.GetCategories();
+		IEnumerable<CategoryModel> expected = TestCategories.GetCategories();
 
 
 		_memoryCacheMock
@@ -181,7 +181,7 @@ public class CategoryServiceTests
 
 		//Act
 
-		var results = await _sut.GetCategories();
+		List<CategoryModel> results = await _sut.GetCategories();
 
 		//Assert
 
@@ -194,7 +194,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		var updatedCategory = TestCategories.GetUpdatedCategory();
+		CategoryModel updatedCategory = TestCategories.GetUpdatedCategory();
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 

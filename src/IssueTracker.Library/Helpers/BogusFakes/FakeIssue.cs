@@ -13,7 +13,7 @@ public static class FakeIssue
 	public static IssueModel GetNewIssue()
 	{
 
-		var issueGenerator = new Faker<IssueModel>()
+		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
 			.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
@@ -24,7 +24,7 @@ public static class FakeIssue
 			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 
-		var issue = issueGenerator.Generate();
+		IssueModel issue = issueGenerator.Generate();
 
 		return issue;
 	}
@@ -32,7 +32,7 @@ public static class FakeIssue
 	public static IEnumerable<IssueModel> GetIssues(int numberOfIssues)
 	{
 
-		var issueGenerator = new Faker<IssueModel>()
+		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
 		.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
@@ -44,7 +44,7 @@ public static class FakeIssue
 		.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
 		.RuleFor(f => f.Archived, f => f.Random.Bool());
 
-		var issues = issueGenerator.Generate(numberOfIssues);
+		List<IssueModel> issues = issueGenerator.Generate(numberOfIssues);
 
 		return issues;
 
@@ -53,9 +53,9 @@ public static class FakeIssue
 	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
 	{
 
-		var issues = GetIssues(numberOfIssues);
+		IEnumerable<IssueModel> issues = GetIssues(numberOfIssues);
 
-		var basicIssues = issues.Select(c => new BasicIssueModel(c));
+		IEnumerable<BasicIssueModel> basicIssues = issues.Select(c => new BasicIssueModel(c));
 
 		return basicIssues;
 

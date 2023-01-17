@@ -14,7 +14,7 @@ public static class FakeStatus
 	public static StatusModel GetNewStatus()
 	{
 
-		var statusGenerator = new Faker<StatusModel>()
+		Faker<StatusModel> statusGenerator = new Faker<StatusModel>()
 		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
 
@@ -26,7 +26,7 @@ public static class FakeStatus
 	public static IEnumerable<StatusModel> GetStatuses(int numberOfStatuses)
 	{
 
-		var statusGenerator = new Faker<StatusModel>()
+		Faker<StatusModel> statusGenerator = new Faker<StatusModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
@@ -38,11 +38,11 @@ public static class FakeStatus
 	public static IEnumerable<BasicStatusModel> GetBasicStatuses(int numberOfStatuses)
 	{
 
-		var statusGenerator = new Faker<BasicStatusModel>()
+		Faker<BasicStatusModel> statusGenerator = new Faker<BasicStatusModel>()
 		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
 
-		var basicStatuses = statusGenerator.Generate(numberOfStatuses);
+		List<BasicStatusModel> basicStatuses = statusGenerator.Generate(numberOfStatuses);
 
 		return basicStatuses;
 

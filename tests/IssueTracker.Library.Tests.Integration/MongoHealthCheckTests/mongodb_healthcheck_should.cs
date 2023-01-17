@@ -24,7 +24,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 		_sut = _factory.Server;
 
 		// Act
-		var response = await _sut.CreateRequest("/health").GetAsync();
+		HttpResponseMessage response = await _sut.CreateRequest("/health").GetAsync();
 
 
 		// Assert

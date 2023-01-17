@@ -28,11 +28,11 @@ public class GetCategoriesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		var expected = FakeCategory.GetNewCategory();
+		CategoryModel expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
-		var results = await _sut.GetCategories();
+		List<CategoryModel> results = await _sut.GetCategories();
 
 		// Assert
 		results.Count.Should().Be(1);

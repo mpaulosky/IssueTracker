@@ -41,9 +41,9 @@ public class CategoryRepository : ICategoryRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
-		var result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		CategoryModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -56,7 +56,7 @@ public class CategoryRepository : ICategoryRepository
 	public async Task<IEnumerable<CategoryModel>> GetCategories()
 	{
 
-		var filter = Builders<CategoryModel>.Filter.Empty;
+		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Empty;
 
 		var result = (await _collection!.FindAsync(filter)).ToList();
 
@@ -85,7 +85,7 @@ public class CategoryRepository : ICategoryRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter, category);
 
@@ -100,7 +100,7 @@ public class CategoryRepository : ICategoryRepository
 
 		var objectId = new ObjectId(category.Id);
 
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
 		await _collection.DeleteOneAsync(filter);
 

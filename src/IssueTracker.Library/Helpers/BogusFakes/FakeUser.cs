@@ -12,14 +12,14 @@ public static class FakeUser
 
 	public static UserModel GetNewUser()
 	{
-		var userGenerator = new Faker<UserModel>()
+		Faker<UserModel> userGenerator = new Faker<UserModel>()
 			.RuleFor(x => x.ObjectIdentifier, Guid.NewGuid().ToString())
 			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
 			.RuleFor(x => x.LastName, f => f.Name.LastName())
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
 			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
 
-		var user = userGenerator.Generate();
+		UserModel user = userGenerator.Generate();
 
 		return user;
 
@@ -28,7 +28,7 @@ public static class FakeUser
 	public static IEnumerable<UserModel> GetUsers(int numberOfUsers)
 	{
 
-		var userGenerator = new Faker<UserModel>()
+		Faker<UserModel> userGenerator = new Faker<UserModel>()
 			.RuleFor(x => x.Id, Guid.NewGuid().ToString())
 			.RuleFor(x => x.ObjectIdentifier, Guid.NewGuid().ToString())
 			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
@@ -36,7 +36,7 @@ public static class FakeUser
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
 			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
 
-		var users = userGenerator.Generate(numberOfUsers);
+		List<UserModel> users = userGenerator.Generate(numberOfUsers);
 
 		return users;
 
@@ -45,11 +45,11 @@ public static class FakeUser
 	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)
 	{
 
-		var userGenerator = new Faker<BasicUserModel>()
+		Faker<BasicUserModel> userGenerator = new Faker<BasicUserModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString())
 		.RuleFor(x => x.DisplayName, f => f.Internet.UserName());
 
-		var basicUsers = userGenerator.Generate(numberOfUsers);
+		List<BasicUserModel> basicUsers = userGenerator.Generate(numberOfUsers);
 
 		return basicUsers;
 

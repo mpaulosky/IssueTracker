@@ -44,7 +44,7 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetBasicCategory();
+		BasicCategoryModel result = FakeCategory.GetBasicCategory();
 
 		// Assert
 		result.CategoryName.Should().NotBeNull();

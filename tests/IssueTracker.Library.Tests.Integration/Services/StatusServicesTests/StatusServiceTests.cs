@@ -26,7 +26,7 @@ public class StatusServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		var act = () => new StatusService(_repo, _cache);
+		Func<StatusService> act = () => new StatusService(_repo, _cache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
@@ -41,7 +41,7 @@ public class StatusServiceTests : IAsyncLifetime
 		_cache = null;
 
 		// Act
-		var act = () => new StatusService(_repo, _cache);
+		Func<StatusService> act = () => new StatusService(_repo, _cache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

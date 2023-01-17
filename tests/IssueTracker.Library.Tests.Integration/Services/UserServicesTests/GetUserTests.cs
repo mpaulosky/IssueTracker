@@ -24,11 +24,11 @@ public class GetUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		var expected = FakeUser.GetNewUser();
+		UserModel expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
-		var result = await _sut.GetUser(expected.Id);
+		UserModel result = await _sut.GetUser(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -43,7 +43,7 @@ public class GetUserTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		var result = await _sut.GetUser(id);
+		UserModel result = await _sut.GetUser(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -56,10 +56,9 @@ public class GetUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		string id = null;
 
 		// Act
-		var act = async () => await _sut.GetUser(id);
+		Func<Task<UserModel>> act = async () => await _sut.GetUser(userId: null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();
@@ -75,7 +74,7 @@ public class GetUserTests : IAsyncLifetime
 		const string id = "";
 
 		// Act
-		var act = async () => await _sut.GetUser(id);
+		Func<Task<UserModel>> act = async () => await _sut.GetUser(id);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>();

@@ -12,7 +12,7 @@ public class NotAuthorizedTests
 		using var ctx = new TestContext();
 
 		// Act
-		var cut = ctx.RenderComponent<NotAuthorized>();
+		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
 
 		// Assert
 		cut.MarkupMatches
@@ -46,12 +46,12 @@ public class NotAuthorizedTests
 		using var ctx = new TestContext();
 
 		// Act
-		var cut = ctx.RenderComponent<NotAuthorized>();
-		var buttonElement = cut.Find("button");
+		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
+		IElement buttonElement = cut.Find("button");
 		buttonElement.Click();
 
 		// Assert
-		var navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 

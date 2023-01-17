@@ -25,11 +25,11 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		var expected = FakeIssue.GetNewIssue();
+		IssueModel expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
-		var result = await _sut.GetIssue(expected.Id);
+		IssueModel result = await _sut.GetIssue(expected.Id);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class GetIssueTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		var result = await _sut.GetIssue(id);
+		IssueModel result = await _sut.GetIssue(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -60,10 +60,9 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		string id = null;
 
 		// Act
-		var act = async () => await _sut.GetIssue(id);
+		Func<Task<IssueModel>> act = async () => await _sut.GetIssue(null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();
@@ -79,7 +78,7 @@ public class GetIssueTests : IAsyncLifetime
 		const string id = "";
 
 		// Act
-		var act = async () => await _sut.GetIssue(id);
+		Func<Task<IssueModel>> act = async () => await _sut.GetIssue(id);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>();

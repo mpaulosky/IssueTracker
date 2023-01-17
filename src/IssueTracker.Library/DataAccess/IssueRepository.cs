@@ -53,9 +53,9 @@ public class IssueRepository : IIssueRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
-		var result = (await _issueCollection.FindAsync(filter)).FirstOrDefault();
+		IssueModel result = (await _issueCollection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -68,7 +68,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssues()
 	{
 
-		var filter = Builders<IssueModel>.Filter.Empty;
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Empty;
 
 		var results = (await _issueCollection.FindAsync(filter)).ToList();
 
@@ -83,7 +83,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
 	{
 
-		var output = await GetIssues();
+		IEnumerable<IssueModel> output = await GetIssues();
 
 		var results = output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
 
@@ -98,7 +98,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetApprovedIssues()
 	{
 
-		var output = await GetIssues();
+		IEnumerable<IssueModel> output = await GetIssues();
 
 		var results = output.Where(x => x.ApprovedForRelease && x.Rejected == false).ToList();
 
@@ -130,7 +130,7 @@ public class IssueRepository : IIssueRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
 		await _issueCollection.ReplaceOneAsync(filter, issue);
 

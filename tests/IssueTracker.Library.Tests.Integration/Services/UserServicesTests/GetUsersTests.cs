@@ -29,11 +29,11 @@ public class GetUsersTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		var expected = FakeUser.GetNewUser();
+		UserModel expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
-		var results = await _sut.GetUsers();
+		List<UserModel> results = await _sut.GetUsers();
 
 		// Assert
 		results.Count.Should().Be(1);

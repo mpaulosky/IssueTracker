@@ -40,13 +40,13 @@ public partial class SampleData
 	/// </summary>
 	private async Task CreateUsers()
 	{
-		var users = await UserService.GetUsers();
+		List<UserModel> users = await UserService.GetUsers();
 
 		if (users?.Count > 0) return;
 
-		var items = FakeUser.GetUsers(2);
+		IEnumerable<UserModel> items = FakeUser.GetUsers(2);
 
-		foreach (var item in items) await UserService.CreateUser(item);
+		foreach (UserModel item in items) await UserService.CreateUser(item);
 		_usersCreated = true;
 	}
 
@@ -55,7 +55,7 @@ public partial class SampleData
 	/// </summary>
 	private async Task CreateCategories()
 	{
-		var categories = await CategoryService.GetCategories();
+		List<CategoryModel> categories = await CategoryService.GetCategories();
 
 		if (categories?.Count > 0) return;
 
@@ -102,7 +102,7 @@ public partial class SampleData
 	/// </summary>
 	private async Task CreateStatuses()
 	{
-		var statuses = await StatusService.GetStatuses();
+		List<StatusModel> statuses = await StatusService.GetStatuses();
 
 		if (statuses?.Count > 0) return;
 
@@ -143,13 +143,13 @@ public partial class SampleData
 	/// </summary>
 	private async Task CreateComments()
 	{
-		var comments = await CommentService.GetComments();
+		List<CommentModel> comments = await CommentService.GetComments();
 
 		if (comments?.Count > 0) return;
 
-		var items = FakeComment.GetComments(4);
+		IEnumerable<CommentModel> items = FakeComment.GetComments(4);
 
-		foreach (var item in items) await CommentService.CreateComment(item);
+		foreach (CommentModel item in items) await CommentService.CreateComment(item);
 		_commentsCreated = true;
 	}
 
@@ -158,13 +158,13 @@ public partial class SampleData
 	/// </summary>
 	private async Task CreateIssues()
 	{
-		var issues = await IssueService.GetIssues();
+		List<IssueModel> issues = await IssueService.GetIssues();
 
 		if (issues?.Count > 0) return;
 
-		var items = FakeIssue.GetIssues(6);
+		IEnumerable<IssueModel> items = FakeIssue.GetIssues(6);
 
-		foreach (var issue in items) await IssueService.CreateIssue(issue);
+		foreach (IssueModel issue in items) await IssueService.CreateIssue(issue);
 		_issuesCreated = true;
 	}
 }

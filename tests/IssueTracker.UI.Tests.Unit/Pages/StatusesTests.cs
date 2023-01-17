@@ -40,12 +40,12 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 
@@ -67,7 +67,7 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		// Assert
 		cut.MarkupMatches(@"
@@ -172,7 +172,7 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -309,7 +309,7 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -420,15 +420,15 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
-		var inputs = cut.FindAll("input");
+		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		var btns = cut.FindAll("button");
+		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -453,16 +453,16 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
 
-		var inputs = cut.FindAll("input");
+		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		var btns = cut.FindAll("button");
+		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -487,7 +487,7 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		cut.FindAll("button")[3].Click(); // Delete Button
 
@@ -513,7 +513,7 @@ public class StatusesTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
 
 		var buttons = cut.FindAll("button").ToList();
 		buttons[2].Click(); // Edit Button
@@ -621,7 +621,7 @@ public class StatusesTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 

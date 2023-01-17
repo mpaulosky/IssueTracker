@@ -25,7 +25,7 @@ public class CreateIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		var expected = FakeIssue.GetNewIssue();
+		IssueModel expected = FakeIssue.GetNewIssue();
 
 		// Act
 		await _sut.CreateIssue(expected);
@@ -41,12 +41,11 @@ public class CreateIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		IssueModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateIssue(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateIssue(null));
 
 	}
 

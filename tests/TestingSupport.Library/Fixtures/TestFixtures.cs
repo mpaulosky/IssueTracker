@@ -3,7 +3,7 @@ namespace TestingSupport.Library.Fixtures;
 [ExcludeFromCodeCoverage]
 public static class TestFixtures
 {
-	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(List<TEntity> list) where TEntity : class?
+	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(IEnumerable<TEntity> list) where TEntity : class?
 	{
 		var cursor = new Mock<IAsyncCursor<TEntity>>();
 		cursor.Setup(_ => _.Current).Returns(list);

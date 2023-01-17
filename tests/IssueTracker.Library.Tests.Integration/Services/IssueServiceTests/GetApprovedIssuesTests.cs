@@ -25,14 +25,14 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		var expected = FakeIssue.GetNewIssue();
+		IssueModel expected = FakeIssue.GetNewIssue();
 		expected.Rejected = false;
 		expected.ApprovedForRelease = true;
 
 		await _sut.CreateIssue(expected);
 
 		// Act
-		var results = await _sut.GetApprovedIssues();
+		List<IssueModel> results = await _sut.GetApprovedIssues();
 
 		// Assert
 		results.Count.Should().Be(1);

@@ -24,7 +24,7 @@ public class CreateUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		var expected = FakeUser.GetNewUser();
+		UserModel expected = FakeUser.GetNewUser();
 
 		// Act
 		await _sut.CreateUser(expected);
@@ -40,12 +40,11 @@ public class CreateUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		UserModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(null));
 
 	}
 
