@@ -35,8 +35,8 @@ public partial class Create
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		var category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
-		var status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
+		CategoryModel category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		StatusModel status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
 		IssueModel s = new()
 		{
 			IssueName = _issue.Issue,

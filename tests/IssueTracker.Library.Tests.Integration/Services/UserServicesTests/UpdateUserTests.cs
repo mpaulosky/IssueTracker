@@ -24,13 +24,13 @@ public class UpdateUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		var expected = FakeUser.GetNewUser();
+		UserModel expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
 		expected.DisplayName = "Updated";
 		await _sut.UpdateUser(expected);
-		var result = await _sut.GetUser(expected.Id);
+		UserModel result = await _sut.GetUser(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -43,10 +43,9 @@ public class UpdateUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		UserModel expected = null;
 
 		// Act
-		var act = async () => await _sut.UpdateUser(expected);
+		Func<Task> act = async () => await _sut.UpdateUser(user: null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

@@ -24,7 +24,7 @@ public class UserServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		var act = () => new UserService(_repo);
+		Func<UserService> act = () => new UserService(_repo);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

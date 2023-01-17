@@ -31,11 +31,11 @@ public class GetStatusesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		var expected = FakeStatus.GetNewStatus();
+		StatusModel expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
-		var results = await _sut.GetStatuses();
+		List<StatusModel> results = await _sut.GetStatuses();
 
 		// Assert
 		results.Count.Should().Be(1);

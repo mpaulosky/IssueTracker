@@ -26,7 +26,7 @@ public class CategoryRepositoryTests
 
 		// Arrange
 
-		var newCategory = TestCategories.GetKnownCategory();
+		CategoryModel newCategory = TestCategories.GetKnownCategory();
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -49,7 +49,7 @@ public class CategoryRepositoryTests
 
 		// Arrange
 
-		var category = TestCategories.GetKnownCategory();
+		CategoryModel category = TestCategories.GetKnownCategory();
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -70,7 +70,7 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
 		_list = new List<CategoryModel> { expected };
 
@@ -82,7 +82,7 @@ public class CategoryRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetCategory(expected.Id);
+		CategoryModel result = await _sut.GetCategory(expected.Id);
 
 		//Assert 
 
@@ -115,7 +115,7 @@ public class CategoryRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetCategories().ConfigureAwait(false);
+		IEnumerable<CategoryModel> result = await _sut.GetCategories().ConfigureAwait(false);
 
 		// Assert
 
@@ -133,9 +133,9 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		CategoryModel expected = TestCategories.GetKnownCategory();
 
-		var updatedCategory =
+		CategoryModel updatedCategory =
 			TestCategories.GetCategory(expected.Id, expected.CategoryDescription, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);

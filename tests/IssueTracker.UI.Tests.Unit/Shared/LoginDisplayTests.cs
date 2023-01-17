@@ -13,7 +13,7 @@ public class LoginDisplayTests
 		ctx.AddTestAuthorization();
 
 		// Act
-		var cut = ctx.RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = ctx.RenderComponent<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches("<a class='login-link' href='MicrosoftIdentity/Account/SignIn'>Login</a>");
@@ -26,11 +26,11 @@ public class LoginDisplayTests
 
 		// Arrange
 		using var ctx = new TestContext();
-		var authContext = ctx.AddTestAuthorization();
+		TestAuthorizationContext authContext = ctx.AddTestAuthorization();
 		authContext.SetAuthorized("TEST USER");
 
 		// Act
-		var cut = ctx.RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = ctx.RenderComponent<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches
@@ -46,12 +46,12 @@ public class LoginDisplayTests
 
 		// Arrange
 		using var ctx = new TestContext();
-		var authContext = ctx.AddTestAuthorization();
+		TestAuthorizationContext authContext = ctx.AddTestAuthorization();
 		authContext.SetAuthorized("TEST USER");
 		authContext.SetPolicies("Admin");
 
 		// Act
-		var cut = ctx.RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = ctx.RenderComponent<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches

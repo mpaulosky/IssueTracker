@@ -50,7 +50,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 
 		Guard.Against.NullOrWhiteSpace(name, nameof(name));
 
-		var collection = Guard.Against.Null(Database.GetCollection<T>(name));
+		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
 
 		return collection;
 

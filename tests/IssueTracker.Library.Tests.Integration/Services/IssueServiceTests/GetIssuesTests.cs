@@ -31,11 +31,11 @@ public class GetIssuesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		var expected = FakeIssue.GetNewIssue();
+		IssueModel expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
-		var results = await _sut.GetIssues();
+		List<IssueModel> results = await _sut.GetIssues();
 
 		// Assert
 		results.Count.Should().Be(1);

@@ -25,7 +25,7 @@ public class CreateCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		var expected = FakeCategory.GetNewCategory();
+		CategoryModel expected = FakeCategory.GetNewCategory();
 
 		// Act
 		await _sut.CreateCategory(expected);
@@ -41,12 +41,11 @@ public class CreateCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		CategoryModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null));
 
 	}
 

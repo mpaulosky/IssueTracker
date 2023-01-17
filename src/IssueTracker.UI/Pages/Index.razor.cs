@@ -52,7 +52,7 @@ public partial class Index
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		var authState = await AuthProvider.GetAuthenticationStateAsync();
+		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (string.IsNullOrWhiteSpace(objectId) == false)
 		{
@@ -158,7 +158,7 @@ public partial class Index
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		var output = await IssueService.GetApprovedIssues();
+		List<IssueModel> output = await IssueService.GetApprovedIssues();
 
 		if (_selectedCategory != "All") output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
 

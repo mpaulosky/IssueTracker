@@ -1,8 +1,10 @@
-﻿namespace IssueTracker.Library;
+﻿using JetBrains.Annotations;
+
+namespace IssueTracker.Library;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
-
+[UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
 	private DatabaseSettings DbConfig { get; }
@@ -35,7 +37,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
 					new MongoDbContextFactory(DbConfig.ConnectionString, DbConfig.DatabaseName));
 
-			using var serviceProvider = services.BuildServiceProvider();
+			using ServiceProvider serviceProvider = services.BuildServiceProvider();
 
 			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
 
@@ -53,7 +55,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	private static IConfiguration LoadConfig(string appSettings)
 	{
 
-		var config = new ConfigurationBuilder()
+		IConfigurationRoot config = new ConfigurationBuilder()
 			.AddJsonFile(appSettings, optional: false, false)
 			.AddEnvironmentVariables()
 			.Build();

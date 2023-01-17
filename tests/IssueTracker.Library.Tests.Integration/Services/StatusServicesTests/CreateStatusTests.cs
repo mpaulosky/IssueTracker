@@ -25,7 +25,7 @@ public class CreateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		var expected = FakeStatus.GetNewStatus();
+		StatusModel expected = FakeStatus.GetNewStatus();
 
 		// Act
 		await _sut.CreateStatus(expected);
@@ -41,12 +41,11 @@ public class CreateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		StatusModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null));
 
 	}
 

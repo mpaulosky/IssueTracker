@@ -22,7 +22,7 @@ public static class AuthenticationStateProviderHelpers
 		this AuthenticationStateProvider provider,
 		IUserService userService)
 	{
-		var authState = await provider.GetAuthenticationStateAsync();
+		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
 
 		var objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;

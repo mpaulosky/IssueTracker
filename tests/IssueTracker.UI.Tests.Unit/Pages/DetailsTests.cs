@@ -88,7 +88,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -96,7 +96,7 @@ public class DetailsTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 
@@ -118,7 +118,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -176,7 +176,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -261,7 +261,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -269,7 +269,7 @@ public class DetailsTests : TestContext
 		cut.Find("#create-comment").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 
@@ -296,12 +296,12 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
 
-		var results = cut.FindAll("div");
+		IRefreshableElementCollection<IElement> results = cut.FindAll("div");
 		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
 
 		// Assert
@@ -325,7 +325,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -355,7 +355,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -385,7 +385,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -467,7 +467,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -555,7 +555,7 @@ public class DetailsTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> cut = RenderComponent<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, _expectedIssue.Id);
 		});
@@ -613,7 +613,7 @@ public class DetailsTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)

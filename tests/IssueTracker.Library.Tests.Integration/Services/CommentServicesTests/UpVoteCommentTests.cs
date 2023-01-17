@@ -28,7 +28,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Arrange
 		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
-		var expected = FakeComment.GetNewComment();
+		CommentModel expected = FakeComment.GetNewComment();
 		// Clear any existing User Votes
 		expected.UserVotes.Clear();
 
@@ -37,7 +37,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Act
 		await _sut.UpVoteComment(expected.Id, expectedUserId);
 
-		var result = await _sut.GetComment(expected.Id);
+		CommentModel result = await _sut.GetComment(expected.Id);
 
 		// Assert
 		result.UserVotes.Should().Contain(expectedUserId);
@@ -51,7 +51,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Arrange
 		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
-		var expected = FakeComment.GetNewComment();
+		CommentModel expected = FakeComment.GetNewComment();
 
 		// Add the User to User Votes
 		expected.UserVotes.Add(expectedUserId);
@@ -61,7 +61,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Act
 		await _sut.UpVoteComment(expected.Id, expectedUserId);
 
-		var result = await _sut.GetComment(expected.Id);
+		CommentModel result = await _sut.GetComment(expected.Id);
 
 		// Assert
 		result.UserVotes.Should().BeEmpty();

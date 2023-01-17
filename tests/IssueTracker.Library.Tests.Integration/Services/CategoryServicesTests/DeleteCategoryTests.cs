@@ -25,12 +25,12 @@ public class DeleteCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		var expected = FakeCategory.GetNewCategory();
+		CategoryModel expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
 		await _sut.DeleteCategory(expected);
-		var result = await _sut.GetCategory(expected.Id);
+		CategoryModel result = await _sut.GetCategory(expected.Id);
 
 		// Assert
 		result.Should().BeNull();
@@ -43,12 +43,11 @@ public class DeleteCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		CategoryModel expected = null;
 
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteCategory(expected));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteCategory(null));
 
 	}
 

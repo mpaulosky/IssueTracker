@@ -47,7 +47,7 @@ public class UserService : IUserService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repo.GetUser(userId);
+		UserModel results = await _repo.GetUser(userId);
 
 		return results;
 	}
@@ -58,7 +58,7 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		var results = await _repo.GetUsers();
+		IEnumerable<UserModel> results = await _repo.GetUsers();
 
 		return results.ToList();
 	}
@@ -73,7 +73,7 @@ public class UserService : IUserService
 	{
 		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
 
-		var results = await _repo.GetUserFromAuthentication(userObjectIdentifierId);
+		UserModel results = await _repo.GetUserFromAuthentication(userObjectIdentifierId);
 
 		return results;
 	}

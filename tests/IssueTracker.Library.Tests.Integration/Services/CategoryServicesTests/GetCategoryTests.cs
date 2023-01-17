@@ -25,11 +25,11 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		var expected = FakeCategory.GetNewCategory();
+		CategoryModel expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
-		var result = await _sut.GetCategory(expected.Id);
+		CategoryModel result = await _sut.GetCategory(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -44,7 +44,7 @@ public class GetCategoryTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		var result = await _sut.GetCategory(id);
+		CategoryModel result = await _sut.GetCategory(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -57,10 +57,9 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		string id = null;
 
 		// Act
-		var act = async () => await _sut.GetCategory(id);
+		Func<Task<CategoryModel>> act = async () => await _sut.GetCategory(null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();
@@ -76,7 +75,7 @@ public class GetCategoryTests : IAsyncLifetime
 		const string id = "";
 
 		// Act
-		var act = async () => await _sut.GetCategory(id);
+		Func<Task<CategoryModel>> act = async () => await _sut.GetCategory(id);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentException>();

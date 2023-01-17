@@ -25,13 +25,13 @@ public class UpdateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		var expected = FakeComment.GetNewComment();
+		CommentModel expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
 		expected.Comment = "Updated";
 		await _sut.UpdateComment(expected);
-		var result = await _sut.GetComment(expected!.Id!);
+		CommentModel result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
 		result.Id.Should().Be(expected!.Id);
@@ -47,10 +47,9 @@ public class UpdateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		CommentModel expected = null;
 
 		// Act
-		var act = async () => await _sut.UpdateComment(expected!);
+		Func<Task> act = async () => await _sut.UpdateComment(null!);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

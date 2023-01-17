@@ -33,7 +33,7 @@ public partial class Profile
 
 		_comments = await CommentService.GetCommentsByUser(_loggedInUser.Id);
 
-		var results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
+		List<IssueModel> results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
 
 		if (results is not null)
 		{

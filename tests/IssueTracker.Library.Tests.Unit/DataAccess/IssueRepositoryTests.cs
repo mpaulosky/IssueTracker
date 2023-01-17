@@ -26,7 +26,7 @@ public class IssueRepositoryTests
 
 		// Arrange
 
-		var newIssue = TestIssues.GetKnownIssue();
+		IssueModel newIssue = TestIssues.GetKnownIssue();
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -48,7 +48,7 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		IssueModel expected = TestIssues.GetKnownIssue();
 
 		_list = new List<IssueModel> { expected };
 
@@ -60,7 +60,7 @@ public class IssueRepositoryTests
 
 		//Act
 
-		var result = await _sut.GetIssue(expected!.Id!);
+		IssueModel result = await _sut.GetIssue(expected!.Id!);
 
 		//Assert 
 
@@ -91,7 +91,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetIssues().ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetIssues().ConfigureAwait(false);
 
 		// Assert
 
@@ -123,7 +123,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetIssuesByUser(expectedUserId).ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetIssuesByUser(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -152,7 +152,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
 
 		// Assert
 
@@ -180,7 +180,7 @@ public class IssueRepositoryTests
 
 		// Act
 
-		var result = await _sut.GetApprovedIssues().ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetApprovedIssues().ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
@@ -197,9 +197,9 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		IssueModel expected = TestIssues.GetKnownIssue();
 
-		var updatedIssue = TestIssues.GetIssue(
+		IssueModel updatedIssue = TestIssues.GetIssue(
 			expected!.Id!,
 			"Test Issue 1 updated",
 			"A new test issue 1 updated",

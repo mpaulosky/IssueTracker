@@ -25,13 +25,13 @@ public class UpdateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		var expected = FakeStatus.GetNewStatus();
+		StatusModel expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
 		expected.StatusDescription = "Updated";
 		await _sut.UpdateStatus(expected);
-		var result = await _sut.GetStatus(expected.Id);
+		StatusModel result = await _sut.GetStatus(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -44,10 +44,9 @@ public class UpdateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "";
-		StatusModel expected = null;
 
 		// Act
-		var act = async () => await _sut.UpdateStatus(expected);
+		Func<Task> act = async () => await _sut.UpdateStatus(null);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

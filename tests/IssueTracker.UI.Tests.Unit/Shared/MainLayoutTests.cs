@@ -8,12 +8,12 @@ public class MainLayoutTests
 	{
 		// Arrange
 		using var ctx = new TestContext();
-		var authContext = ctx.AddTestAuthorization();
+		TestAuthorizationContext authContext = ctx.AddTestAuthorization();
 		authContext.SetAuthorized("TEST USER");
 		authContext.SetPolicies("Admin");
 
 		// Act
-		var cut = ctx.RenderComponent<MainLayout>();
+		IRenderedComponent<MainLayout> cut = ctx.RenderComponent<MainLayout>();
 
 		// Assert
 		cut.MarkupMatches

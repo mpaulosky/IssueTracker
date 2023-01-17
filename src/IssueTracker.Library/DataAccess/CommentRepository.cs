@@ -53,9 +53,9 @@ public class CommentRepository : ICommentRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-		var result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
+		CommentModel result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -68,7 +68,7 @@ public class CommentRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetComments()
 	{
 
-		var filter = Builders<CommentModel>.Filter.Empty;
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Empty;
 
 		var results = (await _commentCollection.FindAsync(filter)).ToList();
 
@@ -114,7 +114,7 @@ public class CommentRepository : ICommentRepository
 
 		var objectId = new ObjectId(itemId);
 
-		var filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
 		await _commentCollection.ReplaceOneAsync(filter, comment);
 
@@ -130,9 +130,9 @@ public class CommentRepository : ICommentRepository
 	{
 		var objectId = new ObjectId(itemId);
 
-		var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CommentModel> filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-		var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
+		CommentModel comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
 
 		var isUpvote = comment.UserVotes.Add(userId);
 

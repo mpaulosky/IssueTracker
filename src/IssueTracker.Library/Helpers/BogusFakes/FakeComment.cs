@@ -13,13 +13,13 @@ public static class FakeComment
 	public static CommentModel GetNewComment()
 	{
 
-		var commentsGenerator = new Faker<CommentModel>()
+		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
 		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
 		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
 		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 		.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
-		var comment = commentsGenerator.Generate();
+		CommentModel comment = commentsGenerator.Generate();
 
 		return comment;
 
@@ -28,14 +28,14 @@ public static class FakeComment
 	public static IEnumerable<CommentModel> GetComments(int numberOfComments)
 	{
 
-		var commentsGenerator = new Faker<CommentModel>()
+		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
 		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
 		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 		.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
-		var comments = commentsGenerator.Generate(numberOfComments);
+		List<CommentModel> comments = commentsGenerator.Generate(numberOfComments);
 
 		return comments;
 
@@ -44,11 +44,11 @@ public static class FakeComment
 	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
 	{
 
-		var commentsGenerator = new Faker<BasicCommentModel>()
+		Faker<BasicCommentModel> commentsGenerator = new Faker<BasicCommentModel>()
 			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
 
-		var basicComments = commentsGenerator.Generate(numberOfComments);
+		List<BasicCommentModel> basicComments = commentsGenerator.Generate(numberOfComments);
 
 		return basicComments;
 
@@ -57,11 +57,11 @@ public static class FakeComment
 	public static BasicCommentModel GetBasicComment()
 	{
 
-		var commentsGenerator = new Faker<BasicCommentModel>()
+		Faker<BasicCommentModel> commentsGenerator = new Faker<BasicCommentModel>()
 			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
 
-		var comment = commentsGenerator.Generate();
+		BasicCommentModel comment = commentsGenerator.Generate();
 
 		var basicComment = new BasicCommentModel(comment.Id, comment.Comment);
 

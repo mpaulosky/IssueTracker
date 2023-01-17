@@ -83,7 +83,7 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Comment>(parameter =>
+		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
 		{
 
 			parameter
@@ -93,7 +93,7 @@ public class CommentTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 
@@ -114,7 +114,7 @@ public class CommentTests : TestContext
 		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Comment>(parameter =>
+		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
 		{
 
 			parameter
@@ -143,7 +143,7 @@ public class CommentTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 
-		var authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 

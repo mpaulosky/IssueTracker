@@ -76,7 +76,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
 
-		var result = await _repository.GetCategory(categoryId);
+		CategoryModel result = await _repository.GetCategory(categoryId);
 
 		return result;
 
@@ -89,11 +89,11 @@ public class CategoryService : ICategoryService
 	public async Task<List<CategoryModel>> GetCategories()
 	{
 
-		var output = _cache.Get<List<CategoryModel>>(_cacheName);
+		List<CategoryModel> output = _cache.Get<List<CategoryModel>>(_cacheName);
 
 		if (output is not null) return output;
 
-		var results = await _repository.GetCategories();
+		IEnumerable<CategoryModel> results = await _repository.GetCategories();
 
 		output = results.ToList();
 

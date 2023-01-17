@@ -73,7 +73,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		var result = await _repository.GetStatus(statusId);
+		StatusModel result = await _repository.GetStatus(statusId);
 
 		return result;
 
@@ -86,11 +86,11 @@ public class StatusService : IStatusService
 	public async Task<List<StatusModel>> GetStatuses()
 	{
 
-		var output = _cache.Get<List<StatusModel>>(_cacheName);
+		List<StatusModel> output = _cache.Get<List<StatusModel>>(_cacheName);
 
 		if (output is not null) return output;
 
-		var results = await _repository.GetStatuses();
+		IEnumerable<StatusModel> results = await _repository.GetStatuses();
 
 		output = results.ToList();
 

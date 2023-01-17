@@ -50,7 +50,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		var result = await _repository.GetComment(commentId);
+		CommentModel result = await _repository.GetComment(commentId);
 
 		return result;
 	}
@@ -61,11 +61,11 @@ public class CommentService : ICommentService
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
-		var output = _cache.Get<List<CommentModel>>(_cacheName);
+		List<CommentModel> output = _cache.Get<List<CommentModel>>(_cacheName);
 
 		if (output is not null) return output;
 
-		var results = await _repository.GetComments();
+		IEnumerable<CommentModel> results = await _repository.GetComments();
 
 		output = results.Where(x => x.Archived == false).ToList();
 
@@ -84,7 +84,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		var results = await _repository.GetCommentsByUser(userId);
+		IEnumerable<CommentModel> results = await _repository.GetCommentsByUser(userId);
 
 		return results.ToList();
 	}
@@ -99,7 +99,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		var results = await _repository.GetCommentsByIssue(issueId);
+		IEnumerable<CommentModel> results = await _repository.GetCommentsByIssue(issueId);
 
 		return results.ToList();
 	}

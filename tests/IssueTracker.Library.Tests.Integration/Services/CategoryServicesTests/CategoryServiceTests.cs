@@ -26,7 +26,7 @@ public class CategoryServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		var act = () => new CategoryService(_repo, _cache);
+		Func<CategoryService> act = () => new CategoryService(_repo, _cache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
@@ -41,7 +41,7 @@ public class CategoryServiceTests : IAsyncLifetime
 		_cache = null;
 
 		// Act
-		var act = () => new CategoryService(_repo, _cache);
+		Func<CategoryService> act = () => new CategoryService(_repo, _cache);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

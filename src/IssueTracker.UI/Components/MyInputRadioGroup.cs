@@ -16,11 +16,7 @@ public class MyInputRadioGroup<TValue> : InputRadioGroup<TValue>
 
 	protected override void OnParametersSet()
 	{
-		var fieldClass = EditContext?.FieldCssClass(FieldIdentifier);
-		if (fieldClass == null)
-		{
-			fieldClass = string.Empty;
-		}
+		var fieldClass = EditContext?.FieldCssClass(FieldIdentifier) ?? string.Empty;
 
 		if (fieldClass == _fieldClass && Name == _name) return;
 		_fieldClass = fieldClass;
