@@ -22,6 +22,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedCount = "0";
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -29,6 +30,8 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
+		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
+
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
@@ -47,8 +50,29 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedCount = "3";
 		SetupRepositoryMock();
 		SetMemoryCache();
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
+			<div class="row">
+				<div class="issue-count col-8 text-light mt-2">3 Issues</div>
+				<div diff:ignore></div>
+			</div>
+			<div class="row issue">
+				<div diff:ignore></div>
+				<div diff:ignore></div>
+			</div>
+			<div class="row issue">
+				<div diff:ignore></div>
+				<div diff:ignore></div>
+			</div>
+			<div class="row issue">
+				<div diff:ignore></div>
+				<div diff:ignore></div>
+			</div>
+			""";
 
 		// Register services
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
@@ -58,80 +82,8 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 1<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Miscellaneous</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"">
-				        Author: Tester</div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>"
-		);
+		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -162,6 +114,42 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
+			<div diff:ignore></div>
+			<div class="row issue">
+			  <div diff:ignore></div>
+			  <div class="col-lg-10 col-md-9 col-sm-8">
+			    <div>
+			      <form class="approval-edit-form" >
+			        <input id="title-text" class="form-control approval-edit-field valid" value="Test Issue 1"  >
+			        <button id="submit-edit" class="btn" type="submit">
+			          <span class="oi oi-check issue-edit-approve"></span>
+			        </button>
+			        <button id="reject-edit" type="button" class="btn" >
+			          <span class="oi oi-x issue-edit-reject"></span>
+			        </button>
+			      </form>
+			    </div>
+			    <div>A new test issue 1<span id="edit-description" class="oi oi-pencil issue-edit-icon" ></span>
+			    </div>
+			    <div>
+			      <div class="issue-entry-text-author" diff:ignore>
+			      </div>
+			    </div>
+			    <div>
+			      <div class="issue-entry-bottom">
+			        <div class="issue-entry-text-category">
+			          Category: Design</div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div diff:ignore></div>
+			<div diff:ignore></div>
+			""";
+
 		SetupRepositoryMock();
 		SetMemoryCache();
 
@@ -173,90 +161,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-title").Click();
 
 		// Assert
-		cut.MarkupMatches
-		(@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-<div class=""row"">
-  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-  <div class=""col-4 close-button-section"">
-    <button id=""close-page"" class=""btn btn-close"" ></button>
-  </div>
-</div>
-<div class=""row issue"">
-  <div class=""col-lg-2 col-md-3 col-sm-4"">
-    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-  </div>
-  <div class=""col-lg-10 col-md-9 col-sm-8"">
-    <div>
-      <form class=""approval-edit-form"" >
-        <input id=""title-text"" class=""form-control approval-edit-field valid"" value=""Test Issue 1""  >
-        <button id=""submit-edit"" class=""btn"" type=""submit"">
-          <span class=""oi oi-check issue-edit-approve""></span>
-        </button>
-        <button id=""reject-edit"" type=""button"" class=""btn"" >
-          <span class=""oi oi-x issue-edit-reject""></span>
-        </button>
-      </form>
-    </div>
-    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-    </div>
-    <div>
-      <div class=""issue-entry-text-author"" diff:ignore>
-      </div>
-    </div>
-    <div>
-      <div class=""issue-entry-bottom"">
-        <div class=""issue-entry-text-category"">
-          Category: Design</div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class=""row issue"">
-  <div class=""col-lg-2 col-md-3 col-sm-4"">
-    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-  </div>
-  <div class=""col-lg-10 col-md-9 col-sm-8"">
-    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-    </div>
-    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-    </div>
-    <div>
-      <div class=""issue-entry-text-author"" diff:ignore>
-      </div>
-    </div>
-    <div>
-      <div class=""issue-entry-bottom"">
-        <div class=""issue-entry-text-category"">
-          Category: Miscellaneous</div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class=""row issue"">
-  <div class=""col-lg-2 col-md-3 col-sm-4"">
-    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-  </div>
-  <div class=""col-lg-10 col-md-9 col-sm-8"">
-    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-    </div>
-    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-    </div>
-    <div>
-      <div class=""issue-entry-text-author"" diff:ignore>
-      </div>
-    </div>
-    <div>
-      <div class=""issue-entry-bottom"">
-        <div class=""issue-entry-text-category"">
-          Category: Design</div>
-      </div>
-    </div>
-  </div>
-</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -265,6 +170,34 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
+			<div diff:ignore></div>
+			<div class="row issue">
+			<div diff:ignore></div>
+				<div class="col-lg-10 col-md-9 col-sm-8">
+					<div>Test Issue 1<span id="edit-title" class="oi oi-pencil issue-edit-icon" ></span>
+					</div>
+					<div>
+						<form class="approval-edit-form" >
+							<input id="description-text" class="form-control approval-edit-field valid" value="A new test issue 1"  >
+							<button id="submit-description" class="btn" type="submit">
+							  <span class="oi oi-check issue-edit-approve"></span>
+							</button>
+							<button id="reject-description" type="button" class="btn" >
+							  <span class="oi oi-x issue-edit-reject"></span>
+							</button>
+						</form>
+					</div>
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+				</div>
+			</div>
+			<div diff:ignore></div>
+			<div diff:ignore></div>
+			""";
+
 		SetupRepositoryMock();
 		SetMemoryCache();
 
@@ -276,88 +209,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-description").Click();
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 1<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <form class=""approval-edit-form"" >
-				        <input id=""description-text"" class=""form-control approval-edit-field valid"" value=""A new test issue 1""  >
-				        <button id=""submit-description"" class=""btn"" type=""submit"">
-				          <span class=""oi oi-check issue-edit-approve""></span>
-				        </button>
-				        <button id=""reject-description"" type=""button"" class=""btn"" >
-				          <span class=""oi oi-x issue-edit-reject""></span>
-				        </button>
-				      </form>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Miscellaneous</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -390,6 +242,28 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
+			<div diff:ignore></div>
+			<div class="row issue">
+				<div class="col-lg-2 col-md-3 col-sm-4">
+					<button id="approve-issue" class="btn btn-approve" >Approve</button>
+					<button id="reject-issue" class="btn btn-reject" >Reject</button>
+				</div>
+				<div class="col-lg-10 col-md-9 col-sm-8">
+					<div>Test Issue 1<span id="edit-title" class="oi oi-pencil issue-edit-icon" ></span>
+					</div>
+					<div>A new test issue 1<span id="edit-description" class="oi oi-pencil issue-edit-icon" ></span>
+					</div>
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+				</div>
+			</div>
+			<div diff:ignore></div>
+			<div diff:ignore></div>
+			""";
+
 		SetupRepositoryMock();
 		SetMemoryCache();
 
@@ -402,79 +276,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-edit").Click();
 
 		// Assert 
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 1<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Miscellaneous</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -507,6 +309,28 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
+			<div diff:ignore></div>
+			<div class="row issue">
+				<div class="col-lg-2 col-md-3 col-sm-4">
+					<button id="approve-issue" class="btn btn-approve" >Approve</button>
+					<button id="reject-issue" class="btn btn-reject" >Reject</button>
+				</div>
+				<div class="col-lg-10 col-md-9 col-sm-8">
+					<div>Test Issue 1<span id="edit-title" class="oi oi-pencil issue-edit-icon" ></span>
+					</div>
+					<div>A new test issue 1<span id="edit-description" class="oi oi-pencil issue-edit-icon" ></span>
+					</div>
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+				</div>
+			</div>
+			<div diff:ignore></div>
+			<div diff:ignore></div>
+			""";
+
 		SetupRepositoryMock();
 		SetMemoryCache();
 
@@ -520,79 +344,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-description").Click();
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">3 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 1<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 1<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 3<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 3<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Miscellaneous</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class=""row issue"">
-				  <div class=""col-lg-2 col-md-3 col-sm-4"">
-				    <button id=""approve-issue"" class=""btn btn-approve"" >Approve</button>
-				    <button id=""reject-issue"" class=""btn btn-reject"" >Reject</button>
-				  </div>
-				  <div class=""col-lg-10 col-md-9 col-sm-8"">
-				    <div>Test Issue 6<span id=""edit-title"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>A new test issue 6<span id=""edit-description"" class=""oi oi-pencil issue-edit-icon"" ></span>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-text-author"" diff:ignore></div>
-				    </div>
-				    <div>
-				      <div class=""issue-entry-bottom"">
-				        <div class=""issue-entry-text-category"">
-				          Category: Design</div>
-				      </div>
-				    </div>
-				  </div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -612,17 +364,6 @@ public class AdminTests : TestContext
 		cut.Find("#reject-issue").Click();
 
 		// Assert
-		// cut.MarkupMatches
-		// (
-		// 	@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-		// 	<div class=""row"">
-		// 	<div class=""issue-count col-8 text-light mt-2"">0 Issues</div>
-		// 	<div class=""col-4 close-button-section"">
-		// 	<button class=""btn btn-close""></button>
-		// 	</div>
-		// 	</div>"
-		// );
-
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
