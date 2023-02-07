@@ -110,6 +110,35 @@ public class DetailsTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
 		_expectedComments = TestComments.GetComments().ToList();
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+			<div diff:ignore></div>
+			<div class="form-layout mb-3">
+				<div diff:ignore></div>
+				<div class="issue-container">
+					<div class="issue-entry">
+						<div class="issue-entry-category issue-entry-category-miscellaneous">
+							<div class="issue-entry-category-text" >Miscellaneous</div>
+						</div>
+						<div class="issue-entry-text">
+							<div class="issue-entry-text-title" >Test Issue 1</div>
+							<div class="issue-entry-text-description">A new test issue 1</div>
+							<div class="issue-entry-bottom">
+								<div class="issue-entry-text-category" diff:ignoreChildren>11.12.2022</div>
+								<div class="issue-entry-text-author">Tester</div>
+								<div class="issue-entry-text-category"></div>
+							</div>
+						</div>
+						<div class="issue-entry-status issue-entry-status-watching">
+							<div class="issue-entry-status-text">Watching</div>
+						</div>
+					</div>
+				</div>
+				<div diff:ignore>
+				</div>
+			</div>
+			""";
 
 		SetupMocks();
 		SetMemoryCache();
@@ -124,39 +153,7 @@ public class DetailsTests : TestContext
 		});
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div class=""issue-container"">
-					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
-				</div>
-				<div class=""form-layout mb-3"">
-					<div class=""close-button-section"">
-						<button id=""close-page"" class=""btn btn-close"" ></button>
-					</div>
-					<div class=""issue-container"">
-						<div class=""issue-entry"">
-							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
-								<div class=""issue-entry-category-text"" >Miscellaneous</div>
-							</div>
-							<div class=""issue-entry-text"">
-								<div class=""issue-entry-text-title"" >Test Issue 1</div>
-								<div class=""issue-entry-text-description"">A new test issue 1</div>
-								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
-									<div class=""issue-entry-text-author"">Tester</div>
-									<div class=""issue-entry-text-category""></div>
-								</div>
-							</div>
-							<div class=""issue-entry-status issue-entry-status-watching"">
-								<div class=""issue-entry-status-text"">Watching</div>
-							</div>
-						</div>
-					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
-					</div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -168,6 +165,38 @@ public class DetailsTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetKnownIssue();
 		_expectedComments = TestComments.GetComments().ToList();
+		const string _expectedHtml =
+		"""
+		<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+		<div diff:ignore></div>
+		<div class="form-layout mb-3">
+		  <div diff:ignore></div>
+		  <div diff:ignore></div>
+		  <div class="issue-container">
+		    <div class="form-layout status-entry">
+		      <div class="fw-bold mb-2">
+		        Set Status
+		      </div>
+		      <div class="admin-set-statuses">
+		        <button id="answered"  class="btn issue-entry-text-category btn-archive btn-status-answered">
+		          answered
+		        </button>
+		        <button id="inwork"  class="btn issue-entry-text-category btn-archive btn-status-inwork">
+		          in work
+		        </button>
+		        <button id="watching"  class="btn issue-entry-text-category btn-archive btn-status-watching">
+		          watching
+		        </button>
+		        <button id="dismissed"  class="btn issue-entry-text-category btn-archive btn-status-dismissed">
+		          dismissed
+		        </button>
+		      </div>
+		    </div>
+		  </div>
+		  <div diff:ignore>
+		  </div>
+		</div>
+		""";
 
 		SetupMocks();
 		SetMemoryCache();
@@ -182,64 +211,7 @@ public class DetailsTests : TestContext
 		});
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div class=""issue-container"">
-					<button id=""create-comment"" class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
-				</div>
-				<div class=""form-layout mb-3"">
-					<div class=""close-button-section"">
-						<button id=""close-page"" class=""btn btn-close"" ></button>
-					</div>
-					<div class=""issue-container"">
-						<div class=""issue-entry"">
-							<div class=""issue-entry-category issue-entry-category-miscellaneous"">
-								<div class=""issue-entry-category-text"" >Miscellaneous</div>
-							</div>
-							<div class=""issue-entry-text"">
-								<div class=""issue-entry-text-title"" >Test Issue 1</div>
-								<div class=""issue-entry-text-description"">A new test issue 1</div>
-								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
-									<div class=""issue-entry-text-author"">Tester</div>
-									<div class=""issue-entry-text-category"">
-										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-											archive
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class=""issue-entry-status issue-entry-status-watching"">
-								<div class=""issue-entry-status-text"">Watching</div>
-							</div>
-						</div>
-					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout status-entry"">
-							<div class=""fw-bold mb-2"">
-								Set Status
-							</div>
-							<div class=""admin-set-statuses"">
-								<button id=""answered""  class=""btn issue-entry-text-category btn-archive btn-status-answered"">
-									answered
-								</button>
-								<button id=""inwork""  class=""btn issue-entry-text-category btn-archive btn-status-inwork"">
-									in work
-								</button>
-								<button id=""watching""  class=""btn issue-entry-text-category btn-archive btn-status-watching"">
-									watching
-								</button>
-								<button id=""dismissed""  class=""btn issue-entry-text-category btn-archive btn-status-dismissed"">
-									dismissed
-								</button>
-							</div>
-						</div>
-					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
-					</div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
@@ -377,6 +349,42 @@ public class DetailsTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssue = TestIssues.GetIssues().ToList()[5];
 		_expectedComments = TestComments.GetComments().ToList();
+		const string _expectedHtml =
+			""""
+			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+			<div diff:ignore></div>
+			<div class="form-layout mb-3">
+			  <div diff:ignore></div>
+			  <div class="issue-container">
+			    <div class="issue-entry">
+			      <div diff:ignore></div>
+			      <div diff:ignore></div>
+			      <div class="issue-entry-status issue-entry-status-none">
+			        <div class="issue-entry-status-text"></div>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="issue-container">
+			    <div class="form-layout status-entry">
+			      <div class="fw-bold mb-2">
+			        Set Status
+			      </div>
+			      <div>
+			        <input id="input-answer" class="form-control rounded-control" type="text" placeholder="Url" aria-label="Content Url" value="" >
+			      </div>
+			      <div class="issue-entry-bottom">
+			        <button id="confirm-answered-status" class="btn btn-archive-confirm" >
+			          confirm
+			        </button>
+			        <button id="cancel-answered-status" class="btn btn-archive-reject" >
+			          cancel
+			        </button>
+			      </div>
+			    </div>
+			  </div>
+			  <div diff:ignore></div>
+			</div>
+			"""";
 
 		SetupMocks();
 		SetMemoryCache();
@@ -394,71 +402,50 @@ public class DetailsTests : TestContext
 		cut.Find("#input-answer").Change("");
 		cut.Find("#confirm-answered-status").Click();
 
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div class=""issue-container"">
-					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
-				</div>
-				<div class=""form-layout mb-3"">
-					<div class=""close-button-section"">
-						<button id=""close-page"" class=""btn btn-close"" ></button>
-					</div>
-					<div class=""issue-container"">
-						<div class=""issue-entry"">
-							<div class=""issue-entry-category issue-entry-category-design"">
-								<div class=""issue-entry-category-text"" >Design</div>
-							</div>
-							<div class=""issue-entry-text"">
-								<div class=""issue-entry-text-title"" >Test Issue 6</div>
-								<div class=""issue-entry-text-description"">A new test issue 6</div>
-								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
-									<div class=""issue-entry-text-author"">Tester</div>
-									<div class=""issue-entry-text-category"">
-										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-											archive
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class=""issue-entry-status issue-entry-status-none"">
-								<div class=""issue-entry-status-text""></div>
-							</div>
-						</div>
-					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout status-entry"">
-							<div class=""fw-bold mb-2"">
-								Set Status
-							</div>
-							<div>
-								<input id=""input-answer"" class=""form-control rounded-control"" type=""text"" placeholder=""Url"" aria-label=""Content Url"" value="""" >
-							</div>
-							<div class=""issue-entry-bottom"">
-								<button id=""confirm-answered-status"" class=""btn btn-archive-confirm"" >
-									confirm
-								</button>
-								<button id=""cancel-answered-status"" class=""btn btn-archive-reject"" >
-									cancel
-								</button>
-							</div>
-						</div>
-					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
-					</div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 
 	}
 
 	[Fact]
 	public void Details_With_AttemptOfCommentAuthorToVote_Should_Fail_Test()
 	{
+
+		// Arrange
 		_expectedIssue = TestIssues.GetIssues().ToList()[0];
 		_expectedComments = TestComments.GetComments().ToList();
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedUser.Id = "5dc1039a1521eaa36835e543";
+		const string _expectedHtml =
+		"""
+		<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+		<div diff:ignore></div>
+		<div class="form-layout mb-3">
+		  <div diff:ignore></div>
+		  <div diff:ignore></div>
+		  <div diff:ignore></div>
+		  <div class="issue-container">
+		    <div class="form-layout comment-details">
+		      <div class="fw-bold mb-2">Comments</div>
+		      <div id="comment-entry">
+		        <div id="vote" class="issue-detail-no-votes"  style="grid-column-start: 1;">
+		          <div class="text-uppercase">Awaiting</div>
+		          <span class="oi oi-caret-top detail-upvote"></span>
+		          <div class="text-uppercase">UpVote</div>
+		        </div>
+		        <div>
+		          <div class="issue-detail-text">Test Comment 1</div>
+		          <div class="comment-header">
+		            <label class="category-date" diff:ignoreChildren>02.07.2023</label>
+		            <label class="category-author">TEST USER</label>
+		          </div>
+		        </div>
+		      </div>
+		      <div diff:ignore></div>
+		      <div diff:ignore></div>
+		    </div>
+		  </div>
+		</div>
+		""";
 
 		SetupMocks();
 		SetMemoryCache();
@@ -475,64 +462,7 @@ public class DetailsTests : TestContext
 		cut.FindAll("#vote")[0].Click();
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Issue Details</h1>
-				<div class=""issue-container"">
-					<button id=""create-comment""  class=""suggest-btn btn btn-outline-light btn-lg text-uppercase"">Add Comment</button>
-				</div>
-				<div class=""form-layout mb-3"">
-					<div class=""close-button-section"">
-						<button id=""close-page"" class=""btn btn-close"" ></button>
-					</div>
-					<div class=""issue-container"">
-						<div class=""issue-entry"">
-							<div class=""issue-entry-category issue-entry-category-design"">
-								<div class=""issue-entry-category-text"" >Design</div>
-							</div>
-							<div class=""issue-entry-text"">
-								<div class=""issue-entry-text-title"" >Test Issue 1</div>
-								<div class=""issue-entry-text-description"">A new test issue 1</div>
-								<div class=""issue-entry-bottom"">
-									<div class=""issue-entry-text-category"" diff:ignoreChildren>11.12.2022</div>
-									<div class=""issue-entry-text-author"">jim test</div>
-									<div class=""issue-entry-text-category"">
-										<button id=""archive""  class=""btn issue-entry-text-category btn-archive"">
-											archive
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class=""issue-entry-status issue-entry-status-watching"">
-								<div class=""issue-entry-status-text"">Watching</div>
-							</div>
-						</div>
-					</div>
-					<div class=""issue-container"">
-						<div class=""form-layout status-entry"">
-							<div class=""fw-bold mb-2"">
-								Set Status
-							</div>
-							<div class=""admin-set-statuses"">
-								<button id=""answered""  class=""btn issue-entry-text-category btn-archive btn-status-answered"">
-									answered
-								</button>
-								<button id=""inwork""  class=""btn issue-entry-text-category btn-archive btn-status-inwork"">
-									in work
-								</button>
-								<button id=""watching""  class=""btn issue-entry-text-category btn-archive btn-status-watching"">
-									watching
-								</button>
-								<button id=""dismissed""  class=""btn issue-entry-text-category btn-archive btn-status-dismissed"">
-									dismissed
-								</button>
-							</div>
-						</div>
-					</div>
-					<div diff:ignoreChildren diff:ignoreAttributes>
-					</div>
-				</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
 	}
 
 	[Theory(DisplayName = "Update Status")]
