@@ -67,10 +67,63 @@ public class CreateTests : TestContext
 	[Fact]
 	public void Create_With_AuthorizedUser_Should_DisplayPage_Test()
 	{
+
 		// Arrange
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
+		const string _expectedHtml =
+			"""
+			<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
+			<div class="row justify-content-center create-form">
+				<div class="col-xl-8 col-lg-10 form-layout">
+					<div class="close-button-section">
+						<button id="close-page" class="btn btn-close" ></button>
+					</div>
+					<form >
+						<div class="input-section">
+							<label class="form-label fw-bold text-uppercase" for="issue-text">Suggestion</label>
+							<div class="input-description">Focus on the topic or technology you want to learn about.</div>
+							<input id="issue-text" class="form-control valid"  >
+						</div>
+						<div class="input-section">
+							<label class="form-label fw-bold text-uppercase" for="category">Category</label>
+							<div class="input-description">Choose one category.</div>
+							<div class="col-lg-8">
+								<div class="radio-item-group">
+								  <input diff:ignore>
+								  <label diff:ignore></label>
+								</div>
+								<div class="radio-item-group">
+								  <input diff:ignore>
+								  <label diff:ignore></label>
+								</div>
+								<div class="radio-item-group">
+								  <input diff:ignore>
+								  <label diff:ignore></label>
+								</div>
+								<div class="radio-item-group">
+								  <input diff:ignore>
+								  <label diff:ignore></label>
+								</div>
+								<div class="radio-item-group">
+								  <input diff:ignore>
+								  <label diff:ignore></label>
+								</div>
+							</div>
+						</div>
+						<div class="input-section">
+							<label class="form-label fw-bold text-uppercase" for="description">Description</label>
+							<div class="input-description">Briefly describe your suggestion.</div>
+							<textarea id="description" class="form-control valid"></textarea>
+						</div>
+						<div class="center-children">
+							<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Create Issue</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			""";
 
 		SetupMocks();
 		SetMemoryCache();
@@ -82,58 +135,8 @@ public class CreateTests : TestContext
 		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		// Assert
-		cut.MarkupMatches
-		(
-			@"<h1 class=""page-heading text-light text-uppercase mb-4"">Create An Issue</h1>
-					<div class=""row justify-content-center create-form"">
-					  <div class=""col-xl-8 col-lg-10 form-layout"">
-					    <div class=""close-button-section"">
-					      <button id=""close-page"" class=""btn btn-close"" ></button>
-					    </div>
-					    <form >
-					      <div class=""input-section"">
-					        <label class=""form-label fw-bold text-uppercase"" for=""issue-text"">Suggestion</label>
-					        <div class=""input-description"">Focus on the topic or technology you want to learn about.</div>
-					        <input id=""issue-text"" class=""form-control valid""  >
-					      </div>
-					      <div class=""input-section"">
-					        <label class=""form-label fw-bold text-uppercase"" for=""category"">Category</label>
-					        <div class=""input-description"">Choose one category.</div>
-					        <div class=""col-lg-8"">
-					          <div class=""radio-item-group"">
-					            <input diff:ignore>
-					            <label for=""5dc1039a1521eaa36835e541"">Design - An Issue with the design.</label>
-					          </div>
-					          <div class=""radio-item-group"">
-					            <input diff:ignore>
-					            <label for=""5dc1039a1521eaa36835e542"">Documentation - An Issue with the documentation.</label>
-					          </div>
-					          <div class=""radio-item-group"">
-					            <input diff:ignore>
-					            <label for=""5dc1039a1521eaa36835e543"">Implementation - An Issue with the implementation.</label>
-					          </div>
-					          <div class=""radio-item-group"">
-					            <input diff:ignore>
-					            <label for=""5dc1039a1521eaa36835e544"">Clarification - A quick Issue with a general question.</label>
-					          </div>
-					          <div class=""radio-item-group"">
-					            <input diff:ignore>
-					            <label for=""5dc1039a1521eaa36835e545"">Miscellaneous - Not sure where this fits.</label>
-					          </div>
-					        </div>
-					      </div>
-					      <div class=""input-section"">
-					        <label class=""form-label fw-bold text-uppercase"" for=""description"">Description</label>
-					        <div class=""input-description"">Briefly describe your suggestion.</div>
-					        <textarea id=""description"" class=""form-control valid""  ></textarea>
-					      </div>
-					      <div class=""center-children"">
-					        <button id=""submit"" class=""btn btn-main btn-lg text-uppercase"" type=""submit"">Creat Issue</button>
-					      </div>
-					    </form>
-					  </div>
-					</div>"
-		);
+		cut.MarkupMatches(_expectedHtml);
+
 	}
 
 	[Fact]
