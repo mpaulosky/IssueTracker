@@ -39,7 +39,6 @@ public static class MongoDbHealthCheckBuilderExtensions
 			TimeSpan timeout = default)
 	{
 
-		Console.WriteLine($@"IHealthCheckBuilder AddMongoDb mongodbConnectionString: {mongodbConnectionString} mongoDatabaseName: {mongoDatabaseName} name: {name}");
 		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
 		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
 

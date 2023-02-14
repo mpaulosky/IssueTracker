@@ -1,10 +1,7 @@
-﻿using JetBrains.Annotations;
-
-namespace IssueTracker.Library;
+﻿namespace IssueTracker.Library;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
-[UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
 	private DatabaseSettings DbConfig { get; }
