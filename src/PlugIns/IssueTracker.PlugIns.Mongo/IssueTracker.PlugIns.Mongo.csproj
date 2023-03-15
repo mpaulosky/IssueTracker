@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+    <ProjectReference Include="..\..\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj" />
+  </ItemGroup>
+
 </Project>
