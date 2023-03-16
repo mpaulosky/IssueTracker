@@ -35,8 +35,8 @@ public class UserModel
 	[BsonRepresentation(BsonType.String)]
 	public string EmailAddress { get; set; } = string.Empty;
 
-	[BsonElement("archive")]
+	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archive { get; set; } = false;
+	public bool Archived { get; set; } = false;
 
 }
