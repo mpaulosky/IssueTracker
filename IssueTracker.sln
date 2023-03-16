@@ -42,15 +42,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library.Tests.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlugIns", "PlugIns", "{8FB7CF4F-BAE3-4E92-B540-26CCC87A2C69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.PlugIns.Mongo", "src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj", "{5B261B65-8753-4229-B55C-D785D9990218}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.PlugIns.Mongo", "src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj", "{5B261B65-8753-4229-B55C-D785D9990218}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreBusiness", "CoreBusiness", "{553C8F4C-3C73-46F2-AAB9-A60ABC702D6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.CoreBusiness", "src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj", "{5AF1B1D5-0E8F-43E3-8E5B-96B41485D3B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.CoreBusiness", "src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj", "{5AF1B1D5-0E8F-43E3-8E5B-96B41485D3B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCases", "UseCases", "{6566C277-DF18-4455-A2E8-B2CE605BEB33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UseCases", "src\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj", "{EF123647-317A-40CC-879E-8CFF748593EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UseCases", "src\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj", "{EF123647-317A-40CC-879E-8CFF748593EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
