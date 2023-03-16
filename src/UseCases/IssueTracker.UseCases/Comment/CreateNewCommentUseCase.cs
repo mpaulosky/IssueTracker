@@ -6,9 +6,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.Comment.Interfaces;
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Comment;
 
 public class CreateNewCommentUseCase : ICreateNewCommentUseCase

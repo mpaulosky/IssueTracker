@@ -1,7 +1,4 @@
-﻿
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
-namespace IssueTracker.UseCases.Category;
+﻿namespace IssueTracker.UseCases.Category;
 
 public class EditCategoryUseCase : IEditCategoryUseCase
 {

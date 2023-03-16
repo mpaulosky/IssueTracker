@@ -6,8 +6,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Users;
 
 public class ViewUserByIdUseCase : IViewUserByIdUseCase

@@ -1,4 +1,6 @@
-﻿global using FluentAssertions;
+﻿global using System.Diagnostics.CodeAnalysis;
+
+global using FluentAssertions;
 
 global using IssueTracker.Library.Contracts;
 global using IssueTracker.Library.Helpers;
@@ -16,8 +18,6 @@ global using MongoDB.Driver;
 global using Moq;
 
 global using NSubstitute;
-
-global using System.Diagnostics.CodeAnalysis;
 
 global using TestingSupport.Library.Fixtures;
 

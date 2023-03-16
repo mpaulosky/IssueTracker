@@ -7,8 +7,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Comment;
 public class EditCommentUseCase : IEditCommentUseCase
 {
