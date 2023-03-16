@@ -1,4 +1,14 @@
-﻿namespace IssueTracker.UseCases.Users;
+﻿//-----------------------------------------------------------------------
+// <copyright File="DeleteUserUseCase"
+//	Company="mpaulosky">
+//	Author: Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+using IssueTracker.UseCases.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UseCases.Users;
 
 public class DeleteUserUseCase : IDeleteUserUseCase
 {
@@ -16,7 +26,7 @@ public class DeleteUserUseCase : IDeleteUserUseCase
 		if (user == null) return;
 
 		// Mark	user as in-active
-		user.IsActive = false;
+		user.Archive = false;
 
 		await _userRepository.UpdateUserAsync(user);
 

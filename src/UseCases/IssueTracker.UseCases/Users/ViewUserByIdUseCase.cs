@@ -1,4 +1,14 @@
-﻿namespace IssueTracker.UseCases.Users;
+﻿//-----------------------------------------------------------------------
+// <copyright File="ViewUserByIdUseCase"
+//	Company="mpaulosky">
+//	Author: Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+using IssueTracker.UseCases.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UseCases.Users;
 
 public class ViewUserByIdUseCase : IViewUserByIdUseCase
 {
