@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		CreateNewSolutionUseCase.cs
+//	File:		ViewSolutionByIssueIdUseCase.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -9,24 +9,29 @@
 
 namespace IssueTracker.UseCases.Solution;
 
-public class CreateNewSolutionUseCase : ICreateNewSolutionUseCase
+public class ViewSolutionByIssueIdUseCase : IViewSolutionByIssueIdUseCase
 {
 
 	private readonly ISolutionRepository _solutionRepository;
 
-	public CreateNewSolutionUseCase(ISolutionRepository solutionRepository)
+	public ViewSolutionByIssueIdUseCase(ISolutionRepository solutionRepository)
 	{
 
 		_solutionRepository = solutionRepository;
 
 	}
 
-	public async Task ExecuteAsync(SolutionModel solution)
+	public async Task<SolutionModel> ExecuteAsync(IssueModel issue)
 	{
 
-		if (solution == null) return;
+		if (issue == null)
+		{
 
-		await _solutionRepository.CreateNewSolutionAsync(solution);
+			return new SolutionModel();
+
+		}
+
+		return await _solutionRepository.ViewSolutionByIssueIdAsync(issue.Id);
 
 	}
 

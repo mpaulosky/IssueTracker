@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		CreateNewSolutionUseCase.cs
+//	File:		ArchiveSolutionUseCase.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -9,12 +9,12 @@
 
 namespace IssueTracker.UseCases.Solution;
 
-public class CreateNewSolutionUseCase : ICreateNewSolutionUseCase
+public class ArchiveSolutionUseCase
 {
 
 	private readonly ISolutionRepository _solutionRepository;
 
-	public CreateNewSolutionUseCase(ISolutionRepository solutionRepository)
+	public ArchiveSolutionUseCase(ISolutionRepository solutionRepository)
 	{
 
 		_solutionRepository = solutionRepository;
@@ -26,7 +26,10 @@ public class CreateNewSolutionUseCase : ICreateNewSolutionUseCase
 
 		if (solution == null) return;
 
-		await _solutionRepository.CreateNewSolutionAsync(solution);
+		// Archive the solution
+		solution.Archived = true;
+
+		await _solutionRepository.UpdateSolutionAsync(solution);
 
 	}
 
