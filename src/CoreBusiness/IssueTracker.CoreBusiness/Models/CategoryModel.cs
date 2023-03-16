@@ -23,8 +23,8 @@ public class CategoryModel
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryDescription { get; set; } = string.Empty;
 
-	[BsonElement("isactive")]
+	[BsonElement("archive")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool IsActive { get; set; } = true;
+	public bool Archive { get; set; } = false;
 
 }
