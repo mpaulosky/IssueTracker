@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright File="IDeleteCategoryUseCase"
+// <copyright File="IArchiveCategoryUseCase"
 //	Company="mpaulosky">
 //	Author: Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -8,7 +8,7 @@
 
 namespace IssueTracker.UseCases.Category.Interfaces;
 
-public interface IDeleteCategoryUseCase
+public interface IArchiveCategoryUseCase
 {
 	Task ExecuteAsync(CategoryModel category);
 }

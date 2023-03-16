@@ -1,21 +1,19 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright File="DeleteCategoryUseCase"
+// <copyright File="ArchiveCategoryUseCase"
 //	Company="mpaulosky">
 //	Author: Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Category;
 
-public class DeleteCategoryUseCase : IDeleteCategoryUseCase
+public class ArchiveCategoryUseCase : IArchiveCategoryUseCase
 {
 
 	private readonly ICategoryRepository _categoryRepository;
 
-	public DeleteCategoryUseCase(ICategoryRepository categoryRepository)
+	public ArchiveCategoryUseCase(ICategoryRepository categoryRepository)
 	{
 		_categoryRepository = categoryRepository;
 	}
@@ -25,8 +23,8 @@ public class DeleteCategoryUseCase : IDeleteCategoryUseCase
 
 		if (category == null) return;
 
-		// Deactivate Category
-		category.Archive = false;
+		// Archive the category
+		category.Archived = true;
 
 		await _categoryRepository.UpdateCategoryAsync(category);
 

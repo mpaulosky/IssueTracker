@@ -1,21 +1,20 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright File="DeleteStatusUseCase"
-//	Company="mpaulosky">
-//	Author: Matthew Paulosky
+// <copyright>
+//	File:		ArchiveStatusUseCase.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Status;
 
-public class DeleteStatusUseCase : IDeleteStatusUseCase
+public class ArchiveStatusUseCase : IArchiveStatusUseCase
 {
 
 	private readonly IStatusRepository _statusRepository;
 
-	public DeleteStatusUseCase(IStatusRepository statusRepository)
+	public ArchiveStatusUseCase(IStatusRepository statusRepository)
 	{
 
 		_statusRepository = statusRepository;
@@ -27,8 +26,8 @@ public class DeleteStatusUseCase : IDeleteStatusUseCase
 
 		if (status == null) return;
 
-		// Mark as in-active
-		status.Archive = false;
+		// Archive the status
+		status.Archived = true;
 
 		await _statusRepository.UpdateStatusAsync(status);
 

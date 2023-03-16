@@ -1,21 +1,19 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright File="DeleteUserUseCase"
+// <copyright File="ArchiveUserUseCase"
 //	Company="mpaulosky">
 //	Author: Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UseCases.PlugInRepositoryInterfaces;
-
 namespace IssueTracker.UseCases.Users;
 
-public class DeleteUserUseCase : IDeleteUserUseCase
+public class ArchiveUserUseCase : IArchiveUserUseCase
 {
 
 	private readonly IUserRepository _userRepository;
 
-	public DeleteUserUseCase(IUserRepository userRepository)
+	public ArchiveUserUseCase(IUserRepository userRepository)
 	{
 		_userRepository = userRepository;
 	}
@@ -25,8 +23,8 @@ public class DeleteUserUseCase : IDeleteUserUseCase
 
 		if (user == null) return;
 
-		// Mark	user as in-active
-		user.Archive = false;
+		// Archive the user
+		user.Archived = true;
 
 		await _userRepository.UpdateUserAsync(user);
 
