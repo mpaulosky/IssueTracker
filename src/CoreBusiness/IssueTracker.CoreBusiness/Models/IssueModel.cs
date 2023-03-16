@@ -15,9 +15,9 @@ public class IssueModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-	[BsonElement("issue_name")]
+	[BsonElement("issue_title")]
 	[BsonRepresentation(BsonType.String)]
-	public string IssueName { get; set; } = string.Empty;
+	public string IssueTitle { get; set; } = string.Empty;
 
 	[BsonElement("description")]
 	[BsonRepresentation(BsonType.String)]
@@ -27,9 +27,9 @@ public class IssueModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-	public BasicCategoryModel Category { get; set; } = new BasicCategoryModel();
+	public BasicCategoryModel Category { get; set; } = new();
 
-	public BasicUserModel Author { get; set; } = new BasicUserModel();
+	public BasicUserModel Author { get; set; } = new();
 
 	public BasicStatusModel IssueStatus { get; set; } = new();
 

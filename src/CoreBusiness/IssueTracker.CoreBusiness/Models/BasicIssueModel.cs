@@ -19,7 +19,7 @@ public class BasicIssueModel
 	{
 
 		Id = issue.Id;
-		Issue = issue.IssueName;
+		IssueTitle = issue.IssueTitle;
 		Description = issue.Description;
 		Category = issue.Category;
 		Status = issue.IssueStatus;
@@ -29,14 +29,14 @@ public class BasicIssueModel
 
 	public string Id { get; set; } = string.Empty;
 
-	public string Issue { get; set; } = string.Empty;
+	public string IssueTitle { get; set; } = string.Empty;
 
 	public string Description { get; set; } = string.Empty;
+
+	public BasicUserModel Author { get; set; } = new();
 
 	public BasicCategoryModel Category { get; set; } = new();
 
 	public BasicStatusModel Status { get; set; } = new();
-
-	public BasicUserModel Author { get; set; } = new();
 
 }
