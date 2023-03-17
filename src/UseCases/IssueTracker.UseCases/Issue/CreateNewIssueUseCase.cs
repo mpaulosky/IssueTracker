@@ -29,7 +29,7 @@ public class CreateNewIssueUseCase : ICreateNewIssueUseCase1
 			return;
 		}
 
-		await _issueRepository.CreateNewIssueAsync(issue);
+		await _issueRepository.CreateIssueAsync(issue);
 
 	}
 }
