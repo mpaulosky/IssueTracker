@@ -14,7 +14,7 @@ public static class FakeIssue
 	{
 
 		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
-			.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
+			.RuleFor(f => f.IssueTitle, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 			.RuleFor(f => f.DateCreated, f => f.Date.Past())
@@ -34,7 +34,7 @@ public static class FakeIssue
 
 		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-		.RuleFor(f => f.IssueName, f => f.Lorem.Sentence())
+		.RuleFor(f => f.IssueTitle, f => f.Lorem.Sentence())
 		.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 		.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 		.RuleFor(f => f.DateCreated, f => f.Date.Past())
