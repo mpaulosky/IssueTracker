@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		IssueRepository class
 /// </summary>
 public class IssueRepository : IIssueRepository
 {
-
 	private readonly IMongoCollection<IssueModel> _collection;
 
 	/// <summary>
@@ -43,24 +42,6 @@ public class IssueRepository : IIssueRepository
 
 	}
 
-	///  <summary>
-	/// 		GetIssue method
-	///  </summary>
-	///  <param name="itemId">string</param>
-	///  <returns>Task of IssueModel</returns>
-	public async Task<IssueModel> GetIssueByIdAsync(string itemId)
-	{
-
-		var objectId = new ObjectId(itemId);
-
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
-
-		IssueModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
-
-	}
-
 	/// <summary>
 	///		GetIssues method
 	/// </summary>
@@ -85,7 +66,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
 
-		var results = output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
+		var results = output.Where(x => x is { ApprovedForRelease: false, Rejected: false }).ToList();
 
 		return results;
 
@@ -100,7 +81,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
 
-		var results = output.Where(x => x.ApprovedForRelease && x.Rejected == false).ToList();
+		var results = output.Where(x => x is { ApprovedForRelease: true, Rejected: false }).ToList();
 
 		return results;
 
@@ -114,17 +95,16 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssuesByUserIdAsync(string userId)
 	{
 
-		var results = (await _collection.FindAsync(s => s.Author!.Id == userId)).ToList();
+		var results = (await _collection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
 
 	}
 
-	/// <summary>
-	///		UpdateIssue method
-	/// </summary>
-	/// <param name="itemId">string</param>
-	/// <param name="issue">IssueModel</param>
+	///  <summary>
+	/// 		UpdateIssue method
+	///  </summary>
+	///  <param name="issue">IssueModel</param>
 	public async Task UpdateIssueAsync(IssueModel issue)
 	{
 
@@ -136,4 +116,21 @@ public class IssueRepository : IIssueRepository
 
 	}
 
+	///  <summary>
+	/// 		GetIssue method
+	///  </summary>
+	///  <param name="itemId">string</param>
+	///  <returns>Task of IssueModel</returns>
+	public async Task<IssueModel> GetIssueByIdAsync(string itemId)
+	{
+
+		var objectId = new ObjectId(itemId);
+
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+
+		IssueModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
+
+		return result;
+
+	}
 }

@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		StatusRepository class
 /// </summary>
 public class StatusRepository : IStatusRepository
 {
-
 	private readonly IMongoCollection<StatusModel> _collection;
 
 	/// <summary>
@@ -39,21 +38,6 @@ public class StatusRepository : IStatusRepository
 	{
 
 		await _collection.InsertOneAsync(status);
-
-	}
-
-	/// <summary>
-	///   DeleteStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	public async Task DeleteStatusAsync(StatusModel status)
-	{
-
-		var objectId = new ObjectId(status.Id);
-
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.DeleteOneAsync(filter);
 
 	}
 
@@ -90,11 +74,10 @@ public class StatusRepository : IStatusRepository
 
 	}
 
-	/// <summary>
-	///		UpdateStatus method
-	/// </summary>
-	/// <param name="itemId">string</param>
-	/// <param name="status">StatusModel</param>
+	///  <summary>
+	/// 		UpdateStatus method
+	///  </summary>
+	///  <param name="status">StatusModel</param>
 	public async Task UpdateStatusAsync(StatusModel status)
 	{
 
@@ -106,4 +89,18 @@ public class StatusRepository : IStatusRepository
 
 	}
 
+	/// <summary>
+	///   DeleteStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	public async Task DeleteStatusAsync(StatusModel status)
+	{
+
+		var objectId = new ObjectId(status.Id);
+
+		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
+
+		await _collection.DeleteOneAsync(filter);
+
+	}
 }

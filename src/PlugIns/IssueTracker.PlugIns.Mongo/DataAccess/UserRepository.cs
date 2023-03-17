@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		UserRepository class
 /// </summary>
 public class UserRepository : IUserRepository
 {
-
 	private readonly IMongoCollection<UserModel> _collection;
 
 	/// <summary>
@@ -43,7 +42,7 @@ public class UserRepository : IUserRepository
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -58,7 +57,7 @@ public class UserRepository : IUserRepository
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Empty;
 
-		var result = (await _collection!.FindAsync(filter)).ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
 
@@ -71,22 +70,21 @@ public class UserRepository : IUserRepository
 	public async Task CreateUserAsync(UserModel user)
 	{
 
-		await _collection!.InsertOneAsync(user);
+		await _collection.InsertOneAsync(user);
 
 	}
 
-	/// <summary>
-	///		UpdateUser method
-	/// </summary>
-	/// <param name="itemId">string</param>
-	/// <param name="user">UserModel</param>
+	///  <summary>
+	/// 		UpdateUser method
+	///  </summary>
+	///  <param name="user">UserModel</param>
 	public async Task UpdateUserAsync(UserModel user)
 	{
 		var objectId = new ObjectId(user.Id);
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		await _collection!.ReplaceOneAsync(filter!, user);
+		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
 
@@ -100,10 +98,9 @@ public class UserRepository : IUserRepository
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
 
-		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
 	}
-
 }

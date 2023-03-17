@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		MongoDbContext class

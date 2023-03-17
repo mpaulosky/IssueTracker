@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		CommentRepository class
 /// </summary>
 public class CommentRepository : ICommentRepository
 {
-
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 
 	/// <summary>
@@ -84,7 +83,7 @@ public class CommentRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetCommentsByIssueIdAsync(string issueId)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.Issue!.Id! == issueId)).ToList();
+		var results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
 
 		return results;
 
@@ -107,7 +106,6 @@ public class CommentRepository : ICommentRepository
 	/// <summary>
 	///		UpdateComment method
 	/// </summary>
-	/// <param name="itemId">string</param>
 	/// <param name="comment">CommentModel</param>
 	public async Task UpdateCommentAsync(CommentModel comment)
 	{
@@ -141,5 +139,4 @@ public class CommentRepository : ICommentRepository
 		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
 	}
-
 }

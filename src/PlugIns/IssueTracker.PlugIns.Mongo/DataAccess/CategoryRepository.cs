@@ -5,14 +5,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		CategoryRepository class
 /// </summary>
 public class CategoryRepository : ICategoryRepository
 {
-
 	private readonly IMongoCollection<CategoryModel> _collection;
 
 	/// <summary>
@@ -43,7 +42,7 @@ public class CategoryRepository : ICategoryRepository
 
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
-		CategoryModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		CategoryModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -58,7 +57,7 @@ public class CategoryRepository : ICategoryRepository
 
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Empty;
 
-		var result = (await _collection!.FindAsync(filter)).ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
 
@@ -71,7 +70,7 @@ public class CategoryRepository : ICategoryRepository
 	public async Task CreateCategoryAsync(CategoryModel category)
 	{
 
-		await _collection!.InsertOneAsync(category);
+		await _collection.InsertOneAsync(category);
 
 	}
 
@@ -89,5 +88,4 @@ public class CategoryRepository : ICategoryRepository
 		await _collection.ReplaceOneAsync(filter, category);
 
 	}
-
 }

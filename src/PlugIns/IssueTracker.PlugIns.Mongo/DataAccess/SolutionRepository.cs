@@ -31,10 +31,11 @@ public class SolutionRepository : ISolutionRepository
 		_collection = context.GetCollection<SolutionModel>(collectionName);
 
 	}
+
 	public async Task CreateSolutionAsync(SolutionModel solution)
 	{
 
-		await _collection!.InsertOneAsync(solution);
+		await _collection.InsertOneAsync(solution);
 
 	}
 
@@ -50,7 +51,7 @@ public class SolutionRepository : ISolutionRepository
 
 		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
-		SolutionModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		SolutionModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -65,7 +66,7 @@ public class SolutionRepository : ISolutionRepository
 
 		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Empty;
 
-		var result = (await _collection!.FindAsync(filter)).ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
 
@@ -79,7 +80,7 @@ public class SolutionRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string userId)
 	{
 
-		var results = (await _collection.FindAsync(s => s.Author!.Id == userId)).ToList();
+		var results = (await _collection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
 

@@ -12,7 +12,6 @@ namespace IssueTracker.Library.DataAccess;
 /// </summary>
 public class CategoryRepository : ICategoryRepository
 {
-
 	private readonly IMongoCollection<CategoryModel> _collection;
 
 	/// <summary>
