@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CategoryRepository.cs" company="mpaulosky">
+// <copyright file="CategoryMongoRepository.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 // Copyright (c) 2022. All rights reserved.
 // </copyright>
@@ -10,7 +10,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		CategoryRepository class
 /// </summary>
-public class CategoryRepository : ICategoryRepository
+public class CategoryMongoRepository : ICategoryRepository
 {
 	private readonly IMongoCollection<CategoryModel> _collection;
 
@@ -19,7 +19,7 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public CategoryRepository(IMongoDbContextFactory context)
+	public CategoryMongoRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

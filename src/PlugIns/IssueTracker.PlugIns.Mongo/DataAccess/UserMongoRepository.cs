@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UserRepository.cs" company="mpaulosky">
+// <copyright file="UserMongoRepository.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
@@ -10,7 +10,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		UserRepository class
 /// </summary>
-public class UserRepository : IUserRepository
+public class UserMongoRepository : IUserRepository
 {
 	private readonly IMongoCollection<UserModel> _collection;
 
@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public UserRepository(IMongoDbContextFactory context)
+	public UserMongoRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

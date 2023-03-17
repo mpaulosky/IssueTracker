@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CommentRepository.cs" company="mpaulosky">
+// <copyright file="CommentMongoRepository.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
@@ -10,7 +10,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		CommentRepository class
 /// </summary>
-public class CommentRepository : ICommentRepository
+public class CommentMongoRepository : ICommentRepository
 {
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 
@@ -19,7 +19,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public CommentRepository(IMongoDbContextFactory context)
+	public CommentMongoRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

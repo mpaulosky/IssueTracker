@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		SolutionRepository.cs
+//	File:		SolutionMongoRepository.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 /// SolutionRepository class
 /// </summary>
-public class SolutionRepository : ISolutionRepository
+public class SolutionMongoRepository : ISolutionRepository
 {
 	private readonly IMongoCollection<SolutionModel> _collection;
 
@@ -21,7 +21,7 @@ public class SolutionRepository : ISolutionRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContextFactory</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public SolutionRepository(IMongoDbContextFactory context)
+	public SolutionMongoRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

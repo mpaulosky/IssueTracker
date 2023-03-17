@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="StatusRepository.cs" company="mpaulosky">
+// <copyright file="StatusMongoRepository.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
@@ -10,7 +10,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		StatusRepository class
 /// </summary>
-public class StatusRepository : IStatusRepository
+public class StatusMongoRepository : IStatusRepository
 {
 	private readonly IMongoCollection<StatusModel> _collection;
 
@@ -19,7 +19,7 @@ public class StatusRepository : IStatusRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public StatusRepository(IMongoDbContextFactory context)
+	public StatusMongoRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));
