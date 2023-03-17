@@ -23,7 +23,7 @@ public class ViewStatusesUseCase : IViewStatusesUseCase
 	public async Task<IEnumerable<StatusModel>> ExecuteAsync()
 	{
 
-		return await _statusRepository.ViewStatusesAsync();
+		return await _statusRepository.GetStatusesAsync();
 
 	}
 

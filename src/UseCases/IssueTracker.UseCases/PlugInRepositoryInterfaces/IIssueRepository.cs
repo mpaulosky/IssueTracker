@@ -10,11 +10,10 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 
 public interface IIssueRepository
 {
-	Task CreateNewIssueAsync(IssueModel issue);
-	Task EditIssueAsync(IssueModel issue);
+	Task CreateIssueAsync(IssueModel issue);
 	Task UpdateIssueAsync(IssueModel issue);
-	Task<IEnumerable<IssueModel>> ViewIssuesApprovedAsync();
-	Task<IEnumerable<IssueModel>> ViewIssuesAsync();
-	Task<IEnumerable<IssueModel>> ViewIssuesByUserIdAsync(string id);
-	Task<IEnumerable<IssueModel>> ViewIssuesWaitingForApprovalAsync();
+	Task<IEnumerable<IssueModel>> GetIssuesApprovedAsync();
+	Task<IEnumerable<IssueModel>> GetIssuesAsync();
+	Task<IEnumerable<IssueModel>> GetIssuesByUserIdAsync(string id);
+	Task<IEnumerable<IssueModel>> GetIssuesWaitingForApprovalAsync();
 }

@@ -23,7 +23,7 @@ public class ViewCategoriesUseCase : IViewCategoriesUseCase
 	public async Task<IEnumerable<CategoryModel>> ExecuteAsync()
 	{
 
-		return await _categoryRepository.ViewCategoriesAsync();
+		return await _categoryRepository.GetCategoriesAsync();
 
 	}
 

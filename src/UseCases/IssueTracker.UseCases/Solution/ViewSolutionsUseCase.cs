@@ -24,7 +24,7 @@ public class ViewSolutionsUseCase : IViewSolutionsUseCase
 	public async Task<IEnumerable<SolutionModel>> ExecuteAsync()
 	{
 
-		return await _solutionRepository.ViewSolutionsAsync();
+		return await _solutionRepository.GetSolutionsAsync();
 
 	}
 }

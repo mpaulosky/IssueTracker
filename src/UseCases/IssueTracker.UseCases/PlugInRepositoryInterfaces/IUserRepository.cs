@@ -10,9 +10,9 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 
 public interface IUserRepository
 {
-	Task CreateNewUserAsync(UserModel user);
+	Task CreateUserAsync(UserModel user);
 	Task UpdateUserAsync(UserModel user);
-	Task<IEnumerable<UserModel>> ViewUsersAsync();
-	Task<UserModel> ViewUserByAuthenticationIdAsync(string userObjectIdentifierId);
-	Task<UserModel> ViewUserByIdAsync(string id);
+	Task<IEnumerable<UserModel>> GetUsersAsync();
+	Task<UserModel> GetUserByAuthenticationIdAsync(string userObjectIdentifierId);
+	Task<UserModel> GetUserByIdAsync(string id);
 }

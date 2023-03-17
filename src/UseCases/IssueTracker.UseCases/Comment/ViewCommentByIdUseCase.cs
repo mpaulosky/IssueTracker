@@ -23,7 +23,7 @@ public class ViewCommentByIdUseCase : IViewCommentByIdUseCase
 	public async Task<CommentModel> Execute(string commentId)
 	{
 
-		return await _commentRepository.ViewCommentByIdAsync(commentId);
+		return await _commentRepository.GetCommentByIdAsync(commentId);
 
 	}
 }

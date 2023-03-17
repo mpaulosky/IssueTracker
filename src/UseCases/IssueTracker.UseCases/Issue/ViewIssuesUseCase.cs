@@ -24,7 +24,7 @@ public class ViewIssuesUseCase : IViewIssuesUseCase
 	public async Task<IEnumerable<IssueModel>> ExecuteAsync()
 	{
 
-		return await _issueRepository.ViewIssuesAsync();
+		return await _issueRepository.GetIssuesAsync();
 
 	}
 

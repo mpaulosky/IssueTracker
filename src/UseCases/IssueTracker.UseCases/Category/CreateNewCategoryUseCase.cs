@@ -25,7 +25,7 @@ public class CreateNewCategoryUseCase : ICreateNewCategoryUseCase
 
 		if (category == null) return;
 
-		await _categoryRepository.CreateNewCategoryAsync(category);
+		await _categoryRepository.CreateCategoryAsync(category);
 
 	}
 

@@ -29,7 +29,7 @@ public class ViewIssuesByUserId : IViewIssuesByUserId
 			return new List<IssueModel>();
 		}
 
-		return await _issueRepository.ViewIssuesByUserIdAsync(user.Id);
+		return await _issueRepository.GetIssuesByUserIdAsync(user.Id);
 
 	}
 

@@ -29,7 +29,7 @@ public class ViewCommentsByIssueIdUseCase : IViewCommentsByIssueIdUseCase
 			return new List<CommentModel>();
 		}
 
-		return await _commentRepository.ViewCommentsByIssueIdAsync(issue.Id);
+		return await _commentRepository.GetCommentsByIssueIdAsync(issue.Id);
 
 	}
 

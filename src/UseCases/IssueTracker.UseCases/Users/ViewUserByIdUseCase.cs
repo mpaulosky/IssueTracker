@@ -23,7 +23,7 @@ public class ViewUserByIdUseCase : IViewUserByIdUseCase
 
 		if (string.IsNullOrWhiteSpace(id)) return new();
 
-		return await _userRepository.ViewUserByIdAsync(id);
+		return await _userRepository.GetUserByIdAsync(id);
 
 	}
 

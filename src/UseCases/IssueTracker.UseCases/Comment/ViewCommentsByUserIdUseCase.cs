@@ -30,7 +30,7 @@ public class ViewCommentsByUserIdUseCase : IViewCommentsByUserIdUseCase
 
 		}
 
-		return await _commentRepository.ViewCommentsByUserIdAsync(user.Id);
+		return await _commentRepository.GetCommentsByUserIdAsync(user.Id);
 
 	}
 

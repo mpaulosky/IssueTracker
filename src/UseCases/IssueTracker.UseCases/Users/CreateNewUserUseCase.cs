@@ -25,7 +25,7 @@ public class CreateNewUserUseCase : ICreateNewUserUseCase
 
 		if (user == null) return;
 
-		await _userRepository.CreateNewUserAsync(user);
+		await _userRepository.CreateUserAsync(user);
 
 	}
 

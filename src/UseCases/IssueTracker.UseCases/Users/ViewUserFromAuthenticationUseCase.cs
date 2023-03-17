@@ -25,7 +25,7 @@ public class ViewUserFromAuthenticationUseCase : IViewUserFromAuthenticationUseC
 
 		if (string.IsNullOrWhiteSpace(userObjectIdentifierId)) return new();
 
-		return await _userRepository.ViewUserByAuthenticationIdAsync(userObjectIdentifierId);
+		return await _userRepository.GetUserByAuthenticationIdAsync(userObjectIdentifierId);
 
 	}
 

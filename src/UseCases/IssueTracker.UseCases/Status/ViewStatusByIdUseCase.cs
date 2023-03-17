@@ -25,7 +25,7 @@ public class ViewStatusByIdUseCase : IViewStatusByIdUseCase
 
 		if (string.IsNullOrWhiteSpace(statusId)) return new();
 
-		return await _statusRepository.ViewStatusByIdAsync(statusId);
+		return await _statusRepository.GetStatusByIdAsync(statusId);
 
 	}
 

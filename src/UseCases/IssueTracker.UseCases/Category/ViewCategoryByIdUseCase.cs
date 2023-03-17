@@ -25,7 +25,7 @@ public class ViewCategoryByIdUseCase : IViewCategoryByIdUseCase
 
 		if (string.IsNullOrWhiteSpace(categoryId)) return new();
 
-		return await _categoryRepository.ViewCategoryByIdAsync(categoryId);
+		return await _categoryRepository.GetCategoryByIdAsync(categoryId);
 
 	}
 

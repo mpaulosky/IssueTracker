@@ -10,8 +10,8 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 
 public interface IStatusRepository
 {
-	Task CreateNewStatusAsync(StatusModel status);
+	Task CreateStatusAsync(StatusModel status);
 	Task UpdateStatusAsync(StatusModel status);
-	Task<StatusModel> ViewStatusByIdAsync(string statusId);
-	Task<IEnumerable<StatusModel>> ViewStatusesAsync();
+	Task<StatusModel> GetStatusByIdAsync(string statusId);
+	Task<IEnumerable<StatusModel>> GetStatusesAsync();
 }

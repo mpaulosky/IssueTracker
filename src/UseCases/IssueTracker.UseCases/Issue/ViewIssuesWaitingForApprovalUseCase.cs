@@ -24,7 +24,7 @@ public class ViewIssuesWaitingForApprovalUseCase : IViewIssuesWaitingForApproval
 	public async Task<IEnumerable<IssueModel>> ExecuteAsync()
 	{
 
-		return await _issueRepository.ViewIssuesWaitingForApprovalAsync();
+		return await _issueRepository.GetIssuesWaitingForApprovalAsync();
 
 	}
 

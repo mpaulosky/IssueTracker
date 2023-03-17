@@ -25,7 +25,7 @@ public class CreateNewCommentUseCase : ICreateNewCommentUseCase
 
 		if (comment == null) return;
 
-		await _commentRepository.CreateNewCommentAsync(comment);
+		await _commentRepository.CreateCommentAsync(comment);
 
 	}
 

@@ -25,7 +25,7 @@ public class CreateNewStatusUseCase : ICreateNewStatusUseCase
 
 		if (status == null) return;
 
-		await _statusRepository.CreateNewStatusAsync(status);
+		await _statusRepository.CreateStatusAsync(status);
 
 	}
 

@@ -21,7 +21,7 @@ public class ViewUsersUseCase : IViewUsersUseCase
 	public async Task<IEnumerable<UserModel>> ExecuteAsync()
 	{
 
-		return await _userRepository.ViewUsersAsync();
+		return await _userRepository.GetUsersAsync();
 
 	}
 

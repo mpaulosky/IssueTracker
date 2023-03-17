@@ -26,7 +26,7 @@ public class ViewSolutionsByUserIdUseCase : IViewSolutionsByUserIdUseCase
 
 		if (user == null) return new List<SolutionModel>();
 
-		return await _solutionRepository.ViewSolutionsByUserIdAsync(user.Id);
+		return await _solutionRepository.GetSolutionsByUserIdAsync(user.Id);
 
 	}
 

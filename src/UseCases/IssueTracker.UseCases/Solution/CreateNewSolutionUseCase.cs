@@ -26,7 +26,7 @@ public class CreateNewSolutionUseCase : ICreateNewSolutionUseCase
 
 		if (solution == null) return;
 
-		await _solutionRepository.CreateNewSolutionAsync(solution);
+		await _solutionRepository.CreateSolutionAsync(solution);
 
 	}
 

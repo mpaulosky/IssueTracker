@@ -31,7 +31,7 @@ public class ViewSolutionByIssueIdUseCase : IViewSolutionByIssueIdUseCase
 
 		}
 
-		return await _solutionRepository.ViewSolutionByIssueIdAsync(issue.Id);
+		return await _solutionRepository.GetSolutionByIssueIdAsync(issue.Id);
 
 	}
 
