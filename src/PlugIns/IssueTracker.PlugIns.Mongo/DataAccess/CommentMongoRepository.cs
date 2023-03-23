@@ -86,7 +86,7 @@ public class CommentMongoRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetCommentsByIssueIdAsync(string issueId)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.Issue.Id == issueId)).ToList();
+		var results = (await _commentCollection.FindAsync(s => s.Source.Id == issueId)).ToList();
 
 		return results;
 
