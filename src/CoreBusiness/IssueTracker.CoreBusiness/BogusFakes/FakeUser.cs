@@ -1,15 +1,24 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FakeUser.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		FakeUser.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
+/// <summary>
+/// FakeUser class
+/// </summary>
 public static class FakeUser
 {
 
+	/// <summary>
+	/// Gets the new user.
+	/// </summary>
+	/// <returns>UserModel</returns>
 	public static UserModel GetNewUser()
 	{
 		Faker<UserModel> userGenerator = new Faker<UserModel>()
@@ -25,6 +34,11 @@ public static class FakeUser
 
 	}
 
+	/// <summary>
+	/// Gets the users.
+	/// </summary>
+	/// <param name="numberOfUsers">The number of users.</param>
+	/// <returns>IEnumerable List of UserModels</returns>
 	public static IEnumerable<UserModel> GetUsers(int numberOfUsers)
 	{
 
@@ -42,6 +56,11 @@ public static class FakeUser
 
 	}
 
+	/// <summary>
+	/// Gets the basic user.
+	/// </summary>
+	/// <param name="numberOfUsers">The number of users.</param>
+	/// <returns>IEnumerable List of BasicUserModels</returns>
 	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)
 	{
 

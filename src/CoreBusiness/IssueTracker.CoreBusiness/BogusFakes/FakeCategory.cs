@@ -1,15 +1,25 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FakeCategory.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		FakeCategory.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
+
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
+/// <summary>
+/// FakeCategory class
+/// </summary>
 public static class FakeCategory
 {
 
+	/// <summary>
+	/// Gets the new category.
+	/// </summary>
+	/// <returns>CategoryModel</returns>
 	public static CategoryModel GetNewCategory()
 	{
 
@@ -23,6 +33,11 @@ public static class FakeCategory
 
 	}
 
+	/// <summary>
+	/// Gets the categories.
+	/// </summary>
+	/// <param name="numberOfCategories">The number of categories.</param>
+	/// <returns>IEnumerable List of CategoryModels</returns>
 	public static IEnumerable<CategoryModel> GetCategories(int numberOfCategories)
 	{
 
@@ -37,6 +52,11 @@ public static class FakeCategory
 
 	}
 
+	/// <summary>
+	/// Gets the basic categories.
+	/// </summary>
+	/// <param name="numberOfCategories">The number of categories.</param>
+	/// <returns>IEnumerable List of CategoryModels</returns>
 	public static IEnumerable<BasicCategoryModel> GetBasicCategories(int numberOfCategories)
 	{
 
@@ -50,6 +70,10 @@ public static class FakeCategory
 
 	}
 
+	/// <summary>
+	/// Gets the basic category.
+	/// </summary>
+	/// <returns>BasicCategoryModel</returns>
 	public static BasicCategoryModel GetBasicCategory()
 	{
 		Faker<BasicCategoryModel> categoryGenerator = new Faker<BasicCategoryModel>()
@@ -64,6 +88,9 @@ public static class FakeCategory
 
 }
 
+/// <summary>
+/// Category enum
+/// </summary>
 internal enum Category
 {
 

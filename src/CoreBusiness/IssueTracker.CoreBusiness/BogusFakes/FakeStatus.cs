@@ -1,16 +1,24 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FakeStatus.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		FakeStatus.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
+/// <summary>
+/// FakeStatus class
+/// </summary>
 public static class FakeStatus
 {
 
-
+	/// <summary>
+	/// Gets the new status.
+	/// </summary>
+	/// <returns>StatusModel</returns>
 	public static StatusModel GetNewStatus()
 	{
 
@@ -22,7 +30,11 @@ public static class FakeStatus
 
 	}
 
-
+	/// <summary>
+	/// Gets the statuses.
+	/// </summary>
+	/// <param name="numberOfStatuses">The number of statuses.</param>
+	/// <returns>IEnumerable List of StatusModels</returns>
 	public static IEnumerable<StatusModel> GetStatuses(int numberOfStatuses)
 	{
 
@@ -35,6 +47,11 @@ public static class FakeStatus
 
 	}
 
+	/// <summary>
+	/// Gets the basic statuses.
+	/// </summary>
+	/// <param name="numberOfStatuses">The number of statuses.</param>
+	/// <returns>IEnumerable List of BasicStatusModels</returns>
 	public static IEnumerable<BasicStatusModel> GetBasicStatuses(int numberOfStatuses)
 	{
 
@@ -49,6 +66,9 @@ public static class FakeStatus
 	}
 }
 
+/// <summary>
+/// Status enum
+/// </summary>
 internal enum Status
 {
 

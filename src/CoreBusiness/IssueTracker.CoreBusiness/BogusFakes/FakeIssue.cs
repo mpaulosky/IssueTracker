@@ -1,20 +1,29 @@
 //-----------------------------------------------------------------------
-// <copyright file="FakeIssue.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		FakeIssue.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
+/// <summary>
+/// FakeIssue class
+/// </summary>
 public static class FakeIssue
 {
 
+	/// <summary>
+	/// Gets the new issue.
+	/// </summary>
+	/// <returns>IssueModel</returns>
 	public static IssueModel GetNewIssue()
 	{
 
 		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
-			.RuleFor(f => f.IssueTitle, f => f.Lorem.Sentence())
+			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 			.RuleFor(f => f.DateCreated, f => f.Date.Past())
@@ -29,12 +38,17 @@ public static class FakeIssue
 		return issue;
 	}
 
+	/// <summary>
+	/// Gets the issues.
+	/// </summary>
+	/// <param name="numberOfIssues">The number of issues.</param>
+	/// <returns>IEnumerable List of IssueModels</returns>
 	public static IEnumerable<IssueModel> GetIssues(int numberOfIssues)
 	{
 
 		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-		.RuleFor(f => f.IssueTitle, f => f.Lorem.Sentence())
+		.RuleFor(f => f.Title, f => f.Lorem.Sentence())
 		.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 		.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 		.RuleFor(f => f.DateCreated, f => f.Date.Past())
@@ -50,6 +64,11 @@ public static class FakeIssue
 
 	}
 
+	/// <summary>
+	/// Gets the basic issues.
+	/// </summary>
+	/// <param name="numberOfIssues">The number of issues.</param>
+	/// <returns>IEnumerable List of BasicIssueModels</returns>
 	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
 	{
 
