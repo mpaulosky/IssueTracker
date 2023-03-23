@@ -14,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class SolutionMongoRepository : ISolutionRepository
 {
+
 	private readonly IMongoCollection<SolutionModel> _collection;
 
 	/// <summary>
@@ -32,6 +33,10 @@ public class SolutionMongoRepository : ISolutionRepository
 
 	}
 
+	/// <summary>
+	/// Creates the solution asynchronous.
+	/// </summary>
+	/// <param name="solution">The solution.</param>
 	public async Task CreateSolutionAsync(SolutionModel solution)
 	{
 
@@ -100,4 +105,5 @@ public class SolutionMongoRepository : ISolutionRepository
 		await _collection.ReplaceOneAsync(filter, solution);
 
 	}
+
 }

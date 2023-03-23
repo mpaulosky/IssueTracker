@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CollectionNames.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		CollectionNames.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 

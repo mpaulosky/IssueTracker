@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IssueMongoRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		IssueMongoRepository.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class IssueMongoRepository : IIssueRepository
 {
+
 	private readonly IMongoCollection<IssueModel> _collection;
 
 	/// <summary>
@@ -133,4 +136,5 @@ public class IssueMongoRepository : IIssueRepository
 		return result;
 
 	}
+
 }

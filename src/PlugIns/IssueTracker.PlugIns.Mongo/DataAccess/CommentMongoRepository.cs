@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CommentMongoRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		CommentMongoRepository.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class CommentMongoRepository : ICommentRepository
 {
+
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 
 	/// <summary>
@@ -139,4 +142,5 @@ public class CommentMongoRepository : ICommentRepository
 		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
 	}
+
 }

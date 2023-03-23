@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CategoryMongoRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-// Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		CategoryMongoRepository.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class CategoryMongoRepository : ICategoryRepository
 {
+
 	private readonly IMongoCollection<CategoryModel> _collection;
 
 	/// <summary>
@@ -88,4 +91,5 @@ public class CategoryMongoRepository : ICategoryRepository
 		await _collection.ReplaceOneAsync(filter, category);
 
 	}
+
 }

@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IMongoDbContext.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		IMongoDbContextFactory.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -9,6 +11,7 @@ namespace IssueTracker.PlugIns.Mongo.Contracts;
 
 public interface IMongoDbContextFactory
 {
+
 	IMongoDatabase Database { get; }
 
 	IMongoClient Client { get; }
@@ -18,4 +21,5 @@ public interface IMongoDbContextFactory
 	string DbName { get; }
 
 	IMongoCollection<T> GetCollection<T>(string name);
+
 }

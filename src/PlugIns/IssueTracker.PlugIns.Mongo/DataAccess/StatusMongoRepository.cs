@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="StatusMongoRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		StatusMongoRepository.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class StatusMongoRepository : IStatusRepository
 {
+
 	private readonly IMongoCollection<StatusModel> _collection;
 
 	/// <summary>
@@ -103,4 +106,5 @@ public class StatusMongoRepository : IStatusRepository
 		await _collection.DeleteOneAsync(filter);
 
 	}
+
 }

@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UserMongoRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		UserMongoRepository.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class UserMongoRepository : IUserRepository
 {
+
 	private readonly IMongoCollection<UserModel> _collection;
 
 	/// <summary>
@@ -103,4 +106,5 @@ public class UserMongoRepository : IUserRepository
 		return result;
 
 	}
+
 }

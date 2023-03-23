@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MongoDbContext.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		MongoDbContextFactory.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -33,9 +35,36 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 
 	}
 
+	/// <summary>
+	/// Gets the database.
+	/// </summary>
+	/// <value>
+	/// The database.
+	/// </value>
 	public IMongoDatabase Database { get; }
+
+	/// <summary>
+	/// Gets the client.
+	/// </summary>
+	/// <value>
+	/// The client.
+	/// </value>
 	public IMongoClient Client { get; }
+
+	/// <summary>
+	/// Gets the connection string.
+	/// </summary>
+	/// <value>
+	/// The connection string.
+	/// </value>
 	public string ConnectionString { get; }
+
+	/// <summary>
+	/// Gets the name of the database.
+	/// </summary>
+	/// <value>
+	/// The name of the database.
+	/// </value>
 	public string DbName { get; }
 
 	/// <summary>
