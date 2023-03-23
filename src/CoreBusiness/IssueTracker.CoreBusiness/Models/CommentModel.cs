@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CommentModel.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		CommentModel.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -11,24 +13,66 @@ namespace IssueTracker.CoreBusiness.Models;
 public class CommentModel
 {
 
+	/// <summary>
+	/// Gets or sets the identifier.
+	/// </summary>
+	/// <value>
+	/// The identifier.
+	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-	public BasicIssueModel Issue { get; set; } = new BasicIssueModel();
-
+	/// <summary>
+	/// Gets or sets the comment.
+	/// </summary>
+	/// <value>
+	/// The comment.
+	/// </value>
 	[BsonElement("comment")]
 	[BsonRepresentation(BsonType.String)]
 	public string Comment { get; set; } = string.Empty;
 
+	/// <summary>
+	/// Gets or sets the date created.
+	/// </summary>
+	/// <value>
+	/// The date created.
+	/// </value>
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
+	/// <summary>
+	/// Gets or sets the source.
+	/// </summary>
+	/// <value>
+	/// The source.
+	/// </value>
+	public BasicCommentSourceModel Source { get; set; } = new();
+
+	/// <summary>
+	/// Gets or sets the author.
+	/// </summary>
+	/// <value>
+	/// The author.
+	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
+	/// <summary>
+	/// Gets or sets the user votes.
+	/// </summary>
+	/// <value>
+	/// The user votes.
+	/// </value>
 	public HashSet<string> UserVotes { get; set; } = new();
 
+	/// <summary>
+	/// Gets or sets a value indicating whether this <see cref="CommentModel"/> is archived.
+	/// </summary>
+	/// <value>
+	///   <c>true</c> if archived; otherwise, <c>false</c>.
+	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; } = false;

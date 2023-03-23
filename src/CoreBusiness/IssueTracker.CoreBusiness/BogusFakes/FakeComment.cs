@@ -1,21 +1,30 @@
 //-----------------------------------------------------------------------
-// <copyright file="FakeComment.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		FakeComment.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
+/// <summary>
+/// FakeComment class
+/// </summary>
 public static class FakeComment
 {
 
+	/// <summary>
+	/// Gets the new comment.
+	/// </summary>
+	/// <returns>CommentModel</returns>
 	public static CommentModel GetNewComment()
 	{
 
 		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
 		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
+		.RuleFor(x => x.Source, FakeSource.GetNewSource())
 		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 		.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
@@ -25,13 +34,18 @@ public static class FakeComment
 
 	}
 
+	/// <summary>
+	/// Gets the comments.
+	/// </summary>
+	/// <param name="numberOfComments">The number of comments.</param>
+	/// <returns>IEnumerable List of CommentModel</returns>
 	public static IEnumerable<CommentModel> GetComments(int numberOfComments)
 	{
 
 		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
 		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
 		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-		.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1).First())
+		.RuleFor(x => x.Source, FakeSource.GetNewSource())
 		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 		.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
@@ -41,6 +55,11 @@ public static class FakeComment
 
 	}
 
+	/// <summary>
+	/// Gets the basic comments.
+	/// </summary>
+	/// <param name="numberOfComments">The number of comments.</param>
+	/// <returns>IEnumerable List of BasicCommentModels</returns>
 	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
 	{
 
@@ -54,6 +73,10 @@ public static class FakeComment
 
 	}
 
+	/// <summary>
+	/// Gets the basic comment.
+	/// </summary>
+	/// <returns>BasicCommentModel</returns>
 	public static BasicCommentModel GetBasicComment()
 	{
 
