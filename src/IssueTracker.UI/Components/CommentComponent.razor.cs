@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.UI.Shared;
+namespace IssueTracker.UI.Components;
 
 public partial class CommentComponent
 {
