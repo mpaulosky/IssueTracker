@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.Contracts;
+namespace IssueTracker.CoreBusiness.Services.Interfaces;
 
 public interface IIssueService
 {

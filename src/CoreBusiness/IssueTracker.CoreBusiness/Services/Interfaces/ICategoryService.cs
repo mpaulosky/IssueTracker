@@ -1,22 +1,22 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ICategoryRepository.cs" company="mpaulosky">
+// <copyright file="ICategoryService.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.Library.Contracts;
+namespace IssueTracker.CoreBusiness.Services.Interfaces;
 
-public interface ICategoryRepository
+public interface ICategoryService
 {
 
-	Task<CategoryModel> GetCategory(string itemId);
+	Task<CategoryModel> GetCategory(string categoryId);
 
-	Task<IEnumerable<CategoryModel>> GetCategories();
+	Task<List<CategoryModel>> GetCategories();
 
 	Task CreateCategory(CategoryModel category);
 
-	Task UpdateCategory(string itemId, CategoryModel category);
+	Task UpdateCategory(CategoryModel category);
 
 	Task DeleteCategory(CategoryModel category);
 
