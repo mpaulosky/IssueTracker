@@ -28,7 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\IssueTracker.Library\IssueTracker.Library.csproj" />
 		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>

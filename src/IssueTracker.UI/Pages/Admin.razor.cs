@@ -56,7 +56,7 @@ public partial class Admin
 	/// <param name="model">IssueModel</param>
 	private void EditTitle(IssueModel model)
 	{
-		_editedTitle = model.IssueName;
+		_editedTitle = model.Title;
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
 	}
@@ -68,7 +68,7 @@ public partial class Admin
 	private async Task SaveTitle(IssueModel model)
 	{
 		_currentEditingTitle = string.Empty;
-		model.IssueName = _editedTitle;
+		model.Title = _editedTitle;
 		await IssueService.UpdateIssue(model);
 	}
 

@@ -33,7 +33,7 @@ public class GetIssuesByUserTests : IAsyncLifetime
 
 		// Assert
 		results.Count.Should().Be(1);
-		results.First().IssueName.Should().Be(expected.IssueName);
+		results.First().Title.Should().Be(expected.Title);
 		results.First().Description.Should().Be(expected.Description);
 		results.First().Author.Id.Should().Be(expected.Author.Id);
 

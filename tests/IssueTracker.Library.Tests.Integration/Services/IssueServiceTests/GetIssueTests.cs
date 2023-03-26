@@ -33,7 +33,7 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Assert
 		result.Should().NotBeNull();
-		result.IssueName.Should().Be(expected.IssueName);
+		result.Title.Should().Be(expected.Title);
 		result.Id.Should().Be(expected.Id);
 		result.Author.Id.Should().Be(expected.Author.Id);
 

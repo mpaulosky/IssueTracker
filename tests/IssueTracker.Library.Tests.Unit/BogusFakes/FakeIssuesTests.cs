@@ -16,7 +16,7 @@ public class FakeIssuesTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().IssueName.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();
 		result.First().Category.Should().NotBeNull();
 		result.First().IssueStatus.Should().NotBeNull();
@@ -35,7 +35,7 @@ public class FakeIssuesTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Issue.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();
 		result.First().Category.Should().NotBeNull();
 		result.First().Status.Should().NotBeNull();

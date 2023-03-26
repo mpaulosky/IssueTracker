@@ -3,11 +3,12 @@ global using System.Net;
 
 global using FluentAssertions;
 
-global using IssueTracker.Library.Contracts;
-global using IssueTracker.Library.DataAccess;
-global using IssueTracker.Library.Helpers;
-global using IssueTracker.Library.Helpers.BogusFakes;
-global using IssueTracker.Library.Models;
+global using IssueTracker.CoreBusiness.BogusFakes;
+global using IssueTracker.CoreBusiness.Contracts;
+global using IssueTracker.CoreBusiness.Models;
+global using IssueTracker.CoreBusiness.Services;
+global using IssueTracker.PlugIns.Mongo.Contracts;
+global using IssueTracker.PlugIns.Mongo.Helpers;
 global using IssueTracker.UI;
 
 global using Microsoft.AspNetCore.Hosting;

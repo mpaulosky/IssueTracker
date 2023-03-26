@@ -17,7 +17,7 @@ public class FakeCommentsTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Issue.Should().NotBeNull();
+		result.First().Source.Should().NotBeNull();
 		result.First().Comment.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
 

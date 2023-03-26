@@ -7,4 +7,5 @@ global using IssueTracker.UseCases.PlugInRepositoryInterfaces;
 global using MongoDB.Bson;
 global using MongoDB.Driver;
 
-global using static IssueTracker.PlugIns.Mongo.CollectionNames;
+global using static IssueTracker.PlugIns.Mongo.Helpers.CollectionNames;
+

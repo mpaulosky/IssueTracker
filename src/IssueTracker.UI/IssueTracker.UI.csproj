@@ -21,7 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\IssueTracker.Library\IssueTracker.Library.csproj" />
+	  <ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+	  <ProjectReference Include="..\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj" />
 	</ItemGroup>
 
 </Project>

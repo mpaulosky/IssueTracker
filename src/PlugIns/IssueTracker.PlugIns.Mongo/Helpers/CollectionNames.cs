@@ -7,7 +7,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Mongo;
+namespace IssueTracker.PlugIns.Mongo.Helpers;
 
 /// <summary>
 ///		CollectionNames class

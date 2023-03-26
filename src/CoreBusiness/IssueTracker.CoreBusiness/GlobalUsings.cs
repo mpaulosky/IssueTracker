@@ -1,4 +1,6 @@
-﻿global using Bogus;
+﻿global using Ardalis.GuardClauses;
+
+global using Bogus;
 
 global using IssueTracker.CoreBusiness.Models;
 

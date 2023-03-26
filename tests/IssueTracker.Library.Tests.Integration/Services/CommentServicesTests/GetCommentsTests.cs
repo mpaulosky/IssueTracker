@@ -42,7 +42,7 @@ public class GetCommentsTests : IAsyncLifetime
 		results.Count.Should().Be(1);
 		results[0].Comment.Should().Be(expected.Comment);
 		results[0].Author.Should().BeEquivalentTo(expected.Author);
-		results[0].Issue.Should().BeEquivalentTo(expected.Issue);
+		results[0].Source.Should().BeEquivalentTo(expected.Source);
 
 	}
 

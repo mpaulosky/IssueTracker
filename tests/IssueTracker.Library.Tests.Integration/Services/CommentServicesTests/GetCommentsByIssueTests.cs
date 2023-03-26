@@ -29,12 +29,12 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> result = await _sut.GetCommentsByIssue(expected.Issue.Id);
+		List<CommentModel> result = await _sut.GetCommentsByIssue(expected.Source.Id);
 
 		// Assert
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
-		result[0].Issue.Id.Should().Be(expected.Issue.Id);
+		result[0].Source.Id.Should().Be(expected.Source.Id);
 
 	}
 

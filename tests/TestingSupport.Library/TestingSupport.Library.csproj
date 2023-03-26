@@ -9,11 +9,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\IssueTracker.Library\IssueTracker.Library.csproj" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+		<PackageReference Include="MongoDB.Driver.Core" Version="2.19.0" />
+		<PackageReference Include="Moq" Version="4.18.4" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Moq" Version="4.18.4" />
+	  <ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+	  <ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -166,7 +166,7 @@ public partial class Index
 
 		if (string.IsNullOrWhiteSpace(_searchText) == false)
 			output = output.Where(s =>
-					s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
+					s.Title.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
 					s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
 				.ToList();
 

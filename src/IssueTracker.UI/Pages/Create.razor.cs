@@ -39,7 +39,7 @@ public partial class Create
 		StatusModel status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
 		IssueModel s = new()
 		{
-			IssueName = _issue.Issue,
+			Title = _issue.Issue,
 			Description = _issue.Description,
 			Author = new BasicUserModel(_loggedInUser),
 			Category = new BasicCategoryModel(category?.CategoryName, category?.CategoryDescription),

@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.Library;
+﻿using IssueTracker.PlugIns.Mongo.DataAccess;
+
+namespace IssueTracker.Library;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]

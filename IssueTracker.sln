@@ -24,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		.github\workflows\super-linter-main.yml = .github\workflows\super-linter-main.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Library", "src\IssueTracker.Library\IssueTracker.Library.csproj", "{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}"
@@ -59,12 +57,6 @@ Global
 		Test|Any CPU = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4}.Test|Any CPU.Build.0 = Test|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -118,7 +110,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FA4695BA-5053-4FE2-B6EC-8F9BC3D23BB4} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
 		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 		{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}

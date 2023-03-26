@@ -1,4 +1,5 @@
-﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
+﻿
+namespace IssueTracker.Library.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]

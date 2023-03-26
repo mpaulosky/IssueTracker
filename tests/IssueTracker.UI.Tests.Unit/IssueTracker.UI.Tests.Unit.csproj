@@ -34,7 +34,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\IssueTracker.Library\IssueTracker.Library.csproj" />
 		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\IssueTracker.Library.Tests.Unit\IssueTracker.Library.Tests.Unit.csproj" />
 	</ItemGroup>

@@ -10,7 +10,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 1",
+				Title = "Test Issue 1",
 				Description = "A new test issue 1",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -21,7 +21,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 2",
+				Title = "Test Issue 2",
 				Description = "A new test issue 2",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -42,7 +42,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 3",
+				Title = "Test Issue 3",
 				Description = "A new test issue 3",
 				DateCreated = DateTime.UtcNow,
 				Archived = true,
@@ -63,7 +63,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 3",
+				Title = "Test Issue 3",
 				Description = "A new test issue 3",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -85,7 +85,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 3",
+				Title = "Test Issue 3",
 				Description = "A new test issue 3",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -106,7 +106,7 @@ public static class TestIssues
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 6",
+				Title = "Test Issue 6",
 				Description = "A new test issue 6",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -130,7 +130,7 @@ public static class TestIssues
 		{
 			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 1",
+				Title = "Test Issue 1",
 				Description = "A new test issue 1",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -149,7 +149,7 @@ public static class TestIssues
 			},
 			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 2",
+				Title = "Test Issue 2",
 				Description = "A new test issue 2",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -168,7 +168,7 @@ public static class TestIssues
 			},
 			new IssueModel {
 				Id = Guid.NewGuid().ToString(),
-				IssueName = "Test Issue 3",
+				Title = "Test Issue 3",
 				Description = "A new test issue 3",
 				DateCreated = DateTime.UtcNow,
 				Archived = false,
@@ -202,7 +202,7 @@ public static class TestIssues
 		IssueModel issue = new()
 		{
 			Id = "5dc1039a1521eaa36835e542",
-			IssueName = "Updated Test Issue 1",
+			Title = "Updated Test Issue 1",
 			Description = "Updated A new test issue 1",
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
@@ -225,7 +225,7 @@ public static class TestIssues
 		IssueModel issue = new()
 		{
 			Id = "5dc1039a1521eaa36835e542",
-			IssueName = "Test Issue 1",
+			Title = "Test Issue 1",
 			Description = "A new test issue 1",
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
@@ -251,7 +251,7 @@ public static class TestIssues
 	{
 		IssueModel issue = new()
 		{
-			IssueName = "Test Issue 1",
+			Title = "Test Issue 1",
 			Description = "A new test issue",
 			DateCreated = DateTime.UtcNow,
 			Archived = false,
@@ -279,7 +279,7 @@ public static class TestIssues
 		IssueModel issue = new()
 		{
 			Id = id,
-			IssueName = issueName,
+			Title = issueName,
 			Description = description,
 			DateCreated = dateCreated,
 			Archived = archived,

@@ -36,7 +36,7 @@ public class GetIssuesWaitingForApprovalTests : IAsyncLifetime
 
 		// Assert
 		results.Count.Should().Be(1);
-		results.First().IssueName.Should().Be(expected.IssueName);
+		results.First().Title.Should().Be(expected.Title);
 		results.First().Description.Should().Be(expected.Description);
 
 	}
