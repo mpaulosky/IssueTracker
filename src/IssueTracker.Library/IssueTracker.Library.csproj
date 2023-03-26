@@ -8,7 +8,6 @@
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<RepositoryType>git</RepositoryType>
-		<UserSecretsId>c1773cca-d680-4f40-a566-547c2639b805</UserSecretsId>
 		<Configurations>Debug;Release;Test</Configurations>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
@@ -22,6 +21,10 @@
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="7.0.4" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="DataAccess\" />
 	</ItemGroup>
 
 </Project>
