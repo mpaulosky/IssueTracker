@@ -1,10 +1,14 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeUserTests
 {
 
-	[Fact]
+	public FakeUserTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeUser GetUsers Test")]
 	public void GetUser_WhenUserRequested_Returns_FakeUser_Test()
 	{
 
@@ -23,7 +27,7 @@ public class FakeUserTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeUser GetBasicUser Test")]
 	public void GetBasicUser_WhenBasicUserRequested_Returns_FakeBasicUser_Test()
 	{
 

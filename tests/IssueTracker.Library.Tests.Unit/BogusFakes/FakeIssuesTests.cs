@@ -1,10 +1,14 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeIssuesTests
 {
 
-	[Fact]
+	public FakeIssuesTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeIssue GetIssues Test")]
 	public void GetIssues_With_RequestForIssues_Should_ReturnFakeIssues_Test()
 	{
 
@@ -24,7 +28,7 @@ public class FakeIssuesTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeIssue GetBasicIssues Test")]
 	public void GetBasicIssues_With_RequestForBasicIssues_Should_ReturnFakeBasicIssues_Test()
 	{
 		// Arrange

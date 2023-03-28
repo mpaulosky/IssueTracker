@@ -1,15 +1,18 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeCommentsTests
 {
 
-	[Fact]
+	public FakeCommentsTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeComment GetComments Test")]
 	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test()
 	{
 
 		// Arrange
-
 
 		// Act
 		var result = FakeComment.GetComments(1).ToList();
@@ -23,7 +26,7 @@ public class FakeCommentsTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeComment GetBasicComments Test")]
 	public void GetBasicComments_With_RequestForBasicComments_Should_ReturnFakeBasicComments_Test()
 	{
 
@@ -39,7 +42,7 @@ public class FakeCommentsTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeComment GetBasicComment Test")]
 	public void GetBasicComment_With_RequestForABasicComment_Should_ReturnAFakeBasicComment_Test()
 	{
 
