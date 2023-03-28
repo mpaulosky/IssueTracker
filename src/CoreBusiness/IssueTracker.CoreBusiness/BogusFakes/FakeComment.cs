@@ -14,60 +14,68 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 /// </summary>
 public static class FakeComment
 {
+	private static Faker<CommentModel>? _commentsGenerator;
+
+	private static void SetupGenerator()
+	{
+
+		Randomizer.Seed = new Random(123);
+
+		_commentsGenerator = new Faker<CommentModel>()
+				.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+				.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
+				.RuleFor(x => x.Source, FakeSource.GetSource())
+				.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
+				.RuleFor(c => c.DateCreated, f => f.Date.Past());
+
+	}
 
 	/// <summary>
-	/// Gets the new comment.
+	/// Gets a new comment.
 	/// </summary>
 	/// <returns>CommentModel</returns>
 	public static CommentModel GetNewComment()
 	{
 
-		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
-		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-		.RuleFor(x => x.Source, FakeSource.GetNewSource())
-		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
-		.RuleFor(c => c.DateCreated, f => f.Date.Past());
+		SetupGenerator();
 
-		CommentModel comment = commentsGenerator.Generate();
+		CommentModel comment = _commentsGenerator!.Generate();
+
+		comment.Id = string.Empty;
 
 		return comment;
 
 	}
 
 	/// <summary>
-	/// Gets the comments.
+	/// Gets a list of comments.
 	/// </summary>
 	/// <param name="numberOfComments">The number of comments.</param>
 	/// <returns>IEnumerable List of CommentModel</returns>
 	public static IEnumerable<CommentModel> GetComments(int numberOfComments)
 	{
 
-		Faker<CommentModel> commentsGenerator = new Faker<CommentModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-		.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-		.RuleFor(x => x.Source, FakeSource.GetNewSource())
-		.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
-		.RuleFor(c => c.DateCreated, f => f.Date.Past());
+		SetupGenerator();
 
-		List<CommentModel> comments = commentsGenerator.Generate(numberOfComments);
+		var comments = _commentsGenerator!.Generate(numberOfComments);
 
 		return comments;
 
 	}
 
 	/// <summary>
-	/// Gets the basic comments.
+	/// Gets a list of basic comments.
 	/// </summary>
 	/// <param name="numberOfComments">The number of comments.</param>
 	/// <returns>IEnumerable List of BasicCommentModels</returns>
 	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
 	{
 
-		Faker<BasicCommentModel> commentsGenerator = new Faker<BasicCommentModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
+		SetupGenerator();
 
-		List<BasicCommentModel> basicComments = commentsGenerator.Generate(numberOfComments);
+		var comments = _commentsGenerator!.Generate(numberOfComments);
+
+		var basicComments = comments.Select(comments => new BasicCommentModel(comments));
 
 		return basicComments;
 
@@ -80,11 +88,9 @@ public static class FakeComment
 	public static BasicCommentModel GetBasicComment()
 	{
 
-		Faker<BasicCommentModel> commentsGenerator = new Faker<BasicCommentModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-			.RuleFor(c => c.Comment, f => f.Lorem.Sentence());
+		SetupGenerator();
 
-		BasicCommentModel comment = commentsGenerator.Generate();
+		var comment = _commentsGenerator!.Generate();
 
 		var basicComment = new BasicCommentModel(comment.Id, comment.Comment);
 

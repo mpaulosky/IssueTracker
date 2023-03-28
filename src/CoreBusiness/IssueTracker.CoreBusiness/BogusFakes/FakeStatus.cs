@@ -15,51 +15,66 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 public static class FakeStatus
 {
 
+	private static Faker<StatusModel>? _statusGenerator;
+
+	private static void SetupGenerator()
+	{
+
+		Randomizer.Seed = new Random(123);
+
+		_statusGenerator = new Faker<StatusModel>()
+				.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+				.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
+				.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
+
+	}
+
 	/// <summary>
-	/// Gets the new status.
+	/// Gets a new status.
 	/// </summary>
 	/// <returns>StatusModel</returns>
 	public static StatusModel GetNewStatus()
 	{
 
-		Faker<StatusModel> statusGenerator = new Faker<StatusModel>()
-		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
-		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
+		SetupGenerator();
 
-		return statusGenerator.Generate();
+		var status = _statusGenerator!.Generate();
+
+		status.Id = string.Empty;
+
+		return status;
 
 	}
 
 	/// <summary>
-	/// Gets the statuses.
+	/// Gets a list of statuses.
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>
 	/// <returns>IEnumerable List of StatusModels</returns>
 	public static IEnumerable<StatusModel> GetStatuses(int numberOfStatuses)
 	{
 
-		Faker<StatusModel> statusGenerator = new Faker<StatusModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
-		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
+		SetupGenerator();
 
-		return statusGenerator.Generate(numberOfStatuses);
+		var statuses = _statusGenerator!.Generate(numberOfStatuses);
+
+		return statuses;
 
 	}
 
 	/// <summary>
-	/// Gets the basic statuses.
+	/// Gets a list of basic statuses.
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>
 	/// <returns>IEnumerable List of BasicStatusModels</returns>
 	public static IEnumerable<BasicStatusModel> GetBasicStatuses(int numberOfStatuses)
 	{
 
-		Faker<BasicStatusModel> statusGenerator = new Faker<BasicStatusModel>()
-		.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
-		.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
+		SetupGenerator();
 
-		List<BasicStatusModel> basicStatuses = statusGenerator.Generate(numberOfStatuses);
+		var statuses = _statusGenerator!.Generate(numberOfStatuses);
+
+		var basicStatuses = statuses.Select(s => new BasicStatusModel(s));
 
 		return basicStatuses;
 

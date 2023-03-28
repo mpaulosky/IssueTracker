@@ -14,6 +14,26 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 /// </summary>
 public static class FakeIssue
 {
+	private static Faker<IssueModel>? _issueGenerator;
+
+	private static void SetupGenerator()
+	{
+
+		Randomizer.Seed = new Random(123);
+
+		_issueGenerator = new Faker<IssueModel>()
+			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
+			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
+			.RuleFor(f => f.DateCreated, f => f.Date.Past())
+			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
+			.RuleFor(f => f.Rejected, f => f.Random.Bool())
+			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
+			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
+			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
+			.RuleFor(f => f.Archived, f => f.Random.Bool());
+
+	}
 
 	/// <summary>
 	/// Gets the new issue.
@@ -22,20 +42,14 @@ public static class FakeIssue
 	public static IssueModel GetNewIssue()
 	{
 
-		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
-			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
-			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
-			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
-			.RuleFor(f => f.DateCreated, f => f.Date.Past())
-			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
-			.RuleFor(f => f.Rejected, f => f.Random.Bool())
-			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
-			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
-			.RuleFor(f => f.Archived, f => f.Random.Bool());
+		SetupGenerator();
 
-		IssueModel issue = issueGenerator.Generate();
+		var issue = _issueGenerator!.Generate();
+
+		issue.Id = string.Empty;
 
 		return issue;
+
 	}
 
 	/// <summary>
@@ -46,35 +60,27 @@ public static class FakeIssue
 	public static IEnumerable<IssueModel> GetIssues(int numberOfIssues)
 	{
 
-		Faker<IssueModel> issueGenerator = new Faker<IssueModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-		.RuleFor(f => f.Title, f => f.Lorem.Sentence())
-		.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
-		.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
-		.RuleFor(f => f.DateCreated, f => f.Date.Past())
-		.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
-		.RuleFor(f => f.Rejected, f => f.Random.Bool())
-		.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
-		.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
-		.RuleFor(f => f.Archived, f => f.Random.Bool());
+		SetupGenerator();
 
-		List<IssueModel> issues = issueGenerator.Generate(numberOfIssues);
+		var issues = _issueGenerator!.Generate(numberOfIssues);
 
 		return issues;
 
 	}
 
 	/// <summary>
-	/// Gets the basic issues.
+	/// Gets a list of basic issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
 	/// <returns>IEnumerable List of BasicIssueModels</returns>
 	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
 	{
 
-		IEnumerable<IssueModel> issues = GetIssues(numberOfIssues);
+		SetupGenerator();
 
-		IEnumerable<BasicIssueModel> basicIssues = issues.Select(c => new BasicIssueModel(c));
+		var issues = _issueGenerator!.Generate(numberOfIssues);
+
+		var basicIssues = issues.Select(c => new BasicIssueModel(c));
 
 		return basicIssues;
 

@@ -15,34 +15,14 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 public static class FakeUser
 {
 
-	/// <summary>
-	/// Gets the new user.
-	/// </summary>
-	/// <returns>UserModel</returns>
-	public static UserModel GetNewUser()
-	{
-		Faker<UserModel> userGenerator = new Faker<UserModel>()
-			.RuleFor(x => x.ObjectIdentifier, Guid.NewGuid().ToString())
-			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
-			.RuleFor(x => x.LastName, f => f.Name.LastName())
-			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
-			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
+	private static Faker<UserModel>? _userGenerator;
 
-		UserModel user = userGenerator.Generate();
-
-		return user;
-
-	}
-
-	/// <summary>
-	/// Gets the users.
-	/// </summary>
-	/// <param name="numberOfUsers">The number of users.</param>
-	/// <returns>IEnumerable List of UserModels</returns>
-	public static IEnumerable<UserModel> GetUsers(int numberOfUsers)
+	private static void SetupGenerator()
 	{
 
-		Faker<UserModel> userGenerator = new Faker<UserModel>()
+		Randomizer.Seed = new Random(123);
+
+		_userGenerator = new Faker<UserModel>()
 			.RuleFor(x => x.Id, Guid.NewGuid().ToString())
 			.RuleFor(x => x.ObjectIdentifier, Guid.NewGuid().ToString())
 			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
@@ -50,7 +30,36 @@ public static class FakeUser
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
 			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
 
-		List<UserModel> users = userGenerator.Generate(numberOfUsers);
+	}
+
+	/// <summary>
+	/// Gets a new user.
+	/// </summary>
+	/// <returns>UserModel</returns>
+	public static UserModel GetNewUser()
+	{
+
+		SetupGenerator();
+
+		var user = _userGenerator!.Generate();
+
+		user.Id = string.Empty;
+
+		return user;
+
+	}
+
+	/// <summary>
+	/// Gets a list of users.
+	/// </summary>
+	/// <param name="numberOfUsers">The number of users.</param>
+	/// <returns>IEnumerable List of UserModels</returns>
+	public static IEnumerable<UserModel> GetUsers(int numberOfUsers)
+	{
+
+		SetupGenerator();
+
+		var users = _userGenerator!.Generate(numberOfUsers);
 
 		return users;
 
@@ -64,11 +73,11 @@ public static class FakeUser
 	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)
 	{
 
-		Faker<BasicUserModel> userGenerator = new Faker<BasicUserModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString())
-		.RuleFor(x => x.DisplayName, f => f.Internet.UserName());
+		SetupGenerator();
 
-		List<BasicUserModel> basicUsers = userGenerator.Generate(numberOfUsers);
+		var users = _userGenerator!.Generate(numberOfUsers);
+
+		var basicUsers = users.Select(c => new BasicUserModel(c));
 
 		return basicUsers;
 
