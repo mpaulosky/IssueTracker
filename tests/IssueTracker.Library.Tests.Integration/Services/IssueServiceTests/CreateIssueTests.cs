@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.MongoHealthCheckTests;
+﻿namespace IssueTracker.PlugIns.Mongo.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]

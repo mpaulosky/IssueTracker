@@ -1,6 +1,6 @@
 ﻿using IssueTracker.PlugIns.Mongo.DataAccess;
 
-namespace IssueTracker.Library;
+namespace IssueTracker.PlugIns.Mongo;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
