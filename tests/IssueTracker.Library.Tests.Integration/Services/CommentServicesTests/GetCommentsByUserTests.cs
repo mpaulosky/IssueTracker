@@ -12,7 +12,6 @@ public class GetCommentsByUserTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var repo = (ICommentRepository)_factory.Services.GetRequiredService(typeof(ICommentRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		memCache.Remove("CommentsData");

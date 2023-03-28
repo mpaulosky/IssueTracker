@@ -1,4 +1,5 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CategoriesTests : TestContext
@@ -9,7 +10,6 @@ public class CategoriesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-
 	private IEnumerable<CategoryModel> _expectedCategories;
 	private UserModel _expectedUser;
 

@@ -4,7 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<RootNamespace>IssueTracker.Library</RootNamespace>
+		<RootNamespace>IssueTracker.CoreBusiness</RootNamespace>
 		<Configurations>Debug;Release;Test</Configurations>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
@@ -31,6 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 

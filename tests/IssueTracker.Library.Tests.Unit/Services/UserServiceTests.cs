@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services;
+﻿namespace IssueTracker.CoreBusiness.Services;
 
 [ExcludeFromCodeCoverage]
 public class UserServiceTests

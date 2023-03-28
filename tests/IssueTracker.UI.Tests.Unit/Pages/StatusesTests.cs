@@ -9,7 +9,6 @@ public class StatusesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-
 	private IEnumerable<StatusModel> _expectedStatuses;
 	private UserModel _expectedUser;
 
@@ -21,7 +20,6 @@ public class StatusesTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-
 	}
 
 	[Fact]

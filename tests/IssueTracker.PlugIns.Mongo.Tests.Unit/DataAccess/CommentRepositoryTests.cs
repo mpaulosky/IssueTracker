@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.DataAccess;
+﻿namespace IssueTracker.CoreBusiness.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests

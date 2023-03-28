@@ -13,7 +13,6 @@ public class GetCommentsTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CommentModel)));
 
