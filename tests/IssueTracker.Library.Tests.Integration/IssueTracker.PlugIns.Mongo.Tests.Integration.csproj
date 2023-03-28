@@ -4,7 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<IsPackable>false</IsPackable>
-		<RootNamespace>IssueTracker.Library</RootNamespace>
+		<RootNamespace>IssueTracker.PlugIns.Mongo</RootNamespace>
 		<Configurations>Debug;Release;Test</Configurations>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
