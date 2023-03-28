@@ -14,10 +14,10 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Create
 {
-	private List<CategoryModel> _categories;
-	private List<StatusModel> _statuses;
+	private List<CategoryModel>? _categories;
+	private List<StatusModel>? _statuses;
 	private CreateIssueDto _issue = new();
-	private UserModel _loggedInUser;
+	private UserModel? _loggedInUser;
 
 	/// <summary>
 	///		OnInitializedAsync method
@@ -35,15 +35,15 @@ public partial class Create
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		CategoryModel category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
-		StatusModel status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
-		IssueModel s = new()
+		CategoryModel? category = _categories!.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		StatusModel? status = _statuses!.FirstOrDefault(c => c.StatusName == "Watching");
+		IssueModel? s = new()
 		{
 			Title = _issue.Issue,
 			Description = _issue.Description,
-			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel(category?.CategoryName, category?.CategoryDescription),
-			IssueStatus = new BasicStatusModel(status?.StatusName, status?.StatusDescription)
+			Author = new BasicUserModel(_loggedInUser!),
+			Category = new BasicCategoryModel(category!.CategoryName, category!.CategoryDescription),
+			IssueStatus = new BasicStatusModel(status!.StatusName, status!.StatusDescription)
 		};
 
 		await IssueService.CreateIssue(s);

@@ -20,16 +20,8 @@ namespace IssueTracker.UI.Pages;
 [IgnoreAntiforgeryToken]
 public class ErrorModel : PageModel
 {
-	private readonly ILogger<ErrorModel> _logger;
 
-	/// <summary>
-	///		Initializes a new instance of the <see cref="ErrorModel" /> class.
-	/// </summary>
-	/// <param name="logger">The logger.</param>
-	public ErrorModel(ILogger<ErrorModel> logger) { _logger = logger; }
-
-
-	public string RequestId { get; set; }
+	public string RequestId { get; set; } = default!;
 
 	public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 

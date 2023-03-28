@@ -14,14 +14,14 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Profile
 {
-	private List<IssueModel> _approved;
-	private List<IssueModel> _archived;
-	private List<CommentModel> _comments;
-	private List<IssueModel> _issues;
+	private List<IssueModel>? _approved;
+	private List<IssueModel>? _archived;
+	private List<CommentModel>? _comments;
+	private List<IssueModel>? _issues;
 
-	private UserModel _loggedInUser;
-	private List<IssueModel> _pending;
-	private List<IssueModel> _rejected;
+	private UserModel? _loggedInUser;
+	private List<IssueModel>? _pending;
+	private List<IssueModel>? _rejected;
 
 	/// <summary>
 	///		OnInitializedAsync event

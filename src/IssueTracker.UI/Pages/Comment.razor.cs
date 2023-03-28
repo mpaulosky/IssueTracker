@@ -15,11 +15,11 @@ public partial class Comment
 {
 	private CreateCommentDto _comment = new();
 
-	private IssueModel _issue;
+	private IssueModel? _issue;
 
-	private UserModel _loggedInUser;
+	private UserModel? _loggedInUser;
 
-	[Parameter] public string Id { get; set; }
+	[Parameter] public string? Id { get; set; }
 
 	/// <summary>
 	///		OnInitializedAsync event.
@@ -27,7 +27,7 @@ public partial class Comment
 	protected override async Task OnInitializedAsync()
 	{
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"AuthProvider.GetUserFromAuth(UserService) != null");
+			"AuthProvider.GetUserFromAuth(UserService) = null");
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 		_issue = await IssueService.GetIssue(Id);
 	}
@@ -37,10 +37,10 @@ public partial class Comment
 	/// </summary>
 	private async Task CreateComment()
 	{
-		CommentModel comment = new()
+		CommentModel? comment = new()
 		{
-			Source = new BasicCommentSourceModel(_issue),
-			Author = new BasicUserModel(_loggedInUser),
+			Source = new BasicCommentSourceModel(_issue!),
+			Author = new BasicUserModel(_loggedInUser!),
 			Comment = _comment.Comment
 		};
 

@@ -16,10 +16,10 @@ namespace IssueTracker.UI.Pages;
 public partial class Categories
 {
 
-	private RadzenDataGrid<CategoryModel> _categoriesGrid;
+	private RadzenDataGrid<CategoryModel>? _categoriesGrid;
 	private List<CategoryModel> _categories = new();
-	private CategoryModel _categoryToInsert;
-	private CategoryModel _categoryToUpdate;
+	private CategoryModel? _categoryToInsert;
+	private CategoryModel? _categoryToUpdate;
 
 
 	/// <summary>
@@ -37,7 +37,7 @@ public partial class Categories
 
 		_categoryToUpdate = category;
 
-		await _categoriesGrid.EditRow(_categoryToUpdate);
+		await _categoriesGrid!.EditRow(_categoryToUpdate);
 
 	}
 
@@ -53,7 +53,7 @@ public partial class Categories
 	private async Task SaveRow(CategoryModel category)
 	{
 
-		await _categoriesGrid.UpdateRow(category);
+		await _categoriesGrid!.UpdateRow(category);
 
 	}
 
@@ -64,7 +64,7 @@ public partial class Categories
 
 		if (category == _categoryToUpdate) _categoryToUpdate = null;
 
-		_categoriesGrid.CancelEditRow(category);
+		_categoriesGrid!.CancelEditRow(category);
 
 	}
 
@@ -73,7 +73,7 @@ public partial class Categories
 
 		if (_categories.Contains(category)) _categories.Remove(category);
 
-		_categoriesGrid.CancelEditRow(category);
+		_categoriesGrid!.CancelEditRow(category);
 
 		await CategoryService.DeleteCategory(category);
 
@@ -87,7 +87,7 @@ public partial class Categories
 
 		_categoryToInsert = new CategoryModel();
 
-		await _categoriesGrid.InsertRow(_categoryToInsert);
+		await _categoriesGrid!.InsertRow(_categoryToInsert);
 
 	}
 
@@ -100,7 +100,7 @@ public partial class Categories
 
 		_categories.Add(category);
 
-		await _categoriesGrid.Reload();
+		await _categoriesGrid!.Reload();
 
 	}
 

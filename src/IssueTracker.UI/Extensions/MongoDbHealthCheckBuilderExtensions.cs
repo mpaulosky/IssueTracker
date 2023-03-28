@@ -35,10 +35,10 @@ public static class MongoDbHealthCheckBuilderExtensions
 			this IHealthChecksBuilder builder,
 			string mongodbConnectionString,
 			string mongoDatabaseName,
-			string name = default,
-			HealthStatus failureStatus = default,
-			IEnumerable<string> tags = default,
-			TimeSpan timeout = default)
+			string name,
+			HealthStatus failureStatus,
+			IEnumerable<string> tags,
+			TimeSpan timeout)
 	{
 
 		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));

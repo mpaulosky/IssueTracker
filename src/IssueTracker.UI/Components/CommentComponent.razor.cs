@@ -9,7 +9,7 @@ namespace IssueTracker.UI.Components;
 
 public partial class CommentComponent
 {
-	[Parameter] public CommentModel Item { get; set; }
+	[Parameter] public CommentModel Item { get; set; } = new();
 
 	[Parameter] public UserModel LoggedInUser { get; set; } = new();
 
@@ -60,6 +60,6 @@ public partial class CommentComponent
 	{
 		if (comment.UserVotes is null || comment.UserVotes.Count == 0) return "issue-detail-no-votes";
 
-		return comment.UserVotes.Contains(LoggedInUser?.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
+		return comment.UserVotes.Contains(LoggedInUser.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
 	}
 }

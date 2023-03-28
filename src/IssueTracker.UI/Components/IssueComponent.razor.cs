@@ -16,7 +16,7 @@ public partial class IssueComponent
 	[Parameter]
 	public IssueModel Item { get; set; } = new();
 
-	private IssueModel _archivingIssue = new();
+	private IssueModel? _archivingIssue;
 
 	/// <summary>
 	///		GetIssueCategoryCssClass
@@ -69,7 +69,7 @@ public partial class IssueComponent
 	/// </summary>
 	private async Task ArchiveIssue()
 	{
-		_archivingIssue.Archived = true;
+		_archivingIssue!.Archived = true;
 		await IssueService.UpdateIssue(_archivingIssue);
 		_archivingIssue = null;
 	}

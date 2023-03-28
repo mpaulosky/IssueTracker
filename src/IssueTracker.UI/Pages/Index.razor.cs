@@ -14,17 +14,17 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Index
 {
-	private List<CategoryModel> _categories;
+	private List<CategoryModel>? _categories;
 	private bool _isSortedByNew = true;
-	private List<IssueModel> _issues = new();
+	private List<IssueModel>? _issues = new();
 
-	private UserModel _loggedInUser;
-	private string _searchText = string.Empty;
-	private string _selectedCategory = "All";
-	private string _selectedStatus = "All";
+	private UserModel? _loggedInUser;
+	private string? _searchText = string.Empty;
+	private string? _selectedCategory = "All";
+	private string? _selectedStatus = "All";
 	private bool _showCategories;
 	private bool _showStatuses;
-	private List<StatusModel> _statuses;
+	private List<StatusModel>? _statuses;
 
 	/// <summary>
 	///		OnInitializedAsync event
@@ -52,7 +52,7 @@ public partial class Index
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+		AuthenticationState? authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (string.IsNullOrWhiteSpace(objectId) == false)
 		{
@@ -158,7 +158,7 @@ public partial class Index
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		List<IssueModel> output = await IssueService.GetApprovedIssues();
+		List<IssueModel>? output = await IssueService.GetApprovedIssues();
 
 		if (_selectedCategory != "All") output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
 
