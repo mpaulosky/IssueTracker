@@ -45,6 +45,7 @@ public static class FakeSolution
 		var solution = _solutionGenerator!.Generate();
 
 		solution.Id = string.Empty;
+		solution.Archived = false;
 
 		return solution;
 
