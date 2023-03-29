@@ -10,6 +10,6 @@ namespace IssueTracker.UI.Models;
 public class CreateCommentDto
 {
 
-	[Required][MaxLength(500)] public string Comment { get; set; }
+	[Required][MaxLength(500)] public string? Comment { get; set; }
 
 }

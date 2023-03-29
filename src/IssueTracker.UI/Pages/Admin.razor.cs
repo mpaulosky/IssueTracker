@@ -18,7 +18,7 @@ public partial class Admin
 	private string _currentEditingTitle = "";
 	private string _editedDescription = "";
 	private string _editedTitle = "";
-	private List<IssueModel> _issues;
+	private List<IssueModel>? _issues;
 
 	/// <summary>
 	///		OnInitializedAsync event

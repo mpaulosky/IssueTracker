@@ -54,7 +54,7 @@ public partial class Index
 	{
 		AuthenticationState? authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
-		if (string.IsNullOrWhiteSpace(objectId) == false)
+		if (!string.IsNullOrWhiteSpace(objectId))
 		{
 			_loggedInUser = await UserService.GetUserFromAuthentication(objectId) ?? new UserModel();
 			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
@@ -63,7 +63,7 @@ public partial class Index
 			var email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 			var isDirty = false;
 
-			if (objectId.Equals(_loggedInUser.ObjectIdentifier) == false)
+			if (!objectId.Equals(_loggedInUser.ObjectIdentifier))
 			{
 				isDirty = true;
 				_loggedInUser.ObjectIdentifier = objectId;
@@ -164,7 +164,7 @@ public partial class Index
 
 		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
 
-		if (string.IsNullOrWhiteSpace(_searchText) == false)
+		if (!string.IsNullOrWhiteSpace(_searchText))
 			output = output.Where(s =>
 					s.Title.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
 					s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))

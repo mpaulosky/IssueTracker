@@ -263,7 +263,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
 

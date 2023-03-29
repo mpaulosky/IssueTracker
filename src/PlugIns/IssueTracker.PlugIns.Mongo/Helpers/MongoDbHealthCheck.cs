@@ -16,7 +16,7 @@ public class MongoDbHealthCheck : IHealthCheck
 
 	private static readonly ConcurrentDictionary<string, MongoClient> _mongoClient = new();
 	private readonly MongoClientSettings _mongoClientSettings;
-	private readonly string? _specifiedDatabase = default;
+	private readonly string? _specifiedDatabase;
 
 
 	public MongoDbHealthCheck(string connectionString, string? databaseName = default)

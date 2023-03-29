@@ -354,7 +354,7 @@ public class IndexTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
 	{
-		if (isAuth == false)
+		if (!isAuth)
 		{
 			this.AddTestAuthorization();
 			return;
@@ -363,7 +363,7 @@ public class IndexTests : TestContext
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser.DisplayName);
 
-		if (difUser == false)
+		if (!difUser)
 		{
 			authContext.SetClaims(
 				new Claim("objectidentifier", _expectedUser.ObjectIdentifier),

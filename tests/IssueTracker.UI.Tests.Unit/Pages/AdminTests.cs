@@ -395,7 +395,7 @@ public class AdminTests : TestContext
 	private void SetupRepositoryMock()
 	{
 
-		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
 
 	}

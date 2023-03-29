@@ -23,7 +23,7 @@ public partial class CommentComponent
 		{
 			if (comment.Author.Id == LoggedInUser.Id) return; // Can't vote on your own comments
 
-			if (comment.UserVotes.Add(LoggedInUser.Id) == false) comment.UserVotes.Remove(LoggedInUser.Id);
+			if (!comment.UserVotes.Add(LoggedInUser.Id)) comment.UserVotes.Remove(LoggedInUser.Id);
 
 			await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
 		}

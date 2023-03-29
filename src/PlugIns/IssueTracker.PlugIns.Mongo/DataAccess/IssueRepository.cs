@@ -86,7 +86,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssues();
 
-		var results = output.Where(x => x.ApprovedForRelease == false && x.Rejected == false).ToList();
+		var results = output.Where(x => !x.ApprovedForRelease && !x.Rejected).ToList();
 
 		return results;
 
@@ -101,7 +101,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssues();
 
-		var results = output.Where(x => x.ApprovedForRelease && x.Rejected == false).ToList();
+		var results = output.Where(x => x.ApprovedForRelease && !x.Rejected).ToList();
 
 		return results;
 

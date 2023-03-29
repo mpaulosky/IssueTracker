@@ -137,7 +137,7 @@ public class CommentMongoRepository : ICommentRepository
 
 		var isUpvote = comment.UserVotes.Add(userId);
 
-		if (isUpvote == false) comment.UserVotes.Remove(userId);
+		if (!isUpvote) comment.UserVotes.Remove(userId);
 
 		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
