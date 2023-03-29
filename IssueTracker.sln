@@ -52,6 +52,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UseCases", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.PlugIns.Mongo.Tests.Unit", "tests\IssueTracker.PlugIns.Mongo.Tests.Unit\IssueTracker.PlugIns.Mongo.Tests.Unit.csproj", "{07FE2467-4CB1-447E-BF8B-5037897A3D97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UseCases.Tests.Unit", "tests\IssueTracker.UseCases.Tests.Unit\IssueTracker.UseCases.Tests.Unit.csproj", "{99A5B38D-3A30-4851-ABCB-6AB17097D20D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,12 @@ Global
 		{07FE2467-4CB1-447E-BF8B-5037897A3D97}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07FE2467-4CB1-447E-BF8B-5037897A3D97}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{07FE2467-4CB1-447E-BF8B-5037897A3D97}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +138,7 @@ Global
 		{6566C277-DF18-4455-A2E8-B2CE605BEB33} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
 		{EF123647-317A-40CC-879E-8CFF748593EA} = {6566C277-DF18-4455-A2E8-B2CE605BEB33}
 		{07FE2467-4CB1-447E-BF8B-5037897A3D97} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
+		{99A5B38D-3A30-4851-ABCB-6AB17097D20D} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9FA12D9-95E2-48B0-80B8-5454EF697A8E}

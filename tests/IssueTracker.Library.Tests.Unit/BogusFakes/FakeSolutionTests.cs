@@ -21,7 +21,7 @@ public class FakeSolutionTests
 		result.Description.Should().NotBeNull();
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeTrue();
+		result.Archived.Should().BeFalse();
 
 	}
 

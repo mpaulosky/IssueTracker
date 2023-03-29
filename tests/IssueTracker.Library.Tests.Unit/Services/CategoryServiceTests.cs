@@ -24,8 +24,6 @@ public class CategoryServiceTests
 
 		CategoryModel expected = TestCategories.GetNewCategory();
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
 
 		await _sut.CreateCategory(expected);
