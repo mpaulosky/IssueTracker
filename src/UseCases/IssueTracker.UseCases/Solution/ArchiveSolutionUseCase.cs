@@ -9,7 +9,7 @@
 
 namespace IssueTracker.UseCases.Solution;
 
-public class ArchiveSolutionUseCase
+public class ArchiveSolutionUseCase : IArchiveSolutionUseCase
 {
 
 	private readonly ISolutionRepository _solutionRepository;

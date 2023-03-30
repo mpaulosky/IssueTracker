@@ -66,7 +66,7 @@ public class CategoryService : ICategoryService
 
 		_cache.Remove(_cacheName);
 
-		return _repository.DeleteCategory(category);
+		return _repository.ArchiveCategory(category);
 
 	}
 

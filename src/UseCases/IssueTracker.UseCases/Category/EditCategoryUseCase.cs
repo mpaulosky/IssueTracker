@@ -1,4 +1,13 @@
-﻿namespace IssueTracker.UseCases.Category;
+﻿//-----------------------------------------------------------------------
+// <copyright>
+//	File:		EditCategoryUseCase.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace IssueTracker.UseCases.Category;
 
 public class EditCategoryUseCase : IEditCategoryUseCase
 {

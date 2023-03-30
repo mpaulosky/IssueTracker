@@ -95,14 +95,17 @@ public class CategoryRepository : ICategoryRepository
 	///   DeleteCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
-	public async Task DeleteCategory(CategoryModel category)
+	public async Task ArchiveCategory(CategoryModel category)
 	{
 
 		var objectId = new ObjectId(category.Id);
 
+		// Archive the category
+		category.Archived = true;
+
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
-		await _collection.DeleteOneAsync(filter);
+		await _collection.ReplaceOneAsync(filter, category);
 
 	}
 }

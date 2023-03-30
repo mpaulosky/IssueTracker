@@ -137,4 +137,17 @@ public class IssueRepository : IIssueRepository
 
 	}
 
+	public async Task ArchiveIssue(IssueModel issue)
+	{
+
+		var objectId = new ObjectId(issue.Id);
+
+		// Archive the issue
+		issue.Archived = true;
+
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+
+		await _issueCollection.ReplaceOneAsync(filter, issue);
+
+	}
 }

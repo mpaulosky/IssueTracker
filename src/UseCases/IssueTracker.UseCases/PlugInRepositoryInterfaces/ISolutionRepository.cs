@@ -11,9 +11,15 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 
 public interface ISolutionRepository
 {
+
 	Task CreateSolutionAsync(SolutionModel solution);
-	Task UpdateSolutionAsync(SolutionModel solution);
+
 	Task<SolutionModel> GetSolutionByIssueIdAsync(string id);
+
 	Task<IEnumerable<SolutionModel>> GetSolutionsAsync();
+
 	Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string id);
+
+	Task UpdateSolutionAsync(SolutionModel solution);
+
 }

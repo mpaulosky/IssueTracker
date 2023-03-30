@@ -9,7 +9,7 @@
 
 namespace IssueTracker.UseCases.Issue;
 
-public class CreateNewIssueUseCase : ICreateNewIssueUseCase1
+public class CreateNewIssueUseCase : ICreateNewIssueUseCase
 {
 
 	private readonly IIssueRepository _issueRepository;

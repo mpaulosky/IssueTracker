@@ -9,14 +9,15 @@ namespace IssueTracker.CoreBusiness.Contracts;
 
 public interface IStatusRepository
 {
+
+	Task ArchiveStatus(StatusModel status);
+
+	Task CreateStatus(StatusModel status);
+
 	Task<StatusModel> GetStatus(string itemId);
 
 	Task<IEnumerable<StatusModel>> GetStatuses();
 
-	Task CreateStatus(StatusModel status);
-
 	Task UpdateStatus(string itemId, StatusModel status);
-
-	Task DeleteStatus(StatusModel status);
 
 }

@@ -107,4 +107,17 @@ public class UserRepository : IUserRepository
 
 	}
 
+	public async Task ArchiveUser(UserModel user)
+	{
+
+		var objectId = new ObjectId(user.Id);
+
+		// Archive the user
+		user.Archived = true;
+
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
+
+		await _collection!.ReplaceOneAsync(filter!, user);
+
+	}
 }

@@ -44,17 +44,20 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	///   DeleteStatus method
+	/// ArchiveStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
-	public async Task DeleteStatus(StatusModel status)
+	public async Task ArchiveStatus(StatusModel status)
 	{
 
 		var objectId = new ObjectId(status.Id);
 
+		// Archive the status
+		status.Archived = true;
+
 		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
-		await _collection.DeleteOneAsync(filter);
+		await _collection.ReplaceOneAsync(filter, status);
 
 	}
 

@@ -10,6 +10,8 @@ namespace IssueTracker.CoreBusiness.Contracts;
 public interface ICommentRepository
 {
 
+	Task ArchiveComment(CommentModel comment);
+
 	Task CreateComment(CommentModel comment);
 
 	Task<CommentModel> GetComment(string itemId);

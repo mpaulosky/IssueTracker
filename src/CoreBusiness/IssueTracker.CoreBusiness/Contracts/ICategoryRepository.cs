@@ -10,14 +10,14 @@ namespace IssueTracker.CoreBusiness.Contracts;
 public interface ICategoryRepository
 {
 
+	Task ArchiveCategory(CategoryModel category);
+
+	Task CreateCategory(CategoryModel category);
+
 	Task<CategoryModel> GetCategory(string itemId);
 
 	Task<IEnumerable<CategoryModel>> GetCategories();
 
-	Task CreateCategory(CategoryModel category);
-
 	Task UpdateCategory(string itemId, CategoryModel category);
-
-	Task DeleteCategory(CategoryModel category);
 
 }

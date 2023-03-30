@@ -9,6 +9,18 @@
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.10.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.4" />

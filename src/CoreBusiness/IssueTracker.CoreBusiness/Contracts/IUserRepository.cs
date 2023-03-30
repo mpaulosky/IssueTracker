@@ -9,13 +9,17 @@ namespace IssueTracker.CoreBusiness.Contracts;
 
 public interface IUserRepository
 {
-	Task<UserModel> GetUser(string itemId);
 
-	Task<IEnumerable<UserModel>> GetUsers();
+	Task ArchiveUser(UserModel user);
 
 	Task CreateUser(UserModel user);
 
-	Task UpdateUser(string itemId, UserModel user);
+	Task<UserModel> GetUser(string itemId);
 
 	Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId);
+
+	Task<IEnumerable<UserModel>> GetUsers();
+
+	Task UpdateUser(string itemId, UserModel user);
+
 }

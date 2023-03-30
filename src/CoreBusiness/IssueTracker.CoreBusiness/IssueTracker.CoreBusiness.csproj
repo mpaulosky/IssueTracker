@@ -7,6 +7,14 @@
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
 		<PackageReference Include="Bogus" Version="34.0.2" />

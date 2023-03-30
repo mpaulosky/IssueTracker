@@ -62,7 +62,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.Null(status, nameof(status));
 
-		return _repository.DeleteStatus(status);
+		return _repository.ArchiveStatus(status);
 
 	}
 

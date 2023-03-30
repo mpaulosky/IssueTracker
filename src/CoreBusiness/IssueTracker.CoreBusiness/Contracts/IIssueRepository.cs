@@ -10,6 +10,8 @@ namespace IssueTracker.CoreBusiness.Contracts;
 public interface IIssueRepository
 {
 
+	Task ArchiveIssue(IssueModel issue);
+
 	Task CreateIssue(IssueModel issue);
 
 	Task<IssueModel> GetIssue(string itemId);

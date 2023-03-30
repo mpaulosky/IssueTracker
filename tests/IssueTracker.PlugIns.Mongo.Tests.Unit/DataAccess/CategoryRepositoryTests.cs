@@ -57,7 +57,7 @@ public class CategoryRepositoryTests
 
 		// Act
 
-		await _sut.DeleteCategory(category);
+		await _sut.ArchiveCategory(category);
 
 		// Assert
 

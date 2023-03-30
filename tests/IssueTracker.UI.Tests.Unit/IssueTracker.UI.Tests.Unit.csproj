@@ -8,6 +8,18 @@
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
+	  <LangVersion>preview</LangVersion>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Using Include="Bunit" />
 		<Using Include="Bunit.TestDoubles" />

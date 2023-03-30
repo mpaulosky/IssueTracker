@@ -78,7 +78,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.DeleteStatus(It.IsAny<StatusModel>()), Times.Once);
+				x.ArchiveStatus(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 

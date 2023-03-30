@@ -72,7 +72,7 @@ public class CategoryServiceTests
 
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.DeleteCategory(It.IsAny<CategoryModel>()), Times.Once);
+				x.ArchiveCategory(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 

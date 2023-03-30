@@ -33,6 +33,25 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
+	/// Archive the comment by setting the Archived property to true
+	/// </summary>
+	/// <param name="comment"></param>
+	/// <returns>Task</returns>
+	public async Task ArchiveComment(CommentModel comment)
+	{
+
+		var objectId = new ObjectId(comment.Id);
+
+		// Archive the comment
+		comment.Archived = true;
+
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
+
+		await _commentCollection.ReplaceOneAsync(filter, comment);
+
+	}
+
+	/// <summary>
 	///		CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>

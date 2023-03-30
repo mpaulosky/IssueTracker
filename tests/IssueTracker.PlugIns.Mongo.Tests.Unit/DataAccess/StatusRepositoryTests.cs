@@ -57,7 +57,7 @@ public class StatusRepositoryTests
 
 		// Act
 
-		await _sut.DeleteStatus(status);
+		await _sut.ArchiveStatus(status);
 
 		// Assert
 
