@@ -1,4 +1,4 @@
-namespace TestingSupport.Library.Fixtures;
+﻿namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
 public static class TestComments

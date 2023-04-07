@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Create.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022.2022 All rights reserved.

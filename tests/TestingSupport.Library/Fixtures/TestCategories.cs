@@ -1,4 +1,4 @@
-
+﻿
 namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]

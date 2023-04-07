@@ -1,4 +1,4 @@
-using IssueTracker.PlugIns.Mongo.Contracts;
+﻿using IssueTracker.PlugIns.Mongo.Contracts;
 using IssueTracker.PlugIns.Mongo.Helpers;
 
 using Microsoft.Extensions.Options;
