@@ -1,76 +1,74 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Comment
+﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
+
+public class ViewCommentByIdUseCaseTests
 {
-	public class ViewCommentByIdUseCaseTests
+
+	private readonly Mock<ICommentRepository> _commentRepositoryMock;
+
+	public ViewCommentByIdUseCaseTests()
 	{
 
-		private readonly Mock<ICommentRepository> _commentRepositoryMock;
+		_commentRepositoryMock = new Mock<ICommentRepository>();
 
-		public ViewCommentByIdUseCaseTests()
+	}
+
+	private ViewCommentByIdUseCase CreateUseCase(CommentModel? expected)
+	{
+
+		if (expected != null)
 		{
-
-			_commentRepositoryMock = new Mock<ICommentRepository>();
-
+			_commentRepositoryMock.Setup(x => x.GetCommentByIdAsync(It.IsAny<string>()))
+				.ReturnsAsync(expected);
 		}
 
-		private ViewCommentByIdUseCase CreateUseCase(CommentModel? expected)
-		{
+		return new ViewCommentByIdUseCase(_commentRepositoryMock.Object);
 
-			if (expected != null)
-			{
-				_commentRepositoryMock.Setup(x => x.GetCommentByIdAsync(It.IsAny<string>()))
-					.ReturnsAsync(expected);
-			}
+	}
 
-			return new ViewCommentByIdUseCase(_commentRepositoryMock.Object);
+	[Fact(DisplayName = "ViewCommentByIdUseCase With Valid Id Test")]
+	public async Task Execute_With_AValidId_Should_ReturnACommentModel_TestAsync()
+	{
 
-		}
+		// Arrange
+		var expected = FakeComment.GetComments(1).First();
+		var _sut = CreateUseCase(expected);
+		var commentId = expected.Id;
 
-		[Fact(DisplayName = "ViewCommentByIdUseCase With Valid Id Test")]
-		public async Task Execute_With_AValidId_Should_ReturnACommentModel_TestAsync()
-		{
+		// Act
+		var result = await _sut.ExecuteAsync(commentId);
 
-			// Arrange
-			var expected = FakeComment.GetComments(1).First();
-			var _sut = CreateUseCase(expected);
-			var commentId = expected.Id;
+		// Assert
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
-			// Act
-			var result = await _sut.ExecuteAsync(commentId);
+		_commentRepositoryMock.Verify(x =>
+				x.GetCommentByIdAsync(It.IsAny<string>()), Times.Once);
 
-			// Assert
-			result.Should().NotBeNull();
-			result.Id.Should().Be(expected.Id);
-			result.Title.Should().Be(expected.Title);
-			result.Description.Should().Be(expected.Description);
-			result.Author.Should().BeEquivalentTo(expected.Author);
+	}
 
-			_commentRepositoryMock.Verify(x =>
-					x.GetCommentByIdAsync(It.IsAny<string>()), Times.Once);
+	[Theory(DisplayName = "ViewCommentByIdUseCase With In Valid Data Test")]
+	[InlineData(null)]
+	[InlineData("")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	{
 
-		}
+		// Arrange
+		var _sut = CreateUseCase(null);
 
-		[Theory(DisplayName = "ViewCommentByIdUseCase With In Valid Data Test")]
-		[InlineData(null)]
-		[InlineData("")]
-		public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
-		{
+		// Act
+		var result = await _sut.ExecuteAsync(expectedId);
 
-			// Arrange
-			var _sut = CreateUseCase(null);
+		// Assert
+		result.Should().NotBeNull();
+		result.Id.Should().BeEmpty();
+		result.Title.Should().BeEmpty();
+		result.Description.Should().BeEmpty();
 
-			// Act
-			var result = await _sut.ExecuteAsync(expectedId);
-
-			// Assert
-			result.Should().NotBeNull();
-			result.Id.Should().BeEmpty();
-			result.Title.Should().BeEmpty();
-			result.Description.Should().BeEmpty();
-
-			_commentRepositoryMock.Verify(x =>
-					x.GetCommentByIdAsync(It.IsAny<string>()), Times.Never);
-
-		}
+		_commentRepositoryMock.Verify(x =>
+				x.GetCommentByIdAsync(It.IsAny<string>()), Times.Never);
 
 	}
 

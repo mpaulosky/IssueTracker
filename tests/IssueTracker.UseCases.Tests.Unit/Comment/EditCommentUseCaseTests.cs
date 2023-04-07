@@ -1,58 +1,56 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Comment
+﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
+
+public class EditCommentUseCaseTests
 {
-	public class EditCommentUseCaseTests
+
+	private readonly Mock<ICommentRepository> _commentRepositoryMock;
+
+	public EditCommentUseCaseTests()
 	{
 
-		private readonly Mock<ICommentRepository> _commentRepositoryMock;
+		_commentRepositoryMock = new Mock<ICommentRepository>();
 
-		public EditCommentUseCaseTests()
-		{
+	}
 
-			_commentRepositoryMock = new Mock<ICommentRepository>();
+	private EditCommentUseCase CreateUseCase()
+	{
 
-		}
+		return new EditCommentUseCase(_commentRepositoryMock.Object);
 
-		private EditCommentUseCase CreateUseCase()
-		{
+	}
 
-			return new EditCommentUseCase(_commentRepositoryMock.Object);
+	[Fact(DisplayName = "EditCommentUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_EditComment_TestAsync()
+	{
 
-		}
+		// Arrange
+		var _sut = CreateUseCase();
+		CommentModel? comment = FakeComment.GetComments(1).First();
+		comment.Title = "New Comment";
 
-		[Fact(DisplayName = "EditCommentUseCase With Valid Data Test")]
-		public async Task Execute_With_ValidData_Should_EditComment_TestAsync()
-		{
+		// Act
+		await _sut.Execute(comment);
 
-			// Arrange
-			var _sut = CreateUseCase();
-			CommentModel? comment = FakeComment.GetComments(1).First();
-			comment.Title = "New Comment";
+		// Assert
+		_commentRepositoryMock.Verify(x =>
+				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
 
-			// Act
-			await _sut.Execute(comment);
+	}
 
-			// Assert
-			_commentRepositoryMock.Verify(x =>
-					x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+	[Fact(DisplayName = "EditCommentUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
+	{
 
-		}
+		// Arrange
+		var _sut = CreateUseCase();
+		CommentModel? comment = null;
 
-		[Fact(DisplayName = "EditCommentUseCase With In Valid Data Test")]
-		public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
-		{
+		// Act
+		await _sut.Execute(comment: comment);
 
-			// Arrange
-			var _sut = CreateUseCase();
-			CommentModel? comment = null;
-
-			// Act
-			await _sut.Execute(comment: comment);
-
-			// Assert
-			_commentRepositoryMock.Verify(x =>
-					x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
-
-		}
+		// Assert
+		_commentRepositoryMock.Verify(x =>
+				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
 
 	}
 
