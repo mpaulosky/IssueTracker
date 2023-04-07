@@ -2,6 +2,7 @@
 
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Mongo.Contracts;
+
 global using IssueTracker.UseCases.PlugInRepositoryInterfaces;
 
 global using MongoDB.Bson;

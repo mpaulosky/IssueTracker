@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -33,7 +36,7 @@ public class DeleteCategoryTests : IAsyncLifetime
 		CategoryModel result = await _sut.GetCategory(expected.Id);
 
 		// Assert
-		result.Should().BeNull();
+		result.Archived.Should().BeTrue();
 
 	}
 
@@ -59,7 +62,7 @@ public class DeleteCategoryTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

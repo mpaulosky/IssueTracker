@@ -10,7 +10,7 @@ public static partial class IServiceCollectionExtensions
 	{
 
 		services.AddTransient<IArchiveCategoryUseCase, ArchiveCategoryUseCase>();
-		services.AddTransient<ICreateNewCategoryUseCase, CreateNewCategoryUseCase>();
+		services.AddTransient<ICreateCategoryUseCase, CreateCategoryUseCase>();
 		services.AddTransient<IEditCategoryUseCase, EditCategoryUseCase>();
 		services.AddTransient<IViewCategoriesUseCase, ViewCategoriesUseCase>();
 		services.AddTransient<IViewCategoryByIdUseCase, ViewCategoryByIdUseCase>();

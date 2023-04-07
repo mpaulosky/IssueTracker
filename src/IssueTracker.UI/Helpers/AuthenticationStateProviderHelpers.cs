@@ -18,16 +18,16 @@ public static class AuthenticationStateProviderHelpers
 	/// <param name="provider">The AuthenticationState provider.</param>
 	/// <param name="userService">The user service.</param>
 	/// <returns>Task of Type UserModel</returns>
-	public static async Task<UserModel?> GetUserFromAuth(
+	public static async Task<UserModel> GetUserFromAuth(
 		this AuthenticationStateProvider provider,
-		IUserService userService)
+		IUserService userData)
 	{
-		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
 
-		var objectId = authState.User.Claims
+		var authState = await provider.GetAuthenticationStateAsync();
+		string? objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
-
-		return await userService.GetUserFromAuthentication(userObjectIdentifierId: objectId);
+		return await userData.GetUserFromAuthentication(objectId);
 
 	}
+
 }

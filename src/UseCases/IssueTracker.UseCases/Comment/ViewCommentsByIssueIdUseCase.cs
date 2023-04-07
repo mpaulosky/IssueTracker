@@ -21,15 +21,12 @@ public class ViewCommentsByIssueIdUseCase : IViewCommentsByIssueIdUseCase
 
 	}
 
-	public async Task<IEnumerable<CommentModel>> ExecuteAsync(IssueModel issue)
+	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(string? issueId)
 	{
 
-		if (issue == null)
-		{
-			return new List<CommentModel>();
-		}
+		if (string.IsNullOrWhiteSpace(issueId)) return null;
 
-		return await _commentRepository.GetCommentsByIssueIdAsync(issue.Id);
+		return await _commentRepository.GetCommentsByIssueIdAsync(issueId);
 
 	}
 

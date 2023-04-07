@@ -10,5 +10,5 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 
 public interface IViewCommentsByUserIdUseCase
 {
-	Task<IEnumerable<CommentModel>> Execute(UserModel user);
+	Task<IEnumerable<CommentModel>?> ExecuteAsync(UserModel user);
 }

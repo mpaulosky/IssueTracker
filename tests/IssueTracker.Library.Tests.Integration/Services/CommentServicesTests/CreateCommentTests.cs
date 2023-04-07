@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -57,7 +60,7 @@ public class CreateCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

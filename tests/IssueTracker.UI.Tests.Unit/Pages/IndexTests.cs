@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class IndexTests : TestContext
@@ -103,7 +105,7 @@ public class IndexTests : TestContext
 		// Act
 		IRenderedComponent<Index> cut = RenderComponent<Index>();
 
-		cut.FindAll("div.issue-entry-text-title")[0].Click();
+		cut.FindAll("div.text-title")[0].Click();
 
 		// Assert
 		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
@@ -166,7 +168,7 @@ public class IndexTests : TestContext
 		// Assert
 		_userRepositoryMock
 			.Verify(x =>
-				x.UpdateUser(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
+				x.UpdateUserAsync(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact]
@@ -187,7 +189,7 @@ public class IndexTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Theory]
@@ -310,7 +312,7 @@ public class IndexTests : TestContext
 		// Assert
 		_userRepositoryMock
 			.Verify(x =>
-				x.CreateUser(It.IsAny<UserModel>()), Times.Once);
+				x.CreateUserAsync(It.IsAny<UserModel>()), Times.Once);
 	}
 
 	private void SetUpTests(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
@@ -332,23 +334,23 @@ public class IndexTests : TestContext
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetApprovedIssues())
+			.Setup(x => x.GetApprovedIssuesAsync())
 			.ReturnsAsync(_expectedIssues);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthentication(_expectedUser.ObjectIdentifier))
+			.Setup(x => x.GetUserFromAuthenticationAsync(_expectedUser.ObjectIdentifier))
 			.ReturnsAsync(_expectedUser);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthentication("5dc1039a1521eaa36835e547"))
+			.Setup(x => x.GetUserFromAuthenticationAsync("5dc1039a1521eaa36835e547"))
 			.ReturnsAsync(new UserModel());
 
 		_categoryRepositoryMock
-			.Setup(x => x.GetCategories())
+			.Setup(x => x.GetCategoriesAsync())
 			.ReturnsAsync(_expectedCategories);
 
 		_statusRepositoryMock
-			.Setup(x => x.GetStatuses())
+			.Setup(x => x.GetStatusesAsync())
 			.ReturnsAsync(_expectedStatuses);
 	}
 

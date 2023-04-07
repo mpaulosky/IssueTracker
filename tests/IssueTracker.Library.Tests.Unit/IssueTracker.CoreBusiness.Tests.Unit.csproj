@@ -44,6 +44,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 

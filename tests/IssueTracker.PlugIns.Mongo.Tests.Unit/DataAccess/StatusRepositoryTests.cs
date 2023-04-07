@@ -7,7 +7,7 @@ public class StatusRepositoryTests
 	private readonly Mock<IMongoCollection<StatusModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<StatusModel> _list = new();
-	private StatusRepository _sut;
+	private StatusMongoRepository _sut;
 
 	public StatusRepositoryTests()
 	{
@@ -17,7 +17,7 @@ public class StatusRepositoryTests
 
 		_mockContext = TestFixtures.GetMockContext();
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Status")]
@@ -30,11 +30,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.CreateStatus(newStatus);
+		await _sut.CreateStatusAsync(newStatus);
 
 		// Assert
 
@@ -43,27 +43,39 @@ public class StatusRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Delete Status")]
-	public async Task DeleteStatus_With_Valid_Status_Should_Delete_the_Status_TestAsync()
+	[Fact(DisplayName = "Archive Status")]
+	public async Task ArchiveStatus_With_Valid_Status_Should_Archive_the_Status_TestAsync()
 	{
 
 		// Arrange
 
-		StatusModel status = TestStatuses.GetKnownStatus();
+		// Arrange
+
+		StatusModel expected = TestStatuses.GetKnownStatus();
+
+		StatusModel updatedStatus = TestStatuses.GetKnownStatus();
+		updatedStatus.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_list = new List<StatusModel> { updatedStatus };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.ArchiveStatus(status);
+		await _sut.UpdateStatusAsync(updatedStatus);
 
 		// Assert
 
-		//Verify if DeleteOneAsync is called once 
-		_mockCollection.Verify(c => c.DeleteOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), It.IsAny<CancellationToken>()), Times.Once);
-
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
+				It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
@@ -79,11 +91,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 
 		//Act
 
-		StatusModel result = await _sut.GetStatus(expected!.Id!);
+		StatusModel result = await _sut.GetStatusByIdAsync(expected!.Id!);
 
 		//Assert 
 
@@ -113,11 +125,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<StatusModel> result = await _sut.GetStatuses().ConfigureAwait(false);
+		IEnumerable<StatusModel> result = await _sut.GetStatusesAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -147,11 +159,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		_sut = new StatusMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateStatus(updatedStatus!.Id!, updatedStatus);
+		await _sut.UpdateStatusAsync(updatedStatus);
 
 		// Assert
 

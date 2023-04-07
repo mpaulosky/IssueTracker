@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,16 +28,18 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 	{
 		// Arrange
 		_cleanupValue = "comments";
+		await _factory.ResetCollectionAsync(_cleanupValue);
+
 		CommentModel expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> result = await _sut.GetCommentsByIssue(expected.Source.Id);
+		List<CommentModel> result = await _sut.GetCommentsByIssue(expected.CommentOnSource.Id);
 
 		// Assert
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
-		result[0].Source.Id.Should().Be(expected.Source.Id);
+		result[0].CommentOnSource.Id.Should().Be(expected.CommentOnSource.Id);
 
 	}
 
@@ -46,7 +51,7 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

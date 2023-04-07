@@ -13,10 +13,10 @@ public class CreateNewCategoryUseCaseTests
 
 	}
 
-	private CreateNewCategoryUseCase CreateUseCase()
+	private CreateCategoryUseCase CreateUseCase()
 	{
 
-		return new CreateNewCategoryUseCase(_categoryRepositoryMock.Object);
+		return new CreateCategoryUseCase(_categoryRepositoryMock.Object);
 
 	}
 

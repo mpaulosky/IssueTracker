@@ -20,7 +20,7 @@ public class ViewCommentsUseCase : IViewCommentsUseCase
 
 	}
 
-	public async Task<IEnumerable<CommentModel>> Execute()
+	public async Task<IEnumerable<CommentModel>> ExecuteAsync()
 	{
 
 		return await _commentRepository.GetCommentsAsync();

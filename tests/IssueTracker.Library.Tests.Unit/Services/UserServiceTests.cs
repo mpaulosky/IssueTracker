@@ -31,7 +31,7 @@ public class UserServiceTests
 
 		_userRepositoryMock
 			.Verify(x =>
-				x.CreateUser(It.IsAny<UserModel>()), Times.Once);
+				x.CreateUserAsync(It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create User With Invalid User Throws Exception")]
@@ -55,7 +55,7 @@ public class UserServiceTests
 
 		UserModel expected = TestUsers.GetKnownUser();
 
-		_userRepositoryMock.Setup(x => x.GetUser(It.IsAny<string>())).ReturnsAsync(expected);
+		_userRepositoryMock.Setup(x => x.GetUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
@@ -106,7 +106,7 @@ public class UserServiceTests
 
 		IEnumerable<UserModel> expected = TestUsers.GetUsers();
 
-		_userRepositoryMock.Setup(x => x.GetUsers()).ReturnsAsync(expected);
+		_userRepositoryMock.Setup(x => x.GetUsersAsync()).ReturnsAsync(expected);
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
@@ -127,7 +127,7 @@ public class UserServiceTests
 
 		UserModel expected = TestUsers.GetKnownUser();
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(expected);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
@@ -188,7 +188,7 @@ public class UserServiceTests
 
 		_userRepositoryMock
 			.Verify(x =>
-				x.UpdateUser(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
+				x.UpdateUserAsync(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid User")]

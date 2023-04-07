@@ -20,8 +20,10 @@ public class ViewCommentByIdUseCase : IViewCommentByIdUseCase
 
 	}
 
-	public async Task<CommentModel> Execute(string commentId)
+	public async Task<CommentModel?> ExecuteAsync(string commentId)
 	{
+
+		if (string.IsNullOrWhiteSpace(commentId)) return null;
 
 		return await _commentRepository.GetCommentByIdAsync(commentId);
 

@@ -38,7 +38,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.CreateStatus(It.IsAny<StatusModel>()), Times.Once);
+				x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -78,7 +78,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.ArchiveStatus(It.IsAny<StatusModel>()), Times.Once);
+				x.ArchiveStatusAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -106,7 +106,7 @@ public class StatusServiceTests
 
 		StatusModel expected = TestStatuses.GetKnownStatus();
 
-		_statusRepositoryMock.Setup(x => x.GetStatus(It.IsAny<string>())).ReturnsAsync(expected);
+		_statusRepositoryMock.Setup(x => x.GetStatusAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -163,7 +163,7 @@ public class StatusServiceTests
 
 		IEnumerable<StatusModel> expected = TestStatuses.GetStatuses();
 
-		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(expected);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -239,7 +239,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.UpdateStatus(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
+				x.UpdateStatusAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
 
 	}
 

@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services.Interfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext
@@ -168,16 +171,16 @@ public class CreateTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.CreateIssue(It.IsAny<IssueModel>()), Times.Once);
+				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	private void SetupMocks()
 	{
-		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(_expectedCategories);
+		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories);
 
-		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(_expectedStatuses);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)

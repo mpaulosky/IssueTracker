@@ -20,15 +20,10 @@ public class ViewCommentsByUserIdUseCase : IViewCommentsByUserIdUseCase
 
 	}
 
-	public async Task<IEnumerable<CommentModel>> Execute(UserModel user)
+	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(UserModel user)
 	{
 
-		if (user == null)
-		{
-
-			return new List<CommentModel>();
-
-		}
+		if (user == null) return null;
 
 		return await _commentRepository.GetCommentsByUserIdAsync(user.Id);
 

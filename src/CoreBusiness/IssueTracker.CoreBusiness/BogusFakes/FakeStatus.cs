@@ -80,16 +80,3 @@ public static class FakeStatus
 
 	}
 }
-
-/// <summary>
-/// Status enum
-/// </summary>
-internal enum Status
-{
-
-	Answered,
-	Watching,
-	Dismissed,
-	InWork
-
-}

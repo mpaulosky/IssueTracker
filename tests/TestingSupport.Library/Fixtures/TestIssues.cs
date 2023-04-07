@@ -269,7 +269,7 @@ public static class TestIssues
 
 	public static IssueModel GetIssue(
 		string id,
-		string issueName,
+		string issueTitle,
 		string description,
 		DateTime dateCreated,
 		bool archived,
@@ -279,7 +279,7 @@ public static class TestIssues
 		IssueModel issue = new()
 		{
 			Id = id,
-			Title = issueName,
+			Title = issueTitle,
 			Description = description,
 			DateCreated = dateCreated,
 			Archived = archived,

@@ -7,7 +7,7 @@ public class UserRepositoryTests
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<UserModel> _list = new();
-	private UserRepository _sut;
+	private UserMongoRepository _sut;
 
 	public UserRepositoryTests()
 	{
@@ -17,7 +17,7 @@ public class UserRepositoryTests
 
 		_mockContext = TestFixtures.GetMockContext();
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "CreateUser with a valid user")]
@@ -29,11 +29,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.CreateUser(newUser);
+		await _sut.CreateUserAsync(newUser);
 
 		// Assert
 
@@ -55,11 +55,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 
 		//Act
 
-		UserModel result = await _sut.GetUser(expected!.Id!);
+		UserModel result = await _sut.GetUserByIdAsync(expected!.Id!);
 
 		//Assert 
 
@@ -88,11 +88,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 
 		//Act
 
-		UserModel result = await _sut.GetUserFromAuthentication(expected!.ObjectIdentifier!).ConfigureAwait(false);
+		UserModel result = await _sut.GetUserByAuthenticationIdAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
 
 		//Assert 
 
@@ -120,11 +120,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<UserModel> result = await _sut.GetUsers().ConfigureAwait(false);
+		IEnumerable<UserModel> result = await _sut.GetUsersAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -156,11 +156,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		_sut = new UserMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateUser(updatedUser!.Id!, updatedUser);
+		await _sut.UpdateUserAsync(updatedUser);
 
 		// Assert
 
@@ -168,4 +168,37 @@ public class UserRepositoryTests
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), updatedUser, It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}
+
+
+	[Fact(DisplayName = "Archive User")]
+	public async Task ArchiveUser_With_A_Valid_Id_And_User_Should_ArchiveUser_Test()
+	{
+		// Arrange
+
+		UserModel expected = TestUsers.GetKnownUser();
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		UserModel updatedUser = TestUsers.GetKnownUser();
+		updatedUser.Archived = true;
+
+		_list = new List<UserModel> { updatedUser };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new UserMongoRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.UpdateUserAsync(updatedUser);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), updatedUser, It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
+	}
+
 }

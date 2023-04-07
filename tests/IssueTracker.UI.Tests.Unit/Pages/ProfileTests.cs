@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class ProfileTests : TestContext
@@ -133,15 +135,15 @@ public class ProfileTests : TestContext
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetIssuesByUser(_expectedUser.Id))
+			.Setup(x => x.GetIssuesByUserAsync(_expectedUser.Id))
 			.ReturnsAsync(_expectedIssues);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
+			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetCommentsByUser(It.IsAny<string>()))
+			.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedComments);
 	}
 

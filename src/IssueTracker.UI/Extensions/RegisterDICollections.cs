@@ -5,6 +5,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+using IssueTracker.PlugIns.Services.Interfaces;
+
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>

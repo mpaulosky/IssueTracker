@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
@@ -105,7 +107,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -135,12 +137,12 @@ public class AdminTests : TestContext
 			    <div>A new test issue 1<span id="edit-description" class="oi oi-pencil issue-edit-icon" ></span>
 			    </div>
 			    <div>
-			      <div class="issue-entry-text-author" diff:ignore>
+			      <div class="text-author" diff:ignore>
 			      </div>
 			    </div>
 			    <div>
 			      <div class="issue-entry-bottom">
-			        <div class="issue-entry-text-category">
+			        <div class="text-category">
 			          Category: Design</div>
 			      </div>
 			    </div>
@@ -233,7 +235,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -300,7 +302,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -366,7 +368,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -396,7 +398,7 @@ public class AdminTests : TestContext
 	{
 
 		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
-		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync()).ReturnsAsync(expected);
 
 	}
 

@@ -31,37 +31,19 @@ public class BasicCommentModel
 	{
 
 		Id = comment.Id;
-		Comment = comment.Comment;
+		Title = comment.Title;
+		Description = comment.Description;
+		DateCreated = comment.DateCreated;
+		CommentOnSource = comment.CommentOnSource;
+		Author = comment.Author;
 
 	}
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicCommentModel"/> class.
-	/// </summary>
-	/// <param name="id">The identifier.</param>
-	/// <param name="comment">The comment.</param>
-	public BasicCommentModel(string id, string comment) : this()
-	{
-
-		Id = id;
-		Comment = comment;
-
-	}
-
-	/// <summary>
-	/// Gets or sets the identifier.
-	/// </summary>
-	/// <value>
-	/// The identifier.
-	/// </value>
 	public string Id { get; set; } = string.Empty;
-
-	/// <summary>
-	/// Gets or sets the comment.
-	/// </summary>
-	/// <value>
-	/// The comment.
-	/// </value>
-	public string Comment { get; set; } = string.Empty;
+	public string Title { get; set; } = string.Empty;
+	public string Description { get; set; } = string.Empty;
+	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+	public BasicCommentOnSourceModel CommentOnSource { get; set; } = new();
+	public BasicUserModel Author { get; set; } = new();
 
 }

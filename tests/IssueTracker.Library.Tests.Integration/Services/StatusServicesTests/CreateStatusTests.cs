@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.StatusServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -57,7 +60,7 @@ public class CreateStatusTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

@@ -9,7 +9,7 @@ public class CommentRepositoryTests
 	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<CommentModel> _list = new();
-	private CommentRepository _sut;
+	private CommentMongoRepository _sut;
 	private List<UserModel> _users = new();
 
 	public CommentRepositoryTests()
@@ -22,7 +22,7 @@ public class CommentRepositoryTests
 
 		_mockContext = TestFixtures.GetMockContext();
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Comment With Valid Comment")]
@@ -39,11 +39,11 @@ public class CommentRepositoryTests
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.CreateComment(newComment);
+		await _sut.CreateCommentAsync(newComment);
 
 		// Assert
 
@@ -64,11 +64,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		//Act
 
-		CommentModel result = await _sut.GetComment(expected!.Id!).ConfigureAwait(false);
+		CommentModel result = await _sut.GetCommentByIdAsync(expected!.Id!).ConfigureAwait(false);
 
 		//Assert 
 
@@ -100,11 +100,11 @@ public class CommentRepositoryTests
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<CommentModel> result = await _sut.GetComments().ConfigureAwait(false);
+		IEnumerable<CommentModel> result = await _sut.GetCommentsAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -133,11 +133,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<CommentModel> result = await _sut.GetCommentsByUser(expectedUserId).ConfigureAwait(false);
+		IEnumerable<CommentModel> result = await _sut.GetCommentsByUserIdAsync(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -159,6 +159,8 @@ public class CommentRepositoryTests
 
 		CommentModel expected = TestComments.GetKnownComment();
 
+		await _mockCollection.Object.InsertOneAsync(expected);
+
 		CommentModel updatedComment =
 			TestComments.GetComment(expected!.Id!, "Test Comment Update", expected!.Archived!);
 
@@ -168,11 +170,43 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateComment(updatedComment!.Id!, updatedComment);
+		await _sut.UpdateCommentAsync(updatedComment);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CommentModel>>(), updatedComment,
+				It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Comment")]
+	public async Task ArchiveComment_With_A_Valid_Id_And_Comment_Should_ArchiveComment_TestAsync()
+	{
+		// Arrange
+
+		CommentModel expected = TestComments.GetKnownComment();
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		CommentModel updatedComment = TestComments.GetKnownComment();
+		updatedComment.Archived = true;
+
+		_list = new List<CommentModel> { updatedComment };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new CommentMongoRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.UpdateCommentAsync(updatedComment);
 
 		// Assert
 
@@ -201,11 +235,11 @@ public class CommentRepositoryTests
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpVoteComment(expected!.Id!, user!.Id!);
+		await _sut.UpVoteCommentAsync(expected!.Id!, user!.Id!);
 
 		// Assert
 
@@ -231,11 +265,11 @@ public class CommentRepositoryTests
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentRepository(_mockContext.Object);
+		_sut = new CommentMongoRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpVoteComment(expected!.Id!, user!.Id!);
+		await _sut.UpVoteCommentAsync(expected!.Id!, user!.Id!);
 
 		// Assert
 

@@ -20,10 +20,10 @@ public class ArchiveCategoryUseCaseTests
 	}
 
 	[Fact(DisplayName = "ArchiveCategoryUseCase With Valid Data Test")]
-	public async Task ExecuteAsync_WithValidCategoryModel_ShouldUpdateAsArchived()
+	public async Task ExecuteAsync_WithValidCategoryModel_ShouldUpdateAsArchived_TestAsync()
 	{
 		// Arrange
-		var _sut = this.CreateUseCase();
+		var _sut = CreateUseCase();
 		CategoryModel? category = FakeCategory.GetCategories(1).First();
 
 		// Act

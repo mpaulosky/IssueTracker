@@ -40,7 +40,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

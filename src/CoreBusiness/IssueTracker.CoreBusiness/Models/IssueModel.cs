@@ -42,7 +42,7 @@ public class IssueModel
 	/// <value>
 	/// The description.
 	/// </value>
-	[BsonElement("description")]
+	[BsonElement("issue_description")]
 	[BsonRepresentation(BsonType.String)]
 	public string Description { get; set; } = string.Empty;
 

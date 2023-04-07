@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -37,7 +40,7 @@ public class UpdateCommentTests : IAsyncLifetime
 		result.Id.Should().Be(expected!.Id);
 		result.Comment.Should().Be(expected!.Comment);
 		result.Author.Should().BeEquivalentTo(expected!.Author);
-		result.Source.Should().BeEquivalentTo(expected!.Source);
+		result.CommentOnSource.Should().BeEquivalentTo(expected!.CommentOnSource);
 
 	}
 
@@ -64,7 +67,7 @@ public class UpdateCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

@@ -44,7 +44,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	}
 
-	public async Task ResetDatabaseAsync(string collection)
+	public async Task ResetCollectionAsync(string collection)
 	{
 
 		if (!string.IsNullOrWhiteSpace(collection)) await DbContext.Database.DropCollectionAsync(collection);

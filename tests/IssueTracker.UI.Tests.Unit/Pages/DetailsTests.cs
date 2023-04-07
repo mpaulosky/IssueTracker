@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
@@ -122,16 +124,16 @@ public class DetailsTests : TestContext
 							<div class="issue-entry-category-text" >Miscellaneous</div>
 						</div>
 						<div class="issue-entry-text">
-							<div class="issue-entry-text-title" >Test Issue 1</div>
-							<div class="issue-entry-text-description">A new test issue 1</div>
+							<div class="text-title" >Test Issue 1</div>
+							<div class="text-description">A new test issue 1</div>
 							<div class="issue-entry-bottom">
-								<div class="issue-entry-text-category" diff:ignoreChildren>11.12.2022</div>
-								<div class="issue-entry-text-author">Tester</div>
-								<div class="issue-entry-text-category"></div>
+								<div class="text-category" diff:ignoreChildren>11.12.2022</div>
+								<div class="text-author">Tester</div>
+								<div class="text-category"></div>
 							</div>
 						</div>
 						<div class="issue-entry-status issue-entry-status-watching">
-							<div class="issue-entry-status-text">Watching</div>
+							<div class="text-status">Watching</div>
 						</div>
 					</div>
 				</div>
@@ -178,16 +180,16 @@ public class DetailsTests : TestContext
 		        Set Status
 		      </div>
 		      <div class="admin-set-statuses">
-		        <button id="answered"  class="btn issue-entry-text-category btn-archive btn-status-answered">
+		        <button id="answered"  class="btn text-category btn-archive btn-status-answered">
 		          answered
 		        </button>
-		        <button id="inwork"  class="btn issue-entry-text-category btn-archive btn-status-inwork">
+		        <button id="inwork"  class="btn text-category btn-archive btn-status-inwork">
 		          in work
 		        </button>
-		        <button id="watching"  class="btn issue-entry-text-category btn-archive btn-status-watching">
+		        <button id="watching"  class="btn text-category btn-archive btn-status-watching">
 		          watching
 		        </button>
-		        <button id="dismissed"  class="btn issue-entry-text-category btn-archive btn-status-dismissed">
+		        <button id="dismissed"  class="btn text-category btn-archive btn-status-dismissed">
 		          dismissed
 		        </button>
 		      </div>
@@ -307,7 +309,7 @@ public class DetailsTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -337,7 +339,7 @@ public class DetailsTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpVoteComment(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -360,7 +362,7 @@ public class DetailsTests : TestContext
 			      <div diff:ignore></div>
 			      <div diff:ignore></div>
 			      <div class="issue-entry-status issue-entry-status-none">
-			        <div class="issue-entry-status-text"></div>
+			        <div class="text-status"></div>
 			      </div>
 			    </div>
 			  </div>
@@ -514,7 +516,7 @@ public class DetailsTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -522,20 +524,20 @@ public class DetailsTests : TestContext
 	{
 
 		_issueRepositoryMock
-			.Setup(x => x.GetIssue(_expectedIssue.Id))
+			.Setup(x => x.GetIssueAsync(_expectedIssue.Id))
 			.ReturnsAsync(_expectedIssue);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>()))
+			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetCommentsByIssue(It.IsAny<string>()))
+			.Setup(x => x.GetCommentsByIssueAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedComments);
 
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 		_statusRepositoryMock
-			.Setup(x => x.GetStatuses())
+			.Setup(x => x.GetStatusesAsync())
 			.ReturnsAsync(_expectedStatuses);
 
 	}

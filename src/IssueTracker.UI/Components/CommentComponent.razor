@@ -9,7 +9,12 @@
 	</div>
 
 	<div>
-		<div class="issue-detail-text">@Item.Comment</div>
+		<div class="text-title">
+			@Item.Title
+		</div>
+		<div class="text-description">
+			@Item.Description
+		</div>
 		<div class="comment-header">
 			<label class="category-date">@Item.DateCreated.ToString("MM.dd.yyyy")</label>
 

@@ -27,6 +27,7 @@ public class EditCategoryUseCaseTests
 		var _sut = CreateUseCase();
 
 		CategoryModel? category = FakeCategory.GetCategories(1).First();
+		category.CategoryDescription = "Description";
 
 		// Act
 		await _sut.ExecuteAsync(category);

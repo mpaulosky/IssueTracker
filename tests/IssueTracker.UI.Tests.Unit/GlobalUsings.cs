@@ -16,10 +16,9 @@ global using Bunit;
 global using FluentAssertions;
 
 global using IssueTracker.CoreBusiness.BogusFakes;
-global using IssueTracker.CoreBusiness.Contracts;
 global using IssueTracker.CoreBusiness.Models;
-global using IssueTracker.CoreBusiness.Services;
-global using IssueTracker.CoreBusiness.Services.Interfaces;
+global using IssueTracker.PlugIns.Services;
+global using IssueTracker.PlugIns.Services.Interfaces;
 
 global using Microsoft.Extensions.Caching.Memory;
 

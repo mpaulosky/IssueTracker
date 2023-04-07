@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services.Interfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class StatusesTests : TestContext
@@ -439,7 +442,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.CreateStatus(It.IsAny<StatusModel>()), Times.Once);
+				x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -473,7 +476,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.UpdateStatus(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
+				x.UpdateStatusAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -499,7 +502,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.ArchiveStatus(It.IsAny<StatusModel>()), Times.Once);
+				x.ArchiveStatusAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -619,9 +622,9 @@ public class StatusesTests : TestContext
 	private void SetupMocks()
 	{
 
-		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(_expectedStatuses);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 

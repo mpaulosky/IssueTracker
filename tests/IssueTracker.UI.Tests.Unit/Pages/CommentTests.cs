@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services.Interfaces;
+
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CommentTests : TestContext
@@ -128,15 +131,15 @@ public class CommentTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.CreateComment(It.IsAny<CommentModel>()), Times.Once);
+				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
 	private void SetupMocks()
 	{
 
-		_issueRepositoryMock.Setup(x => x.GetIssue(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_issueRepositoryMock.Setup(x => x.GetIssueAsync(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 

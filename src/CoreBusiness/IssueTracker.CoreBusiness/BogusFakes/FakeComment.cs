@@ -23,8 +23,9 @@ public static class FakeComment
 
 		_commentsGenerator = new Faker<CommentModel>()
 				.RuleFor(x => x.Id, Guid.NewGuid().ToString)
-				.RuleFor(c => c.Comment, f => f.Lorem.Sentence())
-				.RuleFor(x => x.Source, FakeSource.GetSource())
+				.RuleFor(c => c.Title, f => f.Lorem.Sentence())
+				.RuleFor(c => c.Description, f => f.Lorem.Paragraph())
+				.RuleFor(x => x.CommentOnSource, FakeSource.GetSource())
 				.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 				.RuleFor(c => c.DateCreated, f => f.Date.Past());
 
@@ -78,23 +79,6 @@ public static class FakeComment
 		var basicComments = comments.Select(comments => new BasicCommentModel(comments));
 
 		return basicComments;
-
-	}
-
-	/// <summary>
-	/// Gets the basic comment.
-	/// </summary>
-	/// <returns>BasicCommentModel</returns>
-	public static BasicCommentModel GetBasicComment()
-	{
-
-		SetupGenerator();
-
-		var comment = _commentsGenerator!.Generate();
-
-		var basicComment = new BasicCommentModel(comment.Id, comment.Comment);
-
-		return basicComment;
 
 	}
 

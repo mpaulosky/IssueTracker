@@ -96,17 +96,3 @@ public static class FakeCategory
 	}
 
 }
-
-/// <summary>
-/// Category enum
-/// </summary>
-internal enum Category
-{
-
-	Design,
-	Documentation,
-	Implementation,
-	Clarification,
-	Miscellaneous
-
-}

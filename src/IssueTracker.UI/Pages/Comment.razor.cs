@@ -26,9 +26,10 @@ public partial class Comment
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"AuthProvider.GetUserFromAuth(UserService) = null");
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
+
 		_issue = await IssueService.GetIssue(Id);
 	}
 
@@ -39,9 +40,10 @@ public partial class Comment
 	{
 		CommentModel? comment = new()
 		{
-			Source = new BasicCommentSourceModel(_issue!),
+			CommentOnSource = new BasicCommentOnSourceModel(_issue!),
 			Author = new BasicUserModel(_loggedInUser!),
-			Comment = _comment.Comment
+			Title = _comment.Title!,
+			Description = _comment.Description!
 		};
 
 		await CommentService.CreateComment(comment);

@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -8,6 +11,7 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueService _sut;
 	private string _cleanupValue;
+
 
 	public GetApprovedIssuesTests(IssueTrackerTestFactory factory)
 	{
@@ -25,16 +29,18 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
+
 		IssueModel expected = FakeIssue.GetNewIssue();
 		expected.Rejected = false;
 		expected.ApprovedForRelease = true;
+		expected.Archived = false;
 
 		await _sut.CreateIssue(expected);
 
-		// Act
 		List<IssueModel> results = await _sut.GetApprovedIssues();
 
 		// Assert
+		// Act
 		results.Count.Should().Be(1);
 		results.First().Title.Should().Be(expected.Title);
 		results.First().Description.Should().Be(expected.Description);
@@ -49,7 +55,7 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

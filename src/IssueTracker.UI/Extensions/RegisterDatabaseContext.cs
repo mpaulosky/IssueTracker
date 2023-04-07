@@ -22,11 +22,11 @@ public static partial class IServiceCollectionExtensions
 	public static IServiceCollection RegisterDatabaseContext(this IServiceCollection services, ConfigurationManager config)
 	{
 
+		var connectionString = Guard.Against.NullOrEmpty(config.GetValue<string>("MongoDbSettings:ConnectionString"));
+		var databaseName = Guard.Against.NullOrEmpty(config.GetValue<string>("MongoDbSettings:DatabaseName"));
+
 		services.AddSingleton<IMongoDbContextFactory>(_ =>
-			new MongoDbContextFactory
-			(
-				config.GetValue<string>("MongoDbSettings:ConnectionString"),
-				config.GetValue<string>("MongoDbSettings:DatabaseName"))
+				new MongoDbContextFactory(connectionString, databaseName)
 			);
 
 		return services;

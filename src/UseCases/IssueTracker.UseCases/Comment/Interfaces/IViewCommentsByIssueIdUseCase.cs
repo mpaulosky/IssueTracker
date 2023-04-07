@@ -10,5 +10,7 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 
 public interface IViewCommentsByIssueIdUseCase
 {
-	Task<IEnumerable<CommentModel>> ExecuteAsync(IssueModel issue);
+
+	Task<IEnumerable<CommentModel>?> ExecuteAsync(string? issueId);
+
 }

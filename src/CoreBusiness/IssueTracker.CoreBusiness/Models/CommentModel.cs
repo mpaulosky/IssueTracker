@@ -24,14 +24,24 @@ public class CommentModel
 	public string Id { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the comment.
+	/// Gets or sets the title.
 	/// </summary>
 	/// <value>
-	/// The comment.
+	/// The title.
 	/// </value>
-	[BsonElement("comment")]
+	[BsonElement("comment_title")]
 	[BsonRepresentation(BsonType.String)]
-	public string Comment { get; set; } = string.Empty;
+	public string Title { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the description.
+	/// </summary>
+	/// <value>
+	/// The description.
+	/// </value>
+	[BsonElement("comment_description")]
+	[BsonRepresentation(BsonType.String)]
+	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the date created.
@@ -49,7 +59,7 @@ public class CommentModel
 	/// <value>
 	/// The source.
 	/// </value>
-	public BasicCommentSourceModel Source { get; set; } = new();
+	public BasicCommentOnSourceModel CommentOnSource { get; set; } = new();
 
 	/// <summary>
 	/// Gets or sets the author.

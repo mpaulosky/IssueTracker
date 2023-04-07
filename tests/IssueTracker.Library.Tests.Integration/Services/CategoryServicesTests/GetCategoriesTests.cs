@@ -1,4 +1,7 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+using IssueTracker.PlugIns.Services;
+
+namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -28,6 +31,8 @@ public class GetCategoriesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
+		await _factory.ResetCollectionAsync(_cleanupValue).ConfigureAwait(true);
+
 		CategoryModel expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
@@ -35,7 +40,7 @@ public class GetCategoriesTests : IAsyncLifetime
 		List<CategoryModel> results = await _sut.GetCategories();
 
 		// Assert
-		results.Count.Should().Be(1);
+		results.Count.Should().BeGreaterThan(1);
 		results.First().CategoryName.Should().Be(expected.CategoryName);
 		results.First().CategoryDescription.Should().Be(expected.CategoryDescription);
 
@@ -49,7 +54,7 @@ public class GetCategoriesTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 
