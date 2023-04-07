@@ -59,7 +59,7 @@ public class CommentModel
 	/// <value>
 	/// The source.
 	/// </value>
-	public BasicCommentOnSourceModel CommentOnSource { get; set; } = new();
+	public BasicCommentOnSourceModel? CommentOnSource { get; set; }
 
 	/// <summary>
 	/// Gets or sets the author.

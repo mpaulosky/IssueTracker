@@ -32,7 +32,7 @@ public class BasicCommentOnSourceModel
 	{
 
 		Id = issue.Id;
-		SourceType = "IssueModel";
+		SourceType = "Issue";
 		Title = issue.Title;
 		Description = issue.Description;
 		DateCreated = issue.DateCreated;
@@ -48,7 +48,7 @@ public class BasicCommentOnSourceModel
 	{
 
 		Id = solution.Id;
-		SourceType = "SolutionModel";
+		SourceType = "Solution";
 		Title = solution.Title;
 		Description = solution.Description;
 		DateCreated = solution.DateCreated;
@@ -64,7 +64,7 @@ public class BasicCommentOnSourceModel
 	{
 
 		Id = comment.Id;
-		SourceType = "CommentModel";
+		SourceType = "Comment";
 		Title = comment.Title;
 		Description = comment.Description;
 		DateCreated = comment.DateCreated;

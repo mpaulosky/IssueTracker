@@ -9,24 +9,23 @@
 
 namespace IssueTracker.UseCases.Comment;
 
-public class ViewCommentsByIssueIdUseCase : IViewCommentsByIssueIdUseCase
+public class ViewCommentsBySourceUseCase : IViewCommentsBySourceUseCase
 {
 
 	private readonly ICommentRepository _commentRepository;
 
-	public ViewCommentsByIssueIdUseCase(ICommentRepository commentRepository)
+	public ViewCommentsBySourceUseCase(ICommentRepository commentRepository)
 	{
 
 		_commentRepository = commentRepository;
 
 	}
 
-	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(string? issueId)
+	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel source)
 	{
+		if (source is null) return null;
 
-		if (string.IsNullOrWhiteSpace(issueId)) return null;
-
-		return await _commentRepository.GetCommentsByIssueIdAsync(issueId);
+		return await _commentRepository.GetCommentsBySourceAsync(source);
 
 	}
 

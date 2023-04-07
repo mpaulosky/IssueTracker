@@ -62,10 +62,7 @@ public class ViewCommentByIdUseCaseTests
 		var result = await _sut.ExecuteAsync(expectedId);
 
 		// Assert
-		result.Should().NotBeNull();
-		result.Id.Should().BeEmpty();
-		result.Title.Should().BeEmpty();
-		result.Description.Should().BeEmpty();
+		result.Should().BeNull();
 
 		_commentRepositoryMock.Verify(x =>
 				x.GetCommentByIdAsync(It.IsAny<string>()), Times.Never);

@@ -12,24 +12,67 @@ public class ViewCommentsByUserIdUseCaseTests
 
 	}
 
-	private ViewCommentsByUserIdUseCase CreateUseCase()
+	private ViewCommentsByUserIdUseCase CreateUseCase(CommentModel? expected)
 	{
+
+		if (expected != null)
+		{
+
+			var result = new List<CommentModel>
+			{
+				expected
+			};
+
+			_commentRepositoryMock.Setup(x => x.GetCommentsByUserIdAsync(It.IsAny<string>()))
+				.ReturnsAsync(result);
+
+		}
+
 		return new ViewCommentsByUserIdUseCase(_commentRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task Execute_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "ViewCommentsByUserIdUseCase With Valid Id Test")]
+	public async Task Execute_With_AValidId_Should_ReturnACommentModel_TestAsync()
 	{
+
 		// Arrange
-		var viewCommentsByUserIdUseCase = this.CreateUseCase();
-		UserModel? user = null;
+		var expected = FakeComment.GetComments(1).First();
+		var expectedUser = FakeUser.GetNewUser();
+		expectedUser.Id = expected.Author.Id;
+		var _sut = CreateUseCase(expected);
 
 		// Act
-		var result = await viewCommentsByUserIdUseCase.ExecuteAsync(
-			user);
+		var result = await _sut.ExecuteAsync(expectedUser);
 
 		// Assert
-		Assert.True(false);
-		//this.mockRepository.VerifyAll();
+		result!.First().Should().NotBeNull();
+		result!.First().Id.Should().Be(expected.Id);
+		result!.First().Title.Should().Be(expected.Title);
+		result!.First().Description.Should().Be(expected.Description);
+		result!.First().Author.Should().BeEquivalentTo(expected.Author);
+
+		_commentRepositoryMock.Verify(x =>
+				x.GetCommentsByUserIdAsync(It.IsAny<string>()), Times.Once);
+
 	}
+
+	[Fact(DisplayName = "ViewCommentsByUserIdUseCase With In Valid Data Test")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync()
+	{
+
+		// Arrange
+		var _sut = CreateUseCase(null);
+
+		// Act
+		var result = await _sut.ExecuteAsync(null);
+
+		// Assert
+		result.Should().BeNull();
+
+		_commentRepositoryMock.Verify(x =>
+				x.GetCommentsByUserIdAsync(It.IsAny<string>()), Times.Never);
+
+	}
+
 }

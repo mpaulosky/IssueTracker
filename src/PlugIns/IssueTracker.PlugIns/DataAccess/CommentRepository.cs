@@ -4,7 +4,6 @@
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using ICommentRepository = IssueTracker.PlugIns.PlugInRepositoryInterfaces.ICommentRepository;
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -97,14 +96,15 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///		GetCommentsByIssue method
+	///		GetCommentsBySource method
 	/// </summary>
-	/// <param name="issueId">string</param>
+	/// <param name="source">BasicCommentOnSourceModel</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsByIssueAsync(string issueId)
+	public async Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.CommentOnSource!.Id! == issueId)).ToList();
+		var results = (await _commentCollection
+			.FindAsync(s => s.CommentOnSource.Id == source.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
 
 		return results;
 

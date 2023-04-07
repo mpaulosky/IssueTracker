@@ -92,14 +92,14 @@ public class CommentService : ICommentService
 	/// <summary>
 	///		GetCommentsByIssue method
 	/// </summary>
-	/// <param name="issueId">string</param>
+	/// <param name="source">BasicCommentOnSourceModel</param>
 	/// <returns>Task of List CommentModels</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<List<CommentModel>> GetCommentsByIssue(string issueId)
+	public async Task<List<CommentModel>> GetCommentsBySource(BasicCommentOnSourceModel source)
 	{
-		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
+		Guard.Against.Null(source, nameof(source));
 
-		IEnumerable<CommentModel> results = await _repository.GetCommentsByIssueAsync(issueId);
+		IEnumerable<CommentModel> results = await _repository.GetCommentsBySourceAsync(source);
 
 		return results.ToList();
 	}

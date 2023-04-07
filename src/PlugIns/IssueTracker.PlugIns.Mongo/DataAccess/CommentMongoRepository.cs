@@ -81,12 +81,12 @@ public class CommentMongoRepository : ICommentRepository
 	/// <summary>
 	///		GetCommentsByIssue method
 	/// </summary>
-	/// <param name="issueId">string</param>
+	/// <param name="source">BasicCommentOnSourceModel</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsByIssueIdAsync(string issueId)
+	public async Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.CommentOnSource.Id == issueId)).ToList();
+		var results = (await _commentCollection.FindAsync(s => s.CommentOnSource.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
 
 		return results;
 

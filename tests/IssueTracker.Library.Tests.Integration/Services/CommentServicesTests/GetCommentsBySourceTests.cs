@@ -5,13 +5,13 @@ namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
-public class GetCommentsByIssueTests : IAsyncLifetime
+public class GetCommentsBySourceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
 	private string _cleanupValue;
 
-	public GetCommentsByIssueTests(IssueTrackerTestFactory factory)
+	public GetCommentsBySourceTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
@@ -34,7 +34,7 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> result = await _sut.GetCommentsByIssue(expected.CommentOnSource.Id);
+		List<CommentModel> result = await _sut.GetCommentsBySource(expected.CommentOnSource);
 
 		// Assert
 		result.Should().NotBeNull();

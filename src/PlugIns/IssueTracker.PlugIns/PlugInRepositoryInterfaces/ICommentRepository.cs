@@ -20,7 +20,7 @@ public interface ICommentRepository
 
 	Task<IEnumerable<CommentModel>> GetCommentsByUserAsync(string userId);
 
-	Task<IEnumerable<CommentModel>> GetCommentsByIssueAsync(string issueId);
+	Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source);
 
 	Task UpdateCommentAsync(string itemId, CommentModel comment);
 

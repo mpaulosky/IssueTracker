@@ -43,7 +43,7 @@ public class BasicCommentModel
 	public string Title { get; set; } = string.Empty;
 	public string Description { get; set; } = string.Empty;
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-	public BasicCommentOnSourceModel CommentOnSource { get; set; } = new();
+	public BasicCommentOnSourceModel CommentOnSource { get; set; }
 	public BasicUserModel Author { get; set; } = new();
 
 }
