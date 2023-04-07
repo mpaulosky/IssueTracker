@@ -34,9 +34,15 @@ public partial class Admin
 	/// <param name="issue">IssueModel</param>
 	private async Task ApproveIssue(IssueModel issue)
 	{
+
+		if (issue == null) return;
+
 		issue.ApprovedForRelease = true;
-		_issues.Remove(issue);
+
+		_issues?.Remove(issue);
+
 		await IssueService.UpdateIssue(issue);
+
 	}
 
 	/// <summary>
@@ -45,9 +51,15 @@ public partial class Admin
 	/// <param name="issue">IssueModel</param>
 	private async Task RejectIssue(IssueModel issue)
 	{
+
+		if (issue == null) return;
+
 		issue.Rejected = true;
-		_issues.Remove(issue);
+
+		_issues?.Remove(issue);
+
 		await IssueService.UpdateIssue(issue);
+
 	}
 
 	/// <summary>

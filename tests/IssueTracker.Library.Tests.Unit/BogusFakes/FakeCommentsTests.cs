@@ -21,7 +21,7 @@ public class FakeCommentsTests
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().CommentOnSource.Should().NotBeNull();
-		result.First().Comment.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
 
 	}
@@ -38,7 +38,7 @@ public class FakeCommentsTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Comment.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 
 	}
 
@@ -49,11 +49,11 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		BasicCommentModel result = FakeComment.GetBasicComment();
+		BasicCommentModel result = FakeComment.GetBasicComments(1).First();
 
 		// Assert
 		result.Id.Should().NotBeNull();
-		result.Comment.Should().NotBeNull();
+		result.Title.Should().NotBeNull();
 
 	}
 

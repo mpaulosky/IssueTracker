@@ -26,7 +26,7 @@
 			// Arrange
 			var _sut = CreateUseCase();
 			CommentModel? comment = FakeComment.GetComments(1).First();
-			comment.Comment = "New Comment";
+			comment.Title = "New Comment";
 
 			// Act
 			await _sut.Execute(comment);

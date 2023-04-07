@@ -8,7 +8,7 @@ public static class TestComments
 		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
-			Comment = "Test Comment",
+			Title = "Test Comment",
 			Archived = false,
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
@@ -23,7 +23,7 @@ public static class TestComments
 		var comment = new CommentModel
 		{
 			Id = "5dc1039a1521eaa36835e541",
-			Comment = "Update Test Comment",
+			Title = "Update Test Comment",
 			Archived = false,
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow,
@@ -40,7 +40,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 1",
+				Title = "Test Comment 1",
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e543", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
@@ -49,7 +49,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 2",
+				Title = "Test Comment 2",
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
 				UserVotes = new HashSet<string>()
@@ -57,7 +57,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 3",
+				Title = "Test Comment 3",
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e543", "Test User"),
 				DateCreated = DateTime.UtcNow,
@@ -75,7 +75,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 1",
+				Title = "Test Comment 1",
 				Archived = false,
 				Author = new BasicUserModel { Id = "5dc1039a1521eaa36835e541", DisplayName = "Test User" },
 				DateCreated = DateTime.UtcNow,
@@ -84,7 +84,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 2",
+				Title = "Test Comment 2",
 				Archived = false,
 				Author = new BasicUserModel(TestUsers.GetKnownUser()),
 				UserVotes = new HashSet<string>()
@@ -92,7 +92,7 @@ public static class TestComments
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Comment = "Test Comment 3",
+				Title = "Test Comment 3",
 				Archived = false,
 				Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 				DateCreated = DateTime.UtcNow,
@@ -105,7 +105,7 @@ public static class TestComments
 
 	public static CommentModel GetComment(string id, string commentName, bool archived)
 	{
-		var comment = new CommentModel { Id = id, Comment = commentName, Archived = archived };
+		var comment = new CommentModel { Id = id, Title = commentName, Archived = archived };
 
 		return comment;
 	}
@@ -114,7 +114,7 @@ public static class TestComments
 	{
 		var comment = new CommentModel
 		{
-			Comment = "Test Comment",
+			Title = "Test Comment",
 			Archived = false,
 			Author = new BasicUserModel("5dc1039a1521eaa36835e541", "Test User"),
 			DateCreated = DateTime.UtcNow

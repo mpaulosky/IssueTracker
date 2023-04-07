@@ -35,7 +35,7 @@ public class GetCommentTests : IAsyncLifetime
 
 		// Assert
 		result.Id.Should().Be(expected!.Id);
-		result.Comment.Should().BeEquivalentTo(expected!.Comment);
+		result.Title.Should().BeEquivalentTo(expected!.Title);
 		result.Author.Should().BeEquivalentTo(expected!.Author);
 		result.CommentOnSource.Should().BeEquivalentTo(expected!.CommentOnSource);
 

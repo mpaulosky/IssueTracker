@@ -32,13 +32,13 @@ public class UpdateCommentTests : IAsyncLifetime
 		await _sut.CreateComment(expected);
 
 		// Act
-		expected.Comment = "Updated";
+		expected.Title = "Updated";
 		await _sut.UpdateComment(expected);
 		CommentModel result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
 		result.Id.Should().Be(expected!.Id);
-		result.Comment.Should().Be(expected!.Comment);
+		result.Title.Should().Be(expected!.Title);
 		result.Author.Should().BeEquivalentTo(expected!.Author);
 		result.CommentOnSource.Should().BeEquivalentTo(expected!.CommentOnSource);
 
