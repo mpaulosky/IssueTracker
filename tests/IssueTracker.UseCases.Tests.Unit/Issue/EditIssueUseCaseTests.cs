@@ -1,32 +1,32 @@
-﻿
-namespace IssueTracker.UseCases.Tests.Unit.Issue;
+﻿namespace IssueTracker.UseCases.Tests.Unit.Issue;
 
-public class ArchiveIssueUseCaseTests
+public class EditIssueUseCaseTests
 {
 
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 
-	public ArchiveIssueUseCaseTests()
+	public EditIssueUseCaseTests()
 	{
 
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 
 	}
 
-	private ArchiveIssueUseCase CreateUseCase()
+	private EditIssueUseCase CreateUseCase()
 	{
 
-		return new ArchiveIssueUseCase(_issueRepositoryMock.Object);
+		return new EditIssueUseCase(_issueRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "ArchiveIssueUseCase With Valid Data Test")]
-	public async Task ExecuteAsync_With_ValidData_Should_UpdateIssueAsArchived_TestAsync()
+	[Fact(DisplayName = "EditIssueUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_EditIssue_TestAsync()
 	{
 
 		// Arrange
 		var _sut = CreateUseCase();
 		IssueModel? issue = FakeIssue.GetIssues(1).First();
+		issue.Title = "New Issue";
 
 		// Act
 		await _sut.ExecuteAsync(issue);
@@ -37,8 +37,8 @@ public class ArchiveIssueUseCaseTests
 
 	}
 
-	[Fact(DisplayName = "ArchiveIssueUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	[Fact(DisplayName = "EditIssueUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
 	{
 
 		// Arrange
@@ -46,7 +46,7 @@ public class ArchiveIssueUseCaseTests
 		IssueModel? issue = null;
 
 		// Act
-		await _sut.ExecuteAsync(issue);
+		await _sut.ExecuteAsync(issue: issue);
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>

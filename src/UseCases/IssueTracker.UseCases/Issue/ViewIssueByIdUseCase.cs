@@ -21,10 +21,11 @@ public class ViewIssueByIdUseCase : IViewIssueByIdUseCase
 
 	}
 
-	public async Task<IssueModel> ExecuteAsync(string id)
+	public async Task<IssueModel?> ExecuteAsync(string issueId)
 	{
+		if (string.IsNullOrWhiteSpace(issueId)) return null;
 
-		return await _issueRepository.GetIssueByIdAsync(id);
+		return await _issueRepository.GetIssueByIdAsync(issueId);
 
 	}
 
