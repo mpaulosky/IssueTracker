@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext

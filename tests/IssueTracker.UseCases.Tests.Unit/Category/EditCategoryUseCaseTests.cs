@@ -1,5 +1,6 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Category;
 
+[ExcludeFromCodeCoverage]
 public class EditCategoryUseCaseTests
 {
 

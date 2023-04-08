@@ -17,6 +17,7 @@ global using FluentAssertions;
 
 global using IssueTracker.CoreBusiness.BogusFakes;
 global using IssueTracker.CoreBusiness.Models;
+global using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
 global using IssueTracker.PlugIns.Services;
 global using IssueTracker.PlugIns.Services.Interfaces;
 

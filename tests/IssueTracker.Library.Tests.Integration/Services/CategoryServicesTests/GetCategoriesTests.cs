@@ -1,7 +1,4 @@
-﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
-using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -11,13 +8,14 @@ public class GetCategoriesTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
 	private string _cleanupValue;
+	private readonly IMongoDbContextFactory _dbContextFactory;
 
 	public GetCategoriesTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
-		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
-		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
+		_dbContextFactory = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		_dbContextFactory.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
 
 		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
@@ -31,7 +29,6 @@ public class GetCategoriesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		await _factory.ResetCollectionAsync(_cleanupValue).ConfigureAwait(true);
 
 		CategoryModel expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
@@ -41,8 +38,8 @@ public class GetCategoriesTests : IAsyncLifetime
 
 		// Assert
 		results.Count.Should().BeGreaterThan(1);
-		results.First().CategoryName.Should().Be(expected.CategoryName);
-		results.First().CategoryDescription.Should().Be(expected.CategoryDescription);
+		results.Last().CategoryName.Should().Be(expected.CategoryName);
+		results.Last().CategoryDescription.Should().Be(expected.CategoryDescription);
 
 	}
 

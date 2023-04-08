@@ -1,6 +1,7 @@
 ﻿
 namespace IssueTracker.UseCases.Tests.Unit.Issue;
 
+[ExcludeFromCodeCoverage]
 public class ArchiveIssueUseCaseTests
 {
 

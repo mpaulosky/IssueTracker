@@ -1,8 +1,4 @@
-﻿
-using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
-using IssueTracker.PlugIns.Services.Interfaces;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CategoriesTests : TestContext

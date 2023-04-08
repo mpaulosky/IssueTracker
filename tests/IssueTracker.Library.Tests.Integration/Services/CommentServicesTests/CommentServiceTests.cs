@@ -1,7 +1,4 @@
-﻿using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
-using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
