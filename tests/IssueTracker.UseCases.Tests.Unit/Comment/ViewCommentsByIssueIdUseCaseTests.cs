@@ -57,10 +57,8 @@ public class ViewCommentsBySourceUseCaseTests
 
 	}
 
-	[Theory(DisplayName = "ViewCommentsBySourceUseCase With In Valid Data Test")]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	[Fact(DisplayName = "ViewCommentsBySourceUseCase With In Valid Data Test")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync()
 	{
 
 		// Arrange
@@ -71,7 +69,6 @@ public class ViewCommentsBySourceUseCaseTests
 
 		// Assert
 		result.Should().BeNull();
-
 
 		_commentRepositoryMock.Verify(x =>
 				x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()), Times.Never);

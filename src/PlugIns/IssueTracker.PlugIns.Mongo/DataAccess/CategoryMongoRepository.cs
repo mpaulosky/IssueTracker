@@ -36,12 +36,12 @@ public class CategoryMongoRepository : ICategoryRepository
 	/// <summary>
 	///		GetCategory method
 	/// </summary>
-	/// <param name="itemId">string</param>
+	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	public async Task<CategoryModel> GetCategoryByIdAsync(string itemId)
+	public async Task<CategoryModel> GetCategoryByIdAsync(string categoryId)
 	{
 
-		var objectId = new ObjectId(itemId);
+		var objectId = new ObjectId(categoryId);
 
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 

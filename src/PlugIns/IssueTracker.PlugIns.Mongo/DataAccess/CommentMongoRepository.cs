@@ -48,12 +48,12 @@ public class CommentMongoRepository : ICommentRepository
 	/// <summary>
 	///		GetComment method
 	/// </summary>
-	/// <param name="itemId">string</param>
+	/// <param name="commentId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetCommentByIdAsync(string itemId)
+	public async Task<CommentModel> GetCommentByIdAsync(string commentId)
 	{
 
-		var objectId = new ObjectId(itemId);
+		var objectId = new ObjectId(commentId);
 
 		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
