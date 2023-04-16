@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Services;
 /// </summary>
 public class IssueService : IIssueService
 {
-	private const string _cacheName = "IssueData";
+	private const string CacheName = "IssueData";
 	private readonly IMemoryCache _cache;
 	private readonly IIssueRepository _repository;
 
@@ -46,7 +46,7 @@ public class IssueService : IIssueService
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<IssueModel> GetIssue(string issueId)
+	public async Task<IssueModel> GetIssue(string? issueId)
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
@@ -61,7 +61,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
-		List<IssueModel>? output = _cache.Get<List<IssueModel>>(_cacheName);
+		List<IssueModel>? output = _cache.Get<List<IssueModel>>(CacheName);
 
 		if (output is not null) return output;
 
@@ -69,7 +69,7 @@ public class IssueService : IIssueService
 
 		output = results.ToList();
 
-		_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
+		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
@@ -111,7 +111,7 @@ public class IssueService : IIssueService
 
 		await _repository.UpdateIssueAsync(issue.Id!, issue);
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
 
 	}
 

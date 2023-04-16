@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,11 +25,11 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
-		CategoryModel result = await _sut.GetCategory(expected.Id);
+		var result = await _sut.GetCategory(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -44,7 +44,7 @@ public class GetCategoryTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		CategoryModel result = await _sut.GetCategory(id);
+		var result = await _sut.GetCategory(id);
 
 		// Assert
 		result.Should().BeNull();

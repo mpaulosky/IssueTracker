@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -24,13 +24,13 @@ public class UpdateUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		UserModel expected = FakeUser.GetNewUser();
+		var expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
 		expected.DisplayName = "Updated";
 		await _sut.UpdateUser(expected);
-		UserModel result = await _sut.GetUser(expected.Id);
+		var result = await _sut.GetUser(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);

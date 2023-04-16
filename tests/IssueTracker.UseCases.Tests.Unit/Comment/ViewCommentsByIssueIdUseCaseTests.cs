@@ -47,11 +47,11 @@ public class ViewCommentsBySourceUseCaseTests
 
 		// Assert
 		result.Should().NotBeNull();
-		result.Count().Should().Be(1);
-		result.First().Id.Should().Be(expected.Id);
-		result.First().Title.Should().Be(expected.Title);
-		result.First().Description.Should().Be(expected.Description);
-		result.First().Author.Should().BeEquivalentTo(expected.Author);
+		result!.Count().Should().Be(1);
+		result!.First().Id.Should().Be(expected.Id);
+		result!.First().Title.Should().Be(expected.Title);
+		result!.First().Description.Should().Be(expected.Description);
+		result!.First().Author.Should().BeEquivalentTo(expected.Author);
 
 		_commentRepositoryMock.Verify(x =>
 				x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()), Times.Once);

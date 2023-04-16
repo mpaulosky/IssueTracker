@@ -40,10 +40,10 @@ public class ViewIssueByIdUseCaseTests
 
 		// Assert
 		result.Should().NotBeNull();
-		result.Id.Should().Be(expected.Id);
-		result.Title.Should().Be(expected.Title);
-		result.Description.Should().Be(expected.Description);
-		result.Author.Should().BeEquivalentTo(expected.Author);
+		result!.Id.Should().Be(expected.Id);
+		result!.Title.Should().Be(expected.Title);
+		result!.Description.Should().Be(expected.Description);
+		result!.Author.Should().BeEquivalentTo(expected.Author);
 
 		_issueRepositoryMock.Verify(x =>
 				x.GetIssueByIdAsync(It.IsAny<string>()), Times.Once);

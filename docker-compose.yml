@@ -7,14 +7,14 @@ networks:
 
 services:
   db:
-    image: mongo:latest
+    image: mongodb/mongodb-community-server:latest
     
     container_name: my-mongodb
 
     restart: always
 
     environment:
-      - MONGO_INITDB_DATABASE=db
+      - MONGO_INITDB_DATABASE=devissuetracker
       - MONGO_INITDB_ROOT_USERNAME=course
       - MONGO_INITDB_ROOT_PASSWORD=whatever
 

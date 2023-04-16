@@ -1,25 +1,25 @@
-﻿using IssueTracker.PlugIns.Mongo.DataAccess;
-
-namespace IssueTracker.PlugIns.Mongo;
+﻿namespace IssueTracker.PlugIns;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
-	private DatabaseSettings DbConfig { get; }
 
-	private IConfiguration AppConfiguration { get; }
+	private readonly MongoDbContainer _mongoDbContainer;
+	private readonly string _databaseName;
 
-	private IMongoDbContextFactory DbContext { get; set; }
+	public IConfiguration AppConfiguration { get; }
+
+	public DatabaseSettings DbConfig { get; set; }
+
+	public IMongoDbContextFactory DbContext { get; set; }
 
 	public IssueTrackerTestFactory()
 	{
 
-		AppConfiguration = LoadConfig("appsettings-integration-tests.json");
+		_mongoDbContainer = new MongoDbBuilder().Build();
 
-		DbConfig = AppConfiguration.GetSection("MongoDbSettings").Get<DatabaseSettings>();
-
-		DbConfig.DatabaseName = "test_" + Guid.NewGuid().ToString("N");
+		_databaseName = $"test_{Guid.NewGuid():N}";
 
 	}
 
@@ -29,51 +29,51 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		builder.ConfigureTestServices(services =>
 		{
 
-			services.RemoveAll(typeof(IServiceCollection));
+			var dbConnectionDescriptor = services.SingleOrDefault(
+					d => d.ServiceType ==
+							typeof(IMongoDbContextFactory));
 
-			services.RemoveAll(typeof(IMongoDbContextFactory));
+			services.Remove(dbConnectionDescriptor);
 
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
-					new MongoDbContextFactory(DbConfig.ConnectionString, DbConfig.DatabaseName));
+					new MongoDbContextFactory(DbConfig));
 
-			using ServiceProvider serviceProvider = services.BuildServiceProvider();
+			using var serviceProvider = services.BuildServiceProvider();
 
 			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
 
 		});
+
+		builder.UseEnvironment("Development");
 
 	}
 
 	public async Task ResetCollectionAsync(string collection)
 	{
 
-		if (!string.IsNullOrWhiteSpace(collection)) await DbContext.Database.DropCollectionAsync(collection);
+		if (!string.IsNullOrWhiteSpace(collection))
+		{
 
-	}
+			await DbContext.Client.GetDatabase(_databaseName).DropCollectionAsync(collection);
 
-	private static IConfiguration LoadConfig(string appSettings)
-	{
-
-		IConfigurationRoot config = new ConfigurationBuilder()
-			.AddJsonFile(appSettings, optional: false, false)
-			.AddEnvironmentVariables()
-			.Build();
-
-		return config;
+		}
 
 	}
 
 	public async Task InitializeAsync()
 	{
 
-		await Task.Delay(1000);
+		await _mongoDbContainer.StartAsync();
+
+		DbConfig = new DatabaseSettings(_mongoDbContainer.GetConnectionString(), _databaseName);
 
 	}
 
 	public new async Task DisposeAsync()
 	{
 
-		await DbContext.Client.DropDatabaseAsync(DbConfig.DatabaseName);
+		await DbContext.Client.DropDatabaseAsync(_databaseName);
+		await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
 
 	}
 

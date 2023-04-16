@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,7 +25,7 @@ public class CreateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 
 		// Act
 		await _sut.CreateComment(expected);

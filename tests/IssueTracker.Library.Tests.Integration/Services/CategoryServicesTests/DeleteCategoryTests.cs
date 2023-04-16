@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -19,25 +19,27 @@ public class DeleteCategoryTests : IAsyncLifetime
 
 	}
 
-	[Fact]
-	public async Task DeleteCategory_With_ValidData_Should_DeleteACategory_TestAsync()
+	[Fact(DisplayName = "Delete Category With Valid Data (Archive)")]
+	public async Task DeleteCategory_With_ValidData_Should_ArchiveACategory_TestAsync()
 	{
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
 		await _sut.DeleteCategory(expected);
-		CategoryModel result = await _sut.GetCategory(expected.Id);
+		var result = await _sut.GetCategory(expected.Id);
 
 		// Assert
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
 		result.Archived.Should().BeTrue();
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "Delete Category With Invalid Data Throws Error")]
 	public async Task DeleteCategory_With_InValidData_Should_FailToDeleteACategory_TestAsync()
 	{
 

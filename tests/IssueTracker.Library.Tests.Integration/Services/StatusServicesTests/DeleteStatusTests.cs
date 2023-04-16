@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -19,25 +19,27 @@ public class DeleteStatusTests : IAsyncLifetime
 
 	}
 
-	[Fact]
-	public async Task DeleteStatus_With_ValidData_Should_DeleteAStatus_TestAsync()
+	[Fact(DisplayName = "Delete Status With Valid Data (Archive)")]
+	public async Task DeleteStatus_With_ValidData_Should_ArchiveAStatus_TestAsync()
 	{
 
 		// Arrange
 		_cleanupValue = "statuses";
-		StatusModel expected = FakeStatus.GetNewStatus();
+		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
 		await _sut.DeleteStatus(expected);
-		StatusModel result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected.Id);
 
 		// Assert
-		result.Should().BeNull();
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.Archived.Should().BeTrue();
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "Delete Status With Invalid Data Throws Error")]
 	public async Task DeleteStatus_With_InValidData_Should_FailToDeleteAStatus_TestAsync()
 	{
 

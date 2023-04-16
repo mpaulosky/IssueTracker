@@ -21,7 +21,7 @@ public class CreateNewIssueUseCase : ICreateNewIssueUseCase
 
 	}
 
-	public async Task ExecuteAsync(IssueModel issue)
+	public async Task ExecuteAsync(IssueModel? issue)
 	{
 
 		if (issue == null)

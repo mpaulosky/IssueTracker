@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,7 +25,7 @@ public class CreateIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		IssueModel expected = FakeIssue.GetNewIssue();
+		var expected = FakeIssue.GetNewIssue();
 
 		// Act
 		await _sut.CreateIssue(expected);

@@ -7,6 +7,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.PlugIns.Helpers;
+
 namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
@@ -18,20 +20,16 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		MongoDbContextFactory constructor
 	/// </summary>
-	/// <param name="connectionString">Connection String</param>
-	/// <param name="databaseName">Database Name</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	/// <exception cref="ArgumentException"></exception>"
-	public MongoDbContextFactory(string connectionString, string databaseName)
+	/// <param name="settings">DatabaseSettings</param>
+	public MongoDbContextFactory(DatabaseSettings settings)
 	{
 
-		ConnectionString = Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
+		ConnectionString = settings.ConnectionString;
+		DbName = settings.DatabaseName;
 
-		DbName = Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
+		Client = new MongoClient(settings.ConnectionString);
 
-		Client = new MongoClient(ConnectionString);
-
-		Database = Client.GetDatabase(DbName);
+		Database = Client.GetDatabase(settings.DatabaseName);
 
 	}
 
@@ -70,8 +68,8 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		GetCollection method
 	/// </summary>
-	/// <param name="name">string</param>
-	/// <typeparam name="T"></typeparam>
+	/// <param name="name">string collection name</param>
+	/// <typeparam name="T">the class name</typeparam>
 	/// <returns>IMongoCollection</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public IMongoCollection<T> GetCollection<T>(string name)

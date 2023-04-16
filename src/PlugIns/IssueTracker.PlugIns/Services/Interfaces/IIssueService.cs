@@ -11,7 +11,7 @@ public interface IIssueService
 {
 	Task CreateIssue(IssueModel issue);
 
-	Task<IssueModel> GetIssue(string issueId);
+	Task<IssueModel> GetIssue(string? issueId);
 
 	Task<List<IssueModel>> GetIssues();
 

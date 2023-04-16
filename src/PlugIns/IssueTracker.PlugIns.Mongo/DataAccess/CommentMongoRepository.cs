@@ -50,7 +50,7 @@ public class CommentMongoRepository : ICommentRepository
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetCommentByIdAsync(string commentId)
+	public async Task<CommentModel> GetCommentByIdAsync(string? commentId)
 	{
 
 		var objectId = new ObjectId(commentId);
@@ -86,7 +86,8 @@ public class CommentMongoRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source)
 	{
 
-		var results = (await _commentCollection.FindAsync(s => s.CommentOnSource.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
+		var results =
+			(await _commentCollection.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
 
 		return results;
 
@@ -97,7 +98,7 @@ public class CommentMongoRepository : ICommentRepository
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsByUserIdAsync(string userId)
+	public async Task<IEnumerable<CommentModel>> GetCommentsByUserIdAsync(string? userId)
 	{
 
 		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
@@ -127,7 +128,7 @@ public class CommentMongoRepository : ICommentRepository
 	/// <param name="itemId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteCommentAsync(string itemId, string userId)
+	public async Task UpVoteCommentAsync(string? itemId, string userId)
 	{
 		var objectId = new ObjectId(itemId);
 

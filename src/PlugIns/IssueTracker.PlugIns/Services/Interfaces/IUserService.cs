@@ -11,9 +11,9 @@ public interface IUserService
 {
 	Task CreateUser(UserModel user);
 
-	Task<UserModel> GetUser(string userId);
+	Task<UserModel> GetUser(string? userId);
 
-	Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId);
+	Task<UserModel> GetUserFromAuthentication(string? userObjectIdentifierId);
 
 	Task<List<UserModel>> GetUsers();
 

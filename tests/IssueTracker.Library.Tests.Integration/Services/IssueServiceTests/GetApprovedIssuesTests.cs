@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -27,14 +27,14 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 		// Arrange
 		_cleanupValue = "issues";
 
-		IssueModel expected = FakeIssue.GetNewIssue();
+		var expected = FakeIssue.GetNewIssue();
 		expected.Rejected = false;
 		expected.ApprovedForRelease = true;
 		expected.Archived = false;
 
 		await _sut.CreateIssue(expected);
 
-		List<IssueModel> results = await _sut.GetApprovedIssues();
+		var results = await _sut.GetApprovedIssues();
 
 		// Assert
 		// Act

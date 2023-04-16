@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class GetCommentsBySourceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private readonly string _cleanupValue = "comments";
 
 	public GetCommentsBySourceTests(IssueTrackerTestFactory factory)
 	{
@@ -24,14 +24,11 @@ public class GetCommentsBySourceTests : IAsyncLifetime
 	public async Task GetCommentsByIssue_With_ValidData_Should_ReturnValidComment_Test()
 	{
 		// Arrange
-		_cleanupValue = "comments";
-		await _factory.ResetCollectionAsync(_cleanupValue);
-
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> result = await _sut.GetCommentsBySource(expected.CommentOnSource);
+		var result = await _sut.GetCommentsBySource(expected.CommentOnSource);
 
 		// Assert
 		result.Should().NotBeNull();

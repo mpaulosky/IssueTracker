@@ -21,7 +21,7 @@ public class ViewIssueByIdUseCase : IViewIssueByIdUseCase
 
 	}
 
-	public async Task<IssueModel?> ExecuteAsync(string issueId)
+	public async Task<IssueModel?> ExecuteAsync(string? issueId)
 	{
 		if (string.IsNullOrWhiteSpace(issueId)) return null;
 

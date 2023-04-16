@@ -21,7 +21,7 @@ public class ViewIssuesByUserIdUseCase : IViewIssuesByUserIdUseCase
 
 	}
 
-	public async Task<IEnumerable<IssueModel>?> ExecuteAsync(UserModel user)
+	public async Task<IEnumerable<IssueModel>?> ExecuteAsync(UserModel? user)
 	{
 
 		if (user == null) return null;

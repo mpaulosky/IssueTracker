@@ -29,4 +29,16 @@ public class Enums
 
 	}
 
+	/// <summary>
+	/// SourceType enum
+	/// </summary>
+	internal enum SourceType
+	{
+
+		Comment,
+		Issue,
+		Solution
+
+	}
+
 }

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,13 +25,13 @@ public class UpdateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		StatusModel expected = FakeStatus.GetNewStatus();
+		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
 		expected.StatusDescription = "Updated";
 		await _sut.UpdateStatus(expected);
-		StatusModel result = await _sut.GetStatus(expected.Id);
+		var result = await _sut.GetStatus(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);

@@ -15,6 +15,7 @@ namespace IssueTracker.UI;
 [ExcludeFromCodeCoverage]
 public static class RegisterServices
 {
+
 	///  <summary>
 	/// 		Configures the services method.
 	///  </summary>
@@ -22,6 +23,7 @@ public static class RegisterServices
 	///  <param name="config">ConfigurationManager</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder, ConfigurationManager config)
 	{
+
 		// Add services to the container.
 
 		builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
@@ -39,5 +41,7 @@ public static class RegisterServices
 		builder.Services.RegisterDatabaseContext(config);
 
 		builder.Services.RegisterDICollections();
+
 	}
+
 }

@@ -18,7 +18,7 @@ public class ArchiveCategoryUseCase : IArchiveCategoryUseCase
 		_categoryRepository = categoryRepository;
 	}
 
-	public async Task ExecuteAsync(CategoryModel category)
+	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
 		if (category == null) return;

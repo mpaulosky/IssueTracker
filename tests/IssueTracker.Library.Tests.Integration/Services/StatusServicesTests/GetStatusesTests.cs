@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -30,11 +30,11 @@ public class GetStatusesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		StatusModel expected = FakeStatus.GetNewStatus();
+		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateStatus(expected);
 
 		// Act
-		List<StatusModel> results = await _sut.GetStatuses();
+		var results = await _sut.GetStatuses();
 
 		// Assert
 		results.Count.Should().Be(1);

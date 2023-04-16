@@ -81,7 +81,7 @@ public class IssueRepository : IIssueRepository
 	///		GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApproval()
+	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApprovalAsync()
 	{
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
@@ -151,8 +151,4 @@ public class IssueRepository : IIssueRepository
 
 	}
 
-	public Task<IEnumerable<IssueModel>> GetIssuesWaitingForApprovalAsync()
-	{
-		throw new NotImplementedException();
-	}
 }

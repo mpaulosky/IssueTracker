@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.PlugIns.Helpers;
+
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>
@@ -22,11 +24,13 @@ public static partial class IServiceCollectionExtensions
 	public static IServiceCollection RegisterDatabaseContext(this IServiceCollection services, ConfigurationManager config)
 	{
 
-		var connectionString = Guard.Against.NullOrEmpty(config.GetValue<string>("MongoDbSettings:ConnectionString"));
-		var databaseName = Guard.Against.NullOrEmpty(config.GetValue<string>("MongoDbSettings:DatabaseName"));
+		var connectionString = config.GetValue<string>("MongoDbSettings:ConnectionString");
+		var databaseName = config.GetValue<string>("MongoDbSettings:DatabaseName");
+
+		var settings = new DatabaseSettings(connectionString!, databaseName!);
 
 		services.AddSingleton<IMongoDbContextFactory>(_ =>
-				new MongoDbContextFactory(connectionString, databaseName)
+				new MongoDbContextFactory(settings)
 			);
 
 		return services;

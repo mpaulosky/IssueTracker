@@ -23,9 +23,11 @@ public static class FakeSource
 
 		_sourceGenerator = new Faker<BasicCommentOnSourceModel>()
 			.RuleFor(x => x.Id, f => f.Random.Guid().ToString())
+			.RuleFor(x => x.SourceType, f => f.PickRandom<SourceType>().ToString())
 			.RuleFor(x => x.Title, f => f.Lorem.Sentence(10, 4))
 			.RuleFor(x => x.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First());
+
 	}
 
 	/// <summary>

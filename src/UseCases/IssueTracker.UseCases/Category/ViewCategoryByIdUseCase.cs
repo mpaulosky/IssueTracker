@@ -20,7 +20,7 @@ public class ViewCategoryByIdUseCase : IViewCategoryByIdUseCase
 
 	}
 
-	public async Task<CategoryModel> ExecuteAsync(string categoryId)
+	public async Task<CategoryModel> ExecuteAsync(string? categoryId)
 	{
 
 		if (string.IsNullOrWhiteSpace(categoryId)) return new();

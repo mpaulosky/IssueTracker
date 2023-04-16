@@ -122,7 +122,8 @@ public class CommentTests : TestContext
 
 		});
 
-		cut.Find("#comment").Change("Test Comment");
+		cut.Find("#title").Change("Test Comment");
+		cut.Find("#desc").Change("Test Description");
 		cut.Find("#submit-comment").Click();
 
 		// Assert

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,7 +25,7 @@ public class CreateCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory();
 
 		// Act
 		await _sut.CreateCategory(expected);

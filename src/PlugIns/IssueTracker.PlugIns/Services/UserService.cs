@@ -43,7 +43,7 @@ public class UserService : IUserService
 	/// <param name="userId">string</param>
 	/// <returns>Task of UserModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<UserModel> GetUser(string userId)
+	public async Task<UserModel> GetUser(string? userId)
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
@@ -69,8 +69,9 @@ public class UserService : IUserService
 	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<UserModel> GetUserFromAuthentication(string userObjectIdentifierId)
+	public async Task<UserModel> GetUserFromAuthentication(string? userObjectIdentifierId)
 	{
+
 		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
 
 		UserModel results = await _repo.GetUserFromAuthenticationAsync(userObjectIdentifierId);

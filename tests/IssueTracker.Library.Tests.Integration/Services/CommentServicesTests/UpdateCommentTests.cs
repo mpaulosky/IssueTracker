@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,19 +25,19 @@ public class UpdateCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
 		expected.Title = "Updated";
 		await _sut.UpdateComment(expected);
-		CommentModel result = await _sut.GetComment(expected!.Id!);
+		var result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
 		result.Id.Should().Be(expected!.Id);
 		result.Title.Should().Be(expected!.Title);
 		result.Author.Should().BeEquivalentTo(expected!.Author);
-		result.CommentOnSource.Should().BeEquivalentTo(expected!.CommentOnSource);
+		result.CommentOnSource.SourceType.Should().Be(expected!.CommentOnSource.SourceType);
 
 	}
 

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,6 +6,7 @@ public class GetUsersTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
+	private readonly IMongoDbContextFactory _dbContext;
 	private readonly UserService _sut;
 	private string _cleanupValue;
 
@@ -13,8 +14,7 @@ public class GetUsersTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
-		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(UserModel)));
+		_dbContext = factory.DbContext = new MongoDbContextFactory(factory.DbConfig);
 
 		var repo = (IUserRepository)_factory.Services.GetRequiredService(typeof(IUserRepository));
 
@@ -28,11 +28,13 @@ public class GetUsersTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		UserModel expected = FakeUser.GetNewUser();
+		await _factory.ResetCollectionAsync(_cleanupValue);
+
+		var expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
-		List<UserModel> results = await _sut.GetUsers();
+		var results = await _sut.GetUsers();
 
 		// Assert
 		results.Count.Should().Be(1);

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,11 +25,11 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		IssueModel expected = FakeIssue.GetNewIssue();
+		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
-		IssueModel result = await _sut.GetIssue(expected.Id);
+		var result = await _sut.GetIssue(expected.Id);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class GetIssueTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		IssueModel result = await _sut.GetIssue(id);
+		var result = await _sut.GetIssue(id);
 
 		// Assert
 		result.Should().BeNull();

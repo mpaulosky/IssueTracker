@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo;
+﻿namespace IssueTracker.PlugIns;
 
 [CollectionDefinition("Test Collection")]
 public class DatabaseCollection : ICollectionFixture<IssueTrackerTestFactory>

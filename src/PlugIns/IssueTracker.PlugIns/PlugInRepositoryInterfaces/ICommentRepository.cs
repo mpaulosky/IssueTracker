@@ -16,7 +16,7 @@ public interface ICommentRepository
 
 	Task<CommentModel> GetCommentAsync(string itemId);
 
-	Task<IEnumerable<CommentModel>> GetCommentsAsync();
+	Task<IEnumerable<CommentModel>?> GetCommentsAsync();
 
 	Task<IEnumerable<CommentModel>> GetCommentsByUserAsync(string userId);
 

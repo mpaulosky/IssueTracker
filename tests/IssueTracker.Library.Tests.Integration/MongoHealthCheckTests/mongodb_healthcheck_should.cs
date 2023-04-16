@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.MongoHealthCheckTests;
+﻿namespace IssueTracker.PlugIns.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -24,7 +24,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 		_sut = _factory.Server;
 
 		// Act
-		HttpResponseMessage response = await _sut.CreateRequest("/health").GetAsync();
+		var response = await _sut.CreateRequest("/health").GetAsync();
 
 
 		// Assert

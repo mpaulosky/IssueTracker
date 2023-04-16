@@ -84,7 +84,7 @@ public class CommentRepository : ICommentRepository
 	///		GetComments method
 	/// </summary>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsAsync()
+	public async Task<IEnumerable<CommentModel>?> GetCommentsAsync()
 	{
 
 		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Empty;
@@ -104,7 +104,7 @@ public class CommentRepository : ICommentRepository
 	{
 
 		var results = (await _commentCollection
-			.FindAsync(s => s.CommentOnSource.Id == source.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
+			.FindAsync(s => s.CommentOnSource!.Id == source.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
 
 		return results;
 

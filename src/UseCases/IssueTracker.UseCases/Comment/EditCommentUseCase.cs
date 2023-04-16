@@ -20,7 +20,7 @@ public class EditCommentUseCase : IEditCommentUseCase
 
 	}
 
-	public async Task Execute(CommentModel comment)
+	public async Task Execute(CommentModel? comment)
 	{
 
 		if (comment == null) return;
