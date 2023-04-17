@@ -22,7 +22,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedCount = "0";
+		const string expectedCount = "0";
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -30,7 +30,7 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
-		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
+		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
 
 		cut.MarkupMatches
 		(
@@ -50,10 +50,10 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedCount = "3";
+		const string expectedCount = "3";
 		SetupRepositoryMock();
 		SetMemoryCache();
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div class="row">
@@ -82,8 +82,8 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
-		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
-		cut.MarkupMatches(_expectedHtml);
+		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -114,7 +114,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -161,7 +161,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-title").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -170,7 +170,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -209,7 +209,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-description").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -242,7 +242,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -276,7 +276,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-edit").Click();
 
 		// Assert 
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -309,7 +309,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -344,7 +344,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-description").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 

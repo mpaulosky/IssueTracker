@@ -72,7 +72,7 @@ public class CreateTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
 			<div class="row justify-content-center create-form">
@@ -135,7 +135,7 @@ public class CreateTests : TestContext
 		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 

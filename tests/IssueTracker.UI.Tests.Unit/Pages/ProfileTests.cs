@@ -71,7 +71,7 @@ public class ProfileTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssues = TestIssues.GetIssues().ToList();
 		_expectedComments = TestComments.GetComments().ToList();
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">jim test Profile</h1>
 			<div class="form-layout mb-3">
@@ -126,7 +126,7 @@ public class ProfileTests : TestContext
 		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
