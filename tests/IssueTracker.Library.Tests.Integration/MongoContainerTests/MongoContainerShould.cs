@@ -1,6 +1,7 @@
 ﻿namespace IssueTracker.PlugIns.MongoContainerTests;
 
 [Collection("Test Collection")]
+[ExcludeFromCodeCoverage]
 public class MongoDbContainerTest : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;

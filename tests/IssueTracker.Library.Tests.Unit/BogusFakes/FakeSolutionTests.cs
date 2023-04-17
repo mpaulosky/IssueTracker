@@ -1,5 +1,6 @@
 ﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
+[ExcludeFromCodeCoverage]
 public class FakeSolutionTests
 {
 

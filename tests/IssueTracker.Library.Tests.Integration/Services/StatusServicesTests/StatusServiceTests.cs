@@ -7,7 +7,7 @@ public class StatusServiceTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private IStatusRepository _repo;
 	private IMemoryCache _cache;
-	private const string _cleanupValue = "";
+	private const string CleanupValue = "";
 
 	public StatusServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -56,7 +56,7 @@ public class StatusServiceTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

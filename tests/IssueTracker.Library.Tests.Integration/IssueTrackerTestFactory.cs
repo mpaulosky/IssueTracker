@@ -1,7 +1,10 @@
-﻿namespace IssueTracker.PlugIns;
+﻿using JetBrains.Annotations;
+
+namespace IssueTracker.PlugIns;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
+[UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
 

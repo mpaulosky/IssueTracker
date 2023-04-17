@@ -7,7 +7,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private TestServer _sut;
-	private const string _cleanupValue = "";
+	private const string CleanupValue = "";
 
 	public MongodbHealthcheckShould(IssueTrackerTestFactory factory)
 	{
@@ -40,7 +40,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 
