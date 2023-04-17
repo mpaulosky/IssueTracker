@@ -13,15 +13,15 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
-	  <LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <LangVersion>preview</LangVersion>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -45,9 +45,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-	  <ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
-	  <ProjectReference Include="..\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj" />
+		<ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+		<ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+		<ProjectReference Include="..\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj" />
 	</ItemGroup>
 
 </Project>
