@@ -22,7 +22,6 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		_databaseName = $"test_{Guid.NewGuid():N}";
 
 	}
-
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
 
