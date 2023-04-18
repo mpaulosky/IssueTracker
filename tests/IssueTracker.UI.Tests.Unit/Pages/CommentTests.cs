@@ -122,21 +122,22 @@ public class CommentTests : TestContext
 
 		});
 
-		cut.Find("#comment").Change("Test Comment");
+		cut.Find("#title").Change("Test Comment");
+		cut.Find("#desc").Change("Test Description");
 		cut.Find("#submit-comment").Click();
 
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.CreateComment(It.IsAny<CommentModel>()), Times.Once);
+				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
 	private void SetupMocks()
 	{
 
-		_issueRepositoryMock.Setup(x => x.GetIssue(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_issueRepositoryMock.Setup(x => x.GetIssueAsync(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 

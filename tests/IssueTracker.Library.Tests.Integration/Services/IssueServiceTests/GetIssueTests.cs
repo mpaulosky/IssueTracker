@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,15 +25,15 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		IssueModel expected = FakeIssue.GetNewIssue();
+		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
-		IssueModel result = await _sut.GetIssue(expected.Id);
+		var result = await _sut.GetIssue(expected.Id);
 
 		// Assert
 		result.Should().NotBeNull();
-		result.IssueName.Should().Be(expected.IssueName);
+		result.Title.Should().Be(expected.Title);
 		result.Id.Should().Be(expected.Id);
 		result.Author.Id.Should().Be(expected.Author.Id);
 
@@ -47,7 +47,7 @@ public class GetIssueTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		IssueModel result = await _sut.GetIssue(id);
+		var result = await _sut.GetIssue(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -93,7 +93,7 @@ public class GetIssueTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

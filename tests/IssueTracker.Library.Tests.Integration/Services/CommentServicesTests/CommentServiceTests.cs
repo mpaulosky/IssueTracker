@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class CommentServiceTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private ICommentRepository _repo;
 	private IMemoryCache _memCache;
-	private const string _cleanupValue = "";
+	private const string CleanupValue = "";
 
 	public CommentServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -55,7 +55,7 @@ public class CommentServiceTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

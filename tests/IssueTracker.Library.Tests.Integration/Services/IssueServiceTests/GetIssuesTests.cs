@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -13,7 +13,6 @@ public class GetIssuesTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(IssueModel)));
 
@@ -31,15 +30,15 @@ public class GetIssuesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "issues";
-		IssueModel expected = FakeIssue.GetNewIssue();
+		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateIssue(expected);
 
 		// Act
-		List<IssueModel> results = await _sut.GetIssues();
+		var results = await _sut.GetIssues();
 
 		// Assert
 		results.Count.Should().Be(1);
-		results.First().IssueName.Should().Be(expected.IssueName);
+		results.First().Title.Should().Be(expected.Title);
 		results.First().Description.Should().Be(expected.Description);
 
 	}
@@ -52,7 +51,7 @@ public class GetIssuesTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

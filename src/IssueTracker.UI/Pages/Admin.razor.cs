@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Admin.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
@@ -18,7 +18,7 @@ public partial class Admin
 	private string _currentEditingTitle = "";
 	private string _editedDescription = "";
 	private string _editedTitle = "";
-	private List<IssueModel> _issues;
+	private List<IssueModel>? _issues;
 
 	/// <summary>
 	///		OnInitializedAsync event
@@ -34,9 +34,15 @@ public partial class Admin
 	/// <param name="issue">IssueModel</param>
 	private async Task ApproveIssue(IssueModel issue)
 	{
+
+		if (issue == null) return;
+
 		issue.ApprovedForRelease = true;
-		_issues.Remove(issue);
+
+		_issues?.Remove(issue);
+
 		await IssueService.UpdateIssue(issue);
+
 	}
 
 	/// <summary>
@@ -45,9 +51,15 @@ public partial class Admin
 	/// <param name="issue">IssueModel</param>
 	private async Task RejectIssue(IssueModel issue)
 	{
+
+		if (issue == null) return;
+
 		issue.Rejected = true;
-		_issues.Remove(issue);
+
+		_issues?.Remove(issue);
+
 		await IssueService.UpdateIssue(issue);
+
 	}
 
 	/// <summary>
@@ -56,7 +68,7 @@ public partial class Admin
 	/// <param name="model">IssueModel</param>
 	private void EditTitle(IssueModel model)
 	{
-		_editedTitle = model.IssueName;
+		_editedTitle = model.Title;
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
 	}
@@ -68,7 +80,7 @@ public partial class Admin
 	private async Task SaveTitle(IssueModel model)
 	{
 		_currentEditingTitle = string.Empty;
-		model.IssueName = _editedTitle;
+		model.Title = _editedTitle;
 		await IssueService.UpdateIssue(model);
 	}
 

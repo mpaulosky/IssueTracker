@@ -1,15 +1,18 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeCommentsTests
 {
 
-	[Fact]
+	public FakeCommentsTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeComment GetComments Test")]
 	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test()
 	{
 
 		// Arrange
-
 
 		// Act
 		var result = FakeComment.GetComments(1).ToList();
@@ -17,13 +20,13 @@ public class FakeCommentsTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Issue.Should().NotBeNull();
-		result.First().Comment.Should().NotBeNull();
+		result.First().CommentOnSource.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeComment GetBasicComments Test")]
 	public void GetBasicComments_With_RequestForBasicComments_Should_ReturnFakeBasicComments_Test()
 	{
 
@@ -35,22 +38,22 @@ public class FakeCommentsTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Comment.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeComment GetBasicComment Test")]
 	public void GetBasicComment_With_RequestForABasicComment_Should_ReturnAFakeBasicComment_Test()
 	{
 
 		// Arrange
 
 		// Act
-		BasicCommentModel result = FakeComment.GetBasicComment();
+		BasicCommentModel result = FakeComment.GetBasicComments(1).First();
 
 		// Assert
 		result.Id.Should().NotBeNull();
-		result.Comment.Should().NotBeNull();
+		result.Title.Should().NotBeNull();
 
 	}
 

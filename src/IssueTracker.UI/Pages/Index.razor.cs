@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Index.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022.2022 All rights reserved.
@@ -14,17 +14,17 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Index
 {
-	private List<CategoryModel> _categories;
+	private List<CategoryModel>? _categories;
 	private bool _isSortedByNew = true;
-	private List<IssueModel> _issues = new();
+	private List<IssueModel>? _issues = new();
 
-	private UserModel _loggedInUser;
-	private string _searchText = string.Empty;
-	private string _selectedCategory = "All";
-	private string _selectedStatus = "All";
+	private UserModel? _loggedInUser;
+	private string? _searchText = string.Empty;
+	private string? _selectedCategory = "All";
+	private string? _selectedStatus = "All";
 	private bool _showCategories;
 	private bool _showStatuses;
-	private List<StatusModel> _statuses;
+	private List<StatusModel>? _statuses;
 
 	/// <summary>
 	///		OnInitializedAsync event
@@ -52,9 +52,9 @@ public partial class Index
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+		AuthenticationState? authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
-		if (string.IsNullOrWhiteSpace(objectId) == false)
+		if (!string.IsNullOrWhiteSpace(objectId))
 		{
 			_loggedInUser = await UserService.GetUserFromAuthentication(objectId) ?? new UserModel();
 			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
@@ -63,7 +63,7 @@ public partial class Index
 			var email = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value;
 			var isDirty = false;
 
-			if (objectId.Equals(_loggedInUser.ObjectIdentifier) == false)
+			if (!objectId.Equals(_loggedInUser.ObjectIdentifier))
 			{
 				isDirty = true;
 				_loggedInUser.ObjectIdentifier = objectId;
@@ -158,15 +158,15 @@ public partial class Index
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		List<IssueModel> output = await IssueService.GetApprovedIssues();
+		List<IssueModel>? output = await IssueService.GetApprovedIssues();
 
 		if (_selectedCategory != "All") output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
 
 		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
 
-		if (string.IsNullOrWhiteSpace(_searchText) == false)
+		if (!string.IsNullOrWhiteSpace(_searchText))
 			output = output.Where(s =>
-					s.IssueName.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
+					s.Title.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
 					s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
 				.ToList();
 

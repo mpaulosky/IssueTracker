@@ -1,62 +1,61 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Program.cs" company="mpaulosky">
 //		Author: Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.UI;
+
 using Microsoft.AspNetCore.Rewrite;
 
-namespace IssueTracker.UI;
 
-[UsedImplicitly]
-internal class Program
+var builder = WebApplication.CreateBuilder(args);
+
+ConfigurationManager config = builder.Configuration;
+config.AddEnvironmentVariables("IssueTrackerUI_");
+
+// Add services to the container.
+builder.ConfigureServices(config);
+
+WebApplication app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-	private static void Main(string[] args)
-	{
-		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+	app.UseExceptionHandler("/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
+}
 
-		ConfigurationManager config = builder.Configuration;
-		config.AddEnvironmentVariables("IssueTrackerUI_");
+app.UseHttpsRedirection();
 
-		// Add services to the container.
-		builder.ConfigureServices(config);
+app.UseStaticFiles();
 
-		WebApplication app = builder.Build();
+app.UseRouting();
 
-		// Configure the HTTP request pipeline.
-		if (!app.Environment.IsDevelopment())
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseRewriter(
+	new RewriteOptions().Add(
+		context =>
 		{
-			app.UseExceptionHandler("/Error");
-			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-			app.UseHsts();
+			if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
+				context.HttpContext.Response.Redirect("/");
 		}
+	));
 
-		app.UseHttpsRedirection();
+app.MapControllers();
 
-		app.UseStaticFiles();
+app.MapBlazorHub();
 
-		app.UseRouting();
+app.MapFallbackToPage("/_Host");
 
-		app.UseAuthentication();
+app.Run();
 
-		app.UseAuthorization();
 
-		app.UseRewriter(
-			new RewriteOptions().Add(
-				context =>
-				{
-					if (context.HttpContext.Request.Path == "/MicrosoftIdentity/Account/SignedOut")
-						context.HttpContext.Response.Redirect("/");
-				}
-			));
-
-		app.MapControllers();
-
-		app.MapBlazorHub();
-
-		app.MapFallbackToPage("/_Host");
-
-		app.Run();
-	}
+public sealed partial class Program
+{
 }

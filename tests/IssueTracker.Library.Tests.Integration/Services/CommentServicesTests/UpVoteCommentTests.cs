@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -12,7 +12,6 @@ public class UpVoteCommentTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var repo = (ICommentRepository)_factory.Services.GetRequiredService(typeof(ICommentRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		memCache.Remove("CommentsData");
@@ -28,7 +27,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Arrange
 		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		// Clear any existing User Votes
 		expected.UserVotes.Clear();
 
@@ -37,7 +36,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Act
 		await _sut.UpVoteComment(expected.Id, expectedUserId);
 
-		CommentModel result = await _sut.GetComment(expected.Id);
+		var result = await _sut.GetComment(expected.Id);
 
 		// Assert
 		result.UserVotes.Should().Contain(expectedUserId);
@@ -51,7 +50,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Arrange
 		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 
 		// Add the User to User Votes
 		expected.UserVotes.Add(expectedUserId);
@@ -61,7 +60,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 		// Act
 		await _sut.UpVoteComment(expected.Id, expectedUserId);
 
-		CommentModel result = await _sut.GetComment(expected.Id);
+		var result = await _sut.GetComment(expected.Id);
 
 		// Assert
 		result.UserVotes.Should().BeEmpty();
@@ -76,7 +75,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

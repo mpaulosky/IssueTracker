@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class UserServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private IUserRepository _repo;
-	private const string _cleanupValue = "";
+	private const string CleanupValue = "";
 
 	public UserServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -39,7 +39,7 @@ public class UserServiceTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

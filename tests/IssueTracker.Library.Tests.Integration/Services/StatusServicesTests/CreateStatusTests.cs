@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,7 +25,7 @@ public class CreateStatusTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "statuses";
-		StatusModel expected = FakeStatus.GetNewStatus();
+		var expected = FakeStatus.GetNewStatus();
 
 		// Act
 		await _sut.CreateStatus(expected);
@@ -57,7 +57,7 @@ public class CreateStatusTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

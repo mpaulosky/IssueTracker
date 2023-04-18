@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Statuses.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022. All rights reserved.
@@ -16,10 +16,10 @@ namespace IssueTracker.UI.Pages;
 public partial class Statuses
 {
 
-	private RadzenDataGrid<StatusModel> _statusesGrid;
+	private RadzenDataGrid<StatusModel> _statusesGrid = new();
 	private List<StatusModel> _statuses = new();
-	private StatusModel _statusToInsert;
-	private StatusModel _statusToUpdate;
+	private StatusModel? _statusToInsert;
+	private StatusModel? _statusToUpdate;
 
 
 	/// <summary>
@@ -37,7 +37,7 @@ public partial class Statuses
 
 		_statusToUpdate = status;
 
-		await _statusesGrid.EditRow(_statusToUpdate);
+		await _statusesGrid!.EditRow(_statusToUpdate);
 
 	}
 

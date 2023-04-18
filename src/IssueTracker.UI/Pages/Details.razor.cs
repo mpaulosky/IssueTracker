@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Details.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022.2022 All rights reserved.
@@ -15,16 +15,16 @@ namespace IssueTracker.UI.Pages;
 public partial class Details
 {
 
-	private List<CommentModel> _comments;
+	private List<CommentModel> _comments = new();
 
-	private IssueModel _issue;
+	private IssueModel _issue = new();
 
-	private UserModel _loggedInUser;
-	private string _settingStatus = "";
-	private List<StatusModel> _statuses;
-	private string _urlText = "";
+	private UserModel _loggedInUser = new();
+	private string? _settingStatus;
+	private List<StatusModel> _statuses = new();
+	private string? _urlText;
 
-	[Parameter] public string Id { get; set; }
+	[Parameter] public string? Id { get; set; }
 
 	/// <summary>
 	///		OnInitializedAsync method
@@ -34,10 +34,12 @@ public partial class Details
 
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
 			"AuthProvider.GetUserFromAuth(UserService) != null");
+
 		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
 
 		_issue = await IssueService.GetIssue(Id);
-		_comments = await CommentService.GetCommentsByIssue(Id);
+		var source = new BasicCommentOnSourceModel(_issue);
+		_comments = await CommentService.GetCommentsBySource(source);
 		_statuses = await StatusService.GetStatuses();
 
 	}
@@ -55,7 +57,7 @@ public partial class Details
 
 				if (string.IsNullOrWhiteSpace(_urlText)) return;
 
-				StatusModel selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				StatusModel? selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
 
 				break;

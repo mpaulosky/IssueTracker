@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,7 +25,7 @@ public class CreateCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory();
 
 		// Act
 		await _sut.CreateCategory(expected);
@@ -57,7 +57,7 @@ public class CreateCategoryTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

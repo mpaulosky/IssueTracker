@@ -72,7 +72,7 @@ public class CreateTests : TestContext
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedCategories = TestCategories.GetCategories().ToList();
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
 			<div class="row justify-content-center create-form">
@@ -135,7 +135,7 @@ public class CreateTests : TestContext
 		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -168,16 +168,16 @@ public class CreateTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.CreateIssue(It.IsAny<IssueModel>()), Times.Once);
+				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	private void SetupMocks()
 	{
-		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(_expectedCategories);
+		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories);
 
-		_statusRepositoryMock.Setup(x => x.GetStatuses()).ReturnsAsync(_expectedStatuses);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthentication(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)

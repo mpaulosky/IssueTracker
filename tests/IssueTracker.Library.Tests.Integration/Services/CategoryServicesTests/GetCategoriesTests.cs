@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -8,13 +8,14 @@ public class GetCategoriesTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
 	private string _cleanupValue;
+	private readonly IMongoDbContextFactory _dbContextFactory;
 
 	public GetCategoriesTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
-		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
-		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
+		_dbContextFactory = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		_dbContextFactory.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
 
 		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
@@ -28,16 +29,17 @@ public class GetCategoriesTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+
+		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
-		List<CategoryModel> results = await _sut.GetCategories();
+		var results = await _sut.GetCategories();
 
 		// Assert
 		results.Count.Should().Be(1);
-		results.First().CategoryName.Should().Be(expected.CategoryName);
-		results.First().CategoryDescription.Should().Be(expected.CategoryDescription);
+		results.Last().CategoryName.Should().Be(expected.CategoryName);
+		results.Last().CategoryDescription.Should().Be(expected.CategoryDescription);
 
 	}
 
@@ -49,7 +51,7 @@ public class GetCategoriesTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

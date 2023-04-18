@@ -22,7 +22,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedCount = "0";
+		const string expectedCount = "0";
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -30,7 +30,7 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
-		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
+		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
 
 		cut.MarkupMatches
 		(
@@ -50,10 +50,10 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedCount = "3";
+		const string expectedCount = "3";
 		SetupRepositoryMock();
 		SetMemoryCache();
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div class="row">
@@ -82,8 +82,8 @@ public class AdminTests : TestContext
 		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
 
 		// Assert
-		cut.FindAll("div")[1].TextContent.Should().StartWith(_expectedCount);
-		cut.MarkupMatches(_expectedHtml);
+		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -105,7 +105,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -114,7 +114,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -135,12 +135,12 @@ public class AdminTests : TestContext
 			    <div>A new test issue 1<span id="edit-description" class="oi oi-pencil issue-edit-icon" ></span>
 			    </div>
 			    <div>
-			      <div class="issue-entry-text-author" diff:ignore>
+			      <div class="text-author" diff:ignore>
 			      </div>
 			    </div>
 			    <div>
 			      <div class="issue-entry-bottom">
-			        <div class="issue-entry-text-category">
+			        <div class="text-category">
 			          Category: Design</div>
 			      </div>
 			    </div>
@@ -161,7 +161,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-title").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -170,7 +170,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -209,7 +209,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-description").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -233,7 +233,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -242,7 +242,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -276,7 +276,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-edit").Click();
 
 		// Assert 
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -300,7 +300,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -309,7 +309,7 @@ public class AdminTests : TestContext
 	{
 
 		// Arrange
-		const string _expectedHtml =
+		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
 			<div diff:ignore></div>
@@ -344,7 +344,7 @@ public class AdminTests : TestContext
 		cut.Find("#reject-description").Click();
 
 		// Assert
-		cut.MarkupMatches(_expectedHtml);
+		cut.MarkupMatches(expectedHtml);
 
 	}
 
@@ -366,7 +366,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -395,8 +395,8 @@ public class AdminTests : TestContext
 	private void SetupRepositoryMock()
 	{
 
-		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
-		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
+		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync()).ReturnsAsync(expected);
 
 	}
 

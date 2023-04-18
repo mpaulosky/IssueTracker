@@ -1,0 +1,58 @@
+﻿
+namespace IssueTracker.UseCases.Tests.Unit.Issue;
+
+[ExcludeFromCodeCoverage]
+public class ArchiveIssueUseCaseTests
+{
+
+	private readonly Mock<IIssueRepository> _issueRepositoryMock;
+
+	public ArchiveIssueUseCaseTests()
+	{
+
+		_issueRepositoryMock = new Mock<IIssueRepository>();
+
+	}
+
+	private ArchiveIssueUseCase CreateUseCase()
+	{
+
+		return new ArchiveIssueUseCase(_issueRepositoryMock.Object);
+
+	}
+
+	[Fact(DisplayName = "ArchiveIssueUseCase With Valid Data Test")]
+	public async Task ExecuteAsync_With_ValidData_Should_UpdateIssueAsArchived_TestAsync()
+	{
+
+		// Arrange
+		var _sut = CreateUseCase();
+		IssueModel? issue = FakeIssue.GetIssues(1).First();
+
+		// Act
+		await _sut.ExecuteAsync(issue);
+
+		// Assert
+		_issueRepositoryMock.Verify(x =>
+				x.UpdateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "ArchiveIssueUseCase With In Valid Data Test")]
+	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	{
+
+		// Arrange
+		var _sut = CreateUseCase();
+		IssueModel? issue = null;
+
+		// Act
+		await _sut.ExecuteAsync(issue);
+
+		// Assert
+		_issueRepositoryMock.Verify(x =>
+				x.UpdateIssueAsync(It.IsAny<IssueModel>()), Times.Never);
+
+	}
+
+}

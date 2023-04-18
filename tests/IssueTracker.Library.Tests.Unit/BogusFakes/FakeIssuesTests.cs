@@ -1,10 +1,14 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeIssuesTests
 {
 
-	[Fact]
+	public FakeIssuesTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeIssue GetIssues Test")]
 	public void GetIssues_With_RequestForIssues_Should_ReturnFakeIssues_Test()
 	{
 
@@ -16,7 +20,7 @@ public class FakeIssuesTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().IssueName.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();
 		result.First().Category.Should().NotBeNull();
 		result.First().IssueStatus.Should().NotBeNull();
@@ -24,7 +28,7 @@ public class FakeIssuesTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeIssue GetBasicIssues Test")]
 	public void GetBasicIssues_With_RequestForBasicIssues_Should_ReturnFakeBasicIssues_Test()
 	{
 		// Arrange
@@ -35,7 +39,7 @@ public class FakeIssuesTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().Issue.Should().NotBeNull();
+		result.First().Title.Should().NotBeNull();
 		result.First().Description.Should().NotBeNull();
 		result.First().Category.Should().NotBeNull();
 		result.First().Status.Should().NotBeNull();

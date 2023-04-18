@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -24,11 +24,11 @@ public class GetUserTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "users";
-		UserModel expected = FakeUser.GetNewUser();
+		var expected = FakeUser.GetNewUser();
 		await _sut.CreateUser(expected);
 
 		// Act
-		UserModel result = await _sut.GetUser(expected.Id);
+		var result = await _sut.GetUser(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -43,7 +43,7 @@ public class GetUserTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		UserModel result = await _sut.GetUser(id);
+		var result = await _sut.GetUser(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -89,7 +89,7 @@ public class GetUserTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

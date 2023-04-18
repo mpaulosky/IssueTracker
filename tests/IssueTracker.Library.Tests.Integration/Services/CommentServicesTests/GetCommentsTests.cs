@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -13,7 +13,6 @@ public class GetCommentsTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CommentModel)));
 
@@ -32,17 +31,17 @@ public class GetCommentsTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> results = await _sut.GetComments();
+		var results = await _sut.GetComments();
 
 		// Assert
 		results.Count.Should().Be(1);
-		results[0].Comment.Should().Be(expected.Comment);
+		results[0].Title.Should().Be(expected.Title);
 		results[0].Author.Should().BeEquivalentTo(expected.Author);
-		results[0].Issue.Should().BeEquivalentTo(expected.Issue);
+		results[0].CommentOnSource.SourceType.Should().Be(expected.CommentOnSource.SourceType);
 
 	}
 
@@ -54,7 +53,7 @@ public class GetCommentsTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

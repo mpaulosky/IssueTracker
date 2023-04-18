@@ -1,12 +1,17 @@
-﻿global using Ardalis.GuardClauses;
+﻿global using System.ComponentModel.DataAnnotations;
+global using System.Diagnostics.CodeAnalysis;
+
+global using Ardalis.GuardClauses;
 
 global using Blazored.SessionStorage;
 
-global using IssueTracker.Library.Contracts;
-global using IssueTracker.Library.DataAccess;
-global using IssueTracker.Library.Helpers.BogusFakes;
-global using IssueTracker.Library.Models;
-global using IssueTracker.Library.Services;
+global using IssueTracker.CoreBusiness.BogusFakes;
+global using IssueTracker.CoreBusiness.Models;
+global using IssueTracker.PlugIns.Contracts;
+global using IssueTracker.PlugIns.DataAccess;
+global using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
+global using IssueTracker.PlugIns.Services;
+global using IssueTracker.PlugIns.Services.Interfaces;
 global using IssueTracker.UI.Helpers;
 global using IssueTracker.UI.Models;
 
@@ -18,5 +23,3 @@ global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Identity.Web;
 global using Microsoft.Identity.Web.UI;
 
-global using System.ComponentModel.DataAnnotations;
-global using System.Diagnostics.CodeAnalysis;

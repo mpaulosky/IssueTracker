@@ -7,8 +7,8 @@ services:
     container_name: my-mongodb
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=MongoAdmin
-      - MONGO_INITDB_ROOT_PASSWORD=test123
-      - MONGO_INITDB_DATABASE=devissuetracker
+      - MONGO_INITDB_ROOT_USERNAME=course
+      - MONGO_INITDB_ROOT_PASSWORD=whatever
+      - MONGO_INITDB_DATABASE=db
     ports:
-      - '5432:5432'
+      - '27017:27017'

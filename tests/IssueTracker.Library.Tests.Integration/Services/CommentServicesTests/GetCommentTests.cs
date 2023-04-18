@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -24,17 +24,17 @@ public class GetCommentTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "comments";
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		CommentModel result = await _sut.GetComment(expected!.Id!);
+		var result = await _sut.GetComment(expected!.Id!);
 
 		// Assert
 		result.Id.Should().Be(expected!.Id);
-		result.Comment.Should().BeEquivalentTo(expected!.Comment);
+		result.Title.Should().BeEquivalentTo(expected!.Title);
 		result.Author.Should().BeEquivalentTo(expected!.Author);
-		result.Issue.Should().BeEquivalentTo(expected!.Issue);
+		result.CommentOnSource.SourceType.Should().Be(expected!.CommentOnSource.SourceType);
 
 	}
 
@@ -46,7 +46,7 @@ public class GetCommentTests : IAsyncLifetime
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
-		CommentModel result = await _sut.GetComment(id);
+		var result = await _sut.GetComment(id);
 
 		// Assert
 		result.Should().BeNull();
@@ -92,7 +92,7 @@ public class GetCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

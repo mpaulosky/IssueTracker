@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -12,7 +12,6 @@ public class GetCommentsByUserTests : IAsyncLifetime
 	{
 
 		_factory = factory;
-
 		var repo = (ICommentRepository)_factory.Services.GetRequiredService(typeof(ICommentRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		memCache.Remove("CommentsData");
@@ -26,11 +25,11 @@ public class GetCommentsByUserTests : IAsyncLifetime
 	{
 		// Arrange
 		_cleanupValue = "comments";
-		CommentModel expected = FakeComment.GetNewComment();
+		var expected = FakeComment.GetNewComment();
 		await _sut.CreateComment(expected);
 
 		// Act
-		List<CommentModel> result = await _sut.GetCommentsByUser(expected.Author.Id);
+		var result = await _sut.GetCommentsByUser(expected.Author.Id);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -47,7 +46,7 @@ public class GetCommentsByUserTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 }

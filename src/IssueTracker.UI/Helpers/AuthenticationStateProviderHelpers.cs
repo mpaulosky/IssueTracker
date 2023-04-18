@@ -20,13 +20,14 @@ public static class AuthenticationStateProviderHelpers
 	/// <returns>Task of Type UserModel</returns>
 	public static async Task<UserModel> GetUserFromAuth(
 		this AuthenticationStateProvider provider,
-		IUserService userService)
+		IUserService userData)
 	{
-		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
 
-		var objectId = authState.User.Claims
+		var authState = await provider.GetAuthenticationStateAsync();
+		string? objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
+		return await userData.GetUserFromAuthentication(objectId);
 
-		return await userService.GetUserFromAuthentication(objectId);
 	}
+
 }

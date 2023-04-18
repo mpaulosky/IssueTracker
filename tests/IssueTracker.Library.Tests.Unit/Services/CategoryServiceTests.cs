@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services;
+﻿namespace IssueTracker.CoreBusiness.Services;
 
 [ExcludeFromCodeCoverage]
 public class CategoryServiceTests
@@ -24,8 +24,6 @@ public class CategoryServiceTests
 
 		CategoryModel expected = TestCategories.GetNewCategory();
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
 
 		await _sut.CreateCategory(expected);
@@ -36,7 +34,7 @@ public class CategoryServiceTests
 
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.CreateCategory(It.IsAny<CategoryModel>()), Times.Once);
+				x.CreateCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -74,7 +72,7 @@ public class CategoryServiceTests
 
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.DeleteCategory(It.IsAny<CategoryModel>()), Times.Once);
+				x.ArchiveCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -85,7 +83,7 @@ public class CategoryServiceTests
 
 		CategoryModel expected = TestCategories.GetKnownCategory();
 
-		_categoryRepositoryMock.Setup(x => x.GetCategory(It.IsAny<string>())).ReturnsAsync(expected);
+		_categoryRepositoryMock.Setup(x => x.GetCategoryAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -136,7 +134,7 @@ public class CategoryServiceTests
 
 		IEnumerable<CategoryModel> expected = TestCategories.GetCategories();
 
-		_categoryRepositoryMock.Setup(x => x.GetCategories()).ReturnsAsync(expected);
+		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -208,7 +206,7 @@ public class CategoryServiceTests
 
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.UpdateCategory(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
+				x.UpdateCategoryAsync(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Category")]

@@ -277,12 +277,17 @@ a,
     background-color: #ffffff;
 }
 
-.issue-entry-text-title {
+.text-title {
     flex-grow: 1;
     padding-top: 10px;
 }
 
-.issue-entry-text-category {
+.text-description {
+	flex-grow: 1;
+	padding-top: 10px;
+}
+
+.text-category {
     text-transform: uppercase;
     color: darkgray;
     font-family: "Montserrat", sans-serif;
@@ -293,7 +298,7 @@ a,
     align-items: flex-end;
 }
 
-.issue-entry-text-author {
+.text-author {
     text-transform: uppercase;
     color: darkgray;
     font-family: "Montserrat", sans-serif;
@@ -318,7 +323,7 @@ a,
     padding: 1rem 1rem 1rem 0.2rem;
 }
 
-.issue-entry-status-text {
+.text-status {
     text-transform: uppercase;
     writing-mode: vertical-rl;
     text-orientation: mixed;
@@ -937,7 +942,7 @@ a,
         padding-left: 12px;
     }
 
-    .issue-entry-text-category {
+    .text-category {
         padding-top: 0.5rem;
     }
 }

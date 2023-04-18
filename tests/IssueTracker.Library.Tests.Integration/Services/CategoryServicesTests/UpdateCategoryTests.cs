@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -25,13 +25,13 @@ public class UpdateCategoryTests : IAsyncLifetime
 
 		// Arrange
 		_cleanupValue = "categories";
-		CategoryModel expected = FakeCategory.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateCategory(expected);
 
 		// Act
 		expected.CategoryDescription = "Updated";
 		await _sut.UpdateCategory(expected);
-		CategoryModel result = await _sut.GetCategory(expected.Id);
+		var result = await _sut.GetCategory(expected.Id);
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
@@ -61,7 +61,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetDatabaseAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(_cleanupValue);
 
 	}
 

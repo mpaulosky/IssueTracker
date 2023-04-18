@@ -22,7 +22,7 @@
 						</div>
 					</div>
 					<div class="issue-detail-text">
-						<div class="fw-bold mb-2 issue-detail-issue">@_issue.IssueName</div>
+						<div class="fw-bold mb-2 issue-detail-issue">@_issue.Title</div>
 						<div class="mb-2 suggestion-detail-author">@_issue.Author.DisplayName</div>
 						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
 						<div class="suggestion-entry-text-category d-none d-md-block">
@@ -40,7 +40,7 @@
 			<div class="row d-block d-md-none">
 				<div class="issue-detail-text">
 					<div>@_issue.Description</div>
-					<div class="issue-entry-text-category">
+					<div class="text-category">
 						@if (_issue.Category is not null)
 						{
 							@_issue.Category.CategoryName
@@ -52,9 +52,14 @@
 				<DataAnnotationsValidator />
 				<ValidationSummary />
 				<div class="input-section">
-					<label class="form-label fw-bold text-uppercase" for="comment">Comment On the Issue</label>
-					<div class="input-description">Describe your suggested solution to the issue.</div>
-					<InputTextArea class="form-control" id="comment" @bind-Value="_comment.Comment" />
+					<label class="form-label fw-bold text-uppercase" for="title">Title of the Comment</label>
+					<div class="input-description">Brief title of the Comment.</div>
+					<InputTextArea class="form-control" id="title" @bind-Value="_comment.Title" />
+				</div>
+				<div class="input-section">
+					<label class="form-label fw-bold text-uppercase" for="desc">Comment On the Issue</label>
+					<div class="input-description">Give, in full your comments.</div>
+					<InputTextArea class="form-control" id="desc" @bind-Value="_comment.Description" />
 				</div>
 				<div class="center-children">
 					<button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Creat Comment</button>

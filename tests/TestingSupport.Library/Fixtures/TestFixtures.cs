@@ -1,3 +1,10 @@
+﻿using IssueTracker.PlugIns.Mongo.Contracts;
+using IssueTracker.PlugIns.Mongo.Helpers;
+
+using Microsoft.Extensions.Options;
+
+using MongoDB.Driver;
+
 namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
@@ -22,7 +29,7 @@ public static class TestFixtures
 		where TEntity : class?
 	{
 		var collection =
-			new Mock<IMongoCollection<TEntity>> { Name = GetCollectionName(nameof(TEntity)) };
+			new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 		collection.Setup(op =>
 				op.FindAsync
 				(

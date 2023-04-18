@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Create.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022.2022 All rights reserved.
@@ -14,18 +14,17 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Create
 {
-	private List<CategoryModel> _categories;
-	private List<StatusModel> _statuses;
+	private List<CategoryModel>? _categories;
+	private List<StatusModel>? _statuses;
 	private CreateIssueDto _issue = new();
-	private UserModel _loggedInUser;
+	private UserModel? _loggedInUser;
 
 	/// <summary>
 	///		OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"AuthProvider.GetUserFromAuth(UserService) != null");
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 		_categories = await CategoryService.GetCategories();
 		_statuses = await StatusService.GetStatuses();
 	}
@@ -35,15 +34,15 @@ public partial class Create
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		CategoryModel category = _categories.FirstOrDefault(c => c.Id == _issue.CategoryId);
-		StatusModel status = _statuses.FirstOrDefault(c => c.StatusName == "Watching");
-		IssueModel s = new()
+		CategoryModel? category = _categories!.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		StatusModel? status = _statuses!.FirstOrDefault(c => c.StatusName == "Watching");
+		IssueModel? s = new()
 		{
-			IssueName = _issue.Issue,
-			Description = _issue.Description,
-			Author = new BasicUserModel(_loggedInUser),
-			Category = new BasicCategoryModel(category?.CategoryName, category?.CategoryDescription),
-			IssueStatus = new BasicStatusModel(status?.StatusName, status?.StatusDescription)
+			Title = _issue.Title!,
+			Description = _issue.Description!,
+			Author = new BasicUserModel(_loggedInUser!),
+			Category = new BasicCategoryModel(category!.CategoryName, category!.CategoryDescription),
+			IssueStatus = new BasicStatusModel(status!.StatusName, status!.StatusDescription)
 		};
 
 		await IssueService.CreateIssue(s);

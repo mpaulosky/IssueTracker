@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.Library.Services;
+﻿namespace IssueTracker.CoreBusiness.Services;
 
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests
@@ -35,7 +35,7 @@ public class IssueServiceTests
 
 		_issueRepositoryMock
 			.Verify(x =>
-				x.CreateIssue(It.IsAny<IssueModel>()), Times.Once);
+				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Issue With Invalid Issue Throws Exception")]
@@ -59,7 +59,7 @@ public class IssueServiceTests
 
 		IssueModel expected = TestIssues.GetKnownIssue();
 
-		_issueRepositoryMock.Setup(x => x.GetIssue(It.IsAny<string>())).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssueAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -111,7 +111,7 @@ public class IssueServiceTests
 
 		IEnumerable<IssueModel> expected = TestIssues.GetIssues();
 
-		_issueRepositoryMock.Setup(x => x.GetIssues()).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssuesAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -174,7 +174,7 @@ public class IssueServiceTests
 		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
 			.Where(x => x!.Author!.Id == expectedUser).ToList();
 
-		_issueRepositoryMock.Setup(x => x.GetIssuesByUser(It.IsAny<string>())).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssuesByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -263,9 +263,9 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease == false);
+		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
 
-		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApproval()).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -293,7 +293,7 @@ public class IssueServiceTests
 
 		IEnumerable<IssueModel> expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
 
-		_issueRepositoryMock.Setup(x => x.GetApprovedIssues()).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetApprovedIssuesAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -331,7 +331,7 @@ public class IssueServiceTests
 
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssue(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Issue")]

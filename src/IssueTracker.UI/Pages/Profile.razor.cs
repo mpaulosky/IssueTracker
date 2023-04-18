@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Profile.razor.cs" company="mpaulosky">
 //		Author:  Matthew Paulosky
 //		Copyright (c) 2022.2022 All rights reserved.
@@ -14,14 +14,14 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Profile
 {
-	private List<IssueModel> _approved;
-	private List<IssueModel> _archived;
-	private List<CommentModel> _comments;
-	private List<IssueModel> _issues;
+	private List<IssueModel>? _approved;
+	private List<IssueModel>? _archived;
+	private List<CommentModel>? _comments;
+	private List<IssueModel>? _issues;
 
-	private UserModel _loggedInUser;
-	private List<IssueModel> _pending;
-	private List<IssueModel> _rejected;
+	private UserModel? _loggedInUser;
+	private List<IssueModel>? _pending;
+	private List<IssueModel>? _rejected;
 
 	/// <summary>
 	///		OnInitializedAsync event
@@ -29,9 +29,9 @@ public partial class Profile
 	protected override async Task OnInitializedAsync()
 	{
 		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"AuthProvider.GetUserFromAuth(UserService) != null");
+			"Value cannot be null. (Parameter 'userObjectIdentifierId')");
 
-		_comments = await CommentService.GetCommentsByUser(_loggedInUser.Id);
+		_comments = await CommentService.GetCommentsByUser(_loggedInUser!.Id);
 
 		List<IssueModel> results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
 
@@ -39,12 +39,12 @@ public partial class Profile
 		{
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
-			_approved = _issues.Where(s => s.ApprovedForRelease && (s.Archived == false) & (s.Rejected == false))
+			_approved = _issues.Where(s => s.ApprovedForRelease && (!s.Archived) && (!s.Rejected))
 				.ToList();
 
-			_archived = _issues.Where(s => s.Archived && s.Rejected == false).ToList();
+			_archived = _issues.Where(s => s.Archived && !s.Rejected).ToList();
 
-			_pending = _issues.Where(s => s.ApprovedForRelease == false && s.Rejected == false).ToList();
+			_pending = _issues.Where(s => !s.ApprovedForRelease && !s.Rejected).ToList();
 
 			_rejected = _issues.Where(s => s.Rejected).ToList();
 		}

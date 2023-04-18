@@ -1,10 +1,15 @@
-﻿namespace IssueTracker.Library.BogusFakes;
+﻿
+namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
 public class FakeCategoryTests
 {
 
-	[Fact]
+	public FakeCategoryTests()
+	{
+	}
+
+	[Fact(DisplayName = "FakeCategory GetCategories Test")]
 	public void GetCategories_With_RequestForCategories_Should_ReturnFakeCategories_Test()
 	{
 
@@ -21,7 +26,7 @@ public class FakeCategoryTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeCategory GetBasicCategory Test")]
 	public void GetBasicCategories_With_RequestForBasicCategories_Should_ReturnFakeBasicCategories_Test()
 	{
 
@@ -37,7 +42,7 @@ public class FakeCategoryTests
 
 	}
 
-	[Fact]
+	[Fact(DisplayName = "FakeCategory GetBasicCategory Test")]
 	public void GetBasicCategory_With_RequestForABasicCategory_Should_ReturnAFakeBasicCategory_Test()
 	{
 
