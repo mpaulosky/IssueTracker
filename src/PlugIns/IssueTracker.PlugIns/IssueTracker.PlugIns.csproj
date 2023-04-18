@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-    <PackageReference Include="Testcontainers.MongoDb" Version="3.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+		<PackageReference Include="Testcontainers.MongoDb" Version="3.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+	</ItemGroup>
 
 </Project>
