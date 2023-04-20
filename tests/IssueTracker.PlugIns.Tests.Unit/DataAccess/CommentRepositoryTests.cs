@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.CoreBusiness.DataAccess;
+﻿using IssueTracker.PlugIns.DataAccess;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
@@ -9,7 +11,7 @@ public class CommentRepositoryTests
 	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<CommentModel> _list = new();
-	private CommentMongoRepository _sut;
+	private CommentRepository _sut;
 	private List<UserModel> _users = new();
 
 	public CommentRepositoryTests()
@@ -20,9 +22,9 @@ public class CommentRepositoryTests
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = GetMockMongoContext();
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Comment With Valid Comment")]
@@ -30,16 +32,16 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel newComment = TestComments.GetKnownComment();
+		var newComment = TestComments.GetKnownComment();
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		UserModel user = TestUsers.GetKnownUser();
+		var user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
@@ -56,7 +58,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -64,11 +66,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		//Act
 
-		CommentModel result = await _sut.GetCommentByIdAsync(expected!.Id!).ConfigureAwait(false);
+		CommentModel result = await _sut.GetCommentAsync(expected!.Id!).ConfigureAwait(false);
 
 		//Assert 
 
@@ -100,11 +102,11 @@ public class CommentRepositoryTests
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<CommentModel> result = await _sut.GetCommentsAsync().ConfigureAwait(false);
+		var result = await _sut.GetCommentsAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -133,11 +135,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<CommentModel> result = await _sut.GetCommentsByUserIdAsync(expectedUserId).ConfigureAwait(false);
+		IEnumerable<CommentModel> result = await _sut.GetCommentsByUserAsync(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -157,11 +159,11 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		CommentModel updatedComment =
+		var updatedComment =
 			TestComments.GetComment(expected!.Id!, "Test Comment Update", expected!.Archived!);
 
 		_list = new List<CommentModel> { updatedComment };
@@ -170,11 +172,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateCommentAsync(updatedComment);
+		await _sut.UpdateCommentAsync(updatedComment.Id, updatedComment);
 
 		// Assert
 
@@ -189,11 +191,11 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		CommentModel updatedComment = TestComments.GetKnownComment();
+		var updatedComment = TestComments.GetKnownComment();
 		updatedComment.Archived = true;
 
 		_list = new List<CommentModel> { updatedComment };
@@ -202,11 +204,11 @@ public class CommentRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateCommentAsync(updatedComment);
+		await _sut.UpdateCommentAsync(updatedComment.Id, updatedComment);
 
 		// Assert
 
@@ -221,7 +223,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -230,12 +232,12 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		UserModel user = TestUsers.GetKnownUserWithNoVotedOn();
+		var user = TestUsers.GetKnownUserWithNoVotedOn();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 
@@ -251,7 +253,7 @@ public class CommentRepositoryTests
 	{
 		// Arrange
 
-		CommentModel expected = TestComments.GetKnownComment();
+		var expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
 
@@ -260,12 +262,12 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		UserModel user = TestUsers.GetKnownUser();
+		var user = TestUsers.GetKnownUser();
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);
 
-		_sut = new CommentMongoRepository(_mockContext.Object);
+		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
 

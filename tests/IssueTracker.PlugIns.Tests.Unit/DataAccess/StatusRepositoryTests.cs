@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.CoreBusiness.DataAccess;
+﻿using IssueTracker.PlugIns.DataAccess;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
@@ -7,7 +9,7 @@ public class StatusRepositoryTests
 	private readonly Mock<IMongoCollection<StatusModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<StatusModel> _list = new();
-	private StatusMongoRepository _sut;
+	private StatusRepository _sut;
 
 	public StatusRepositoryTests()
 	{
@@ -15,9 +17,9 @@ public class StatusRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = GetMockMongoContext();
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Status")]
@@ -26,11 +28,11 @@ public class StatusRepositoryTests
 
 		// Arrange
 
-		StatusModel newStatus = TestStatuses.GetKnownStatus();
+		var newStatus = TestStatuses.GetKnownStatus();
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
@@ -51,9 +53,9 @@ public class StatusRepositoryTests
 
 		// Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
-		StatusModel updatedStatus = TestStatuses.GetKnownStatus();
+		var updatedStatus = TestStatuses.GetKnownStatus();
 		updatedStatus.Archived = true;
 
 		await _mockCollection.Object.InsertOneAsync(expected);
@@ -64,11 +66,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateStatusAsync(updatedStatus);
+		await _sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
 
 		// Assert
 
@@ -83,7 +85,7 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
 		_list = new List<StatusModel> { expected };
 
@@ -91,11 +93,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 
 		//Act
 
-		StatusModel result = await _sut.GetStatusByIdAsync(expected!.Id!);
+		StatusModel result = await _sut.GetStatusAsync(expected!.Id!);
 
 		//Assert 
 
@@ -125,11 +127,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<StatusModel> result = await _sut.GetStatusesAsync().ConfigureAwait(false);
+		var result = await _sut.GetStatusesAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -147,9 +149,9 @@ public class StatusRepositoryTests
 	{
 		// Arrange
 
-		StatusModel expected = TestStatuses.GetKnownStatus();
+		var expected = TestStatuses.GetKnownStatus();
 
-		StatusModel updatedStatus = TestStatuses.GetStatus(expected!.Id!, expected!.StatusDescription!, "Updated New");
+		var updatedStatus = TestStatuses.GetStatus(expected!.Id!, expected!.StatusDescription!, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -159,11 +161,11 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusMongoRepository(_mockContext.Object);
+		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateStatusAsync(updatedStatus);
+		await _sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
 
 		// Assert
 

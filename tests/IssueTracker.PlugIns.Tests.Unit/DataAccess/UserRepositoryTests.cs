@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.CoreBusiness.DataAccess;
+﻿using IssueTracker.PlugIns.DataAccess;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
@@ -7,7 +9,7 @@ public class UserRepositoryTests
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<UserModel> _list = new();
-	private UserMongoRepository _sut;
+	private UserRepository _sut;
 
 	public UserRepositoryTests()
 	{
@@ -15,9 +17,9 @@ public class UserRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = GetMockMongoContext();
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "CreateUser with a valid user")]
@@ -25,11 +27,11 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		UserModel newUser = TestUsers.GetKnownUser();
+		var newUser = TestUsers.GetKnownUser();
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
@@ -47,7 +49,7 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
 		_list = new List<UserModel> { expected };
 
@@ -55,11 +57,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		//Act
 
-		UserModel result = await _sut.GetUserByIdAsync(expected!.Id!);
+		var result = await _sut.GetUserAsync(expected!.Id!);
 
 		//Assert 
 
@@ -80,7 +82,7 @@ public class UserRepositoryTests
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
 		// Arrange
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
 		_list = new List<UserModel> { expected };
 
@@ -88,11 +90,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		//Act
 
-		UserModel result = await _sut.GetUserByAuthenticationIdAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
+		var result = await _sut.GetUserFromAuthenticationAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
 
 		//Assert 
 
@@ -120,11 +122,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<UserModel> result = await _sut.GetUsersAsync().ConfigureAwait(false);
+		var result = await _sut.GetUsersAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -144,9 +146,9 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
-		UserModel updatedUser = TestUsers.GetUser(userId: expected!.Id!, expected!.ObjectIdentifier!, "James",
+		var updatedUser = TestUsers.GetUser(userId: expected!.Id!, expected!.ObjectIdentifier!, "James",
 			expected!.LastName!,
 			expected!.DisplayName!, "james.test@test.com");
 
@@ -156,11 +158,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateUserAsync(updatedUser);
+		await _sut.UpdateUserAsync(updatedUser.Id, updatedUser);
 
 		// Assert
 
@@ -175,11 +177,11 @@ public class UserRepositoryTests
 	{
 		// Arrange
 
-		UserModel expected = TestUsers.GetKnownUser();
+		var expected = TestUsers.GetKnownUser();
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		UserModel updatedUser = TestUsers.GetKnownUser();
+		var updatedUser = TestUsers.GetKnownUser();
 		updatedUser.Archived = true;
 
 		_list = new List<UserModel> { updatedUser };
@@ -188,11 +190,11 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserMongoRepository(_mockContext.Object);
+		_sut = new UserRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateUserAsync(updatedUser);
+		await _sut.UpdateUserAsync(updatedUser.Id, updatedUser);
 
 		// Assert
 

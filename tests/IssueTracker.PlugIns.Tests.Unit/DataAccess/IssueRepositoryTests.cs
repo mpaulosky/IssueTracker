@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.CoreBusiness.DataAccess;
+﻿using IssueTracker.PlugIns.DataAccess;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
@@ -7,7 +9,7 @@ public class IssueRepositoryTests
 	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<IssueModel> _list = new();
-	private IssueMongoRepository _sut;
+	private IssueRepository _sut;
 
 	public IssueRepositoryTests()
 	{
@@ -15,9 +17,9 @@ public class IssueRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = GetMockMongoContext();
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Issue with valid Issue")]
@@ -26,11 +28,11 @@ public class IssueRepositoryTests
 
 		// Arrange
 
-		IssueModel newIssue = TestIssues.GetKnownIssue();
+		var newIssue = TestIssues.GetKnownIssue();
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
@@ -48,7 +50,7 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		IssueModel expected = TestIssues.GetKnownIssue();
+		var expected = TestIssues.GetKnownIssue();
 
 		_list = new List<IssueModel> { expected };
 
@@ -56,11 +58,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		//Act
 
-		IssueModel result = await _sut.GetIssueByIdAsync(expected!.Id!);
+		IssueModel result = await _sut.GetIssueAsync(expected!.Id!);
 
 		//Assert 
 
@@ -87,11 +89,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<IssueModel> result = await _sut.GetIssuesAsync().ConfigureAwait(false);
+		var result = await _sut.GetIssuesAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -119,11 +121,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<IssueModel> result = await _sut.GetIssuesByUserIdAsync(expectedUserId).ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetIssuesByUserAsync(expectedUserId).ConfigureAwait(false);
 
 		// Assert
 
@@ -148,11 +150,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<IssueModel> result = await _sut.GetIssuesWaitingForApprovalAsync().ConfigureAwait(false);
+		var result = await _sut.GetIssuesWaitingForApprovalAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -176,11 +178,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<IssueModel> result = await _sut.GetIssuesApprovedAsync().ConfigureAwait(false);
+		IEnumerable<IssueModel> result = await _sut.GetApprovedIssuesAsync().ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
@@ -197,9 +199,9 @@ public class IssueRepositoryTests
 	{
 		// Arrange
 
-		IssueModel expected = TestIssues.GetKnownIssue();
+		var expected = TestIssues.GetKnownIssue();
 
-		IssueModel updatedIssue = TestIssues.GetIssue(
+		var updatedIssue = TestIssues.GetIssue(
 			expected!.Id!,
 			"Test Issue 1 updated",
 			"A new test issue 1 updated",
@@ -214,11 +216,11 @@ public class IssueRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new IssueMongoRepository(_mockContext.Object);
+		_sut = new IssueRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateIssueAsync(updatedIssue);
+		await _sut.UpdateIssueAsync(updatedIssue.Id, updatedIssue);
 
 		// Assert
 

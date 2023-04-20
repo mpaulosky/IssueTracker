@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
+﻿using IssueTracker.PlugIns.DataAccess;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CategoryRepositoryTests
@@ -7,7 +9,7 @@ public class CategoryRepositoryTests
 	private readonly Mock<IMongoCollection<CategoryModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<CategoryModel> _list = new();
-	private CategoryMongoRepository _sut;
+	private CategoryRepository _sut;
 
 	public CategoryRepositoryTests()
 	{
@@ -15,9 +17,9 @@ public class CategoryRepositoryTests
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = GetMockMongoContext();
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Category")]
@@ -26,11 +28,11 @@ public class CategoryRepositoryTests
 
 		// Arrange
 
-		CategoryModel newCategory = TestCategories.GetKnownCategory();
+		var newCategory = TestCategories.GetKnownCategory();
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 
 		// Act
 
@@ -49,9 +51,9 @@ public class CategoryRepositoryTests
 
 		// Arrange
 
-		CategoryModel expected = TestCategories.GetKnownCategory();
+		var expected = TestCategories.GetKnownCategory();
 
-		CategoryModel updatedCategory = TestCategories.GetKnownCategory();
+		var updatedCategory = TestCategories.GetKnownCategory();
 		updatedCategory.Archived = true;
 
 		await _mockCollection.Object.InsertOneAsync(expected);
@@ -62,11 +64,11 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateCategoryAsync(updatedCategory);
+		await _sut.UpdateCategoryAsync(updatedCategory.Id, updatedCategory);
 
 		// Assert
 
@@ -82,7 +84,7 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		CategoryModel expected = TestCategories.GetKnownCategory();
+		var expected = TestCategories.GetKnownCategory();
 
 		_list = new List<CategoryModel> { expected };
 
@@ -90,11 +92,11 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 
 		//Act
 
-		CategoryModel result = await _sut.GetCategoryByIdAsync(expected.Id);
+		var result = await _sut.GetCategoryAsync(expected.Id);
 
 		//Assert 
 
@@ -123,11 +125,11 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 
 		// Act
 
-		IEnumerable<CategoryModel> result = await _sut.GetCategoriesAsync().ConfigureAwait(false);
+		var result = await _sut.GetCategoriesAsync().ConfigureAwait(false);
 
 		// Assert
 
@@ -145,9 +147,9 @@ public class CategoryRepositoryTests
 	{
 		// Arrange
 
-		CategoryModel expected = TestCategories.GetKnownCategory();
+		var expected = TestCategories.GetKnownCategory();
 
-		CategoryModel updatedCategory =
+		var updatedCategory =
 			TestCategories.GetCategory(expected.Id, expected.CategoryDescription, "Updated New");
 
 		await _mockCollection.Object.InsertOneAsync(expected);
@@ -158,11 +160,11 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryMongoRepository(_mockContext.Object);
+		_sut = new CategoryRepository(_mockContext.Object);
 
 		// Act
 
-		await _sut.UpdateCategoryAsync(updatedCategory);
+		await _sut.UpdateCategoryAsync(updatedCategory.Id, updatedCategory);
 
 		// Assert
 

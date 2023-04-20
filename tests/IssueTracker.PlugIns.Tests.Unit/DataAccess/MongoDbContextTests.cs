@@ -1,4 +1,5 @@
-﻿namespace IssueTracker.CoreBusiness.DataAccess;
+﻿
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
@@ -8,8 +9,9 @@ public class MongoDbContextTests
 
 	public MongoDbContextTests()
 	{
+		DatabaseSettings settings = new DatabaseSettings("mongodb://test123", "TestDb");
 
-		_sut = Substitute.For<MongoDbContextFactory>("mongodb://test123", "TestDb");
+		_sut = Substitute.For<MongoDbContextFactory>(settings);
 
 	}
 
@@ -48,7 +50,7 @@ public class MongoDbContextTests
 		// Arrange
 
 		// Act
-		IMongoCollection<UserModel> myCollection =
+		var myCollection =
 			_sut.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert
