@@ -4,8 +4,6 @@
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using IUserRepository = IssueTracker.PlugIns.PlugInRepositoryInterfaces.IUserRepository;
-
 namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>

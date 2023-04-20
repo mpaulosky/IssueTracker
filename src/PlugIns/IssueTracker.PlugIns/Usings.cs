@@ -10,6 +10,4 @@ global using Microsoft.Extensions.Caching.Memory;
 global using MongoDB.Bson;
 global using MongoDB.Driver;
 
-global using Testcontainers.MongoDb;
-
 global using static IssueTracker.PlugIns.Helpers.CollectionNames;

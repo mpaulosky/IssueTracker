@@ -67,7 +67,7 @@ public class CommentService : ICommentService
 
 		IEnumerable<CommentModel> results = await _repository.GetCommentsAsync();
 
-		output = results.Where(x => !x.Archived).ToList();
+		output = results!.Where(x => !x.Archived).ToList();
 
 		_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
 

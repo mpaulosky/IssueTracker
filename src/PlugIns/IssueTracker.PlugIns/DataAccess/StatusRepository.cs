@@ -4,8 +4,6 @@
 //		Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using IStatusRepository = IssueTracker.PlugIns.PlugInRepositoryInterfaces.IStatusRepository;
-
 namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
