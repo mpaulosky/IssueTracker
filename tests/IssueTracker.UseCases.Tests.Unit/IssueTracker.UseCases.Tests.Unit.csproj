@@ -4,17 +4,10 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<LangVersion>preview</LangVersion>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<RootNamespace>IssueTracker.UseCases.Tests.Unit</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

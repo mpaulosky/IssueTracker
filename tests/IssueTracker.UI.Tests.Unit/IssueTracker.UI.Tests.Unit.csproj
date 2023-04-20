@@ -2,22 +2,12 @@
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
-		<RootNamespace>IssueTracker.UI</RootNamespace>
-		<Configurations>Debug;Release;Test</Configurations>
+		<IsTestProject>true</IsTestProject>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|AnyCPU'">
-		<LangVersion>preview</LangVersion>
+		<RootNamespace>IssueTracker.UI.Tests.Unit</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
