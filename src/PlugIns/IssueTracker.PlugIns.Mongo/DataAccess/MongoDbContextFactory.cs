@@ -7,6 +7,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using IssueTracker.PlugIns.Mongo.Helpers;
+
 namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
@@ -18,16 +20,16 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		MongoDbContextFactory constructor
 	/// </summary>
-	/// <param name="connectionString">Connection String</param>
-	/// <param name="databaseName">Database Name</param>
+	/// <param name="settings">DatabaseSettings</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	/// <exception cref="ArgumentException"></exception>"
-	public MongoDbContextFactory(string connectionString, string databaseName)
+	public MongoDbContextFactory(DatabaseSettings settings)
 	{
 
-		ConnectionString = Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
+		Guard.Against.Null(settings, nameof(settings));
 
-		DbName = Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
+		ConnectionString = settings.ConnectionString;
+
+		DbName = settings.DatabaseName;
 
 		Client = new MongoClient(ConnectionString);
 

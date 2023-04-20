@@ -10,15 +10,10 @@ namespace IssueTracker.PlugIns.Mongo.Helpers;
 /// <summary>
 ///		DatabaseSettings class
 /// </summary>
-public class DatabaseSettings : IDatabaseSettings
+public class DatabaseSettings
 {
 
-	public DatabaseSettings()
-	{
-
-	}
-
-	public DatabaseSettings(string connectionString, string databaseName) : this()
+	public DatabaseSettings(string connectionString, string databaseName)
 	{
 
 		ConnectionString = connectionString;
@@ -26,8 +21,8 @@ public class DatabaseSettings : IDatabaseSettings
 
 	}
 
-	public string ConnectionString { get; set; } = string.Empty;
+	public string ConnectionString { get; }
 
-	public string DatabaseName { get; set; } = string.Empty;
+	public string DatabaseName { get; }
 
 }
