@@ -18,7 +18,7 @@ public static partial class IServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
 	/// <returns>IServiceCollection</returns>
-	public static IServiceCollection RegisterDICollections(this IServiceCollection services)
+	public static IServiceCollection RegisterServicesCollections(this IServiceCollection services)
 	{
 
 		services.AddSingleton<ICategoryService, CategoryService>();
@@ -26,12 +26,6 @@ public static partial class IServiceCollectionExtensions
 		services.AddSingleton<IStatusService, StatusService>();
 		services.AddSingleton<IIssueService, IssueService>();
 		services.AddSingleton<IUserService, UserService>();
-
-		services.AddSingleton<ICategoryRepository, CategoryRepository>();
-		services.AddSingleton<ICommentRepository, CommentRepository>();
-		services.AddSingleton<IStatusRepository, StatusRepository>();
-		services.AddSingleton<IIssueRepository, IssueRepository>();
-		services.AddSingleton<IUserRepository, UserRepository>();
 
 		return services;
 

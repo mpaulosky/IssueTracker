@@ -14,15 +14,14 @@ namespace IssueTracker.UI.Extensions;
 /// </summary>
 public static class MongoDbHealthCheckBuilderExtensions
 {
-	private const string _name = "mongodb";
 
+	private const string _name = "mongodb";
 
 	/// <summary>
 	/// Add a health check for MongoDb database that list all collections from specified database on <paramref name="mongoDatabaseName"/>.
 	/// </summary>
-	/// <param name="builder">The <see cref="IHealthChecksBuilder"/>.</param>
-	/// <param name="mongodbConnectionString">The MongoDb connection string to be used.</param>
-	/// <param name="mongoDatabaseName">The Database name to check.</param>
+	/// <param name="builder">The <see cref="IHealthChecksBuilder"/>.</param
+	/// <param name="factory">The MongoDbContextFactory to use</param>
 	/// <param name="name">The health check name. Optional. If <c>null</c> the type name 'mongodb' will be used for the name.</param>
 	/// <param name="failureStatus">
 	/// The <see cref="HealthStatus"/> that should be reported when the health check fails. Optional. If <c>null</c> then
@@ -33,22 +32,18 @@ public static class MongoDbHealthCheckBuilderExtensions
 	/// <returns>The specified <paramref name="builder"/>.</returns>
 	public static IHealthChecksBuilder AddMongoDb(
 			this IHealthChecksBuilder builder,
-			string mongodbConnectionString,
-			string mongoDatabaseName,
+			IMongoDbContextFactory factory,
 			string name,
 			HealthStatus failureStatus,
 			IEnumerable<string> tags,
 			TimeSpan timeout)
 	{
 
-		Guard.Against.NullOrWhiteSpace(mongodbConnectionString, nameof(mongodbConnectionString));
-		Guard.Against.NullOrEmpty(mongoDatabaseName, nameof(mongoDatabaseName));
-
 		timeout = new TimeSpan(0, 0, 5);
 
 		return builder.Add(new HealthCheckRegistration(
 				name ?? _name,
-				_ => new MongoDbHealthCheck(mongodbConnectionString, mongoDatabaseName),
+				_ => new MongoDbHealthCheck(factory),
 				failureStatus,
 				tags,
 				timeout));

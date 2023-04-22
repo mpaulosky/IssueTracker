@@ -11,7 +11,7 @@ namespace IssueTracker.UI.Extensions;
 ///		RegisterServices class
 /// </summary>
 [ExcludeFromCodeCoverage]
-public static class RegisterServices
+public static class AllServicesToRegister
 {
 
 	///  <summary>
@@ -30,6 +30,10 @@ public static class RegisterServices
 
 		builder.Services.AddAuthenticationService(config);
 
+		builder.Services.RegisterDatabaseContext(config);
+
+		builder.Services.RegisterServicesCollections();
+
 		builder.Services.AddRazorPages();
 
 		builder.Services.AddMemoryCache();
@@ -37,10 +41,6 @@ public static class RegisterServices
 		builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 
 		builder.Services.AddBlazoredSessionStorage();
-
-		builder.Services.RegisterDatabaseContext(config);
-
-		builder.Services.RegisterDICollections();
 
 	}
 
