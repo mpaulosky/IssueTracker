@@ -12,6 +12,8 @@ global using IssueTracker.PlugIns.DataAccess;
 global using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
 global using IssueTracker.PlugIns.Services;
 global using IssueTracker.PlugIns.Services.Interfaces;
+global using IssueTracker.UI.Extensions;
+
 global using IssueTracker.UI.Helpers;
 global using IssueTracker.UI.Models;
 
@@ -20,6 +22,7 @@ global using JetBrains.Annotations;
 global using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;
+global using Microsoft.AspNetCore.Rewrite;
 global using Microsoft.Identity.Web;
 global using Microsoft.Identity.Web.UI;
 

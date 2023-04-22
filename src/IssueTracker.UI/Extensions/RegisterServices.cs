@@ -5,9 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.UI.Extensions;
-
-namespace IssueTracker.UI;
+namespace IssueTracker.UI.Extensions;
 
 /// <summary>
 ///		RegisterServices class
@@ -28,7 +26,9 @@ public static class RegisterServices
 
 		builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
 
-		builder.Services.AddAuthorizationAuthenticationServices(config);
+		builder.Services.AddAuthorizationService();
+
+		builder.Services.AddAuthenticationService(config);
 
 		builder.Services.AddRazorPages();
 

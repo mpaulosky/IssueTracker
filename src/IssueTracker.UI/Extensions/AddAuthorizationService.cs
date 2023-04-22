@@ -14,16 +14,12 @@ public static partial class IServiceCollectionExtensions
 {
 
 	/// <summary>
-	/// Add Authorization Authentication Services
+	/// Add Authorization Services
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
-	/// <param name="config">ConfigurationManager</param>
 	/// <returns>IServiceCollection</returns>
-	public static IServiceCollection AddAuthorizationAuthenticationServices(this IServiceCollection services, ConfigurationManager config)
+	public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
 	{
-
-		services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-			.AddMicrosoftIdentityWebApp(config.GetSection("AzureAdB2C"));
 
 		services.AddAuthorization(options =>
 		{
