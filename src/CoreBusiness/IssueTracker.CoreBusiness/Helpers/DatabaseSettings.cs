@@ -1,11 +1,13 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="DatabaseSettings.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		DatabaseSettings.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Mongo.Helpers;
+namespace IssueTracker.CoreBusiness.Helpers;
 
 /// <summary>
 ///		DatabaseSettings class
