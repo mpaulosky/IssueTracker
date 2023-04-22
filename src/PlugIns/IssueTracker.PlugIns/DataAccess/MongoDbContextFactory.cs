@@ -7,8 +7,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.PlugIns.Helpers;
-
 namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
