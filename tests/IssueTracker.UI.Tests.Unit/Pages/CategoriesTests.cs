@@ -9,8 +9,8 @@ public class CategoriesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private IEnumerable<CategoryModel> _expectedCategories;
-	private UserModel _expectedUser;
+	private IEnumerable<CategoryModel>? _expectedCategories;
+	private UserModel? _expectedUser;
 
 	public CategoriesTests()
 	{
@@ -562,9 +562,9 @@ public class CategoriesTests : TestContext
 	private void SetupMocks()
 	{
 
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories);
+		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories!);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
 
 	}
 
@@ -573,7 +573,7 @@ public class CategoriesTests : TestContext
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)

@@ -8,103 +8,102 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
+
+public class SolutionMongoRepositoryTests
 {
-	public class SolutionMongoRepositoryTests
+	private MockRepository mockRepository;
+
+	private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+
+	public SolutionMongoRepositoryTests()
 	{
-		private MockRepository mockRepository;
+		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+		this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
+	}
 
-		public SolutionMongoRepositoryTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+	private SolutionRepository CreateSolutionMongoRepository()
+	{
+		return new SolutionRepository(
+				this.mockMongoDbContextFactory.Object);
+	}
 
-			this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
-		}
+	[Fact]
+	public async Task CreateSolutionAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var solutionMongoRepository = this.CreateSolutionMongoRepository();
+		SolutionModel solution = null;
 
-		private SolutionMongoRepository CreateSolutionMongoRepository()
-		{
-			return new SolutionMongoRepository(
-					this.mockMongoDbContextFactory.Object);
-		}
+		// Act
+		await solutionMongoRepository.CreateSolutionAsync(
+			solution);
 
-		[Fact]
-		public async Task CreateSolutionAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var solutionMongoRepository = this.CreateSolutionMongoRepository();
-			SolutionModel solution = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await solutionMongoRepository.CreateSolutionAsync(
-				solution);
+	[Fact]
+	public async Task GetSolutionByIssueIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var solutionMongoRepository = this.CreateSolutionMongoRepository();
+		string issueId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await solutionMongoRepository.GetSolutionsByIssueIdAsync(
+			issueId);
 
-		[Fact]
-		public async Task GetSolutionByIssueIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var solutionMongoRepository = this.CreateSolutionMongoRepository();
-			string issueId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await solutionMongoRepository.GetSolutionByIssueIdAsync(
-				issueId);
+	[Fact]
+	public async Task GetSolutionsAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var solutionMongoRepository = this.CreateSolutionMongoRepository();
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await solutionMongoRepository.GetSolutionsAsync();
 
-		[Fact]
-		public async Task GetSolutionsAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var solutionMongoRepository = this.CreateSolutionMongoRepository();
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await solutionMongoRepository.GetSolutionsAsync();
+	[Fact]
+	public async Task GetSolutionsByUserIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var solutionMongoRepository = this.CreateSolutionMongoRepository();
+		string userId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await solutionMongoRepository.GetSolutionsByUserIdAsync(
+			userId);
 
-		[Fact]
-		public async Task GetSolutionsByUserIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var solutionMongoRepository = this.CreateSolutionMongoRepository();
-			string userId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await solutionMongoRepository.GetSolutionsByUserIdAsync(
-				userId);
+	[Fact]
+	public async Task UpdateSolutionAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var solutionMongoRepository = this.CreateSolutionMongoRepository();
+		SolutionModel solution = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await solutionMongoRepository.UpdateSolutionAsync(
+			solution);
 
-		[Fact]
-		public async Task UpdateSolutionAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var solutionMongoRepository = this.CreateSolutionMongoRepository();
-			SolutionModel solution = null;
-
-			// Act
-			await solutionMongoRepository.UpdateSolutionAsync(
-				solution);
-
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
 	}
 }

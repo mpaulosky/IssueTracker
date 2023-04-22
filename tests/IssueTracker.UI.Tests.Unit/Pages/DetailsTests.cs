@@ -9,10 +9,10 @@ public class DetailsTests : TestContext
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CommentModel> _expectedComments;
-	private IssueModel _expectedIssue;
-	private List<StatusModel> _expectedStatuses;
-	private UserModel _expectedUser;
+	private List<CommentModel>? _expectedComments;
+	private IssueModel? _expectedIssue;
+	private List<StatusModel>? _expectedStatuses;
+	private UserModel? _expectedUser;
 
 	public DetailsTests()
 	{
@@ -516,16 +516,16 @@ public class DetailsTests : TestContext
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetIssueAsync(_expectedIssue.Id))
-			.ReturnsAsync(_expectedIssue);
+			.Setup(x => x.GetIssueAsync(_expectedIssue!.Id))
+			.ReturnsAsync(_expectedIssue!);
 
 		_userRepositoryMock
 			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser);
+			.ReturnsAsync(_expectedUser!);
 
 		_commentRepositoryMock
 			.Setup(x => x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
-			.ReturnsAsync(_expectedComments);
+			.ReturnsAsync(_expectedComments!);
 
 		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 		_statusRepositoryMock
@@ -536,7 +536,7 @@ public class DetailsTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 		var authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)
 		);

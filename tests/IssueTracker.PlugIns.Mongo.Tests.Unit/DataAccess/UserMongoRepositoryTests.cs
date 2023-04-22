@@ -8,103 +8,102 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
+
+public class UserMongoRepositoryTests
 {
-	public class UserMongoRepositoryTests
+	private MockRepository mockRepository;
+
+	private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+
+	public UserMongoRepositoryTests()
 	{
-		private MockRepository mockRepository;
+		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+		this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
+	}
 
-		public UserMongoRepositoryTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+	private UserRepository CreateUserMongoRepository()
+	{
+		return new UserRepository(
+				this.mockMongoDbContextFactory.Object);
+	}
 
-			this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
-		}
+	[Fact]
+	public async Task GetUserByIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var userMongoRepository = this.CreateUserMongoRepository();
+		string itemId = null;
 
-		private UserMongoRepository CreateUserMongoRepository()
-		{
-			return new UserMongoRepository(
-					this.mockMongoDbContextFactory.Object);
-		}
+		// Act
+		var result = await userMongoRepository.GetUserByIdAsync(
+			itemId);
 
-		[Fact]
-		public async Task GetUserByIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var userMongoRepository = this.CreateUserMongoRepository();
-			string itemId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await userMongoRepository.GetUserByIdAsync(
-				itemId);
+	[Fact]
+	public async Task GetUsersAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var userMongoRepository = this.CreateUserMongoRepository();
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await userMongoRepository.GetUsersAsync();
 
-		[Fact]
-		public async Task GetUsersAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var userMongoRepository = this.CreateUserMongoRepository();
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await userMongoRepository.GetUsersAsync();
+	[Fact]
+	public async Task CreateUserAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var userMongoRepository = this.CreateUserMongoRepository();
+		UserModel user = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await userMongoRepository.CreateUserAsync(
+			user);
 
-		[Fact]
-		public async Task CreateUserAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var userMongoRepository = this.CreateUserMongoRepository();
-			UserModel user = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await userMongoRepository.CreateUserAsync(
-				user);
+	[Fact]
+	public async Task UpdateUserAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var userMongoRepository = this.CreateUserMongoRepository();
+		UserModel user = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await userMongoRepository.UpdateUserAsync(
+			user);
 
-		[Fact]
-		public async Task UpdateUserAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var userMongoRepository = this.CreateUserMongoRepository();
-			UserModel user = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await userMongoRepository.UpdateUserAsync(
-				user);
+	[Fact]
+	public async Task GetUserByAuthenticationIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var userMongoRepository = this.CreateUserMongoRepository();
+		string userObjectIdentifierId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await userMongoRepository.GetUserByAuthenticationIdAsync(
+			userObjectIdentifierId);
 
-		[Fact]
-		public async Task GetUserByAuthenticationIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var userMongoRepository = this.CreateUserMongoRepository();
-			string userObjectIdentifierId = null;
-
-			// Act
-			var result = await userMongoRepository.GetUserByAuthenticationIdAsync(
-				userObjectIdentifierId);
-
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
 	}
 }

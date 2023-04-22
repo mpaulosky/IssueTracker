@@ -8,9 +8,9 @@ public class ProfileTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CommentModel> _expectedComments;
-	private List<IssueModel> _expectedIssues;
-	private UserModel _expectedUser;
+	private List<CommentModel>? _expectedComments;
+	private List<IssueModel>? _expectedIssues;
+	private UserModel? _expectedUser;
 
 	public ProfileTests()
 	{
@@ -41,7 +41,7 @@ public class ProfileTests : TestContext
 	public void Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test()
 	{
 		// Arrange
-		const string expectedUri = "http://localhost/";
+		const string? expectedUri = "http://localhost/";
 		_expectedUser = TestUsers.GetKnownUser();
 		_expectedIssues = TestIssues.GetIssues().ToList();
 		_expectedComments = TestComments.GetComments().ToList();
@@ -53,7 +53,7 @@ public class ProfileTests : TestContext
 		RegisterServices();
 
 		// Act
-		IRenderedComponent<Profile> cut = RenderComponent<Profile>();
+		var cut = RenderComponent<Profile>();
 
 		cut.Find("#close-page").Click();
 
@@ -133,16 +133,15 @@ public class ProfileTests : TestContext
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetIssuesByUserAsync(_expectedUser.Id))
-			.ReturnsAsync(_expectedIssues);
+			.Setup(x => x.GetIssuesByUserAsync(_expectedUser!.Id))
+			.ReturnsAsync(_expectedIssues!);
 
 		_userRepositoryMock
 			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser);
+			.ReturnsAsync(_expectedUser!);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedComments);
+			.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(_expectedComments!);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
@@ -151,7 +150,7 @@ public class ProfileTests : TestContext
 
 		if (isAuth)
 		{
-			authContext.SetAuthorized(_expectedUser.DisplayName!);
+			authContext.SetAuthorized(_expectedUser!.DisplayName!);
 			authContext.SetClaims(
 				new Claim("objectidentifier", _expectedUser.Id!)
 			);

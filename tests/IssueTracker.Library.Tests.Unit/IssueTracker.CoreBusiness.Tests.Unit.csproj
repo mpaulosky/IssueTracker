@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -6,13 +6,19 @@
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<RootNamespace>IssueTracker.CoreBusiness</RootNamespace>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<RootNamespace>IssueTracker.PlugIns.Mongo.Tests.Unit</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.11.0" />
+		<PackageReference Include="Autofac.Extras.Moq" Version="6.1.0" />
+		<PackageReference Include="AutoFixture.AutoMoq" Version="4.18.0" />
+		<PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
+		<PackageReference Include="Blazored.SessionStorage.TestExtensions" Version="2.3.0" />
+		<PackageReference Include="FluentAssertions" Version="6.10.0" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.5" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="Moq" Version="4.18.4" />
 		<PackageReference Include="NSubstitute" Version="5.0.0" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -27,7 +33,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 

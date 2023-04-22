@@ -1,50 +1,42 @@
-﻿using IssueTracker.PlugIns.Mongo.Helpers;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-using Moq;
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.Helpers;
 
-using System;
-using System.Threading.Tasks;
-
-using Xunit;
-
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.Helpers
+public class MongoDbHealthCheckTests
 {
-	public class MongoDbHealthCheckTests
+	private readonly IMongoDbContextFactory _factory;
+
+	public MongoDbHealthCheckTests()
 	{
-		private MockRepository mockRepository;
 
+		DatabaseSettings settings = new DatabaseSettings("mongodb://test123", "TestDb");
 
+		_factory = Substitute.For<MongoDbContextFactory>(settings);
 
-		public MongoDbHealthCheckTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+	}
 
+	private MongoDbHealthCheck CreateMongoDbHealthCheck()
+	{
+		return new MongoDbHealthCheck(_factory);
+	}
 
-		}
+	[Fact]
+	public async Task CheckHealthAsync_StateUnderTest_ExpectedBehavior()
+	{
 
-		private MongoDbHealthCheck CreateMongoDbHealthCheck()
-		{
-			return new MongoDbHealthCheck(
-					TODO,
-					TODO);
-		}
+		// Arrange
+		HealthCheckResult expected = new HealthCheckResult(HealthStatus.Healthy);
 
-		[Fact]
-		public async Task CheckHealthAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var mongoDbHealthCheck = this.CreateMongoDbHealthCheck();
-			HealthCheckContext context = null;
-			CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
+		var _healthCheck = CreateMongoDbHealthCheck();
 
-			// Act
-			var result = await mongoDbHealthCheck.CheckHealthAsync(
-				context,
-				cancellationToken);
+		HealthCheckContext? context = null;
+		CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await _healthCheck.CheckHealthAsync(context, cancellationToken);
+
+		// Assert
+		result.Should().Be(expected);
+
 	}
 }

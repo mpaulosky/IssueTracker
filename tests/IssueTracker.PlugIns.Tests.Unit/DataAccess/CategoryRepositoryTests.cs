@@ -1,5 +1,4 @@
-﻿using IssueTracker.PlugIns.DataAccess;
-
+﻿
 namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]

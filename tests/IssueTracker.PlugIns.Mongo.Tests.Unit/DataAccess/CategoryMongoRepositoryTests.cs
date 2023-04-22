@@ -1,94 +1,95 @@
-﻿using IssueTracker.PlugIns.Mongo.Contracts;
-using IssueTracker.PlugIns.Mongo.DataAccess;
+﻿
+using TestingSupport.Library.Fixtures;
 
-using Moq;
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
 
-using System;
-using System.Threading.Tasks;
-
-using Xunit;
-
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess
+[ExcludeFromCodeCoverage]
+public class CategoryMongoRepositoryTests
 {
-	public class CategoryMongoRepositoryTests
+
+	private readonly Mock<IAsyncCursor<CategoryModel>> _cursor;
+	private readonly Mock<IMongoCollection<CategoryModel>> _mockCollection;
+	private readonly Mock<IMongoDbContextFactory> _mockContext;
+	private readonly List<CategoryModel> _list = new();
+	private readonly CategoryRepository _sut;
+
+	public CategoryMongoRepositoryTests()
 	{
-		private MockRepository mockRepository;
 
-		private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+		_cursor = TestFixtures.GetMockCursor(_list);
 
-		public CategoryMongoRepositoryTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
-			this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
-		}
+		_mockContext = TestFixtures.GetMockContext();
 
-		private CategoryMongoRepository CreateCategoryMongoRepository()
-		{
-			return new CategoryMongoRepository(
-					this.mockMongoDbContextFactory.Object);
-		}
+		_sut = new CategoryRepository(_mockContext.Object);
 
-		[Fact]
-		public async Task GetCategoryByIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var categoryMongoRepository = this.CreateCategoryMongoRepository();
-			string categoryId = null;
+	}
 
-			// Act
-			var result = await categoryMongoRepository.GetCategoryByIdAsync(
-				categoryId);
+	private CategoryRepository CreateCategoryMongoRepository()
+	{
+		return new CategoryRepository(_mockContext.Object);
+	}
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+	[Fact]
+	public async Task GetCategoryByIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var categoryMongoRepository = CreateCategoryMongoRepository();
+		string? categoryId = null;
 
-		[Fact]
-		public async Task GetCategoriesAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var categoryMongoRepository = this.CreateCategoryMongoRepository();
+		// Act
+		var result = await categoryMongoRepository.GetCategoryByIdAsync(
+			categoryId);
 
-			// Act
-			var result = await categoryMongoRepository.GetCategoriesAsync();
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+	[Fact]
+	public async Task GetCategoriesAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var categoryMongoRepository = this.CreateCategoryMongoRepository();
 
-		[Fact]
-		public async Task CreateCategoryAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var categoryMongoRepository = this.CreateCategoryMongoRepository();
-			CategoryModel category = null;
+		// Act
+		var result = await categoryMongoRepository.GetCategoriesAsync();
 
-			// Act
-			await categoryMongoRepository.CreateCategoryAsync(
-				category);
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+	[Fact]
+	public async Task CreateCategoryAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var categoryMongoRepository = this.CreateCategoryMongoRepository();
+		CategoryModel? category = null;
 
-		[Fact]
-		public async Task UpdateCategoryAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var categoryMongoRepository = this.CreateCategoryMongoRepository();
-			CategoryModel category = null;
+		// Act
+		await categoryMongoRepository.CreateCategoryAsync(
+			category);
 
-			// Act
-			await categoryMongoRepository.UpdateCategoryAsync(
-				category);
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+	[Fact]
+	public async Task UpdateCategoryAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var categoryMongoRepository = this.CreateCategoryMongoRepository();
+		CategoryModel? category = null;
+
+		// Act
+		await categoryMongoRepository.UpdateCategoryAsync(
+			category);
+
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
 	}
 }

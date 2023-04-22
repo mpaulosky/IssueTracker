@@ -9,9 +9,9 @@ public class CreateTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CategoryModel> _expectedCategories;
-	private List<StatusModel> _expectedStatuses;
-	private UserModel _expectedUser;
+	private List<CategoryModel>? _expectedCategories;
+	private List<StatusModel>? _expectedStatuses;
+	private UserModel? _expectedUser;
 
 	public CreateTests()
 	{
@@ -173,17 +173,17 @@ public class CreateTests : TestContext
 
 	private void SetupMocks()
 	{
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories);
+		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories!);
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses!);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)
 		);

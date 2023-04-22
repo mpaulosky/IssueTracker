@@ -9,8 +9,8 @@ public class CommentTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private IssueModel _expectedIssue;
-	private UserModel _expectedUser;
+	private IssueModel? _expectedIssue;
+	private UserModel? _expectedUser;
 
 	public CommentTests()
 	{
@@ -136,8 +136,8 @@ public class CommentTests : TestContext
 	private void SetupMocks()
 	{
 
-		_issueRepositoryMock.Setup(x => x.GetIssueAsync(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_issueRepositoryMock.Setup(x => x.GetIssueAsync(_expectedIssue!.Id)).ReturnsAsync(_expectedIssue!);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
 
 	}
 
@@ -146,9 +146,9 @@ public class CommentTests : TestContext
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
-		authContext.SetClaims(new Claim("objectidentifier", _expectedUser.Id));
+		authContext.SetClaims(new Claim("objectidentifier", _expectedUser!.Id));
 
 		if (isAdmin) authContext.SetPolicies("Admin");
 	}

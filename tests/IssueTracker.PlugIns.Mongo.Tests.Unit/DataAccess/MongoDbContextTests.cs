@@ -1,7 +1,5 @@
 ﻿
-using IssueTracker.CoreBusiness.Helpers;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests

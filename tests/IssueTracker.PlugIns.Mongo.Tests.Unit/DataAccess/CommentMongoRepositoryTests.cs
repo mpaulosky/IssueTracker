@@ -1,144 +1,133 @@
-﻿using IssueTracker.PlugIns.Mongo.Contracts;
-using IssueTracker.PlugIns.Mongo.DataAccess;
+﻿namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
 
-using Moq;
-
-using System;
-using System.Threading.Tasks;
-
-using Xunit;
-
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess
+public class CommentMongoRepositoryTests
 {
-	public class CommentMongoRepositoryTests
+	private readonly MockRepository mockRepository;
+
+	private readonly Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+
+	public CommentMongoRepositoryTests()
 	{
-		private MockRepository mockRepository;
+		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+		this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
+	}
 
-		public CommentMongoRepositoryTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+	private CommentRepository CreateCommentMongoRepository()
+	{
+		return new CommentRepository(
+				this.mockMongoDbContextFactory.Object);
+	}
 
-			this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
-		}
+	[Fact]
+	public async Task CreateCommentAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		CommentModel? comment = null;
 
-		private CommentMongoRepository CreateCommentMongoRepository()
-		{
-			return new CommentMongoRepository(
-					this.mockMongoDbContextFactory.Object);
-		}
+		// Act
+		await commentMongoRepository.CreateCommentAsync(
+			comment);
 
-		[Fact]
-		public async Task CreateCommentAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			CommentModel comment = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await commentMongoRepository.CreateCommentAsync(
-				comment);
+	[Fact]
+	public async Task GetCommentByIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		string? commentId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await commentMongoRepository.GetCommentByIdAsync(
+			commentId);
 
-		[Fact]
-		public async Task GetCommentByIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			string? commentId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await commentMongoRepository.GetCommentByIdAsync(
-				commentId);
+	[Fact]
+	public async Task GetCommentsAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await commentMongoRepository.GetCommentsAsync();
 
-		[Fact]
-		public async Task GetCommentsAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await commentMongoRepository.GetCommentsAsync();
+	[Fact]
+	public async Task GetCommentsBySourceAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		BasicCommentOnSourceModel? source = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await commentMongoRepository.GetCommentsBySourceAsync(
+			source);
 
-		[Fact]
-		public async Task GetCommentsBySourceAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			BasicCommentOnSourceModel source = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await commentMongoRepository.GetCommentsBySourceAsync(
-				source);
+	[Fact]
+	public async Task GetCommentsByUserIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		string? userId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await commentMongoRepository.GetCommentsByUserIdAsync(
+			userId);
 
-		[Fact]
-		public async Task GetCommentsByUserIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			string? userId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await commentMongoRepository.GetCommentsByUserIdAsync(
-				userId);
+	[Fact]
+	public async Task UpdateCommentAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		CommentModel? comment = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await commentMongoRepository.UpdateCommentAsync(
+			comment);
 
-		[Fact]
-		public async Task UpdateCommentAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			CommentModel comment = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await commentMongoRepository.UpdateCommentAsync(
-				comment);
+	[Fact]
+	public async Task UpVoteCommentAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var commentMongoRepository = this.CreateCommentMongoRepository();
+		string? itemId = null;
+		string? userId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await commentMongoRepository.UpVoteCommentAsync(
+			itemId,
+			userId);
 
-		[Fact]
-		public async Task UpVoteCommentAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var commentMongoRepository = this.CreateCommentMongoRepository();
-			string? itemId = null;
-			string userId = null;
-
-			// Act
-			await commentMongoRepository.UpVoteCommentAsync(
-				itemId,
-				userId);
-
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
 	}
 }

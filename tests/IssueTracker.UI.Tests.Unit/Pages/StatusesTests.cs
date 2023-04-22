@@ -9,8 +9,8 @@ public class StatusesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private IEnumerable<StatusModel> _expectedStatuses;
-	private UserModel _expectedUser;
+	private IEnumerable<StatusModel>? _expectedStatuses;
+	private UserModel? _expectedUser;
 
 	public StatusesTests()
 	{
@@ -571,18 +571,18 @@ public class StatusesTests : TestContext
 	private void SetupMocks()
 	{
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses);
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses!);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
+		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
 
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		TestAuthorizationContext? authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)

@@ -8,103 +8,102 @@ using System.Threading.Tasks;
 
 using Xunit;
 
-namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess
+namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
+
+public class StatusMongoRepositoryTests
 {
-	public class StatusMongoRepositoryTests
+	private MockRepository mockRepository;
+
+	private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+
+	public StatusMongoRepositoryTests()
 	{
-		private MockRepository mockRepository;
+		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		private Mock<IMongoDbContextFactory> mockMongoDbContextFactory;
+		this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
+	}
 
-		public StatusMongoRepositoryTests()
-		{
-			this.mockRepository = new MockRepository(MockBehavior.Strict);
+	private StatusRepository CreateStatusMongoRepository()
+	{
+		return new StatusRepository(
+				this.mockMongoDbContextFactory.Object);
+	}
 
-			this.mockMongoDbContextFactory = this.mockRepository.Create<IMongoDbContextFactory>();
-		}
+	[Fact]
+	public async Task CreateStatusAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var statusMongoRepository = this.CreateStatusMongoRepository();
+		StatusModel status = null;
 
-		private StatusMongoRepository CreateStatusMongoRepository()
-		{
-			return new StatusMongoRepository(
-					this.mockMongoDbContextFactory.Object);
-		}
+		// Act
+		await statusMongoRepository.CreateStatusAsync(
+			status);
 
-		[Fact]
-		public async Task CreateStatusAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var statusMongoRepository = this.CreateStatusMongoRepository();
-			StatusModel status = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await statusMongoRepository.CreateStatusAsync(
-				status);
+	[Fact]
+	public async Task GetStatusByIdAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var statusMongoRepository = this.CreateStatusMongoRepository();
+		string itemId = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await statusMongoRepository.GetStatusByIdAsync(
+			itemId);
 
-		[Fact]
-		public async Task GetStatusByIdAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var statusMongoRepository = this.CreateStatusMongoRepository();
-			string itemId = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await statusMongoRepository.GetStatusByIdAsync(
-				itemId);
+	[Fact]
+	public async Task GetStatusesAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var statusMongoRepository = this.CreateStatusMongoRepository();
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		var result = await statusMongoRepository.GetStatusesAsync();
 
-		[Fact]
-		public async Task GetStatusesAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var statusMongoRepository = this.CreateStatusMongoRepository();
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			var result = await statusMongoRepository.GetStatusesAsync();
+	[Fact]
+	public async Task UpdateStatusAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var statusMongoRepository = this.CreateStatusMongoRepository();
+		StatusModel status = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await statusMongoRepository.UpdateStatusAsync(
+			status);
 
-		[Fact]
-		public async Task UpdateStatusAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var statusMongoRepository = this.CreateStatusMongoRepository();
-			StatusModel status = null;
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
+	}
 
-			// Act
-			await statusMongoRepository.UpdateStatusAsync(
-				status);
+	[Fact]
+	public async Task DeleteStatusAsync_StateUnderTest_ExpectedBehavior()
+	{
+		// Arrange
+		var statusMongoRepository = this.CreateStatusMongoRepository();
+		StatusModel status = null;
 
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Act
+		await statusMongoRepository.DeleteStatusAsync(
+			status);
 
-		[Fact]
-		public async Task DeleteStatusAsync_StateUnderTest_ExpectedBehavior()
-		{
-			// Arrange
-			var statusMongoRepository = this.CreateStatusMongoRepository();
-			StatusModel status = null;
-
-			// Act
-			await statusMongoRepository.DeleteStatusAsync(
-				status);
-
-			// Assert
-			Assert.True(false);
-			this.mockRepository.VerifyAll();
-		}
+		// Assert
+		Assert.True(false);
+		this.mockRepository.VerifyAll();
 	}
 }

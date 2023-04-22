@@ -10,11 +10,11 @@ public class IndexTests : TestContext
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CategoryModel> _expectedCategories;
-	private List<IssueModel> _expectedIssues;
-	private List<StatusModel> _expectedStatuses;
+	private List<CategoryModel>? _expectedCategories;
+	private List<IssueModel>? _expectedIssues;
+	private List<StatusModel>? _expectedStatuses;
 
-	private UserModel _expectedUser;
+	private UserModel? _expectedUser;
 	private ISessionStorageService _sessionStorageService;
 
 	public IndexTests()
@@ -333,11 +333,11 @@ public class IndexTests : TestContext
 	{
 		_issueRepositoryMock
 			.Setup(x => x.GetApprovedIssuesAsync())
-			.ReturnsAsync(_expectedIssues);
+			.ReturnsAsync(_expectedIssues!);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthenticationAsync(_expectedUser.ObjectIdentifier))
-			.ReturnsAsync(_expectedUser);
+			.Setup(x => x.GetUserFromAuthenticationAsync(_expectedUser!.ObjectIdentifier))
+			.ReturnsAsync(_expectedUser!);
 
 		_userRepositoryMock
 			.Setup(x => x.GetUserFromAuthenticationAsync("5dc1039a1521eaa36835e547"))
@@ -345,11 +345,11 @@ public class IndexTests : TestContext
 
 		_categoryRepositoryMock
 			.Setup(x => x.GetCategoriesAsync())
-			.ReturnsAsync(_expectedCategories);
+			.ReturnsAsync(_expectedCategories!);
 
 		_statusRepositoryMock
 			.Setup(x => x.GetStatusesAsync())
-			.ReturnsAsync(_expectedStatuses);
+			.ReturnsAsync(_expectedStatuses!);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
@@ -361,7 +361,7 @@ public class IndexTests : TestContext
 		}
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser.DisplayName);
+		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		if (!difUser)
 		{
