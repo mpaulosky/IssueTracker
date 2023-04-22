@@ -10,5 +10,5 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 
 public interface ICreateNewCommentUseCase
 {
-	Task Execute(CommentModel comment);
+	Task ExecuteAsync(CommentModel comment);
 }

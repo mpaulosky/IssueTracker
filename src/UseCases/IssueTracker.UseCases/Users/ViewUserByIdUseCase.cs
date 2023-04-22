@@ -18,10 +18,10 @@ public class ViewUserByIdUseCase : IViewUserByIdUseCase
 		_userRepository = userRepository;
 	}
 
-	public async Task<UserModel> ExecuteAsync(string id)
+	public async Task<UserModel?> ExecuteAsync(string? id)
 	{
 
-		if (string.IsNullOrWhiteSpace(id)) return new();
+		if (string.IsNullOrWhiteSpace(id)) return null;
 
 		return await _userRepository.GetUserByIdAsync(id);
 

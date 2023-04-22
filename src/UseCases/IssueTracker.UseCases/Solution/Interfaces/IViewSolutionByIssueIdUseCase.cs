@@ -9,7 +9,9 @@
 
 namespace IssueTracker.UseCases.Solution.Interfaces;
 
-public interface IViewSolutionByIssueIdUseCase
+public interface IViewSolutionsByIssueIdUseCase
 {
-	Task<SolutionModel> ExecuteAsync(IssueModel issue);
+
+	Task<IEnumerable<SolutionModel>?> ExecuteAsync(BasicIssueModel issue);
+
 }

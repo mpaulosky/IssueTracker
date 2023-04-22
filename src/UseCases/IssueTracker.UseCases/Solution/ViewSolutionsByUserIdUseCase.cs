@@ -21,10 +21,10 @@ public class ViewSolutionsByUserIdUseCase : IViewSolutionsByUserIdUseCase
 
 	}
 
-	public async Task<IEnumerable<SolutionModel>> ExecuteAsync(UserModel user)
+	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(UserModel? user)
 	{
 
-		if (user == null) return new List<SolutionModel>();
+		if (user is null) return null;
 
 		return await _solutionRepository.GetSolutionsByUserIdAsync(user.Id);
 

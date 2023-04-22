@@ -10,5 +10,5 @@ namespace IssueTracker.UseCases.Users.Interfaces;
 
 public interface IViewUserFromAuthenticationUseCase
 {
-	Task<UserModel> Execute(string userObjectIdentifierId);
+	Task<UserModel?> ExecuteAsync(string? userObjectIdentifierId);
 }

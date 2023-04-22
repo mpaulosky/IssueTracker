@@ -20,7 +20,7 @@ public class CreateNewCommentUseCase : ICreateNewCommentUseCase
 
 	}
 
-	public async Task Execute(CommentModel? comment)
+	public async Task ExecuteAsync(CommentModel? comment)
 	{
 
 		if (comment == null) return;
