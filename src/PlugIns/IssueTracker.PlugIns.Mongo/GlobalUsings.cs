@@ -1,5 +1,6 @@
 ﻿global using Ardalis.GuardClauses;
 
+global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Mongo.Contracts;
 global using IssueTracker.UseCases.PlugInRepositoryInterfaces;
@@ -7,6 +8,4 @@ global using IssueTracker.UseCases.PlugInRepositoryInterfaces;
 global using MongoDB.Bson;
 global using MongoDB.Driver;
 
-global using Testcontainers.MongoDb;
-
-global using static IssueTracker.PlugIns.Mongo.Helpers.CollectionNames;
+global using static IssueTracker.CoreBusiness.Helpers.CollectionNames;

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		IssueMongoRepository.cs
+//	File:		IssueRepository.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		IssueRepository class
 /// </summary>
-public class IssueMongoRepository : IIssueRepository
+public class IssueRepository : IIssueRepository
 {
 
 	private readonly IMongoCollection<IssueModel> _collection;
@@ -22,7 +22,7 @@ public class IssueMongoRepository : IIssueRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public IssueMongoRepository(IMongoDbContextFactory context)
+	public IssueRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

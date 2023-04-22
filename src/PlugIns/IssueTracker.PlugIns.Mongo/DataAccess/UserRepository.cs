@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		UserRepository class
 /// </summary>
-public class UserMongoRepository : IUserRepository
+public class UserRepository : IUserRepository
 {
 
 	private readonly IMongoCollection<UserModel> _collection;
@@ -22,7 +22,7 @@ public class UserMongoRepository : IUserRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public UserMongoRepository(IMongoDbContextFactory context)
+	public UserRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

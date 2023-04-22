@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		CommentRepository class
 /// </summary>
-public class CommentMongoRepository : ICommentRepository
+public class CommentRepository : ICommentRepository
 {
 
 	private readonly IMongoCollection<CommentModel> _commentCollection;
@@ -22,7 +22,7 @@ public class CommentMongoRepository : ICommentRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public CommentMongoRepository(IMongoDbContextFactory context)
+	public CommentRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

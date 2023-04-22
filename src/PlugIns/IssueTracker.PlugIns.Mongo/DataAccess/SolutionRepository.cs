@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		SolutionMongoRepository.cs
+//	File:		SolutionRepository.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -12,9 +12,9 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 /// SolutionRepository class
 /// </summary>
-public class SolutionMongoRepository : ISolutionRepository
+public class SolutionRepository : ISolutionRepository
 {
-
+	private const bool FalseValue = false;
 	private readonly IMongoCollection<SolutionModel> _collection;
 
 	/// <summary>
@@ -22,7 +22,7 @@ public class SolutionMongoRepository : ISolutionRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContextFactory</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public SolutionMongoRepository(IMongoDbContextFactory context)
+	public SolutionRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));
@@ -44,21 +44,34 @@ public class SolutionMongoRepository : ISolutionRepository
 
 	}
 
+	public Task<SolutionModel?> GetSolution(string solutionId)
+	{
+
+		var queryableCollection = _collection.AsQueryable();
+
+		var result = queryableCollection
+			.Where(s => s.Id == solutionId && s.Archived == FalseValue);
+
+		return Task.FromResult(result.FirstOrDefault());
+
+	}
+
 	/// <summary>
 	/// GetSolutionByIssueIdAsync method
 	/// </summary>
 	/// <param name="issueId"></param>
 	/// <returns>Task of SolutionModel</returns>
-	public async Task<SolutionModel> GetSolutionByIssueIdAsync(string issueId)
+	public async Task<IEnumerable<SolutionModel>> GetSolutionsByIssueIdAsync(string issueId)
 	{
 
-		var objectId = new ObjectId(issueId);
+		var queryableCollection = _collection.AsQueryable();
 
-		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
+		var results = queryableCollection
+			.Where(s => s.Issue.Id == issueId && s.Archived == FalseValue)
+			.OrderByDescending(o => o.DateCreated.Date)
+			.ToList();
 
-		SolutionModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
+		return (IEnumerable<SolutionModel>)results;
 
 	}
 
@@ -69,11 +82,14 @@ public class SolutionMongoRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsAsync()
 	{
 
-		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Empty;
+		var queryableCollection = _collection.AsQueryable();
 
-		var result = (await _collection.FindAsync(filter)).ToList();
+		var results = queryableCollection
+			.Where(x => x.Archived == FalseValue)
+			.OrderBy(o => o.DateCreated.Date)
+			.ToList();
 
-		return result;
+		return (IEnumerable<SolutionModel>)results;
 
 	}
 
@@ -85,9 +101,14 @@ public class SolutionMongoRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string userId)
 	{
 
-		var results = (await _collection.FindAsync(s => s.Author.Id == userId)).ToList();
+		var queryableCollection = _collection.AsQueryable();
 
-		return results;
+		var results = queryableCollection
+			.Where(s => s.Author.Id == userId && s.Archived == FalseValue)
+			.OrderByDescending(o => o.DateCreated.Date)
+			.ToList();
+
+		return (IEnumerable<SolutionModel>)results;
 
 	}
 
@@ -100,7 +121,8 @@ public class SolutionMongoRepository : ISolutionRepository
 
 		var objectId = new ObjectId(solution.Id);
 
-		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<SolutionModel> filter =
+			Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter, solution);
 

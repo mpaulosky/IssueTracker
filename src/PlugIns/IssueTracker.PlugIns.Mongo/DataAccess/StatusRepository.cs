@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// <summary>
 ///		StatusRepository class
 /// </summary>
-public class StatusMongoRepository : IStatusRepository
+public class StatusRepository : IStatusRepository
 {
 
 	private readonly IMongoCollection<StatusModel> _collection;
@@ -22,7 +22,7 @@ public class StatusMongoRepository : IStatusRepository
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public StatusMongoRepository(IMongoDbContextFactory context)
+	public StatusRepository(IMongoDbContextFactory context)
 	{
 
 		Guard.Against.Null(context, nameof(context));

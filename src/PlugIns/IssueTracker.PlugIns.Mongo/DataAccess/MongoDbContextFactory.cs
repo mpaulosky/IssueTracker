@@ -7,8 +7,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using IssueTracker.PlugIns.Mongo.Helpers;
-
 namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
