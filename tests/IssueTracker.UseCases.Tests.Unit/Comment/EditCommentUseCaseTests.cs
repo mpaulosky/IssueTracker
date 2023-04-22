@@ -25,12 +25,12 @@ public class EditCommentUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		CommentModel? comment = FakeComment.GetComments(1).First();
 		comment.Title = "New Comment";
 
 		// Act
-		await _sut.Execute(comment);
+		await sut.ExecuteAsync(comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
@@ -43,11 +43,11 @@ public class EditCommentUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		CommentModel? comment = null;
 
 		// Act
-		await _sut.Execute(comment: comment);
+		await sut.ExecuteAsync(comment: comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>

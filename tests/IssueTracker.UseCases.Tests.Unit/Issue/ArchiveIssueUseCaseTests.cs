@@ -26,11 +26,11 @@ public class ArchiveIssueUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		IssueModel? issue = FakeIssue.GetIssues(1).First();
 
 		// Act
-		await _sut.ExecuteAsync(issue);
+		await sut.ExecuteAsync(issue);
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>
@@ -43,11 +43,11 @@ public class ArchiveIssueUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		IssueModel? issue = null;
 
 		// Act
-		await _sut.ExecuteAsync(issue);
+		await sut.ExecuteAsync(issue);
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>

@@ -35,12 +35,12 @@ public class ViewCategoryByIdUseCaseTests
 		// Arrange
 		CategoryModel expected = FakeCategory.GetCategories(1).First();
 
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 
 		var categoryId = expected.Id;
 
 		// Act
-		var result = await _sut.ExecuteAsync(categoryId);
+		var result = await sut.ExecuteAsync(categoryId);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -59,10 +59,10 @@ public class ViewCategoryByIdUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase(null);
+		var sut = CreateUseCase(null);
 
 		// Act
-		var result = await _sut.ExecuteAsync(expectedId);
+		var result = await sut.ExecuteAsync(expectedId);
 
 		// Assert
 		result.Should().NotBeNull();

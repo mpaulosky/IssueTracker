@@ -24,11 +24,11 @@ public class ArchiveCategoryUseCaseTests
 	public async Task ExecuteAsync_WithValidCategoryModel_ShouldUpdateAsArchived_TestAsync()
 	{
 		// Arrange
-		var _sut = CreateUseCase();
-		CategoryModel? category = FakeCategory.GetCategories(1).First();
+		var sut = CreateUseCase();
+		var category = FakeCategory.GetCategories(1).First();
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
@@ -40,12 +40,12 @@ public class ArchiveCategoryUseCaseTests
 	{
 
 		// Arrange
-		var _sut = this.CreateUseCase();
+		var sut = this.CreateUseCase();
 
 		CategoryModel? category = null;
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>

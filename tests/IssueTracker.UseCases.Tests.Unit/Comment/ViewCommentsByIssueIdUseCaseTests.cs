@@ -39,11 +39,11 @@ public class ViewCommentsBySourceUseCaseTests
 
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 		var source = expected.CommentOnSource;
 
 		// Act
-		var result = await _sut.ExecuteAsync(source);
+		var result = await sut.ExecuteAsync(source);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -63,10 +63,10 @@ public class ViewCommentsBySourceUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase(null);
+		var sut = CreateUseCase(null);
 
 		// Act
-		var result = await _sut.ExecuteAsync(null);
+		var result = await sut.ExecuteAsync(null);
 
 		// Assert
 		result.Should().BeNull();

@@ -1,35 +1,54 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Status;
 
+[ExcludeFromCodeCoverage]
 public class ViewStatusesUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IStatusRepository> mockStatusRepository;
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 
 	public ViewStatusesUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockStatusRepository = this.mockRepository.Create<IStatusRepository>();
+		_statusRepositoryMock = new Mock<IStatusRepository>();
+
 	}
 
-	private ViewStatusesUseCase CreateViewStatusesUseCase()
+	private ViewStatusesUseCase CreateUseCase(StatusModel expected)
 	{
-		return new ViewStatusesUseCase(
-				this.mockStatusRepository.Object);
+
+		var result = new List<StatusModel>
+		{
+			expected
+		};
+
+		_statusRepositoryMock.Setup(x => x.GetStatusesAsync())
+			.ReturnsAsync(result);
+
+
+		return new ViewStatusesUseCase(_statusRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "ViewStatusesUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_ReturnAStatusModel_TestAsync()
 	{
+
 		// Arrange
-		var viewStatusesUseCase = this.CreateViewStatusesUseCase();
+		var expected = FakeStatus.GetStatuses(1).First();
+		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await viewStatusesUseCase.ExecuteAsync();
+		var result = (await sut.ExecuteAsync()).First();
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.StatusName.Should().Be(expected.StatusName);
+		result.StatusDescription.Should().Be(expected.StatusDescription);
+
+		_statusRepositoryMock.Verify(x =>
+			x.GetStatusesAsync(), Times.Once);
+
 	}
+
 }

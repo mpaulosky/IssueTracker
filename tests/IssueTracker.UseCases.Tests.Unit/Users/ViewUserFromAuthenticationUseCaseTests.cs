@@ -1,37 +1,76 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
+[ExcludeFromCodeCoverage]
 public class ViewUserFromAuthenticationUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IUserRepository> mockUserRepository;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 
 	public ViewUserFromAuthenticationUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockUserRepository = this.mockRepository.Create<IUserRepository>();
+		_userRepositoryMock = new Mock<IUserRepository>();
+
 	}
 
-	private ViewUserFromAuthenticationUseCase CreateViewUserFromAuthenticationUseCase()
+	private ViewUserFromAuthenticationUseCase CreateUseCase(UserModel? expected)
 	{
-		return new ViewUserFromAuthenticationUseCase(
-				this.mockUserRepository.Object);
+		if (expected == null)
+		{
+			return new ViewUserFromAuthenticationUseCase(_userRepositoryMock.Object);
+		}
+
+		_userRepositoryMock.Setup(x =>
+				x.GetUserByAuthenticationIdAsync(It.IsAny<string>()))
+			.ReturnsAsync(expected);
+
+		return new ViewUserFromAuthenticationUseCase(_userRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task Execute_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "ViewUserFromAuthenticationUseCase With Valid Id Test")]
+	public async Task Execute_With_AValidId_Should_ReturnAUserModel_TestAsync()
 	{
+
 		// Arrange
-		var viewUserFromAuthenticationUseCase = this.CreateViewUserFromAuthenticationUseCase();
-		string? userObjectIdentifierId = null;
+		var expected = FakeUser.GetUsers(1).First();
+		var sut = CreateUseCase(expected);
+		var objectIdentifier = expected.ObjectIdentifier;
 
 		// Act
-		var result = await viewUserFromAuthenticationUseCase.Execute(
-			userObjectIdentifierId);
+		var result = await sut.ExecuteAsync(objectIdentifier);
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		result.Should().NotBeNull();
+		result.ObjectIdentifier.Should().Be(expected.ObjectIdentifier);
+		result.Id.Should().Be(expected.Id);
+		result.FirstName.Should().Be(expected.FirstName);
+		result.LastName.Should().Be(expected.LastName);
+		result.DisplayName.Should().Be(expected.DisplayName);
+
+		_userRepositoryMock.Verify(x =>
+			x.GetUserByAuthenticationIdAsync(It.IsAny<string>()), Times.Once);
+
 	}
+
+	[Theory(DisplayName = "ViewUserByIdUseCase With In Valid Data Test")]
+	[InlineData(null)]
+	[InlineData("")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	{
+
+		// Arrange
+		var sut = CreateUseCase(null);
+
+		// Act
+		var result = await sut.ExecuteAsync(expectedId);
+
+		// Assert
+		result.Should().BeNull();
+
+		_userRepositoryMock.Verify(x =>
+			x.GetUserByIdAsync(It.IsAny<string>()), Times.Never);
+
+	}
+
 }

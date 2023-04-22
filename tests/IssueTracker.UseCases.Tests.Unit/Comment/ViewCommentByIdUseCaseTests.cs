@@ -32,11 +32,11 @@ public class ViewCommentByIdUseCaseTests
 
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 		var commentId = expected.Id;
 
 		// Act
-		var result = await _sut.ExecuteAsync(commentId);
+		var result = await sut.ExecuteAsync(commentId);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -57,10 +57,10 @@ public class ViewCommentByIdUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase(null);
+		var sut = CreateUseCase(null);
 
 		// Act
-		var result = await _sut.ExecuteAsync(expectedId);
+		var result = await sut.ExecuteAsync(expectedId);
 
 		// Assert
 		result.Should().BeNull();

@@ -35,10 +35,10 @@ public class ViewIssuesUseCaseTests
 
 		// Arrange
 		var expected = FakeIssue.GetIssues(1).First();
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await _sut.ExecuteAsync();
+		var result = await sut.ExecuteAsync();
 
 		// Assert
 		result!.First().Should().NotBeNull();

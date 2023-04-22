@@ -25,13 +25,13 @@ public class EditCategoryUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 
-		CategoryModel? category = FakeCategory.GetCategories(1).First();
+		var category = FakeCategory.GetCategories(1).First();
 		category.CategoryDescription = "Description";
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
@@ -44,12 +44,12 @@ public class EditCategoryUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 
 		CategoryModel? category = null;
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>

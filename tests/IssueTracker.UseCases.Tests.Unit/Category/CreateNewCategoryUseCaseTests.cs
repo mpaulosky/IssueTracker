@@ -26,12 +26,12 @@ public class CreateNewCategoryUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 
 		CategoryModel category = FakeCategory.GetNewCategory();
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
@@ -46,12 +46,12 @@ public class CreateNewCategoryUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 
 		CategoryModel? category = null;
 
 		// Act
-		await _sut.ExecuteAsync(category: category);
+		await sut.ExecuteAsync(category: category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>

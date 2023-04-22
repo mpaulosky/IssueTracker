@@ -1,37 +1,57 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Status;
 
+[ExcludeFromCodeCoverage]
 public class CreateNewStatusUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IStatusRepository> mockStatusRepository;
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 
 	public CreateNewStatusUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockStatusRepository = this.mockRepository.Create<IStatusRepository>();
+		_statusRepositoryMock = new Mock<IStatusRepository>();
+
 	}
 
-	private CreateNewStatusUseCase CreateCreateNewStatusUseCase()
+	private CreateNewStatusUseCase CreateUseCase()
 	{
-		return new CreateNewStatusUseCase(
-				this.mockStatusRepository.Object);
+
+		return new CreateNewStatusUseCase(_statusRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "CreateNewStatusUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_CreateANewStatus_TestAsync()
 	{
+
 		// Arrange
-		var createNewStatusUseCase = this.CreateCreateNewStatusUseCase();
+		var sut = CreateUseCase();
+		var status = FakeStatus.GetNewStatus();
+
+		// Act
+		await sut.ExecuteAsync(status);
+
+		// Assert
+		_statusRepositoryMock.Verify(x =>
+			x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "CreateNewStatusUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_CreateANewStatus_TestAsync()
+	{
+
+		// Arrange
+		var sut = CreateUseCase();
 		StatusModel? status = null;
 
 		// Act
-		await createNewStatusUseCase.ExecuteAsync(
-			status);
+		await sut.ExecuteAsync(status);
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		_statusRepositoryMock.Verify(x =>
+			x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Never);
+
 	}
+
 }

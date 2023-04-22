@@ -1,37 +1,57 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
-public class CreateNewUserUseCaseTests
+[ExcludeFromCodeCoverage]
+public class CreateNewCommentUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IUserRepository> mockUserRepository;
+	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 
-	public CreateNewUserUseCaseTests()
+	public CreateNewCommentUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockUserRepository = this.mockRepository.Create<IUserRepository>();
+		_commentRepositoryMock = new Mock<ICommentRepository>();
+
 	}
 
-	private CreateNewUserUseCase CreateCreateNewUserUseCase()
+	private CreateNewCommentUseCase CreateUseCase()
 	{
-		return new CreateNewUserUseCase(
-				this.mockUserRepository.Object);
+
+		return new CreateNewCommentUseCase(_commentRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "CreateNewCommentUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_CreateANewComment_TestAsync()
 	{
+
 		// Arrange
-		var createNewUserUseCase = this.CreateCreateNewUserUseCase();
-		UserModel? user = null;
+		var sut = CreateUseCase();
+		var comment = FakeComment.GetNewComment();
 
 		// Act
-		await createNewUserUseCase.ExecuteAsync(
-			user);
+		await sut.ExecuteAsync(comment);
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		_commentRepositoryMock.Verify(x =>
+			x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+
 	}
+
+	[Fact(DisplayName = "CreateNewCommentUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_CreateANewComment_TestAsync()
+	{
+
+		// Arrange
+		var sut = CreateUseCase();
+		CommentModel? comment = null;
+
+		// Act
+		await sut.ExecuteAsync(comment);
+
+		// Assert
+		_commentRepositoryMock.Verify(x =>
+			x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
+
+	}
+
 }

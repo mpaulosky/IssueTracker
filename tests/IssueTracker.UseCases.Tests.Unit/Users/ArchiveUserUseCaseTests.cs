@@ -1,37 +1,58 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
+[ExcludeFromCodeCoverage]
 public class ArchiveUserUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IUserRepository> mockUserRepository;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 
 	public ArchiveUserUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockUserRepository = this.mockRepository.Create<IUserRepository>();
+		_userRepositoryMock = new Mock<IUserRepository>();
+
 	}
 
-	private ArchiveUserUseCase CreateArchiveUserUseCase()
+	private ArchiveUserUseCase CreateUseCase()
 	{
-		return new ArchiveUserUseCase(
-				this.mockUserRepository.Object);
+
+		return new ArchiveUserUseCase(_userRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "ArchiveUserUseCase With Valid Data Test")]
+	public async Task ExecuteAsync_With_ValidData_Should_UpdateUserAsArchived_TestAsync()
 	{
+
 		// Arrange
-		var archiveUserUseCase = this.CreateArchiveUserUseCase();
-		UserModel? user = null;
+		var sut = CreateUseCase();
+		UserModel? user = FakeUser.GetUsers(1)!.First();
 
 		// Act
-		await archiveUserUseCase.ExecuteAsync(
-			user);
+		await sut.ExecuteAsync(user);
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		_userRepositoryMock.Verify(x =>
+			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Once);
+
 	}
+
+	[Fact(DisplayName = "ArchiveUserUseCase With In Valid Data Test")]
+	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	{
+
+		// Arrange
+		UserModel? user = null;
+
+		var sut = CreateUseCase();
+
+		// Act
+		await sut.ExecuteAsync(user);
+
+		// Assert
+		_userRepositoryMock.Verify(x =>
+			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Never);
+
+	}
+
 }

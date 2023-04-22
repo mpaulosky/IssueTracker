@@ -1,37 +1,58 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Solution;
 
+[ExcludeFromCodeCoverage]
 public class EditSolutionUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<ISolutionRepository> mockSolutionRepository;
+	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 
 	public EditSolutionUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockSolutionRepository = this.mockRepository.Create<ISolutionRepository>();
+		_solutionRepositoryMock = new Mock<ISolutionRepository>();
+
 	}
 
-	private EditSolutionUseCase CreateEditSolutionUseCase()
+	private EditSolutionUseCase CreateUseCase()
 	{
-		return new EditSolutionUseCase(
-				this.mockSolutionRepository.Object);
+
+		return new EditSolutionUseCase(_solutionRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "EditSolutionUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_EditSolution_TestAsync()
 	{
+
 		// Arrange
-		var editSolutionUseCase = this.CreateEditSolutionUseCase();
+		var sut = CreateUseCase();
+		SolutionModel solution = FakeSolution.GetSolutions(1).First();
+		solution.Title = "New Solution";
+
+		// Act
+		await sut.ExecuteAsync(solution);
+
+		// Assert
+		_solutionRepositoryMock.Verify(x =>
+			x.UpdateSolutionAsync(It.IsAny<SolutionModel>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "EditSolutionUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
+	{
+
+		// Arrange
+		var sut = CreateUseCase();
 		SolutionModel? solution = null;
 
 		// Act
-		await editSolutionUseCase.ExecuteAsync(
-			solution);
+		await sut.ExecuteAsync(solution: solution);
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		_solutionRepositoryMock.Verify(x =>
+			x.UpdateSolutionAsync(It.IsAny<SolutionModel>()), Times.Never);
+
 	}
+
 }

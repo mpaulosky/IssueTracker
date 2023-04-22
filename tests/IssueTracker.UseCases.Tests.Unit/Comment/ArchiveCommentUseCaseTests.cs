@@ -25,11 +25,11 @@ public class ArchiveCommentUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		CommentModel? comment = FakeComment.GetComments(1).First();
 
 		// Act
-		await _sut.Execute(comment);
+		await sut.ExecuteAsync(comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
@@ -42,11 +42,11 @@ public class ArchiveCommentUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 		CommentModel? comment = null;
 
 		// Act
-		await _sut.Execute(comment);
+		await sut.ExecuteAsync(comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>

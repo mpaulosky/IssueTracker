@@ -1,35 +1,55 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
+[ExcludeFromCodeCoverage]
 public class ViewUsersUseCaseTests
 {
-	private readonly MockRepository mockRepository;
 
-	private readonly Mock<IUserRepository> mockUserRepository;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 
 	public ViewUsersUseCaseTests()
 	{
-		this.mockRepository = new MockRepository(MockBehavior.Strict);
 
-		this.mockUserRepository = this.mockRepository.Create<IUserRepository>();
+		_userRepositoryMock = new Mock<IUserRepository>();
+
 	}
 
-	private ViewUsersUseCase CreateViewUsersUseCase()
+	private ViewUsersUseCase CreateUseCase(UserModel expected)
 	{
-		return new ViewUsersUseCase(
-				this.mockUserRepository.Object);
+
+		var result = new List<UserModel>
+		{
+			expected
+		};
+
+		_userRepositoryMock.Setup(x => x.GetUsersAsync())
+			.ReturnsAsync(result);
+
+
+		return new ViewUsersUseCase(_userRepositoryMock.Object);
+
 	}
 
-	[Fact]
-	public async Task ExecuteAsync_StateUnderTest_ExpectedBehavior()
+	[Fact(DisplayName = "ViewUsersUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_ReturnAUserModel_TestAsync()
 	{
+
 		// Arrange
-		var viewUsersUseCase = this.CreateViewUsersUseCase();
+		var expected = FakeUser.GetUsers(1).First();
+		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await viewUsersUseCase.ExecuteAsync();
+		var result = (await sut.ExecuteAsync()).First();
 
 		// Assert
-		Assert.True(false);
-		this.mockRepository.VerifyAll();
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.FirstName.Should().Be(expected.FirstName);
+		result.LastName.Should().Be(expected.LastName);
+		result.DisplayName.Should().Be(expected.DisplayName);
+
+		_userRepositoryMock.Verify(x =>
+			x.GetUsersAsync(), Times.Once);
+
 	}
+
 }

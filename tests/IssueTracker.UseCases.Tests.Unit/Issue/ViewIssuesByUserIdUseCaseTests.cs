@@ -41,10 +41,10 @@ public class ViewIssuesByUserIdUseCaseTests
 		var expected = FakeIssue.GetIssues(1).First();
 		var expectedUser = FakeUser.GetNewUser();
 		expectedUser.Id = expected.Author.Id;
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await _sut.ExecuteAsync(expectedUser);
+		var result = await sut.ExecuteAsync(expectedUser);
 
 		// Assert
 		result!.First().Should().NotBeNull();
@@ -63,10 +63,10 @@ public class ViewIssuesByUserIdUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase(null);
+		var sut = CreateUseCase(null);
 
 		// Act
-		var result = await _sut.ExecuteAsync(null);
+		var result = await sut.ExecuteAsync(null);
 
 		// Assert
 		result.Should().BeNull();

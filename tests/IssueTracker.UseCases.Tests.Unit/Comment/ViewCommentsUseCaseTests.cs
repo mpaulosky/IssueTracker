@@ -35,10 +35,10 @@ public class ViewCommentsUseCaseTests
 
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
-		var _sut = CreateUseCase(expected);
+		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await _sut.ExecuteAsync();
+		var result = await sut.ExecuteAsync();
 
 		// Assert
 		result!.First().Should().NotBeNull();
