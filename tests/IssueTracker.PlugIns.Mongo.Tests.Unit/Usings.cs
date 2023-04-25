@@ -2,17 +2,21 @@
 
 global using FluentAssertions;
 
+global using IssueTracker.CoreBusiness.BogusFakes;
 global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Mongo.Contracts;
 global using IssueTracker.PlugIns.Mongo.DataAccess;
 global using IssueTracker.PlugIns.Mongo.Helpers;
 
+global using MongoDB.Bson;
 global using MongoDB.Driver;
 
 global using Moq;
 
 global using NSubstitute;
+
+global using TestingSupport.Library.Fixtures;
 
 global using Xunit;
 

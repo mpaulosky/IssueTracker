@@ -2,6 +2,7 @@
 
 namespace IssueTracker.PlugIns.Mongo.Tests.Unit.Helpers;
 
+[ExcludeFromCodeCoverage]
 public class MongoDbHealthCheckTests
 {
 	private readonly IMongoDbContextFactory _factory;
