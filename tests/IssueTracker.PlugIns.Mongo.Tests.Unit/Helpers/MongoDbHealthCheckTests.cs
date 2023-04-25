@@ -3,6 +3,7 @@
 namespace IssueTracker.PlugIns.Mongo.Tests.Unit.Helpers;
 
 [ExcludeFromCodeCoverage]
+
 public class MongoDbHealthCheckTests
 {
 	private readonly IMongoDbContextFactory _factory;
@@ -21,7 +22,7 @@ public class MongoDbHealthCheckTests
 		return new MongoDbHealthCheck(_factory);
 	}
 
-	[Fact]
+	[Fact(Skip = "Mongo Health Checks not enabled at this time.")]
 	public async Task CheckHealthAsync_StateUnderTest_ExpectedBehavior()
 	{
 
