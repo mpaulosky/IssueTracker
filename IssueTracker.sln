@@ -30,8 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B1F22674-D86B-4B68-9B40-981FEDE63B18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.CoreBusiness.Tests.Unit", "tests\IssueTracker.Library.Tests.Unit\IssueTracker.CoreBusiness.Tests.Unit.csproj", "{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI.Tests.Unit", "tests\IssueTracker.UI.Tests.Unit\IssueTracker.UI.Tests.Unit.csproj", "{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSupport.Library", "tests\TestingSupport.Library\TestingSupport.Library.csproj", "{96597D13-52C5-47F5-A12C-009432BC95D5}"
@@ -56,9 +54,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UseCases.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.PlugIns", "src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj", "{018A6D6B-493E-44FD-8541-B1E128804AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.PlugIns.Mongo.Tests.Unit", "tests\IssueTracker.PlugIns.Mongo.Tests.Unit\IssueTracker.PlugIns.Mongo.Tests.Unit.csproj", "{0866D386-5819-482D-991A-38C619DA3D55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.PlugIns.Mongo.Tests.Unit", "tests\IssueTracker.PlugIns.Mongo.Tests.Unit\IssueTracker.PlugIns.Mongo.Tests.Unit.csproj", "{0866D386-5819-482D-991A-38C619DA3D55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.PlugIns.Mongo.Tests.Integration", "tests\IssueTracker.PlugIns.Mongo.Tests.Integration\IssueTracker.PlugIns.Mongo.Tests.Integration.csproj", "{1539F69B-33E4-4322-8C47-2880752930D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.PlugIns.Mongo.Tests.Integration", "tests\IssueTracker.PlugIns.Mongo.Tests.Integration\IssueTracker.PlugIns.Mongo.Tests.Integration.csproj", "{1539F69B-33E4-4322-8C47-2880752930D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.CoreBusiness.Tests.Unit", "tests\IssueTracker.CoreBusiness.Tests.Unit\IssueTracker.CoreBusiness.Tests.Unit.csproj", "{D449DDC5-9245-4124-95BC-56997C2AF238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,12 +73,6 @@ Global
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}.Test|Any CPU.Build.0 = Test|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D}.Test|Any CPU.Build.0 = Test|Any CPU
 		{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -145,13 +139,18 @@ Global
 		{1539F69B-33E4-4322-8C47-2880752930D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1539F69B-33E4-4322-8C47-2880752930D2}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{1539F69B-33E4-4322-8C47-2880752930D2}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{D449DDC5-9245-4124-95BC-56997C2AF238}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{98E7C4E9-D286-4A88-8130-2B60EEE20A2F} = {6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}
-		{66BCB3A8-C593-4D2A-A0DC-172583DC3F7D} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 		{72C1E7C6-8A49-4F47-B6FB-1D9108DF25F2} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 		{96597D13-52C5-47F5-A12C-009432BC95D5} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 		{5921AF39-D4B7-4F03-9F7F-CD3BE3C6866B} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
@@ -166,6 +165,7 @@ Global
 		{018A6D6B-493E-44FD-8541-B1E128804AA7} = {8FB7CF4F-BAE3-4E92-B540-26CCC87A2C69}
 		{0866D386-5819-482D-991A-38C619DA3D55} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 		{1539F69B-33E4-4322-8C47-2880752930D2} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
+		{D449DDC5-9245-4124-95BC-56997C2AF238} = {B1F22674-D86B-4B68-9B40-981FEDE63B18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9FA12D9-95E2-48B0-80B8-5454EF697A8E}
