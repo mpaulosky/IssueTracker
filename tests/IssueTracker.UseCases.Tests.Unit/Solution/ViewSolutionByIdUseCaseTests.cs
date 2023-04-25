@@ -18,7 +18,7 @@ public class ViewSolutionByIdUseCaseTests
 
 		if (expected != null)
 		{
-			_solutionRepositoryMock.Setup(x => x.GetSolution(It.IsAny<string>()))
+			_solutionRepositoryMock.Setup(x => x.GetSolutionByIdAsync(It.IsAny<string>()))
 				.ReturnsAsync(expected);
 		}
 
@@ -46,7 +46,7 @@ public class ViewSolutionByIdUseCaseTests
 		result!.Author.Should().BeEquivalentTo(expected.Author);
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetSolution(It.IsAny<string>()), Times.Once);
+			x.GetSolutionByIdAsync(It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -66,7 +66,7 @@ public class ViewSolutionByIdUseCaseTests
 		result.Should().BeNull();
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetSolution(It.IsAny<string>()), Times.Never);
+			x.GetSolutionByIdAsync(It.IsAny<string>()), Times.Never);
 
 	}
 

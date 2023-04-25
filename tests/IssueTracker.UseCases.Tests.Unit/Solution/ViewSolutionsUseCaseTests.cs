@@ -1,40 +1,40 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Solution;
 
 [ExcludeFromCodeCoverage]
-public class ViewUsersUseCaseTests
+public class ViewSolutionsUseCaseTests
 {
 
-	private readonly Mock<IUserRepository> _userRepositoryMock;
+	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 
-	public ViewUsersUseCaseTests()
+	public ViewSolutionsUseCaseTests()
 	{
 
-		_userRepositoryMock = new Mock<IUserRepository>();
+		_solutionRepositoryMock = new Mock<ISolutionRepository>();
 
 	}
 
-	private ViewUsersUseCase CreateUseCase(UserModel expected)
+	private ViewSolutionsUseCase CreateUseCase(SolutionModel expected)
 	{
 
-		var result = new List<UserModel>
+		var result = new List<SolutionModel>
 		{
 			expected
 		};
 
-		_userRepositoryMock.Setup(x => x.GetUsersAsync())
+		_solutionRepositoryMock.Setup(x => x.GetSolutionsAsync())
 			.ReturnsAsync(result);
 
 
-		return new ViewUsersUseCase(_userRepositoryMock.Object);
+		return new ViewSolutionsUseCase(_solutionRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "ViewUsersUseCase With Valid Data Test")]
-	public async Task Execute_With_ValidData_Should_ReturnAUserModel_TestAsync()
+	[Fact(DisplayName = "ViewSolutionsUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_ReturnASolutionModel_TestAsync()
 	{
 
 		// Arrange
-		var expected = FakeUser.GetUsers(1).First();
+		var expected = FakeSolution.GetSolutions(1).First();
 		var sut = CreateUseCase(expected);
 
 		// Act
@@ -43,12 +43,11 @@ public class ViewUsersUseCaseTests
 		// Assert
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
-		result.FirstName.Should().Be(expected.FirstName);
-		result.LastName.Should().Be(expected.LastName);
-		result.DisplayName.Should().Be(expected.DisplayName);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
 
-		_userRepositoryMock.Verify(x =>
-			x.GetUsersAsync(), Times.Once);
+		_solutionRepositoryMock.Verify(x =>
+			x.GetSolutionsAsync(), Times.Once);
 
 	}
 

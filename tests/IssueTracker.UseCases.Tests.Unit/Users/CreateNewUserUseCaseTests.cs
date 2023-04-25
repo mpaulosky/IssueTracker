@@ -1,56 +1,56 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
 [ExcludeFromCodeCoverage]
-public class CreateNewCommentUseCaseTests
+public class CreateNewUserUseCaseTests
 {
 
-	private readonly Mock<ICommentRepository> _commentRepositoryMock;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 
-	public CreateNewCommentUseCaseTests()
+	public CreateNewUserUseCaseTests()
 	{
 
-		_commentRepositoryMock = new Mock<ICommentRepository>();
+		_userRepositoryMock = new Mock<IUserRepository>();
 
 	}
 
-	private CreateNewCommentUseCase CreateUseCase()
+	private CreateNewUserUseCase CreateUseCase()
 	{
 
-		return new CreateNewCommentUseCase(_commentRepositoryMock.Object);
+		return new CreateNewUserUseCase(_userRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "CreateNewCommentUseCase With Valid Data Test")]
-	public async Task Execute_With_ValidData_Should_CreateANewComment_TestAsync()
+	[Fact(DisplayName = "CreateNewUserUseCase With Valid Data Test")]
+	public async Task Execute_With_ValidData_Should_CreateANewUser_TestAsync()
 	{
 
 		// Arrange
 		var sut = CreateUseCase();
-		var comment = FakeComment.GetNewComment();
+		var user = FakeUser.GetNewUser();
 
 		// Act
-		await sut.ExecuteAsync(comment);
+		await sut.ExecuteAsync(user);
 
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-			x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+		_userRepositoryMock.Verify(x =>
+			x.CreateUserAsync(It.IsAny<UserModel>()), Times.Once);
 
 	}
 
-	[Fact(DisplayName = "CreateNewCommentUseCase With In Valid Data Test")]
-	public async Task Execute_With_InValidData_Should_CreateANewComment_TestAsync()
+	[Fact(DisplayName = "CreateNewUserUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_CreateANewUser_TestAsync()
 	{
 
 		// Arrange
 		var sut = CreateUseCase();
-		CommentModel? comment = null;
+		UserModel? user = null;
 
 		// Act
-		await sut.ExecuteAsync(comment);
+		await sut.ExecuteAsync(user);
 
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-			x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
+		_userRepositoryMock.Verify(x =>
+			x.CreateUserAsync(It.IsAny<UserModel>()), Times.Never);
 
 	}
 
