@@ -52,7 +52,8 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssuesAsync()
 	{
 
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Empty;
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>
+			.Filter.Empty;
 
 		var results = (await _collection.FindAsync(filter)).ToList();
 
@@ -69,7 +70,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
 
-		var results = output.Where(x => x is { ApprovedForRelease: false, Rejected: false }).ToList();
+		var results = output.Where(x => x is { ApprovedForRelease: false }).ToList();
 
 		return results;
 
@@ -84,7 +85,8 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
 
-		var results = output.Where(x => x is { ApprovedForRelease: true, Rejected: false }).ToList();
+		var results = output
+			.Where(x => x is { ApprovedForRelease: true }).ToList();
 
 		return results;
 

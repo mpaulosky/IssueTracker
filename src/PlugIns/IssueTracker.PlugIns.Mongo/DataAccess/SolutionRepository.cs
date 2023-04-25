@@ -44,15 +44,16 @@ public class SolutionRepository : ISolutionRepository
 
 	}
 
-	public Task<SolutionModel?> GetSolution(string solutionId)
+	public async Task<SolutionModel> GetSolutionByIdAsync(string solutionId)
 	{
 
-		var queryableCollection = _collection.AsQueryable();
+		var objectId = new ObjectId(solutionId);
 
-		var result = queryableCollection
-			.Where(s => s.Id == solutionId && s.Archived == FalseValue);
+		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
-		return Task.FromResult(result.FirstOrDefault());
+		SolutionModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
+
+		return result;
 
 	}
 
@@ -64,14 +65,14 @@ public class SolutionRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsByIssueIdAsync(string issueId)
 	{
 
-		var queryableCollection = _collection.AsQueryable();
+		var output = await GetSolutionsAsync();
 
-		var results = queryableCollection
+		var results = output
 			.Where(s => s.Issue.Id == issueId && s.Archived == FalseValue)
 			.OrderByDescending(o => o.DateCreated.Date)
 			.ToList();
 
-		return (IEnumerable<SolutionModel>)results;
+		return results;
 
 	}
 
@@ -82,14 +83,11 @@ public class SolutionRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsAsync()
 	{
 
-		var queryableCollection = _collection.AsQueryable();
+		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Empty;
 
-		var results = queryableCollection
-			.Where(x => x.Archived == FalseValue)
-			.OrderBy(o => o.DateCreated.Date)
-			.ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
-		return (IEnumerable<SolutionModel>)results;
+		return result;
 
 	}
 
@@ -101,14 +99,14 @@ public class SolutionRepository : ISolutionRepository
 	public async Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string userId)
 	{
 
-		var queryableCollection = _collection.AsQueryable();
+		var output = await GetSolutionsAsync();
 
-		var results = queryableCollection
+		var results = output
 			.Where(s => s.Author.Id == userId && s.Archived == FalseValue)
 			.OrderByDescending(o => o.DateCreated.Date)
 			.ToList();
 
-		return (IEnumerable<SolutionModel>)results;
+		return results;
 
 	}
 

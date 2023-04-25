@@ -27,7 +27,7 @@ public class ViewSolutionByIdUseCase : IViewSolutionByIdUseCase
 
 		if (string.IsNullOrWhiteSpace(solutionId)) return null;
 
-		return await _solutionRepository.GetSolution(solutionId);
+		return await _solutionRepository.GetSolutionByIdAsync(solutionId);
 
 	}
 }

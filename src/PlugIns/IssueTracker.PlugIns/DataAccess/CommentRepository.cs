@@ -141,7 +141,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///		UpvoteComment method
+	///		Up vote Comment method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="userId">string</param>

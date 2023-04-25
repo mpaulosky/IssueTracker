@@ -14,7 +14,7 @@ public interface ISolutionRepository
 
 	Task CreateSolutionAsync(SolutionModel solution);
 
-	Task<SolutionModel?> GetSolution(string solutionId);
+	Task<SolutionModel> GetSolutionByIdAsync(string solutionId);
 
 	Task<IEnumerable<SolutionModel>> GetSolutionsAsync();
 
