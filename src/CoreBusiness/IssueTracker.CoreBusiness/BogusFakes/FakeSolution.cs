@@ -23,7 +23,7 @@ public static class FakeSolution
 		Randomizer.Seed = new Random(123);
 
 		_solutionGenerator = new Faker<SolutionModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.DateCreated, f => f.Date.Past())

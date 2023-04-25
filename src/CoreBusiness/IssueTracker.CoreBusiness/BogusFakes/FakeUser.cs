@@ -23,8 +23,8 @@ public static class FakeUser
 		Randomizer.Seed = new Random(123);
 
 		_userGenerator = new Faker<UserModel>()
-			.RuleFor(x => x.Id, Guid.NewGuid().ToString())
-			.RuleFor(x => x.ObjectIdentifier, Guid.NewGuid().ToString())
+			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
+			.RuleFor(x => x.ObjectIdentifier, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
 			.RuleFor(x => x.LastName, f => f.Name.LastName())
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))

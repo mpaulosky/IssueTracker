@@ -22,7 +22,7 @@ public static class FakeComment
 		Randomizer.Seed = new Random(123);
 
 		_commentsGenerator = new Faker<CommentModel>()
-				.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+				.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 				.RuleFor(c => c.Title, f => f.Lorem.Sentence())
 				.RuleFor(c => c.Description, f => f.Lorem.Paragraph())
 				.RuleFor(x => x.CommentOnSource, FakeSource.GetSource())

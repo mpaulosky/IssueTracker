@@ -23,7 +23,7 @@ public static class FakeStatus
 		Randomizer.Seed = new Random(123);
 
 		_statusGenerator = new Faker<StatusModel>()
-				.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+				.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 				.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 				.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
 

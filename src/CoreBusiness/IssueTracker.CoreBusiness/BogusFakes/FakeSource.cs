@@ -22,7 +22,7 @@ public static class FakeSource
 		Randomizer.Seed = new Random(123);
 
 		_sourceGenerator = new Faker<BasicCommentOnSourceModel>()
-			.RuleFor(x => x.Id, f => f.Random.Guid().ToString())
+			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 			.RuleFor(x => x.SourceType, f => f.PickRandom<SourceType>().ToString())
 			.RuleFor(x => x.Title, f => f.Lorem.Sentence(10, 4))
 			.RuleFor(x => x.Description, f => f.Lorem.Paragraph())

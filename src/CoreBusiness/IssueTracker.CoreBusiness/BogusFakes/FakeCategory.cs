@@ -23,7 +23,7 @@ public static class FakeCategory
 		Randomizer.Seed = new Random(123);
 
 		_categoryGenerator = new Faker<CategoryModel>()
-		.RuleFor(x => x.Id, Guid.NewGuid().ToString)
+		.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
 
