@@ -1,10 +1,9 @@
-﻿using IssueTracker.PlugIns.DataAccess;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
 {
+
 	private readonly Mock<IAsyncCursor<CommentModel>> _cursor;
 	private readonly Mock<IMongoCollection<CommentModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
@@ -123,7 +122,6 @@ public class CommentRepositoryTests
 	public async Task GetUsersComments_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
 	{
 		// Arrange
-
 		const int expectedCount = 2;
 		const string expectedUserId = "5dc1039a1521eaa36835e543";
 
@@ -138,7 +136,6 @@ public class CommentRepositoryTests
 		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
-
 		IEnumerable<CommentModel> result = await _sut.GetCommentsByUserAsync(expectedUserId).ConfigureAwait(false);
 
 		// Assert
@@ -208,7 +205,7 @@ public class CommentRepositoryTests
 
 		// Act
 
-		await _sut.UpdateCommentAsync(updatedComment.Id, updatedComment);
+		await _sut.ArchiveCommentAsync(updatedComment);
 
 		// Assert
 

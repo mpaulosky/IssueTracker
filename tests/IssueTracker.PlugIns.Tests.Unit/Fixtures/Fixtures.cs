@@ -1,4 +1,6 @@
 ﻿namespace IssueTracker.PlugIns.Tests.Unit.Fixtures;
+
+[ExcludeFromCodeCoverage]
 public static class Fixtures
 {
 

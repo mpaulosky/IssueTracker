@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.DataAccess;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
@@ -50,9 +48,6 @@ public class StatusRepositoryTests
 	{
 
 		// Arrange
-
-		// Arrange
-
 		var expected = TestStatuses.GetKnownStatus();
 
 		var updatedStatus = TestStatuses.GetKnownStatus();
@@ -69,11 +64,9 @@ public class StatusRepositoryTests
 		_sut = new StatusRepository(_mockContext.Object);
 
 		// Act
-
-		await _sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
+		await _sut.ArchiveStatusAsync(updatedStatus);
 
 		// Assert
-
 		_mockCollection.Verify(
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
 				It.IsAny<ReplaceOptions>(),
@@ -173,5 +166,7 @@ public class StatusRepositoryTests
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
+
 	}
+
 }

@@ -12,13 +12,18 @@ public class CategoryRepositoryTests
 
 	public CategoryRepositoryTests()
 	{
+
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
-		_sut = new CategoryRepository(_mockContext.Object);
+	}
+
+	private CategoryRepository CreateRepository()
+	{
+		return new CategoryRepository(_mockContext.Object);
 	}
 
 	[Fact(DisplayName = "Create Category")]
@@ -31,7 +36,7 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryRepository(_mockContext.Object);
+		_sut = CreateRepository();
 
 		// Act
 
@@ -49,7 +54,6 @@ public class CategoryRepositoryTests
 	{
 
 		// Arrange
-
 		var expected = TestCategories.GetKnownCategory();
 
 		var updatedCategory = TestCategories.GetKnownCategory();
@@ -63,14 +67,12 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryRepository(_mockContext.Object);
+		_sut = CreateRepository();
 
 		// Act
-
-		await _sut.UpdateCategoryAsync(updatedCategory.Id, updatedCategory);
+		await _sut.ArchiveCategoryAsync(updatedCategory);
 
 		// Assert
-
 		_mockCollection.Verify(
 			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory,
 				It.IsAny<ReplaceOptions>(),
@@ -91,7 +93,7 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryRepository(_mockContext.Object);
+		_sut = CreateRepository();
 
 		//Act
 
@@ -124,7 +126,7 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryRepository(_mockContext.Object);
+		_sut = CreateRepository();
 
 		// Act
 
@@ -159,7 +161,7 @@ public class CategoryRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new CategoryRepository(_mockContext.Object);
+		_sut = CreateRepository();
 
 		// Act
 

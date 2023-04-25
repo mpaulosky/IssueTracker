@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.DataAccess;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
@@ -194,7 +192,7 @@ public class UserRepositoryTests
 
 		// Act
 
-		await _sut.UpdateUserAsync(updatedUser.Id, updatedUser);
+		await _sut.ArchiveUserAsync(updatedUser);
 
 		// Assert
 

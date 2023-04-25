@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.DataAccess;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
@@ -20,6 +18,38 @@ public class IssueRepositoryTests
 		_mockContext = GetMockMongoContext();
 
 		_sut = new IssueRepository(_mockContext.Object);
+	}
+
+	[Fact(DisplayName = "Archive Issue")]
+	public async Task ArchiveIssue_With_A_Valid_Id_And_Issue_Should_ArchiveIssue_TestAsync()
+	{
+		// Arrange
+
+		var expected = TestIssues.GetKnownIssue();
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		var updatedIssue = TestIssues.GetKnownIssue();
+		updatedIssue.Archived = true;
+
+		_list = new List<IssueModel> { updatedIssue };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new IssueRepository(_mockContext.Object);
+
+		// Act
+
+		await _sut.ArchiveIssueAsync(updatedIssue);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<IssueModel>>(), updatedIssue,
+				It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Issue with valid Issue")]
@@ -231,4 +261,5 @@ public class IssueRepositoryTests
 					It.IsAny<ReplaceOptions>(),
 					It.IsAny<CancellationToken>()), Times.Once);
 	}
+
 }
