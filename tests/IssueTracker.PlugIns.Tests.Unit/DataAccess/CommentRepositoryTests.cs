@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿using IssueTracker.CoreBusiness.BogusFakes;
+
+namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
@@ -55,8 +57,8 @@ public class CommentRepositoryTests
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
 	public async Task GetComment_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
-		// Arrange
 
+		// Arrange
 		var expected = TestComments.GetKnownComment();
 
 		_list = new List<CommentModel> { expected };
@@ -68,22 +70,19 @@ public class CommentRepositoryTests
 		_sut = new CommentRepository(_mockContext.Object);
 
 		//Act
-
 		CommentModel result = await _sut.GetCommentAsync(expected!.Id!).ConfigureAwait(false);
 
 		//Assert 
-
 		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(expected);
+		result.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
+		result.UserVotes.Should().NotBeNull();
 
 		//Verify if InsertOneAsync is called once
-
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
 			It.IsAny<FindOptions<CommentModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().BeEquivalentTo(expected);
-		result.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
-		result.UserVotes.Should().NotBeNull();
 	}
 
 	[Fact(DisplayName = "Get Comments")]
@@ -104,23 +103,22 @@ public class CommentRepositoryTests
 		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
-
-		var result = await _sut.GetCommentsAsync().ConfigureAwait(false);
+		var result = (await _sut.GetCommentsAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
+		result.Should().NotBeNull();
+		result.Should().HaveCount(3);
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
 			It.IsAny<FindOptions<CommentModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
-		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(3);
 	}
 
 	[Fact(DisplayName = "Get Users Comments with valid Id")]
 	public async Task GetUsersComments_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
 	{
+
 		// Arrange
 		const int expectedCount = 2;
 		const string expectedUserId = "5dc1039a1521eaa36835e543";
@@ -136,19 +134,18 @@ public class CommentRepositoryTests
 		_sut = new CommentRepository(_mockContext.Object);
 
 		// Act
-		IEnumerable<CommentModel> result = await _sut.GetCommentsByUserAsync(expectedUserId).ConfigureAwait(false);
+		var result = (await _sut.GetCommentsByUserAsync(expectedUserId).ConfigureAwait(false)).ToList();
 
 		// Assert
+		result.Should().NotBeNull();
+		result.Should().HaveCount(expectedCount);
+		result[0].Author.Id.Should().NotBeNull();
+		result[0].Author.DisplayName.Should().NotBeNull();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
 			It.IsAny<FindOptions<CommentModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
-		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(expectedCount);
-		items[0].Author.Id.Should().NotBeNull();
-		items[0].Author.DisplayName.Should().NotBeNull();
 	}
 
 	[Fact(DisplayName = "Update Comment")]
@@ -273,5 +270,38 @@ public class CommentRepositoryTests
 		// Assert
 
 		expected.UserVotes.Count.Should().Be(0);
+	}
+
+	[Fact(DisplayName = "Get Comments By Source")]
+	public async Task GetCommentsBySourceAsync_With_ValidSource_Should_Return_A_List_Of_Comments_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeComment.GetComments(1).First();
+		expected.Archived = false;
+
+		_list = new List<CommentModel> { expected };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		_sut = new CommentRepository(_mockContext.Object);
+
+		//Act
+		var result = (await _sut.GetCommentsBySourceAsync(expected!.CommentOnSource!).ConfigureAwait(false)).ToList();
+
+		//Assert 
+		result.Should().NotBeNull();
+		result.First().Should().BeEquivalentTo(expected);
+		result.First().DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
+		result.First().CommentOnSource.Should().NotBeNull();
+		result.First().CommentOnSource.Should().BeEquivalentTo(expected.CommentOnSource);
+
+		//Verify if InsertOneAsync is called once
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
+			It.IsAny<FindOptions<CommentModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 }

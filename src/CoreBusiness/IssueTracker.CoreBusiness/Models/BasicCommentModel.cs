@@ -19,13 +19,6 @@ public class BasicCommentModel
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BasicCommentModel"/> class.
 	/// </summary>
-	public BasicCommentModel()
-	{
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicCommentModel"/> class.
-	/// </summary>
 	/// <param name="comment">The comment.</param>
 	public BasicCommentModel(CommentModel comment)
 	{
@@ -34,7 +27,7 @@ public class BasicCommentModel
 		Title = comment.Title;
 		Description = comment.Description;
 		DateCreated = comment.DateCreated;
-		CommentOnSource = comment.CommentOnSource;
+		CommentOnSource = comment.CommentOnSource!;
 		Author = comment.Author;
 
 	}

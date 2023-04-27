@@ -30,7 +30,11 @@ public static class AllServicesToRegister
 
 		builder.Services.AddAuthenticationService(config);
 
+		builder.Services.RegisterConnections(config);
+
 		builder.Services.RegisterDatabaseContext(config);
+
+		builder.Services.AddHealthChecks().AddCheck<MongoHealthCheck>("MongoDbConnectionCheck");
 
 		builder.Services.RegisterServicesCollections();
 

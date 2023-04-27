@@ -8,6 +8,33 @@ public class FakeCommentsTests
 	{
 	}
 
+	[Theory(DisplayName = "FakeComments GetNewComment Test")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewComment_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+
+		// Arrange
+		// Act
+		var result = FakeComment.GetNewComment(expected);
+
+		// Assert
+		switch (expected)
+		{
+			case true:
+				result.Id.Should().NotBeNull();
+				break;
+			default:
+				result.Id.Should().BeNull();
+				break;
+		}
+		result.Title.Should().NotBeNull();
+		result.Description.Should().NotBeNull();
+		result.CommentOnSource.Should().NotBeNull();
+		result.Author.Should().NotBeNull();
+		result.Archived.Should().BeFalse();
+
+	}
 	[Fact(DisplayName = "FakeComment GetComments Test")]
 	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test()
 	{
@@ -20,8 +47,9 @@ public class FakeCommentsTests
 		// Assert
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
-		result.First().CommentOnSource.Should().NotBeNull();
 		result.First().Title.Should().NotBeNull();
+		result.First().Description.Should().NotBeNull();
+		result.First().CommentOnSource.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
 
 	}
@@ -39,6 +67,9 @@ public class FakeCommentsTests
 		result.Count.Should().Be(1);
 		result.First().Id.Should().NotBeNull();
 		result.First().Title.Should().NotBeNull();
+		result.First().Description.Should().NotBeNull();
+		result.First().Author.Should().NotBeNull();
+		result.First().CommentOnSource.Should().NotBeNull();
 
 	}
 
@@ -54,6 +85,9 @@ public class FakeCommentsTests
 		// Assert
 		result.Id.Should().NotBeNull();
 		result.Title.Should().NotBeNull();
+		result.Description.Should().NotBeNull();
+		result.Author.Should().NotBeNull();
+		result.CommentOnSource.Should().NotBeNull();
 
 	}
 

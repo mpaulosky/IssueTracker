@@ -1,7 +1,7 @@
 ﻿
 namespace IssueTracker.UI.Extensions;
 
-public static partial class IServiceCollectionExtensions
+public static partial class ServiceCollectionExtensions
 {
 
 	public static IServiceCollection RegisterPlugInRepositories(this IServiceCollection services)

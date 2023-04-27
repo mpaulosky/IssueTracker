@@ -9,20 +9,52 @@ public class FakeCategoryTests
 	{
 	}
 
-	[Fact(DisplayName = "FakeCategory GetCategories Test")]
-	public void GetCategories_With_RequestForCategories_Should_ReturnFakeCategories_Test()
+
+	[Theory(DisplayName = "FakeCategory GetNewCategory Test")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewCategory_With_Boolean_Value_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
 
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetCategories(1).ToList();
+		var result = FakeCategory.GetNewCategory(expected);
 
 		// Assert
-		result.Count.Should().Be(1);
+		switch (expected)
+		{
+			case true:
+				result.Id.Should().NotBeNull();
+				break;
+			default:
+				result.Id.Should().BeEmpty();
+				break;
+		}
+		result.Id.Should().NotBeNull();
+		result.CategoryName.Should().NotBeNull();
+		result.CategoryDescription.Should().NotBeNull();
+		result.Archived.Should().BeFalse();
+
+	}
+
+	[Theory(DisplayName = "FakeCategory GetCategories Test")]
+	[InlineData(1)]
+	[InlineData(2)]
+	public void GetCategories_With_RequestForCategories_Should_ReturnFakeCategories_Test(int countRequested)
+	{
+
+		// Arrange
+
+		// Act
+		var result = FakeCategory.GetCategories(countRequested).ToList();
+
+		// Assert
+		result.Count.Should().Be(countRequested);
 		result.First().Id.Should().NotBeNull();
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
+		result.First().Archived.Should().BeTrue();
 
 	}
 

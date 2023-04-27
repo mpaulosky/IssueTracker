@@ -28,6 +28,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseHealthChecks("/health");
+
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -23,13 +23,16 @@ public class MongoDbContextTests
 	{
 
 		// Arrange
+		const string expectedConnectionString = "mongodb://test123";
+		const string expectedDbName = "TestDb";
 
 		// Act
 
 		// Assert
 		_sut.Should().NotBeNull();
 		_sut.Client.Should().NotBeNull();
-		_sut.DbName.Should().Be("TestDb");
+		_sut.DbName.Should().Be(expectedDbName);
+		_sut.ConnectionString.Should().Be(expectedConnectionString);
 
 	}
 

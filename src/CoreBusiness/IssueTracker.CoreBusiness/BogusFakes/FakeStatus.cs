@@ -25,22 +25,26 @@ public static class FakeStatus
 		_statusGenerator = new Faker<StatusModel>()
 				.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 				.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
-				.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence());
+				.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence())
+				.RuleFor(f => f.Archived, f => f.Random.Bool());
 
 	}
 
 	/// <summary>
 	/// Gets a new status.
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>StatusModel</returns>
-	public static StatusModel GetNewStatus()
+	public static StatusModel GetNewStatus(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		var status = _statusGenerator!.Generate();
 
-		status.Id = string.Empty;
+		if (!keepId) status.Id = string.Empty;
+
+		status.Archived = false;
 
 		return status;
 

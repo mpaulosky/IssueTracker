@@ -3,7 +3,7 @@ using IssueTracker.UseCases.Category.Interfaces;
 
 namespace IssueTracker.UI.Extensions;
 
-public static partial class IServiceCollectionExtensions
+public static partial class ServiceCollectionExtensions
 {
 
 	public static IServiceCollection RegisterCategoryUseCases(this IServiceCollection services)

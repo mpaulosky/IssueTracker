@@ -38,15 +38,18 @@ public static class FakeIssue
 	/// <summary>
 	/// Gets the new issue.
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>IssueModel</returns>
-	public static IssueModel GetNewIssue()
+	public static IssueModel GetNewIssue(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		var issue = _issueGenerator!.Generate();
 
-		issue.Id = string.Empty;
+		if (!keepId) issue.Id = string.Empty;
+
+		issue.Archived = false;
 
 		return issue;
 

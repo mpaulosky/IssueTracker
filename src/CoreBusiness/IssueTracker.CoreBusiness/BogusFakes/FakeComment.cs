@@ -27,22 +27,26 @@ public static class FakeComment
 				.RuleFor(c => c.Description, f => f.Lorem.Paragraph())
 				.RuleFor(x => x.CommentOnSource, FakeSource.GetSource())
 				.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
-				.RuleFor(c => c.DateCreated, f => f.Date.Past());
+				.RuleFor(c => c.DateCreated, f => f.Date.Past())
+				.RuleFor(f => f.Archived, f => f.Random.Bool());
 
 	}
 
 	/// <summary>
 	/// Gets a new comment.
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>CommentModel</returns>
-	public static CommentModel GetNewComment()
+	public static CommentModel GetNewComment(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		CommentModel comment = _commentsGenerator!.Generate();
 
-		comment.Id = string.Empty;
+		if (!keepId) comment.Id = string.Empty;
+
+		comment.Archived = false;
 
 		return comment;
 

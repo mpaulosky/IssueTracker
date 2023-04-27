@@ -8,6 +8,35 @@ public class FakeUserTests
 	{
 	}
 
+	[Theory(DisplayName = "FakeUser GetNewUser Tests")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewUser_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+
+		// Arrange
+		// Act
+		var result = FakeUser.GetNewUser(expected);
+
+		// Assert
+		switch (expected)
+		{
+			case true:
+				result.Id.Should().NotBeNull();
+				break;
+			default:
+				result.Id.Should().BeNull();
+				break;
+		}
+
+		result.FirstName.Should().NotBeNull();
+		result.LastName.Should().NotBeNull();
+		result.DisplayName.Should().NotBeNull();
+		result.EmailAddress.Should().NotBeNull();
+		result.Archived.Should().BeFalse();
+
+	}
+
 	[Fact(DisplayName = "FakeUser GetUsers Test")]
 	public void GetUser_WhenUserRequested_Returns_FakeUser_Test()
 	{

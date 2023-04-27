@@ -25,22 +25,26 @@ public static class FakeCategory
 		_categoryGenerator = new Faker<CategoryModel>()
 		.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 		.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
-		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence());
+		.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence())
+		.RuleFor(f => f.Archived, f => f.Random.Bool());
 
 	}
 
 	/// <summary>
 	/// Gets a new category
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>CategoryModel</returns>
-	public static CategoryModel GetNewCategory()
+	public static CategoryModel GetNewCategory(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		var category = _categoryGenerator!.Generate();
 
-		category.Id = string.Empty;
+		if (!keepId) category.Id = string.Empty;
+
+		category.Archived = false;
 
 		return category;
 

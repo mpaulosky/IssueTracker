@@ -28,22 +28,26 @@ public static class FakeUser
 			.RuleFor(x => x.FirstName, f => f.Name.FirstName())
 			.RuleFor(x => x.LastName, f => f.Name.LastName())
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
-			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName));
+			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
+			.RuleFor(f => f.Archived, f => f.Random.Bool());
 
 	}
 
 	/// <summary>
 	/// Gets a new user.
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>UserModel</returns>
-	public static UserModel GetNewUser()
+	public static UserModel GetNewUser(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		var user = _userGenerator!.Generate();
 
-		user.Id = string.Empty;
+		if (!keepId) user.Id = string.Empty;
+
+		user.Archived = false;
 
 		return user;
 

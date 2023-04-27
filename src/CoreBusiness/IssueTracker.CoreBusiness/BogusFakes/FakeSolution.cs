@@ -36,15 +36,17 @@ public static class FakeSolution
 	/// <summary>
 	/// Gets a new solution.
 	/// </summary>
+	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>SolutionModel</returns>
-	public static SolutionModel GetNewSolution()
+	public static SolutionModel GetNewSolution(bool keepId = false)
 	{
 
 		SetupGenerator();
 
 		var solution = _solutionGenerator!.Generate();
 
-		solution.Id = string.Empty;
+		if (!keepId) solution.Id = string.Empty;
+
 		solution.Archived = false;
 
 		return solution;
