@@ -25,6 +25,4 @@ global using Microsoft.Extensions.Caching.Memory;
 
 global using Moq;
 
-global using TestingSupport.Library.Fixtures;
-
 global using Xunit;
