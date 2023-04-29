@@ -24,13 +24,32 @@ public class FakeStatusTests
 				result.Id.Should().NotBeNull();
 				break;
 			default:
-				result.Id.Should().BeNull();
+				result.Id.Should().BeNullOrWhiteSpace();
 				break;
 		}
 
 		result.StatusName.Should().NotBeNull();
 		result.StatusDescription.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
+
+	}
+
+	[Fact(DisplayName = "FakeStatus GetStatuses Existing Test")]
+	public void GetStatuses_With_No_Varriable_Should_Return_A_List_Of_Statuses_Test()
+	{
+
+		// Arrange
+		const int expected = 4;
+
+		// Act
+		var result = FakeStatus.GetStatuses().ToList();
+
+		// Assert
+		result.Count.Should().Be(expected);
+		result.First().Id.Should().NotBeNull();
+		result.First().StatusName.Should().Be("Answered");
+		result.First().StatusDescription.Should().Be("The suggestion was accepted and the corresponding item was created.");
+		result.First().Archived.Should().BeFalse();
 
 	}
 

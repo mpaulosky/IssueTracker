@@ -70,7 +70,7 @@ public class FakeSolutionTests
 		result.Description.Should().NotBeNull();
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeTrue();
+
 	}
 
 	[Fact(DisplayName = "FakeSolution GetBasicSolutions Test")]

@@ -51,6 +51,72 @@ public static class FakeCategory
 	}
 
 	/// <summary>
+	/// Gets a list of categories that exit.
+	/// </summary>
+	/// <returns>IEnumerable List of CategoryModels</returns>
+	public static IEnumerable<CategoryModel> GetCategories()
+	{
+
+		var categories = new List<CategoryModel>
+		{
+
+			new CategoryModel()
+			{
+
+				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+				CategoryDescription = "An Issue with the design.",
+				CategoryName = "Design",
+				Archived = false
+
+			},
+
+			new CategoryModel()
+			{
+
+				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+				CategoryDescription = "An Issue with the documentation.",
+				CategoryName = "Documentation",
+				Archived = false
+
+			},
+
+			new CategoryModel()
+			{
+
+				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+				CategoryDescription = "An Issue with the implementation.",
+				CategoryName = "Implementation",
+				Archived = false
+
+			},
+
+			new CategoryModel()
+			{
+
+				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+				CategoryDescription = "An Issue needs clarification.",
+				CategoryName = "Clarification",
+				Archived = false
+
+			},
+
+			new CategoryModel()
+			{
+
+				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+				CategoryDescription = "A miscellaneous Issue.",
+				CategoryName = "Miscellaneous",
+				Archived = false
+
+			}
+
+		};
+
+		return categories;
+
+	}
+
+	/// <summary>
 	/// Gets a list of categories.
 	/// </summary>
 	/// <param name="numberOfCategories">The number of categories.</param>

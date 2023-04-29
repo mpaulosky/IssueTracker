@@ -51,6 +51,50 @@ public static class FakeStatus
 	}
 
 	/// <summary>
+	/// Gets a list of statuses that exist.
+	/// </summary>
+	/// <returns>IEnumerable List of StatusModels</returns>
+	public static IEnumerable<StatusModel> GetStatuses()
+	{
+
+		var statuses = new List<StatusModel>
+		{
+			new()
+			{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "Answered",
+				StatusDescription = "The suggestion was accepted and the corresponding item was created.",
+				Archived = false
+			},
+			new()
+			{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "Watching",
+				StatusDescription =
+					"The suggestion is interesting. We are watching to see how much interest there is in it.",
+				Archived = false
+			},
+			new()
+			{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "In Work",
+				StatusDescription = "The suggestion was accepted and it will be released soon.",
+				Archived = false
+			},
+			new()
+			{
+				Id = Guid.NewGuid().ToString(),
+				StatusName = "Dismissed",
+				StatusDescription = "The suggestion was not something that we are going to undertake.",
+				Archived = false
+			}
+		};
+
+		return statuses;
+
+	}
+
+	/// <summary>
 	/// Gets a list of statuses.
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>

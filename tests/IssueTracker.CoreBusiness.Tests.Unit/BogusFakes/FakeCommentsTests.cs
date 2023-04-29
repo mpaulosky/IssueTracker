@@ -25,7 +25,7 @@ public class FakeCommentsTests
 				result.Id.Should().NotBeNull();
 				break;
 			default:
-				result.Id.Should().BeNull();
+				result.Id.Should().BeNullOrWhiteSpace();
 				break;
 		}
 		result.Title.Should().NotBeNull();

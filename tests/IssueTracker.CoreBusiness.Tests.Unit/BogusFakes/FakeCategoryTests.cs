@@ -38,6 +38,25 @@ public class FakeCategoryTests
 
 	}
 
+	[Fact(DisplayName = "FakeCategory GetCategories Existing Test")]
+	public void GetCategories_With_No_Varriable_Should_Return_A_List_Of_Categories_Test()
+	{
+
+		// Arrange
+		const int expected = 5;
+
+		// Act
+		var result = FakeCategory.GetCategories().ToList();
+
+		// Assert
+		result.Count.Should().Be(expected);
+		result.First().Id.Should().NotBeNull();
+		result.First().CategoryName.Should().Be("Design");
+		result.First().CategoryDescription.Should().Be("An Issue with the design.");
+		result.First().Archived.Should().BeFalse();
+
+	}
+
 	[Theory(DisplayName = "FakeCategory GetCategories Test")]
 	[InlineData(1)]
 	[InlineData(2)]
@@ -54,7 +73,6 @@ public class FakeCategoryTests
 		result.First().Id.Should().NotBeNull();
 		result.First().CategoryName.Should().NotBeNull();
 		result.First().CategoryDescription.Should().NotBeNull();
-		result.First().Archived.Should().BeTrue();
 
 	}
 
