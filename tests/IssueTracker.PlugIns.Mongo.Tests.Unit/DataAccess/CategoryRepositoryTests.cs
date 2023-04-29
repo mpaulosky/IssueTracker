@@ -32,10 +32,9 @@ public class CategoryRepositoryTests
 	{
 
 		// Arrange
+		var expected = FakeCategory.GetNewCategory(true);
 
-		var expected = TestCategories.GetKnownCategory();
-
-		var updatedCategory = TestCategories.GetKnownCategory();
+		var updatedCategory = FakeCategory.GetNewCategory(true);
 		updatedCategory.Archived = true;
 
 		await _mockCollection.Object.InsertOneAsync(expected);
@@ -51,14 +50,14 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-
 		await sut.UpdateCategoryAsync(updatedCategory);
 
 		// Assert
 
 		_mockCollection.Verify(
 			c => c.
-				ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory,
+				ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
+				updatedCategory,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 
@@ -184,7 +183,8 @@ public class CategoryRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-				.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory,
+				.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
+				 updatedCategory,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 	}

@@ -24,7 +24,7 @@ public class CommentServiceTests
 
 		// Arrange
 
-		var comment = TestComments.GetNewComment();
+		var comment = FakeComment.GetNewComment();
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -61,7 +61,7 @@ public class CommentServiceTests
 	{
 		//Arrange
 
-		var expected = TestComments.GetKnownComment();
+		var expected = FakeComment.GetNewComment(true);
 
 		_commentRepositoryMock.Setup(x => x.GetCommentAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -112,7 +112,12 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		var expected = FakeComment.GetComments(expectedCount);
+
+		foreach (var comment in expected)
+		{
+			comment.Archived = false;
+		}
 
 		_commentRepositoryMock.Setup(x => x.GetCommentsAsync()).ReturnsAsync(expected);
 
@@ -140,7 +145,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestComments.GetComments();
+		var expected = FakeComment.GetComments(expectedCount);
 
 
 		_memoryCacheMock
@@ -173,10 +178,16 @@ public class CommentServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
+		var comments = FakeComment.GetComments(expectedCount);
+
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestComments.GetCommentsWithDuplicateAuthors()
-			.Where(x => x.Author.Id == expectedUser).ToList();
+		foreach (var comment in comments)
+		{
+			comment.Author = new BasicUserModel(expectedUser, "test");
+		}
+
+		var expected = comments.ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -203,10 +214,16 @@ public class CommentServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
+		var comments = FakeComment.GetComments(expectedCount);
+
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestComments.GetCommentsWithDuplicateAuthors()
-			.Where(x => x.Author.Id == expectedUser).ToList();
+		foreach (var comment in comments)
+		{
+			comment.Author = new BasicUserModel(expectedUser, "test");
+		}
+
+		var expected = comments.ToList();
 
 		_commentRepositoryMock.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -260,7 +277,7 @@ public class CommentServiceTests
 	{
 		// Arrange
 
-		var updatedComment = TestComments.GetUpdatedComment();
+		var updatedComment = FakeComment.GetNewComment(true);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -298,7 +315,7 @@ public class CommentServiceTests
 
 		const string testId = "5dc1039a1521eaa36835e543";
 
-		var comment = TestComments.GetKnownComment();
+		var comment = FakeComment.GetNewComment(true);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 

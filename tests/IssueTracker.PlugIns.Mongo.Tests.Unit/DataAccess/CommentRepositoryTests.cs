@@ -250,7 +250,7 @@ public class CommentRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
 
-		var user = TestUsers.GetKnownUserWithNoVotedOn();
+		var user = FakeUser.GetNewUser(true);
 		_users = new List<UserModel> { user };
 
 		_userCursor.Setup(_ => _.Current).Returns(_users);

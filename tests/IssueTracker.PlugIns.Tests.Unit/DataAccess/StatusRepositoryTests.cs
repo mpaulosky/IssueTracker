@@ -7,17 +7,23 @@ public class StatusRepositoryTests
 	private readonly Mock<IMongoCollection<StatusModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<StatusModel> _list = new();
-	private StatusRepository _sut;
 
 	public StatusRepositoryTests()
 	{
+
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
-		_sut = new StatusRepository(_mockContext.Object);
+	}
+
+	private StatusRepository CreateRepository()
+	{
+
+		return new StatusRepository(_mockContext.Object);
+
 	}
 
 	[Fact(DisplayName = "Create Status")]
@@ -25,21 +31,22 @@ public class StatusRepositoryTests
 	{
 
 		// Arrange
-
-		var newStatus = TestStatuses.GetKnownStatus();
+		var newStatus = FakeStatus.GetNewStatus(true);
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		await _sut.CreateStatusAsync(newStatus);
+		await sut.CreateStatusAsync(newStatus);
 
 		// Assert
-
 		//Verify if InsertOneAsync is called once 
-		_mockCollection.Verify(c => c.InsertOneAsync(newStatus, null, default), Times.Once);
+		_mockCollection.Verify(c => c
+		.InsertOneAsync(
+			newStatus,
+			null,
+			default), Times.Once);
 
 	}
 
@@ -48,9 +55,9 @@ public class StatusRepositoryTests
 	{
 
 		// Arrange
-		var expected = TestStatuses.GetKnownStatus();
+		var expected = FakeStatus.GetNewStatus(true);
 
-		var updatedStatus = TestStatuses.GetKnownStatus();
+		var updatedStatus = FakeStatus.GetNewStatus(true);
 		updatedStatus.Archived = true;
 
 		await _mockCollection.Object.InsertOneAsync(expected);
@@ -61,24 +68,28 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-		await _sut.ArchiveStatusAsync(updatedStatus);
+		await sut.ArchiveStatusAsync(updatedStatus);
 
 		// Assert
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
+			c => c
+			.ReplaceOneAsync(
+				It.IsAny<FilterDefinition<StatusModel>>(),
+				updatedStatus,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
 	public async Task GetStatus_With_Valid_Id_Should_Returns_One_Status_Test()
 	{
-		// Arrange
 
-		var expected = TestStatuses.GetKnownStatus();
+		// Arrange
+		var expected = FakeStatus.GetNewStatus(true);
 
 		_list = new List<StatusModel> { expected };
 
@@ -86,33 +97,32 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		//Act
-
-		StatusModel result = await _sut.GetStatusAsync(expected!.Id!);
+		StatusModel result = await sut.GetStatusAsync(expected!.Id!);
 
 		//Assert 
-
 		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(expected);
 
 		//Verify if InsertOneAsync is called once
-
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			It.IsAny<FilterDefinition<StatusModel>>(),
 			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().BeEquivalentTo(expected);
-		result!.StatusName!.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
 	public async Task GetStatuses_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
 	{
+
 		// Arrange
 		const int expectedCount = 4;
 
-		var expected = TestStatuses.GetStatuses().ToList();
+		var expected = FakeStatus.GetStatuses().ToList();
 
 		_list = new List<StatusModel>(expected);
 
@@ -120,31 +130,33 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		var result = await _sut.GetStatusesAsync().ConfigureAwait(false);
+		var results = (await sut.GetStatusesAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			It.IsAny<FilterDefinition<StatusModel>>(),
 			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
-		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Update Status")]
 	public async Task UpdateStatus_With_A_Valid_Id_And_Status_Should_UpdateStatus_Test()
 	{
+
 		// Arrange
+		var expected = FakeStatus.GetNewStatus(true);
 
-		var expected = TestStatuses.GetKnownStatus();
-
-		var updatedStatus = TestStatuses.GetStatus(expected!.Id!, expected!.StatusDescription!, "Updated New");
+		var updatedStatus = FakeStatus.GetNewStatus(true);
+		updatedStatus.StatusName = "Updated Status";
+		updatedStatus.Id = expected.Id;
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -154,16 +166,17 @@ public class StatusRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<StatusModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new StatusRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		await _sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
+		await sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
 
 		// Assert
-
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(), updatedStatus,
+			c => c
+			.ReplaceOneAsync(
+				It.IsAny<FilterDefinition<StatusModel>>(),
+				updatedStatus,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
 

@@ -23,9 +23,14 @@
 				<DataAnnotationsValidator />
 				<ValidationSummary />
 				<div class="input-section">
-					<label class="form-label fw-bold text-uppercase" for="issue-text">Suggestion</label>
+					<label class="form-label fw-bold text-uppercase" for="issue-title">Issue Title</label>
 					<div class="input-description">Focus on the topic or technology you want to learn about.</div>
-					<InputText class="form-control" id="issue-text" @bind-Value="_issue.Title" />
+					<InputText class="form-control" id="issue-title" @bind-Value="_issue.Title" />
+				</div>
+				<div class="input-section">
+					<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>
+					<div class="input-description">Briefly describe your suggestion.</div>
+					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description" />
 				</div>
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="category">Category</label>
@@ -34,23 +39,18 @@
 						<MyInputRadioGroup id="category" @bind-Value="_issue.CategoryId">
 							@foreach (var c in _categories)
 							{
-											<div class="radio-item-group">
-												<InputRadio Value="@c.Id" id="@c.Id" />
-												<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
-											</div>
-							}
-									</MyInputRadioGroup>
+								<div class="radio-item-group">
+									<InputRadio Value="@c.Id" id="@c.Id" />
+									<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
 								</div>
-							</div>
-							<div class="input-section">
-								<label class="form-label fw-bold text-uppercase" for="description">Description</label>
-								<div class="input-description">Briefly describe your suggestion.</div>
-								<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description" />
-							</div>
-							<div class="center-children">
-								<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Create Issue</button>
-							</div>
-						</EditForm>
+							}
+						</MyInputRadioGroup>
+					</div>
+				</div>
+				<div class="center-children">
+					<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Create Issue</button>
+				</div>
+			</EditForm>
 		}
 	</div>
 </div>

@@ -9,8 +9,8 @@ public class CategoriesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private IEnumerable<CategoryModel>? _expectedCategories;
-	private UserModel? _expectedUser;
+	private readonly IEnumerable<CategoryModel> _expectedCategories;
+	private readonly UserModel _expectedUser;
 
 	public CategoriesTests()
 	{
@@ -20,6 +20,8 @@ public class CategoriesTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedCategories = FakeCategory.GetCategories(1);
 
 	}
 
@@ -29,8 +31,6 @@ public class CategoriesTests : TestContext
 
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
 
 		SetupMocks();
 		SetMemoryCache();
@@ -55,8 +55,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedCategories = FakeCategory.GetCategories(1);
-		_expectedUser = TestUsers.GetKnownUser();
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4" >Categories</h1>
@@ -161,8 +159,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Categories</h1>
@@ -245,8 +241,6 @@ public class CategoriesTests : TestContext
 	public void Categories_AddNewCategoryButton_Should_CancelInsertOnCancel_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4" >Categories</h1>
@@ -358,9 +352,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -391,9 +382,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -425,9 +413,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -451,8 +436,6 @@ public class CategoriesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = FakeCategory.GetCategories(1);
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4" >Categories</h1>

@@ -1,4 +1,5 @@
-﻿using IssueTracker.PlugIns.Services;
+﻿using IssueTracker.CoreBusiness.BogusFakes;
+using IssueTracker.PlugIns.Services;
 
 namespace IssueTracker.PlugIns.Tests.Unit.Services;
 
@@ -26,7 +27,7 @@ public class StatusServiceTests
 
 		// Arrange
 
-		var status = TestStatuses.GetNewStatus();
+		var status = FakeStatus.GetNewStatus(true);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -66,7 +67,7 @@ public class StatusServiceTests
 
 		// Arrange
 
-		var status = TestStatuses.GetKnownStatus();
+		var status = FakeStatus.GetNewStatus(true);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -106,7 +107,7 @@ public class StatusServiceTests
 
 		//Arrange
 
-		var expected = TestStatuses.GetKnownStatus();
+		var expected = FakeStatus.GetNewStatus(true);
 
 		_statusRepositoryMock.Setup(x => x.GetStatusAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -163,7 +164,7 @@ public class StatusServiceTests
 
 		const int expectedCount = 4;
 
-		var expected = TestStatuses.GetStatuses();
+		var expected = FakeStatus.GetStatuses();
 
 		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(expected);
 
@@ -193,7 +194,7 @@ public class StatusServiceTests
 
 		const int expectedCount = 4;
 
-		var expected = TestStatuses.GetStatuses();
+		var expected = FakeStatus.GetStatuses();
 
 
 		_memoryCacheMock
@@ -227,7 +228,7 @@ public class StatusServiceTests
 
 		// Arrange
 
-		var updatedStatus = TestStatuses.GetUpdatedStatus();
+		var updatedStatus = FakeStatus.GetNewStatus(true);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 

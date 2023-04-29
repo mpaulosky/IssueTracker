@@ -315,10 +315,10 @@ public class IndexTests : TestContext
 
 	private void SetUpTests(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
 	{
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssues = TestIssues.GetIssues().ToList();
-		_expectedCategories = TestCategories.GetCategories().ToList();
-		_expectedStatuses = TestStatuses.GetStatuses().ToList();
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedIssues = FakeIssue.GetIssues(5).ToList();
+		_expectedCategories = FakeCategory.GetCategories().ToList();
+		_expectedStatuses = FakeStatus.GetStatuses().ToList();
 
 		SetupMocks();
 

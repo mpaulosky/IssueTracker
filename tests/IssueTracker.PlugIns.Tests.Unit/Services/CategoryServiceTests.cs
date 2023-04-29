@@ -1,4 +1,5 @@
-﻿using IssueTracker.PlugIns.Services;
+﻿using IssueTracker.CoreBusiness.BogusFakes;
+using IssueTracker.PlugIns.Services;
 
 namespace IssueTracker.PlugIns.Tests.Unit.Services;
 
@@ -24,7 +25,7 @@ public class CategoryServiceTests
 
 		// Arrange
 
-		var expected = TestCategories.GetNewCategory();
+		var expected = FakeCategory.GetNewCategory(true);
 
 		// Act
 
@@ -60,7 +61,7 @@ public class CategoryServiceTests
 
 		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		var expected = FakeCategory.GetNewCategory(true);
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -83,7 +84,7 @@ public class CategoryServiceTests
 	{
 		//Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		var expected = FakeCategory.GetNewCategory(true);
 
 		_categoryRepositoryMock.Setup(x => x.GetCategoryAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -134,7 +135,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		var expected = TestCategories.GetCategories();
+		var expected = FakeCategory.GetCategories();
 
 		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(expected);
 
@@ -162,7 +163,7 @@ public class CategoryServiceTests
 
 		const int expectedCount = 5;
 
-		var expected = TestCategories.GetCategories();
+		var expected = FakeCategory.GetCategories();
 
 
 		_memoryCacheMock
@@ -194,7 +195,7 @@ public class CategoryServiceTests
 	{
 		// Arrange
 
-		var updatedCategory = TestCategories.GetUpdatedCategory();
+		var updatedCategory = FakeCategory.GetNewCategory(true);
 
 		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 

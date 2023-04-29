@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		SECURITY.md = SECURITY.md
 		.github\workflows\super-linter-dev.yml = .github\workflows\super-linter-dev.yml
 		.github\workflows\super-linter-main.yml = .github\workflows\super-linter-main.yml
+		test.html = test.html
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI", "src\IssueTracker.UI\IssueTracker.UI.csproj", "{98E7C4E9-D286-4A88-8130-2B60EEE20A2F}"

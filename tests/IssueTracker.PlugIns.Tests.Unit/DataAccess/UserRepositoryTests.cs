@@ -3,51 +3,60 @@
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
+
 	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<UserModel> _list = new();
-	private UserRepository _sut;
 
 	public UserRepositoryTests()
 	{
+
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
-		_sut = new UserRepository(_mockContext.Object);
+	}
+
+	private UserRepository CreateRepository()
+	{
+
+		return new UserRepository(_mockContext.Object);
+
 	}
 
 	[Fact(DisplayName = "CreateUser with a valid user")]
 	public async Task CreateUser_With_Valid_User_Should_Insert_A_New_User_TestAsync()
 	{
-		// Arrange
 
-		var newUser = TestUsers.GetKnownUser();
+		// Arrange
+		var newUser = FakeUser.GetNewUser(true);
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		await _sut.CreateUserAsync(newUser);
+		await sut.CreateUserAsync(newUser);
 
 		// Assert
-
 		//Verify if InsertOneAsync is called once 
+		_mockCollection.Verify(c => c
+		.InsertOneAsync(
+			newUser,
+			null,
+			default), Times.Once);
 
-		_mockCollection.Verify(c => c.InsertOneAsync(newUser, null, default), Times.Once);
 	}
 
 	[Fact(DisplayName = "GetUser With a Valid Id")]
 	public async Task GetUser_With_Valid_Id_Should_Returns_One_User_Test()
 	{
-		// Arrange
 
-		var expected = TestUsers.GetKnownUser();
+		// Arrange
+		var expected = FakeUser.GetNewUser(true);
 
 		_list = new List<UserModel> { expected };
 
@@ -55,32 +64,30 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		//Act
-
-		var result = await _sut.GetUserAsync(expected!.Id!);
+		var result = await sut.GetUserAsync(expected!.Id!);
 
 		//Assert 
-
 		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(expected);
 
 		//Verify if FindAsync is called once
-
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			It.IsAny<FilterDefinition<UserModel>>(),
 			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().BeEquivalentTo(expected);
-		result!.FirstName!.Length.Should().BeGreaterThan(1);
-		result!.EmailAddress!.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "GetUser From Authentication")]
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
+
 		// Arrange
-		var expected = TestUsers.GetKnownUser();
+		var expected = FakeUser.GetNewUser(true);
 
 		_list = new List<UserModel> { expected };
 
@@ -88,31 +95,32 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		//Act
-
-		var result = await _sut.GetUserFromAuthenticationAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
+		var result = await sut.GetUserFromAuthenticationAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
 
 		//Assert 
-
 		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(expected);
+
 
 		//Verify if FindAsync is called once
-
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			It.IsAny<FilterDefinition<UserModel>>(),
 			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		result.Should().BeEquivalentTo(expected);
 	}
 
 	[Fact(DisplayName = "Get Users")]
 	public async Task GetUsers_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
 	{
-		// Arrange
 
-		var expected = TestUsers.GetUsers().ToList();
+		// Arrange
+		const int expectedCount = 3;
+		var expected = FakeUser.GetUsers(expectedCount).ToList();
 
 		_list = new List<UserModel>(expected);
 
@@ -120,85 +128,90 @@ public class UserRepositoryTests
 
 		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		var result = await _sut.GetUsersAsync().ConfigureAwait(false);
+		var results = (await sut.GetUsersAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
 
 		//Verify if FindAsync is called once
-
-		_mockCollection.Verify(c => c.FindAsync(FilterDefinition<UserModel>.Empty,
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			FilterDefinition<UserModel>.Empty,
 			It.IsAny<FindOptions<UserModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
-		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(3);
 	}
 
 	[Fact(DisplayName = "Update User with a valid Id and User")]
 	public async Task UpdateUser_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
+
 		// Arrange
+		var expected = FakeUser.GetNewUser(true);
 
-		var expected = TestUsers.GetKnownUser();
-
-		var updatedUser = TestUsers.GetUser(userId: expected!.Id!, expected!.ObjectIdentifier!, "James",
-			expected!.LastName!,
-			expected!.DisplayName!, "james.test@test.com");
-
-		_list = new List<UserModel> { updatedUser };
-
-		_cursor.Setup(_ => _.Current).Returns(_list);
-
-		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
-
-		_sut = new UserRepository(_mockContext.Object);
-
-		// Act
-
-		await _sut.UpdateUserAsync(updatedUser.Id, updatedUser);
-
-		// Assert
-
-		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), updatedUser, It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-	}
-
-
-	[Fact(DisplayName = "Archive User")]
-	public async Task ArchiveUser_With_A_Valid_Id_And_User_Should_ArchiveUser_Test()
-	{
-		// Arrange
-
-		var expected = TestUsers.GetKnownUser();
-
-		await _mockCollection.Object.InsertOneAsync(expected);
-
-		var updatedUser = TestUsers.GetKnownUser();
+		var updatedUser = FakeUser.GetNewUser(true);
 		updatedUser.Archived = true;
 
 		_list = new List<UserModel> { updatedUser };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c
+		.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
-		_sut = new UserRepository(_mockContext.Object);
+		var sut = CreateRepository();
 
 		// Act
-
-		await _sut.ArchiveUserAsync(updatedUser);
+		await sut.UpdateUserAsync(updatedUser.Id, updatedUser);
 
 		// Assert
-
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(), updatedUser, It.IsAny<ReplaceOptions>(),
+			c => c
+			.ReplaceOneAsync(
+				It.IsAny<FilterDefinition<UserModel>>(),
+				updatedUser,
+				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "Archive User")]
+	public async Task ArchiveUser_With_A_Valid_Id_And_User_Should_ArchiveUser_Test()
+	{
+
+		// Arrange
+		var expected = FakeUser.GetNewUser(true);
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		var updatedUser = FakeUser.GetNewUser(true);
+		updatedUser.Archived = true;
+
+		_list = new List<UserModel> { updatedUser };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c
+		.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveUserAsync(updatedUser);
+
+		// Assert
+		_mockCollection.Verify(
+			c => c
+			.ReplaceOneAsync(
+				It.IsAny<FilterDefinition<UserModel>>(),
+				updatedUser,
+				It.IsAny<ReplaceOptions>(),
+				It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 
 }

@@ -9,8 +9,8 @@ public class CommentTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private IssueModel? _expectedIssue;
-	private UserModel? _expectedUser;
+	private readonly IssueModel _expectedIssue;
+	private readonly UserModel _expectedUser;
 
 	public CommentTests()
 	{
@@ -21,6 +21,8 @@ public class CommentTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedIssue = FakeIssue.GetNewIssue(true);
 
 	}
 
@@ -46,9 +48,6 @@ public class CommentTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -73,8 +72,6 @@ public class CommentTests : TestContext
 
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -104,9 +101,6 @@ public class CommentTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-
 		SetupMocks();
 		SetMemoryCache();
 

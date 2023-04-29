@@ -23,7 +23,7 @@ public class IssueServiceTests
 	{
 		// Arrange
 
-		var issue = TestIssues.GetNewIssue();
+		var issue = FakeIssue.GetNewIssue(true);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -59,7 +59,7 @@ public class IssueServiceTests
 	{
 		//Arrange
 
-		var expected = TestIssues.GetKnownIssue();
+		var expected = FakeIssue.GetNewIssue(true);
 
 		_issueRepositoryMock.Setup(x => x.GetIssueAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -111,7 +111,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 6;
 
-		var expected = TestIssues.GetIssues();
+		var expected = FakeIssue.GetIssues(expectedCount);
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesAsync()).ReturnsAsync(expected);
 
@@ -139,7 +139,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 6;
 
-		var expected = TestIssues.GetIssues();
+		var expected = FakeIssue.GetIssues(expectedCount);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -171,10 +171,14 @@ public class IssueServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
+
+		var issues = FakeIssue.GetIssues(expectedCount);
+
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
-			.Where(x => x!.Author!.Id == expectedUser).ToList();
+		foreach (var issue in issues) { issue.Author = new BasicUserModel(expectedUser, "test"); }
+
+		var expected = issues;
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -201,10 +205,14 @@ public class IssueServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
+
+		var issues = FakeIssue.GetIssues(expectedCount);
+
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
-		var expected = TestIssues.GetIssuesWithDuplicateAuthors()
-			.Where(x => x!.Author!.Id == expectedUser).ToList();
+		foreach (var issue in issues) { issue.Author = new BasicUserModel(expectedUser, "test"); }
+
+		var expected = issues;
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -265,7 +273,16 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestIssues.GetIssues().Where(c => !c.ApprovedForRelease);
+		var expected = FakeIssue.GetIssues(expectedCount);
+
+		foreach (var issue in expected)
+		{
+
+			issue.ApprovedForRelease = false;
+			issue.Archived = false;
+			issue.Rejected = false;
+
+		}
 
 		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync()).ReturnsAsync(expected);
 
@@ -277,13 +294,12 @@ public class IssueServiceTests
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
 		var results = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "GetApprovedIssues")]
@@ -293,7 +309,13 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestIssues.GetIssues().Where(c => c.ApprovedForRelease);
+		var expected = FakeIssue.GetIssues(expectedCount);
+		foreach (var issue in expected)
+		{
+			issue.ApprovedForRelease = true;
+			issue.Archived = false;
+			issue.Rejected = false;
+		}
 
 		_issueRepositoryMock.Setup(x => x.GetApprovedIssuesAsync()).ReturnsAsync(expected);
 
@@ -319,7 +341,7 @@ public class IssueServiceTests
 	{
 		// Arrange
 
-		var updatedIssue = TestIssues.GetUpdatedIssue();
+		var updatedIssue = FakeIssue.GetNewIssue(true);
 
 		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 

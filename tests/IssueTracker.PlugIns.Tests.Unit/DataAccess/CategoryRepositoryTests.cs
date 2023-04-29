@@ -1,10 +1,9 @@
-﻿using IssueTracker.CoreBusiness.BogusFakes;
-
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CategoryRepositoryTests
 {
+
 	private readonly Mock<IAsyncCursor<CategoryModel>> _cursor;
 	private readonly Mock<IMongoCollection<CategoryModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
@@ -23,7 +22,9 @@ public class CategoryRepositoryTests
 
 	private CategoryRepository CreateRepository()
 	{
+
 		return new CategoryRepository(_mockContext.Object);
+
 	}
 
 	[Fact(DisplayName = "Archive Category")]
@@ -63,23 +64,24 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-
 		await sut.CreateCategoryAsync(newCategory);
 
 		// Assert
-
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c
-			.InsertOneAsync(newCategory, null, default), Times.Once);
+			.InsertOneAsync(
+			newCategory,
+			null,
+			default), Times.Once);
 
 	}
 
 	[Fact(DisplayName = "Get Category With a Valid Id")]
 	public async Task GetCategory_With_Valid_Id_Should_Returns_One_Category_Test()
 	{
-		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		// Arrange
+		var expected = FakeCategory.GetNewCategory(true);
 
 		_list = new List<CategoryModel> { expected };
 
@@ -90,29 +92,29 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-
 		var result = await sut.GetCategoryAsync(expected.Id);
 
 		//Assert 
-
 		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(expected);
 
 		//Verify if InsertOneAsync is called once
+		_mockCollection
+			.Verify(c => c
+			.FindAsync(
+				It.IsAny<FilterDefinition<CategoryModel>>(),
+				It.IsAny<FindOptions<CategoryModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
-			It.IsAny<FindOptions<CategoryModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
-		result.Should().BeEquivalentTo(expected);
-		result.CategoryName.Length.Should().BeGreaterThan(1);
 	}
 
 	[Fact(DisplayName = "Get Categories")]
 	public async Task GetCategories_With_Valid_Context_Should_Return_A_List_Of_Categories_Test()
 	{
+
 		// Arrange
 		const int expectedCount = 5;
-		var expected = TestCategories.GetCategories().ToList();
+		var expected = FakeCategory.GetCategories().ToList();
 
 		_list = new List<CategoryModel>(expected);
 
@@ -123,29 +125,31 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-
-		var result = await sut.GetCategoriesAsync().ConfigureAwait(false);
+		var results = (await sut.GetCategoriesAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
 
-		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
+		_mockCollection.Verify(c => c
+		.FindAsync(
+			It.IsAny<FilterDefinition<CategoryModel>>(),
 			It.IsAny<FindOptions<CategoryModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
-		var items = result.ToList();
-		items.ToList().Should().NotBeNull();
-		items.ToList().Should().HaveCount(expectedCount);
 	}
 
 	[Fact(DisplayName = "Update Category")]
 	public async Task UpdateCategory_With_A_Valid_Id_And_Category_Should_UpdateCategory_Test()
 	{
-		// Arrange
 
-		var expected = TestCategories.GetKnownCategory();
+		// Arrange
+		var expected = FakeCategory.GetNewCategory(true);
 
 		var updatedCategory =
-			TestCategories.GetCategory(expected.Id, expected.CategoryDescription, "Updated New");
+		FakeCategory.GetNewCategory(true);
+		updatedCategory.Id = expected.Id;
+		updatedCategory.CategoryDescription = "Updated New";
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
@@ -153,20 +157,23 @@ public class CategoryRepositoryTests
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
-		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c
+		.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		var sut = CreateRepository();
 
 		// Act
-
 		await sut.UpdateCategoryAsync(updatedCategory.Id, updatedCategory);
 
 		// Assert
-
 		_mockCollection.Verify(
-			c => c.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(), updatedCategory,
+			c => c
+			.ReplaceOneAsync(
+				It.IsAny<FilterDefinition<CategoryModel>>(),
+				updatedCategory,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
+
 	}
 
 	private void SetupMongoCollection(CategoryModel? category)
@@ -184,4 +191,5 @@ public class CategoryRepositoryTests
 		_mockContext.Setup(c => c.GetCollection<CategoryModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 	}
+
 }

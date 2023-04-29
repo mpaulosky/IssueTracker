@@ -9,8 +9,8 @@ public class StatusesTests : TestContext
 
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private IEnumerable<StatusModel>? _expectedStatuses;
-	private UserModel? _expectedUser;
+	private readonly IEnumerable<StatusModel> _expectedStatuses;
+	private readonly UserModel _expectedUser;
 
 	public StatusesTests()
 	{
@@ -20,6 +20,10 @@ public class StatusesTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedStatuses = FakeStatus.GetStatuses();
+
 	}
 
 	[Fact]
@@ -28,8 +32,6 @@ public class StatusesTests : TestContext
 
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
 
 		SetupMocks();
 		SetMemoryCache();
@@ -54,78 +56,128 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedStatuses = FakeStatus.GetStatuses(1);
-		_expectedUser = TestUsers.GetKnownUser();
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4" >Statuses</h1>
 			<div class="row justify-content-center create-form" >
 				<div class="form-layout col-xl-9 col-lg-11" >
 					<div class="close-button-section" >
-						<button id="close-page" class="btn btn-close"  ></button>
+						<button id="close-page" class="btn btn-close"></button>
 					</div>
 					<div class="" >
-						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore >
+						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
 							<span class="rz-button-box">
 								<i class="rz-button-icon-left rzi">add_circle_outline</i>
 								<span class="rz-button-text">Add New Status</span>
 							</span>
 						</button>
-						<div class="rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable " id:ignore >
+						<div class="rz-data-grid rz-has-paginator rz-datatable rz-datatable-scrollable " id:ignore>
 							<div class="rz-data-grid-data">
-								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped ">
+								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped">
 									<colgroup>
 										<col id:ignore style="width:120px">
 										<col id:ignore style="width:200px">
 										<col id:ignore style="width:156px">
 									</colgroup>
-									<thead>
-										<tr>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:120px" >
-												<div  tabindex="0" >
-													<span class="rz-column-title" title="Status Name">
-														<span class="rz-column-title-content">Status Name</span>
-														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-													</span>
-												</div>
-											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:200px" >
-												<div  tabindex="0" >
-													<span class="rz-column-title" title="Description">
-														<span class="rz-column-title-content">Description</span>
-														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-													</span>
-												</div>
-											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col" style="width:156px;text-align:right;" >
-												<div  tabindex="-1" >
-													<span class="rz-column-title">
-														<span class="rz-column-title-content"></span>
-													</span>
-												</div>
-											</th>
-										</tr>
-									</thead>
+									<thead diff:ignore></thead>
 									<tbody>
-										<tr class="rz-data-row  " diff:ignoreChildren >
-											<td rowspan="1" colspan="1" style="width:120px"   >
+										<tr class="rz-data-row ">
+											<td rowspan="1" colspan="1" style="width:120px"  >
 												<span class="rz-cell-data" title="">
-													Miscellaneous
+													Answered
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:200px"   >
+											<td rowspan="1" colspan="1" style="width:200px"  >
 												<span class="rz-cell-data" title="">
-													Sit sunt porro.
+													The suggestion was accepted and the corresponding item was created.
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"   >
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"  >
 												<span class="rz-cell-data" title="">
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore  >
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">edit</i>
 														</span>
 													</button>
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore  >
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row ">
+											<td rowspan="1" colspan="1" style="width:120px"  >
+												<span class="rz-cell-data" title="">
+													Watching
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px"  >
+												<span class="rz-cell-data" title="">
+													The suggestion is interesting. We are watching to see how much interest there is in it.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"  >
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													In Work
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was accepted and it will be released soon.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"  >
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row ">
+											<td rowspan="1" colspan="1" style="width:120px"  >
+												<span class="rz-cell-data" title="">
+													Dismissed
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px"  >
+												<span class="rz-cell-data" title="">
+													The suggestion was not something that we are going to undertake.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"  >
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">delete</i>
 														</span>
@@ -162,8 +214,6 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-uppercase mb-4">Statuses</h1>
@@ -174,56 +224,185 @@ public class StatusesTests : TestContext
 					</div>
 					<div class="">
 						<button disabled="" type="button"
-								class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default rz-state-disabled mt-2 mb-4"
-								id:ignore>
+							class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default rz-state-disabled mt-2 mb-4" id:ignore>
 							<span class="rz-button-box">
-							<i class="rz-button-icon-left rzi">add_circle_outline</i>
+								<i class="rz-button-icon-left rzi">add_circle_outline</i>
 								<span class="rz-button-text">Add New Status</span>
 							</span>
 						</button>
-						<div class="rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable " id:ignore>
+						<div class="rz-data-grid rz-has-paginator rz-datatable rz-datatable-scrollable" id:ignore>
 							<div class="rz-data-grid-data">
-								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped  ">
+								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped">
 									<colgroup>
 										<col id:ignore style="width:120px">
 										<col id:ignore style="width:200px">
 										<col id:ignore style="width:156px">
 									</colgroup>
 									<thead>
-									<tr>
-										<th rowspan="1" colspan="1"
-											class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col"
-											style="width:120px">
-											<div tabindex="0">
-												<span class="rz-column-title" title="Status Name">
-													<span class="rz-column-title-content">Status Name</span>
-													<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-												</span>
-											</div>
-										</th>
-										<th rowspan="1" colspan="1"
-											class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col"
-											style="width:200px">
-											<div tabindex="0">
-												<span class="rz-column-title" title="Description">
-													<span class="rz-column-title-content">Description</span>
-													<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-												</span>
-											</div>
-										</th>
-										<th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col"
-											style="width:156px;text-align:right;">
-											<div tabindex="-1">
-												<span class="rz-column-title">
-													<span class="rz-column-title-content"></span>
-												</span>
-											</div>
-										</th>
-									</tr>
+										<tr>
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:120px">
+												<div tabindex="0">
+													<span class="rz-column-title" title="Status Name">
+														<span class="rz-column-title-content">Status Name</span>
+														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
+													</span>
+												</div>
+											</th>
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:200px">
+												<div tabindex="0">
+													<span class="rz-column-title" title="Description">
+														<span class="rz-column-title-content">Description</span>
+														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
+													</span>
+												</div>
+											</th>
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-text-align-right" scope="col" style="width:156px;text-align:right;">
+												<div tabindex="-1">
+													<span class="rz-column-title">
+														<span class="rz-column-title-content"></span>
+													</span>
+												</div>
+											</th>
+										</tr>
 									</thead>
 									<tbody>
-									<tr diff:ignore></tr>
-									<tr diff:ignore></tr>
+										<tr class="rz-data-row rz-datatable-edit ">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													<input name="StatusName" style="width: 100%; display: block;" class="rz-textbox valid rz-state-empty" tabindex="0" autocomplete="on" value="" id:ignore>
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													<input name="StatusDescription" style="width: 100%; display: block;" class="rz-textbox valid rz-state-empty" tabindex="0" autocomplete="on" value="" id:ignore>
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-success rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">check</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">close</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Answered
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was accepted and the corresponding item was created.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button"
+														class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button"
+														class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Watching
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion is interesting. We are watching to see how much interest there is in it.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													In Work
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was accepted and it will be released soon.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Dismissed
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was not something that we are going to undertake.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -254,26 +433,24 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
 		const string expectedHtml =
 			"""
-			<h1 class="page-heading text-uppercase mb-4" >Statuses</h1>
-			<div class="row justify-content-center create-form" >
-				<div class="form-layout col-xl-9 col-lg-11" >
-					<div class="close-button-section" >
-						<button id="close-page" class="btn btn-close"  ></button>
+			<h1 class="page-heading text-uppercase mb-4">Statuses</h1>
+			<div class="row justify-content-center create-form">
+				<div class="form-layout col-xl-9 col-lg-11">
+					<div class="close-button-section">
+						<button id="close-page" class="btn btn-close"></button>
 					</div>
-					<div class="" >
-						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore >
+					<div class="">
+						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
 							<span class="rz-button-box">
 								<i class="rz-button-icon-left rzi">add_circle_outline</i>
 								<span class="rz-button-text">Add New Status</span>
 							</span>
 						</button>
-						<div class="rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable " id:ignore >
+						<div class="rz-data-grid rz-has-paginator rz-datatable	rz-datatable-scrollable " id:ignore>
 							<div class="rz-data-grid-data">
-								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped ">
+								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped">
 									<colgroup>
 										<col id:ignore style="width:120px">
 										<col id:ignore style="width:200px">
@@ -281,24 +458,24 @@ public class StatusesTests : TestContext
 									</colgroup>
 									<thead>
 										<tr>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:120px" >
-												<div  tabindex="0" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:120px">
+												<div tabindex="0">
 													<span class="rz-column-title" title="Status Name">
 														<span class="rz-column-title-content">Status Name</span>
 														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
 													</span>
 												</div>
 											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:200px" >
-												<div  tabindex="0" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:200px">
+												<div tabindex="0">
 													<span class="rz-column-title" title="Description">
 														<span class="rz-column-title-content">Description</span>
 														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
 													</span>
 												</div>
 											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col" style="width:156px;text-align:right;" >
-												<div  tabindex="-1" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-text-align-right" scope="col" style="width:156px;text-align:right;">
+												<div tabindex="-1">
 													<span class="rz-column-title">
 														<span class="rz-column-title-content"></span>
 													</span>
@@ -307,25 +484,104 @@ public class StatusesTests : TestContext
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="rz-data-row  " diff:ignoreChildren >
-											<td rowspan="1" colspan="1" style="width:120px"   >
+										<tr class="rz-data-row	">
+											<td rowspan="1" colspan="1" style="width:120px">
 												<span class="rz-cell-data" title="">
-													Miscellaneous
+													Answered
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:200px"   >
+											<td rowspan="1" colspan="1" style="width:200px">
 												<span class="rz-cell-data" title="">
-													Sit sunt porro.
+													The suggestion was accepted and the corresponding item was created.
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"   >
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
 												<span class="rz-cell-data" title="">
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore  >
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">edit</i>
 														</span>
 													</button>
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore  >
+													<button type="button"
+														class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row	">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Watching
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion is interesting. We are watching to see how much interest there is in it.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row	">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													In Work
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was accepted and it will be released soon.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row	">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Dismissed
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was not something that we are going to undertake.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">delete</i>
 														</span>
@@ -367,9 +623,6 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -400,9 +653,6 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -430,13 +680,10 @@ public class StatusesTests : TestContext
 	}
 
 	[Fact]
-	public void Statuses_OnClickDeleteButton_Should_DeleteStatus_Test()
+	public void Statuses_OnClickDeleteButton_Should_Archive_The_Status_Test()
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -460,26 +707,24 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedStatuses = FakeStatus.GetStatuses(1);
 		const string expectedHtml =
 			"""
-			<h1 class="page-heading text-uppercase mb-4" >Statuses</h1>
-			<div class="row justify-content-center create-form" >
-				<div class="form-layout col-xl-9 col-lg-11" >
-					<div class="close-button-section" >
-						<button id="close-page" class="btn btn-close"  ></button>
+			<h1 class="page-heading text-uppercase mb-4">Statuses</h1>
+			<div class="row justify-content-center create-form">
+				<div class="form-layout col-xl-9 col-lg-11">
+					<div class="close-button-section">
+						<button id="close-page" class="btn btn-close"></button>
 					</div>
-					<div class="" >
-						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore >
+					<div class="">
+						<button type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
 							<span class="rz-button-box">
 								<i class="rz-button-icon-left rzi">add_circle_outline</i>
 								<span class="rz-button-text">Add New Status</span>
 							</span>
 						</button>
-						<div class="rz-data-grid rz-has-paginator rz-datatable  rz-datatable-scrollable " id:ignore >
+						<div class="rz-data-grid rz-has-paginator rz-datatable rz-datatable-scrollable " id:ignore>
 							<div class="rz-data-grid-data">
-								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped ">
+								<table class="rz-grid-table rz-grid-table-fixed rz-grid-table-striped">
 									<colgroup>
 										<col id:ignore style="width:120px">
 										<col id:ignore style="width:200px">
@@ -487,24 +732,24 @@ public class StatusesTests : TestContext
 									</colgroup>
 									<thead>
 										<tr>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:120px" >
-												<div  tabindex="0" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:120px">
+												<div tabindex="0">
 													<span class="rz-column-title" title="Status Name">
 														<span class="rz-column-title-content">Status Name</span>
 														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
 													</span>
 												</div>
 											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:200px" >
-												<div  tabindex="0" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:200px">
+												<div tabindex="0">
 													<span class="rz-column-title" title="Description">
 														<span class="rz-column-title-content">Description</span>
 														<span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
 													</span>
 												</div>
 											</th>
-											<th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col" style="width:156px;text-align:right;" >
-												<div  tabindex="-1" >
+											<th rowspan="1" colspan="1" class="rz-unselectable-text rz-text-align-right" scope="col" style="width:156px;text-align:right;">
+												<div tabindex="-1">
 													<span class="rz-column-title">
 														<span class="rz-column-title-content"></span>
 													</span>
@@ -513,25 +758,103 @@ public class StatusesTests : TestContext
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="rz-data-row  " diff:ignoreChildren >
-											<td rowspan="1" colspan="1" style="width:120px"   >
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
 												<span class="rz-cell-data" title="">
-													Miscellaneous
+													Answered
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:200px"   >
+											<td rowspan="1" colspan="1" style="width:200px">
 												<span class="rz-cell-data" title="">
-													Sit sunt porro.
+													The suggestion was accepted and the corresponding item was created.
 												</span>
 											</td>
-											<td rowspan="1" colspan="1" style="width:156px;text-align:right;"   >
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
 												<span class="rz-cell-data" title="">
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore  >
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">edit</i>
 														</span>
 													</button>
-													<button type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore  >
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Watching
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion is interesting. We are watching to see how much interest there is in it.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													In Work
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was accepted and it will be released soon.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">delete</i>
+														</span>
+													</button>
+												</span>
+											</td>
+										</tr>
+										<tr class="rz-data-row">
+											<td rowspan="1" colspan="1" style="width:120px">
+												<span class="rz-cell-data" title="">
+													Dismissed
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:200px">
+												<span class="rz-cell-data" title="">
+													The suggestion was not something that we are going to undertake.
+												</span>
+											</td>
+											<td rowspan="1" colspan="1" style="width:156px;text-align:right;">
+												<span class="rz-cell-data" title="">
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
+														<span class="rz-button-box">
+															<i class="rz-button-icon-left rzi">edit</i>
+														</span>
+													</button>
+													<button type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
 														<span class="rz-button-box">
 															<i class="rz-button-icon-left rzi">delete</i>
 														</span>
@@ -580,7 +903,7 @@ public class StatusesTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 
-		TestAuthorizationContext? authContext = this.AddTestAuthorization();
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
 		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
@@ -589,6 +912,7 @@ public class StatusesTests : TestContext
 		);
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()

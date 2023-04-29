@@ -3,18 +3,20 @@
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext
 {
+
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CategoryModel>? _expectedCategories;
-	private List<StatusModel>? _expectedStatuses;
-	private UserModel? _expectedUser;
+	private readonly List<CategoryModel> _expectedCategories;
+	private readonly List<StatusModel> _expectedStatuses;
+	private readonly UserModel _expectedUser;
 
 	public CreateTests()
 	{
+
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
@@ -22,6 +24,10 @@ public class CreateTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedCategories = FakeCategory.GetCategories().ToList();
+		_expectedStatuses = FakeStatus.GetStatuses().ToList();
+
 	}
 
 	[Fact]
@@ -44,9 +50,6 @@ public class CreateTests : TestContext
 	{
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = TestCategories.GetCategories().ToList();
-		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -69,9 +72,6 @@ public class CreateTests : TestContext
 	{
 
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = TestCategories.GetCategories().ToList();
-		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>
@@ -82,9 +82,14 @@ public class CreateTests : TestContext
 					</div>
 					<form >
 						<div class="input-section">
-							<label class="form-label fw-bold text-uppercase" for="issue-text">Suggestion</label>
+							<label class="form-label fw-bold text-uppercase" for="issue-title">Issue Title</label>
 							<div class="input-description">Focus on the topic or technology you want to learn about.</div>
-							<input id="issue-text" class="form-control valid"  >
+							<input id="issue-title" class="form-control valid"  >
+						</div>
+						<div class="input-section">
+							<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>
+							<div class="input-description">Briefly describe your suggestion.</div>
+							<textarea id="description" class="form-control valid"></textarea>
 						</div>
 						<div class="input-section">
 							<label class="form-label fw-bold text-uppercase" for="category">Category</label>
@@ -112,11 +117,6 @@ public class CreateTests : TestContext
 								</div>
 							</div>
 						</div>
-						<div class="input-section">
-							<label class="form-label fw-bold text-uppercase" for="description">Description</label>
-							<div class="input-description">Briefly describe your suggestion.</div>
-							<textarea id="description" class="form-control valid"></textarea>
-						</div>
 						<div class="center-children">
 							<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Create Issue</button>
 						</div>
@@ -142,11 +142,9 @@ public class CreateTests : TestContext
 	[Fact]
 	public void Create_With_ValidInput_Should_SaveNewIssue_Test()
 	{
-		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedCategories = TestCategories.GetCategories().ToList();
-		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 
+		// Arrange
+		var category = _expectedCategories.First();
 		SetupMocks();
 		SetMemoryCache();
 
@@ -159,29 +157,33 @@ public class CreateTests : TestContext
 		// Act
 		IRenderedComponent<Create> cut = RenderComponent<Create>();
 
-		cut.Find("#issue-text").Change("Test Issue");
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
-		inputs[1].Change("5dc1039a1521eaa36835e541");
+		cut.Find("#issue-title").Change("Test Issue");
 		cut.Find("#description").Change("Test Description");
+		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		inputs[1].Change(category.Id);
 		cut.Find("#submit").Click();
 
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
 				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	private void SetupMocks()
 	{
+
 		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories!);
 
 		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses!);
 
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
+
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
+
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser!.DisplayName);
 		authContext.SetClaims(
@@ -189,6 +191,7 @@ public class CreateTests : TestContext
 		);
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()
@@ -208,9 +211,12 @@ public class CreateTests : TestContext
 
 	private void SetMemoryCache()
 	{
+
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
 	}
+
 }

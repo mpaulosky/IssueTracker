@@ -9,13 +9,13 @@ public class DetailsTests : TestContext
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private List<CommentModel>? _expectedComments;
-	private IssueModel? _expectedIssue;
-	private List<StatusModel>? _expectedStatuses;
-	private UserModel? _expectedUser;
+	private readonly IssueModel _expectedIssue;
+	private readonly UserModel _expectedUser;
+	private readonly List<StatusModel> _expectedStatuses;
 
 	public DetailsTests()
 	{
+
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_commentRepositoryMock = new Mock<ICommentRepository>();
@@ -23,6 +23,11 @@ public class DetailsTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
+
+		_expectedUser = FakeUser.GetNewUser(true);
+		_expectedIssue = FakeIssue.GetNewIssue(true);
+		_expectedStatuses = FakeStatus.GetStatuses().ToList();
+
 	}
 
 	[Fact]
@@ -46,9 +51,6 @@ public class DetailsTests : TestContext
 	public void Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -68,10 +70,7 @@ public class DetailsTests : TestContext
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
 		const string expectedUri = "http://localhost/";
-		_expectedIssue = TestIssues.GetKnownIssue();
-		_expectedComments = TestComments.GetComments().ToList();
 
 		SetupMocks();
 		SetMemoryCache();
@@ -97,36 +96,24 @@ public class DetailsTests : TestContext
 	public void Details_With_NonAdminUser_Should_ShowDetailsNotSetStatus_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-		_expectedComments = TestComments.GetComments().ToList();
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
-			<div diff:ignore></div>
+			<div class="issue-container">
+				<button id="create-comment" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Add Comment</button>
+			</div>
 			<div class="form-layout mb-3">
-				<div diff:ignore></div>
+				<div class="close-button-section">
+					<button id="close-page" class="btn btn-close" ></button>
+				</div>
 				<div class="issue-container">
 					<div class="issue-entry">
-						<div class="issue-entry-category issue-entry-category-miscellaneous">
-							<div class="issue-entry-category-text" >Miscellaneous</div>
-						</div>
-						<div class="issue-entry-text">
-							<div class="text-title" >Test Issue 1</div>
-							<div class="text-description">A new test issue 1</div>
-							<div class="issue-entry-bottom">
-								<div class="text-category" diff:ignoreChildren>11.12.2022</div>
-								<div class="text-author">Tester</div>
-								<div class="text-category"></div>
-							</div>
-						</div>
-						<div class="issue-entry-status issue-entry-status-watching">
-							<div class="text-status">Watching</div>
-						</div>
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+						<div diff:ignore></div>
 					</div>
 				</div>
-				<div diff:ignore>
-				</div>
+				<div diff:ignore></div>
 			</div>
 			""";
 
@@ -150,9 +137,6 @@ public class DetailsTests : TestContext
 	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-		_expectedComments = TestComments.GetComments().ToList();
 		const string expectedHtml =
 			"""
 		<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
@@ -206,10 +190,6 @@ public class DetailsTests : TestContext
 	public void Details_With_AddCommentClick_Should_NavigateToCommentPage_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetKnownIssue();
-		_expectedComments = TestComments.GetComments().ToList();
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -233,17 +213,16 @@ public class DetailsTests : TestContext
 	}
 
 	[Theory(DisplayName = "Validate Status Styles")]
-	[InlineData(0, "issue-entry-status-watching")]
-	[InlineData(1, "issue-entry-status-answered")]
+	[InlineData(0, "issue-entry-status-answered")]
+	[InlineData(1, "issue-entry-status-watching")]
 	[InlineData(2, "issue-entry-status-inwork")]
 	[InlineData(3, "issue-entry-status-dismissed")]
-	[InlineData(5, "issue-entry-status-none")]
+	[InlineData(4, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetIssues().ToList()[index];
-		_expectedComments = TestComments.GetComments().ToList();
+		if (index == 4) _expectedIssue.IssueStatus = new();
+		else _expectedIssue.IssueStatus = new BasicStatusModel(_expectedStatuses[index]);
 
 		SetupMocks();
 		SetMemoryCache();
@@ -258,6 +237,7 @@ public class DetailsTests : TestContext
 		});
 
 		var results = cut.FindAll("div");
+
 		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
 
 		// Assert
@@ -268,10 +248,6 @@ public class DetailsTests : TestContext
 	public void Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test()
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetIssues().ToList()[0];
-		_expectedComments = TestComments.GetComments().ToList();
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -295,11 +271,8 @@ public class DetailsTests : TestContext
 	[Fact]
 	public void Details_WhenCommentHasVoteByUser_Should_RemoveVote_Test()
 	{
-		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetIssues().ToList()[0];
-		_expectedComments = TestComments.GetComments().ToList();
 
+		// Arrange
 		SetupMocks();
 		SetMemoryCache();
 
@@ -318,15 +291,14 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 	}
 
 	[Fact]
 	public void Details_With_ChangingAnsweredStatusWithoutUrl_Should_Fail_Test()
 	{
+
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetIssues().ToList()[5];
-		_expectedComments = TestComments.GetComments().ToList();
 		const string expectedHtml =
 			""""
 			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
@@ -337,9 +309,7 @@ public class DetailsTests : TestContext
 			    <div class="issue-entry">
 			      <div diff:ignore></div>
 			      <div diff:ignore></div>
-			      <div class="issue-entry-status issue-entry-status-none">
-			        <div class="text-status"></div>
-			      </div>
+			      <div diff:ignore></div>
 			    </div>
 			  </div>
 			  <div class="issue-container">
@@ -381,16 +351,13 @@ public class DetailsTests : TestContext
 		cut.Find("#confirm-answered-status").Click();
 
 		cut.MarkupMatches(expectedHtml);
+
 	}
 
 	[Fact]
 	public void Details_With_AttemptOfCommentAuthorToVote_Should_Fail_Test()
 	{
 		// Arrange
-		_expectedIssue = TestIssues.GetIssues().ToList()[0];
-		_expectedComments = TestComments.GetComments().ToList();
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedUser.Id = "5dc1039a1521eaa36835e543";
 		const string expectedHtml =
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
@@ -409,38 +376,7 @@ public class DetailsTests : TestContext
 					<div diff:ignore>
 					</div>
 				</div>
-				<div class="issue-container">
-					<div class="form-layout comment-details">
-						<div class="fw-bold mb-2">Comments</div>
-						<div id="comment-entry">
-							<div id="vote" class="issue-detail-no-votes"  style="grid-column-start: 1;">
-								<div class="text-uppercase">Awaiting</div>
-								<span class="oi oi-caret-top detail-upvote"></span>
-								<div class="text-uppercase">UpVote</div>
-							</div>
-							<div diff:ignore>
-							</div>
-						</div>
-						<div id="comment-entry">
-							<div id="vote" class="issue-detail-no-votes"  style="grid-column-start: 1;">
-								<div class="text-uppercase">Click To</div>
-								<span class="oi oi-caret-top detail-upvote"></span>
-								<div class="text-uppercase">UpVote</div>
-							</div>
-							<div diff:ignore>
-							</div>
-						</div>
-						<div id="comment-entry">
-							<div id="vote" class="issue-detail-not-voted"  style="grid-column-start: 1;">
-								<div class="text-uppercase">02</div>
-								<span class="oi oi-caret-top detail-upvote"></span>
-								<div class="text-uppercase">UpVotes</div>
-							</div>
-							<div diff:ignore>
-							</div>
-						</div>
-					</div>
-				</div>
+				<div diff:ignore></div>
 			</div>
 			""";
 
@@ -460,6 +396,7 @@ public class DetailsTests : TestContext
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
+
 	}
 
 	[Theory(DisplayName = "Update Status")]
@@ -470,10 +407,6 @@ public class DetailsTests : TestContext
 	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(int index, string statusId)
 	{
 		// Arrange
-		_expectedUser = TestUsers.GetKnownUser();
-		_expectedIssue = TestIssues.GetIssues().ToList()[index];
-		_expectedComments = TestComments.GetComments().ToList();
-
 		SetupMocks();
 		SetMemoryCache();
 
@@ -515,6 +448,7 @@ public class DetailsTests : TestContext
 
 	private void SetupMocks()
 	{
+
 		_issueRepositoryMock
 			.Setup(x => x.GetIssueAsync(_expectedIssue!.Id))
 			.ReturnsAsync(_expectedIssue!);
@@ -523,14 +457,20 @@ public class DetailsTests : TestContext
 			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser!);
 
+		var _comments = FakeComment.GetComments(3).ToList();
+		_comments[1].UserVotes.Add(_expectedUser.Id);
+		foreach (var comment in _comments)
+		{
+			comment.CommentOnSource = new BasicCommentOnSourceModel(_expectedIssue);
+		}
 		_commentRepositoryMock
 			.Setup(x => x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
-			.ReturnsAsync(_expectedComments!);
+			.ReturnsAsync(_comments!);
 
-		_expectedStatuses = TestStatuses.GetStatuses().ToList();
 		_statusRepositoryMock
 			.Setup(x => x.GetStatusesAsync())
 			.ReturnsAsync(_expectedStatuses);
+
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin)

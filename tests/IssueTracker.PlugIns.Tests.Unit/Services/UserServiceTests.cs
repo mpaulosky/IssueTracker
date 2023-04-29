@@ -1,4 +1,5 @@
-﻿using IssueTracker.PlugIns.Services;
+﻿using IssueTracker.CoreBusiness.BogusFakes;
+using IssueTracker.PlugIns.Services;
 
 namespace IssueTracker.PlugIns.Tests.Unit.Services;
 
@@ -19,7 +20,7 @@ public class UserServiceTests
 	{
 		// Arrange
 
-		var user = TestUsers.GetNewUser();
+		var user = FakeUser.GetNewUser();
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
@@ -55,7 +56,7 @@ public class UserServiceTests
 	{
 		//Arrange
 
-		var expected = TestUsers.GetKnownUser();
+		var expected = FakeUser.GetNewUser(true);
 
 		_userRepositoryMock.Setup(x => x.GetUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -106,7 +107,7 @@ public class UserServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = TestUsers.GetUsers();
+		var expected = FakeUser.GetUsers(expectedCount);
 
 		_userRepositoryMock.Setup(x => x.GetUsersAsync()).ReturnsAsync(expected);
 
@@ -127,7 +128,7 @@ public class UserServiceTests
 	{
 		//Arrange
 
-		var expected = TestUsers.GetKnownUser();
+		var expected = FakeUser.GetNewUser(true);
 
 		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
@@ -176,7 +177,7 @@ public class UserServiceTests
 	{
 		// Arrange
 
-		var updatedUser = TestUsers.GetUpdatedUser();
+		var updatedUser = FakeUser.GetNewUser(true);
 
 		_sut = new UserService(_userRepositoryMock.Object);
 
