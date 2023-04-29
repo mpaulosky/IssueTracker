@@ -36,6 +36,8 @@ public static class AllServicesToRegister
 
 		builder.Services.AddHealthChecks().AddCheck<MongoHealthCheck>("MongoDbConnectionCheck");
 
+		builder.Services.RegisterPlugInRepositories();
+
 		builder.Services.RegisterServicesCollections();
 
 		builder.Services.AddRazorPages();

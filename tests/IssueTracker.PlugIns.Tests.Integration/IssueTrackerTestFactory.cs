@@ -9,6 +9,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 {
 
 	private readonly MongoDbContainer _mongoDbContainer;
+
 	private readonly string _databaseName;
 
 	public IConfiguration AppConfiguration { get; }
@@ -25,6 +26,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		_databaseName = $"test_{Guid.NewGuid():N}";
 
 	}
+
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
 
@@ -35,7 +37,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 					d => d.ServiceType ==
 							typeof(IMongoDbContextFactory));
 
-			services.Remove(dbConnectionDescriptor);
+			services.Remove(dbConnectionDescriptor!);
 
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
 					new MongoDbContextFactory(DbConfig));
