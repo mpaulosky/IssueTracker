@@ -21,11 +21,12 @@ public class ViewCommentsBySourceUseCase : IViewCommentsBySourceUseCase
 
 	}
 
-	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel? source)
+	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel source)
 	{
-		if (source is null) return null;
 
-		return await _commentRepository.GetCommentsBySourceAsync(source);
+		Guard.Against.Null(source, nameof(source));
+
+		return await _commentRepository.GetBySourceAsync(source);
 
 	}
 

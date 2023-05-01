@@ -21,12 +21,12 @@ public class ArchiveUserUseCase : IArchiveUserUseCase
 	public async Task ExecuteAsync(UserModel user)
 	{
 
-		if (user == null) return;
+		Guard.Against.Null(user, nameof(user));
 
 		// Archive the user
 		user.Archived = true;
 
-		await _userRepository.UpdateUserAsync(user);
+		await _userRepository.UpdateAsync(user);
 
 	}
 

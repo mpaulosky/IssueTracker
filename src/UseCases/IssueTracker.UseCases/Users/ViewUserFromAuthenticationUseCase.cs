@@ -20,12 +20,12 @@ public class ViewUserFromAuthenticationUseCase : IViewUserFromAuthenticationUseC
 
 	}
 
-	public async Task<UserModel?> ExecuteAsync(string? userObjectIdentifierId)
+	public async Task<UserModel?> ExecuteAsync(string userObjectIdentifierId)
 	{
 
-		if (string.IsNullOrWhiteSpace(userObjectIdentifierId)) return null;
+		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
 
-		return await _userRepository.GetUserByAuthenticationIdAsync(userObjectIdentifierId);
+		return await _userRepository.GetByAuthenticationIdAsync(userObjectIdentifierId);
 
 	}
 

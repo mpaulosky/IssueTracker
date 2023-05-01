@@ -12,4 +12,5 @@ namespace IssueTracker.UseCases.Issue.Interfaces;
 public interface IArchiveIssueUseCase
 {
 	Task ExecuteAsync(IssueModel issue);
+	
 }

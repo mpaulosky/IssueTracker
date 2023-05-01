@@ -20,10 +20,10 @@ public class ViewCategoriesUseCase : IViewCategoriesUseCase
 
 	}
 
-	public async Task<IEnumerable<CategoryModel>> ExecuteAsync()
+	public async Task<IEnumerable<CategoryModel>?> ExecuteAsync(bool includeArchived = false)
 	{
 
-		return await _categoryRepository.GetCategoriesAsync();
+		return await _categoryRepository.GetAllAsync(includeArchived);
 
 	}
 

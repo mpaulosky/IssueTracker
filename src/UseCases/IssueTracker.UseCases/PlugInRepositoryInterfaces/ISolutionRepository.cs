@@ -12,16 +12,18 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 public interface ISolutionRepository
 {
 
-	Task CreateSolutionAsync(SolutionModel solution);
+	Task ArchiveAsync(SolutionModel solution);
 
-	Task<SolutionModel> GetSolutionByIdAsync(string solutionId);
+	Task CreateAsync(SolutionModel solution);
 
-	Task<IEnumerable<SolutionModel>> GetSolutionsAsync();
+	Task<SolutionModel?> GetAsync(string solutionId);
 
-	Task<IEnumerable<SolutionModel>> GetSolutionsByIssueIdAsync(string id);
+	Task<IEnumerable<SolutionModel>?> GetAllAsync(bool includeArchived = false);
 
-	Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string id);
+	Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string id);
 
-	Task UpdateSolutionAsync(SolutionModel solution);
+	Task<IEnumerable<SolutionModel>?> GetByUserAsync(string id);
+
+	Task UpdateAsync(SolutionModel solution);
 
 }

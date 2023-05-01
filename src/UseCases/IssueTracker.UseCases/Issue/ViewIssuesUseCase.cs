@@ -21,10 +21,10 @@ public class ViewIssuesUseCase : IViewIssuesUseCase
 
 	}
 
-	public async Task<IEnumerable<IssueModel>> ExecuteAsync()
+	public async Task<IEnumerable<IssueModel>?> ExecuteAsync(bool includeClosed = false)
 	{
 
-		return await _issueRepository.GetIssuesAsync();
+		return await _issueRepository.GetAllAsync();
 
 	}
 

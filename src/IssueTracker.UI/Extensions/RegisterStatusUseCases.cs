@@ -10,10 +10,10 @@ public static partial class ServiceCollectionExtensions
 	{
 
 		services.AddTransient<IArchiveStatusUseCase, ArchiveStatusUseCase>();
-		services.AddTransient<ICreateNewStatusUseCase, CreateNewStatusUseCase>();
-		services.AddTransient<IEditStatusUseCase, EditStatusUseCase>();
+		services.AddTransient<ICreateStatusUseCase, CreateStatusUseCase>();
+		services.AddTransient<IUpdateStatusUseCase, UpdateStatusUseCase>();
 		services.AddTransient<IViewStatusesUseCase, ViewStatusesUseCase>();
-		services.AddTransient<IViewStatusByIdUseCase, ViewStatusByIdUseCase>();
+		services.AddTransient<IViewStatusUseCase, ViewStatusUseCase>();
 
 		return services;
 

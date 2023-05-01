@@ -11,5 +11,6 @@ namespace IssueTracker.UseCases.Issue.Interfaces;
 
 public interface IViewIssuesWaitingForApprovalUseCase
 {
-	Task<IEnumerable<IssueModel>> ExecuteAsync();
+	Task<IEnumerable<IssueModel>?> ExecuteAsync();
+	
 }

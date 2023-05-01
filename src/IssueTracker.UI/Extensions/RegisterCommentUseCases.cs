@@ -10,10 +10,10 @@ public static partial class ServiceCollectionExtensions
 	{
 
 		services.AddTransient<IArchiveCommentUseCase, ArchiveCommentUseCase>();
-		services.AddTransient<ICreateNewCommentUseCase, CreateNewCommentUseCase>();
-		services.AddTransient<IEditCommentUseCase, EditCommentUseCase>();
+		services.AddTransient<ICreateCommentUseCase, CreateCommentUseCase>();
+		services.AddTransient<IUpdateCommentUseCase, UpdateCommentUseCase>();
 		services.AddTransient<IViewCommentsUseCase, ViewCommentsUseCase>();
-		services.AddTransient<IViewCommentByIdUseCase, ViewCommentByIdUseCase>();
+		services.AddTransient<IViewCommentUseCase, ViewCommentUseCase>();
 
 		return services;
 

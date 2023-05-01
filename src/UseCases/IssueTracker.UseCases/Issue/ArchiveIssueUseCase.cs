@@ -21,15 +21,12 @@ public class ArchiveIssueUseCase : IArchiveIssueUseCase
 
 	}
 
-	public async Task ExecuteAsync(IssueModel? issue)
+	public async Task ExecuteAsync(IssueModel issue)
 	{
 
-		if (issue == null)
-		{
-			return;
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
-		// Archive the issue
+			// Archive the issue
 		issue.Archived = true;
 
 		await _issueRepository.UpdateIssueAsync(issue);

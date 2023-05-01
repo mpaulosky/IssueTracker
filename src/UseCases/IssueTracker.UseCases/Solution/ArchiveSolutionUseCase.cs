@@ -24,12 +24,12 @@ public class ArchiveSolutionUseCase : IArchiveSolutionUseCase
 	public async Task ExecuteAsync(SolutionModel solution)
 	{
 
-		if (solution == null) return;
+		Guard.Against.Null(solution, nameof(solution));
 
 		// Archive the solution
 		solution.Archived = true;
 
-		await _solutionRepository.UpdateSolutionAsync(solution);
+		await _solutionRepository.UpdateAsync(solution);
 
 	}
 

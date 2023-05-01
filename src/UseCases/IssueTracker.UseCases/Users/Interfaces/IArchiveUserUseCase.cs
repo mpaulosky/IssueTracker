@@ -12,4 +12,5 @@ namespace IssueTracker.UseCases.Users.Interfaces;
 public interface IArchiveUserUseCase
 {
 	Task ExecuteAsync(UserModel user);
+	
 }

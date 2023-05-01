@@ -1,4 +1,6 @@
-﻿global using IssueTracker.CoreBusiness.Models;
+﻿global using Ardalis.GuardClauses;
+
+global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.UseCases.Category.Interfaces;
 global using IssueTracker.UseCases.Comment.Interfaces;
 global using IssueTracker.UseCases.Issue.Interfaces;

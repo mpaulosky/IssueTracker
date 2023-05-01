@@ -21,10 +21,10 @@ public class ViewIssuesWaitingForApprovalUseCase : IViewIssuesWaitingForApproval
 
 	}
 
-	public async Task<IEnumerable<IssueModel>> ExecuteAsync()
+	public async Task<IEnumerable<IssueModel>?> ExecuteAsync()
 	{
 
-		return await _issueRepository.GetIssuesWaitingForApprovalAsync();
+		return await _issueRepository.GetWaitingForApprovalAsync();
 
 	}
 

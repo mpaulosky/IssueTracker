@@ -10,5 +10,6 @@ namespace IssueTracker.UseCases.Users.Interfaces;
 
 public interface IViewUsersUseCase
 {
-	Task<IEnumerable<UserModel>> ExecuteAsync();
+	Task<IEnumerable<UserModel>?> ExecuteAsync(bool includeArchived = false);
+	
 }

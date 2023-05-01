@@ -9,10 +9,10 @@ public static partial class ServiceCollectionExtensions
 	{
 
 		services.AddTransient<IArchiveUserUseCase, ArchiveUserUseCase>();
-		services.AddTransient<ICreateNewUserUseCase, CreateNewUserUseCase>();
-		services.AddTransient<IEditUserUseCase, EditUserUseCase>();
+		services.AddTransient<ICreateUserUseCase, CreateUserUseCase>();
+		services.AddTransient<IUpdateUserUseCase, UpdateUserUseCase>();
 		services.AddTransient<IViewUsersUseCase, ViewUsersUseCase>();
-		services.AddTransient<IViewUserByIdUseCase, ViewUserByIdUseCase>();
+		services.AddTransient<IViewUserUseCase, ViewUserUseCase>();
 		services.AddTransient<IViewUserFromAuthenticationUseCase, ViewUserFromAuthenticationUseCase>();
 
 		return services;

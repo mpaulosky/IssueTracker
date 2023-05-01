@@ -10,12 +10,12 @@ public static partial class ServiceCollectionExtensions
 	{
 
 		services.AddTransient<IArchiveIssueUseCase, ArchiveIssueUseCase>();
-		services.AddTransient<ICreateNewIssueUseCase, CreateNewIssueUseCase>();
-		services.AddTransient<IEditIssueUseCase, EditIssueUseCase>();
+		services.AddTransient<ICreateIssueUseCase, CreateIssueUseCase>();
+		services.AddTransient<IUpdateIssueUseCase, UpdateIssueUseCase>();
 		services.AddTransient<IViewIssuesUseCase, ViewIssuesUseCase>();
-		services.AddTransient<IViewIssueByIdUseCase, ViewIssueByIdUseCase>();
+		services.AddTransient<IViewIssueUseCase, ViewIssueUseCase>();
 		services.AddTransient<IViewIssuesApprovedUseCase, ViewIssuesApprovedUseCase>();
-		services.AddTransient<IViewIssuesByUserIdUseCase, ViewIssuesByUserIdUseCase>();
+		services.AddTransient<IViewIssuesByUserUseCase, ViewIssuesByUserUseCase>();
 		services.AddTransient<IViewIssuesUseCase, ViewIssuesUseCase>();
 		services.AddTransient<IViewIssuesWaitingForApprovalUseCase, ViewIssuesWaitingForApprovalUseCase>();
 

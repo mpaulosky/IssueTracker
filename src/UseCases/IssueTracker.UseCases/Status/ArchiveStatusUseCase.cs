@@ -24,12 +24,12 @@ public class ArchiveStatusUseCase : IArchiveStatusUseCase
 	public async Task ExecuteAsync(StatusModel status)
 	{
 
-		if (status == null) return;
+		Guard.Against.Null(status, nameof(status));
 
 		// Archive the status
 		status.Archived = true;
 
-		await _statusRepository.UpdateStatusAsync(status);
+		await _statusRepository.UpdateAsync(status);
 
 	}
 

@@ -11,12 +11,14 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 public interface IStatusRepository
 {
 
-	Task CreateStatusAsync(StatusModel status);
+	Task ArchiveAsync(StatusModel status);
 
-	Task<StatusModel> GetStatusByIdAsync(string statusId);
+	Task CreateAsync(StatusModel status);
 
-	Task<IEnumerable<StatusModel>> GetStatusesAsync();
+	Task<StatusModel?> GetAsync(string statusId);
 
-	Task UpdateStatusAsync(StatusModel status);
+	Task<IEnumerable<StatusModel>?> GetAllAsync(bool includeArchived = false);
+
+	Task UpdateAsync(StatusModel status);
 
 }

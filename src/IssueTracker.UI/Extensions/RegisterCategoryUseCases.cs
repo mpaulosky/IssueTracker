@@ -11,9 +11,9 @@ public static partial class ServiceCollectionExtensions
 
 		services.AddTransient<IArchiveCategoryUseCase, ArchiveCategoryUseCase>();
 		services.AddTransient<ICreateCategoryUseCase, CreateCategoryUseCase>();
-		services.AddTransient<IEditCategoryUseCase, EditCategoryUseCase>();
+		services.AddTransient<IUpdateCategoryUseCase, UpdateCategoryUseCase>();
 		services.AddTransient<IViewCategoriesUseCase, ViewCategoriesUseCase>();
-		services.AddTransient<IViewCategoryByIdUseCase, ViewCategoryByIdUseCase>();
+		services.AddTransient<IViewCategoryUseCase, ViewCategoryUseCase>();
 
 		return services;
 

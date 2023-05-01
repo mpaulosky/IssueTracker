@@ -24,14 +24,9 @@ public class ViewSolutionsByIssueIdUseCase : IViewSolutionsByIssueIdUseCase
 	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(BasicIssueModel issue)
 	{
 
-		if (issue == null)
-		{
+		Guard.Against.Null(issue, nameof(issue));
 
-			return null;
-
-		}
-
-		return await _solutionRepository.GetSolutionsByIssueIdAsync(issue.Id);
+		return await _solutionRepository.GetByIssueAsync(issue.Id);
 
 	}
 
