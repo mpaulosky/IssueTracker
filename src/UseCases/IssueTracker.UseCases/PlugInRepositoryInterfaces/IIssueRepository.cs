@@ -25,6 +25,6 @@ public interface IIssueRepository
 
 	Task<IEnumerable<IssueModel>?> GetWaitingForApprovalAsync();
 
-	Task UpdateIssueAsync(IssueModel issue);
+	Task UpdateAsync(IssueModel issue);
 
 }

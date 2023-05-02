@@ -14,7 +14,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 /// </summary>
 public class SolutionRepository : ISolutionRepository
 {
-	private const bool FalseValue = false;
+
 	private readonly IMongoCollection<SolutionModel> _collection;
 
 	/// <summary>
@@ -34,26 +34,43 @@ public class SolutionRepository : ISolutionRepository
 	}
 
 	/// <summary>
+	/// ArchiveAsync method
+	/// </summary>
+	/// <param name="solution">SolutionModel</param>
+	public async Task ArchiveAsync(SolutionModel solution)
+	{
+
+		var objectId = new ObjectId(solution.Id);
+
+		FilterDefinition<SolutionModel> filter =
+			Builders<SolutionModel>.Filter.Eq("_id", objectId);
+
+		await _collection.ReplaceOneAsync(filter, solution);
+
+	}
+	
+	/// <summary>
 	/// Creates the solution asynchronous.
 	/// </summary>
 	/// <param name="solution">The solution.</param>
-	public async Task CreateSolutionAsync(SolutionModel solution)
+	public async Task CreateAsync(SolutionModel solution)
 	{
 
 		await _collection.InsertOneAsync(solution);
 
 	}
 
-	public async Task<SolutionModel> GetSolutionByIdAsync(string solutionId)
+	/// <summary>
+	/// GetAsync method
+	/// </summary>
+	/// <param name="solutionId"></param>
+	/// <returns>SolutionModel</returns>
+	public async Task<SolutionModel?> GetAsync(string solutionId)
 	{
 
-		var objectId = new ObjectId(solutionId);
-
-		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
-
-		SolutionModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
+		return (await _collection
+				.FindAsync(s=> s.Id == solutionId && s.Archived == false))
+			.FirstOrDefault();
 
 	}
 
@@ -62,33 +79,40 @@ public class SolutionRepository : ISolutionRepository
 	/// </summary>
 	/// <param name="issueId"></param>
 	/// <returns>Task of SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>> GetSolutionsByIssueIdAsync(string issueId)
+	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string issueId)
 	{
-
-		var output = await GetSolutionsAsync();
-
-		var results = output
-			.Where(s => s.Issue.Id == issueId && s.Archived == FalseValue)
-			.OrderByDescending(o => o.DateCreated.Date)
+		
+		return (await _collection
+			.FindAsync(s=> s.Issue.Id == issueId && s.Archived == false))
 			.ToList();
-
-		return results;
-
+		
 	}
 
 	/// <summary>
-	/// GetSolutionsAsync method
+	/// GetAllAsync method
 	/// </summary>
 	/// <returns>Task of IEnumerable SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>> GetSolutionsAsync()
+	public async Task<IEnumerable<SolutionModel>?> GetAllAsync(bool includeArchived = false)
 	{
 
-		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Empty;
+		if (includeArchived)
+		{
+			
+			var filter = Builders<SolutionModel>.Filter.Empty;
+			return (await _collection
+					.FindAsync(filter))
+				.ToList();
 
-		var result = (await _collection.FindAsync(filter)).ToList();
+		}
+		else
+		{
 
-		return result;
-
+			return (await _collection
+					.FindAsync(x => x.Archived == includeArchived))
+				.ToList();
+			
+		}
+		
 	}
 
 	/// <summary>
@@ -96,17 +120,12 @@ public class SolutionRepository : ISolutionRepository
 	/// </summary>
 	/// <param name="userId">string user Id</param>
 	/// <returns>Task of IEnumerable SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>> GetSolutionsByUserIdAsync(string userId)
+	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string userId)
 	{
 
-		var output = await GetSolutionsAsync();
-
-		var results = output
-			.Where(s => s.Author.Id == userId && s.Archived == FalseValue)
-			.OrderByDescending(o => o.DateCreated.Date)
+		return (await _collection
+			.FindAsync(s=> s.Author.Id == userId && s.Archived == false))
 			.ToList();
-
-		return results;
 
 	}
 
@@ -114,7 +133,7 @@ public class SolutionRepository : ISolutionRepository
 	/// UpdateSolutionAsync method
 	/// </summary>
 	/// <param name="solution">SolutionModel</param>
-	public async Task UpdateSolutionAsync(SolutionModel solution)
+	public async Task UpdateAsync(SolutionModel solution)
 	{
 
 		var objectId = new ObjectId(solution.Id);

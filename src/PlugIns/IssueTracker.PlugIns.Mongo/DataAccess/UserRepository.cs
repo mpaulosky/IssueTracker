@@ -33,55 +33,77 @@ public class UserRepository : IUserRepository
 
 	}
 
-	/// <summary>
-	///		GetUser method
-	/// </summary>
-	/// <param name="itemId">string</param>
-	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserByIdAsync(string itemId)
+	///  <summary>
+	/// 		ArchiveAsync method
+	///  </summary>
+	///  <param name="user">UserModel</param>
+	public async Task ArchiveAsync(UserModel user)
 	{
-
-		var objectId = new ObjectId(itemId);
+		var objectId = new ObjectId(user.Id);
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
+		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
-
+	
 	/// <summary>
-	///		GetUsers method
-	/// </summary>
-	/// <returns>Task of IEnumerable UserModel</returns>
-	public async Task<IEnumerable<UserModel>> GetUsersAsync()
-	{
-
-		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Empty;
-
-		var result = (await _collection.FindAsync(filter)).ToList();
-
-		return result;
-
-	}
-
-	/// <summary>
-	///		CreateUser method
+	///		CreateAsync method
 	/// </summary>
 	/// <param name="user">UserModel</param>
-	public async Task CreateUserAsync(UserModel user)
+	public async Task CreateAsync(UserModel user)
 	{
 
 		await _collection.InsertOneAsync(user);
 
 	}
 
+	/// <summary>
+	///		GetAsync method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of UserModel</returns>
+	public async Task<UserModel?> GetAsync(string userId)
+	{
+
+		return (await _collection
+			.FindAsync(x => x.Id == userId && x.Archived == false))
+			.FirstOrDefault();
+
+	}
+
+	/// <summary>
+	///		GetAllAsync method
+	/// </summary>
+	/// <returns>Task of IEnumerable UserModel</returns>
+	public async Task<IEnumerable<UserModel>?> GetAllAsync(bool includeArchived = false)
+	{
+
+		if (includeArchived)
+		{
+			
+			var filter = Builders<UserModel>.Filter.Empty;
+			return (await _collection
+					.FindAsync(filter))
+				.ToList();
+
+		}
+		else
+		{
+
+			return (await _collection
+					.FindAsync(x => x.Archived == includeArchived))
+				.ToList();
+			
+		}
+		
+	}
+
 	///  <summary>
-	/// 		UpdateUser method
+	/// 		UpdateAsync method
 	///  </summary>
 	///  <param name="user">UserModel</param>
-	public async Task UpdateUserAsync(UserModel user)
+	public async Task UpdateAsync(UserModel user)
 	{
 		var objectId = new ObjectId(user.Id);
 
@@ -96,7 +118,7 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserByAuthenticationIdAsync(string userObjectIdentifierId)
+	public async Task<UserModel?> GetByAuthenticationIdAsync(string userObjectIdentifierId)
 	{
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);

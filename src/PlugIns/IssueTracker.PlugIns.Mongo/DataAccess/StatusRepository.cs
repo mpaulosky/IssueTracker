@@ -32,56 +32,12 @@ public class StatusRepository : IStatusRepository
 		_collection = context.GetCollection<StatusModel>(collectionName);
 
 	}
-
-	/// <summary>
-	///		CreateStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	public async Task CreateStatusAsync(StatusModel status)
-	{
-
-		await _collection.InsertOneAsync(status);
-
-	}
-
-	/// <summary>
-	///		GetStatus method
-	/// </summary>
-	/// <param name="itemId">string</param>
-	/// <returns>Task of StatusModel</returns>
-	public async Task<StatusModel> GetStatusByIdAsync(string itemId)
-	{
-
-		var objectId = new ObjectId(itemId);
-
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		StatusModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
-
-	}
-
-	/// <summary>
-	///		GetStatuses method
-	/// </summary>
-	/// <returns>Task of IEnumerable StatusModel</returns>
-	public async Task<IEnumerable<StatusModel>> GetStatusesAsync()
-	{
-
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Empty;
-
-		var result = (await _collection.FindAsync(filter)).ToList();
-
-		return result;
-
-	}
-
+	
 	///  <summary>
-	/// 		UpdateStatus method
+	/// 		ArchiveAsync method
 	///  </summary>
 	///  <param name="status">StatusModel</param>
-	public async Task UpdateStatusAsync(StatusModel status)
+	public async Task ArchiveAsync(StatusModel status)
 	{
 
 		var objectId = new ObjectId(status.Id);
@@ -91,19 +47,72 @@ public class StatusRepository : IStatusRepository
 		await _collection.ReplaceOneAsync(filter, status);
 
 	}
-
+	
 	/// <summary>
-	///   DeleteStatus method
+	///		CreateAsync method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
-	public async Task DeleteStatusAsync(StatusModel status)
+	public async Task CreateAsync(StatusModel status)
+	{
+
+		await _collection.InsertOneAsync(status);
+
+	}
+
+	/// <summary>
+	///		GetAsync method
+	/// </summary>
+	/// <param name="statusId">string</param>
+	/// <returns>Task of StatusModel</returns>
+	public async Task<StatusModel?> GetAsync(string statusId)
+	{
+
+		return (await _collection
+				.FindAsync(s => s.Id == statusId && s.Archived == false))
+			.FirstOrDefault();
+
+
+	}
+
+	/// <summary>
+	///		GetAllAsync method
+	/// </summary>
+	/// <returns>Task of IEnumerable StatusModel</returns>
+	public async Task<IEnumerable<StatusModel>?> GetAllAsync(bool includeArchived = false)
+	{
+
+		if (includeArchived)
+		{
+			
+			var filter = Builders<StatusModel>.Filter.Empty;
+			return (await _collection
+					.FindAsync(filter))
+				.ToList();
+
+		}
+		else
+		{
+
+			return (await _collection
+					.FindAsync(x => x.Archived == includeArchived))
+				.ToList();
+			
+		}
+		
+	}
+	
+	///  <summary>
+	/// 		UpdateStatus method
+	///  </summary>
+	///  <param name="status">StatusModel</param>
+	public async Task UpdateAsync(StatusModel status)
 	{
 
 		var objectId = new ObjectId(status.Id);
 
 		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
-		await _collection.DeleteOneAsync(filter);
+		await _collection.ReplaceOneAsync(filter, status);
 
 	}
 

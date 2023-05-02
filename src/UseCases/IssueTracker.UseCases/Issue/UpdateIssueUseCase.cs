@@ -31,7 +31,7 @@ public class UpdateIssueUseCase : IUpdateIssueUseCase
 
 		}
 
-		await _issueRepository.UpdateIssueAsync(issue);
+		await _issueRepository.UpdateAsync(issue);
 
 	}
 

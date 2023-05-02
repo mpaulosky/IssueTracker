@@ -29,7 +29,7 @@ public class ArchiveIssueUseCase : IArchiveIssueUseCase
 			// Archive the issue
 		issue.Archived = true;
 
-		await _issueRepository.UpdateIssueAsync(issue);
+		await _issueRepository.UpdateAsync(issue);
 
 	}
 

@@ -84,7 +84,7 @@ public class IssueRepository : IIssueRepository
 
 		IEnumerable<IssueModel> output = await GetIssuesAsync();
 
-		var results = output.Where(x => !x.ApprovedForRelease && !x.Rejected).ToList();
+		var results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
 
 		return results;
 
@@ -113,7 +113,7 @@ public class IssueRepository : IIssueRepository
 	public async Task<IEnumerable<IssueModel>> GetIssuesByUserAsync(string userId)
 	{
 
-		var results = (await _issueCollection.FindAsync(s => s.Author!.Id == userId)).ToList();
+		var results = (await _issueCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
 

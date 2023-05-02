@@ -33,84 +33,11 @@ public class IssueRepository : IIssueRepository
 
 	}
 
-	/// <summary>
-	///		CreateIssue method
-	/// </summary>
-	/// <param name="issue">IssueModel</param>
-	/// <exception cref="Exception"></exception>
-	public async Task CreateIssueAsync(IssueModel issue)
-	{
-
-		await _collection.InsertOneAsync(issue);
-
-	}
-
-	/// <summary>
-	///		GetIssues method
-	/// </summary>
-	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesAsync()
-	{
-
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>
-			.Filter.Empty;
-
-		var results = (await _collection.FindAsync(filter)).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		GetIssuesWaitingForApproval method
-	/// </summary>
-	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApprovalAsync()
-	{
-
-		IEnumerable<IssueModel> output = await GetIssuesAsync();
-
-		var results = output.Where(x => x is { ApprovedForRelease: false }).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		GetApprovedIssues method
-	/// </summary>
-	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesApprovedAsync()
-	{
-
-		IEnumerable<IssueModel> output = await GetIssuesAsync();
-
-		var results = output
-			.Where(x => x is { ApprovedForRelease: true }).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		GetUserIssues method
-	/// </summary>
-	/// <param name="userId">string</param>
-	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesByUserIdAsync(string userId)
-	{
-
-		var results = (await _collection.FindAsync(s => s.Author.Id == userId)).ToList();
-
-		return results;
-
-	}
-
 	///  <summary>
-	/// 		UpdateIssue method
+	/// 		ArchiveAsync method
 	///  </summary>
 	///  <param name="issue">IssueModel</param>
-	public async Task UpdateIssueAsync(IssueModel issue)
+	public async Task ArchiveAsync(IssueModel issue)
 	{
 
 		var objectId = new ObjectId(issue.Id);
@@ -120,22 +47,111 @@ public class IssueRepository : IIssueRepository
 		await _collection.ReplaceOneAsync(filter, issue);
 
 	}
+	
+	/// <summary>
+	///		CreateIssue method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	public async Task CreateAsync(IssueModel issue)
+	{
+
+		await _collection.InsertOneAsync(issue);
+
+	}
 
 	///  <summary>
-	/// 		GetIssue method
+	/// 	GetIssue method
 	///  </summary>
 	///  <param name="itemId">string</param>
 	///  <returns>Task of IssueModel</returns>
-	public async Task<IssueModel> GetIssueByIdAsync(string itemId)
+	public async Task<IssueModel?> GetAsync(string itemId)
 	{
 
-		var objectId = new ObjectId(itemId);
+		return (await _collection
+			.FindAsync(s=> s.Id == itemId && s.Archived == false && s.Rejected == false))
+			.FirstOrDefault();
+
+	}
+	/// <summary>
+	///		GetIssues method
+	/// </summary>
+	/// <param name="includeArchived">bool default is false</param>
+	/// <returns>Task of IEnumerable IssueModel</returns>
+	public async Task<IEnumerable<IssueModel>?> GetAllAsync(bool includeArchived = false)
+	{
+
+		if (includeArchived)
+		{
+			
+			var filter = Builders<IssueModel>.Filter.Empty;
+			return (await _collection
+				.FindAsync(filter))
+				.ToList();
+
+		}
+		else
+		{
+
+			return (await _collection
+					.FindAsync(x => x.Archived == includeArchived))
+				.ToList();
+			
+		}
+		
+	}
+
+	/// <summary>
+	///		GetIssuesWaitingForApproval method
+	/// </summary>
+	/// <returns>Task of IEnumerable IssueModel</returns>
+	public async Task<IEnumerable<IssueModel>?> GetWaitingForApprovalAsync()
+	{
+
+		return (await _collection
+			.FindAsync(x => x.ApprovedForRelease == false && x.Archived == false && x.Rejected == false))
+			.ToList();
+
+	}
+
+	/// <summary>
+	///		GetApprovedIssues method
+	/// </summary>
+	/// <returns>Task of IEnumerable IssueModel</returns>
+	public async Task<IEnumerable<IssueModel>?> GetApprovedAsync()
+	{
+
+		return (await _collection
+				.FindAsync(x => x.ApprovedForRelease == true && x.Archived == false && x.Rejected == false))
+			.ToList();
+
+	}
+
+	/// <summary>
+	///		GetUserIssues method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of IEnumerable IssueModel</returns>
+	public async Task<IEnumerable<IssueModel>?> GetByUserAsync(string userId)
+	{
+
+		return (await _collection
+			.FindAsync(s => s.Author.Id == userId && s.Archived == false && s.Rejected == false))
+			.ToList();
+
+	}
+
+	///  <summary>
+	/// 		UpdateAsync method
+	///  </summary>
+	///  <param name="issue">IssueModel</param>
+	public async Task UpdateAsync(IssueModel issue)
+	{
+
+		var objectId = new ObjectId(issue.Id);
 
 		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
-		IssueModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
+		await _collection.ReplaceOneAsync(filter, issue);
 
 	}
 

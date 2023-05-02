@@ -15,7 +15,7 @@ namespace IssueTracker.PlugIns.Mongo.DataAccess;
 public class CommentRepository : ICommentRepository
 {
 
-	private readonly IMongoCollection<CommentModel> _commentCollection;
+	private readonly IMongoCollection<CommentModel> _collection;
 
 	/// <summary>
 	///		CommentRepository constructor
@@ -29,118 +29,139 @@ public class CommentRepository : ICommentRepository
 
 		var commentCollectionName = GetCollectionName(nameof(CommentModel));
 
-		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
+		_collection = context.GetCollection<CommentModel>(commentCollectionName);
 
 	}
 
 	/// <summary>
-	///		CreateComment method
+	///		ArchiveAsync method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
-	/// <exception cref="Exception"></exception>
-	public async Task CreateCommentAsync(CommentModel comment)
-	{
-
-		await _commentCollection.InsertOneAsync(comment);
-
-	}
-
-	/// <summary>
-	///		GetComment method
-	/// </summary>
-	/// <param name="commentId">string</param>
-	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetCommentByIdAsync(string? commentId)
-	{
-
-		var objectId = new ObjectId(commentId);
-
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-		CommentModel result = (await _commentCollection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
-
-	}
-
-	/// <summary>
-	///		GetComments method
-	/// </summary>
-	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsAsync()
-	{
-
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Empty;
-
-		var results = (await _commentCollection.FindAsync(filter)).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		GetCommentsByIssue method
-	/// </summary>
-	/// <param name="source">BasicCommentOnSourceModel</param>
-	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source)
-	{
-
-		var results =
-			(await _commentCollection.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType)).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		GetCommentsByUser method
-	/// </summary>
-	/// <param name="userId">string</param>
-	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsByUserIdAsync(string? userId)
-	{
-
-		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
-
-		return results;
-
-	}
-
-	/// <summary>
-	///		UpdateComment method
-	/// </summary>
-	/// <param name="comment">CommentModel</param>
-	public async Task UpdateCommentAsync(CommentModel comment)
+	public async Task ArchiveAsync(CommentModel comment)
 	{
 
 		var objectId = new ObjectId(comment.Id);
 
 		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-		await _commentCollection.ReplaceOneAsync(filter, comment);
+		await _collection.ReplaceOneAsync(filter, comment);
+
+	}
+	/// <summary>
+	///		CreateAsync method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	public async Task CreateAsync(CommentModel comment)
+	{
+
+		await _collection.InsertOneAsync(comment);
 
 	}
 
 	/// <summary>
-	///		UpvoteComment method
+	///		GetAsync method
 	/// </summary>
-	/// <param name="itemId">string</param>
+	/// <param name="commentId">string</param>
+	/// <returns>Task of CommentModel</returns>
+	public async Task<CommentModel?> GetAsync(string? commentId)
+	{
+
+		return (await _collection
+			.FindAsync(s => s.Id == commentId && s.Archived == false))
+			.FirstOrDefault();
+
+	}
+
+	/// <summary>
+	///		GetAllAsync method
+	/// </summary>
+	/// <param name="includeArchived">bool</param>
+	/// <returns>Task of IEnumerable CommentModel</returns>
+	public async Task<IEnumerable<CommentModel>?> GetAllAsync(bool includeArchived = false)
+	{
+
+		if (includeArchived)
+		{
+			
+			var filter = Builders<CommentModel>.Filter.Empty;
+			return (await _collection
+					.FindAsync(filter))
+					.ToList();
+
+		}
+		else
+		{
+
+			return (await _collection
+					.FindAsync(x => x.Archived == includeArchived))
+					.ToList();
+			
+		}
+		
+	}
+
+	/// <summary>
+	///		GetBySourceAsync method
+	/// </summary>
+	/// <param name="source">BasicCommentOnSourceModel</param>
+	/// <returns>Task of IEnumerable CommentModel</returns>
+	public async Task<IEnumerable<CommentModel>?> GetBySourceAsync(BasicCommentOnSourceModel source)
+	{
+
+		return (await _collection
+				.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType && s.Archived == false))
+				.ToList();
+
+	}
+
+	/// <summary>
+	///		GetByUserAsync method
+	/// </summary>
+	/// <param name="userId">string</param>
+	/// <returns>Task of IEnumerable CommentModel</returns>
+	public async Task<IEnumerable<CommentModel>?> GetByUserAsync(string userId)
+	{
+
+		return (await _collection
+				.FindAsync(s => s.Author.Id == userId && s.Archived == false))
+				.ToList();
+
+	}
+
+	/// <summary>
+	///		UpdateAsync method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	public async Task UpdateAsync(CommentModel comment)
+	{
+
+		var objectId = new ObjectId(comment.Id);
+
+		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
+
+		await _collection.ReplaceOneAsync(filter, comment);
+
+	}
+
+	/// <summary>
+	///		UpvoteAsync method
+	/// </summary>
+	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteCommentAsync(string? itemId, string userId)
+	public async Task UpVoteAsync(string? commentId, string userId)
 	{
-		var objectId = new ObjectId(itemId);
+		var objectId = new ObjectId(commentId);
 
 		FilterDefinition<CommentModel> filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
-		CommentModel comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
+		CommentModel comment = (await _collection.FindAsync(filterComment)).FirstOrDefault();
 
 		var isUpvote = comment.UserVotes.Add(userId);
 
 		if (!isUpvote) comment.UserVotes.Remove(userId);
 
-		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
+		await _collection.ReplaceOneAsync(s => s.Id == commentId, comment);
 
 	}
 

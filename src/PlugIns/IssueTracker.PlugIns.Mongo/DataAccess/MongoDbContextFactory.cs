@@ -7,11 +7,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using JetBrains.Annotations;
+
 namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		MongoDbContext class
 /// </summary>
+[UsedImplicitly]
 public class MongoDbContextFactory : IMongoDbContextFactory
 {
 
