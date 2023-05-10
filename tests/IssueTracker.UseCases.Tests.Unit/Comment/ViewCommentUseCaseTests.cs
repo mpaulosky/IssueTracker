@@ -1,28 +1,28 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
 
 [ExcludeFromCodeCoverage]
-public class ViewCommentByIdUseCaseTests
+public class ViewCommentUseCaseTests
 {
 
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 
-	public ViewCommentByIdUseCaseTests()
+	public ViewCommentUseCaseTests()
 	{
 
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 
 	}
 
-	private ViewCommentByIdUseCase CreateUseCase(CommentModel? expected)
+	private ViewCommentUseCase CreateUseCase(CommentModel? expected)
 	{
 
 		if (expected != null)
 		{
-			_commentRepositoryMock.Setup(x => x.GetCommentByIdAsync(It.IsAny<string>()))
+			_commentRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>()))
 				.ReturnsAsync(expected);
 		}
 
-		return new ViewCommentByIdUseCase(_commentRepositoryMock.Object);
+		return new ViewCommentUseCase(_commentRepositoryMock.Object);
 
 	}
 
@@ -41,12 +41,12 @@ public class ViewCommentByIdUseCaseTests
 		// Assert
 		result.Should().NotBeNull();
 		result!.Id.Should().Be(expected.Id);
-		result!.Title.Should().Be(expected.Title);
-		result!.Description.Should().Be(expected.Description);
-		result!.Author.Should().BeEquivalentTo(expected.Author);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_commentRepositoryMock.Verify(x =>
-				x.GetCommentByIdAsync(It.IsAny<string>()), Times.Once);
+				x.GetAsync(It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -55,19 +55,20 @@ public class ViewCommentByIdUseCaseTests
 	[InlineData("")]
 	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
 	{
-
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(expectedId);
-
 		// Assert
-		result.Should().BeNull();
-
-		_commentRepositoryMock.Verify(x =>
-				x.GetCommentByIdAsync(It.IsAny<string>()), Times.Never);
-
+		switch (expectedId)
+		{
+			case null:
+				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
+				break;
+			case "":
+				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
+				break;
+		}
 	}
 
 }

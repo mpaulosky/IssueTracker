@@ -52,11 +52,12 @@ public class FakeSolutionTests
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
+		result.UserVotes.Should().NotBeNull();
 
 	}
 
 	[Fact(DisplayName = "FakeSolution GetSolutions Test")]
-	public void GetSolutions_StateUnderTest_ExpectedBehavior()
+	public void GetSolutions_With_An_Int_Value_Should_Return_Multiple_Solutions_Test()
 	{
 		// Arrange
 		const int numberOfSolutions = 1;
@@ -70,12 +71,14 @@ public class FakeSolutionTests
 		result.Description.Should().NotBeNull();
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
+		result.UserVotes.Should().NotBeNull();
 
 	}
 
 	[Fact(DisplayName = "FakeSolution GetBasicSolutions Test")]
 	public void GetBasicSolutions_StateUnderTest_ExpectedBehavior()
 	{
+
 		// Arrange
 		const int numberOfSolutions = 1;
 
@@ -88,5 +91,7 @@ public class FakeSolutionTests
 		result.Description.Should().NotBeNull();
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
+
 	}
+
 }

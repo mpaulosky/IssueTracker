@@ -26,14 +26,14 @@ public class ArchiveUserUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
-		UserModel? user = FakeUser.GetUsers(1)!.First();
+		UserModel user = FakeUser.GetUsers(1).First();
 
 		// Act
 		await sut.ExecuteAsync(user);
 
 		// Assert
 		_userRepositoryMock.Verify(x =>
-			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Once);
+			x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
 
 	}
 
@@ -42,17 +42,12 @@ public class ArchiveUserUseCaseTests
 	{
 
 		// Arrange
-		UserModel? user = null;
-
-		var sut = CreateUseCase();
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(user);
-
 		// Assert
-		_userRepositoryMock.Verify(x =>
-			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

@@ -26,14 +26,14 @@ public class ArchiveStatusUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
-		StatusModel? status = FakeStatus.GetStatuses(1).First();
+		StatusModel status = FakeStatus.GetStatuses(1).First();
 
 		// Act
 		await sut.ExecuteAsync(status);
 
 		// Assert
 		_statusRepositoryMock.Verify(x =>
-			x.UpdateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+			x.UpdateAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -42,16 +42,12 @@ public class ArchiveStatusUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		StatusModel? status = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(status);
-
 		// Assert
-		_statusRepositoryMock.Verify(x =>
-			x.UpdateStatusAsync(It.IsAny<StatusModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

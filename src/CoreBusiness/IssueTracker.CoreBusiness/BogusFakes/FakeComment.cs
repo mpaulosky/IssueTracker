@@ -80,7 +80,7 @@ public static class FakeComment
 
 		var comments = _commentsGenerator!.Generate(numberOfComments);
 
-		var basicComments = comments.Select(comments => new BasicCommentModel(comments));
+		var basicComments = comments.Select(c => new BasicCommentModel(c));
 
 		return basicComments;
 

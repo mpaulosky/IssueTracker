@@ -46,7 +46,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateCommentAsync(newComment);
+		await sut.CreateAsync(newComment);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -73,13 +73,12 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetCommentByIdAsync(expected!.Id!).ConfigureAwait(false);
+		var result = await sut.GetAsync(expected.Id).ConfigureAwait(false);
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
-		result.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
-		result.UserVotes.Should().NotBeNull();
+		result!.UserVotes.Should().NotBeNull();
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
@@ -110,7 +109,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetCommentsAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false))!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -141,7 +140,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var result = (await sut.GetCommentsBySourceAsync(expected!.CommentOnSource!).ConfigureAwait(false)).First();
+		var result = (await sut.GetBySourceAsync(expected.CommentOnSource!).ConfigureAwait(false))!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -177,7 +176,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var result = (await sut.GetCommentsByUserIdAsync(expectedUserId).ConfigureAwait(false)).ToList();
+		var result = (await sut.GetByUserAsync(expectedUserId).ConfigureAwait(false))!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -225,7 +224,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateCommentAsync(updatedComment);
+		await sut.UpdateAsync(updatedComment);
 
 		// Assert
 		_mockCollection.Verify(
@@ -258,7 +257,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpVoteCommentAsync(expected!.Id!, user!.Id!);
+		await sut.UpVoteAsync(expected.Id, user.Id);
 
 		// Assert
 		expected.UserVotes.Count.Should().BeGreaterThan(0);
@@ -272,7 +271,7 @@ public class CommentRepositoryTests
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
 		var expectedUser = FakeUser.GetUsers(1).First();
-		expected.UserVotes.Add(expectedUser.Id!);
+		expected.UserVotes.Add(expectedUser.Id);
 
 		_list = new List<CommentModel> { expected };
 
@@ -293,7 +292,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpVoteCommentAsync(expected!.Id!, expectedUser!.Id!);
+		await sut.UpVoteAsync(expected.Id, expectedUser.Id);
 
 		// Assert
 		expected.UserVotes.Count.Should().Be(0);

@@ -84,6 +84,6 @@ public class UserModel
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; } = false;
+	public bool Archived { get; set; }
 
 }

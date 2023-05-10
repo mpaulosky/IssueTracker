@@ -19,13 +19,6 @@ public class BasicSolutionModel
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BasicSolutionModel"/> class.
 	/// </summary>
-	public BasicSolutionModel()
-	{
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicSolutionModel"/> class.
-	/// </summary>
 	/// <param name="solution">The solution.</param>
 	public BasicSolutionModel(SolutionModel solution)
 	{

@@ -1,22 +1,22 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
 
 [ExcludeFromCodeCoverage]
-public class CreateNewCommentUseCaseTests
+public class CreateCommentUseCaseTests
 {
 
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 
-	public CreateNewCommentUseCaseTests()
+	public CreateCommentUseCaseTests()
 	{
 
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 
 	}
 
-	private CreateNewCommentUseCase CreateUseCase()
+	private CreateCommentUseCase CreateUseCase()
 	{
 
-		return new CreateNewCommentUseCase(_commentRepositoryMock.Object);
+		return new CreateCommentUseCase(_commentRepositoryMock.Object);
 
 	}
 
@@ -33,7 +33,7 @@ public class CreateNewCommentUseCaseTests
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
-				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
@@ -42,16 +42,12 @@ public class CreateNewCommentUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		CommentModel? comment = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(comment);
-
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

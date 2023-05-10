@@ -26,4 +26,6 @@ public interface ISolutionRepository
 
 	Task UpdateAsync(SolutionModel solution);
 
+	Task UpVoteAsync(string? solutionId, string userId);
+
 }

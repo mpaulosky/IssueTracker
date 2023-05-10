@@ -32,11 +32,11 @@ public class BasicCommentModel
 
 	}
 
-	public string Id { get; set; } = string.Empty;
-	public string Title { get; set; } = string.Empty;
-	public string Description { get; set; } = string.Empty;
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+	public string Id { get; set; }
+	public string Title { get; set; }
+	public string Description { get; set; }
+	public DateTime DateCreated { get; set; }
 	public BasicCommentOnSourceModel CommentOnSource { get; set; }
-	public BasicUserModel Author { get; set; } = new();
+	public BasicUserModel Author { get; set; }
 
 }

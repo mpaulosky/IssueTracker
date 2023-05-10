@@ -10,7 +10,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-		<PackageReference Include="Testcontainers.MongoDb" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -41,7 +41,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateStatusAsync(newStatus);
+		await sut.CreateAsync(newStatus);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -68,13 +68,11 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetStatusByIdAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
-		result.StatusName.Length.Should().BeGreaterThan(1);
-
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
@@ -92,7 +90,8 @@ public class StatusRepositoryTests
 		const int expectedCount = 5;
 		var expected = FakeStatus.GetStatuses(expectedCount);
 
-		_list = new List<StatusModel>(expected);
+		var statusModels = expected.ToList();
+		_list = new List<StatusModel>(statusModels);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -103,12 +102,12 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetStatusesAsync()).ToList();
+		var results = (await sut.GetAllAsync())!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
-		results.Should().BeEquivalentTo(expected);
+		results.Should().BeEquivalentTo(statusModels);
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
 			It.IsAny<FindOptions<StatusModel>>(),
@@ -143,7 +142,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateStatusAsync(updatedStatus).ConfigureAwait(false);
+		await sut.UpdateAsync(updatedStatus).ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(

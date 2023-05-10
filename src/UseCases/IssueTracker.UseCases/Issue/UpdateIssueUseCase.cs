@@ -24,12 +24,7 @@ public class UpdateIssueUseCase : IUpdateIssueUseCase
 	public async Task ExecuteAsync(IssueModel? issue)
 	{
 
-		if (issue == null)
-		{
-
-			return;
-
-		}
+		Guard.Against.Null(issue, nameof(issue));
 
 		await _issueRepository.UpdateAsync(issue);
 

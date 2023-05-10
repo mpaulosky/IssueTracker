@@ -1,26 +1,26 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
 [ExcludeFromCodeCoverage]
-public class EditUserUseCaseTests
+public class UpdateUserUseCaseTests
 {
 
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 
-	public EditUserUseCaseTests()
+	public UpdateUserUseCaseTests()
 	{
 
 		_userRepositoryMock = new Mock<IUserRepository>();
 
 	}
 
-	private EditUserUseCase CreateUseCase()
+	private UpdateUserUseCase CreateUseCase()
 	{
 
-		return new EditUserUseCase(_userRepositoryMock.Object);
+		return new UpdateUserUseCase(_userRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "EditUserUseCase With Valid Data Test")]
+	[Fact(DisplayName = "UpdateUserUseCase With Valid Data Test")]
 	public async Task Execute_With_ValidData_Should_EditUser_TestAsync()
 	{
 
@@ -34,25 +34,21 @@ public class EditUserUseCaseTests
 
 		// Assert
 		_userRepositoryMock.Verify(x =>
-			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Once);
+			x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
 
 	}
 
-	[Fact(DisplayName = "EditUserUseCase With In Valid Data Test")]
+	[Fact(DisplayName = "UpdateUserUseCase With In Valid Data Test")]
 	public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		UserModel? user = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(user: user);
-
 		// Assert
-		_userRepositoryMock.Verify(x =>
-			x.UpdateUserAsync(It.IsAny<UserModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

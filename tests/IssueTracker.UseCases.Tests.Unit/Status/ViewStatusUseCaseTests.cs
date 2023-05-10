@@ -1,32 +1,32 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Status;
 
 [ExcludeFromCodeCoverage]
-public class ViewStatusByIdUseCaseTests
+public class ViewStatusUseCaseTests
 {
 
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 
-	public ViewStatusByIdUseCaseTests()
+	public ViewStatusUseCaseTests()
 	{
 
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 
 	}
 
-	private ViewStatusByIdUseCase CreateUseCase(StatusModel? expected)
+	private ViewStatusUseCase CreateUseCase(StatusModel? expected)
 	{
 
 		if (expected != null)
 		{
-			_statusRepositoryMock.Setup(x => x.GetStatusByIdAsync(It.IsAny<string>()))
+			_statusRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>()))
 				.ReturnsAsync(expected);
 		}
 
-		return new ViewStatusByIdUseCase(_statusRepositoryMock.Object);
+		return new ViewStatusUseCase(_statusRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "ViewStatusByIdUseCase With Valid Id Test")]
+	[Fact(DisplayName = "ViewStatusUseCase With Valid Id Test")]
 	public async Task Execute_With_AValidId_Should_ReturnAStatusModel_TestAsync()
 	{
 
@@ -40,33 +40,34 @@ public class ViewStatusByIdUseCaseTests
 
 		// Assert
 		result.Should().NotBeNull();
-		result.Id.Should().Be(expected.Id);
+		result!.Id.Should().Be(expected.Id);
 		result.StatusName.Should().Be(expected.StatusName);
 		result.StatusDescription.Should().Be(expected.StatusDescription);
 
 		_statusRepositoryMock.Verify(x =>
-			x.GetStatusByIdAsync(It.IsAny<string>()), Times.Once);
+			x.GetAsync(It.IsAny<string>()), Times.Once);
 
 	}
 
-	[Theory(DisplayName = "ViewStatusByIdUseCase With In Valid Data Test")]
+	[Theory(DisplayName = "ViewStatusUseCase With In Valid Data Test")]
 	[InlineData(null)]
 	[InlineData("")]
 	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
 	{
-
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(expectedId);
-
 		// Assert
-		result.Should().BeNull();
-
-		_statusRepositoryMock.Verify(x =>
-			x.GetStatusByIdAsync(It.IsAny<string>()), Times.Never);
-
+		switch (expectedId)
+		{
+			case null:
+				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
+				break;
+			case "":
+				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
+				break;
+		}
 	}
 
 }

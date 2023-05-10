@@ -1,19 +1,19 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
 
 [ExcludeFromCodeCoverage]
-public class ViewCommentsByUserIdUseCaseTests
+public class ViewCommentsByUserUseCaseTests
 {
 
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 
-	public ViewCommentsByUserIdUseCaseTests()
+	public ViewCommentsByUserUseCaseTests()
 	{
 
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 
 	}
 
-	private ViewCommentsByUserIdUseCase CreateUseCase(CommentModel? expected)
+	private ViewCommentsByUserUseCase CreateUseCase(CommentModel? expected)
 	{
 
 		if (expected != null)
@@ -24,12 +24,12 @@ public class ViewCommentsByUserIdUseCaseTests
 				expected
 			};
 
-			_commentRepositoryMock.Setup(x => x.GetCommentsByUserIdAsync(It.IsAny<string>()))
+			_commentRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<string>()))
 				.ReturnsAsync(result);
 
 		}
 
-		return new ViewCommentsByUserIdUseCase(_commentRepositoryMock.Object);
+		return new ViewCommentsByUserUseCase(_commentRepositoryMock.Object);
 
 	}
 
@@ -44,17 +44,17 @@ public class ViewCommentsByUserIdUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await sut.ExecuteAsync(expectedUser);
+		var result = (await sut.ExecuteAsync(expectedUser))!.First();
 
 		// Assert
-		result!.First().Should().NotBeNull();
-		result!.First().Id.Should().Be(expected.Id);
-		result!.First().Title.Should().Be(expected.Title);
-		result!.First().Description.Should().Be(expected.Description);
-		result!.First().Author.Should().BeEquivalentTo(expected.Author);
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_commentRepositoryMock.Verify(x =>
-				x.GetCommentsByUserIdAsync(It.IsAny<string>()), Times.Once);
+				x.GetByUserAsync(It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -64,16 +64,11 @@ public class ViewCommentsByUserIdUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(null);
-
 		// Assert
-		result.Should().BeNull();
-
-		_commentRepositoryMock.Verify(x =>
-				x.GetCommentsByUserIdAsync(It.IsAny<string>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

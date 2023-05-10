@@ -21,7 +21,7 @@ public class ViewUsersUseCaseTests
 			expected
 		};
 
-		_userRepositoryMock.Setup(x => x.GetUsersAsync())
+		_userRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(result);
 
 
@@ -38,7 +38,7 @@ public class ViewUsersUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = (await sut.ExecuteAsync()).First();
+		var result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -48,7 +48,7 @@ public class ViewUsersUseCaseTests
 		result.DisplayName.Should().Be(expected.DisplayName);
 
 		_userRepositoryMock.Verify(x =>
-			x.GetUsersAsync(), Times.Once);
+			x.GetAllAsync(false), Times.Once);
 
 	}
 

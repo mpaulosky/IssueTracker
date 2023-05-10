@@ -12,7 +12,7 @@ namespace IssueTracker.PlugIns.Services;
 /// </summary>
 public class CommentService : ICommentService
 {
-	private const string _cacheName = "CommentData";
+	private const string CacheName = "CommentData";
 	private readonly IMemoryCache _cache;
 	private readonly ICommentRepository _repository;
 
@@ -61,15 +61,15 @@ public class CommentService : ICommentService
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
-		List<CommentModel>? output = _cache.Get<List<CommentModel>>(_cacheName);
+		List<CommentModel>? output = _cache.Get<List<CommentModel>>(CacheName);
 
 		if (output is not null) return output;
 
-		IEnumerable<CommentModel> results = await _repository.GetCommentsAsync();
+		IEnumerable<CommentModel>? results = await _repository.GetCommentsAsync();
 
 		output = results!.Where(x => !x.Archived).ToList();
 
-		_cache.Set(_cacheName, output, TimeSpan.FromMinutes(1));
+		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
@@ -111,11 +111,13 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpdateComment(CommentModel comment)
 	{
+
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.UpdateCommentAsync(comment.Id!, comment);
+		await _repository.UpdateCommentAsync(comment.Id, comment);
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
+
 	}
 
 	/// <summary>
@@ -132,6 +134,6 @@ public class CommentService : ICommentService
 
 		await _repository.UpVoteCommentAsync(commentId, userId);
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
 	}
 }

@@ -4,10 +4,6 @@
 public class FakeCommentsTests
 {
 
-	public FakeCommentsTests()
-	{
-	}
-
 	[Theory(DisplayName = "FakeComments GetNewComment Test")]
 	[InlineData(true)]
 	[InlineData(false)]

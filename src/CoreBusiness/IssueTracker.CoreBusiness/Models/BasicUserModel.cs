@@ -43,8 +43,8 @@ public class BasicUserModel
 	public BasicUserModel(string id, string displayName) : this()
 	{
 
-		Id = id!;
-		DisplayName = displayName!;
+		Id = id;
+		DisplayName = displayName;
 
 	}
 

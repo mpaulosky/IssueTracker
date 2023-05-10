@@ -1,22 +1,22 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Category;
 
 [ExcludeFromCodeCoverage]
-public class EditCategoryUseCaseTests
+public class UpdateCategoryUseCaseTests
 {
 
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 
-	public EditCategoryUseCaseTests()
+	public UpdateCategoryUseCaseTests()
 	{
 
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 
 	}
 
-	private EditCategoryUseCase CreateUseCase()
+	private UpdateCategoryUseCase CreateUseCase()
 	{
 
-		return new EditCategoryUseCase(_categoryRepositoryMock.Object);
+		return new UpdateCategoryUseCase(_categoryRepositoryMock.Object);
 
 	}
 
@@ -35,7 +35,7 @@ public class EditCategoryUseCaseTests
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
-				x.UpdateCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -44,17 +44,12 @@ public class EditCategoryUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-
-		CategoryModel? category = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(category);
-
 		// Assert
-		_categoryRepositoryMock.Verify(x =>
-				x.UpdateCategoryAsync(It.IsAny<CategoryModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
-
+	
 }

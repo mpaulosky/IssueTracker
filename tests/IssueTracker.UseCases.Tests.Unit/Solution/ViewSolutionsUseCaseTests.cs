@@ -21,7 +21,7 @@ public class ViewSolutionsUseCaseTests
 			expected
 		};
 
-		_solutionRepositoryMock.Setup(x => x.GetSolutionsAsync())
+		_solutionRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(result);
 
 
@@ -38,7 +38,7 @@ public class ViewSolutionsUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = (await sut.ExecuteAsync()).First();
+		var result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class ViewSolutionsUseCaseTests
 		result.Description.Should().Be(expected.Description);
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetSolutionsAsync(), Times.Once);
+			x.GetAllAsync(false), Times.Once);
 
 	}
 

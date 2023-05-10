@@ -7,19 +7,14 @@ public class IssueRepositoryTests
 	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
 	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
-	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
-	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<IssueModel> _list = new();
-	private readonly List<UserModel> _users = new();
 
 	public IssueRepositoryTests()
 	{
 
 		_cursor = TestFixtures.GetMockCursor(_list);
-		_userCursor = TestFixtures.GetMockCursor(_users);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
-		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
 		_mockContext = TestFixtures.GetMockContext();
 
@@ -46,7 +41,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateIssueAsync(newIssue);
+		await sut.CreateAsync(newIssue);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -73,12 +68,12 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetIssueByIdAsync(expected!.Id!).ConfigureAwait(false);
+		var result = await sut.GetAsync(expected.Id).ConfigureAwait(false);
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
-		result.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
+		result!.DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
@@ -109,7 +104,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetIssuesAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false))!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -145,7 +140,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var result = (await sut.GetIssuesByUserIdAsync(expectedUserId).ConfigureAwait(false)).ToList();
+		var result = (await sut.GetByUserAsync(expectedUserId).ConfigureAwait(false))!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -185,7 +180,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = (await sut.GetIssuesWaitingForApprovalAsync().ConfigureAwait(false)).First();
+		var result = (await sut.GetWaitingForApprovalAsync().ConfigureAwait(false))!.First();
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -223,7 +218,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = (await sut.GetIssuesApprovedAsync().ConfigureAwait(false)).First();
+		var result = (await sut.GetApprovedAsync().ConfigureAwait(false))!.First();
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -267,7 +262,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateIssueAsync(updatedIssue);
+		await sut.UpdateAsync(updatedIssue);
 
 		// Assert
 		_mockCollection.Verify(

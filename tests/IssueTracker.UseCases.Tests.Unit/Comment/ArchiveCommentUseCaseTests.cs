@@ -26,14 +26,14 @@ public class ArchiveCommentUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
-		CommentModel? comment = FakeComment.GetComments(1).First();
+		CommentModel comment = FakeComment.GetComments(1).First();
 
 		// Act
 		await sut.ExecuteAsync(comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
@@ -42,16 +42,12 @@ public class ArchiveCommentUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		CommentModel? comment = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(comment);
-
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

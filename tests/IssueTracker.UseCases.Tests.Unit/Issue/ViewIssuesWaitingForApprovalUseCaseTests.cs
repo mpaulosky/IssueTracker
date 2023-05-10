@@ -21,7 +21,7 @@ public class ViewIssuesWaitingForApprovalUseCaseTests
 				expected
 			};
 
-		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync())
+		_issueRepositoryMock.Setup(x => x.GetWaitingForApprovalAsync())
 			.ReturnsAsync(result);
 
 
@@ -40,17 +40,17 @@ public class ViewIssuesWaitingForApprovalUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await sut.ExecuteAsync();
+		var result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
-		result!.First().Should().NotBeNull();
-		result!.First().Id.Should().Be(expected.Id);
-		result!.First().Title.Should().Be(expected.Title);
-		result!.First().Description.Should().Be(expected.Description);
-		result!.First().Author.Should().BeEquivalentTo(expected.Author);
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_issueRepositoryMock.Verify(x =>
-				x.GetIssuesWaitingForApprovalAsync(), Times.Once);
+				x.GetWaitingForApprovalAsync(), Times.Once);
 
 	}
 

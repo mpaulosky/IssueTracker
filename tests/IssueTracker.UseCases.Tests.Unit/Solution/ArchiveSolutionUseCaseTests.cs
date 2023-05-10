@@ -26,14 +26,14 @@ public class ArchiveSolutionUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
-		SolutionModel? solution = FakeSolution.GetSolutions(1).First();
+		SolutionModel solution = FakeSolution.GetSolutions(1).First();
 
 		// Act
 		await sut.ExecuteAsync(solution);
 
 		// Assert
 		_solutionRepositoryMock.Verify(x =>
-			x.UpdateSolutionAsync(It.IsAny<SolutionModel>()), Times.Once);
+			x.UpdateAsync(It.IsAny<SolutionModel>()), Times.Once);
 
 	}
 
@@ -42,16 +42,12 @@ public class ArchiveSolutionUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		SolutionModel? solution = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(solution);
-
 		// Assert
-		_solutionRepositoryMock.Verify(x =>
-			x.UpdateSolutionAsync(It.IsAny<SolutionModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

@@ -5,16 +5,21 @@ public class SolutionRepositoryTests
 {
 
 	private readonly Mock<IAsyncCursor<SolutionModel>> _cursor;
+	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private readonly Mock<IMongoCollection<SolutionModel>> _mockCollection;
+	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private List<SolutionModel> _list = new();
+	private List<UserModel> _users = new();
 
 	public SolutionRepositoryTests()
 	{
 
 		_cursor = TestFixtures.GetMockCursor(_list);
+		_userCursor = TestFixtures.GetMockCursor(_users);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
 		_mockContext = TestFixtures.GetMockContext();
 
@@ -41,7 +46,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateSolutionAsync(newSolution);
+		await sut.CreateAsync(newSolution);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -68,7 +73,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetSolutionByIdAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -103,7 +108,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var results = (await sut.GetSolutionsByIssueIdAsync(expected.Issue.Id)).First();
+		var results = (await sut.GetByIssueAsync(expected.Issue.Id))!.First();
 
 		//Assert 
 		results.Should().NotBeNull();
@@ -137,7 +142,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var results = (await sut.GetSolutionsByUserIdAsync(expected.Author.Id)).First();
+		var results = (await sut.GetByUserAsync(expected.Author.Id))!.First();
 
 		//Assert 
 		results.Should().NotBeNull();
@@ -157,7 +162,7 @@ public class SolutionRepositoryTests
 
 		// Arrange
 		const int expectedCount = 5;
-		var expected = FakeSolution.GetSolutions(expectedCount);
+		var expected = FakeSolution.GetSolutions(expectedCount).ToList();
 
 		_list = new List<SolutionModel>(expected);
 
@@ -170,7 +175,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetSolutionsAsync()).ToList();
+		var results = (await sut.GetAllAsync())!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -199,10 +204,9 @@ public class SolutionRepositoryTests
 		updatedSolution.Title = expected.Title;
 		updatedSolution.Description = "Updated New SolutionDescription";
 		updatedSolution.Issue = expected.Issue;
-
-		//_list = new List<SolutionModel> { updatedSolution };
-
-		//_cursor.Setup(_ => _.Current).Returns(_list);
+		updatedSolution.Author = expected.Author;
+		updatedSolution.Archived = expected.Archived;
+		updatedSolution.UserVotes = expected.UserVotes;
 
 		_mockContext.Setup(c => c
 			.GetCollection<SolutionModel>(It.IsAny<string>()))
@@ -211,7 +215,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateSolutionAsync(updatedSolution).ConfigureAwait(false);
+		await sut.UpdateAsync(updatedSolution).ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(
@@ -219,6 +223,70 @@ public class SolutionRepositoryTests
 				.ReplaceOneAsync(It.IsAny<FilterDefinition<SolutionModel>>(), updatedSolution,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
+	}
+
+	[Fact(DisplayName = "Up vote Solution With Valid Solution and User")]
+	public async Task UpVoteAsync_With_A_Valid_SolutionId_And_UserId_Should_Return_Success_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeSolution.GetSolutions(1).First();
+
+		_list = new List<SolutionModel> { expected };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c.GetCollection<SolutionModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+		_mockContext.Setup(c => c.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockUserCollection.Object);
+
+		var user = FakeUser.GetNewUser(true);
+		_users = new List<UserModel> { user };
+
+		_userCursor.Setup(_ => _.Current).Returns(_users);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.UpVoteAsync(expected.Id, user.Id);
+
+		// Assert
+		expected.UserVotes.Count.Should().BeGreaterThan(0);
+
+	}
+
+	[Fact(DisplayName = "Up vote Solution With User Already Voted")]
+	public async Task UpVoteSolution_With_User_Already_Voted_Should_Remove_The_User_And_The_Solution_Test()
+	{
+
+		// Arrange
+		var expected = FakeSolution.GetSolutions(1).First();
+		var expectedUser = FakeUser.GetUsers(1).First();
+		expected.UserVotes.Add(expectedUser.Id);
+
+		_list = new List<SolutionModel> { expected };
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c
+				.GetCollection<SolutionModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		_mockContext.Setup(c => c
+				.GetCollection<UserModel>(It.IsAny<string>()))
+			.Returns(_mockUserCollection.Object);
+
+		_users = new List<UserModel> { expectedUser };
+
+		_userCursor.Setup(_ => _.Current).Returns(_users);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.UpVoteAsync(expected.Id, expectedUser.Id);
+
+		// Assert
+		expected.UserVotes.Count.Should().Be(0);
+
 	}
 
 }

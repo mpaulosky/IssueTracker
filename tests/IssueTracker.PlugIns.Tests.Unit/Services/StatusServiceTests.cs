@@ -57,7 +57,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null!));
 
 	}
 
@@ -97,7 +97,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null!));
 
 	}
 
@@ -152,7 +152,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null!));
 
 	}
 
@@ -205,7 +205,7 @@ public class StatusServiceTests
 		object whatever = expected;
 
 		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);

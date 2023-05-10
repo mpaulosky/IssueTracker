@@ -1,26 +1,26 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
 
 [ExcludeFromCodeCoverage]
-public class CreateNewUserUseCaseTests
+public class CreateUserUseCaseTests
 {
 
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 
-	public CreateNewUserUseCaseTests()
+	public CreateUserUseCaseTests()
 	{
 
 		_userRepositoryMock = new Mock<IUserRepository>();
 
 	}
 
-	private CreateNewUserUseCase CreateUseCase()
+	private CreateUserUseCase CreateUseCase()
 	{
 
-		return new CreateNewUserUseCase(_userRepositoryMock.Object);
+		return new CreateUserUseCase(_userRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "CreateNewUserUseCase With Valid Data Test")]
+	[Fact(DisplayName = "CreateUserUseCase With Valid Data Test")]
 	public async Task Execute_With_ValidData_Should_CreateANewUser_TestAsync()
 	{
 
@@ -33,25 +33,21 @@ public class CreateNewUserUseCaseTests
 
 		// Assert
 		_userRepositoryMock.Verify(x =>
-			x.CreateUserAsync(It.IsAny<UserModel>()), Times.Once);
+			x.CreateAsync(It.IsAny<UserModel>()), Times.Once);
 
 	}
 
-	[Fact(DisplayName = "CreateNewUserUseCase With In Valid Data Test")]
+	[Fact(DisplayName = "CreateUserUseCase With In Valid Data Test")]
 	public async Task Execute_With_InValidData_Should_CreateANewUser_TestAsync()
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		UserModel? user = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(user);
-
 		// Assert
-		_userRepositoryMock.Verify(x =>
-			x.CreateUserAsync(It.IsAny<UserModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

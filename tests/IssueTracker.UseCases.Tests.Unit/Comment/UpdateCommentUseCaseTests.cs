@@ -1,22 +1,22 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
 
 [ExcludeFromCodeCoverage]
-public class EditCommentUseCaseTests
+public class UpdateCommentUseCaseTests
 {
 
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 
-	public EditCommentUseCaseTests()
+	public UpdateCommentUseCaseTests()
 	{
 
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 
 	}
 
-	private EditCommentUseCase CreateUseCase()
+	private UpdateCommentUseCase CreateUseCase()
 	{
 
-		return new EditCommentUseCase(_commentRepositoryMock.Object);
+		return new UpdateCommentUseCase(_commentRepositoryMock.Object);
 
 	}
 
@@ -26,7 +26,7 @@ public class EditCommentUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
-		CommentModel? comment = FakeComment.GetComments(1).First();
+		CommentModel comment = FakeComment.GetComments(1).First();
 		comment.Title = "New Comment";
 
 		// Act
@@ -34,7 +34,7 @@ public class EditCommentUseCaseTests
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
@@ -43,16 +43,12 @@ public class EditCommentUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		CommentModel? comment = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(comment: comment);
-
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

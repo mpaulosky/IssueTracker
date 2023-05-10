@@ -17,7 +17,7 @@ public class ViewCategoriesUseCaseTests
 	private ViewCategoriesUseCase CreateUseCase()
 	{
 
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync())
+		_categoryRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(FakeCategory.GetCategories(1));
 
 		return new ViewCategoriesUseCase(_categoryRepositoryMock.Object);
@@ -32,7 +32,7 @@ public class ViewCategoriesUseCaseTests
 		var sut = CreateUseCase();
 
 		// Act
-		CategoryModel result = (await sut.ExecuteAsync()).First();
+		CategoryModel result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -41,7 +41,7 @@ public class ViewCategoriesUseCaseTests
 		result.CategoryDescription.Should().NotBeNull();
 
 		_categoryRepositoryMock.Verify(x =>
-				x.GetCategoriesAsync(), Times.Once);
+				x.GetAllAsync(false), Times.Once);
 
 	}
 

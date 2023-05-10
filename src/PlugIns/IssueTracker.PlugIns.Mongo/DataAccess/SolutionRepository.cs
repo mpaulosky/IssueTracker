@@ -145,4 +145,26 @@ public class SolutionRepository : ISolutionRepository
 
 	}
 
+	/// <summary>
+	///		UpvoteAsync method
+	/// </summary>
+	/// <param name="solutionId">string</param>
+	/// <param name="userId">string</param>
+	public async Task UpVoteAsync(string? solutionId, string userId)
+	{
+
+		var objectId = new ObjectId(solutionId);
+
+		FilterDefinition<SolutionModel> filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
+
+		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
+
+		var isUpvote = result.UserVotes.Add(userId);
+
+		if (!isUpvote) result.UserVotes.Remove(userId);
+
+		await _collection.ReplaceOneAsync(s => s.Id == solutionId, result);
+
+	}
+
 }

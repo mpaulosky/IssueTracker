@@ -43,8 +43,8 @@ public class BasicStatusModel
 	public BasicStatusModel(string statusName, string statusDescription) : this()
 	{
 
-		StatusName = statusName!;
-		StatusDescription = statusDescription!;
+		StatusName = statusName;
+		StatusDescription = statusDescription;
 
 	}
 

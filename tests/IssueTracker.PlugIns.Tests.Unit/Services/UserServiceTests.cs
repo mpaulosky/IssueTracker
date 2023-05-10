@@ -1,5 +1,4 @@
-﻿using IssueTracker.CoreBusiness.BogusFakes;
-using IssueTracker.PlugIns.Services;
+﻿using IssueTracker.PlugIns.Services;
 
 namespace IssueTracker.PlugIns.Tests.Unit.Services;
 
@@ -48,7 +47,7 @@ public class UserServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(null!));
 	}
 
 	[Fact(DisplayName = "Get User With Valid Id")]
@@ -64,7 +63,7 @@ public class UserServiceTests
 
 		//Act
 
-		var result = await _sut.GetUser(expected!.Id!);
+		var result = await _sut.GetUser(expected.Id);
 
 		//Assert
 
@@ -136,7 +135,7 @@ public class UserServiceTests
 
 		//Act
 
-		var result = await _sut.GetUserFromAuthentication(expected!.Id!);
+		var result = await _sut.GetUserFromAuthentication(expected.Id);
 
 		//Assert
 
@@ -205,6 +204,6 @@ public class UserServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateUser(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateUser(null!));
 	}
 }

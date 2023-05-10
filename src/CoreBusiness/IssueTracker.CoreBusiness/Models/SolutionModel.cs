@@ -7,11 +7,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using JetBrains.Annotations;
+
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 /// SolutionModel class
 /// </summary>
+[Serializable]
 public class SolutionModel
 {
 
@@ -87,6 +90,6 @@ public class SolutionModel
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; } = false;
+	public bool Archived { get; set; }
 
 }

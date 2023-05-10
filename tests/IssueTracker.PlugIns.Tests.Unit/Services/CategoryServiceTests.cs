@@ -52,7 +52,7 @@ public class CategoryServiceTests
 
 		// Assert
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null!));
 	}
 
 	[Fact(DisplayName = "Delete Category")]
@@ -125,7 +125,7 @@ public class CategoryServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCategory(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCategory(null!));
 	}
 
 	[Fact(DisplayName = "Get Categories")]
@@ -174,7 +174,7 @@ public class CategoryServiceTests
 		object whatever = expected;
 
 		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);

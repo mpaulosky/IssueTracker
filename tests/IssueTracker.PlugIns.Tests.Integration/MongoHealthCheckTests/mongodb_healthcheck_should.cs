@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.MongoHealthCheckTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.MongoHealthCheckTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
-	private TestServer _sut;
+	private TestServer? _sut;
 	private const string CleanupValue = "";
 
 	public MongodbHealthcheckShould(IssueTrackerTestFactory factory)

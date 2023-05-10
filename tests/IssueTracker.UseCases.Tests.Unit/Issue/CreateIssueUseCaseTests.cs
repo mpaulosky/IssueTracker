@@ -1,26 +1,26 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Issue;
 
 [ExcludeFromCodeCoverage]
-public class CreateNewIssueUseCaseTests
+public class CreateIssueUseCaseTests
 {
 
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 
-	public CreateNewIssueUseCaseTests()
+	public CreateIssueUseCaseTests()
 	{
 
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 
 	}
 
-	private CreateNewIssueUseCase CreateUseCase()
+	private CreateIssueUseCase CreateUseCase()
 	{
 
-		return new CreateNewIssueUseCase(_issueRepositoryMock.Object);
+		return new CreateIssueUseCase(_issueRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "CreateNewIssueUseCase With Valid Data Test")]
+	[Fact(DisplayName = "CreateIssueUseCase With Valid Data Test")]
 	public async Task Execute_With_ValidData_Should_CreateANewIssue_TestAsync()
 	{
 
@@ -33,25 +33,21 @@ public class CreateNewIssueUseCaseTests
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>
-				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
-	[Fact(DisplayName = "CreateNewIssueUseCase With In Valid Data Test")]
+	[Fact(DisplayName = "CreateIssueUseCase With In Valid Data Test")]
 	public async Task Execute_With_InValidData_Should_CreateANewIssue_TestAsync()
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-		IssueModel? issue = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(issue);
-
 		// Assert
-		_issueRepositoryMock.Verify(x =>
-				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
 
 }

@@ -51,7 +51,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateIssue(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateIssue(null!));
 	}
 
 	[Fact(DisplayName = "Get Issue With Valid Id")]

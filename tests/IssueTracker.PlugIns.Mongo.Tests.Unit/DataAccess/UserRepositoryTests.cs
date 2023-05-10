@@ -41,7 +41,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateUserAsync(newUser);
+		await sut.CreateAsync(newUser);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -68,7 +68,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetUserByIdAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -103,7 +103,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var results = await sut.GetUserByAuthenticationIdAsync(expected.ObjectIdentifier);
+		var results = await sut.GetByAuthenticationIdAsync(expected.ObjectIdentifier);
 
 		//Assert 
 		results.Should().NotBeNull();
@@ -123,7 +123,7 @@ public class UserRepositoryTests
 
 		// Arrange
 		const int expectedCount = 5;
-		var expected = FakeUser.GetUsers(expectedCount);
+		var expected = FakeUser.GetUsers(expectedCount).ToList();
 
 		_list = new List<UserModel>(expected);
 
@@ -136,7 +136,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetUsersAsync()).ToList();
+		var results = (await sut.GetAllAsync())!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -180,7 +180,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateUserAsync(updatedUser).ConfigureAwait(false);
+		await sut.UpdateAsync(updatedUser).ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(

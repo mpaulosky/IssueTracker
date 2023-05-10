@@ -2,12 +2,12 @@
 namespace IssueTracker.UseCases.Tests.Unit.Category;
 
 [ExcludeFromCodeCoverage]
-public class CreateNewCategoryUseCaseTests
+public class CreateCategoryUseCaseTests
 {
 
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 
-	public CreateNewCategoryUseCaseTests()
+	public CreateCategoryUseCaseTests()
 	{
 
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
@@ -35,7 +35,7 @@ public class CreateNewCategoryUseCaseTests
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
-				x.CreateCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -46,17 +46,11 @@ public class CreateNewCategoryUseCaseTests
 	{
 
 		// Arrange
-		var sut = CreateUseCase();
-
-		CategoryModel? category = null;
-
+		var sut = this.CreateUseCase();
+		
 		// Act
-		await sut.ExecuteAsync(category: category);
-
 		// Assert
-		_categoryRepositoryMock.Verify(x =>
-				x.CreateCategoryAsync(It.IsAny<CategoryModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
-
 }

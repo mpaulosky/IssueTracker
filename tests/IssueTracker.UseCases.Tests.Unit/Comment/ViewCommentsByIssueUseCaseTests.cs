@@ -24,7 +24,7 @@ public class ViewCommentsBySourceUseCaseTests
 				expected
 			};
 
-			_commentRepositoryMock.Setup(x => x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
+			_commentRepositoryMock.Setup(x => x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
 				.ReturnsAsync(result);
 
 		}
@@ -40,21 +40,20 @@ public class ViewCommentsBySourceUseCaseTests
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
 		var sut = CreateUseCase(expected);
-		var source = expected.CommentOnSource;
+		var source = expected.CommentOnSource!;
 
 		// Act
-		var result = await sut.ExecuteAsync(source);
+		var result = (await sut.ExecuteAsync(source))!.First();
 
 		// Assert
 		result.Should().NotBeNull();
-		result!.Count().Should().Be(1);
-		result!.First().Id.Should().Be(expected.Id);
-		result!.First().Title.Should().Be(expected.Title);
-		result!.First().Description.Should().Be(expected.Description);
-		result!.First().Author.Should().BeEquivalentTo(expected.Author);
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_commentRepositoryMock.Verify(x =>
-				x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()), Times.Once);
+				x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()), Times.Once);
 
 	}
 
@@ -64,15 +63,11 @@ public class ViewCommentsBySourceUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(null);
-
 		// Assert
-		result.Should().BeNull();
-
-		_commentRepositoryMock.Verify(x =>
-				x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
+	
 }

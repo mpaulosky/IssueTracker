@@ -53,7 +53,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(null!));
 	}
 
 	[Fact(DisplayName = "Get Comment With Valid Id")]
@@ -69,7 +69,7 @@ public class CommentServiceTests
 
 		//Act
 
-		var result = await _sut.GetComment(expected.Id!);
+		var result = await _sut.GetComment(expected.Id);
 
 		//Assert
 
@@ -102,7 +102,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetComment(null!));
 	}
 
 	[Fact(DisplayName = "Get Comments")]
@@ -112,7 +112,7 @@ public class CommentServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = FakeComment.GetComments(expectedCount);
+		var expected = FakeComment.GetComments(expectedCount).ToList();
 
 		foreach (var comment in expected)
 		{
@@ -156,7 +156,7 @@ public class CommentServiceTests
 		object whatever = expected;
 
 		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
@@ -178,7 +178,7 @@ public class CommentServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
-		var comments = FakeComment.GetComments(expectedCount);
+		var comments = FakeComment.GetComments(expectedCount).ToList();
 
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
@@ -214,7 +214,7 @@ public class CommentServiceTests
 		//Arrange
 
 		const int expectedCount = 2;
-		var comments = FakeComment.GetComments(expectedCount);
+		var comments = FakeComment.GetComments(expectedCount).ToList();
 
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
@@ -269,7 +269,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCommentsByUser(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCommentsByUser(null!));
 	}
 
 	[Fact(DisplayName = "Update Comment With Valid Comment")]
@@ -305,7 +305,7 @@ public class CommentServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateComment(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateComment(null!));
 	}
 
 	[Fact(DisplayName = "Up Vote Comment")]
@@ -321,7 +321,7 @@ public class CommentServiceTests
 
 		// Act
 
-		await _sut.UpVoteComment(comment.Id!, testId);
+		await _sut.UpVoteComment(comment.Id, testId);
 
 		// Assert
 

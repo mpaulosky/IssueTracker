@@ -1,23 +1,23 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Solution;
 
 [ExcludeFromCodeCoverage]
-public class ViewSolutionsByUserIdUseCaseTests
+public class ViewSolutionsByIssueIdUseCaseTests
 {
 
 	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 
-	public ViewSolutionsByUserIdUseCaseTests()
+	public ViewSolutionsByIssueIdUseCaseTests()
 	{
 
 		_solutionRepositoryMock = new Mock<ISolutionRepository>();
 
 	}
 
-	private ViewSolutionsByUserIdUseCase CreateUseCase(SolutionModel? expected)
+	private ViewSolutionsByIssueIdUseCase CreateUseCase(SolutionModel? expected)
 	{
 		if (expected == null)
 		{
-			return new ViewSolutionsByUserIdUseCase(_solutionRepositoryMock.Object);
+			return new ViewSolutionsByIssueIdUseCase(_solutionRepositoryMock.Object);
 		}
 
 		var result = new List<SolutionModel>
@@ -25,25 +25,25 @@ public class ViewSolutionsByUserIdUseCaseTests
 			expected
 		};
 
-		_solutionRepositoryMock.Setup(x => x.GetSolutionsByUserIdAsync(It.IsAny<string>()))
+		_solutionRepositoryMock.Setup(x => x
+				.GetByIssueAsync(It.IsAny<string>()))
 			.ReturnsAsync(result);
 
-		return new ViewSolutionsByUserIdUseCase(_solutionRepositoryMock.Object);
+		return new ViewSolutionsByIssueIdUseCase(_solutionRepositoryMock.Object);
 
 	}
 
-	[Fact(DisplayName = "ViewSolutionsByUserIdUseCase With Valid Id Test")]
+	[Fact(DisplayName = "ViewSolutionsBySourceUseCase With Valid Id Test")]
 	public async Task Execute_With_AValidId_Should_ReturnASolutionModel_TestAsync()
 	{
 
 		// Arrange
 		var expected = FakeSolution.GetSolutions(1).First();
-		var expectedUser = FakeUser.GetNewUser();
-		expectedUser.Id = expected.Author.Id;
 		var sut = CreateUseCase(expected);
+		var issue = expected.Issue;
 
 		// Act
-		var result = (await sut.ExecuteAsync(expectedUser)).First();
+		var result = (await sut.ExecuteAsync(issue))!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -53,26 +53,21 @@ public class ViewSolutionsByUserIdUseCaseTests
 		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetSolutionsByUserIdAsync(It.IsAny<string>()), Times.Once);
+			x.GetByIssueAsync(It.IsAny<string>()), Times.Once);
 
 	}
 
-	[Fact(DisplayName = "ViewSolutionsByUserIdUseCase With In Valid Data Test")]
+	[Fact(DisplayName = "ViewSolutionsBySourceUseCase With In Valid Data Test")]
 	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync()
 	{
 
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(null);
-
 		// Assert
-		result.Should().BeNull();
-
-		_solutionRepositoryMock.Verify(x =>
-			x.GetSolutionsByUserIdAsync(It.IsAny<string>()), Times.Never);
-
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		
 	}
-
+	
 }

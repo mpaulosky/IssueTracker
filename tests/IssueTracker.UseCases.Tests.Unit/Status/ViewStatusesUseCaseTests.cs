@@ -21,7 +21,7 @@ public class ViewStatusesUseCaseTests
 			expected
 		};
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync())
+		_statusRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(result);
 
 
@@ -38,7 +38,7 @@ public class ViewStatusesUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = (await sut.ExecuteAsync()).First();
+		var result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class ViewStatusesUseCaseTests
 		result.StatusDescription.Should().Be(expected.StatusDescription);
 
 		_statusRepositoryMock.Verify(x =>
-			x.GetStatusesAsync(), Times.Once);
+			x.GetAllAsync(false), Times.Once);
 
 	}
 

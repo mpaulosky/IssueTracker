@@ -112,7 +112,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var result = (await sut.GetCommentsAsync().ConfigureAwait(false)).ToList();
+		var result = (await sut.GetCommentsAsync().ConfigureAwait(false))!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();

@@ -50,7 +50,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateCategoryAsync(updatedCategory);
+		await sut.UpdateAsync(updatedCategory);
 
 		// Assert
 
@@ -77,7 +77,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateCategoryAsync(newCategory);
+		await sut.CreateAsync(newCategory);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -104,12 +104,12 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetCategoryByIdAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
-		result.CategoryName.Length.Should().BeGreaterThan(1);
+		result!.CategoryName.Length.Should().BeGreaterThan(1);
 
 
 		//Verify if InsertOneAsync is called once
@@ -126,7 +126,7 @@ public class CategoryRepositoryTests
 
 		// Arrange
 		const int expectedCount = 5;
-		var expected = FakeCategory.GetCategories(expectedCount);
+		var expected = FakeCategory.GetCategories(expectedCount).ToList();
 
 		await _mockCollection.Object.InsertManyAsync(expected);
 
@@ -141,7 +141,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetCategoriesAsync()).ToList();
+		var results = (await sut.GetAllAsync())!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -178,7 +178,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateCategoryAsync(updatedCategory).ConfigureAwait(false);
+		await sut.UpdateAsync(updatedCategory).ConfigureAwait(false);
 
 		// Assert
 		_mockCollection.Verify(

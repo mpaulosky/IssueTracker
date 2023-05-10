@@ -21,7 +21,7 @@ public class ViewCommentsUseCaseTests
 				expected
 			};
 
-		_commentRepositoryMock.Setup(x => x.GetCommentsAsync())
+		_commentRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(result);
 
 
@@ -38,17 +38,17 @@ public class ViewCommentsUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = await sut.ExecuteAsync();
+		var result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
-		result!.First().Should().NotBeNull();
-		result!.First().Id.Should().Be(expected.Id);
-		result!.First().Title.Should().Be(expected.Title);
-		result!.First().Description.Should().Be(expected.Description);
-		result!.First().Author.Should().BeEquivalentTo(expected.Author);
+		result.Should().NotBeNull();
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_commentRepositoryMock.Verify(x =>
-				x.GetCommentsAsync(), Times.Once);
+				x.GetAllAsync(false), Times.Once);
 
 	}
 

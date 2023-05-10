@@ -1,30 +1,30 @@
 ﻿namespace IssueTracker.UseCases.Tests.Unit.Category;
 
 [ExcludeFromCodeCoverage]
-public class ViewCategoryByIdUseCaseTests
+public class ViewCategoryUseCaseTests
 {
 
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 
-	public ViewCategoryByIdUseCaseTests()
+	public ViewCategoryUseCaseTests()
 	{
 
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 
 	}
 
-	private ViewCategoryByIdUseCase CreateUseCase(CategoryModel? expected)
+	private ViewCategoryUseCase CreateUseCase(CategoryModel? expected)
 	{
 
 		if (expected != null)
 		{
 
-			_categoryRepositoryMock.Setup(x => x.GetCategoryByIdAsync(It.IsAny<string>()))
+			_categoryRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>()))
 				.ReturnsAsync(expected);
 
 		}
 
-		return new ViewCategoryByIdUseCase(_categoryRepositoryMock.Object);
+		return new ViewCategoryUseCase(_categoryRepositoryMock.Object);
 
 	}
 
@@ -44,12 +44,12 @@ public class ViewCategoryByIdUseCaseTests
 
 		// Assert
 		result.Should().NotBeNull();
-		result.Id.Should().Be(expected.Id);
+		result!.Id.Should().Be(expected.Id);
 		result.CategoryName.Should().Be(expected.CategoryName);
 		result.CategoryDescription.Should().Be(expected.CategoryDescription);
 
 		_categoryRepositoryMock.Verify(x =>
-				x.GetCategoryByIdAsync(It.IsAny<string>()), Times.Once);
+				x.GetAsync(It.IsAny<string>()), Times.Once);
 	}
 
 	[Theory(DisplayName = "ViewCategoryByIdUseCase With In Valid Data Test")]
@@ -57,19 +57,21 @@ public class ViewCategoryByIdUseCaseTests
 	[InlineData("")]
 	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
 	{
-
 		// Arrange
 		var sut = CreateUseCase(null);
-
+		
 		// Act
-		var result = await sut.ExecuteAsync(expectedId);
-
 		// Assert
-		result.Should().NotBeNull();
-
-		_categoryRepositoryMock.Verify(x =>
-				x.GetCategoryByIdAsync(It.IsAny<string>()), Times.Never);
-
+		switch (expectedId)
+		{
+			case null:
+				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
+				break;
+			case "":
+				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
+				break;
+		}
 	}
+
 
 }

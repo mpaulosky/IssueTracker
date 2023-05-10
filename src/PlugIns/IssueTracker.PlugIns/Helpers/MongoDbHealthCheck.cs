@@ -42,6 +42,7 @@ public class MongoDbHealthCheck : IHealthCheck
 				using var cursor = await mongoClient
 						.GetDatabase(_factory.DbName)
 						.ListCollectionNamesAsync(cancellationToken: cancellationToken);
+
 				await cursor.FirstAsync(cancellationToken);
 
 			}
