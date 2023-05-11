@@ -147,7 +147,7 @@ public class CategoryRepositoryTests
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
 		results.Any(x => x.Archived).Should().BeFalse();
-			
+
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
 			It.IsAny<FindOptions<CategoryModel>>(),
@@ -182,7 +182,7 @@ public class CategoryRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
@@ -190,7 +190,7 @@ public class CategoryRepositoryTests
 				It.IsAny<CancellationToken>()), Times.Once);
 
 	}
-	
+
 	[Fact(DisplayName = "Update Category Test")]
 	public async Task UpdateAsync_With_A_Valid_Id_And_Category_Should_UpdateCategory_Test()
 	{

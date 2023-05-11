@@ -42,9 +42,9 @@ public class GetUsersTests : IAsyncLifetime
 
 	public Task InitializeAsync()
 	{
-		
+
 		return Task.CompletedTask;
-		
+
 	}
 
 	public async Task DisposeAsync()

@@ -23,7 +23,7 @@ public class ViewIssueUseCase : IViewIssueUseCase
 
 	public async Task<IssueModel?> ExecuteAsync(string issueId)
 	{
-		
+
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
 		return await _issueRepository.GetAsync(issueId);

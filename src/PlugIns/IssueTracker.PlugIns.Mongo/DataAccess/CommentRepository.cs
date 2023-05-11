@@ -82,7 +82,7 @@ public class CommentRepository : ICommentRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<CommentModel>.Filter.Empty;
 			return (await _collection
 					.FindAsync(filter))
@@ -95,9 +95,9 @@ public class CommentRepository : ICommentRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 					.ToList();
-			
+
 		}
-		
+
 	}
 
 	/// <summary>

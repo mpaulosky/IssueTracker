@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
 		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
-	
+
 	/// <summary>
 	///		CreateAsync method
 	/// </summary>
@@ -81,7 +81,7 @@ public class UserRepository : IUserRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<UserModel>.Filter.Empty;
 			return (await _collection
 					.FindAsync(filter))
@@ -94,9 +94,9 @@ public class UserRepository : IUserRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 				.ToList();
-			
+
 		}
-		
+
 	}
 
 	///  <summary>

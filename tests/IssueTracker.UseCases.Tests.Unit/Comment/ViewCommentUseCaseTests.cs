@@ -57,7 +57,7 @@ public class ViewCommentUseCaseTests
 	{
 		// Arrange
 		var sut = CreateUseCase(null);
-		
+
 		// Act
 		// Assert
 		switch (expectedId)

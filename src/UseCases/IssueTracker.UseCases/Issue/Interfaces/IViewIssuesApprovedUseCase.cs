@@ -12,5 +12,5 @@ namespace IssueTracker.UseCases.Issue.Interfaces;
 public interface IViewIssuesApprovedUseCase
 {
 	Task<IEnumerable<IssueModel>?> ExecuteAsync();
-	
+
 }

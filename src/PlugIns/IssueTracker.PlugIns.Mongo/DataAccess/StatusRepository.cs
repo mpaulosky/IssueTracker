@@ -32,7 +32,7 @@ public class StatusRepository : IStatusRepository
 		_collection = context.GetCollection<StatusModel>(collectionName);
 
 	}
-	
+
 	///  <summary>
 	/// 		ArchiveAsync method
 	///  </summary>
@@ -47,7 +47,7 @@ public class StatusRepository : IStatusRepository
 		await _collection.ReplaceOneAsync(filter, status);
 
 	}
-	
+
 	/// <summary>
 	///		CreateAsync method
 	/// </summary>
@@ -83,7 +83,7 @@ public class StatusRepository : IStatusRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<StatusModel>.Filter.Empty;
 			return (await _collection
 					.FindAsync(filter))
@@ -96,11 +96,11 @@ public class StatusRepository : IStatusRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 				.ToList();
-			
+
 		}
-		
+
 	}
-	
+
 	///  <summary>
 	/// 		UpdateStatus method
 	///  </summary>

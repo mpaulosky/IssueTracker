@@ -131,7 +131,7 @@ public class CommentRepositoryTests
 		{
 			comment.Archived = false;
 		}
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -151,7 +151,7 @@ public class CommentRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeFalse();
+		results.Any(x => x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
 			It.IsAny<FindOptions<CommentModel>>(),
@@ -166,7 +166,7 @@ public class CommentRepositoryTests
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeComment.GetComments(expectedCount).ToList();
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -186,7 +186,7 @@ public class CommentRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),

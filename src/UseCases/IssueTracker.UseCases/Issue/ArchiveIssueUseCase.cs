@@ -26,7 +26,7 @@ public class ArchiveIssueUseCase : IArchiveIssueUseCase
 
 		Guard.Against.Null(issue, nameof(issue));
 
-			// Archive the issue
+		// Archive the issue
 		issue.Archived = true;
 
 		await _issueRepository.UpdateAsync(issue);

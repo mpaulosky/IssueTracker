@@ -48,7 +48,7 @@ public class SolutionRepository : ISolutionRepository
 		await _collection.ReplaceOneAsync(filter, solution);
 
 	}
-	
+
 	/// <summary>
 	/// Creates the solution asynchronous.
 	/// </summary>
@@ -69,7 +69,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-				.FindAsync(s=> s.Id == solutionId && s.Archived == false))
+				.FindAsync(s => s.Id == solutionId && s.Archived == false))
 			.FirstOrDefault();
 
 	}
@@ -81,11 +81,11 @@ public class SolutionRepository : ISolutionRepository
 	/// <returns>Task of SolutionModel</returns>
 	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string issueId)
 	{
-		
+
 		return (await _collection
-			.FindAsync(s=> s.Issue.Id == issueId && s.Archived == false))
+			.FindAsync(s => s.Issue.Id == issueId && s.Archived == false))
 			.ToList();
-		
+
 	}
 
 	/// <summary>
@@ -97,7 +97,7 @@ public class SolutionRepository : ISolutionRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<SolutionModel>.Filter.Empty;
 			return (await _collection
 					.FindAsync(filter))
@@ -110,9 +110,9 @@ public class SolutionRepository : ISolutionRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 				.ToList();
-			
+
 		}
-		
+
 	}
 
 	/// <summary>
@@ -124,7 +124,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-			.FindAsync(s=> s.Author.Id == userId && s.Archived == false))
+			.FindAsync(s => s.Author.Id == userId && s.Archived == false))
 			.ToList();
 
 	}

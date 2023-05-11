@@ -47,7 +47,7 @@ public class IssueRepository : IIssueRepository
 		await _collection.ReplaceOneAsync(filter, issue);
 
 	}
-	
+
 	/// <summary>
 	///		CreateIssue method
 	/// </summary>
@@ -68,7 +68,7 @@ public class IssueRepository : IIssueRepository
 	{
 
 		return (await _collection
-			.FindAsync(s=> s.Id == itemId && s.Archived == false && s.Rejected == false))
+			.FindAsync(s => s.Id == itemId && s.Archived == false && s.Rejected == false))
 			.FirstOrDefault();
 
 	}
@@ -82,7 +82,7 @@ public class IssueRepository : IIssueRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<IssueModel>.Filter.Empty;
 			return (await _collection
 				.FindAsync(filter))
@@ -95,9 +95,9 @@ public class IssueRepository : IIssueRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 				.ToList();
-			
+
 		}
-		
+
 	}
 
 	/// <summary>

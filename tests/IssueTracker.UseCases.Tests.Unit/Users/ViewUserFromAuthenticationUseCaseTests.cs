@@ -60,7 +60,7 @@ public class ViewUserFromAuthenticationUseCaseTests
 	{
 		// Arrange
 		var sut = this.CreateUseCase(null);
-		
+
 		// Act
 		// Assert
 		switch (expectedId)

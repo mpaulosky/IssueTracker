@@ -85,7 +85,7 @@ public class CategoryRepository : ICategoryRepository
 
 		if (includeArchived)
 		{
-			
+
 			var filter = Builders<CategoryModel>.Filter.Empty;
 			return (await _collection
 					.FindAsync(filter))
@@ -98,9 +98,9 @@ public class CategoryRepository : ICategoryRepository
 			return (await _collection
 					.FindAsync(x => x.Archived == includeArchived))
 					.ToList();
-			
+
 		}
-		
+
 	}
 
 	/// <summary>

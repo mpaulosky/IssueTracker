@@ -11,5 +11,5 @@ namespace IssueTracker.UseCases.Users.Interfaces;
 public interface ICreateUserUseCase
 {
 	Task ExecuteAsync(UserModel user);
-	
+
 }

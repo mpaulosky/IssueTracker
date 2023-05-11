@@ -64,11 +64,11 @@ public class ViewCommentsByUserUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase(null);
-		
+
 		// Act
 		// Assert
 		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
-		
+
 	}
 
 }

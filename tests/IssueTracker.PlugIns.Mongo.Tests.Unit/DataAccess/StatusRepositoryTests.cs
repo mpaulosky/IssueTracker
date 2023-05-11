@@ -125,7 +125,7 @@ public class StatusRepositoryTests
 		{
 			item.Archived = false;
 		}
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -145,7 +145,7 @@ public class StatusRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeFalse();
+		results.Any(x => x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
 			It.IsAny<FindOptions<StatusModel>>(),
@@ -160,7 +160,7 @@ public class StatusRepositoryTests
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeStatus.GetStatuses(expectedCount).ToList();
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -180,7 +180,7 @@ public class StatusRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),

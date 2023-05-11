@@ -45,11 +45,11 @@ public class UpdateCategoryUseCaseTests
 
 		// Arrange
 		var sut = this.CreateUseCase();
-		
+
 		// Act
 		// Assert
 		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
-		
+
 	}
-	
+
 }

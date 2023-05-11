@@ -11,5 +11,5 @@ namespace IssueTracker.UseCases.Status.Interfaces;
 public interface IViewStatusesUseCase
 {
 	Task<IEnumerable<StatusModel>?> ExecuteAsync(bool includeArchived = false);
-	
+
 }

@@ -25,7 +25,7 @@ public class MongoDbContainerTest : IAsyncLifetime
 		// Then
 		Assert.Contains(databases.ToEnumerable(), database => database.TryGetValue("name", out var name) && "admin".Equals(name.AsString));
 	}
-	
+
 	public Task InitializeAsync()
 	{
 		return Task.CompletedTask;

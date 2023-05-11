@@ -126,7 +126,7 @@ public class IssueRepositoryTests
 		{
 			item.Archived = false;
 		}
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -146,7 +146,7 @@ public class IssueRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeFalse();
+		results.Any(x => x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
 			It.IsAny<FindOptions<IssueModel>>(),
@@ -161,7 +161,7 @@ public class IssueRepositoryTests
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeIssue.GetIssues(expectedCount).ToList();
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -181,7 +181,7 @@ public class IssueRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),

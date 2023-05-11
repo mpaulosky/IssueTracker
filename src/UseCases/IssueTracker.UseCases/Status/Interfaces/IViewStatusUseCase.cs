@@ -11,5 +11,5 @@ namespace IssueTracker.UseCases.Status.Interfaces;
 public interface IViewStatusUseCase
 {
 	Task<StatusModel?> ExecuteAsync(string statusId);
-	
+
 }

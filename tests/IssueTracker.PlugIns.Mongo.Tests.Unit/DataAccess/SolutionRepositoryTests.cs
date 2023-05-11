@@ -199,7 +199,7 @@ public class SolutionRepositoryTests
 		{
 			item.Archived = false;
 		}
-		
+
 		_list = new List<SolutionModel>(expected);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -217,7 +217,7 @@ public class SolutionRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeFalse();
+		results.Any(x => x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<SolutionModel>>(),
 			It.IsAny<FindOptions<SolutionModel>>(),
@@ -250,7 +250,7 @@ public class SolutionRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<SolutionModel>>(),
 			It.IsAny<FindOptions<SolutionModel>>(),

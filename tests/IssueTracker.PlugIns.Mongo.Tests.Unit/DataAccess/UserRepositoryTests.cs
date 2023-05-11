@@ -159,7 +159,7 @@ public class UserRepositoryTests
 		{
 			User.Archived = false;
 		}
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -179,7 +179,7 @@ public class UserRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeFalse();
+		results.Any(x => x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
 			It.IsAny<FindOptions<UserModel>>(),
@@ -194,7 +194,7 @@ public class UserRepositoryTests
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeUser.GetUsers(expectedCount).ToList();
-		
+
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -214,7 +214,7 @@ public class UserRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-		results.Any(x=>x.Archived).Should().BeTrue();
+		results.Any(x => x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),

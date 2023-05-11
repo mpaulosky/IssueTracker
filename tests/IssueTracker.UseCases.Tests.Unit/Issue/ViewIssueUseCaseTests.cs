@@ -57,7 +57,7 @@ public class ViewIssueUseCaseTests
 	{
 		// Arrange
 		var sut = CreateUseCase(null);
-		
+
 		// Act
 		// Assert
 		switch (expectedId)
