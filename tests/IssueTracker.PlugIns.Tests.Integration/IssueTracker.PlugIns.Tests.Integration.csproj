@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
@@ -22,6 +23,15 @@
 		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.5" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+<<<<<<< HEAD:tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+=======
+		<PackageReference Include="Testcontainers" Version="3.1.0" />
+>>>>>>> origin/main:tests/IssueTracker.Library.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+		<PackageReference Include="Testcontainers.MongoDb" Version="3.1.0" />
+		<IsTestProject>true</IsTestProject>
+		<RootNamespace>IssueTracker.PlugIns.Tests.Integration</RootNamespace>
+		<PackageReference Include="FluentAssertions" Version="6.11.0" />
+		<PackageReference Include="Testcontainers" Version="3.1.0" />
 		<PackageReference Include="Testcontainers.MongoDb" Version="3.1.0" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
