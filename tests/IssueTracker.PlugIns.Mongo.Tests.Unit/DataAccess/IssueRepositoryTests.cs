@@ -27,8 +27,40 @@ public class IssueRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Archive Issue Test")]
+	public async Task ArchiveAsync_With_Valid_Issue_Should_Archive_the_Issue_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeIssue.GetNewIssue(true);
+
+		var updatedIssue = FakeIssue.GetNewIssue(true);
+		updatedIssue.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<IssueModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveAsync(updatedIssue);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.
+				ReplaceOneAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+					updatedIssue,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Create Issue With Valid Issue")]
-	public async Task CreateIssueAsync_With_A_Valid_Issue_Should_Return_Success_TestAsync()
+	public async Task CreateAsync_With_A_Valid_Issue_Should_Return_Success_TestAsync()
 	{
 
 		// Arrange
@@ -51,7 +83,7 @@ public class IssueRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Issue With a Valid Id")]
-	public async Task GetIssueByIdAsync_With_Valid_Id_Should_Returns_One_Issue_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_Issue_TestAsync()
 	{
 
 		// Arrange
@@ -83,14 +115,18 @@ public class IssueRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Get Issues")]
-	public async Task GetIssuesAsync_With_Valid_Context_Should_Return_A_List_Of_Issues_TestAsync()
+	[Fact(DisplayName = "Get Issues Without Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Issues_Without_Archived_TestAsync()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeIssue.GetIssues(expectedCount).ToList();
-
+		foreach (var item in expected)
+		{
+			item.Archived = false;
+		}
+		
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -110,6 +146,7 @@ public class IssueRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
 			It.IsAny<FindOptions<IssueModel>>(),
@@ -117,8 +154,44 @@ public class IssueRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Get Issues With Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Issues_With_Archived_TestAsync()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeIssue.GetIssues(expectedCount).ToList();
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<IssueModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		_list = new List<IssueModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true).ConfigureAwait(false))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
+
+		_mockCollection.Verify(c => c
+			.FindAsync(It.IsAny<FilterDefinition<IssueModel>>(),
+			It.IsAny<FindOptions<IssueModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Get Users Issues with valid Id")]
-	public async Task GetIssuesByUserIdAsync_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Issues_TestAsync()
+	public async Task GetByUserAsync_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Issues_TestAsync()
 	{
 		// Arrange
 		const int expectedCount = 2;
@@ -158,7 +231,7 @@ public class IssueRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Issues Waiting for Approval")]
-	public async Task GetIssuesWaitingForApprovalAsync_ShouldReturnAListOfIssues_TestAsync()
+	public async Task GetWaitingForApprovalAsync_ShouldReturnAListOfIssues_TestAsync()
 	{
 
 		// Arrange
@@ -196,7 +269,7 @@ public class IssueRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Issues Approved")]
-	public async Task GetIssuesApprovedAsync_Should_Return_AListOfApprovedIssues_TestAsync()
+	public async Task GetApprovedAsync_Should_Return_AListOfApprovedIssues_TestAsync()
 	{
 
 		// Arrange
@@ -234,7 +307,7 @@ public class IssueRepositoryTests
 	}
 
 	[Fact(DisplayName = "Update Issue")]
-	public async Task UpdateIssueAsync_With_A_Valid_Id_And_Issue_Should_UpdateIssue_TestAsync()
+	public async Task UpdateAsync_With_A_Valid_Id_And_Issue_Should_UpdateIssue_TestAsync()
 	{
 
 		// Arrange

@@ -32,8 +32,40 @@ public class CommentRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Archive Comment Test")]
+	public async Task ArchiveAsync_With_Valid_Comment_Should_Archive_the_Comment_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeComment.GetNewComment(true);
+
+		var updatedComment = FakeComment.GetNewComment(true);
+		updatedComment.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<CommentModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveAsync(updatedComment);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.
+				ReplaceOneAsync(It.IsAny<FilterDefinition<CommentModel>>(),
+					updatedComment,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Create Comment With Valid Comment")]
-	public async Task CreateCommentAsync_With_A_Valid_Comment_Should_Return_Success_TestAsync()
+	public async Task CreateAsync_With_A_Valid_Comment_Should_Return_Success_TestAsync()
 	{
 
 		// Arrange
@@ -56,7 +88,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
-	public async Task GetCommentByIdAsync_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
 
 		// Arrange
@@ -88,14 +120,18 @@ public class CommentRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Get Comments")]
-	public async Task GetCommentsAsync_With_Valid_Context_Should_Return_A_List_Of_Comments_TestAsync()
+	[Fact(DisplayName = "Get Comments Without Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Comments_Without_Archived_TestAsync()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeComment.GetComments(expectedCount).ToList();
-
+		foreach (var comment in expected)
+		{
+			comment.Archived = false;
+		}
+		
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
@@ -115,6 +151,7 @@ public class CommentRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
 			It.IsAny<FindOptions<CommentModel>>(),
@@ -122,8 +159,44 @@ public class CommentRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Get Comments With Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Comments_With_Archived_TestAsync()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeComment.GetComments(expectedCount).ToList();
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<CommentModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		_list = new List<CommentModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true).ConfigureAwait(false))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
+
+		_mockCollection.Verify(c => c
+			.FindAsync(It.IsAny<FilterDefinition<CommentModel>>(),
+			It.IsAny<FindOptions<CommentModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Get Comments by Source")]
-	public async Task GetCommentsBySourceAsync_With_Valid_Source_Should_Return_A_List_Of_Comments_TestAsync()
+	public async Task GetBySourceAsync_With_Valid_Source_Should_Return_A_List_Of_Comments_TestAsync()
 	{
 		// Arrange
 		const int expectedCount = 1;
@@ -154,7 +227,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments with valid Id")]
-	public async Task GetCommentsByUserIdAsync_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
+	public async Task GetByUserAsync_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
 	{
 		// Arrange
 		const int expectedCount = 2;
@@ -194,7 +267,7 @@ public class CommentRepositoryTests
 	}
 
 	[Fact(DisplayName = "Update Comment")]
-	public async Task UpdateCommentAsync_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
+	public async Task UpdateAsync_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
 	{
 
 		// Arrange

@@ -28,7 +28,7 @@ public class CategoryRepositoryTests
 	}
 
 	[Fact(DisplayName = "Archive Category Test")]
-	public async Task ArchiveCategory_With_Valid_Category_Should_Archive_the_Category_TestAsync()
+	public async Task ArchiveAsync_With_Valid_Category_Should_Archive_the_Category_TestAsync()
 	{
 
 		// Arrange
@@ -39,10 +39,6 @@ public class CategoryRepositoryTests
 
 		await _mockCollection.Object.InsertOneAsync(expected);
 
-		//_list = new List<CategoryModel> { updatedCategory };
-
-		//_cursor.Setup(_ => _.Current).Returns(_list);
-
 		_mockContext.Setup(c => c
 			.GetCollection<CategoryModel>(It.IsAny<string>()))
 			.Returns(_mockCollection.Object);
@@ -50,7 +46,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateAsync(updatedCategory);
+		await sut.ArchiveAsync(updatedCategory);
 
 		// Assert
 
@@ -64,7 +60,7 @@ public class CategoryRepositoryTests
 	}
 
 	[Fact(DisplayName = "Create Category Test")]
-	public async Task CreateCategoryAsync_With_Valid_Category_Should_Insert_A_New_Category_TestAsync()
+	public async Task CreateAsync_With_Valid_Category_Should_Insert_A_New_Category_TestAsync()
 	{
 
 		// Arrange
@@ -87,7 +83,7 @@ public class CategoryRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Category By Id")]
-	public async Task GetCategoryByIdAsync_With_Valid_Id_Should_Returns_One_Category_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_Category_TestAsync()
 	{
 
 		// Arrange
@@ -121,13 +117,16 @@ public class CategoryRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Categories Test")]
-	public async Task GetCategoriesAsync_With_Valid_Context_Should_Return_A_List_Of_Categories_Test()
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Categories_Without_Archived_Test()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeCategory.GetCategories(expectedCount).ToList();
-
+		foreach (var item in expected)
+		{
+			item.Archived = false;
+		}
 		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_list = new List<CategoryModel>(expected);
@@ -147,7 +146,8 @@ public class CategoryRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
-
+		results.Any(x => x.Archived).Should().BeFalse();
+			
 		_mockCollection.Verify(c => c
 			.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
 			It.IsAny<FindOptions<CategoryModel>>(),
@@ -155,8 +155,44 @@ public class CategoryRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Get Categories Include Archived Test")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Categories_Including_Archived_Test()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeCategory.GetCategories(expectedCount).ToList();
+
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_list = new List<CategoryModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c
+				.GetCollection<CategoryModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
+
+		_mockCollection.Verify(c => c
+			.FindAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
+				It.IsAny<FindOptions<CategoryModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+	
 	[Fact(DisplayName = "Update Category Test")]
-	public async Task UpdateCategoryAsync_With_A_Valid_Id_And_Category_Should_UpdateCategory_Test()
+	public async Task UpdateAsync_With_A_Valid_Id_And_Category_Should_UpdateCategory_Test()
 	{
 
 		// Arrange

@@ -27,8 +27,40 @@ public class StatusRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Archive Status Test")]
+	public async Task ArchiveAsync_With_Valid_Status_Should_Archive_the_Status_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeStatus.GetNewStatus(true);
+
+		var updatedStatus = FakeStatus.GetNewStatus(true);
+		updatedStatus.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<StatusModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveAsync(updatedStatus);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.
+				ReplaceOneAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+					updatedStatus,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Create Status Test")]
-	public async Task CreateStatusAsync_With_Valid_Status_Should_Insert_A_New_Status_TestAsync()
+	public async Task CreateAsync_With_Valid_Status_Should_Insert_A_New_Status_TestAsync()
 	{
 
 		// Arrange
@@ -51,7 +83,7 @@ public class StatusRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Status By Id")]
-	public async Task GetStatusByIdAsync_With_Valid_Id_Should_Returns_One_Status_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_Status_TestAsync()
 	{
 
 		// Arrange
@@ -82,34 +114,76 @@ public class StatusRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Get Statuses Test")]
-	public async Task GetStatusesAsync_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
+	[Fact(DisplayName = "Get Statuses Without Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Statuses_Without_Archived_TestAsync()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
-		var expected = FakeStatus.GetStatuses(expectedCount);
-
-		var statusModels = expected.ToList();
-		_list = new List<StatusModel>(statusModels);
-
-		_cursor.Setup(_ => _.Current).Returns(_list);
+		var expected = FakeStatus.GetStatuses(expectedCount).ToList();
+		foreach (var item in expected)
+		{
+			item.Archived = false;
+		}
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
 			.GetCollection<StatusModel>(It.IsAny<string>()))
 			.Returns(_mockCollection.Object);
 
+		_list = new List<StatusModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetAllAsync())!.ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false))!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
-		results.Should().BeEquivalentTo(statusModels);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
+			It.IsAny<FindOptions<StatusModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "Get Statuses With Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Statuses_With_Archived_TestAsync()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeStatus.GetStatuses(expectedCount).ToList();
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<StatusModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		_list = new List<StatusModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true).ConfigureAwait(false))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
+
+		_mockCollection.Verify(c => c
+			.FindAsync(It.IsAny<FilterDefinition<StatusModel>>(),
 			It.IsAny<FindOptions<StatusModel>>(),
 			It.IsAny<CancellationToken>()), Times.Once);
 
@@ -130,10 +204,6 @@ public class StatusRepositoryTests
 		updatedStatus.Id = expected.Id;
 		updatedStatus.StatusName = expected.StatusName;
 		updatedStatus.StatusDescription = "Updated New StatusDescription";
-
-		//_list = new List<StatusModel> { updatedStatus };
-
-		//_cursor.Setup(_ => _.Current).Returns(_list);
 
 		_mockContext.Setup(c => c
 			.GetCollection<StatusModel>(It.IsAny<string>()))

@@ -32,8 +32,40 @@ public class SolutionRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Archive Solution Test")]
+	public async Task ArchiveAsync_With_Valid_Solution_Should_Archive_the_Solution_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeSolution.GetNewSolution(true);
+
+		var updatedSolution = FakeSolution.GetNewSolution(true);
+		updatedSolution.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<SolutionModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveAsync(updatedSolution);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.
+				ReplaceOneAsync(It.IsAny<FilterDefinition<SolutionModel>>(),
+					updatedSolution,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Create Solution Test")]
-	public async Task CreateSolutionAsync_With_Valid_Solution_Should_Insert_A_New_Solution_TestAsync()
+	public async Task CreateAsync_With_Valid_Solution_Should_Insert_A_New_Solution_TestAsync()
 	{
 
 		// Arrange
@@ -56,7 +88,7 @@ public class SolutionRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Solution By Id")]
-	public async Task GetSolutionByIdAsync_With_Valid_Id_Should_Returns_One_Solution_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_Solution_TestAsync()
 	{
 
 		// Arrange
@@ -89,7 +121,7 @@ public class SolutionRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Solution By Issue Id")]
-	public async Task GetSolutionsByIssueIdAsync_With_Valid_Issue_Id_Should_Returns_A_List_Of_Solutions_TestAsync()
+	public async Task GetByIssueAsync_With_Valid_Issue_Id_Should_Returns_A_List_Of_Solutions_TestAsync()
 	{
 
 		// Arrange
@@ -123,7 +155,7 @@ public class SolutionRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Solutions By User Id")]
-	public async Task GetSolutionByUserIdAsync_With_Valid_User_Id_Should_Return_A_List_Of_Solutions_TestAsync()
+	public async Task GetByUserAsync_With_Valid_User_Id_Should_Return_A_List_Of_Solutions_TestAsync()
 	{
 
 		// Arrange
@@ -156,14 +188,18 @@ public class SolutionRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Get Solutions Test")]
-	public async Task GetSolutionsAsync_With_Valid_Context_Should_Return_A_List_Of_Solutions_Test()
+	[Fact(DisplayName = "Get Solutions Without Archived Test")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Solutions_Without_Archived_Test()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeSolution.GetSolutions(expectedCount).ToList();
-
+		foreach (var item in expected)
+		{
+			item.Archived = false;
+		}
+		
 		_list = new List<SolutionModel>(expected);
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -181,6 +217,40 @@ public class SolutionRepositoryTests
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeFalse();
+
+		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<SolutionModel>>(),
+			It.IsAny<FindOptions<SolutionModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
+	[Fact(DisplayName = "Get Solutions With Archived Test")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Solutions_With_Archived_Test()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeSolution.GetSolutions(expectedCount).ToList();
+
+		_list = new List<SolutionModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		_mockContext.Setup(c => c
+				.GetCollection<SolutionModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<SolutionModel>>(),
 			It.IsAny<FindOptions<SolutionModel>>(),

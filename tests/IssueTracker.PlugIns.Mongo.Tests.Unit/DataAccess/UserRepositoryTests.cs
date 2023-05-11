@@ -27,8 +27,39 @@ public class UserRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Archive User Test")]
+	public async Task ArchiveAsync_With_Valid_User_Should_Archive_the_User_TestAsync()
+	{
+
+		// Arrange
+		var expected = FakeUser.GetNewUser(true);
+
+		var updatedUser = FakeUser.GetNewUser(true);
+		updatedUser.Archived = true;
+
+		await _mockCollection.Object.InsertOneAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<UserModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		var sut = CreateRepository();
+
+		// Act
+		await sut.ArchiveAsync(updatedUser);
+
+		// Assert
+
+		_mockCollection.Verify(
+			c => c.
+				ReplaceOneAsync(It.IsAny<FilterDefinition<UserModel>>(),
+					updatedUser,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
+
+	}
 	[Fact(DisplayName = "Create User Test")]
-	public async Task CreateUserAsync_With_Valid_User_Should_Insert_A_New_User_TestAsync()
+	public async Task CreateAsync_With_Valid_User_Should_Insert_A_New_User_TestAsync()
 	{
 
 		// Arrange
@@ -51,7 +82,7 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get User By Id")]
-	public async Task GetUserByIdAsync_With_Valid_Id_Should_Returns_One_User_TestAsync()
+	public async Task GetAsync_With_Valid_Id_Should_Returns_One_User_TestAsync()
 	{
 
 		// Arrange
@@ -84,7 +115,7 @@ public class UserRepositoryTests
 	}
 
 	[Fact(DisplayName = "Get Users By Authentication Id")]
-	public async Task GetUserByAuthenticationIdAsync_With_Valid_User_Id_Should_Return_A_List_Of_Users_TestAsync()
+	public async Task GetByAuthenticationIdAsync_With_Valid_User_Id_Should_Return_A_List_Of_Users_TestAsync()
 	{
 
 		// Arrange
@@ -117,31 +148,38 @@ public class UserRepositoryTests
 
 	}
 
-	[Fact(DisplayName = "Get Users Test")]
-	public async Task GetUsersAsync_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
+	[Fact(DisplayName = "Get Users Without Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Users_Without_Archived_TestAsync()
 	{
 
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeUser.GetUsers(expectedCount).ToList();
-
-		_list = new List<UserModel>(expected);
-
-		_cursor.Setup(_ => _.Current).Returns(_list);
+		foreach (var User in expected)
+		{
+			User.Archived = false;
+		}
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
 
 		_mockContext.Setup(c => c
 			.GetCollection<UserModel>(It.IsAny<string>()))
 			.Returns(_mockCollection.Object);
 
+		_list = new List<UserModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetAllAsync())!.ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false))!.ToList();
 
 		// Assert
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeFalse();
 
 		_mockCollection.Verify(c => c.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
 			It.IsAny<FindOptions<UserModel>>(),
@@ -149,8 +187,44 @@ public class UserRepositoryTests
 
 	}
 
+	[Fact(DisplayName = "Get Users With Archived")]
+	public async Task GetAllAsync_With_Valid_Context_Should_Return_A_List_Of_Users_With_Archived_TestAsync()
+	{
+
+		// Arrange
+		const int expectedCount = 5;
+		var expected = FakeUser.GetUsers(expectedCount).ToList();
+		
+		await _mockCollection.Object.InsertManyAsync(expected);
+
+		_mockContext.Setup(c => c
+				.GetCollection<UserModel>(It.IsAny<string>()))
+			.Returns(_mockCollection.Object);
+
+		_list = new List<UserModel>(expected);
+
+		_cursor.Setup(_ => _.Current).Returns(_list);
+
+		var sut = CreateRepository();
+
+		// Act
+		var results = (await sut.GetAllAsync(true).ConfigureAwait(false))!.ToList();
+
+		// Assert
+		results.Should().NotBeNull();
+		results.Should().HaveCount(expectedCount);
+		results.Should().BeEquivalentTo(expected);
+		results.Any(x=>x.Archived).Should().BeTrue();
+
+		_mockCollection.Verify(c => c
+			.FindAsync(It.IsAny<FilterDefinition<UserModel>>(),
+			It.IsAny<FindOptions<UserModel>>(),
+			It.IsAny<CancellationToken>()), Times.Once);
+
+	}
+
 	[Fact(DisplayName = "Update User Test")]
-	public async Task UpdateUserAsync_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
+	public async Task UpdateAsync_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
 
 		// Arrange
