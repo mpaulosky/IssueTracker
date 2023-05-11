@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.IssueServiceTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.IssueServiceTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class IssueServiceTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private IIssueRepository _repo;
 	private IMemoryCache _cache;
-	private const string CleanupValue = "";
+	private const string? CleanupValue = "";
 
 	public IssueServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,7 @@ public class IssueServiceTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_repo = null;
+		_repo = null!;
 
 		// Act
 		Func<IssueService> act = () => new IssueService(_repo, _cache);
@@ -38,7 +38,7 @@ public class IssueServiceTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cache = null;
+		_cache = null!;
 
 		// Act
 		Func<IssueService> act = () => new IssueService(_repo, _cache);

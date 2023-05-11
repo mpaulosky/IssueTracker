@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class CreateStatusTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public CreateStatusTests(IssueTrackerTestFactory factory)
 	{
@@ -45,7 +45,7 @@ public class CreateStatusTests : IAsyncLifetime
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null!));
 
 	}
 

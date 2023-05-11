@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace IssueTracker.PlugIns;
+namespace IssueTracker.PlugIns.Tests.Integration;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
@@ -12,11 +12,9 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	private readonly string _databaseName;
 
-	public IConfiguration AppConfiguration { get; }
+	private DatabaseSettings? DbConfig { get; set; }
 
-	public DatabaseSettings DbConfig { get; set; }
-
-	public IMongoDbContextFactory DbContext { get; set; }
+	public IMongoDbContextFactory? DbContext { get; set; }
 
 	public IssueTrackerTestFactory()
 	{
@@ -40,7 +38,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 			services.Remove(dbConnectionDescriptor!);
 
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
-					new MongoDbContextFactory(DbConfig));
+					new MongoDbContextFactory(DbConfig!));
 
 			using var serviceProvider = services.BuildServiceProvider();
 
@@ -52,13 +50,13 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	}
 
-	public async Task ResetCollectionAsync(string collection)
+	public async Task ResetCollectionAsync(string? collection)
 	{
 
 		if (!string.IsNullOrWhiteSpace(collection))
 		{
 
-			await DbContext.Client.GetDatabase(_databaseName).DropCollectionAsync(collection);
+			await DbContext!.Client.GetDatabase(_databaseName).DropCollectionAsync(collection);
 
 		}
 
@@ -76,7 +74,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	public new async Task DisposeAsync()
 	{
 
-		await DbContext.Client.DropDatabaseAsync(_databaseName);
+		await DbContext!.Client.DropDatabaseAsync(_databaseName);
 		await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
 
 	}

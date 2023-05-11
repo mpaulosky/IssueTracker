@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,15 +7,12 @@ public class GetCategoriesTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
-	private string _cleanupValue;
-	private readonly IMongoDbContextFactory _dbContextFactory;
+	private string? _cleanupValue;
 
 	public GetCategoriesTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
-		_dbContextFactory = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
-		_dbContextFactory.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CategoryModel)));
 
 		var repo = (ICategoryRepository)_factory.Services.GetRequiredService(typeof(ICategoryRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));

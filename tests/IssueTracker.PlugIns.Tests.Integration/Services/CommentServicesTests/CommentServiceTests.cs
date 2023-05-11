@@ -1,13 +1,13 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
 public class CommentServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
-	private ICommentRepository _repo;
-	private IMemoryCache _memCache;
-	private const string CleanupValue = "";
+	private ICommentRepository? _repo;
+	private IMemoryCache? _memCache;
+	private const string? CleanupValue = "";
 
 	public CommentServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -25,7 +25,7 @@ public class CommentServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		Func<CommentService> act = () => new CommentService(_repo, _memCache);
+		Func<CommentService> act = () => new CommentService(_repo!, _memCache!);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
@@ -40,7 +40,7 @@ public class CommentServiceTests : IAsyncLifetime
 		_memCache = null;
 
 		// Act
-		Func<CommentService> act = () => new CommentService(_repo, _memCache);
+		Func<CommentService> act = () => new CommentService(_repo!, _memCache!);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

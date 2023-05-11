@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class GetCommentTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public GetCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -28,13 +28,13 @@ public class GetCommentTests : IAsyncLifetime
 		await _sut.CreateComment(expected);
 
 		// Act
-		var result = await _sut.GetComment(expected!.Id!);
+		var result = await _sut.GetComment(expected.Id);
 
 		// Assert
-		result.Id.Should().Be(expected!.Id);
-		result.Title.Should().BeEquivalentTo(expected!.Title);
-		result.Author.Should().BeEquivalentTo(expected!.Author);
-		result.CommentOnSource.SourceType.Should().Be(expected!.CommentOnSource.SourceType);
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().BeEquivalentTo(expected.Title);
+		result.Author.Should().BeEquivalentTo(expected.Author);
+		result.CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
 
 	}
 
@@ -61,7 +61,7 @@ public class GetCommentTests : IAsyncLifetime
 		_cleanupValue = "";
 
 		// Act
-		Func<Task<CommentModel>> act = async () => await _sut.GetComment(null);
+		Func<Task<CommentModel>> act = async () => await _sut.GetComment(null!);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

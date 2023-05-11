@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class GetUserFromAuthenticationTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public GetUserFromAuthenticationTests(IssueTrackerTestFactory factory)
 	{

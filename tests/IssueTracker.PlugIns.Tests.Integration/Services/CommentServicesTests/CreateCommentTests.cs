@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class CreateCommentTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public CreateCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -45,7 +45,7 @@ public class CreateCommentTests : IAsyncLifetime
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateComment(null!));
 
 	}
 

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class UpdateCommentTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public UpdateCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -31,13 +31,13 @@ public class UpdateCommentTests : IAsyncLifetime
 		// Act
 		expected.Title = "Updated";
 		await _sut.UpdateComment(expected);
-		var result = await _sut.GetComment(expected!.Id!);
+		var result = await _sut.GetComment(expected.Id);
 
 		// Assert
-		result.Id.Should().Be(expected!.Id);
-		result.Title.Should().Be(expected!.Title);
-		result.Author.Should().BeEquivalentTo(expected!.Author);
-		result.CommentOnSource.SourceType.Should().Be(expected!.CommentOnSource.SourceType);
+		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Author.Should().BeEquivalentTo(expected.Author);
+		result.CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
 
 	}
 
@@ -58,7 +58,9 @@ public class UpdateCommentTests : IAsyncLifetime
 
 	public Task InitializeAsync()
 	{
+
 		return Task.CompletedTask;
+
 	}
 
 	public async Task DisposeAsync()

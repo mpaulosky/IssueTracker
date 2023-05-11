@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public UpdateCategoryTests(IssueTrackerTestFactory factory)
 	{
@@ -46,7 +46,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 		_cleanupValue = "";
 
 		// Act
-		Func<Task> act = async () => await _sut.UpdateCategory(null);
+		Func<Task> act = async () => await _sut.UpdateCategory(null!);
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();

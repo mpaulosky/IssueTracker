@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.StatusServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.StatusServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class DeleteStatusTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public DeleteStatusTests(IssueTrackerTestFactory factory)
 	{
@@ -49,7 +49,7 @@ public class DeleteStatusTests : IAsyncLifetime
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null!));
 
 	}
 

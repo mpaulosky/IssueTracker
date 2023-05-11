@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class CreateUserTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public CreateUserTests(IssueTrackerTestFactory factory)
 	{
@@ -44,7 +44,7 @@ public class CreateUserTests : IAsyncLifetime
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateUser(null!));
 
 	}
 

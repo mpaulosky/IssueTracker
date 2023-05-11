@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class GetCommentsByUserTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public GetCommentsByUserTests(IssueTrackerTestFactory factory)
 	{

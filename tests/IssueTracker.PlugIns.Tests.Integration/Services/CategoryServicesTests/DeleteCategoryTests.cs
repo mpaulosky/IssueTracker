@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,7 +7,7 @@ public class DeleteCategoryTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public DeleteCategoryTests(IssueTrackerTestFactory factory)
 	{
@@ -49,7 +49,7 @@ public class DeleteCategoryTests : IAsyncLifetime
 		// Act
 
 		// Assert
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteCategory(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteCategory(null!));
 
 	}
 

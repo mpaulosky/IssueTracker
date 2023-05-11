@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,18 +6,14 @@ public class GetUsersTests : IAsyncLifetime
 {
 
 	private readonly IssueTrackerTestFactory _factory;
-	private readonly IMongoDbContextFactory _dbContext;
 	private readonly UserService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public GetUsersTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
-		_dbContext = factory.DbContext = new MongoDbContextFactory(factory.DbConfig);
-
 		var repo = (IUserRepository)_factory.Services.GetRequiredService(typeof(IUserRepository));
-
 		_sut = new UserService(repo);
 
 	}
@@ -46,7 +42,9 @@ public class GetUsersTests : IAsyncLifetime
 
 	public Task InitializeAsync()
 	{
+		
 		return Task.CompletedTask;
+		
 	}
 
 	public async Task DisposeAsync()

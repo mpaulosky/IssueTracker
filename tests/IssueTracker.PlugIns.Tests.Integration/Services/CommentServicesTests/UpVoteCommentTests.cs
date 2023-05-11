@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public UpVoteCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -69,7 +69,9 @@ public class UpVoteCommentTests : IAsyncLifetime
 
 	public Task InitializeAsync()
 	{
+
 		return Task.CompletedTask;
+
 	}
 
 	public async Task DisposeAsync()

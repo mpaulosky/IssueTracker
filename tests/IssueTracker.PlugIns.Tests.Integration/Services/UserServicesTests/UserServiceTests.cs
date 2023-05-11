@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.UserServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.UserServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class UserServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private IUserRepository _repo;
-	private const string CleanupValue = "";
+	private const string? CleanupValue = "";
 
 	public UserServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -21,7 +21,7 @@ public class UserServiceTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_repo = null;
+		_repo = null!;
 
 		// Act
 		Func<UserService> act = () => new UserService(_repo);

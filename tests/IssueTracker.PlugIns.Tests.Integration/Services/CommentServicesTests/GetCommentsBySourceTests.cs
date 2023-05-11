@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -6,7 +6,7 @@ public class GetCommentsBySourceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private readonly string _cleanupValue = "comments";
+	private const string? CleanupValue = "comments";
 
 	public GetCommentsBySourceTests(IssueTrackerTestFactory factory)
 	{
@@ -28,24 +28,26 @@ public class GetCommentsBySourceTests : IAsyncLifetime
 		await _sut.CreateComment(expected);
 
 		// Act
-		var result = await _sut.GetCommentsBySource(expected.CommentOnSource);
+		var result = await _sut.GetCommentsBySource(expected.CommentOnSource!);
 
 		// Assert
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
-		result[0].CommentOnSource.Id.Should().Be(expected.CommentOnSource.Id);
+		result[0].CommentOnSource!.Id.Should().Be(expected.CommentOnSource!.Id);
 
 	}
 
 	public Task InitializeAsync()
 	{
+
 		return Task.CompletedTask;
+
 	}
 
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 }

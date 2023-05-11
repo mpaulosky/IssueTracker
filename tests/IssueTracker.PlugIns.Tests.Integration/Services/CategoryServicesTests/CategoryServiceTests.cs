@@ -1,13 +1,13 @@
-﻿namespace IssueTracker.PlugIns.Services.CategoryServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
 public class CategoryServiceTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
-	private ICategoryRepository _repo;
-	private IMemoryCache _cache;
-	private const string CleanupValue = "";
+	private ICategoryRepository? _repo;
+	private IMemoryCache? _cache;
+	private const string? CleanupValue = "";
 
 	public CategoryServiceTests(IssueTrackerTestFactory factory)
 	{
@@ -26,7 +26,7 @@ public class CategoryServiceTests : IAsyncLifetime
 		_repo = null;
 
 		// Act
-		Func<CategoryService> act = () => new CategoryService(_repo, _cache);
+		Func<CategoryService> act = () => new CategoryService(_repo!, _cache!);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();
@@ -41,7 +41,7 @@ public class CategoryServiceTests : IAsyncLifetime
 		_cache = null;
 
 		// Act
-		Func<CategoryService> act = () => new CategoryService(_repo, _cache);
+		Func<CategoryService> act = () => new CategoryService(_repo!, _cache!);
 
 		// Assert
 		act.Should().Throw<ArgumentNullException>();

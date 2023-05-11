@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns;
+﻿namespace IssueTracker.PlugIns.Tests.Integration;
 
 [CollectionDefinition("Test Collection")]
 public class DatabaseCollection : ICollectionFixture<IssueTrackerTestFactory>

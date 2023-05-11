@@ -7,7 +7,7 @@ public class MongodbHealthcheckShould : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private TestServer? _sut;
-	private const string CleanupValue = "";
+	private const string? CleanupValue = "";
 
 	public MongodbHealthcheckShould(IssueTrackerTestFactory factory)
 	{

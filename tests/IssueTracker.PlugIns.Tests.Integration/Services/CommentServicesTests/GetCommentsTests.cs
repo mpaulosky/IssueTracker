@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Services.CommentServicesTests;
+﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CommentServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -7,15 +7,12 @@ public class GetCommentsTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentService _sut;
-	private string _cleanupValue;
+	private string? _cleanupValue;
 
 	public GetCommentsTests(IssueTrackerTestFactory factory)
 	{
 
 		_factory = factory;
-		var db = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
-		db.Database.DropCollection(CollectionNames.GetCollectionName(nameof(CommentModel)));
-
 		var repo = (ICommentRepository)_factory.Services.GetRequiredService(typeof(ICommentRepository));
 		var memCache = (IMemoryCache)_factory.Services.GetRequiredService(typeof(IMemoryCache));
 		memCache.Remove("CommentsData");
@@ -41,7 +38,7 @@ public class GetCommentsTests : IAsyncLifetime
 		results.Count.Should().Be(1);
 		results[0].Title.Should().Be(expected.Title);
 		results[0].Author.Should().BeEquivalentTo(expected.Author);
-		results[0].CommentOnSource.SourceType.Should().Be(expected.CommentOnSource.SourceType);
+		results[0].CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
 
 	}
 
