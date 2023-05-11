@@ -258,7 +258,7 @@ public class StatusServiceTests
 
 		// Assert
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateStatus(null));
+		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateStatus(null!));
 
 	}
 

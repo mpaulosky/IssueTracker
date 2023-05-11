@@ -4,9 +4,9 @@
 public class DatabaseSettingsTests
 {
 
-	private DatabaseSettings CreateDatabaseSettings(string expectedCS, string expectedDbName)
+	private DatabaseSettings CreateDatabaseSettings(string expectedCs, string expectedDbName)
 	{
-		return new DatabaseSettings(expectedCS, expectedDbName);
+		return new DatabaseSettings(expectedCs, expectedDbName);
 	}
 
 	[Fact]

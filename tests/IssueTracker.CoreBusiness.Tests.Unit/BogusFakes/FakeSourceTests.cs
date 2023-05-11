@@ -4,10 +4,6 @@
 public class FakeSourceTests
 {
 
-	public FakeSourceTests()
-	{
-	}
-
 	[Fact(DisplayName = "FakeSource GetSource Test")]
 	public void GetSource_With_RequestForFakeSource_Should_Return_AValidBasicCommentSourceModel_Test()
 	{

@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace IssueTracker.PlugIns.Tests.Integration;
+﻿namespace IssueTracker.PlugIns.Tests.Integration;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]

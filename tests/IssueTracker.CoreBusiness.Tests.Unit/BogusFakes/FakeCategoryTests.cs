@@ -5,11 +5,6 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 public class FakeCategoryTests
 {
 
-	public FakeCategoryTests()
-	{
-	}
-
-
 	[Theory(DisplayName = "FakeCategory GetNewCategory Test")]
 	[InlineData(true)]
 	[InlineData(false)]
@@ -39,7 +34,7 @@ public class FakeCategoryTests
 	}
 
 	[Fact(DisplayName = "FakeCategory GetCategories Existing Test")]
-	public void GetCategories_With_No_Varriable_Should_Return_A_List_Of_Categories_Test()
+	public void GetCategories_With_No_Variable_Should_Return_A_List_Of_Categories_Test()
 	{
 
 		// Arrange

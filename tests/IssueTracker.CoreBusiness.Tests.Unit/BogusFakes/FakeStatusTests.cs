@@ -4,10 +4,6 @@
 public class FakeStatusTests
 {
 
-	public FakeStatusTests()
-	{
-	}
-
 	[Theory(DisplayName = "FakeStatus GetNewStatus Tests")]
 	[InlineData(true)]
 	[InlineData(false)]
@@ -35,7 +31,7 @@ public class FakeStatusTests
 	}
 
 	[Fact(DisplayName = "FakeStatus GetStatuses Existing Test")]
-	public void GetStatuses_With_No_Varriable_Should_Return_A_List_Of_Statuses_Test()
+	public void GetStatuses_With_No_Variable_Should_Return_A_List_Of_Statuses_Test()
 	{
 
 		// Arrange

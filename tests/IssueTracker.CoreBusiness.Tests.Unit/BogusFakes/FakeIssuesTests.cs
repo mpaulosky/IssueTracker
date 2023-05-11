@@ -4,10 +4,6 @@
 public class FakeIssuesTests
 {
 
-	public FakeIssuesTests()
-	{
-	}
-
 	[Theory(DisplayName = "FakeIssue GetNewIssue Tests")]
 	[InlineData(true)]
 	[InlineData(false)]

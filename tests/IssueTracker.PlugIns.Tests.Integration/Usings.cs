@@ -11,7 +11,7 @@ global using IssueTracker.PlugIns.DataAccess;
 global using IssueTracker.PlugIns.PlugInRepositoryInterfaces;
 global using IssueTracker.PlugIns.Services;
 global using IssueTracker.UI;
-
+global using JetBrains.Annotations;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;

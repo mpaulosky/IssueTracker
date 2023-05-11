@@ -17,7 +17,7 @@ public class MongoDbContainerTest : IAsyncLifetime
 	public void ConnectionStateReturnsOpen()
 	{
 		// Given
-		var client = _factory.DbContext.Client;
+		var client = _factory.DbContext!.Client;
 
 		// When
 		using var databases = client.ListDatabases();

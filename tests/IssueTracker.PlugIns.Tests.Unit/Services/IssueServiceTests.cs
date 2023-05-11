@@ -149,7 +149,7 @@ public class IssueServiceTests
 		object whatever = expected;
 
 		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
@@ -222,7 +222,7 @@ public class IssueServiceTests
 		object whatever = expected;
 
 		_memoryCacheMock
-			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever))
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
@@ -263,7 +263,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssuesByUser(userId: null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssuesByUser(userId: null!));
 	}
 
 	[Fact(DisplayName = "GetIssuesWaitingForApproval")]
@@ -369,7 +369,7 @@ public class IssueServiceTests
 
 		// Assert
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null));
+		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null!));
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);

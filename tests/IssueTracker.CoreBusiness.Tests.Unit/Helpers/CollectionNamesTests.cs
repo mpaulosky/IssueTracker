@@ -4,10 +4,6 @@
 public class CollectionNamesTests
 {
 
-	public CollectionNamesTests()
-	{
-	}
-
 	[Theory(DisplayName = "GetCollectionName Tests")]
 	[InlineData("CategoryModel", "categories")]
 	[InlineData("CommentModel", "comments")]
