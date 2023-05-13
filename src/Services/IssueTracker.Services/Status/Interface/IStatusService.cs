@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services.Interfaces;
+namespace IssueTracker.Services.Status.Interface;
 
 public interface IStatusService
 {

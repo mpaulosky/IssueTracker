@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services;
+namespace IssueTracker.Services.User;
 
 /// <summary>
 ///		UserService class

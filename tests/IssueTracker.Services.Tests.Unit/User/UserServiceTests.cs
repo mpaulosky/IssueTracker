@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Tests.Unit.Services;
+﻿namespace IssueTracker.Services.User;
 
 [ExcludeFromCodeCoverage]
 public class UserServiceTests

@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Tests.Unit.Services;
+﻿namespace IssueTracker.Services.Comment;
 
 [ExcludeFromCodeCoverage]
 public class CommentServiceTests

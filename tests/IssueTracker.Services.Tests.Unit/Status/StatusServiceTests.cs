@@ -1,7 +1,4 @@
-﻿using IssueTracker.CoreBusiness.BogusFakes;
-using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Tests.Unit.Services;
+﻿namespace IssueTracker.Services.Status;
 
 [ExcludeFromCodeCoverage]
 public class StatusServiceTests

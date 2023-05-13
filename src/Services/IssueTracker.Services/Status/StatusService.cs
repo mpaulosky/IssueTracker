@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services;
+namespace IssueTracker.Services.Status;
 
 /// <summary>
 ///		StatusService class
@@ -13,7 +13,7 @@ namespace IssueTracker.PlugIns.Services;
 public class StatusService : IStatusService
 {
 
-	private const string _cacheName = "StatusData";
+	private const string CacheName = "StatusData";
 	private readonly IMemoryCache _cache;
 	private readonly IStatusRepository _repository;
 
@@ -86,7 +86,7 @@ public class StatusService : IStatusService
 	public async Task<List<StatusModel>> GetStatuses()
 	{
 
-		List<StatusModel>? output = _cache.Get<List<StatusModel>>(_cacheName);
+		List<StatusModel>? output = _cache.Get<List<StatusModel>>(CacheName);
 
 		if (output is not null) return output;
 
@@ -94,7 +94,7 @@ public class StatusService : IStatusService
 
 		output = results.ToList();
 
-		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
+		_cache.Set(CacheName, output, TimeSpan.FromDays(1));
 
 		return output;
 

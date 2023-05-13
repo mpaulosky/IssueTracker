@@ -1,6 +1,4 @@
-﻿using IssueTracker.PlugIns.Services;
-
-namespace IssueTracker.PlugIns.Tests.Unit.Services;
+﻿namespace IssueTracker.Services.Issue;
 
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests
@@ -172,7 +170,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 2;
 
-		var issues = FakeIssue.GetIssues(expectedCount);
+		var issues = FakeIssue.GetIssues(expectedCount).ToList();
 
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
@@ -206,7 +204,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 2;
 
-		var issues = FakeIssue.GetIssues(expectedCount);
+		var issues = FakeIssue.GetIssues(expectedCount).ToList();
 
 		const string expectedUser = "5dc1039a1521eaa36835e541";
 
@@ -273,7 +271,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = FakeIssue.GetIssues(expectedCount);
+		var expected = FakeIssue.GetIssues(expectedCount).ToList();
 
 		foreach (var issue in expected)
 		{
@@ -309,7 +307,7 @@ public class IssueServiceTests
 
 		const int expectedCount = 3;
 
-		var expected = FakeIssue.GetIssues(expectedCount);
+		var expected = FakeIssue.GetIssues(expectedCount).ToList();
 		foreach (var issue in expected)
 		{
 			issue.ApprovedForRelease = true;

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services.Interfaces;
+namespace IssueTracker.Services.Comment.Interface;
 
 public interface ICommentService
 {

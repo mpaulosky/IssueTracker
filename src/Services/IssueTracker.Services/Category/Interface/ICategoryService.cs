@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services.Interfaces;
+namespace IssueTracker.Services.Category.Interface;
 
 public interface ICategoryService
 {

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services;
+namespace IssueTracker.Services.Category;
 
 /// <summary>
 ///		CategoryService class
@@ -13,7 +13,7 @@ namespace IssueTracker.PlugIns.Services;
 public class CategoryService : ICategoryService
 {
 
-	private const string _cacheName = "CategoryData";
+	private const string CacheName = "CategoryData";
 	private readonly IMemoryCache _cache;
 	private readonly ICategoryRepository _repository;
 
@@ -42,7 +42,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.Null(category, nameof(category));
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
 
 		return _repository.CreateAsync(category);
 
@@ -59,7 +59,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.Null(category, nameof(category));
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
 
 		return _repository.ArchiveAsync(category);
 
@@ -89,7 +89,7 @@ public class CategoryService : ICategoryService
 	public async Task<List<CategoryModel>> GetCategories()
 	{
 
-		List<CategoryModel>? output = _cache.Get<List<CategoryModel>>(_cacheName);
+		List<CategoryModel>? output = _cache.Get<List<CategoryModel>>(CacheName);
 
 		if (output is not null) return output;
 
@@ -97,7 +97,7 @@ public class CategoryService : ICategoryService
 
 		output = results.ToList();
 
-		_cache.Set(_cacheName, output, TimeSpan.FromDays(1));
+		_cache.Set(CacheName, output, TimeSpan.FromDays(1));
 
 		return output;
 
@@ -114,7 +114,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.Null(category, nameof(category));
 
-		_cache.Remove(_cacheName);
+		_cache.Remove(CacheName);
 
 		return _repository.UpdateAsync(category.Id, category);
 

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.PlugIns.Services.Interfaces;
+namespace IssueTracker.Services.User.Interface;
 
 public interface IUserService
 {
