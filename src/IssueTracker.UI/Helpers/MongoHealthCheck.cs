@@ -27,26 +27,21 @@ public class MongoHealthCheck : IHealthCheck
 		CancellationToken cancellationToken = default)
 	{
 
-		var healthCheckResultHealthy = await CheckMongoDbConnectionAsync();
+		var healthCheckResult = await CheckMongoDbConnection();
 
-
-		if (healthCheckResultHealthy)
-		{
-			return HealthCheckResult.Healthy("MongoDB health check success");
-		}
-
-		return HealthCheckResult.Unhealthy("MongoDB health check failure");
+		return healthCheckResult ? HealthCheckResult.Healthy("MongoDB health check success") : HealthCheckResult.Unhealthy("MongoDB health check failure");
 
 	}
 
-	private async Task<bool> CheckMongoDbConnectionAsync()
+	private async Task<bool> CheckMongoDbConnection()
 	{
 
 		try
 		{
-			await _factory.Database.RunCommandAsync((Command<BsonDocument>)"{ping:1}");
-		}
 
+			await _factory.Database.RunCommandAsync((Command<BsonDocument>)"{ping:1}");
+
+		}
 		catch (Exception)
 		{
 			return false;
