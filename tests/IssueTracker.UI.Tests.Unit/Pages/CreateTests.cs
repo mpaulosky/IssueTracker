@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext
@@ -166,18 +168,18 @@ public class CreateTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.CreateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
 	private void SetupMocks()
 	{
 
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories!);
+		_categoryRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedCategories);
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses!);
+		_statusRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedStatuses);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
+		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 
@@ -185,7 +187,7 @@ public class CreateTests : TestContext
 	{
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser!.DisplayName);
+		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)
 		);

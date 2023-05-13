@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CategoriesTests : TestContext
@@ -373,7 +375,7 @@ public class CategoriesTests : TestContext
 		// Assert
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.CreateCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -404,7 +406,7 @@ public class CategoriesTests : TestContext
 		// Assert
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.UpdateCategoryAsync(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -427,7 +429,7 @@ public class CategoriesTests : TestContext
 		// Assert
 		_categoryRepositoryMock
 			.Verify(x =>
-				x.ArchiveCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<CategoryModel>()), Times.Once);
 
 	}
 
@@ -545,9 +547,9 @@ public class CategoriesTests : TestContext
 	private void SetupMocks()
 	{
 
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync()).ReturnsAsync(_expectedCategories!);
+		_categoryRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedCategories);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
+		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 
@@ -556,7 +558,7 @@ public class CategoriesTests : TestContext
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser!.DisplayName);
+		authContext.SetAuthorized(_expectedUser.DisplayName);
 
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)

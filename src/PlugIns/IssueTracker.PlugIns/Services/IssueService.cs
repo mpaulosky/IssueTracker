@@ -37,7 +37,7 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.CreateIssueAsync(issue);
+		await _repository.CreateAsync(issue);
 	}
 
 	/// <summary>
@@ -50,7 +50,7 @@ public class IssueService : IIssueService
 	{
 		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
 
-		IssueModel results = await _repository.GetIssueAsync(issueId);
+		IssueModel results = await _repository.GetAsync(issueId);
 
 		return results;
 	}
@@ -65,7 +65,7 @@ public class IssueService : IIssueService
 
 		if (output is not null) return output;
 
-		IEnumerable<IssueModel> results = await _repository.GetIssuesAsync();
+		IEnumerable<IssueModel> results = await _repository.GetAllAsync();
 
 		output = results.ToList();
 
@@ -89,7 +89,7 @@ public class IssueService : IIssueService
 
 		if (output is not null) return output;
 
-		IEnumerable<IssueModel> results = await _repository.GetIssuesByUserAsync(userId);
+		IEnumerable<IssueModel> results = await _repository.GetByUserAsync(userId);
 
 		output = results.ToList();
 
@@ -109,7 +109,7 @@ public class IssueService : IIssueService
 
 		Guard.Against.Null(issue, nameof(issue));
 
-		await _repository.UpdateIssueAsync(issue.Id!, issue);
+		await _repository.UpdateAsync(issue.Id, issue);
 
 		_cache.Remove(CacheName);
 
@@ -122,7 +122,7 @@ public class IssueService : IIssueService
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
 
-		IEnumerable<IssueModel> results = await _repository.GetIssuesWaitingForApprovalAsync();
+		IEnumerable<IssueModel> results = await _repository.GetWaitingForApprovalAsync();
 
 		return results.ToList();
 
@@ -135,7 +135,7 @@ public class IssueService : IIssueService
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
 
-		IEnumerable<IssueModel> results = await _repository.GetApprovedIssuesAsync();
+		IEnumerable<IssueModel> results = await _repository.GetApprovedAsync();
 
 		return results.ToList();
 

@@ -11,9 +11,9 @@ public class StatusRepositoryTests
 	public StatusRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
@@ -38,7 +38,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateStatusAsync(newStatus);
+		await sut.CreateAsync(newStatus);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -71,7 +71,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.ArchiveStatusAsync(updatedStatus);
+		await sut.ArchiveAsync(updatedStatus);
 
 		// Assert
 		_mockCollection.Verify(
@@ -100,7 +100,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		StatusModel result = await sut.GetStatusAsync(expected!.Id!);
+		StatusModel result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -133,7 +133,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetStatusesAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -169,7 +169,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateStatusAsync(updatedStatus.Id, updatedStatus);
+		await sut.UpdateAsync(updatedStatus.Id, updatedStatus);
 
 		// Assert
 		_mockCollection.Verify(

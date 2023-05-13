@@ -35,7 +35,7 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="Exception"></exception>
-	public async Task CreateIssueAsync(IssueModel issue)
+	public async Task CreateAsync(IssueModel issue)
 	{
 
 		await _issueCollection.InsertOneAsync(issue);
@@ -47,7 +47,7 @@ public class IssueRepository : IIssueRepository
 	///  </summary>
 	///  <param name="itemId">string</param>
 	///  <returns>Task of IssueModel</returns>
-	public async Task<IssueModel> GetIssueAsync(string itemId)
+	public async Task<IssueModel> GetAsync(string itemId)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -64,7 +64,7 @@ public class IssueRepository : IIssueRepository
 	///		GetIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesAsync()
+	public async Task<IEnumerable<IssueModel>> GetAllAsync()
 	{
 
 		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Empty;
@@ -79,10 +79,10 @@ public class IssueRepository : IIssueRepository
 	///		GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesWaitingForApprovalAsync()
+	public async Task<IEnumerable<IssueModel>> GetWaitingForApprovalAsync()
 	{
 
-		IEnumerable<IssueModel> output = await GetIssuesAsync();
+		IEnumerable<IssueModel> output = await GetAllAsync();
 
 		var results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
 
@@ -94,10 +94,10 @@ public class IssueRepository : IIssueRepository
 	///		GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetApprovedIssuesAsync()
+	public async Task<IEnumerable<IssueModel>> GetApprovedAsync()
 	{
 
-		IEnumerable<IssueModel> output = await GetIssuesAsync();
+		IEnumerable<IssueModel> output = await GetAllAsync();
 
 		var results = output.Where(x => x.ApprovedForRelease && !x.Rejected).ToList();
 
@@ -110,7 +110,7 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>> GetIssuesByUserAsync(string userId)
+	public async Task<IEnumerable<IssueModel>> GetByUserAsync(string userId)
 	{
 
 		var results = (await _issueCollection.FindAsync(s => s.Author.Id == userId)).ToList();
@@ -124,7 +124,7 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="issue">IssueModel</param>
-	public async Task UpdateIssueAsync(string itemId, IssueModel issue)
+	public async Task UpdateAsync(string itemId, IssueModel issue)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -135,7 +135,7 @@ public class IssueRepository : IIssueRepository
 
 	}
 
-	public async Task ArchiveIssueAsync(IssueModel issue)
+	public async Task ArchiveAsync(IssueModel issue)
 	{
 
 		var objectId = new ObjectId(issue.Id);

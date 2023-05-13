@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CommentTests : TestContext
@@ -123,15 +125,15 @@ public class CommentTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
 	private void SetupMocks()
 	{
 
-		_issueRepositoryMock.Setup(x => x.GetIssueAsync(_expectedIssue!.Id)).ReturnsAsync(_expectedIssue!);
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
+		_issueRepositoryMock.Setup(x => x.GetAsync(_expectedIssue.Id)).ReturnsAsync(_expectedIssue);
+		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 
@@ -140,9 +142,9 @@ public class CommentTests : TestContext
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser!.DisplayName);
+		authContext.SetAuthorized(_expectedUser.DisplayName);
 
-		authContext.SetClaims(new Claim("objectidentifier", _expectedUser!.Id));
+		authContext.SetClaims(new Claim("objectidentifier", _expectedUser.Id));
 
 		if (isAdmin) authContext.SetPolicies("Admin");
 	}

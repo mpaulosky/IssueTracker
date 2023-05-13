@@ -11,7 +11,9 @@ public static class Fixtures
 		var mockSession = new Mock<IClientSessionHandle>();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
 		context.Setup(op =>
-				op.Client.StartSessionAsync(It.IsAny<ClientSessionOptions>(), It.IsAny<CancellationToken>()))
+				op.Client.StartSessionAsync(
+					It.IsAny<ClientSessionOptions>(),
+					It.IsAny<CancellationToken>()))
 			.Returns(Task.FromResult(mockSession.Object));
 
 		return context;

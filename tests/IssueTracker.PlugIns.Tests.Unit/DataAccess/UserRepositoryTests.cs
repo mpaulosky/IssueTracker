@@ -12,9 +12,9 @@ public class UserRepositoryTests
 	public UserRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
@@ -39,7 +39,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateUserAsync(newUser);
+		await sut.CreateAsync(newUser);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -67,7 +67,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetUserAsync(expected!.Id!);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -98,7 +98,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetUserFromAuthenticationAsync(expected!.ObjectIdentifier!).ConfigureAwait(false);
+		var result = await sut.GetFromAuthenticationAsync(expected.ObjectIdentifier).ConfigureAwait(false);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -131,7 +131,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetUsersAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -166,7 +166,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateUserAsync(updatedUser.Id, updatedUser);
+		await sut.UpdateAsync(updatedUser.Id, updatedUser);
 
 		// Assert
 		_mockCollection.Verify(
@@ -201,7 +201,7 @@ public class UserRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.ArchiveUserAsync(updatedUser);
+		await sut.ArchiveAsync(updatedUser);
 
 		// Assert
 		_mockCollection.Verify(

@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
@@ -265,7 +267,7 @@ public class DetailsTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Fact]
@@ -290,7 +292,7 @@ public class DetailsTests : TestContext
 		// Assert
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
 	}
 
@@ -443,19 +445,19 @@ public class DetailsTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	private void SetupMocks()
 	{
 
 		_issueRepositoryMock
-			.Setup(x => x.GetIssueAsync(_expectedIssue!.Id))
-			.ReturnsAsync(_expectedIssue!);
+			.Setup(x => x.GetAsync(_expectedIssue.Id))
+			.ReturnsAsync(_expectedIssue);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser!);
+			.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>()))
+			.ReturnsAsync(_expectedUser);
 
 		var _comments = FakeComment.GetComments(3).ToList();
 		_comments[1].UserVotes.Add(_expectedUser.Id);
@@ -464,11 +466,11 @@ public class DetailsTests : TestContext
 			comment.CommentOnSource = new BasicCommentOnSourceModel(_expectedIssue);
 		}
 		_commentRepositoryMock
-			.Setup(x => x.GetCommentsBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
-			.ReturnsAsync(_comments!);
+			.Setup(x => x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
+			.ReturnsAsync(_comments);
 
 		_statusRepositoryMock
-			.Setup(x => x.GetStatusesAsync())
+			.Setup(x => x.GetAllAsync())
 			.ReturnsAsync(_expectedStatuses);
 
 	}
@@ -476,7 +478,7 @@ public class DetailsTests : TestContext
 	private void SetAuthenticationAndAuthorization(bool isAdmin)
 	{
 		var authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser!.DisplayName);
+		authContext.SetAuthorized(_expectedUser.DisplayName);
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.Id)
 		);

@@ -12,11 +12,11 @@ public class UserRepositoryTests
 	public UserRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = TestFixturesMongo.GetMockContext();
 
 	}
 

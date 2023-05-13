@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Shared;
+﻿using IssueTracker.UI.Shared;
+
+namespace IssueTracker.UI.Tests.Unit.Shared;
 
 [ExcludeFromCodeCoverage]
 public class MainLayoutTests

@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class ProfileTests : TestContext
@@ -102,23 +104,23 @@ public class ProfileTests : TestContext
 		var commentDivs = cut.FindAll("div#comment-entry").ToList();
 
 		// Assert
-		issueDivs!.Count.Should().Be(5);
-		commentDivs!.Count.Should().Be(5);
+		issueDivs.Count.Should().Be(5);
+		commentDivs.Count.Should().Be(5);
 
 	}
 
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetIssuesByUserAsync(_expectedUser!.Id))
-			.ReturnsAsync(_expectedIssues!);
+			.Setup(x => x.GetByUserAsync(_expectedUser.Id))
+			.ReturnsAsync(_expectedIssues);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser!);
+			.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>()))
+			.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(_expectedComments!);
+			.Setup(x => x.GetByUserAsync(It.IsAny<string>())).ReturnsAsync(_expectedComments);
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
@@ -127,9 +129,9 @@ public class ProfileTests : TestContext
 
 		if (isAuth)
 		{
-			authContext.SetAuthorized(_expectedUser!.DisplayName!);
+			authContext.SetAuthorized(_expectedUser.DisplayName);
 			authContext.SetClaims(
-				new Claim("objectidentifier", _expectedUser.Id!)
+				new Claim("objectidentifier", _expectedUser.Id)
 			);
 		}
 

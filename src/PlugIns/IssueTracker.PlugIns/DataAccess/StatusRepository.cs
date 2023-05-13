@@ -34,7 +34,7 @@ public class StatusRepository : IStatusRepository
 	///		CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
-	public async Task CreateStatusAsync(StatusModel status)
+	public async Task CreateAsync(StatusModel status)
 	{
 
 		await _collection.InsertOneAsync(status);
@@ -45,7 +45,7 @@ public class StatusRepository : IStatusRepository
 	/// ArchiveStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
-	public async Task ArchiveStatusAsync(StatusModel status)
+	public async Task ArchiveAsync(StatusModel status)
 	{
 
 		var objectId = new ObjectId(status.Id);
@@ -64,7 +64,7 @@ public class StatusRepository : IStatusRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of StatusModel</returns>
-	public async Task<StatusModel> GetStatusAsync(string itemId)
+	public async Task<StatusModel> GetAsync(string itemId)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -81,7 +81,7 @@ public class StatusRepository : IStatusRepository
 	///		GetStatuses method
 	/// </summary>
 	/// <returns>Task of IEnumerable StatusModel</returns>
-	public async Task<IEnumerable<StatusModel>> GetStatusesAsync()
+	public async Task<IEnumerable<StatusModel>> GetAllAsync()
 	{
 
 		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Empty;
@@ -97,7 +97,7 @@ public class StatusRepository : IStatusRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="status">StatusModel</param>
-	public async Task UpdateStatusAsync(string itemId, StatusModel status)
+	public async Task UpdateAsync(string itemId, StatusModel status)
 	{
 
 		var objectId = new ObjectId(itemId);

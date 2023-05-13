@@ -41,7 +41,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -81,7 +81,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.ArchiveStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -109,18 +109,18 @@ public class StatusServiceTests
 
 		var expected = FakeStatus.GetNewStatus(true);
 
-		_statusRepositoryMock.Setup(x => x.GetStatusAsync(It.IsAny<string>())).ReturnsAsync(expected);
+		_statusRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
 
-		var result = await _sut.GetStatus(expected!.Id!);
+		var result = await _sut.GetStatus(expected.Id);
 
 		//Assert
 
 		result.Should().NotBeNull();
-		result!.Id!.Should().Be(expected!.Id!);
+		result.Id.Should().Be(expected.Id);
 
 	}
 
@@ -166,7 +166,7 @@ public class StatusServiceTests
 
 		var expected = FakeStatus.GetStatuses();
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(expected);
+		_statusRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -242,7 +242,7 @@ public class StatusServiceTests
 
 		_statusRepositoryMock
 			.Verify(x =>
-				x.UpdateStatusAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
 
 	}
 

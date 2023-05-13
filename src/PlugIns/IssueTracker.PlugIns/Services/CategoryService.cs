@@ -44,7 +44,7 @@ public class CategoryService : ICategoryService
 
 		_cache.Remove(_cacheName);
 
-		return _repository.CreateCategoryAsync(category);
+		return _repository.CreateAsync(category);
 
 	}
 
@@ -61,7 +61,7 @@ public class CategoryService : ICategoryService
 
 		_cache.Remove(_cacheName);
 
-		return _repository.ArchiveCategoryAsync(category);
+		return _repository.ArchiveAsync(category);
 
 	}
 
@@ -76,7 +76,7 @@ public class CategoryService : ICategoryService
 
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
 
-		CategoryModel result = await _repository.GetCategoryAsync(categoryId);
+		CategoryModel result = await _repository.GetAsync(categoryId);
 
 		return result;
 
@@ -93,7 +93,7 @@ public class CategoryService : ICategoryService
 
 		if (output is not null) return output;
 
-		IEnumerable<CategoryModel> results = await _repository.GetCategoriesAsync();
+		IEnumerable<CategoryModel> results = await _repository.GetAllAsync();
 
 		output = results.ToList();
 
@@ -116,7 +116,7 @@ public class CategoryService : ICategoryService
 
 		_cache.Remove(_cacheName);
 
-		return _repository.UpdateCategoryAsync(category.Id, category);
+		return _repository.UpdateAsync(category.Id, category);
 
 	}
 

@@ -10,20 +10,20 @@ namespace IssueTracker.PlugIns.PlugInRepositoryInterfaces;
 public interface ICommentRepository
 {
 
-	Task ArchiveCommentAsync(CommentModel comment);
+	Task ArchiveAsync(CommentModel comment);
 
-	Task CreateCommentAsync(CommentModel comment);
+	Task CreateAsync(CommentModel comment);
 
-	Task<CommentModel> GetCommentAsync(string itemId);
+	Task<CommentModel> GetAsync(string itemId);
 
-	Task<IEnumerable<CommentModel>?> GetCommentsAsync();
+	Task<IEnumerable<CommentModel>?> GetAllAsync();
 
-	Task<IEnumerable<CommentModel>> GetCommentsByUserAsync(string userId);
+	Task<IEnumerable<CommentModel>> GetByUserAsync(string userId);
 
-	Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source);
+	Task<IEnumerable<CommentModel>> GetBySourceAsync(BasicCommentOnSourceModel source);
 
-	Task UpdateCommentAsync(string itemId, CommentModel comment);
+	Task UpdateAsync(string itemId, CommentModel comment);
 
-	Task UpVoteCommentAsync(string itemId, string userId);
+	Task UpVoteAsync(string itemId, string userId);
 
 }

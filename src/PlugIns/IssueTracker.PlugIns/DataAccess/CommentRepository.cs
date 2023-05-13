@@ -36,7 +36,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="comment"></param>
 	/// <returns>Task</returns>
-	public async Task ArchiveCommentAsync(CommentModel comment)
+	public async Task ArchiveAsync(CommentModel comment)
 	{
 
 		var objectId = new ObjectId(comment.Id);
@@ -55,7 +55,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
 	/// <exception cref="Exception"></exception>
-	public async Task CreateCommentAsync(CommentModel comment)
+	public async Task CreateAsync(CommentModel comment)
 	{
 
 		await _commentCollection.InsertOneAsync(comment);
@@ -67,7 +67,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of CommentModel</returns>
-	public async Task<CommentModel> GetCommentAsync(string itemId)
+	public async Task<CommentModel> GetAsync(string itemId)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -84,7 +84,7 @@ public class CommentRepository : ICommentRepository
 	///		GetComments method
 	/// </summary>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>?> GetCommentsAsync()
+	public async Task<IEnumerable<CommentModel>?> GetAllAsync()
 	{
 
 		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Empty;
@@ -100,7 +100,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="source">BasicCommentOnSourceModel</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsBySourceAsync(BasicCommentOnSourceModel source)
+	public async Task<IEnumerable<CommentModel>> GetBySourceAsync(BasicCommentOnSourceModel source)
 	{
 
 		var results = (await _commentCollection
@@ -115,7 +115,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetCommentsByUserAsync(string userId)
+	public async Task<IEnumerable<CommentModel>> GetByUserAsync(string userId)
 	{
 
 		var results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
@@ -129,7 +129,7 @@ public class CommentRepository : ICommentRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="comment">CommentModel</param>
-	public async Task UpdateCommentAsync(string itemId, CommentModel comment)
+	public async Task UpdateAsync(string itemId, CommentModel comment)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -146,7 +146,7 @@ public class CommentRepository : ICommentRepository
 	/// <param name="itemId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteCommentAsync(string itemId, string userId)
+	public async Task UpVoteAsync(string itemId, string userId)
 	{
 		var objectId = new ObjectId(itemId);
 

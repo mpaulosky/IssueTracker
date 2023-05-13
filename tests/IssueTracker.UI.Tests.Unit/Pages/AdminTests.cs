@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
@@ -108,7 +110,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -241,7 +243,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -309,7 +311,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -376,7 +378,7 @@ public class AdminTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
@@ -406,7 +408,7 @@ public class AdminTests : TestContext
 	{
 
 		const int count = 1;
-		IEnumerable<IssueModel> expected = FakeIssue.GetIssues(count);
+		IEnumerable<IssueModel> expected = FakeIssue.GetIssues(count).ToList();
 		foreach (var issue in expected)
 		{
 
@@ -416,7 +418,7 @@ public class AdminTests : TestContext
 		}
 
 
-		_issueRepositoryMock.Setup(x => x.GetIssuesWaitingForApprovalAsync()).ReturnsAsync(expected);
+		_issueRepositoryMock.Setup(x => x.GetWaitingForApprovalAsync()).ReturnsAsync(expected);
 
 	}
 

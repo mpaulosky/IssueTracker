@@ -35,14 +35,14 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserAsync(string itemId)
+	public async Task<UserModel> GetAsync(string itemId)
 	{
 
 		var objectId = new ObjectId(itemId);
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -52,12 +52,12 @@ public class UserRepository : IUserRepository
 	///		GetUsers method
 	/// </summary>
 	/// <returns>Task of IEnumerable UserModel</returns>
-	public async Task<IEnumerable<UserModel>> GetUsersAsync()
+	public async Task<IEnumerable<UserModel>> GetAllAsync()
 	{
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Empty;
 
-		var result = (await _collection!.FindAsync(filter)).ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
 
@@ -67,10 +67,10 @@ public class UserRepository : IUserRepository
 	///		CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
-	public async Task CreateUserAsync(UserModel user)
+	public async Task CreateAsync(UserModel user)
 	{
 
-		await _collection!.InsertOneAsync(user);
+		await _collection.InsertOneAsync(user);
 
 	}
 
@@ -79,13 +79,13 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="user">UserModel</param>
-	public async Task UpdateUserAsync(string itemId, UserModel user)
+	public async Task UpdateAsync(string itemId, UserModel user)
 	{
 		var objectId = new ObjectId(itemId);
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		await _collection!.ReplaceOneAsync(filter!, user);
+		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
 
@@ -94,18 +94,18 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetUserFromAuthenticationAsync(string userObjectIdentifierId)
+	public async Task<UserModel> GetFromAuthenticationAsync(string userObjectIdentifierId)
 	{
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
 
-		UserModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
 	}
 
-	public async Task ArchiveUserAsync(UserModel user)
+	public async Task ArchiveAsync(UserModel user)
 	{
 
 		var objectId = new ObjectId(user.Id);
@@ -115,7 +115,7 @@ public class UserRepository : IUserRepository
 
 		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
-		await _collection!.ReplaceOneAsync(filter!, user);
+		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
 }

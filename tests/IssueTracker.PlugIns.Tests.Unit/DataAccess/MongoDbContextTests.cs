@@ -1,6 +1,4 @@
 ﻿
-using IssueTracker.CoreBusiness.Helpers;
-
 namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
 
 [ExcludeFromCodeCoverage]

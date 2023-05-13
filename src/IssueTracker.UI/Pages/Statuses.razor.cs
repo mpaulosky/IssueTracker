@@ -37,7 +37,7 @@ public partial class Statuses
 
 		_statusToUpdate = status;
 
-		await _statusesGrid!.EditRow(_statusToUpdate);
+		await _statusesGrid.EditRow(_statusToUpdate);
 
 	}
 

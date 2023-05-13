@@ -42,7 +42,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.Null(status, nameof(status));
 
-		return _repository.CreateStatusAsync(status);
+		return _repository.CreateAsync(status);
 
 	}
 
@@ -57,7 +57,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.Null(status, nameof(status));
 
-		return _repository.ArchiveStatusAsync(status);
+		return _repository.ArchiveAsync(status);
 
 	}
 
@@ -73,7 +73,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
 
-		StatusModel result = await _repository.GetStatusAsync(statusId);
+		StatusModel result = await _repository.GetAsync(statusId);
 
 		return result;
 
@@ -90,7 +90,7 @@ public class StatusService : IStatusService
 
 		if (output is not null) return output;
 
-		IEnumerable<StatusModel> results = await _repository.GetStatusesAsync();
+		IEnumerable<StatusModel> results = await _repository.GetAllAsync();
 
 		output = results.ToList();
 
@@ -111,7 +111,7 @@ public class StatusService : IStatusService
 
 		Guard.Against.Null(status, nameof(status));
 
-		return _repository.UpdateStatusAsync(status!.Id!, status);
+		return _repository.UpdateAsync(status.Id, status);
 
 	}
 

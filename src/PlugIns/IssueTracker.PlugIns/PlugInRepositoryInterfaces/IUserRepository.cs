@@ -10,16 +10,16 @@ namespace IssueTracker.PlugIns.PlugInRepositoryInterfaces;
 public interface IUserRepository
 {
 
-	Task ArchiveUserAsync(UserModel user);
+	Task ArchiveAsync(UserModel user);
 
-	Task CreateUserAsync(UserModel user);
+	Task CreateAsync(UserModel user);
 
-	Task<UserModel> GetUserAsync(string itemId);
+	Task<UserModel> GetAsync(string itemId);
 
-	Task<UserModel> GetUserFromAuthenticationAsync(string userObjectIdentifierId);
+	Task<UserModel> GetFromAuthenticationAsync(string userObjectIdentifierId);
 
-	Task<IEnumerable<UserModel>> GetUsersAsync();
+	Task<IEnumerable<UserModel>> GetAllAsync();
 
-	Task UpdateUserAsync(string itemId, UserModel user);
+	Task UpdateAsync(string itemId, UserModel user);
 
 }

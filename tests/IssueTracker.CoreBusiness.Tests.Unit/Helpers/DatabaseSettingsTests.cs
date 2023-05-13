@@ -4,7 +4,7 @@
 public class DatabaseSettingsTests
 {
 
-	private DatabaseSettings CreateDatabaseSettings(string expectedCs, string expectedDbName)
+	private static DatabaseSettings CreateDatabaseSettings(string expectedCs, string expectedDbName)
 	{
 		return new DatabaseSettings(expectedCs, expectedDbName);
 	}
@@ -14,15 +14,15 @@ public class DatabaseSettingsTests
 	{
 
 		// Arrange
-		const string expectedCS = "ConnectionString";
+		const string expectedCs = "ConnectionString";
 		const string expectedDbName = "DatabaseName";
 
 		// Act
-		var databaseSettings = CreateDatabaseSettings(expectedCS, expectedDbName);
+		var databaseSettings = CreateDatabaseSettings(expectedCs, expectedDbName);
 
 
 		// Assert
-		databaseSettings.ConnectionString.Should().Be(expectedCS);
+		databaseSettings.ConnectionString.Should().Be(expectedCs);
 		databaseSettings.DatabaseName.Should().Be(expectedDbName);
 
 	}

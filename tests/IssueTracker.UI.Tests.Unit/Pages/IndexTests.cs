@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using Index = IssueTracker.UI.Pages.Index;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class IndexTests : TestContext
@@ -166,7 +168,7 @@ public class IndexTests : TestContext
 		// Assert
 		_userRepositoryMock
 			.Verify(x =>
-				x.UpdateUserAsync(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact]
@@ -187,7 +189,7 @@ public class IndexTests : TestContext
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	[Theory]
@@ -310,7 +312,7 @@ public class IndexTests : TestContext
 		// Assert
 		_userRepositoryMock
 			.Verify(x =>
-				x.CreateUserAsync(It.IsAny<UserModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<UserModel>()), Times.Once);
 	}
 
 	private void SetUpTests(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
@@ -332,23 +334,23 @@ public class IndexTests : TestContext
 	private void SetupMocks()
 	{
 		_issueRepositoryMock
-			.Setup(x => x.GetApprovedIssuesAsync())
+			.Setup(x => x.GetApprovedAsync())
 			.ReturnsAsync(_expectedIssues!);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthenticationAsync(_expectedUser!.ObjectIdentifier))
+			.Setup(x => x.GetFromAuthenticationAsync(_expectedUser!.ObjectIdentifier))
 			.ReturnsAsync(_expectedUser!);
 
 		_userRepositoryMock
-			.Setup(x => x.GetUserFromAuthenticationAsync("5dc1039a1521eaa36835e547"))
+			.Setup(x => x.GetFromAuthenticationAsync("5dc1039a1521eaa36835e547"))
 			.ReturnsAsync(new UserModel());
 
 		_categoryRepositoryMock
-			.Setup(x => x.GetCategoriesAsync())
+			.Setup(x => x.GetAllAsync())
 			.ReturnsAsync(_expectedCategories!);
 
 		_statusRepositoryMock
-			.Setup(x => x.GetStatusesAsync())
+			.Setup(x => x.GetAllAsync())
 			.ReturnsAsync(_expectedStatuses!);
 	}
 

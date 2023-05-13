@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.UI.Pages;
+﻿using IssueTracker.UI.Pages;
+
+namespace IssueTracker.UI.Tests.Unit.Pages;
 
 [ExcludeFromCodeCoverage]
 public class StatusesTests : TestContext
@@ -644,7 +646,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.CreateStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -675,7 +677,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.UpdateStatusAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -698,7 +700,7 @@ public class StatusesTests : TestContext
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
-				x.ArchiveStatusAsync(It.IsAny<StatusModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 
@@ -894,9 +896,9 @@ public class StatusesTests : TestContext
 	private void SetupMocks()
 	{
 
-		_statusRepositoryMock.Setup(x => x.GetStatusesAsync()).ReturnsAsync(_expectedStatuses!);
+		_statusRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedStatuses);
 
-		_userRepositoryMock.Setup(x => x.GetUserFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser!);
+		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
 
 	}
 
@@ -905,7 +907,7 @@ public class StatusesTests : TestContext
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser!.DisplayName);
+		authContext.SetAuthorized(_expectedUser.DisplayName);
 
 		authContext.SetClaims(
 			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)

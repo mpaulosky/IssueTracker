@@ -41,8 +41,8 @@ public partial class Create
 			Title = _issue.Title!,
 			Description = _issue.Description!,
 			Author = new BasicUserModel(_loggedInUser!),
-			Category = new BasicCategoryModel(category!.CategoryName, category!.CategoryDescription),
-			IssueStatus = new BasicStatusModel(status!.StatusName, status!.StatusDescription)
+			Category = new BasicCategoryModel(category!.CategoryName, category.CategoryDescription),
+			IssueStatus = new BasicStatusModel(status!.StatusName, status.StatusDescription)
 		};
 
 		await IssueService.CreateIssue(s);

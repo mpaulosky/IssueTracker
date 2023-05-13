@@ -38,7 +38,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.CreateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.CreateAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
@@ -63,7 +63,7 @@ public class CommentServiceTests
 
 		var expected = FakeComment.GetNewComment(true);
 
-		_commentRepositoryMock.Setup(x => x.GetCommentAsync(It.IsAny<string>())).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_sut = new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 
@@ -119,7 +119,7 @@ public class CommentServiceTests
 			comment.Archived = false;
 		}
 
-		_commentRepositoryMock.Setup(x => x.GetCommentsAsync()).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -189,7 +189,7 @@ public class CommentServiceTests
 
 		var expected = comments.ToList();
 
-		_commentRepositoryMock.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -225,7 +225,7 @@ public class CommentServiceTests
 
 		var expected = comments.ToList();
 
-		_commentRepositoryMock.Setup(x => x.GetCommentsByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
+		_commentRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -291,7 +291,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
+				x.UpdateAsync(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update With Invalid Comment")]
@@ -327,7 +327,7 @@ public class CommentServiceTests
 
 		_commentRepositoryMock
 			.Verify(x =>
-				x.UpVoteCommentAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Theory(DisplayName = "Upvote Comment With Invalid inputs")]

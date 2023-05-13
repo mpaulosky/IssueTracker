@@ -15,13 +15,13 @@ public class CommentRepositoryTests
 	public CommentRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
-		_userCursor = TestFixtures.GetMockCursor(_users);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
+		_userCursor = TestFixturesMongo.GetMockCursor(_users);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
-		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
+		_mockUserCollection = TestFixturesMongo.GetMockCollection(_userCursor);
 
-		_mockContext = TestFixtures.GetMockContext();
+		_mockContext = TestFixturesMongo.GetMockContext();
 
 	}
 

@@ -1,9 +1,9 @@
-﻿using IssueTracker.PlugIns.Contracts;
+﻿using IssueTracker.PlugIns.Mongo.Contracts;
 
 namespace TestingSupport.Library.Fixtures;
 
 [ExcludeFromCodeCoverage]
-public static class TestFixtures
+public static class TestFixturesMongo
 {
 	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(IEnumerable<TEntity> list) where TEntity : class?
 	{
@@ -47,23 +47,6 @@ public static class TestFixtures
 	}
 
 	public static Mock<IMongoDbContextFactory> GetMockContext()
-	{
-		var mockClient = new Mock<IMongoClient>();
-		var mockDatabase = new Mock<IMongoDatabase>();
-		var context = new Mock<IMongoDbContextFactory>();
-		var mockSession = new Mock<IClientSessionHandle>();
-		context.Setup(op => op.Client).Returns(mockClient.Object);
-		context.Setup(op => op.Database).Returns(mockDatabase.Object);
-		context.Setup(op =>
-				op.Client.StartSessionAsync(
-					It.IsAny<ClientSessionOptions>(),
-					It.IsAny<CancellationToken>()))
-			.Returns(Task.FromResult(mockSession.Object));
-
-		return context;
-	}
-
-	public static Mock<IMongoDbContextFactory> GetMockContextWithOutDataBase()
 	{
 		var mockClient = new Mock<IMongoClient>();
 		var context = new Mock<IMongoDbContextFactory>();

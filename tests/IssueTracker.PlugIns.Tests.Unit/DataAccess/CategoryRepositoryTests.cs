@@ -12,11 +12,11 @@ public class CategoryRepositoryTests
 	public CategoryRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
-		_mockContext = GetMockMongoContext();
+		_mockContext = TestFixtures.GetMockContext();
 
 	}
 
@@ -40,15 +40,14 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.ArchiveCategoryAsync(archivedCategory);
+		await sut.ArchiveAsync(archivedCategory);
 
 		// Assert
-		_mockCollection.Verify(
-			c => c
-				.ReplaceOneAsync(It.IsAny<FilterDefinition<CategoryModel>>(),
-					archivedCategory,
-					It.IsAny<ReplaceOptions>(),
-					It.IsAny<CancellationToken>()), Times.Once);
+		//Verify if ReplaceOneAsync is called once
+		_mockCollection.Verify(c => c.ReplaceOneAsync(
+			It.IsAny<FilterDefinition<CategoryModel>>(), 
+			archivedCategory, 
+			It.IsAny<ReplaceOptions>(),It.IsAny<CancellationToken>()), Times.Once);
 
 	}
 
@@ -64,7 +63,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateCategoryAsync(newCategory);
+		await sut.CreateAsync(newCategory);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -92,7 +91,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var result = await sut.GetCategoryAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -125,7 +124,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetCategoriesAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -163,7 +162,7 @@ public class CategoryRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateCategoryAsync(updatedCategory.Id, updatedCategory);
+		await sut.UpdateAsync(updatedCategory.Id, updatedCategory);
 
 		// Assert
 		_mockCollection.Verify(

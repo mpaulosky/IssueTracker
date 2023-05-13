@@ -13,9 +13,9 @@ public class IssueRepositoryTests
 	public IssueRepositoryTests()
 	{
 
-		_cursor = TestFixtures.GetMockCursor(_list);
+		_cursor = TestFixturesMongo.GetMockCursor(_list);
 
-		_mockCollection = TestFixtures.GetMockCollection(_cursor);
+		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
 		_mockContext = GetMockMongoContext();
 
@@ -49,7 +49,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.ArchiveIssueAsync(updatedIssue);
+		await sut.ArchiveAsync(updatedIssue);
 
 		// Assert
 		_mockCollection.Verify(
@@ -75,7 +75,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.CreateIssueAsync(newIssue);
+		await sut.CreateAsync(newIssue);
 
 		// Assert
 		//Verify if InsertOneAsync is called once 
@@ -103,12 +103,12 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		IssueModel result = await sut.GetIssueAsync(expected!.Id!);
+		IssueModel result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
-		result!.Description!.Length.Should().BeGreaterThan(1);
+		result.Description.Length.Should().BeGreaterThan(1);
 
 
 		//Verify if InsertOneAsync is called once
@@ -135,7 +135,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetIssuesAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -164,7 +164,7 @@ public class IssueRepositoryTests
 			item.Author = new BasicUserModel(expectedUserId, "test");
 		}
 
-		_list = new List<IssueModel>(expected).Where(x => x!.Author!.Id == expectedUserId).ToList();
+		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -173,7 +173,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		IEnumerable<IssueModel> results = (await sut.GetIssuesByUserAsync(expectedUserId).ConfigureAwait(false)).ToList();
+		IEnumerable<IssueModel> results = (await sut.GetByUserAsync(expectedUserId).ConfigureAwait(false)).ToList();
 
 		// Assert
 		var items = results.ToList();
@@ -213,7 +213,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		var results = (await sut.GetIssuesWaitingForApprovalAsync().ConfigureAwait(false)).ToList();
+		var results = (await sut.GetWaitingForApprovalAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -250,7 +250,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		IEnumerable<IssueModel> results = (await sut.GetApprovedIssuesAsync().ConfigureAwait(false)).ToList();
+		IEnumerable<IssueModel> results = (await sut.GetApprovedAsync().ConfigureAwait(false)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -291,7 +291,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		// Act
-		await sut.UpdateIssueAsync(updatedIssue.Id, updatedIssue);
+		await sut.UpdateAsync(updatedIssue.Id, updatedIssue);
 
 		// Assert
 		_mockCollection.Verify(

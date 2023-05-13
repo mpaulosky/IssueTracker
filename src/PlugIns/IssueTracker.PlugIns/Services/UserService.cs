@@ -34,7 +34,7 @@ public class UserService : IUserService
 	{
 		Guard.Against.Null(user, nameof(user));
 
-		return _repo.CreateUserAsync(user);
+		return _repo.CreateAsync(user);
 	}
 
 	/// <summary>
@@ -47,7 +47,7 @@ public class UserService : IUserService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		UserModel results = await _repo.GetUserAsync(userId);
+		UserModel results = await _repo.GetAsync(userId);
 
 		return results;
 	}
@@ -58,7 +58,7 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		IEnumerable<UserModel> results = await _repo.GetUsersAsync();
+		IEnumerable<UserModel> results = await _repo.GetAllAsync();
 
 		return results.ToList();
 	}
@@ -74,7 +74,7 @@ public class UserService : IUserService
 
 		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
 
-		UserModel results = await _repo.GetUserFromAuthenticationAsync(userObjectIdentifierId);
+		UserModel results = await _repo.GetFromAuthenticationAsync(userObjectIdentifierId);
 
 		return results;
 	}
@@ -89,6 +89,6 @@ public class UserService : IUserService
 	{
 		Guard.Against.Null(user, nameof(user));
 
-		return _repo.UpdateUserAsync(user!.Id!, user);
+		return _repo.UpdateAsync(user.Id, user);
 	}
 }

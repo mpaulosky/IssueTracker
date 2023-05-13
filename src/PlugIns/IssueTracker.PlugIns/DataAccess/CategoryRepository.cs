@@ -35,14 +35,14 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	public async Task<CategoryModel> GetCategoryAsync(string itemId)
+	public async Task<CategoryModel> GetAsync(string itemId)
 	{
 
 		var objectId = new ObjectId(itemId);
 
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
-		CategoryModel result = (await _collection!.FindAsync(filter)).FirstOrDefault();
+		CategoryModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
 
@@ -52,12 +52,12 @@ public class CategoryRepository : ICategoryRepository
 	///		GetCategories method
 	/// </summary>
 	/// <returns>Task of IEnumerable CategoryModel</returns>
-	public async Task<IEnumerable<CategoryModel>> GetCategoriesAsync()
+	public async Task<IEnumerable<CategoryModel>> GetAllAsync()
 	{
 
 		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Empty;
 
-		var result = (await _collection!.FindAsync(filter)).ToList();
+		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
 
@@ -67,10 +67,10 @@ public class CategoryRepository : ICategoryRepository
 	///		CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
-	public async Task CreateCategoryAsync(CategoryModel category)
+	public async Task CreateAsync(CategoryModel category)
 	{
 
-		await _collection!.InsertOneAsync(category);
+		await _collection.InsertOneAsync(category);
 
 	}
 
@@ -79,7 +79,7 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="category">CategoryModel</param>
-	public async Task UpdateCategoryAsync(string itemId, CategoryModel category)
+	public async Task UpdateAsync(string itemId, CategoryModel category)
 	{
 
 		var objectId = new ObjectId(itemId);
@@ -95,7 +95,7 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="category"></param>
 	/// <returns></returns>
-	public async Task ArchiveCategoryAsync(CategoryModel category)
+	public async Task ArchiveAsync(CategoryModel category)
 	{
 
 		var objectId = new ObjectId(category.Id);

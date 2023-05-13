@@ -30,6 +30,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
 		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj" />
+		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
 	</ItemGroup>
 
 </Project>

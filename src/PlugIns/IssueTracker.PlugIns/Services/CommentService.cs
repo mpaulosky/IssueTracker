@@ -37,7 +37,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.CreateCommentAsync(comment);
+		await _repository.CreateAsync(comment);
 	}
 
 	/// <summary>
@@ -50,7 +50,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		CommentModel result = await _repository.GetCommentAsync(commentId);
+		CommentModel result = await _repository.GetAsync(commentId);
 
 		return result;
 	}
@@ -65,7 +65,7 @@ public class CommentService : ICommentService
 
 		if (output is not null) return output;
 
-		IEnumerable<CommentModel>? results = await _repository.GetCommentsAsync();
+		IEnumerable<CommentModel>? results = await _repository.GetAllAsync();
 
 		output = results!.Where(x => !x.Archived).ToList();
 
@@ -84,7 +84,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		IEnumerable<CommentModel> results = await _repository.GetCommentsByUserAsync(userId);
+		IEnumerable<CommentModel> results = await _repository.GetByUserAsync(userId);
 
 		return results.ToList();
 	}
@@ -99,7 +99,7 @@ public class CommentService : ICommentService
 	{
 		Guard.Against.Null(source, nameof(source));
 
-		IEnumerable<CommentModel> results = await _repository.GetCommentsBySourceAsync(source);
+		IEnumerable<CommentModel> results = await _repository.GetBySourceAsync(source);
 
 		return results.ToList();
 	}
@@ -114,7 +114,7 @@ public class CommentService : ICommentService
 
 		Guard.Against.Null(comment, nameof(comment));
 
-		await _repository.UpdateCommentAsync(comment.Id, comment);
+		await _repository.UpdateAsync(comment.Id, comment);
 
 		_cache.Remove(CacheName);
 
@@ -132,7 +132,7 @@ public class CommentService : ICommentService
 
 		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
 
-		await _repository.UpVoteCommentAsync(commentId, userId);
+		await _repository.UpVoteAsync(commentId, userId);
 
 		_cache.Remove(CacheName);
 	}
