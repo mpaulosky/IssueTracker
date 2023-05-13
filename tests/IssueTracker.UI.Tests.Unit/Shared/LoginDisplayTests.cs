@@ -1,6 +1,4 @@
-﻿using IssueTracker.UI.Shared;
-
-namespace IssueTracker.UI.Tests.Unit.Shared;
+﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
 public class LoginDisplayTests

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace IssueTracker.UI.Tests.Unit.Helpers;
+namespace IssueTracker.UI.Helpers;
 
 [ExcludeFromCodeCoverage]
 public class MongoHealthCheckTests : TestContext

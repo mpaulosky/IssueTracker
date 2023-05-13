@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		<RootNamespace>IssueTracker.PlugIns.Tests.Integration</RootNamespace>
+		<RootNamespace>IssueTracker.PlugIns</RootNamespace>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 	
@@ -37,7 +37,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>

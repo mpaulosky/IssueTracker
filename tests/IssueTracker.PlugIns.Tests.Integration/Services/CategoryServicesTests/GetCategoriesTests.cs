@@ -1,4 +1,6 @@
-﻿namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
+﻿using IssueTracker.Services.Category;
+
+namespace IssueTracker.PlugIns.Tests.Integration.Services.CategoryServicesTests;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]

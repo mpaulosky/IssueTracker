@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class CategoryRepositoryTests

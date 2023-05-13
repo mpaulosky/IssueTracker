@@ -7,7 +7,7 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<RootNamespace>IssueTracker.PlugIns.Mongo.Tests.Unit</RootNamespace>
+		<RootNamespace>IssueTracker.PlugIns.Mongo</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

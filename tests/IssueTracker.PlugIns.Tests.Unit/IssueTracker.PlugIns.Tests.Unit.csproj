@@ -7,7 +7,7 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<RootNamespace>IssueTracker.PlugIns.Tests.Unit</RootNamespace>
+		<RootNamespace>IssueTracker.PlugIns</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

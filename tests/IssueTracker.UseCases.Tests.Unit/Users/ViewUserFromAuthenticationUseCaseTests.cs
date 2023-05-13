@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Users;
+﻿namespace IssueTracker.UseCases.Users;
 
 [ExcludeFromCodeCoverage]
 public class ViewUserFromAuthenticationUseCaseTests

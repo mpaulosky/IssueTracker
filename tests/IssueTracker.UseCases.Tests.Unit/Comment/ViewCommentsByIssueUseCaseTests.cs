@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
+﻿namespace IssueTracker.UseCases.Comment;
 
 [ExcludeFromCodeCoverage]
 public class ViewCommentsBySourceUseCaseTests

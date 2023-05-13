@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Category;
+﻿namespace IssueTracker.UseCases.Category;
 
 [ExcludeFromCodeCoverage]
 public class UpdateCategoryUseCaseTests

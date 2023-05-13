@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class StatusRepositoryTests
@@ -15,7 +15,7 @@ public class StatusRepositoryTests
 
 		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
-		_mockContext = GetMockMongoContext();
+		_mockContext = TestFixtures.GetMockContext();
 
 	}
 

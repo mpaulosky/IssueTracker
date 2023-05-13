@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<RootNamespace>IssueTracker.PlugIns</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+		<ProjectReference Include="..\..\Services\IssueTracker.Services\IssueTracker.Services.csproj" />
 	</ItemGroup>
 
 </Project>

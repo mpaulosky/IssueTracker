@@ -7,10 +7,15 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<RootNamespace>IssueTracker.PlugIns.Mongo</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentAssertions" Version="6.11.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.5" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+		<PackageReference Include="Testcontainers" Version="3.1.0" />
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="Testcontainers.MongoDb" Version="3.1.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -25,7 +30,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns.Mongo\IssueTracker.PlugIns.Mongo.csproj" />
 	</ItemGroup>
 

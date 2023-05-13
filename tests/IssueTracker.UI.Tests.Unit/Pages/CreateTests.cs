@@ -1,6 +1,13 @@
-﻿using IssueTracker.UI.Pages;
+﻿using IssueTracker.Services.Category;
+using IssueTracker.Services.Category.Interface;
+using IssueTracker.Services.Issue;
+using IssueTracker.Services.Issue.Interface;
+using IssueTracker.Services.Status;
+using IssueTracker.Services.Status.Interface;
+using IssueTracker.Services.User;
+using IssueTracker.Services.User.Interface;
 
-namespace IssueTracker.UI.Tests.Unit.Pages;
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext

@@ -1,6 +1,13 @@
-﻿using IssueTracker.UI.Pages;
+﻿using IssueTracker.Services.Comment;
+using IssueTracker.Services.Comment.Interface;
+using IssueTracker.Services.Issue;
+using IssueTracker.Services.Issue.Interface;
+using IssueTracker.Services.Status;
+using IssueTracker.Services.Status.Interface;
+using IssueTracker.Services.User;
+using IssueTracker.Services.User.Interface;
 
-namespace IssueTracker.UI.Tests.Unit.Pages;
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
@@ -223,8 +230,7 @@ public class DetailsTests : TestContext
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
 	{
 		// Arrange
-		if (index == 4) _expectedIssue.IssueStatus = new();
-		else _expectedIssue.IssueStatus = new BasicStatusModel(_expectedStatuses[index]);
+		_expectedIssue.IssueStatus = index == 4 ? new BasicStatusModel() : new BasicStatusModel(_expectedStatuses[index]);
 
 		SetupMocks();
 		SetMemoryCache();
@@ -402,11 +408,11 @@ public class DetailsTests : TestContext
 	}
 
 	[Theory(DisplayName = "Update Status")]
-	[InlineData(5, "watching")]
-	[InlineData(5, "answered")]
-	[InlineData(5, "inwork")]
-	[InlineData(5, "dismissed")]
-	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(int index, string statusId)
+	[InlineData("watching")]
+	[InlineData("answered")]
+	[InlineData("inwork")]
+	[InlineData("dismissed")]
+	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(string statusId)
 	{
 		// Arrange
 		SetupMocks();
@@ -459,15 +465,15 @@ public class DetailsTests : TestContext
 			.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
 
-		var _comments = FakeComment.GetComments(3).ToList();
-		_comments[1].UserVotes.Add(_expectedUser.Id);
-		foreach (var comment in _comments)
+		var comments = FakeComment.GetComments(3).ToList();
+		comments[1].UserVotes.Add(_expectedUser.Id);
+		foreach (var comment in comments)
 		{
 			comment.CommentOnSource = new BasicCommentOnSourceModel(_expectedIssue);
 		}
 		_commentRepositoryMock
 			.Setup(x => x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
-			.ReturnsAsync(_comments);
+			.ReturnsAsync(comments);
 
 		_statusRepositoryMock
 			.Setup(x => x.GetAllAsync())

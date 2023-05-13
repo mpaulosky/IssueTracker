@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
@@ -16,7 +16,7 @@ public class UserRepositoryTests
 
 		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
-		_mockContext = GetMockMongoContext();
+		_mockContext = TestFixtures.GetMockContext();
 
 	}
 
@@ -154,9 +154,10 @@ public class UserRepositoryTests
 		var expected = FakeUser.GetNewUser(true);
 
 		var updatedUser = FakeUser.GetNewUser(true);
+		updatedUser.Id = expected.Id;
 		updatedUser.Archived = true;
 
-		_list = new List<UserModel> { updatedUser };
+		_list = new List<UserModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 

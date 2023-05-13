@@ -1,6 +1,11 @@
-﻿using IssueTracker.UI.Pages;
+﻿using IssueTracker.Services.Comment;
+using IssueTracker.Services.Comment.Interface;
+using IssueTracker.Services.Issue;
+using IssueTracker.Services.Issue.Interface;
+using IssueTracker.Services.User;
+using IssueTracker.Services.User.Interface;
 
-namespace IssueTracker.UI.Tests.Unit.Pages;
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class ProfileTests : TestContext

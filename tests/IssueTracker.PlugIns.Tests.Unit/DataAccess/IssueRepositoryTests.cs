@@ -1,5 +1,5 @@
 ﻿
-namespace IssueTracker.PlugIns.Tests.Unit.DataAccess;
+namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
@@ -17,7 +17,7 @@ public class IssueRepositoryTests
 
 		_mockCollection = TestFixturesMongo.GetMockCollection(_cursor);
 
-		_mockContext = GetMockMongoContext();
+		_mockContext = TestFixtures.GetMockContext();
 
 	}
 
@@ -176,7 +176,6 @@ public class IssueRepositoryTests
 		IEnumerable<IssueModel> results = (await sut.GetByUserAsync(expectedUserId).ConfigureAwait(false)).ToList();
 
 		// Assert
-		var items = results.ToList();
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
 

@@ -7,7 +7,7 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<RootNamespace>IssueTracker.UI.Tests.Unit</RootNamespace>
+		<RootNamespace>IssueTracker.UI</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿
-namespace IssueTracker.UseCases.Tests.Unit.Issue;
+namespace IssueTracker.UseCases.Issue;
 
 [ExcludeFromCodeCoverage]
 public class ArchiveIssueUseCaseTests

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Solution;
+﻿namespace IssueTracker.UseCases.Solution;
 
 [ExcludeFromCodeCoverage]
 public class ViewSolutionUseCaseTests

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Status;
+﻿namespace IssueTracker.UseCases.Status;
 
 [ExcludeFromCodeCoverage]
 public class UpdateStatusUseCaseTests

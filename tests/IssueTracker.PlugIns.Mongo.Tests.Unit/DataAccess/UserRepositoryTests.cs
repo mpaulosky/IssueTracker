@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Mongo.Tests.Unit.DataAccess;
+﻿namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests

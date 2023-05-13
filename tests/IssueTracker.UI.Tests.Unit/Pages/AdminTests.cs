@@ -1,6 +1,7 @@
-﻿using IssueTracker.UI.Pages;
+﻿using IssueTracker.Services.Issue;
+using IssueTracker.Services.Issue.Interface;
 
-namespace IssueTracker.UI.Tests.Unit.Pages;
+namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
