@@ -1,0 +1,114 @@
+﻿@page "/Details/{Id}"
+@using IssueTracker.Services.Issue.Interface
+@using IssueTracker.Services.Status.Interface
+@using IssueTracker.Services.User.Interface
+@using IssueTracker.Services.Comment.Interface
+
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject IIssueService IssueService
+@inject IUserService UserService
+@inject IStatusService StatusService
+@inject ICommentService CommentService
+
+<PageTitle>Details Page</PageTitle>
+
+<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+
+<div class="issue-container">
+	<button id="create-comment" @onclick="() => OpenCommentForm(_issue)"
+		class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Add Comment</button>
+</div>
+
+<div class="form-layout mb-3">
+
+	<div class="close-button-section">
+		<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
+	</div>
+
+	@if (_issue is not null)
+	{
+		<div class="issue-container">
+			<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser" CanArchive=true />
+		</div>
+
+		<AuthorizeView Policy="Admin">
+			<div class="issue-container">
+				<div class="form-layout status-entry">
+					<div class="fw-bold mb-2">
+						Set Status
+					</div>
+					@if (string.IsNullOrWhiteSpace(_settingStatus))
+					{
+						<div class="admin-set-statuses">
+							<button id="answered" @onclick="@(() => _settingStatus = "answered")"
+						class="btn text-category btn-archive btn-status-answered">
+								answered
+							</button>
+							<button id="inwork" @onclick="@(() => _settingStatus = "in work")"
+						class="btn text-category btn-archive btn-status-inwork">
+								in work
+							</button>
+							<button id="watching" @onclick="@(() => _settingStatus = "watching")"
+						class="btn text-category btn-archive btn-status-watching">
+								watching
+							</button>
+							<button id="dismissed" @onclick="@(() => _settingStatus = "dismissed")"
+						class="btn text-category btn-archive btn-status-dismissed">
+								dismissed
+							</button>
+						</div>
+					}
+					else if (_settingStatus == "answered")
+					{
+						<div>
+							<input id="input-answer" @bind="_urlText" class="form-control rounded-control" type="text" placeholder="Url"
+						aria-label="Content Url" />
+						</div>
+						<div class="issue-entry-bottom">
+							<button id="confirm-answered-status" class="btn btn-archive-confirm" @onclick="CompleteSetStatus">
+								confirm
+							</button>
+							<button id="cancel-answered-status" class="btn btn-archive-reject" @onclick="() => _settingStatus = null">
+								cancel
+							</button>
+						</div>
+					}
+					else
+					{
+						<div class="issue-entry-bottom">
+							<button id="confirm-status-change" class="btn btn-archive-confirm" @onclick="CompleteSetStatus">
+								confirm
+							</button>
+							<button id="cancle-status-change" class="btn btn-archive-reject" @onclick="() => _settingStatus = null">
+								cancel
+							</button>
+						</div>
+					}
+				</div>
+			</div>
+
+		</AuthorizeView>
+
+		@if (_comments is not null && _comments.Any())
+		{
+
+			<div class="issue-container">
+				<div class="form-layout comment-details">
+					<div class="fw-bold mb-2">Comments</div>
+
+					@foreach (var comment in _comments)
+					{
+
+						<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser" />
+
+					}
+
+				</div>
+			</div>
+
+		}
+
+	}
+
+</div>
