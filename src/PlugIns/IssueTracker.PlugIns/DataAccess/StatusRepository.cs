@@ -31,17 +31,6 @@ public class StatusRepository : IStatusRepository
 	}
 
 	/// <summary>
-	///		CreateStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	public async Task CreateAsync(StatusModel status)
-	{
-
-		await _collection.InsertOneAsync(status);
-
-	}
-
-	/// <summary>
 	/// ArchiveStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
@@ -56,6 +45,17 @@ public class StatusRepository : IStatusRepository
 		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter, status);
+
+	}
+
+	/// <summary>
+	///		CreateStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	public async Task CreateAsync(StatusModel status)
+	{
+
+		await _collection.InsertOneAsync(status);
 
 	}
 

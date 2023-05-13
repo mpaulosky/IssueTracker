@@ -31,6 +31,36 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
+	/// Archive User method
+	/// </summary>
+	/// <param name="user">UserModel</param>
+	/// <returns>Task</returns>
+	public async Task ArchiveAsync(UserModel user)
+	{
+
+		var objectId = new ObjectId(user.Id);
+
+		// Archive the user
+		user.Archived = true;
+
+		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
+
+		await _collection.ReplaceOneAsync(filter!, user);
+
+	}
+
+	/// <summary>
+	///		CreateUser method
+	/// </summary>
+	/// <param name="user">UserModel</param>
+	public async Task CreateAsync(UserModel user)
+	{
+
+		await _collection.InsertOneAsync(user);
+
+	}
+
+	/// <summary>
 	///		GetUser method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -64,17 +94,6 @@ public class UserRepository : IUserRepository
 	}
 
 	/// <summary>
-	///		CreateUser method
-	/// </summary>
-	/// <param name="user">UserModel</param>
-	public async Task CreateAsync(UserModel user)
-	{
-
-		await _collection.InsertOneAsync(user);
-
-	}
-
-	/// <summary>
 	///		UpdateUser method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -102,20 +121,6 @@ public class UserRepository : IUserRepository
 		UserModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-
-	}
-
-	public async Task ArchiveAsync(UserModel user)
-	{
-
-		var objectId = new ObjectId(user.Id);
-
-		// Archive the user
-		user.Archived = true;
-
-		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter!, user);
 
 	}
 }

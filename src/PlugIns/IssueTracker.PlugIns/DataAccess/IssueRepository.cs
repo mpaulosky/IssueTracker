@@ -31,6 +31,25 @@ public class IssueRepository : IIssueRepository
 	}
 
 	/// <summary>
+	/// Archive Issue method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	/// <returns>Task</returns>
+	public async Task ArchiveAsync(IssueModel issue)
+	{
+
+		var objectId = new ObjectId(issue.Id);
+
+		// Archive the issue
+		issue.Archived = true;
+
+		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+
+		await _issueCollection.ReplaceOneAsync(filter, issue);
+
+	}
+
+	/// <summary>
 	///		CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -128,20 +147,6 @@ public class IssueRepository : IIssueRepository
 	{
 
 		var objectId = new ObjectId(itemId);
-
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
-
-		await _issueCollection.ReplaceOneAsync(filter, issue);
-
-	}
-
-	public async Task ArchiveAsync(IssueModel issue)
-	{
-
-		var objectId = new ObjectId(issue.Id);
-
-		// Archive the issue
-		issue.Archived = true;
 
 		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
