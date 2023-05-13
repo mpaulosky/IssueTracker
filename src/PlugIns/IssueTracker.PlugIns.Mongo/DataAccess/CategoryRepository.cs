@@ -40,14 +40,12 @@ public class CategoryRepository : ICategoryRepository
 	public async Task ArchiveAsync(CategoryModel category)
 	{
 
-		var objectId = new ObjectId(category.Id);
+		// Archive the category
+		category.Archived = true;
 
-		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, category);
+		await UpdateAsync(category);
 
 	}
-
 
 	/// <summary>
 	///		CreateCategory method
@@ -69,11 +67,10 @@ public class CategoryRepository : ICategoryRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == categoryId && s.Archived == false))
+			.FindAsync(s => s.Id == categoryId && !s.Archived))
 			.FirstOrDefault();
 
 	}
-
 
 	/// <summary>
 	///		GetCategories method
@@ -110,9 +107,7 @@ public class CategoryRepository : ICategoryRepository
 	public async Task UpdateAsync(CategoryModel category)
 	{
 
-		var objectId = new ObjectId(category.Id);
-
-		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Where(c => c.Id == category.Id);
 
 		await _collection.ReplaceOneAsync(filter, category);
 

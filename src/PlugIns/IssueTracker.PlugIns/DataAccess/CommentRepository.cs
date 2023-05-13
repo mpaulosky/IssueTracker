@@ -39,14 +39,10 @@ public class CommentRepository : ICommentRepository
 	public async Task ArchiveAsync(CommentModel comment)
 	{
 
-		var objectId = new ObjectId(comment.Id);
-
-		// Archive the comment
+		// Archive the category
 		comment.Archived = true;
 
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-		await _commentCollection.ReplaceOneAsync(filter, comment);
+		await UpdateAsync(comment.Id, comment);
 
 	}
 

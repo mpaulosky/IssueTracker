@@ -38,14 +38,10 @@ public class IssueRepository : IIssueRepository
 	public async Task ArchiveAsync(IssueModel issue)
 	{
 
-		var objectId = new ObjectId(issue.Id);
-
-		// Archive the issue
+		// Archive the category
 		issue.Archived = true;
 
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
-
-		await _issueCollection.ReplaceOneAsync(filter, issue);
+		await UpdateAsync(issue.Id, issue);
 
 	}
 

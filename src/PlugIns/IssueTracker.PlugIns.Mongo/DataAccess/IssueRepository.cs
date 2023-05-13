@@ -40,11 +40,10 @@ public class IssueRepository : IIssueRepository
 	public async Task ArchiveAsync(IssueModel issue)
 	{
 
-		var objectId = new ObjectId(issue.Id);
+		// Archive the category
+		issue.Archived = true;
 
-		FilterDefinition<IssueModel> filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, issue);
+		await UpdateAsync(issue);
 
 	}
 
@@ -68,7 +67,7 @@ public class IssueRepository : IIssueRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == itemId && s.Archived == false && s.Rejected == false))
+			.FindAsync(s => s.Id == itemId && !s.Archived && !s.Rejected))
 			.FirstOrDefault();
 
 	}
@@ -108,7 +107,7 @@ public class IssueRepository : IIssueRepository
 	{
 
 		return (await _collection
-			.FindAsync(x => x.ApprovedForRelease == false && x.Archived == false && x.Rejected == false))
+			.FindAsync(x => !x.ApprovedForRelease && !x.Archived && !x.Rejected))
 			.ToList();
 
 	}
@@ -121,7 +120,7 @@ public class IssueRepository : IIssueRepository
 	{
 
 		return (await _collection
-				.FindAsync(x => x.ApprovedForRelease == true && x.Archived == false && x.Rejected == false))
+				.FindAsync(x => x.ApprovedForRelease && !x.Archived && !x.Rejected))
 			.ToList();
 
 	}
@@ -135,7 +134,7 @@ public class IssueRepository : IIssueRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == userId && s.Archived == false && s.Rejected == false))
+			.FindAsync(s => s.Author.Id == userId && !s.Archived && !s.Rejected))
 			.ToList();
 
 	}

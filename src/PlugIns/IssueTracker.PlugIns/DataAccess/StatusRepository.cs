@@ -37,14 +37,10 @@ public class StatusRepository : IStatusRepository
 	public async Task ArchiveAsync(StatusModel status)
 	{
 
-		var objectId = new ObjectId(status.Id);
-
-		// Archive the status
+		// Archive the category
 		status.Archived = true;
 
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, status);
+		await UpdateAsync(status.Id, status);
 
 	}
 

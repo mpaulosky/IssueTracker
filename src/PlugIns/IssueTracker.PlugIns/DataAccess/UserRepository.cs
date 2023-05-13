@@ -38,14 +38,10 @@ public class UserRepository : IUserRepository
 	public async Task ArchiveAsync(UserModel user)
 	{
 
-		var objectId = new ObjectId(user.Id);
-
-		// Archive the user
+		// Archive the category
 		user.Archived = true;
 
-		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter!, user);
+		await UpdateAsync(user.Id, user);
 
 	}
 

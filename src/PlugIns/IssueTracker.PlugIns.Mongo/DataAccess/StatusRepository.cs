@@ -40,11 +40,10 @@ public class StatusRepository : IStatusRepository
 	public async Task ArchiveAsync(StatusModel status)
 	{
 
-		var objectId = new ObjectId(status.Id);
+		// Archive the category
+		status.Archived = true;
 
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, status);
+		await UpdateAsync(status);
 
 	}
 
@@ -68,7 +67,7 @@ public class StatusRepository : IStatusRepository
 	{
 
 		return (await _collection
-				.FindAsync(s => s.Id == statusId && s.Archived == false))
+				.FindAsync(s => s.Id == statusId && !s.Archived))
 			.FirstOrDefault();
 
 

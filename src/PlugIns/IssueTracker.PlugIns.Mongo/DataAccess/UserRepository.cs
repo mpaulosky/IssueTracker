@@ -39,11 +39,11 @@ public class UserRepository : IUserRepository
 	///  <param name="user">UserModel</param>
 	public async Task ArchiveAsync(UserModel user)
 	{
-		var objectId = new ObjectId(user.Id);
 
-		FilterDefinition<UserModel> filter = Builders<UserModel>.Filter.Eq("_id", objectId);
+		// Archive the category
+		user.Archived = true;
 
-		await _collection.ReplaceOneAsync(filter!, user);
+		await UpdateAsync(user);
 
 	}
 
@@ -67,7 +67,7 @@ public class UserRepository : IUserRepository
 	{
 
 		return (await _collection
-			.FindAsync(x => x.Id == userId && x.Archived == false))
+			.FindAsync(x => x.Id == userId && !x.Archived))
 			.FirstOrDefault();
 
 	}

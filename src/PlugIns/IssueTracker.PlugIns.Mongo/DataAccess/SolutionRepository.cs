@@ -40,12 +40,10 @@ public class SolutionRepository : ISolutionRepository
 	public async Task ArchiveAsync(SolutionModel solution)
 	{
 
-		var objectId = new ObjectId(solution.Id);
+		// Archive the category
+		solution.Archived = true;
 
-		FilterDefinition<SolutionModel> filter =
-			Builders<SolutionModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, solution);
+		await UpdateAsync(solution);
 
 	}
 
@@ -69,7 +67,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-				.FindAsync(s => s.Id == solutionId && s.Archived == false))
+				.FindAsync(s => s.Id == solutionId && !s.Archived))
 			.FirstOrDefault();
 
 	}
@@ -83,7 +81,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Issue.Id == issueId && s.Archived == false))
+			.FindAsync(s => s.Issue.Id == issueId && !s.Archived))
 			.ToList();
 
 	}
@@ -124,7 +122,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == userId && s.Archived == false))
+			.FindAsync(s => s.Author.Id == userId && !s.Archived))
 			.ToList();
 
 	}

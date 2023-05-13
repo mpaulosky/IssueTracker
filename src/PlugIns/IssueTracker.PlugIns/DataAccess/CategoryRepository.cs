@@ -38,19 +38,15 @@ public class CategoryRepository : ICategoryRepository
 	public async Task ArchiveAsync(CategoryModel category)
 	{
 
-		var objectId = new ObjectId(category.Id);
-
 		// Archive the category
 		category.Archived = true;
 
-		FilterDefinition<CategoryModel> filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, category);
+		await UpdateAsync(category.Id, category);
 
 	}
-	
+
 	/// <summary>
-	///		CreateCategory method
+	///		Create Category method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	public async Task CreateAsync(CategoryModel category)
@@ -61,7 +57,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	///		GetCategory method
+	///		Get Category method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of CategoryModel</returns>
@@ -79,7 +75,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	///		GetCategories method
+	///		Get Categories method
 	/// </summary>
 	/// <returns>Task of IEnumerable CategoryModel</returns>
 	public async Task<IEnumerable<CategoryModel>> GetAllAsync()
@@ -94,7 +90,7 @@ public class CategoryRepository : ICategoryRepository
 	}
 
 	/// <summary>
-	///		UpdateCategory method
+	///		Update Category method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="category">CategoryModel</param>

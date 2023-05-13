@@ -40,11 +40,10 @@ public class CommentRepository : ICommentRepository
 	public async Task ArchiveAsync(CommentModel comment)
 	{
 
-		var objectId = new ObjectId(comment.Id);
+		// Archive the category
+		comment.Archived = true;
 
-		FilterDefinition<CommentModel> filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, comment);
+		await UpdateAsync(comment);
 
 	}
 	/// <summary>
@@ -67,7 +66,7 @@ public class CommentRepository : ICommentRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == commentId && s.Archived == false))
+			.FindAsync(s => s.Id == commentId && !s.Archived))
 			.FirstOrDefault();
 
 	}
@@ -109,7 +108,7 @@ public class CommentRepository : ICommentRepository
 	{
 
 		return (await _collection
-				.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType && s.Archived == false))
+				.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType && !s.Archived))
 				.ToList();
 
 	}
@@ -123,7 +122,7 @@ public class CommentRepository : ICommentRepository
 	{
 
 		return (await _collection
-				.FindAsync(s => s.Author.Id == userId && s.Archived == false))
+				.FindAsync(s => s.Author.Id == userId && !s.Archived))
 				.ToList();
 
 	}
