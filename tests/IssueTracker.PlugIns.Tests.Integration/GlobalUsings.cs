@@ -10,7 +10,7 @@ global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Contracts;
 global using IssueTracker.PlugIns.DataAccess;
-global using IssueTracker.Services.PlugInRepositoryInterfaces;
+global using IssueTracker.PlugIns.Tests.Integration;
 global using IssueTracker.UI;
 global using JetBrains.Annotations;
 global using Microsoft.AspNetCore.Hosting;

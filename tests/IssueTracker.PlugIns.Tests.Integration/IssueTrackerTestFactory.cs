@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.PlugIns.Tests.Integration;
+﻿namespace IssueTracker.PlugIns;
 
 [Collection("Test collection")]
 [ExcludeFromCodeCoverage]
