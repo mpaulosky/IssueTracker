@@ -4,7 +4,9 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Net;
 
 global using FluentAssertions;
+global using IssueTracker.CoreBusiness.BogusFakes;
 global using IssueTracker.CoreBusiness.Helpers;
+global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Mongo.Contracts;
 global using IssueTracker.PlugIns.Mongo.DataAccess;
 global using IssueTracker.UI;
