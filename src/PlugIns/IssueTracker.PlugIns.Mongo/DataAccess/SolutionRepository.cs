@@ -67,7 +67,7 @@ public class SolutionRepository : ISolutionRepository
 	{
 
 		return (await _collection
-				.FindAsync(s => s.Id == solutionId && !s.Archived))
+				.FindAsync(s => s.Id == solutionId))
 			.FirstOrDefault();
 
 	}
@@ -75,13 +75,13 @@ public class SolutionRepository : ISolutionRepository
 	/// <summary>
 	/// GetSolutionByIssueIdAsync method
 	/// </summary>
-	/// <param name="issueId"></param>
+	/// <param name="id"></param>
 	/// <returns>Task of SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string issueId)
+	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string id)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Issue.Id == issueId && !s.Archived))
+			.FindAsync(s => s.Issue.Id == id && !s.Archived))
 			.ToList();
 
 	}
@@ -116,13 +116,13 @@ public class SolutionRepository : ISolutionRepository
 	/// <summary>
 	/// GetSolutionsByUserIdAsync method
 	/// </summary>
-	/// <param name="userId">string user Id</param>
+	/// <param name="id">string user Id</param>
 	/// <returns>Task of IEnumerable SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string userId)
+	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string id)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == userId && !s.Archived))
+			.FindAsync(s => s.Author.Id == id && !s.Archived))
 			.ToList();
 
 	}

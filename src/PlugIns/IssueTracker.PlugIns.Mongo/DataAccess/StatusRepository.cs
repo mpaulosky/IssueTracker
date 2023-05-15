@@ -67,7 +67,7 @@ public class StatusRepository : IStatusRepository
 	{
 
 		return (await _collection
-				.FindAsync(s => s.Id == statusId && !s.Archived))
+				.FindAsync(s => s.Id == statusId))
 			.FirstOrDefault();
 
 

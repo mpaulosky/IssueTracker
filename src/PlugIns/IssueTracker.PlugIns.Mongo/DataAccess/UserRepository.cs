@@ -61,13 +61,13 @@ public class UserRepository : IUserRepository
 	/// <summary>
 	///		GetAsync method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="id">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel?> GetAsync(string userId)
+	public async Task<UserModel?> GetAsync(string id)
 	{
 
 		return (await _collection
-			.FindAsync(x => x.Id == userId && !x.Archived))
+			.FindAsync(x => x.Id == id))
 			.FirstOrDefault();
 
 	}

@@ -66,7 +66,7 @@ public class CommentRepository : ICommentRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == commentId && !s.Archived))
+			.FindAsync(s => s.Id == commentId))
 			.FirstOrDefault();
 
 	}
@@ -107,9 +107,11 @@ public class CommentRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>?> GetBySourceAsync(BasicCommentOnSourceModel source)
 	{
 
-		return (await _collection
-				.FindAsync(filter: s => s.CommentOnSource!.Id == s.Id && s.CommentOnSource.SourceType == source.SourceType && !s.Archived))
-				.ToList();
+		List<CommentModel> comments = (await GetAllAsync())!.ToList();
+
+		return (comments.Where(comment => comment.CommentOnSource != null)
+			.Where(comment => comment.CommentOnSource!.Id == source.Id)
+			.Where(comment => comment.CommentOnSource!.SourceType == source.SourceType)).ToList();
 
 	}
 
@@ -143,7 +145,7 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///		UpvoteAsync method
+	///		UpVoteAsync method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
@@ -156,9 +158,9 @@ public class CommentRepository : ICommentRepository
 
 		CommentModel comment = (await _collection.FindAsync(filterComment)).FirstOrDefault();
 
-		var isUpvote = comment.UserVotes.Add(userId);
+		var isUpVote = comment.UserVotes.Add(userId);
 
-		if (!isUpvote) comment.UserVotes.Remove(userId);
+		if (!isUpVote) comment.UserVotes.Remove(userId);
 
 		await _collection.ReplaceOneAsync(s => s.Id == commentId, comment);
 

@@ -22,11 +22,8 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	///		MongoDbContextFactory constructor
 	/// </summary>
 	/// <param name="settings">DatabaseSettings</param>
-	/// <exception cref="ArgumentNullException"></exception>
 	public MongoDbContextFactory(DatabaseSettings settings)
 	{
-
-		Guard.Against.Null(settings, nameof(settings));
 
 		ConnectionString = settings.ConnectionString;
 

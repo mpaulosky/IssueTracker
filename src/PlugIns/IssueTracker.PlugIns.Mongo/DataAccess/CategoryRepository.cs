@@ -67,7 +67,7 @@ public class CategoryRepository : ICategoryRepository
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == categoryId && !s.Archived))
+			.FindAsync(s => s.Id == categoryId))
 			.FirstOrDefault();
 
 	}

@@ -23,6 +23,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	{
 
 		ConnectionString = settings.ConnectionString;
+
 		DbName = settings.DatabaseName;
 
 		Client = new MongoClient(settings.ConnectionString);

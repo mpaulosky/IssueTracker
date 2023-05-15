@@ -61,13 +61,13 @@ public class IssueRepository : IIssueRepository
 	///  <summary>
 	/// 	GetIssue method
 	///  </summary>
-	///  <param name="itemId">string</param>
+	///  <param name="id">string</param>
 	///  <returns>Task of IssueModel</returns>
-	public async Task<IssueModel?> GetAsync(string itemId)
+	public async Task<IssueModel?> GetAsync(string id)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Id == itemId && !s.Archived && !s.Rejected))
+			.FindAsync(s => s.Id == id))
 			.FirstOrDefault();
 
 	}
@@ -128,13 +128,13 @@ public class IssueRepository : IIssueRepository
 	/// <summary>
 	///		GetUserIssues method
 	/// </summary>
-	/// <param name="userId">string</param>
+	/// <param name="id">string</param>
 	/// <returns>Task of IEnumerable IssueModel</returns>
-	public async Task<IEnumerable<IssueModel>?> GetByUserAsync(string userId)
+	public async Task<IEnumerable<IssueModel>?> GetByUserAsync(string id)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == userId && !s.Archived && !s.Rejected))
+			.FindAsync(s => s.Author.Id == id && !s.Archived && !s.Rejected))
 			.ToList();
 
 	}
