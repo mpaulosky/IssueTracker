@@ -1,4 +1,4 @@
-// Global Usings
+﻿// Global Usings
 
 global using System.Diagnostics.CodeAnalysis;
 global using FluentAssertions;

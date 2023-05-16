@@ -45,9 +45,9 @@ public class CategoryRepositoryTests
 		// Assert
 		//Verify if ReplaceOneAsync is called once
 		_mockCollection.Verify(c => c.ReplaceOneAsync(
-			It.IsAny<FilterDefinition<CategoryModel>>(), 
-			archivedCategory, 
-			It.IsAny<ReplaceOptions>(),It.IsAny<CancellationToken>()), Times.Once);
+			It.IsAny<FilterDefinition<CategoryModel>>(),
+			archivedCategory,
+			It.IsAny<ReplaceOptions>(), It.IsAny<CancellationToken>()), Times.Once);
 
 	}
 
