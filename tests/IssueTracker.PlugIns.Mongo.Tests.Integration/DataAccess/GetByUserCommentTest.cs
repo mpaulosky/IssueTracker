@@ -34,6 +34,7 @@ public class GetByUserCommentTest : IAsyncLifetime
 		result.Should().NotBeNull();
 		result.Count.Should().Be(1);
 		result[0].Author.Should().BeEquivalentTo(comment.Author);
+		Assert.NotNull(result);
 
 	}
 

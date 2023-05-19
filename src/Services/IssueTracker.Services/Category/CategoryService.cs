@@ -71,7 +71,7 @@ public class CategoryService : ICategoryService
 	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task<CategoryModel> GetCategory(string categoryId)
+	public async Task<CategoryModel> GetCategory(string? categoryId)
 	{
 
 		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));

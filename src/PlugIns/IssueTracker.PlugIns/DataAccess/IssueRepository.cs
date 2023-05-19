@@ -22,7 +22,7 @@ public class IssueRepository : IIssueRepository
 	public IssueRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var issueCollectionName = GetCollectionName(nameof(IssueModel));
 

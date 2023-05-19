@@ -33,7 +33,7 @@ public class ArchiveUserUseCaseTests
 
 		// Assert
 		_userRepositoryMock.Verify(x =>
-			x.UpdateAsync(It.IsAny<UserModel>()), Times.Once);
+			x.ArchiveAsync(It.IsAny<UserModel>()), Times.Once);
 
 	}
 

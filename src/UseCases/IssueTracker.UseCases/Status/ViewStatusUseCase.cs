@@ -20,10 +20,10 @@ public class ViewStatusUseCase : IViewStatusUseCase
 
 	}
 
-	public async Task<StatusModel?> ExecuteAsync(string statusId)
+	public async Task<StatusModel?> ExecuteAsync(string? statusId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
+		ArgumentException.ThrowIfNullOrEmpty(statusId);
 
 		return await _statusRepository.GetAsync(statusId);
 

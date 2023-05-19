@@ -21,10 +21,10 @@ public class UpdateCategoryUseCase : IUpdateCategoryUseCase
 
 	}
 
-	public async Task ExecuteAsync(CategoryModel category)
+	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
 		await _categoryRepository.UpdateAsync(category);
 

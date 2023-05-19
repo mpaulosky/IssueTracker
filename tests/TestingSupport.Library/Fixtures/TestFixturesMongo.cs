@@ -63,8 +63,14 @@ public static class TestFixturesMongo
 
 	public static DatabaseSettings Settings()
 	{
+		const string connectionString = "mongodb://test123";
+		const string databaseName = "TestDb";
 
-		var settings = new DatabaseSettings(connectionString: "mongodb://test123", databaseName: "TestDb");
+		var settings = new DatabaseSettings(connectionString, databaseName)
+		{
+			ConnectionString = connectionString,
+			DatabaseName = databaseName
+		};
 
 		return settings;
 
@@ -73,7 +79,11 @@ public static class TestFixturesMongo
 	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionString)
 	{
 
-		var settings = new DatabaseSettings(connectionString: "mongodb://test123", databaseName: "TestDb");
+		var settings = new DatabaseSettings(connectionString: connectionString, databaseName: databaseName)
+		{
+			ConnectionString = connectionString,
+			DatabaseName = databaseName
+		};
 
 		return Options.Create(settings);
 

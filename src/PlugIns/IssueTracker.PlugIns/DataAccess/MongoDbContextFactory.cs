@@ -18,8 +18,8 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		MongoDbContextFactory constructor
 	/// </summary>
-	/// <param name="settings">DatabaseSettings</param>
-	public MongoDbContextFactory(DatabaseSettings settings)
+	/// <param name="settings">IDatabaseSettings</param>
+	public MongoDbContextFactory(IDatabaseSettings settings)
 	{
 
 		ConnectionString = settings.ConnectionString;
@@ -68,13 +68,13 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	///		GetCollection method
 	/// </summary>
 	/// <param name="name">string collection name</param>
-	/// <typeparam name="T">the class name</typeparam>
+	/// <typeparam name="T">The Entity Name cref="CategoryModel"</typeparam>
 	/// <returns>IMongoCollection</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public IMongoCollection<T> GetCollection<T>(string name)
+	public IMongoCollection<T> GetCollection<T>(string? name)
 	{
 
-		Guard.Against.NullOrWhiteSpace(name, nameof(name));
+		ArgumentException.ThrowIfNullOrEmpty(name);
 
 		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
 

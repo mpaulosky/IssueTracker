@@ -23,7 +23,7 @@ public class CommentRepository : ICommentRepository
 	public CommentRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var commentCollectionName = GetCollectionName(nameof(CommentModel));
 

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		ViewCommentsByIssueIdUseCase.cs
+//	File:		UpVoteCommentUseCase.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
@@ -9,24 +9,25 @@
 
 namespace IssueTracker.UseCases.Comment;
 
-public class ViewCommentsBySourceUseCase : IViewCommentsBySourceUseCase
+public class UpVoteCommentUseCase : IUpVoteCommentUseCase
 {
 
 	private readonly ICommentRepository _commentRepository;
 
-	public ViewCommentsBySourceUseCase(ICommentRepository commentRepository)
+	public UpVoteCommentUseCase(ICommentRepository commentRepository)
 	{
 
 		_commentRepository = commentRepository;
 
 	}
 
-	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel? source)
+	public async Task ExecuteAsync(CommentModel? comment, UserModel? user)
 	{
 
-		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(comment);
+		ArgumentNullException.ThrowIfNull(user);
 
-		return await _commentRepository.GetBySourceAsync(source);
+		await _commentRepository.UpVoteAsync(comment.Id, user.Id);
 
 	}
 

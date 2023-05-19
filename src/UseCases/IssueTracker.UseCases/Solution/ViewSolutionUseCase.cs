@@ -22,10 +22,10 @@ public class ViewSolutionUseCase : IViewSolutionUseCase
 
 	}
 
-	public async Task<SolutionModel?> ExecuteAsync(string solutionId)
+	public async Task<SolutionModel?> ExecuteAsync(string? solutionId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(solutionId, nameof(solutionId));
+		ArgumentException.ThrowIfNullOrEmpty(solutionId);
 
 		return await _solutionRepository.GetAsync(solutionId);
 

@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
 	public UserRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var collectionName = GetCollectionName(nameof(UserModel));
 

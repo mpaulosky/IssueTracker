@@ -20,10 +20,10 @@ public class ViewCategoryUseCase : IViewCategoryUseCase
 
 	}
 
-	public async Task<CategoryModel?> ExecuteAsync(string categoryId)
+	public async Task<CategoryModel?> ExecuteAsync(string? categoryId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
+		ArgumentException.ThrowIfNullOrEmpty(categoryId);
 
 		return await _categoryRepository.GetAsync(categoryId);
 

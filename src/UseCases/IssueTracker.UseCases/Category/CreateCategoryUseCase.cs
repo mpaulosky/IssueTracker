@@ -20,10 +20,10 @@ public class CreateCategoryUseCase : ICreateCategoryUseCase
 
 	}
 
-	public async Task ExecuteAsync(CategoryModel category)
+	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
 		await _categoryRepository.CreateAsync(category);
 

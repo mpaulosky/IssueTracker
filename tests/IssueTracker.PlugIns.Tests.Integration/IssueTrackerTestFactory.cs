@@ -10,7 +10,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	private readonly string _databaseName;
 
-	private DatabaseSettings? DbConfig { get; set; }
+	private IDatabaseSettings? DbConfig { get; set; }
 
 	public IMongoDbContextFactory? DbContext { get; set; }
 
@@ -30,13 +30,21 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		{
 
 			var dbConnectionDescriptor = services.SingleOrDefault(
-					d => d.ServiceType ==
-							typeof(IMongoDbContextFactory));
+				d => d.ServiceType ==
+						 typeof(IMongoDbContextFactory));
 
 			services.Remove(dbConnectionDescriptor!);
 
+			var dbSettings = services.SingleOrDefault(
+				d => d.ServiceType ==
+						 typeof(IDatabaseSettings));
+
+			services.Remove(dbSettings!);
+
+			services.AddSingleton<IDatabaseSettings>(_ => DbConfig!);
+
 			services.AddSingleton<IMongoDbContextFactory>(_ =>
-					new MongoDbContextFactory(DbConfig!));
+				new MongoDbContextFactory(DbConfig!));
 
 			using var serviceProvider = services.BuildServiceProvider();
 
@@ -65,7 +73,14 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 		await _mongoDbContainer.StartAsync();
 
-		DbConfig = new DatabaseSettings(_mongoDbContainer.GetConnectionString(), _databaseName);
+		string? connString = _mongoDbContainer.GetConnectionString();
+		string? dbName = _databaseName!;
+
+		DbConfig = new DatabaseSettings(connString, dbName)
+		{
+			ConnectionString = connString,
+			DatabaseName = dbName
+		};
 
 	}
 

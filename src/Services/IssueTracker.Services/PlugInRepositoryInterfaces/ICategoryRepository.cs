@@ -14,10 +14,10 @@ public interface ICategoryRepository
 
 	Task CreateAsync(CategoryModel category);
 
-	Task<CategoryModel> GetAsync(string itemId);
+	Task<CategoryModel> GetAsync(string? itemId);
 
 	Task<IEnumerable<CategoryModel>> GetAllAsync();
 
-	Task UpdateAsync(string itemId, CategoryModel category);
+	Task UpdateAsync(string? itemId, CategoryModel category);
 
 }

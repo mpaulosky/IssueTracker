@@ -20,10 +20,10 @@ public class CreateStatusUseCase : ICreateStatusUseCase
 
 	}
 
-	public async Task ExecuteAsync(StatusModel status)
+	public async Task ExecuteAsync(StatusModel? status)
 	{
 
-		Guard.Against.Null(status, nameof(status));
+		ArgumentNullException.ThrowIfNull(status);
 
 		await _statusRepository.CreateAsync(status);
 

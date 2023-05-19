@@ -10,5 +10,5 @@ namespace IssueTracker.UseCases.Category.Interfaces;
 
 public interface ICreateCategoryUseCase
 {
-	Task ExecuteAsync(CategoryModel category);
+	Task ExecuteAsync(CategoryModel? category);
 }

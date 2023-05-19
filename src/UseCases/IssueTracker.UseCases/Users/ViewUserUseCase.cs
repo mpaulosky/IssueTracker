@@ -18,12 +18,12 @@ public class ViewUserUseCase : IViewUserUseCase
 		_userRepository = userRepository;
 	}
 
-	public async Task<UserModel?> ExecuteAsync(string id)
+	public async Task<UserModel?> ExecuteAsync(string? userId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(id, nameof(id));
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
-		return await _userRepository.GetAsync(id);
+		return await _userRepository.GetAsync(userId);
 
 	}
 

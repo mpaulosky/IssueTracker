@@ -33,7 +33,7 @@ public class ArchiveSolutionUseCaseTests
 
 		// Assert
 		_solutionRepositoryMock.Verify(x =>
-			x.UpdateAsync(It.IsAny<SolutionModel>()), Times.Once);
+			x.ArchiveAsync(It.IsAny<SolutionModel>()), Times.Once);
 
 	}
 

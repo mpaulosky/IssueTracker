@@ -48,7 +48,7 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 
 	}
 
-	[Fact(Skip = "Failing test with wonky issue")]
+	[Fact]
 	public async Task Be_healthy_if_mongodb_is_available()
 	{
 

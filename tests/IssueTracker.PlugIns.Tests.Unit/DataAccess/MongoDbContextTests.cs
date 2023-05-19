@@ -10,7 +10,15 @@ public class MongoDbContextTests
 	public MongoDbContextTests()
 	{
 
-		DatabaseSettings settings = new DatabaseSettings("mongodb://test123", "TestDb");
+		const string connectionString = "mongodb://test123";
+		const string databaseName = "TestDb";
+
+		DatabaseSettings settings = new DatabaseSettings(connectionString, databaseName)
+		{
+			ConnectionString = connectionString,
+			DatabaseName = databaseName
+		};
+
 
 		_sut = Substitute.For<MongoDbContextFactory>(settings);
 

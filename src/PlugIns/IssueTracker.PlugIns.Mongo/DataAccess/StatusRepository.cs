@@ -25,7 +25,7 @@ public class StatusRepository : IStatusRepository
 	public StatusRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var collectionName = GetCollectionName(nameof(StatusModel));
 

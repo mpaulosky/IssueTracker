@@ -21,10 +21,10 @@ public class ViewIssuesByUserUseCase : IViewIssuesByUserUseCase
 
 	}
 
-	public async Task<IEnumerable<IssueModel>?> ExecuteAsync(UserModel user)
+	public async Task<IEnumerable<IssueModel>?> ExecuteAsync(UserModel? user)
 	{
 
-		Guard.Against.Null(user, nameof(user));
+		ArgumentNullException.ThrowIfNull(user);
 
 		return await _issueRepository.GetByUserAsync(user.Id);
 

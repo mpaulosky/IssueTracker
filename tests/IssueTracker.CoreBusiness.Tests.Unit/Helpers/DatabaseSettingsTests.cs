@@ -6,7 +6,11 @@ public class DatabaseSettingsTests
 
 	private static DatabaseSettings CreateDatabaseSettings(string expectedCs, string expectedDbName)
 	{
-		return new DatabaseSettings(expectedCs, expectedDbName);
+		return new DatabaseSettings(expectedCs, expectedDbName)
+		{
+			ConnectionString = expectedCs,
+			DatabaseName = expectedDbName
+		};
 	}
 
 	[Fact]

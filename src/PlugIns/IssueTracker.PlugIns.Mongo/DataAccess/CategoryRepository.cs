@@ -25,7 +25,7 @@ public class CategoryRepository : ICategoryRepository
 	public CategoryRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var collectionName = GetCollectionName(nameof(CategoryModel));
 
@@ -63,7 +63,7 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	public async Task<CategoryModel?> GetAsync(string categoryId)
+	public async Task<CategoryModel?> GetAsync(string? categoryId)
 	{
 
 		return (await _collection

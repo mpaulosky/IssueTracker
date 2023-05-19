@@ -20,10 +20,10 @@ public class UpdateUserUseCase : IUpdateUserUseCase
 
 	}
 
-	public async Task ExecuteAsync(UserModel user)
+	public async Task ExecuteAsync(UserModel? user)
 	{
 
-		Guard.Against.Null(user, nameof(user));
+		ArgumentNullException.ThrowIfNull(user);
 
 		await _userRepository.UpdateAsync(user);
 

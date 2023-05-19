@@ -32,7 +32,7 @@ public class ArchiveCategoryUseCaseTests
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
-				x.UpdateAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<CategoryModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "ArchiveCategoryUseCase With In Valid Data Test")]
@@ -40,7 +40,7 @@ public class ArchiveCategoryUseCaseTests
 	{
 
 		// Arrange
-		var sut = this.CreateUseCase();
+		var sut = CreateUseCase();
 
 		// Act
 		// Assert

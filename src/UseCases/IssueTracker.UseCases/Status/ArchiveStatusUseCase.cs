@@ -21,15 +21,12 @@ public class ArchiveStatusUseCase : IArchiveStatusUseCase
 
 	}
 
-	public async Task ExecuteAsync(StatusModel status)
+	public async Task ExecuteAsync(StatusModel? status)
 	{
 
-		Guard.Against.Null(status, nameof(status));
+		ArgumentNullException.ThrowIfNull(status);
 
-		// Archive the status
-		status.Archived = true;
-
-		await _statusRepository.UpdateAsync(status);
+		await _statusRepository.ArchiveAsync(status);
 
 	}
 

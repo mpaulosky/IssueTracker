@@ -32,7 +32,7 @@ public static class AllServicesToRegister
 
 		builder.Services.RegisterConnections(config);
 
-		builder.Services.RegisterDatabaseContext(config);
+		builder.Services.RegisterDatabaseContext();
 
 		builder.Services.AddHealthChecks().AddCheck<MongoHealthCheck>("MongoDbConnectionCheck");
 

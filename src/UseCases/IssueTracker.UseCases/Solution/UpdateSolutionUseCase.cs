@@ -21,10 +21,10 @@ public class UpdateSolutionUseCase : IUpdateSolutionUseCase
 
 	}
 
-	public async Task ExecuteAsync(SolutionModel solution)
+	public async Task ExecuteAsync(SolutionModel? solution)
 	{
 
-		Guard.Against.Null(solution, nameof(solution));
+		ArgumentNullException.ThrowIfNull(solution);
 
 		await _solutionRepository.UpdateAsync(solution);
 

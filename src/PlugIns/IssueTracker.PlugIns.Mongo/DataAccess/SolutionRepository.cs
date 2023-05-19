@@ -25,7 +25,7 @@ public class SolutionRepository : ISolutionRepository
 	public SolutionRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var collectionName = GetCollectionName(nameof(SolutionModel));
 
@@ -37,11 +37,11 @@ public class SolutionRepository : ISolutionRepository
 	/// ArchiveAsync method
 	/// </summary>
 	/// <param name="solution">SolutionModel</param>
-	public async Task ArchiveAsync(SolutionModel solution)
+	public async Task ArchiveAsync(SolutionModel? solution)
 	{
 
 		// Archive the category
-		solution.Archived = true;
+		solution!.Archived = true;
 
 		await UpdateAsync(solution);
 
@@ -51,10 +51,10 @@ public class SolutionRepository : ISolutionRepository
 	/// Creates the solution asynchronous.
 	/// </summary>
 	/// <param name="solution">The solution.</param>
-	public async Task CreateAsync(SolutionModel solution)
+	public async Task CreateAsync(SolutionModel? solution)
 	{
 
-		await _collection.InsertOneAsync(solution);
+		await _collection.InsertOneAsync(solution!);
 
 	}
 
@@ -63,7 +63,7 @@ public class SolutionRepository : ISolutionRepository
 	/// </summary>
 	/// <param name="solutionId"></param>
 	/// <returns>SolutionModel</returns>
-	public async Task<SolutionModel?> GetAsync(string solutionId)
+	public async Task<SolutionModel?> GetAsync(string? solutionId)
 	{
 
 		return (await _collection
@@ -75,13 +75,13 @@ public class SolutionRepository : ISolutionRepository
 	/// <summary>
 	/// GetSolutionByIssueIdAsync method
 	/// </summary>
-	/// <param name="id"></param>
+	/// <param name="issueId"></param>
 	/// <returns>Task of SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string id)
+	public async Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string? issueId)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Issue.Id == id && !s.Archived))
+			.FindAsync(s => s.Issue.Id == issueId && !s.Archived))
 			.ToList();
 
 	}
@@ -116,13 +116,13 @@ public class SolutionRepository : ISolutionRepository
 	/// <summary>
 	/// GetSolutionsByUserIdAsync method
 	/// </summary>
-	/// <param name="id">string user Id</param>
+	/// <param name="userId">string user Id</param>
 	/// <returns>Task of IEnumerable SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string id)
+	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string? userId)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == id && !s.Archived))
+			.FindAsync(s => s.Author.Id == userId && !s.Archived))
 			.ToList();
 
 	}
@@ -131,24 +131,24 @@ public class SolutionRepository : ISolutionRepository
 	/// UpdateSolutionAsync method
 	/// </summary>
 	/// <param name="solution">SolutionModel</param>
-	public async Task UpdateAsync(SolutionModel solution)
+	public async Task UpdateAsync(SolutionModel? solution)
 	{
 
-		var objectId = new ObjectId(solution.Id);
+		var objectId = new ObjectId(solution?.Id);
 
 		FilterDefinition<SolutionModel> filter =
 			Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
-		await _collection.ReplaceOneAsync(filter, solution);
+		await _collection.ReplaceOneAsync(filter, solution!);
 
 	}
 
 	/// <summary>
-	///		UpvoteAsync method
+	///		UpVoteAsync method
 	/// </summary>
 	/// <param name="solutionId">string</param>
 	/// <param name="userId">string</param>
-	public async Task UpVoteAsync(string? solutionId, string userId)
+	public async Task UpVoteAsync(string? solutionId, string? userId)
 	{
 
 		var objectId = new ObjectId(solutionId);
@@ -157,9 +157,9 @@ public class SolutionRepository : ISolutionRepository
 
 		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
-		var isUpvote = result.UserVotes.Add(userId);
+		var isUpVote = result.UserVotes.Add(userId!);
 
-		if (!isUpvote) result.UserVotes.Remove(userId);
+		if (!isUpVote) result.UserVotes.Remove(userId!);
 
 		await _collection.ReplaceOneAsync(s => s.Id == solutionId, result);
 

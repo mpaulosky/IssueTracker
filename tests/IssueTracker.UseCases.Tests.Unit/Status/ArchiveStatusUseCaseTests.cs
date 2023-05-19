@@ -33,7 +33,7 @@ public class ArchiveStatusUseCaseTests
 
 		// Assert
 		_statusRepositoryMock.Verify(x =>
-			x.UpdateAsync(It.IsAny<StatusModel>()), Times.Once);
+			x.ArchiveAsync(It.IsAny<StatusModel>()), Times.Once);
 
 	}
 

@@ -10,6 +10,6 @@ namespace IssueTracker.UseCases.Status.Interfaces;
 
 public interface ICreateStatusUseCase
 {
-	Task ExecuteAsync(StatusModel status);
+	Task ExecuteAsync(StatusModel? status);
 
 }

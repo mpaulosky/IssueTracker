@@ -10,7 +10,7 @@ namespace IssueTracker.Services.Category.Interface;
 public interface ICategoryService
 {
 
-	Task<CategoryModel> GetCategory(string categoryId);
+	Task<CategoryModel> GetCategory(string? categoryId);
 
 	Task<List<CategoryModel>> GetCategories();
 

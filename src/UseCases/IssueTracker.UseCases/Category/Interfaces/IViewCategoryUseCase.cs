@@ -2,5 +2,5 @@
 
 public interface IViewCategoryUseCase
 {
-	Task<CategoryModel?> ExecuteAsync(string categoryId);
+	Task<CategoryModel?> ExecuteAsync(string? categoryId);
 }

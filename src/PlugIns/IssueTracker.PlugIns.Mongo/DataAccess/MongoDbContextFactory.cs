@@ -7,14 +7,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using JetBrains.Annotations;
-
 namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 /// <summary>
 ///		MongoDbContext class
 /// </summary>
-[UsedImplicitly]
 public class MongoDbContextFactory : IMongoDbContextFactory
 {
 
@@ -22,16 +19,16 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	///		MongoDbContextFactory constructor
 	/// </summary>
 	/// <param name="settings">DatabaseSettings</param>
-	public MongoDbContextFactory(DatabaseSettings settings)
+	public MongoDbContextFactory(IDatabaseSettings settings)
 	{
 
 		ConnectionString = settings.ConnectionString;
 
 		DbName = settings.DatabaseName;
 
-		Client = new MongoClient(ConnectionString);
+		Client = new MongoClient(settings.ConnectionString);
 
-		Database = Client.GetDatabase(DbName);
+		Database = Client.GetDatabase(settings.DatabaseName);
 
 	}
 
@@ -70,14 +67,14 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <summary>
 	///		GetCollection method
 	/// </summary>
-	/// <param name="name">string</param>
+	/// <param name="name">string collection name</param>
 	/// <typeparam name="T">The Entity Name cref="CategoryModel"</typeparam>
 	/// <returns>IMongoCollection</returns>
 	/// <exception cref="ArgumentNullException"></exception>
 	public IMongoCollection<T> GetCollection<T>(string name)
 	{
 
-		Guard.Against.NullOrWhiteSpace(name, nameof(name));
+		ArgumentException.ThrowIfNullOrEmpty(name);
 
 		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
 

@@ -6,8 +6,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Ardalis.GuardClauses;
-
 namespace IssueTracker.UseCases.Category;
 
 public class ArchiveCategoryUseCase : IArchiveCategoryUseCase
@@ -20,15 +18,12 @@ public class ArchiveCategoryUseCase : IArchiveCategoryUseCase
 		_categoryRepository = categoryRepository;
 	}
 
-	public async Task ExecuteAsync(CategoryModel category)
+	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
-		// Archive the category
-		category.Archived = true;
-
-		await _categoryRepository.UpdateAsync(category);
+		await _categoryRepository.ArchiveAsync(category);
 
 	}
 

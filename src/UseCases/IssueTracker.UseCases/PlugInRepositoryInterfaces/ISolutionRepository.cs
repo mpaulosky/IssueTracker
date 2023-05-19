@@ -14,18 +14,18 @@ public interface ISolutionRepository
 
 	Task ArchiveAsync(SolutionModel solution);
 
-	Task CreateAsync(SolutionModel solution);
+	Task CreateAsync(SolutionModel? solution);
 
-	Task<SolutionModel?> GetAsync(string solutionId);
+	Task<SolutionModel?> GetAsync(string? solutionId);
 
 	Task<IEnumerable<SolutionModel>?> GetAllAsync(bool includeArchived = false);
 
-	Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string id);
+	Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string? issueId);
 
-	Task<IEnumerable<SolutionModel>?> GetByUserAsync(string id);
+	Task<IEnumerable<SolutionModel>?> GetByUserAsync(string? userId);
 
-	Task UpdateAsync(SolutionModel solution);
+	Task UpdateAsync(SolutionModel? solution);
 
-	Task UpVoteAsync(string? solutionId, string userId);
+	Task UpVoteAsync(string? solutionId, string? userId);
 
 }

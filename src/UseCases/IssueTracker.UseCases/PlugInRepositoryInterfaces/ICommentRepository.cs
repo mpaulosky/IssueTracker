@@ -25,4 +25,6 @@ public interface ICommentRepository
 
 	Task UpdateAsync(CommentModel comment);
 
+	Task UpVoteAsync(string? commentId, string? userId);
+
 }

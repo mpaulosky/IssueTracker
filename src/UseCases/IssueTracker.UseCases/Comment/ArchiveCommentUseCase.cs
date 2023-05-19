@@ -24,12 +24,9 @@ public class ArchiveCommentUseCase : IArchiveCommentUseCase
 	public async Task ExecuteAsync(CommentModel? comment)
 	{
 
-		Guard.Against.Null(comment, nameof(comment));
+		ArgumentNullException.ThrowIfNull(comment);
 
-		// Set the comment to archived
-		comment.Archived = true;
-
-		await _commentRepository.UpdateAsync(comment);
+		await _commentRepository.ArchiveAsync(comment);
 
 	}
 

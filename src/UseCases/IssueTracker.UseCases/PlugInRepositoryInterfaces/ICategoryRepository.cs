@@ -15,7 +15,7 @@ public interface ICategoryRepository
 
 	Task CreateAsync(CategoryModel category);
 
-	Task<CategoryModel?> GetAsync(string categoryId);
+	Task<CategoryModel?> GetAsync(string? categoryId);
 
 	Task<IEnumerable<CategoryModel>?> GetAllAsync(bool includeArchived = false);
 

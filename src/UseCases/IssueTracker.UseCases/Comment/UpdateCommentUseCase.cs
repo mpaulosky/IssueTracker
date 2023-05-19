@@ -20,10 +20,10 @@ public class UpdateCommentUseCase : IUpdateCommentUseCase
 
 	}
 
-	public async Task ExecuteAsync(CommentModel comment)
+	public async Task ExecuteAsync(CommentModel? comment)
 	{
 
-		Guard.Against.Null(comment, nameof(comment));
+		ArgumentNullException.ThrowIfNull(comment);
 
 		await _commentRepository.UpdateAsync(comment);
 

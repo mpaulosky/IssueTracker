@@ -33,7 +33,7 @@ public class ArchiveCommentUseCaseTests
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
-				x.UpdateAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 

@@ -11,6 +11,6 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 public interface IViewCommentUseCase
 {
 
-	Task<CommentModel?> ExecuteAsync(string commentId);
+	Task<CommentModel?> ExecuteAsync(string? commentId);
 
 }

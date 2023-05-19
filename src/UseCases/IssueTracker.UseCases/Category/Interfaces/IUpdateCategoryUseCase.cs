@@ -10,5 +10,5 @@ namespace IssueTracker.UseCases.Category.Interfaces;
 
 public interface IUpdateCategoryUseCase
 {
-	Task ExecuteAsync(CategoryModel category);
+	Task ExecuteAsync(CategoryModel? category);
 }

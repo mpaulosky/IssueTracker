@@ -21,12 +21,12 @@ public class ViewSolutionsByIssueIdUseCase : IViewSolutionsByIssueIdUseCase
 
 	}
 
-	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(BasicIssueModel issue)
+	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(string? issueId)
 	{
 
-		Guard.Against.Null(issue, nameof(issue));
+		ArgumentException.ThrowIfNullOrEmpty(issueId);
 
-		return await _solutionRepository.GetByIssueAsync(issue.Id);
+		return await _solutionRepository.GetByIssueAsync(issueId);
 
 	}
 

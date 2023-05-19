@@ -21,12 +21,12 @@ public class ViewSolutionsByUserUseCase : IViewSolutionsByUserUseCase
 
 	}
 
-	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(UserModel user)
+	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(string? userId)
 	{
 
-		Guard.Against.Null(user, nameof(user));
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
-		return await _solutionRepository.GetByUserAsync(user.Id);
+		return await _solutionRepository.GetByUserAsync(userId);
 
 	}
 

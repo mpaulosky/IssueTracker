@@ -43,7 +43,7 @@ public class ViewSolutionsByIssueIdUseCaseTests
 		var issue = expected.Issue;
 
 		// Act
-		var result = (await sut.ExecuteAsync(issue))!.First();
+		var result = (await sut.ExecuteAsync(issue.Id))!.First();
 
 		// Assert
 		result.Should().NotBeNull();

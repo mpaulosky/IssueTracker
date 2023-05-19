@@ -1,17 +1,17 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright>
-//	File:		IArchiveIssueUseCase.cs
+//	File:		IUpVoteCommentUseCase.cs
 //	Company:mpaulosky
 //	Author:	Matthew Paulosky
 //	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.UseCases.Issue.Interfaces;
+namespace IssueTracker.UseCases.Comment.Interfaces;
 
-public interface IArchiveIssueUseCase
+public interface IUpVoteCommentUseCase
 {
 
-	Task ExecuteAsync(IssueModel? issue);
+	Task ExecuteAsync(CommentModel? comment, UserModel? user);
 
 }

@@ -11,6 +11,6 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 public interface IViewCommentsBySourceUseCase
 {
 
-	Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel source);
+	Task<IEnumerable<CommentModel>?> ExecuteAsync(BasicCommentOnSourceModel? source);
 
 }

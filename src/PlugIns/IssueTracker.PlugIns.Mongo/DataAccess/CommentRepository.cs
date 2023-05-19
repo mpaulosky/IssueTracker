@@ -25,7 +25,7 @@ public class CommentRepository : ICommentRepository
 	public CommentRepository(IMongoDbContextFactory context)
 	{
 
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var commentCollectionName = GetCollectionName(nameof(CommentModel));
 
@@ -150,7 +150,7 @@ public class CommentRepository : ICommentRepository
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteAsync(string? commentId, string userId)
+	public async Task UpVoteAsync(string? commentId, string? userId)
 	{
 		var objectId = new ObjectId(commentId);
 
@@ -158,9 +158,9 @@ public class CommentRepository : ICommentRepository
 
 		CommentModel comment = (await _collection.FindAsync(filterComment)).FirstOrDefault();
 
-		var isUpVote = comment.UserVotes.Add(userId);
+		var isUpVote = comment.UserVotes.Add(userId!);
 
-		if (!isUpVote) comment.UserVotes.Remove(userId);
+		if (!isUpVote) comment.UserVotes.Remove(userId!);
 
 		await _collection.ReplaceOneAsync(s => s.Id == commentId, comment);
 

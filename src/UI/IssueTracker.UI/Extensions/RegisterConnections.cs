@@ -8,9 +8,10 @@ public static partial class ServiceCollectionExtensions
 		string connectionString = config.GetSection("MongoDbSettings:ConnectionStrings").Value ?? string.Empty;
 		string databaseName = config.GetSection("MongoDbSettings:DatabaseName").Value ?? string.Empty;
 
-		services.AddSingleton<DatabaseSettings>(new DatabaseSettings(connectionString, databaseName));
-
+		services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
+		
 		return services;
+		
 	}
 
 }

@@ -43,7 +43,7 @@ public class ViewSolutionsByUserUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = (await sut.ExecuteAsync(expectedUser))!.First();
+		var result = (await sut.ExecuteAsync(expectedUser.Id))!.First();
 
 		// Assert
 		result.Should().NotBeNull();

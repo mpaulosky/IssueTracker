@@ -1,5 +1,4 @@
-﻿
-namespace IssueTracker.UseCases.Issue;
+﻿namespace IssueTracker.UseCases.Issue;
 
 [ExcludeFromCodeCoverage]
 public class ArchiveIssueUseCaseTests
@@ -34,7 +33,7 @@ public class ArchiveIssueUseCaseTests
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>
-				x.UpdateAsync(It.IsAny<IssueModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<IssueModel>()), Times.Once);
 
 	}
 

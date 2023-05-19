@@ -12,7 +12,7 @@ namespace IssueTracker.CoreBusiness.Helpers;
 /// <summary>
 ///		DatabaseSettings class
 /// </summary>
-public class DatabaseSettings
+public class DatabaseSettings : IDatabaseSettings
 {
 
 	public DatabaseSettings(string connectionString, string databaseName)
@@ -23,8 +23,17 @@ public class DatabaseSettings
 
 	}
 
-	public string ConnectionString { get; }
+	public required string ConnectionString { get; init;}
 
-	public string DatabaseName { get; }
+	public required string DatabaseName { get; init; }
+
+}
+
+public interface IDatabaseSettings
+{
+
+	string ConnectionString { get; init; }
+
+	string DatabaseName { get; init; }
 
 }

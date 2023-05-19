@@ -24,7 +24,7 @@ public class CategoryModel
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; } = string.Empty;
+	public string? Id { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Gets or sets the name of the category.
