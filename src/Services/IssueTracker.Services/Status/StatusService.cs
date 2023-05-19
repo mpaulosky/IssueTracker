@@ -26,8 +26,11 @@ public class StatusService : IStatusService
 	public StatusService(IStatusRepository repository, IMemoryCache cache)
 	{
 
-		_repository = Guard.Against.Null(repository, nameof(repository));
-		_cache = Guard.Against.Null(cache, nameof(cache));
+		ArgumentNullException.ThrowIfNull(repository);
+		ArgumentNullException.ThrowIfNull(cache);
+
+		_repository = repository;
+		_cache = cache;
 
 	}
 
@@ -40,7 +43,7 @@ public class StatusService : IStatusService
 	public Task CreateStatus(StatusModel status)
 	{
 
-		Guard.Against.Null(status, nameof(status));
+		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.CreateAsync(status);
 
@@ -55,7 +58,7 @@ public class StatusService : IStatusService
 	public Task DeleteStatus(StatusModel status)
 	{
 
-		Guard.Against.Null(status, nameof(status));
+		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.ArchiveAsync(status);
 
@@ -71,7 +74,7 @@ public class StatusService : IStatusService
 	public async Task<StatusModel> GetStatus(string statusId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(statusId, nameof(statusId));
+		ArgumentException.ThrowIfNullOrEmpty(statusId);
 
 		StatusModel result = await _repository.GetAsync(statusId);
 
@@ -109,7 +112,7 @@ public class StatusService : IStatusService
 	public Task UpdateStatus(StatusModel status)
 	{
 
-		Guard.Against.Null(status, nameof(status));
+		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.UpdateAsync(status.Id, status);
 

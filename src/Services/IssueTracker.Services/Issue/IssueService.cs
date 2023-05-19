@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IssueService.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		IssueService.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.Services.Issue;
 /// </summary>
 public class IssueService : IIssueService
 {
+
 	private const string CacheName = "IssueData";
 	private readonly IMemoryCache _cache;
 	private readonly IIssueRepository _repository;
@@ -24,8 +27,13 @@ public class IssueService : IIssueService
 	/// <exception cref="ArgumentNullException"></exception>
 	public IssueService(IIssueRepository repository, IMemoryCache cache)
 	{
-		_repository = Guard.Against.Null(repository, nameof(repository));
-		_cache = Guard.Against.Null(cache, nameof(cache));
+
+		ArgumentNullException.ThrowIfNull(repository);
+		ArgumentNullException.ThrowIfNull(cache);
+
+		_repository = repository;
+		_cache = cache;
+
 	}
 
 	/// <summary>
@@ -35,9 +43,11 @@ public class IssueService : IIssueService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateIssue(IssueModel issue)
 	{
-		Guard.Against.Null(issue, nameof(issue));
+
+		ArgumentNullException.ThrowIfNull(issue);
 
 		await _repository.CreateAsync(issue);
+
 	}
 
 	/// <summary>
@@ -45,14 +55,16 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="issueId">string</param>
 	/// <returns>Task of IssueModel</returns>
-	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<IssueModel> GetIssue(string? issueId)
 	{
-		Guard.Against.NullOrWhiteSpace(issueId, nameof(issueId));
+
+		ArgumentException.ThrowIfNullOrEmpty(issueId);
 
 		IssueModel results = await _repository.GetAsync(issueId);
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -61,6 +73,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
+
 		List<IssueModel>? output = _cache.Get<List<IssueModel>>(CacheName);
 
 		if (output is not null) return output;
@@ -72,6 +85,7 @@ public class IssueService : IIssueService
 		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
+
 	}
 
 	/// <summary>
@@ -79,11 +93,11 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="userId">string</param>
 	/// <returns>Task of List IssueModels</returns>
-	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException"></exception>
 	public async Task<List<IssueModel>> GetIssuesByUser(string userId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
 		List<IssueModel>? output = _cache.Get<List<IssueModel>>(userId);
 
@@ -96,22 +110,6 @@ public class IssueService : IIssueService
 		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return output;
-
-	}
-
-	/// <summary>
-	///		UpdateIssue
-	/// </summary>
-	/// <param name="issue">IssueModel</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public async Task UpdateIssue(IssueModel issue)
-	{
-
-		Guard.Against.Null(issue, nameof(issue));
-
-		await _repository.UpdateAsync(issue.Id, issue);
-
-		_cache.Remove(CacheName);
 
 	}
 
@@ -138,6 +136,22 @@ public class IssueService : IIssueService
 		IEnumerable<IssueModel> results = await _repository.GetApprovedAsync();
 
 		return results.ToList();
+
+	}
+
+	/// <summary>
+	///		UpdateIssue
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task UpdateIssue(IssueModel issue)
+	{
+
+		ArgumentNullException.ThrowIfNull(issue);
+
+		await _repository.UpdateAsync(issue.Id, issue);
+
+		_cache.Remove(CacheName);
 
 	}
 

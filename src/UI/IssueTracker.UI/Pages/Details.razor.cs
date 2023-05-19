@@ -32,10 +32,9 @@ public partial class Details
 	protected override async Task OnInitializedAsync()
 	{
 
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"AuthProvider.GetUserFromAuth(UserService) != null");
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
-		Guard.Against.NullOrWhiteSpace(Id, nameof(Id));
+		ArgumentNullException.ThrowIfNull(Id);
 
 		_issue = await IssueService.GetIssue(Id);
 		var source = new BasicCommentOnSourceModel(_issue);

@@ -76,7 +76,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 
 		ArgumentException.ThrowIfNullOrEmpty(name);
 
-		IMongoCollection<T> collection = Guard.Against.Null(Database.GetCollection<T>(name));
+		IMongoCollection<T> collection = Database.GetCollection<T>(name);
 
 		return collection;
 

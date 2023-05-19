@@ -7,8 +7,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using JetBrains.Annotations;
-
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>

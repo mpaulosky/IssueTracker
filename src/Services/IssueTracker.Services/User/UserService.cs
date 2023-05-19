@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UserService.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		UserService.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.Services.User;
 /// </summary>
 public class UserService : IUserService
 {
+
 	private readonly IUserRepository _repo;
 
 	/// <summary>
@@ -21,7 +24,10 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public UserService(IUserRepository repository)
 	{
-		_repo = Guard.Against.Null(repository, nameof(repository));
+
+		ArgumentNullException.ThrowIfNull(repository);
+		_repo = repository;
+
 	}
 
 	/// <summary>
@@ -32,9 +38,11 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task CreateUser(UserModel user)
 	{
-		Guard.Against.Null(user, nameof(user));
+
+		ArgumentNullException.ThrowIfNull(user);
 
 		return _repo.CreateAsync(user);
+
 	}
 
 	/// <summary>
@@ -45,11 +53,13 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<UserModel> GetUser(string? userId)
 	{
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
 		UserModel results = await _repo.GetAsync(userId);
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -58,9 +68,11 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
+
 		IEnumerable<UserModel> results = await _repo.GetAllAsync();
 
 		return results.ToList();
+
 	}
 
 	/// <summary>
@@ -72,11 +84,12 @@ public class UserService : IUserService
 	public async Task<UserModel> GetUserFromAuthentication(string? userObjectIdentifierId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(userObjectIdentifierId, nameof(userObjectIdentifierId));
+		ArgumentException.ThrowIfNullOrEmpty(userObjectIdentifierId);
 
 		UserModel results = await _repo.GetFromAuthenticationAsync(userObjectIdentifierId);
 
 		return results;
+
 	}
 
 	/// <summary>
@@ -87,8 +100,11 @@ public class UserService : IUserService
 	/// <exception cref="ArgumentNullException"></exception>
 	public Task UpdateUser(UserModel user)
 	{
-		Guard.Against.Null(user, nameof(user));
+
+		ArgumentNullException.ThrowIfNull(user);
 
 		return _repo.UpdateAsync(user.Id, user);
+
 	}
+
 }

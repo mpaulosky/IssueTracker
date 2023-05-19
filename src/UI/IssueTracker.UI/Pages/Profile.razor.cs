@@ -14,6 +14,7 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Profile
 {
+
 	private List<IssueModel>? _approved;
 	private List<IssueModel>? _archived;
 	private List<CommentModel>? _comments;
@@ -28,26 +29,34 @@ public partial class Profile
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await Guard.Against.Null(AuthProvider.GetUserFromAuth(UserService),
-			"Value cannot be null. (Parameter 'userObjectIdentifierId')");
+
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
 		_comments = await CommentService.GetCommentsByUser(_loggedInUser!.Id);
 
 		List<IssueModel> results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
 
-		if (results is not null)
+		if (results.Count != 0)
 		{
+
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
-			_approved = _issues.Where(s => s.ApprovedForRelease && (!s.Archived) && (!s.Rejected))
+			_approved = _issues
+				.Where(s => s is { ApprovedForRelease: true, Archived: false, Rejected: false })
 				.ToList();
 
-			_archived = _issues.Where(s => s.Archived && !s.Rejected).ToList();
+			_archived = _issues
+				.Where(s => s is { Archived: true, Rejected: false })
+				.ToList();
 
-			_pending = _issues.Where(s => !s.ApprovedForRelease && !s.Rejected).ToList();
+			_pending = _issues
+				.Where(s => s is { ApprovedForRelease: false, Rejected: false })
+				.ToList();
 
 			_rejected = _issues.Where(s => s.Rejected).ToList();
+
 		}
+
 	}
 
 	/// <summary>
@@ -55,6 +64,9 @@ public partial class Profile
 	/// </summary>
 	private void ClosePage()
 	{
+
 		NavManager.NavigateTo("/");
+
 	}
+
 }

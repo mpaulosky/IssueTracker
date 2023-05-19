@@ -26,8 +26,11 @@ public class CategoryService : ICategoryService
 	public CategoryService(ICategoryRepository repository, IMemoryCache cache)
 	{
 
-		_repository = Guard.Against.Null(repository, nameof(repository));
-		_cache = Guard.Against.Null(cache, nameof(cache));
+		ArgumentNullException.ThrowIfNull(repository);
+		ArgumentNullException.ThrowIfNull(cache);
+
+		_repository = repository;
+		_cache = cache;
 
 	}
 
@@ -40,7 +43,7 @@ public class CategoryService : ICategoryService
 	public Task CreateCategory(CategoryModel category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
 		_cache.Remove(CacheName);
 
@@ -57,7 +60,7 @@ public class CategoryService : ICategoryService
 	public Task DeleteCategory(CategoryModel category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
 		_cache.Remove(CacheName);
 
@@ -74,7 +77,7 @@ public class CategoryService : ICategoryService
 	public async Task<CategoryModel> GetCategory(string? categoryId)
 	{
 
-		Guard.Against.NullOrWhiteSpace(categoryId, nameof(categoryId));
+		ArgumentException.ThrowIfNullOrEmpty(categoryId);
 
 		CategoryModel result = await _repository.GetAsync(categoryId);
 
@@ -112,7 +115,7 @@ public class CategoryService : ICategoryService
 	public Task UpdateCategory(CategoryModel category)
 	{
 
-		Guard.Against.Null(category, nameof(category));
+		ArgumentNullException.ThrowIfNull(category);
 
 		_cache.Remove(CacheName);
 

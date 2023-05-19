@@ -1,7 +1,9 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="CommentService.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
+// <copyright>
+//	File:		CommentService.cs
+//	Company:mpaulosky
+//	Author:	Matthew Paulosky
+//	Copyright (c) 2022. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,6 +14,7 @@ namespace IssueTracker.Services.Comment;
 /// </summary>
 public class CommentService : ICommentService
 {
+
 	private const string CacheName = "CommentData";
 	private readonly IMemoryCache _cache;
 	private readonly ICommentRepository _repository;
@@ -24,8 +27,13 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public CommentService(ICommentRepository repository, IMemoryCache cache)
 	{
-		_repository = Guard.Against.Null(repository, nameof(repository));
-		_cache = Guard.Against.Null(cache, nameof(cache));
+
+		ArgumentNullException.ThrowIfNull(repository);
+		ArgumentNullException.ThrowIfNull(cache);
+
+		_repository = repository;
+		_cache = cache;
+
 	}
 
 	/// <summary>
@@ -35,9 +43,11 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task CreateComment(CommentModel comment)
 	{
-		Guard.Against.Null(comment, nameof(comment));
+
+		ArgumentNullException.ThrowIfNull(comment);
 
 		await _repository.CreateAsync(comment);
+
 	}
 
 	/// <summary>
@@ -48,11 +58,13 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<CommentModel> GetComment(string commentId)
 	{
-		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
+
+		ArgumentException.ThrowIfNullOrEmpty(commentId);
 
 		CommentModel result = await _repository.GetAsync(commentId);
 
 		return result;
+
 	}
 
 	/// <summary>
@@ -61,6 +73,7 @@ public class CommentService : ICommentService
 	/// <returns>Task of List CommentModels</returns>
 	public async Task<List<CommentModel>> GetComments()
 	{
+
 		List<CommentModel>? output = _cache.Get<List<CommentModel>>(CacheName);
 
 		if (output is not null) return output;
@@ -72,6 +85,7 @@ public class CommentService : ICommentService
 		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
+
 	}
 
 	/// <summary>
@@ -82,11 +96,13 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<CommentModel>> GetCommentsByUser(string userId)
 	{
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
 		IEnumerable<CommentModel> results = await _repository.GetByUserAsync(userId);
 
 		return results.ToList();
+
 	}
 
 	/// <summary>
@@ -97,11 +113,13 @@ public class CommentService : ICommentService
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task<List<CommentModel>> GetCommentsBySource(BasicCommentOnSourceModel source)
 	{
-		Guard.Against.Null(source, nameof(source));
+
+		ArgumentNullException.ThrowIfNull(source);
 
 		IEnumerable<CommentModel> results = await _repository.GetBySourceAsync(source);
 
 		return results.ToList();
+
 	}
 
 	/// <summary>
@@ -112,7 +130,7 @@ public class CommentService : ICommentService
 	public async Task UpdateComment(CommentModel comment)
 	{
 
-		Guard.Against.Null(comment, nameof(comment));
+		ArgumentNullException.ThrowIfNull(comment);
 
 		await _repository.UpdateAsync(comment.Id, comment);
 
@@ -121,19 +139,22 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
-	///		UpvoteComment method
+	///		UpVoteComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	public async Task UpVoteComment(string commentId, string userId)
 	{
-		Guard.Against.NullOrWhiteSpace(commentId, nameof(commentId));
 
-		Guard.Against.NullOrWhiteSpace(userId, nameof(userId));
+		ArgumentException.ThrowIfNullOrEmpty(commentId);
+
+		ArgumentException.ThrowIfNullOrEmpty(userId);
 
 		await _repository.UpVoteAsync(commentId, userId);
 
 		_cache.Remove(CacheName);
+
 	}
+
 }

@@ -1,4 +1,4 @@
-﻿global using Ardalis.GuardClauses;
+﻿// Global using directives
 
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.UseCases.Category.Interfaces;
