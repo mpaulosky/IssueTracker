@@ -7,7 +7,7 @@ public class GetUsersTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "users";
 
 	public GetUsersTests(IssueTrackerTestFactory factory)
 	{
@@ -23,9 +23,6 @@ public class GetUsersTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "users";
-		await _factory.ResetCollectionAsync(_cleanupValue);
-
 		var expected = FakeUser.GetNewUser();
 		await _sut.CreateAsync(expected);
 
@@ -50,7 +47,7 @@ public class GetUsersTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

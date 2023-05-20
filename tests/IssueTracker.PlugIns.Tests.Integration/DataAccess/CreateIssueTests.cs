@@ -7,7 +7,7 @@ public class CreateIssueTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "issues";
 
 	public CreateIssueTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class CreateIssueTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "issues";
 		var expected = FakeIssue.GetNewIssue();
 
 		// Act
@@ -39,7 +38,6 @@ public class CreateIssueTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 
@@ -56,7 +54,7 @@ public class CreateIssueTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

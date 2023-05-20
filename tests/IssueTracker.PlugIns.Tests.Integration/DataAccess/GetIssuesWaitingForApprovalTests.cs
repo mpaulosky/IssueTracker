@@ -7,7 +7,7 @@ public class GetIssuesWaitingForApprovalTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "issues";
 
 	public GetIssuesWaitingForApprovalTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class GetIssuesWaitingForApprovalTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "issues";
 		var expected = FakeIssue.GetNewIssue();
 		expected.Rejected = false;
 		expected.ApprovedForRelease = false;
@@ -48,7 +47,7 @@ public class GetIssuesWaitingForApprovalTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

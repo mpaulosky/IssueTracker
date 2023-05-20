@@ -7,7 +7,7 @@ public class CreateStatusTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "statuses";
 
 	public CreateStatusTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class CreateStatusTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "statuses";
 		var expected = FakeStatus.GetNewStatus();
 
 		// Act
@@ -39,7 +38,6 @@ public class CreateStatusTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 
@@ -56,7 +54,7 @@ public class CreateStatusTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

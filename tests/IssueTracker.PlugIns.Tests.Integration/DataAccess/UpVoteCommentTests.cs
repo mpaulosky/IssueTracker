@@ -8,7 +8,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 {
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private string? _cleanupValue;
+	private const string? CleanupValue = "comments";
 
 	public UpVoteCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -24,7 +24,6 @@ public class UpVoteCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "comments";
 		var expectedUserId = new BsonObjectId(ObjectId.GenerateNewId()).ToString();
 		var expected = FakeComment.GetNewComment();
 		// Clear any existing User Votes
@@ -47,7 +46,6 @@ public class UpVoteCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "comments";
 		var expectedUserId = Guid.NewGuid().ToString("N");
 		var expected = FakeComment.GetNewComment();
 
@@ -76,7 +74,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 }

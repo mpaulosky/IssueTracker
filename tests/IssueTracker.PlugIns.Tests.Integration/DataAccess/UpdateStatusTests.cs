@@ -7,7 +7,7 @@ public class UpdateStatusTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "statuses";
 
 	public UpdateStatusTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class UpdateStatusTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "statuses";
 		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateAsync(expected);
 
@@ -42,7 +41,6 @@ public class UpdateStatusTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 		Func<Task> act = async () => await _sut.UpdateAsync(null!, null!);
@@ -60,7 +58,7 @@ public class UpdateStatusTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

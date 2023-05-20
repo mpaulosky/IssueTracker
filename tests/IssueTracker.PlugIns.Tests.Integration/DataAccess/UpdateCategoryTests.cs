@@ -7,8 +7,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryRepository _sut;
-	private string? _cleanupValue;
-
+	private const string CleanupValue = "categories";
 	public UpdateCategoryTests(IssueTrackerTestFactory factory)
 	{
 
@@ -23,7 +22,6 @@ public class UpdateCategoryTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "categories";
 		var expected = FakeCategory.GetNewCategory(true);
 		await _sut.CreateAsync(expected);
 
@@ -43,7 +41,6 @@ public class UpdateCategoryTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 		Func<Task> act = async () => await _sut.UpdateAsync(null!, null!);
@@ -61,7 +58,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 

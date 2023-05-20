@@ -21,7 +21,7 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 	{
 
 		// Arrange
-		string name = "users";
+		const string name = "users";
 
 		// Act
 		var result =

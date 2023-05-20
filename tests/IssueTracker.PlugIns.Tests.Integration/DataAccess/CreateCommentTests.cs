@@ -7,7 +7,7 @@ public class CreateCommentTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "comments";
 
 	public CreateCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class CreateCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "comments";
 		var expected = FakeComment.GetNewComment();
 
 		// Act
@@ -39,7 +38,6 @@ public class CreateCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 
@@ -56,7 +54,7 @@ public class CreateCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 }

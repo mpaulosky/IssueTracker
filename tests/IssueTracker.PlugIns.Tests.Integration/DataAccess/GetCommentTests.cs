@@ -7,7 +7,7 @@ public class GetCommentTests : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private string? _cleanupValue;
+	private const string CleanupValue = "comments";
 
 	public GetCommentTests(IssueTrackerTestFactory factory)
 	{
@@ -23,7 +23,6 @@ public class GetCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "comments";
 		var expected = FakeComment.GetNewComment();
 		await _sut.CreateAsync(expected);
 
@@ -42,7 +41,6 @@ public class GetCommentTests : IAsyncLifetime
 	public async Task GetComment_With_WithoutData_Should_ReturnNothing_TestAsync()
 	{
 		// Arrange
-		_cleanupValue = "";
 		const string id = "62cf2ad6326e99d665759e5a";
 
 		// Act
@@ -58,7 +56,6 @@ public class GetCommentTests : IAsyncLifetime
 	{
 
 		// Arrange
-		_cleanupValue = "";
 
 		// Act
 		Func<Task<CommentModel>> act = async () => await _sut.GetAsync(null!);
@@ -76,7 +73,7 @@ public class GetCommentTests : IAsyncLifetime
 	public async Task DisposeAsync()
 	{
 
-		await _factory.ResetCollectionAsync(_cleanupValue);
+		await _factory.ResetCollectionAsync(CleanupValue);
 
 	}
 }
