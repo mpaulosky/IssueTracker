@@ -10,13 +10,13 @@ global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Contracts;
 global using IssueTracker.PlugIns.DataAccess;
-global using IssueTracker.PlugIns.Tests.Integration;
 global using IssueTracker.UI;
+
 global using JetBrains.Annotations;
+
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;
-global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
 
 global using MongoDB.Driver;

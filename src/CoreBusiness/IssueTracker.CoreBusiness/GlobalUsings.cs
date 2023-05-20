@@ -1,4 +1,6 @@
-﻿global using System.Linq;
+﻿// Global using directives
+
+global using System.Linq;
 
 global using Bogus;
 

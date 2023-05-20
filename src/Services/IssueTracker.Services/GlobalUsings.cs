@@ -1,4 +1,4 @@
-﻿// Global Using
+﻿// Global using directives
 
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.Services.Category.Interface;

@@ -150,9 +150,9 @@ public class CommentRepository : ICommentRepository
 
 		CommentModel comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
 
-		var isUpvote = comment.UserVotes.Add(userId);
+		var isUpVote = comment.UserVotes.Add(userId);
 
-		if (!isUpvote) comment.UserVotes.Remove(userId);
+		if (!isUpVote) comment.UserVotes.Remove(userId);
 
 		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
 
