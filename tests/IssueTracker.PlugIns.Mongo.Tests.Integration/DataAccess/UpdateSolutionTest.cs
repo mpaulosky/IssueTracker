@@ -7,7 +7,7 @@ public class UpdateSolutionTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly SolutionRepository _sut;
-	private const string? CleanupValue = "solutions";
+	private const string CleanupValue = "solutions";
 
 	public UpdateSolutionTest(IssueTrackerTestFactory factory)
 	{

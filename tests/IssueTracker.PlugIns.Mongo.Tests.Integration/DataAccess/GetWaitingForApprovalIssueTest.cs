@@ -7,7 +7,7 @@ public class GetWaitingForApprovalIssueTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private const string? CleanupValue = "issues";
+	private const string CleanupValue = "issues";
 
 	public GetWaitingForApprovalIssueTest(IssueTrackerTestFactory factory)
 	{

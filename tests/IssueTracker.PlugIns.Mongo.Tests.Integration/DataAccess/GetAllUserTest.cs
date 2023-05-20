@@ -7,7 +7,7 @@ public class GetAllUserTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserRepository _sut;
-	private const string? CleanupValue = "users";
+	private const string CleanupValue = "users";
 
 	public GetAllUserTest(IssueTrackerTestFactory factory)
 	{

@@ -7,7 +7,7 @@ public class GetAllCategoryTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryRepository _sut;
-	private const string? CleanupValue = "categories";
+	private const string CleanupValue = "categories";
 
 	public GetAllCategoryTest(IssueTrackerTestFactory factory)
 	{

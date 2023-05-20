@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-
-namespace IssueTracker.PlugIns.Mongo.DataAccess;
+﻿namespace IssueTracker.PlugIns.Mongo.DataAccess;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
@@ -9,7 +7,7 @@ public class UpVoteSolutionTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly SolutionRepository _sut;
-	private const string? CleanupValue = "solutions";
+	private const string CleanupValue = "solutions";
 
 	public UpVoteSolutionTest(IssueTrackerTestFactory factory)
 	{

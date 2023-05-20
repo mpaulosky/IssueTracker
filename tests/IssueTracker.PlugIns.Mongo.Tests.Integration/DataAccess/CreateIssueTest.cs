@@ -7,7 +7,7 @@ public class CreateIssueTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private const string? CleanupValue = "issues";
+	private const string CleanupValue = "issues";
 
 	public CreateIssueTest(IssueTrackerTestFactory factory)
 	{

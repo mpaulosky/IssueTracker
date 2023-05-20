@@ -7,7 +7,7 @@ public class ArchiveCategoryTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryRepository _sut;
-	private const string? CleanupValue = "categories";
+	private const string CleanupValue = "categories";
 
 	public ArchiveCategoryTest(IssueTrackerTestFactory factory)
 	{
@@ -38,7 +38,7 @@ public class ArchiveCategoryTest : IAsyncLifetime
 		// Act
 		await _sut.ArchiveAsync(update).ConfigureAwait(false);
 
-		var result = await _sut.GetAsync(expected.Id)!.ConfigureAwait(false);
+		var result = await _sut.GetAsync(expected.Id).ConfigureAwait(false);
 
 		// Assert
 		result.Should().NotBeNull();

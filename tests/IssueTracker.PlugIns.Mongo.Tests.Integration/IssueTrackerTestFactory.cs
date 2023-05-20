@@ -56,7 +56,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	}
 
-	public async Task ResetCollectionAsync(string? collection)
+	public async Task ResetCollectionAsync(string collection)
 	{
 
 		if (!string.IsNullOrWhiteSpace(collection))

@@ -7,7 +7,7 @@ public class GetCommentTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private const string? CleanupValue = "comments";
+	private const string CleanupValue = "comments";
 
 	public GetCommentTest(IssueTrackerTestFactory factory)
 	{

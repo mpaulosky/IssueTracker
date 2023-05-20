@@ -7,7 +7,7 @@ public class ArchiveStatusTest : IAsyncLifetime
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusRepository _sut;
-	private const string? CleanupValue = "statuses";
+	private const string CleanupValue = "statuses";
 
 	public ArchiveStatusTest(IssueTrackerTestFactory factory)
 	{
