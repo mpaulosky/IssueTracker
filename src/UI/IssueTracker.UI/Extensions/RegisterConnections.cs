@@ -9,9 +9,9 @@ public static partial class ServiceCollectionExtensions
 		string databaseName = config.GetSection("MongoDbSettings:DatabaseName").Value ?? string.Empty;
 
 		services.AddSingleton<IDatabaseSettings, DatabaseSettings>();
-		
+
 		return services;
-		
+
 	}
 
 }
