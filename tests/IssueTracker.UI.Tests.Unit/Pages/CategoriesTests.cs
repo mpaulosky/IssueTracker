@@ -1,9 +1,4 @@
-﻿using IssueTracker.Services.Category;
-using IssueTracker.Services.Category.Interface;
-using IssueTracker.Services.User;
-using IssueTracker.Services.User.Interface;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CategoriesTests : TestContext

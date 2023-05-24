@@ -1,9 +1,4 @@
-﻿using IssueTracker.Services.Status;
-using IssueTracker.Services.Status.Interface;
-using IssueTracker.Services.User;
-using IssueTracker.Services.User.Interface;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class StatusesTests : TestContext

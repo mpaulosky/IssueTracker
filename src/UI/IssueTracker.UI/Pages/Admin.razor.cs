@@ -35,8 +35,6 @@ public partial class Admin
 	private async Task ApproveIssue(IssueModel issue)
 	{
 
-		if (issue == null) return;
-
 		issue.ApprovedForRelease = true;
 
 		_issues?.Remove(issue);
@@ -51,8 +49,6 @@ public partial class Admin
 	/// <param name="issue">IssueModel</param>
 	private async Task RejectIssue(IssueModel issue)
 	{
-
-		if (issue == null) return;
 
 		issue.Rejected = true;
 

@@ -1,11 +1,5 @@
 ﻿using IssueTracker.Services.Comment;
 using IssueTracker.Services.Comment.Interface;
-using IssueTracker.Services.Issue;
-using IssueTracker.Services.Issue.Interface;
-using IssueTracker.Services.Status;
-using IssueTracker.Services.Status.Interface;
-using IssueTracker.Services.User;
-using IssueTracker.Services.User.Interface;
 
 namespace IssueTracker.UI.Pages;
 
