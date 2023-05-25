@@ -3,17 +3,25 @@
 [ExcludeFromCodeCoverage]
 public class CategoryServiceTests
 {
+
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
-	private CategoryService _sut;
 
 	public CategoryServiceTests()
 	{
+
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+
+	}
+
+	private CategoryService UnitUnderTest()
+	{
+
+		return new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+
 	}
 
 	[Fact(DisplayName = "Create Category With Valid Values")]
@@ -21,16 +29,15 @@ public class CategoryServiceTests
 	{
 
 		// Arrange
-
-		var expected = FakeCategory.GetNewCategory(true);
+		var sut = UnitUnderTest();
+		var expected = FakeCategory.GetNewCategory();
 
 		// Act
-
-		await _sut.CreateCategory(expected);
+		await sut.CreateCategory(expected);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
+		expected.Id.Should().NotBeNull();
 
 		_categoryRepositoryMock
 			.Verify(x =>
@@ -41,15 +48,19 @@ public class CategoryServiceTests
 	[Fact(DisplayName = "Create Category With Invalid Category Throws Exception")]
 	public async Task Create_With_Invalid_Category_Should_Return_ArgumentNullException_TestAsync()
 	{
-		// Arrange
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
+		Func<Task> act = async () => { await sut.CreateCategory(null!); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("category")
+			.WithMessage("Value cannot be null. (Parameter 'category')");
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateCategory(null!));
 	}
 
 	[Fact(DisplayName = "Delete Category")]
@@ -57,18 +68,14 @@ public class CategoryServiceTests
 	{
 
 		// Arrange
-
+		var sut = UnitUnderTest();
 		var expected = FakeCategory.GetNewCategory(true);
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.DeleteCategory(expected);
+		await sut.DeleteCategory(expected);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
 
 		_categoryRepositoryMock
 			.Verify(x =>
@@ -79,57 +86,48 @@ public class CategoryServiceTests
 	[Fact(DisplayName = "Get Category With Valid Id")]
 	public async Task GetCategory_With_Valid_Id_Should_Return_Expected_Category_Test()
 	{
-		//Arrange
 
+		//Arrange
+		var sut = UnitUnderTest();
 		var expected = FakeCategory.GetNewCategory(true);
 
 		_categoryRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var result = await _sut.GetCategory(expected.Id);
+		var result = await sut.GetCategory(expected.Id);
 
 		//Assert
-
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
+
 	}
 
-	[Fact(DisplayName = "Get Category With Empty String Id")]
-	public async Task GetCategory_With_Empty_String_Id_Should_Return_An_ArgumentException_TestAsync()
+	[Theory(DisplayName = "Get Category With Invalid Id")]
+	[InlineData(null, "categoryId", "Value cannot be null.?*")]
+	[InlineData("", "categoryId", "The value cannot be an empty string.?*")]
+	public async Task GetCategory_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value, string expectedParamName, string expectedMessage)
 	{
-		// Arrange
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
+		Func<Task> act = async () => { await sut.GetCategory(value); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetCategory(""));
-	}
-
-	[Fact(DisplayName = "Get Category With Null Id")]
-	public async Task GetCategory_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	{
-		// Arrange
-
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetCategory(null!));
 	}
 
 	[Fact(DisplayName = "Get Categories")]
 	public async Task GetCategories_Should_Return_A_List_Of_Categories_Test()
 	{
-		//Arrange
 
+		//Arrange
+		var sut = UnitUnderTest();
 		const int expectedCount = 5;
 
 		var expected = FakeCategory.GetCategories();
@@ -141,27 +139,24 @@ public class CategoryServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var results = await _sut.GetCategories();
+		var results = await sut.GetCategories();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "Get Categories with cache")]
 	public async Task GetCategories_With_Memory_Cache_Should_A_List_Of_Categories_Test()
 	{
-		//Arrange
 
+		//Arrange
+		var sut = UnitUnderTest();
 		const int expectedCount = 5;
 
 		var expected = FakeCategory.GetCategories();
-
 
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
@@ -175,53 +170,56 @@ public class CategoryServiceTests
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
-		var results = await _sut.GetCategories();
+		var results = await sut.GetCategories();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
+
+	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 
 	[Fact(DisplayName = "Update Category With Valid Category")]
 	public async Task UpdateCategory_With_A_Valid_Category_Should_Succeed_Test()
 	{
-		// Arrange
 
+		// Arrange
+		var sut = UnitUnderTest();
 		var updatedCategory = FakeCategory.GetNewCategory(true);
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.UpdateCategory(updatedCategory);
+		await sut.UpdateCategory(updatedCategory);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
 
 		_categoryRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<CategoryModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Update With Invalid Category")]
 	public async Task UpdateCategory_With_Invalid_Category_Should_Return_ArgumentNullException_Test()
 	{
-		// Arrange
 
-		_sut = new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
+		const string expectedPramName = "category";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.UpdateCategory(null!); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedPramName)
+			.WithMessage(expectedMessage);
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateCategory(null!));
 	}
 
-	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
 }

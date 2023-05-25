@@ -30,7 +30,7 @@ public static class AllServicesToRegister
 
 		builder.Services.AddAuthenticationService(config);
 
-		builder.Services.RegisterConnections(config);
+		builder.Services.RegisterConnections();
 
 		builder.Services.RegisterDatabaseContext();
 

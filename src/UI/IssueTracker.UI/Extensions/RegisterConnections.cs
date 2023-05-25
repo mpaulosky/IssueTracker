@@ -3,7 +3,7 @@
 public static partial class ServiceCollectionExtensions
 {
 
-	public static IServiceCollection RegisterConnections(this IServiceCollection services, ConfigurationManager config)
+	public static IServiceCollection RegisterConnections(this IServiceCollection services)
 	{
 
 		services.AddSingleton<IDatabaseSettings, DatabaseSettings>();

@@ -3,109 +3,117 @@
 [ExcludeFromCodeCoverage]
 public class IssueServiceTests
 {
+
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private IssueService _sut;
 
 	public IssueServiceTests()
 	{
+
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+
+	}
+
+	private IssueService UnitUnderTest()
+	{
+
+		return new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+
 	}
 
 	[Fact(DisplayName = "Create Issue With Valid Values")]
 	public async Task CreateIssue_With_Valid_Values_Should_Return_Test()
 	{
+
 		// Arrange
+		var sut = UnitUnderTest();
 
 		var issue = FakeIssue.GetNewIssue(true);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.CreateIssue(issue);
+		await sut.CreateIssue(issue);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
+		issue.Id.Should().NotBeNull();
 
 		_issueRepositoryMock
 			.Verify(x =>
 				x.CreateAsync(It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Create Issue With Invalid Issue Throws Exception")]
 	public async Task Create_With_Invalid_Issue_Should_Return_ArgumentNullException_TestAsync()
 	{
-		// Arrange
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
+		const string expectedParamName = "issue";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.CreateIssue(null!); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateIssue(null!));
 	}
 
 	[Fact(DisplayName = "Get Issue With Valid Id")]
 	public async Task GetIssue_With_Valid_Id_Should_Return_Expected_Issue_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		var expected = FakeIssue.GetNewIssue(true);
 
 		_issueRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
-
 		//Act
-
-		var result = await _sut.GetIssue(expected.Id);
+		var result = await sut.GetIssue(expected.Id);
 
 		//Assert
-
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
+		result.Title.Should().Be(expected.Title);
+		result.Description.Should().Be(expected.Description);
+
 	}
 
-	[Fact(DisplayName = "Get Issue With Empty String Id")]
-	public async Task GetIssue_With_Empty_String_Id_Should_Return_An_ArgumentException_TestAsync()
+	[Theory(DisplayName = "Get Issue With Invalid Id")]
+	[InlineData(null, "issueId", "Value cannot be null.?*")]
+	[InlineData("", "issueId", "The value cannot be an empty string.?*")]
+	public async Task GetIssue_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value, string expectedParamName, string expectedMessage)
 	{
-		// Arrange
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
+		Func<Task> act = async () => { await sut.GetIssue(value); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetIssue(""));
-	}
-
-	[Fact(DisplayName = "Get Issue With Null Id")]
-	public async Task GetIssue_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	{
-		// Arrange
-
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssue(null));
 	}
 
 	[Fact(DisplayName = "Get Issues")]
 	public async Task GetIssues_Should_Return_A_List_Of_Issues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 6;
 
@@ -118,22 +126,21 @@ public class IssueServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var results = await _sut.GetIssues();
+		var results = await sut.GetIssues();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "Get Issues with cache")]
 	public async Task GetIssues_With_Memory_Cache_Should_A_List_Of_Issues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 6;
 
@@ -151,22 +158,22 @@ public class IssueServiceTests
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
-		var results = await _sut.GetIssues();
+		var results = await sut.GetIssues();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "Get Users Issues With Valid Id")]
 	public async Task GetUsersIssues_With_A_Valid_Id_Should_Return_A_List_Of_User_Issues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 2;
 
@@ -185,22 +192,21 @@ public class IssueServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var results = await _sut.GetIssuesByUser(expectedUser);
+		var results = await sut.GetIssuesByUser(expectedUser);
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "Get Users Issues with cache")]
 	public async Task GetUsersIssues_With_Memory_Cache_Should_Return_A_List_Of_User_Issues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 2;
 
@@ -224,50 +230,42 @@ public class IssueServiceTests
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
-		var results = await _sut.GetIssuesByUser(expectedUser);
+		var results = await sut.GetIssuesByUser(expectedUser);
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
-	[Fact(DisplayName = "Get Users Issues With empty string")]
-	public async Task GetUsersIssues_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync()
+	[Theory(DisplayName = "Get iIssues By User With Invalid Id")]
+	[InlineData(null, "userId", "Value cannot be null.?*")]
+	[InlineData("", "userId", "The value cannot be an empty string.?*")]
+	public async Task GetUsersIssues_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(string value, string expectedParamName, string expectedMessage)
 	{
-		// Arrange
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
+		Func<Task> act = async () => { await sut.GetIssuesByUser(value); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetIssuesByUser(""));
-	}
-
-	[Fact(DisplayName = "Get Users Issues With Null Id")]
-	public async Task GetUsersIssues_With_Null_Users_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	{
-		// Arrange
-
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
-		// Act
-
-		// Assert
-
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetIssuesByUser(userId: null!));
 	}
 
 	[Fact(DisplayName = "GetIssuesWaitingForApproval")]
 	public async Task GetIssuesWaitingForApproval_With_ValidData_Should_ReturnAListOfIssues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 3;
 
@@ -289,10 +287,8 @@ public class IssueServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-		var results = await _sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		var results = await sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
 
 		//Assert
 		results.Should().NotBeNull();
@@ -303,7 +299,9 @@ public class IssueServiceTests
 	[Fact(DisplayName = "GetApprovedIssues")]
 	public async Task GetApprovedIssues_With_ValidData_Should_ReturnAListOfIssues_Test()
 	{
+
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 3;
 
@@ -322,53 +320,57 @@ public class IssueServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
-		var results = await _sut.GetApprovedIssues();
+		var results = await sut.GetApprovedIssues();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact(DisplayName = "Update Issue With Valid Issue")]
 	public async Task UpdateIssue_With_A_Valid_Issue_Should_Succeed_Test()
 	{
+
 		// Arrange
+		var sut = UnitUnderTest();
 
 		var updatedIssue = FakeIssue.GetNewIssue(true);
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.UpdateIssue(updatedIssue);
+		await sut.UpdateIssue(updatedIssue);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
 
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	[Fact(DisplayName = "Update With Invalid Issue")]
 	public async Task UpdateIssue_With_Invalid_Issue_Should_Return_ArgumentNullException_Test()
 	{
-		// Arrange
 
-		_sut = new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
+		// Arrange
+		var sut = UnitUnderTest();
+		const string expectedParamName = "issue";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.UpdateIssue(null!); };
 
 		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateIssue(null!));
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
 }

@@ -73,7 +73,7 @@ public class CategoryService : ICategoryService
 	/// </summary>
 	/// <param name="categoryId">string</param>
 	/// <returns>Task of CategoryModel</returns>
-	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException">ThrowIfNullOrEmpty(categoryId)</exception>
 	public async Task<CategoryModel> GetCategory(string? categoryId)
 	{
 

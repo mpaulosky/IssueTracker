@@ -3,10 +3,10 @@
 [ExcludeFromCodeCoverage]
 public class StatusServiceTests
 {
+
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
-	private StatusService _sut;
 
 	public StatusServiceTests()
 	{
@@ -14,7 +14,13 @@ public class StatusServiceTests
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+
+	}
+
+	private StatusService UnitUnderTest()
+	{
+
+		return new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
 	}
 
@@ -23,18 +29,16 @@ public class StatusServiceTests
 	{
 
 		// Arrange
+		var sut = UnitUnderTest();
 
-		var status = FakeStatus.GetNewStatus(true);
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		var status = FakeStatus.GetNewStatus();
 
 		// Act
-
-		await _sut.CreateStatus(status);
+		await sut.CreateStatus(status);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
+		status.Id.Should().NotBeNull();
 
 		_statusRepositoryMock
 			.Verify(x =>
@@ -47,14 +51,18 @@ public class StatusServiceTests
 	{
 
 		// Arrange
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		var sut = UnitUnderTest();
+		const string expectedParamName = "status";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.CreateStatus(null!); };
 
 		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.CreateStatus(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -63,18 +71,15 @@ public class StatusServiceTests
 	{
 
 		// Arrange
+		var sut = UnitUnderTest();
 
 		var status = FakeStatus.GetNewStatus(true);
 
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.DeleteStatus(status);
+		await sut.DeleteStatus(status);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
 
 		_statusRepositoryMock
 			.Verify(x =>
@@ -87,14 +92,18 @@ public class StatusServiceTests
 	{
 
 		// Arrange
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		var sut = UnitUnderTest();
+		const string expectedParamName = "status";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.DeleteStatus(null!); };
 
 		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.DeleteStatus(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -103,53 +112,40 @@ public class StatusServiceTests
 	{
 
 		//Arrange
+		var sut = UnitUnderTest();
 
 		var expected = FakeStatus.GetNewStatus(true);
 
 		_statusRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var result = await _sut.GetStatus(expected.Id);
+		var result = await sut.GetStatus(expected.Id);
 
 		//Assert
-
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
+		result.StatusName.Should().Be(expected.StatusName);
+		result.StatusDescription.Should().Be(expected.StatusDescription);
 
 	}
 
-	[Fact(DisplayName = "Get Status With Empty String Id")]
-	public async Task GetStatus_With_Empty_String_Id_Should_Return_An_ArgumentException_TestAsync()
+	[Theory(DisplayName = "Get Status With Invalid Id")]
+	[InlineData(null, "statusId", "Value cannot be null.?*")]
+	[InlineData("", "statusId", "The value cannot be an empty string.?*")]
+	public async Task GetStatus_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value, string expectedParamName, string expectedMessage)
 	{
 
 		// Arrange
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
-
-		// Act
-
-		// Assert
-
-		await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetStatus(""));
-
-	}
-
-	[Fact(DisplayName = "Get Status With Null Id")]
-	public async Task GetStatus_With_Null_Id_Should_Return_An_ArgumentNullException_TestAsync()
-	{
-
-		// Arrange
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		var sut = UnitUnderTest();
 
 		// Act
+		Func<Task> act = async () => { await sut.GetStatus(value); };
 
 		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.GetStatus(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -158,6 +154,7 @@ public class StatusServiceTests
 	{
 
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 4;
 
@@ -170,14 +167,10 @@ public class StatusServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
-
 		//Act
-
-		var results = await _sut.GetStatuses();
+		var results = await sut.GetStatuses();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
 
@@ -188,6 +181,7 @@ public class StatusServiceTests
 	{
 
 		//Arrange
+		var sut = UnitUnderTest();
 
 		const int expectedCount = 4;
 
@@ -206,14 +200,11 @@ public class StatusServiceTests
 			.Callback(new OutDelegate<object, object>((object _, out object v) =>
 				v = whatever)) // mocked value here (and/or breakpoint)
 			.Returns(true);
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
 
 		//Act
-
-		var results = await _sut.GetStatuses();
+		var results = await sut.GetStatuses();
 
 		//Assert
-
 		results.Should().NotBeNull();
 		results.Count.Should().Be(expectedCount);
 
@@ -224,18 +215,15 @@ public class StatusServiceTests
 	{
 
 		// Arrange
+		var sut = UnitUnderTest();
 
 		var updatedStatus = FakeStatus.GetNewStatus(true);
 
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
-
 		// Act
-
-		await _sut.UpdateStatus(updatedStatus);
+		await sut.UpdateStatus(updatedStatus);
 
 		// Assert
-
-		_sut.Should().NotBeNull();
+		sut.Should().NotBeNull();
 
 		_statusRepositoryMock
 			.Verify(x =>
@@ -248,16 +236,21 @@ public class StatusServiceTests
 	{
 
 		// Arrange
-
-		_sut = new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+		var sut = UnitUnderTest();
+		const string expectedParamName = "status";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.UpdateStatus(null!); };
 
 		// Assert
-
-		await Assert.ThrowsAsync<ArgumentNullException>(() => _sut.UpdateStatus(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
 }

@@ -70,7 +70,7 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <param name="name">string collection name</param>
 	/// <typeparam name="T">The Entity Name cref="CategoryModel"</typeparam>
 	/// <returns>IMongoCollection</returns>
-	/// <exception cref="ArgumentNullException"></exception>
+	/// <exception cref="ArgumentException">ThrowIfNullOrEmpty(name)</exception>
 	public IMongoCollection<T> GetCollection<T>(string name)
 	{
 

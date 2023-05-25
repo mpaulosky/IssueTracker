@@ -5,22 +5,19 @@ namespace IssueTracker.PlugIns.DataAccess;
 public class MongoDbContextTests
 {
 
-	private readonly IMongoDbContextFactory _sut;
+	const string ConnectionString = "mongodb://test123";
+	const string DatabaseName = "TestDb";
 
-	public MongoDbContextTests()
+	private static MongoDbContextFactory UnitUnderTest()
 	{
 
-		const string connectionString = "mongodb://test123";
-		const string databaseName = "TestDb";
-
-		DatabaseSettings settings = new DatabaseSettings(connectionString, databaseName)
+		DatabaseSettings settings = new DatabaseSettings(ConnectionString, DatabaseName)
 		{
-			ConnectionString = connectionString,
-			DatabaseName = databaseName
+			ConnectionString = ConnectionString,
+			DatabaseName = DatabaseName
 		};
 
-
-		_sut = Substitute.For<MongoDbContextFactory>(settings);
+		return Substitute.For<MongoDbContextFactory>(settings);
 
 	}
 
@@ -29,29 +26,35 @@ public class MongoDbContextTests
 	{
 
 		// Arrange
-		const string expectedConnectionString = "mongodb://test123";
-		const string expectedDbName = "TestDb";
+		var sut = UnitUnderTest();
 
 		// Act
 
 		// Assert
-		_sut.Should().NotBeNull();
-		_sut.Client.Should().NotBeNull();
-		_sut.DbName.Should().Be(expectedDbName);
-		_sut.ConnectionString.Should().Be(expectedConnectionString);
+		sut.Should().NotBeNull();
+		sut.Client.Should().NotBeNull();
+		sut.ConnectionString.Should().Be(ConnectionString);
+		sut.DbName.Should().Be(DatabaseName);
 
 	}
 
-	[Fact]
-	public void GetCollection_With_EmptyName_Should_Fail_Test()
+	[Theory]
+	[InlineData(null, "Value cannot be null. (Parameter 'name')")]
+	[InlineData("", "The value cannot be an empty string. (Parameter 'name')")]
+	public void GetCollection_With_Invalid_Name_Should_Fail_Test(string value, string expectedMessage)
 	{
 
 		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
+		Action act = () => sut.GetCollection<UserModel>(value);
 
 		// Assert
-		Assert.Throws<ArgumentException>(() => _sut.GetCollection<UserModel>(""));
+		act.Should()
+			.Throw<ArgumentException>()
+			.WithParameterName("name")
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -60,10 +63,11 @@ public class MongoDbContextTests
 	{
 
 		// Arrange
+		var sut = UnitUnderTest();
 
 		// Act
 		var myCollection =
-			_sut.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
+			sut.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 		// Assert
 		myCollection.Should().NotBeNull();

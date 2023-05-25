@@ -13,8 +13,8 @@ public class DatabaseSettingsTests
 		};
 	}
 
-	[Fact]
-	public void TestMethod1()
+	[Fact(DisplayName = "CreateDatabaseSettings")]
+	public void CreateDatabaseSettings_With_Valid_Data_Should_Be_Successful_Test()
 	{
 
 		// Arrange
