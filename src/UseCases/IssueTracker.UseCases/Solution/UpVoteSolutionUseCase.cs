@@ -24,10 +24,10 @@ public class UpVoteSolutionUseCase : IUpVoteSolutionUseCase
 	public async Task ExecuteAsync(SolutionModel? solution, UserModel? user)
 	{
 
-		ArgumentNullException.ThrowIfNull(nameof(solution));
-		ArgumentNullException.ThrowIfNull(nameof(user));
+		ArgumentNullException.ThrowIfNull(solution);
+		ArgumentNullException.ThrowIfNull(user);
 
-		await _solutionRepository.UpVoteAsync(solution!.Id, user!.Id);
+		await _solutionRepository.UpVoteAsync(solution.Id, user.Id);
 
 	}
 
