@@ -208,7 +208,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments with memory cache")]
-	public async Task GetCommentsByUser_Using_Memory_Cache_And_A_Valid_User_Should_Return_A_List_Of_User_Comments_Test()
+	public async Task GetCommentsByUserUsingMemoryCacheAndAValidUserShouldReturnCommentsTestAsync()
 	{
 
 		//Arrange

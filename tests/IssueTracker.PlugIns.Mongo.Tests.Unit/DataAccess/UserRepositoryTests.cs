@@ -242,11 +242,6 @@ public class UserRepositoryTests
 		updatedUser.DisplayName = expected.DisplayName;
 		updatedUser.Archived = true;
 
-
-		//_list = new List<UserModel> { updatedUser };
-
-		//_cursor.Setup(_ => _.Current).Returns(_list);
-
 		_mockContext.Setup(c => c
 			.GetCollection<UserModel>(It.IsAny<string>()))
 			.Returns(_mockCollection.Object);
