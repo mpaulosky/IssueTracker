@@ -173,7 +173,7 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments With Valid Id")]
-	public async Task GetCommentsByUser_With_A_Valid_Id_Should_Return_A_List_Of_User_Comments_Test()
+	public async Task GetByUserAsync_With_A_Valid_Id_Should_Return_A_List_Of_User_Comments_Test()
 	{
 
 		//Arrange
@@ -208,13 +208,13 @@ public class CommentServiceTests
 	}
 
 	[Fact(DisplayName = "Get Users Comments with memory cache")]
-	public async Task GetCommentsByUserUsingMemoryCacheAndAValidUserShouldReturnCommentsTestAsync()
+	public async Task GetByUserAsync_With_Cache_Should_Return_A_ListOfComments_TestAsync()
 	{
 
 		//Arrange
 		var sut = UnitUnderTest();
 
-		const int expectedCount = 2;
+		const int expectedCount = 3;
 		var comments = FakeComment.GetComments(expectedCount).ToList();
 
 		const string expectedUser = "5dc1039a1521eaa36835e541";

@@ -36,20 +36,8 @@ public class GetByUserSolutionTest : IAsyncLifetime
 
 	}
 
-	[Fact]
-	public Task InitializeAsync()
-	{
+	public Task InitializeAsync() => Task.CompletedTask;
 
-		return Task.CompletedTask;
-
-	}
-
-	[Fact]
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
+	public async Task DisposeAsync() => await _factory.ResetCollectionAsync(CleanupValue);
 
 }

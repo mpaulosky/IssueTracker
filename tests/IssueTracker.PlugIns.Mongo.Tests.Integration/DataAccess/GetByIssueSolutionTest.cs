@@ -33,7 +33,7 @@ public class GetByIssueSolutionTest : IAsyncLifetime
 		}
 
 		// Act
-		var result = (await _sut.GetByIssueAsync(source.Id))!.ToList();
+		var result = (await _sut.GetByIssueAsync(source))!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();
