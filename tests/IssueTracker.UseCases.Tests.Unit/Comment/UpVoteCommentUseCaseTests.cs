@@ -26,6 +26,8 @@ public class UpVoteCommentUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
+		const string expectedParamName = "comment";
+		const string expectedMessage = "Value cannot be null.?*";
 		CommentModel? comment = null;
 		UserModel user = FakeUser.GetNewUser(true);
 
@@ -35,8 +37,8 @@ public class UpVoteCommentUseCaseTests
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentNullException>()
-			.WithParameterName("comment")
-			.WithMessage("Value cannot be null. (Parameter 'comment')");
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -46,6 +48,8 @@ public class UpVoteCommentUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
+		const string expectedParamName = "user";
+		const string expectedMessage = "Value cannot be null.?*";
 		CommentModel comment = FakeComment.GetNewComment(true);
 		UserModel? user = null;
 
@@ -55,8 +59,8 @@ public class UpVoteCommentUseCaseTests
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentNullException>()
-			.WithParameterName("user")
-			.WithMessage("Value cannot be null. (Parameter 'user')");
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

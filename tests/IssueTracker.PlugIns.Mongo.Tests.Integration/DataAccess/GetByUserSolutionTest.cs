@@ -25,10 +25,9 @@ public class GetByUserSolutionTest : IAsyncLifetime
 		// Arrange
 		var solution = FakeSolution.GetNewSolution();
 		await _sut.CreateAsync(solution);
-		var userId = solution.Author.Id;
 
 		// Act
-		var result = (await _sut.GetByUserAsync(userId))!.ToList();
+		var result = (await _sut.GetByUserAsync(solution.Author))!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();

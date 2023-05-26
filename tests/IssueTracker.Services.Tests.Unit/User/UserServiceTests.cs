@@ -59,6 +59,7 @@ public class UserServiceTests
 			.ThrowAsync<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
+
 	}
 
 	[Fact(DisplayName = "Get User With Valid Id")]

@@ -38,15 +38,22 @@ public class ArchiveSolutionUseCaseTests
 	}
 
 	[Fact(DisplayName = "ArchiveSolutionUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	public async Task ExecuteAsync_With_InValidData_Should_ReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
 		var sut = this.CreateUseCase();
+		const string expectedParamName = "solution";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
+
 		// Assert
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

@@ -174,7 +174,7 @@ public class SolutionRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		var results = (await sut.GetByUserAsync(expected.Author.Id))!.First();
+		var results = (await sut.GetByUserAsync(expected.Author))!.First();
 
 		//Assert 
 		results.Should().NotBeNull();

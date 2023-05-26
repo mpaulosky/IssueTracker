@@ -13,7 +13,7 @@ public static partial class ServiceCollectionExtensions
 		services.AddTransient<ICreateSolutionUseCase, CreateSolutionUseCase>();
 		services.AddTransient<IUpdateSolutionUseCase, UpdateSolutionUseCase>();
 		services.AddTransient<IViewSolutionsUseCase, ViewSolutionsUseCase>();
-		services.AddTransient<IViewSolutionsByIssueIdUseCase, ViewSolutionsByIssueIdUseCase>();
+		services.AddTransient<IViewSolutionsByIssueUseCase, ViewSolutionsByIssueUseCase>();
 		services.AddTransient<IViewSolutionsByUserUseCase, ViewSolutionsByUserUseCase>();
 		services.AddTransient<IViewSolutionsUseCase, ViewSolutionsUseCase>();
 

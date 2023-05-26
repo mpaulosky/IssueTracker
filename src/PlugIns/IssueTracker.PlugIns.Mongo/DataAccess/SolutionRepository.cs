@@ -116,13 +116,13 @@ public class SolutionRepository : ISolutionRepository
 	/// <summary>
 	/// GetSolutionsByUserIdAsync method
 	/// </summary>
-	/// <param name="userId">string user Id</param>
+	/// <param name="user"></param>
 	/// <returns>Task of IEnumerable SolutionModel</returns>
-	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(string? userId)
+	public async Task<IEnumerable<SolutionModel>?> GetByUserAsync(BasicUserModel user)
 	{
 
 		return (await _collection
-			.FindAsync(s => s.Author.Id == userId && !s.Archived))
+			.FindAsync(s => s.Author.Id == user.Id && !s.Archived))
 			.ToList();
 
 	}
@@ -165,4 +165,8 @@ public class SolutionRepository : ISolutionRepository
 
 	}
 
+	public Task<IEnumerable<SolutionModel>?> GetByIssueAsync(BasicIssueModel? issue)
+	{
+		throw new NotImplementedException();
+	}
 }

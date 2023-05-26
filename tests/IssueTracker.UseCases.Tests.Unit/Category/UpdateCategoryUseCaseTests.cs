@@ -20,7 +20,7 @@ public class UpdateCategoryUseCaseTests
 
 	}
 
-	[Fact(DisplayName = "EditCategoryUseCase With Valid Data Test")]
+	[Fact(DisplayName = "UpdateCategoryUseCase With Valid Data Test")]
 	public async Task ExecuteAsync_WithValidData_ShouldEditItem_TestAsync()
 	{
 
@@ -39,16 +39,23 @@ public class UpdateCategoryUseCaseTests
 
 	}
 
-	[Fact(DisplayName = "EditCategoryUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnNull_TestAsync()
+	[Fact(DisplayName = "UpdateCategoryUseCase With In Valid Data Test")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
 		var sut = this.CreateUseCase();
+		const string expectedParamName = "category";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
+
 		// Assert
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

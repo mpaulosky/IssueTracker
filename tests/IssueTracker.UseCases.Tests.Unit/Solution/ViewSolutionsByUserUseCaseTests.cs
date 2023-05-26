@@ -25,7 +25,7 @@ public class ViewSolutionsByUserUseCaseTests
 			expected
 		};
 
-		_solutionRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<string>()))
+		_solutionRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<BasicUserModel>()))
 			.ReturnsAsync(result);
 
 		return new ViewSolutionsByUserUseCase(_solutionRepositoryMock.Object);
@@ -43,7 +43,7 @@ public class ViewSolutionsByUserUseCaseTests
 		var sut = CreateUseCase(expected);
 
 		// Act
-		var result = (await sut.ExecuteAsync(expectedUser.Id))!.First();
+		var result = (await sut.ExecuteAsync(expected.Author))!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -53,20 +53,27 @@ public class ViewSolutionsByUserUseCaseTests
 		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetByUserAsync(It.IsAny<string>()), Times.Once);
+			x.GetByUserAsync(It.IsAny<BasicUserModel>()), Times.Once);
 
 	}
 
 	[Fact(DisplayName = "ViewSolutionsByUserUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync()
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
 		var sut = CreateUseCase(null);
+		const string expectedParamName = "user";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
+
 		// Assert
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

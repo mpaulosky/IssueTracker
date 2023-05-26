@@ -20,7 +20,7 @@ public class UpdateCommentUseCaseTests
 
 	}
 
-	[Fact(DisplayName = "EditCommentUseCase With Valid Data Test")]
+	[Fact(DisplayName = "UpdateCommentUseCase With Valid Data Test")]
 	public async Task Execute_With_ValidData_Should_EditComment_TestAsync()
 	{
 
@@ -38,16 +38,23 @@ public class UpdateCommentUseCaseTests
 
 	}
 
-	[Fact(DisplayName = "EditCommentUseCase With In Valid Data Test")]
-	public async Task Execute_With_InValidData_Should_ReturnNull_TestAsync()
+	[Fact(DisplayName = "UpdateCommentUseCase With In Valid Data Test")]
+	public async Task Execute_With_InValidData_Should_ReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
 		var sut = this.CreateUseCase();
+		const string expectedParamName = "comment";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
+
 		// Assert
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

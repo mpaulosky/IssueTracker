@@ -50,28 +50,26 @@ public class ViewCategoryUseCaseTests
 
 		_categoryRepositoryMock.Verify(x =>
 				x.GetAsync(It.IsAny<string>()), Times.Once);
+
 	}
 
 	[Theory(DisplayName = "ViewCategoryByIdUseCase With In Valid Data Test")]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	[InlineData(null, "categoryId", "Value cannot be null.?*")]
+	[InlineData("", "categoryId", "The value cannot be an empty string.?*")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentException_TestAsync(string? expectedId, string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		var sut = CreateUseCase(null);
 
 		// Act
-		// Assert
-		switch (expectedId)
-		{
-			case null:
-				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
-				break;
-			case "":
-				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
-				break;
-		}
-	}
+		Func<Task> act = async () => { await sut.ExecuteAsync(expectedId); };
 
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
+	}
 
 }

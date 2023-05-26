@@ -51,24 +51,25 @@ public class ViewCommentUseCaseTests
 	}
 
 	[Theory(DisplayName = "ViewCommentByIdUseCase With In Valid Data Test")]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	[InlineData(null, "commentId", "Value cannot be null.?*")]
+	[InlineData("", "commentId", "The value cannot be an empty string.?*")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentException_TestAsync(
+		string? expectedId,
+		string expectedParamName,
+		string expectedMessage)
 	{
 		// Arrange
 		var sut = CreateUseCase(null);
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(expectedId); };
+
 		// Assert
-		switch (expectedId)
-		{
-			case null:
-				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
-				break;
-			case "":
-				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
-				break;
-		}
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 }

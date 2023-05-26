@@ -20,9 +20,9 @@ public interface ISolutionRepository
 
 	Task<IEnumerable<SolutionModel>?> GetAllAsync(bool includeArchived = false);
 
-	Task<IEnumerable<SolutionModel>?> GetByIssueAsync(string? issueId);
+	Task<IEnumerable<SolutionModel>?> GetByIssueAsync(BasicIssueModel? issue);
 
-	Task<IEnumerable<SolutionModel>?> GetByUserAsync(string? userId);
+	Task<IEnumerable<SolutionModel>?> GetByUserAsync(BasicUserModel user);
 
 	Task UpdateAsync(SolutionModel? solution);
 

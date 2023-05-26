@@ -11,6 +11,6 @@ namespace IssueTracker.UseCases.Solution.Interfaces;
 
 public interface IViewSolutionsByUserUseCase
 {
-	Task<IEnumerable<SolutionModel>?> ExecuteAsync(string? userId);
+	Task<IEnumerable<SolutionModel>?> ExecuteAsync(BasicUserModel? user);
 
 }

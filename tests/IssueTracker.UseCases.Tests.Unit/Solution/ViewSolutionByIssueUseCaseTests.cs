@@ -13,11 +13,11 @@ public class ViewSolutionsByIssueIdUseCaseTests
 
 	}
 
-	private ViewSolutionsByIssueIdUseCase CreateUseCase(SolutionModel? expected)
+	private ViewSolutionsByIssueUseCase CreateUseCase(SolutionModel? expected)
 	{
 		if (expected == null)
 		{
-			return new ViewSolutionsByIssueIdUseCase(_solutionRepositoryMock.Object);
+			return new ViewSolutionsByIssueUseCase(_solutionRepositoryMock.Object);
 		}
 
 		var result = new List<SolutionModel>
@@ -26,10 +26,10 @@ public class ViewSolutionsByIssueIdUseCaseTests
 		};
 
 		_solutionRepositoryMock.Setup(x => x
-				.GetByIssueAsync(It.IsAny<string>()))
+				.GetByIssueAsync(It.IsAny<BasicIssueModel>()))
 			.ReturnsAsync(result);
 
-		return new ViewSolutionsByIssueIdUseCase(_solutionRepositoryMock.Object);
+		return new ViewSolutionsByIssueUseCase(_solutionRepositoryMock.Object);
 
 	}
 
@@ -43,7 +43,7 @@ public class ViewSolutionsByIssueIdUseCaseTests
 		var issue = expected.Issue;
 
 		// Act
-		var result = (await sut.ExecuteAsync(issue.Id))!.First();
+		var result = (await sut.ExecuteAsync(issue))!.First();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -53,20 +53,27 @@ public class ViewSolutionsByIssueIdUseCaseTests
 		result.Author.Should().BeEquivalentTo(expected.Author);
 
 		_solutionRepositoryMock.Verify(x =>
-			x.GetByIssueAsync(It.IsAny<string>()), Times.Once);
+			x.GetByIssueAsync(It.IsAny<BasicIssueModel>()), Times.Once);
 
 	}
 
 	[Fact(DisplayName = "ViewSolutionsBySourceUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync()
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
 		var sut = CreateUseCase(null);
+		const string expectedParamName = "issue";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
+
 		// Assert
-		_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(null!));
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

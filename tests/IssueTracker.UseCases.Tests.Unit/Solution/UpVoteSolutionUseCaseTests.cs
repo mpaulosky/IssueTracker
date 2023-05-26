@@ -26,6 +26,8 @@ public class UpVoteSolutionUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
+		const string expectedParamName = "solution";
+		const string expectedMessage = "Value cannot be null.?*";
 		SolutionModel? solution = null;
 		UserModel user = FakeUser.GetNewUser(true);
 
@@ -35,8 +37,8 @@ public class UpVoteSolutionUseCaseTests
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentNullException>()
-			.WithParameterName("solution")
-			.WithMessage("Value cannot be null. (Parameter 'solution')");
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -46,6 +48,8 @@ public class UpVoteSolutionUseCaseTests
 
 		// Arrange
 		var sut = CreateUseCase();
+		const string expectedParamName = "user";
+		const string expectedMessage = "Value cannot be null.?*";
 		SolutionModel solution = FakeSolution.GetNewSolution(true);
 		UserModel? user = null;
 
@@ -55,8 +59,8 @@ public class UpVoteSolutionUseCaseTests
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentNullException>()
-			.WithParameterName("user")
-			.WithMessage("Value cannot be null. (Parameter 'user')");
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

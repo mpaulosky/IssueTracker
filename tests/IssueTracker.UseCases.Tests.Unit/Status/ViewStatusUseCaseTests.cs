@@ -50,24 +50,25 @@ public class ViewStatusUseCaseTests
 	}
 
 	[Theory(DisplayName = "ViewStatusUseCase With In Valid Data Test")]
-	[InlineData(null)]
-	[InlineData("")]
-	public async Task ExecuteAsync_WithInValidData_ShouldReturnValidData_TestAsync(string? expectedId)
+	[InlineData(null, "statusId", "Value cannot be null.?*")]
+	[InlineData("", "statusId", "The value cannot be an empty string.?*")]
+	public async Task ExecuteAsync_WithInValidData_ShouldReturnArgumentException_TestAsync(
+		string? expectedId,
+		string expectedParamName,
+		string expectedMessage)
 	{
 		// Arrange
 		var sut = CreateUseCase(null);
 
 		// Act
+		Func<Task> act = async () => { await sut.ExecuteAsync(expectedId); };
+
 		// Assert
-		switch (expectedId)
-		{
-			case null:
-				_ = await Assert.ThrowsAsync<ArgumentNullException>(() => sut.ExecuteAsync(expectedId!));
-				break;
-			case "":
-				_ = await Assert.ThrowsAsync<ArgumentException>(() => sut.ExecuteAsync(expectedId));
-				break;
-		}
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 }
