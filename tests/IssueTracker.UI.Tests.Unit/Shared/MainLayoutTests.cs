@@ -1,19 +1,28 @@
 ﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class MainLayoutTests
+public class MainLayoutTests : TestContext
 {
+
+	private readonly UserModel _expectedUser;
+
+	public MainLayoutTests()
+	{
+
+		_expectedUser = FakeUser.GetNewUser(true);
+
+	}
+
 	[Fact]
 	public void MainLayout_Should_DisplayMainLayout_Test()
 	{
+
 		// Arrange
-		using var ctx = new TestContext();
-		TestAuthorizationContext authContext = ctx.AddTestAuthorization();
-		authContext.SetAuthorized("TEST USER");
-		authContext.SetPolicies("Admin");
+		SetAuthenticationAndAuthorization(true, true);
+
 
 		// Act
-		IRenderedComponent<MainLayout> cut = ctx.RenderComponent<MainLayout>();
+		IRenderedComponent<MainLayout> cut = RenderComponent<MainLayout>();
 
 		// Assert
 		cut.MarkupMatches
@@ -32,5 +41,24 @@ public class MainLayoutTests
 				</main>
 			</div>"
 		);
+
 	}
+
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
+	{
+
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
+
+		if (isAuth)
+		{
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
+		}
+
+		if (isAdmin) authContext.SetPolicies("Admin");
+
+	}
+
 }

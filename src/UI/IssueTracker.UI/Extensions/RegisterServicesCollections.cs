@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------
 
 using IssueTracker.Services.Category;
-using IssueTracker.Services.Category.Interface;
 using IssueTracker.Services.Comment;
 using IssueTracker.Services.Comment.Interface;
 using IssueTracker.Services.Issue;

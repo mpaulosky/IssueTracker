@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class NotAuthorizedTests
+public class NotAuthorizedTests : TestContext
 {
 
 	[Fact]
@@ -9,10 +9,9 @@ public class NotAuthorizedTests
 	{
 
 		// Arrange
-		using var ctx = new TestContext();
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
+		IRenderedComponent<NotAuthorized> cut = RenderComponent<NotAuthorized>();
 
 		// Assert
 		cut.MarkupMatches
@@ -42,16 +41,15 @@ public class NotAuthorizedTests
 
 		// Arrange
 		const string expectedUri = "http://localhost/";
-
-		using var ctx = new TestContext();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = ctx.RenderComponent<NotAuthorized>();
+		IRenderedComponent<NotAuthorized> cut = RenderComponent<NotAuthorized>();
+
 		IElement buttonElement = cut.Find("button");
 		buttonElement.Click();
 
 		// Assert
-		FakeNavigationManager navMan = ctx.Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 

@@ -1,7 +1,4 @@
-﻿using IssueTracker.Services.Comment;
-using IssueTracker.Services.Comment.Interface;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class CommentTests : TestContext
@@ -34,15 +31,27 @@ public class CommentTests : TestContext
 	{
 
 		// Arrange
-		this.AddTestAuthorization();
+		const string expectedParamName = "_loggedInUser";
+		const string expectedMessage = "Value cannot be null.?*";
+
+		SetAuthenticationAndAuthorization(false, true);
 
 		RegisterServices();
 
 		// Act
+		var act = () => RenderComponent<Comment>(parameter =>
+		{
+
+			parameter
+				.Add(p => p.Id, _expectedIssue.Id);
+
+		});
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+		act.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -51,21 +60,28 @@ public class CommentTests : TestContext
 	{
 
 		// Arrange
+		const string expectedParamName = "issueId";
+		const string expectedMessage = "Value cannot be null.?*";
+
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
-
-		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Comment>(parameter =>
+		var act = () => RenderComponent<Comment>(parameter =>
 		{
 
 			parameter.Add(p => p.Id, null);
 
-		}));
+		});
+
+		// Assert
+		act.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 
@@ -79,7 +95,7 @@ public class CommentTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -90,6 +106,7 @@ public class CommentTests : TestContext
 				.Add(p => p.Id, _expectedIssue.Id);
 
 		});
+
 		cut.Find("#close-page").Click();
 
 		// Assert
@@ -107,7 +124,7 @@ public class CommentTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -138,16 +155,21 @@ public class CommentTests : TestContext
 
 	}
 
-	private void SetAuthenticationAndAuthorization(bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
-
-		authContext.SetClaims(new Claim("objectidentifier", _expectedUser.Id));
+		if (isAuth)
+		{
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
+		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()

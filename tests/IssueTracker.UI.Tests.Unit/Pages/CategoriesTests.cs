@@ -35,7 +35,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -142,7 +142,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 
 		RegisterServices();
 
@@ -224,7 +224,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -240,6 +240,7 @@ public class CategoriesTests : TestContext
 	[Fact]
 	public void Categories_AddNewCategoryButton_Should_CancelInsertOnCancel_Test()
 	{
+
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -330,7 +331,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -355,7 +356,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -385,7 +386,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -416,7 +417,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -525,7 +526,7 @@ public class CategoriesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -551,25 +552,28 @@ public class CategoriesTests : TestContext
 
 	}
 
-	private void SetAuthenticationAndAuthorization(bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
-
-		authContext.SetClaims(
-			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)
-		);
+		if (isAuth)
+		{
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
+		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()
 	{
 
-		Services.AddSingleton<ICategoryService>(new CategoryService(_categoryRepositoryMock.Object,
-			_memoryCacheMock.Object));
+		Services.AddSingleton<ICategoryService>(
+			new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object));
 
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 

@@ -17,7 +17,7 @@ public partial class Categories
 {
 
 	private RadzenDataGrid<CategoryModel>? _categoriesGrid;
-	private List<CategoryModel> _categories = new();
+	private List<CategoryModel>? _categories = new();
 	private CategoryModel? _categoryToInsert;
 	private CategoryModel? _categoryToUpdate;
 

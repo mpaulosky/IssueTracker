@@ -1,7 +1,4 @@
-﻿using IssueTracker.Services.Comment;
-using IssueTracker.Services.Comment.Interface;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
@@ -37,7 +34,7 @@ public class DetailsTests : TestContext
 	public void Details_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 		// Arrange
-		this.AddTestAuthorization();
+		SetAuthenticationAndAuthorization(false, false);
 
 		RegisterServices();
 
@@ -57,7 +54,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -78,7 +75,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -123,7 +120,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -176,7 +173,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -198,7 +195,7 @@ public class DetailsTests : TestContext
 
 		var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -229,7 +226,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -253,7 +250,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -278,7 +275,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -339,7 +336,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -385,7 +382,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -412,7 +409,7 @@ public class DetailsTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(true);
+		SetAuthenticationAndAuthorization(true, true);
 		RegisterServices();
 
 		// Act
@@ -475,18 +472,21 @@ public class DetailsTests : TestContext
 
 	}
 
-	private void SetAuthenticationAndAuthorization(bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		var authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser.DisplayName);
-		authContext.SetClaims(
-			new Claim("objectidentifier", _expectedUser.Id)
-		);
 
-		if (isAdmin)
+		TestAuthorizationContext authContext = this.AddTestAuthorization();
+
+		if (isAuth)
 		{
-			authContext.SetPolicies("Admin");
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
 		}
+
+		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()

@@ -17,7 +17,7 @@ public partial class Statuses
 {
 
 	private RadzenDataGrid<StatusModel> _statusesGrid = new();
-	private List<StatusModel> _statuses = new();
+	private List<StatusModel>? _statuses = new();
 	private StatusModel? _statusToInsert;
 	private StatusModel? _statusToUpdate;
 

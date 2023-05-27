@@ -1,7 +1,4 @@
-﻿using IssueTracker.Services.Comment;
-using IssueTracker.Services.Comment.Interface;
-
-namespace IssueTracker.UI.Pages;
+﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class ProfileTests : TestContext
@@ -35,21 +32,30 @@ public class ProfileTests : TestContext
 	[Fact]
 	public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
+
 		// Arrange
-		this.AddTestAuthorization();
+		const string expectedParamName = "userObjectIdentifierId";
+		const string expectedMessage = "Value cannot be null.?*";
+
+		SetAuthenticationAndAuthorization(false, false);
 
 		RegisterServices();
 
 		// Act
+		var act = () => RenderComponent<Profile>();
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Profile>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+		act.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 	[Fact]
 	public void Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
@@ -68,6 +74,7 @@ public class ProfileTests : TestContext
 		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Fact]
@@ -112,20 +119,27 @@ public class ProfileTests : TestContext
 
 	private void SetupMocks()
 	{
+
 		_issueRepositoryMock
-			.Setup(x => x.GetByUserAsync(_expectedUser.Id))
-			.ReturnsAsync(_expectedIssues);
+			.Setup(x => x
+				.GetByUserAsync(_expectedUser.Id))
+				.ReturnsAsync(_expectedIssues);
 
 		_userRepositoryMock
-			.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedUser);
+			.Setup(x => x
+				.GetFromAuthenticationAsync(It.IsAny<string>()))
+				.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
-			.Setup(x => x.GetByUserAsync(It.IsAny<string>())).ReturnsAsync(_expectedComments);
+			.Setup(x => x
+				.GetByUserAsync(It.IsAny<string>()))
+				.ReturnsAsync(_expectedComments);
+
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
+
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
 		if (isAuth)
@@ -137,23 +151,30 @@ public class ProfileTests : TestContext
 		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
+
 	}
 
 	private void RegisterServices()
 	{
-		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
-			_memoryCacheMock.Object));
-		Services.AddSingleton<ICommentService>(new CommentService(_commentRepositoryMock.Object,
-			_memoryCacheMock.Object));
+
+		Services.AddSingleton<IIssueService>(
+			new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
+
+		Services.AddSingleton<ICommentService>(
+			new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object));
+
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
+
 	}
 
 	private void SetMemoryCache()
 	{
+
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
 	}
 
 }

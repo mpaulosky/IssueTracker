@@ -10,10 +10,13 @@ global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Contracts;
 global using IssueTracker.PlugIns.DataAccess;
+global using IssueTracker.Services.Category.Interface;
+global using IssueTracker.Services.Comment.Interface;
+global using IssueTracker.Services.Issue.Interface;
 global using IssueTracker.Services.PlugInRepositoryInterfaces;
+global using IssueTracker.Services.Status.Interface;
 global using IssueTracker.Services.User.Interface;
 global using IssueTracker.UI.Extensions;
-
 global using IssueTracker.UI.Helpers;
 global using IssueTracker.UI.Models;
 

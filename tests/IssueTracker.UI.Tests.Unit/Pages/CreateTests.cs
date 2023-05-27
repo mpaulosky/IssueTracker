@@ -54,7 +54,7 @@ public class CreateTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -128,7 +128,7 @@ public class CreateTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 		// Act
@@ -150,7 +150,7 @@ public class CreateTests : TestContext
 
 		using var ctx = new TestContext();
 
-		SetAuthenticationAndAuthorization(false);
+		SetAuthenticationAndAuthorization(false, true);
 		RegisterServices();
 
 
@@ -181,14 +181,18 @@ public class CreateTests : TestContext
 
 	}
 
-	private void SetAuthenticationAndAuthorization(bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
-		authContext.SetAuthorized(_expectedUser.DisplayName);
-		authContext.SetClaims(
-			new Claim("objectidentifier", _expectedUser.Id)
-		);
+
+		if (isAuth)
+		{
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
+		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
 

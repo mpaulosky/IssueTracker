@@ -415,7 +415,6 @@ public class AdminTests : TestContext
 
 		}
 
-
 		_issueRepositoryMock.Setup(x => x.GetWaitingForApprovalAsync()).ReturnsAsync(expected);
 
 	}

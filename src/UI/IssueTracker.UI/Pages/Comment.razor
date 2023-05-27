@@ -1,7 +1,4 @@
 ﻿@page "/Comment/{Id}"
-@using IssueTracker.Services.Issue.Interface
-@using IssueTracker.Services.User.Interface
-@using IssueTracker.Services.Comment.Interface
 
 @attribute [Authorize]
 
@@ -29,10 +26,7 @@
 						<div class="mb-2 suggestion-detail-author">@_issue.Author.DisplayName</div>
 						<div class="mb-2 d-none d-md-block">@_issue.Description</div>
 						<div class="suggestion-entry-text-category d-none d-md-block">
-							@if (_issue.Category is not null)
-							{
-								@_issue.Category.CategoryName
-							}
+							@_issue.Category.CategoryName
 						</div>
 					</div>
 				</div>
@@ -44,10 +38,7 @@
 				<div class="issue-detail-text">
 					<div>@_issue.Description</div>
 					<div class="text-category">
-						@if (_issue.Category is not null)
-						{
-							@_issue.Category.CategoryName
-						}
+						@_issue.Category.CategoryName
 					</div>
 				</div>
 			</div>

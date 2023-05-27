@@ -36,7 +36,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -197,7 +197,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 
 		RegisterServices();
 
@@ -415,7 +415,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -601,7 +601,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -626,7 +626,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -656,7 +656,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -687,7 +687,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -874,7 +874,7 @@ public class StatusesTests : TestContext
 		SetupMocks();
 		SetMemoryCache();
 
-		SetAuthenticationAndAuthorization(isAdmin: true);
+		SetAuthenticationAndAuthorization(isAdmin: true, true);
 		RegisterServices();
 
 		// Act
@@ -900,16 +900,18 @@ public class StatusesTests : TestContext
 
 	}
 
-	private void SetAuthenticationAndAuthorization(bool isAdmin)
+	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
 
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		authContext.SetAuthorized(_expectedUser.DisplayName);
-
-		authContext.SetClaims(
-			new Claim("objectidentifier", _expectedUser.ObjectIdentifier)
-		);
+		if (isAuth)
+		{
+			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetClaims(
+				new Claim("objectidentifier", _expectedUser.Id)
+			);
+		}
 
 		if (isAdmin) authContext.SetPolicies("Admin");
 
