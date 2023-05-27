@@ -13,7 +13,7 @@ public class MongoDbContextTests
 
 		DatabaseSettings settings = new DatabaseSettings(ConnectionString, DatabaseName)
 		{
-			ConnectionString = ConnectionString,
+			ConnectionStrings = ConnectionString,
 			DatabaseName = DatabaseName
 		};
 

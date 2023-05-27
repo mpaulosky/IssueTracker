@@ -8,7 +8,7 @@ public class DatabaseSettingsTests
 	{
 		return new DatabaseSettings(expectedCs, expectedDbName)
 		{
-			ConnectionString = expectedCs,
+			ConnectionStrings = expectedCs,
 			DatabaseName = expectedDbName
 		};
 	}
@@ -26,7 +26,7 @@ public class DatabaseSettingsTests
 
 
 		// Assert
-		databaseSettings.ConnectionString.Should().Be(expectedCs);
+		databaseSettings.ConnectionStrings.Should().Be(expectedCs);
 		databaseSettings.DatabaseName.Should().Be(expectedDbName);
 
 	}

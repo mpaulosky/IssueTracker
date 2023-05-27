@@ -22,11 +22,11 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	public MongoDbContextFactory(IDatabaseSettings settings)
 	{
 
-		ConnectionString = settings.ConnectionString;
+		ConnectionString = settings.ConnectionStrings;
 
 		DbName = settings.DatabaseName;
 
-		Client = new MongoClient(settings.ConnectionString);
+		Client = new MongoClient(settings.ConnectionStrings);
 
 		Database = Client.GetDatabase(settings.DatabaseName);
 

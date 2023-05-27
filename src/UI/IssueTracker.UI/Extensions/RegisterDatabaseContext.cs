@@ -10,7 +10,7 @@ namespace IssueTracker.UI.Extensions;
 /// <summary>
 /// IServiceCollectionExtensions
 /// </summary>
-public static partial class IServiceCollectionExtensions
+public static partial class ServiceCollectionExtensions
 {
 
 	/// <summary>

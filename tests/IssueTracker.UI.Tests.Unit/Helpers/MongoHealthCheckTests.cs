@@ -23,8 +23,10 @@ public class MongoHealthCheckTests : TestContext
 
 		return withDatabase switch
 		{
+
 			true => new MongoHealthCheck(_mockContext.Object),
 			_ => new MongoHealthCheck(_mockContextWithoutDatabase.Object)
+
 		};
 
 	}
@@ -32,6 +34,7 @@ public class MongoHealthCheckTests : TestContext
 	[Fact]
 	public async Task CheckHealthAsync_With_Mock_Database_Returns_Healthy_Status_TestAsync()
 	{
+
 		// Arrange
 		var mongoHealthCheck = CreateMongoHealthCheck();
 		var context = new HealthCheckContext();
@@ -51,6 +54,7 @@ public class MongoHealthCheckTests : TestContext
 	[Fact]
 	public async Task CheckHealthAsync_WithOut_Mock_Database_Returns_UnHealthy_Status_TestAsync()
 	{
+
 		// Arrange
 		var mongoHealthCheck = CreateMongoHealthCheck(false);
 		var context = new HealthCheckContext();

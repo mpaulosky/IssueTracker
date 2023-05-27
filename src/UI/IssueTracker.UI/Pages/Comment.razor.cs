@@ -28,6 +28,7 @@ public partial class Comment
 	{
 
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
+		ArgumentNullException.ThrowIfNull(_loggedInUser);
 
 		_issue = await IssueService.GetIssue(issueId: Id);
 
@@ -38,7 +39,7 @@ public partial class Comment
 	/// </summary>
 	private async Task CreateComment()
 	{
-		CommentModel? comment = new()
+		CommentModel comment = new()
 		{
 			CommentOnSource = new BasicCommentOnSourceModel(_issue!),
 			Author = new BasicUserModel(_loggedInUser!),

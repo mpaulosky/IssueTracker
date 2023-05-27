@@ -77,11 +77,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FC86CE77-93D3-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{33B90B27-918B-4980-9987-2B10B393B9DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Services", "src\Services\IssueTracker.Services\IssueTracker.Services.csproj", "{F68D1DFB-153C-4F7A-AE19-D67DA7BF05D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Services", "src\Services\IssueTracker.Services\IssueTracker.Services.csproj", "{F68D1DFB-153C-4F7A-AE19-D67DA7BF05D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service Tests", "Service Tests", "{6DF49DDD-CFB8-4979-8374-CC9EAF66CFD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.Services.Tests.Unit", "tests\IssueTracker.Services.Tests.Unit\IssueTracker.Services.Tests.Unit.csproj", "{59CE646C-9719-4BE0-AA92-6E34F144D0A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Services.Tests.Unit", "tests\IssueTracker.Services.Tests.Unit\IssueTracker.Services.Tests.Unit.csproj", "{59CE646C-9719-4BE0-AA92-6E34F144D0A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

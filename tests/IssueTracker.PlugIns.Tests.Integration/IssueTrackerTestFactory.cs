@@ -78,7 +78,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 		DbConfig = new DatabaseSettings(connString, dbName)
 		{
-			ConnectionString = connString,
+			ConnectionStrings = connString,
 			DatabaseName = dbName
 		};
 

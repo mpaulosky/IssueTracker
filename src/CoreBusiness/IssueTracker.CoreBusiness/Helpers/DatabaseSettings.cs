@@ -15,24 +15,24 @@ namespace IssueTracker.CoreBusiness.Helpers;
 public class DatabaseSettings : IDatabaseSettings
 {
 
-	public DatabaseSettings(string connectionString, string databaseName)
+	public DatabaseSettings(string connectionStrings, string databaseName)
 	{
 
-		ConnectionString = connectionString;
+		ConnectionStrings = connectionStrings;
 		DatabaseName = databaseName;
 
 	}
 
-	public required string ConnectionString { get; init; }
+	public string ConnectionStrings { get; init; }
 
-	public required string DatabaseName { get; init; }
+	public string DatabaseName { get; init; }
 
 }
 
 public interface IDatabaseSettings
 {
 
-	string ConnectionString { get; init; }
+	string ConnectionStrings { get; init; }
 
 	string DatabaseName { get; init; }
 
