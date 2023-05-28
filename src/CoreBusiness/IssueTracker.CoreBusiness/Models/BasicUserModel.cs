@@ -31,6 +31,9 @@ public class BasicUserModel
 	{
 
 		Id = user.Id;
+		FirstName = user.FirstName;
+		LastName = user.LastName;
+		EmailAddress = user.EmailAddress;
 		DisplayName = user.DisplayName;
 
 	}
@@ -40,10 +43,18 @@ public class BasicUserModel
 	/// </summary>
 	/// <param name="id">The identifier.</param>
 	/// <param name="displayName">The display name.</param>
-	public BasicUserModel(string id, string displayName) : this()
+	public BasicUserModel(
+		string id,
+		string firstName,
+		string lastName,
+		string emailAddress,
+		string displayName) : this()
 	{
 
 		Id = id;
+		FirstName = firstName;
+		LastName = lastName;
+		EmailAddress = emailAddress;
 		DisplayName = displayName;
 
 	}
@@ -57,11 +68,35 @@ public class BasicUserModel
 	public string Id { get; init; } = string.Empty;
 
 	/// <summary>
-	/// Gets the display name.
+	/// Gets or sets the first name.
+	/// </summary>
+	/// <value>
+	/// The first name.
+	/// </value>
+	public string FirstName { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the last name.
+	/// </summary>
+	/// <value>
+	/// The last name.
+	/// </value>
+	public string LastName { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the display name.
 	/// </summary>
 	/// <value>
 	/// The display name.
 	/// </value>
-	public string DisplayName { get; init; } = string.Empty;
+	public string DisplayName { get; set; } = string.Empty;
+
+	/// <summary>
+	/// Gets or sets the email address.
+	/// </summary>
+	/// <value>
+	/// The email address.
+	/// </value>
+	public string EmailAddress { get; set; } = string.Empty;
 
 }
