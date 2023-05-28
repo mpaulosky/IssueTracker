@@ -12,12 +12,26 @@
 
 <h1 class="page-heading text-uppercase mb-4">Issues</h1>
 
-<div class="issue-container">
-	<button @onclick="LoadCreateIssuePage" class="btn btn-outline-light btn-lg text-uppercase">
-		New
-		Issue
-	</button>
-</div>
+<AuthorizeView>
+
+	<Authorized>
+
+		<div class="issue-container">
+			<button @onclick="LoadCreateIssuePage" class="btn btn-outline-light btn-lg text-uppercase">
+				New
+				Issue
+			</button>
+		</div>
+
+	</Authorized>
+
+	<NotAuthorized>
+
+		<a class="login-link" href="MicrosoftIdentity/Account/SignIn">To Create a new Issue please Login</a>
+
+	</NotAuthorized>
+
+</AuthorizeView>
 
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
@@ -66,17 +80,17 @@
 		{
 			@if ((bool)_showStatuses)
 			{
-				
-			<div class="statuses">
-				<span class="text-uppercase fw-bold">Status</span>
-				<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
-				@foreach (var s in _statuses)
-				{
-					<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">
-						@s.StatusName
-					</div>
-				}
-			</div>
+
+				<div class="statuses">
+					<span class="text-uppercase fw-bold">Status</span>
+					<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
+					@foreach (var s in _statuses)
+					{
+						<div class="@GetSelectedStatusCssClass(s.StatusName)" @onclick="() => OnStatusClick(s.StatusName)">
+							@s.StatusName
+						</div>
+					}
+				</div>
 
 			}
 

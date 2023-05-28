@@ -161,7 +161,8 @@ public class IssueRepositoryTests
 
 		foreach (var item in expected)
 		{
-			item.Author = new BasicUserModel(expectedUserId, "test");
+			item.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones");
+
 		}
 
 		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();

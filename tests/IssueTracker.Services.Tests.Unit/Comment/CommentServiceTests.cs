@@ -182,11 +182,12 @@ public class CommentServiceTests
 		const int expectedCount = 2;
 		var comments = FakeComment.GetComments(expectedCount).ToList();
 
-		const string expectedUser = "5dc1039a1521eaa36835e541";
+		const string expectedUserId = "5dc1039a1521eaa36835e541";
 
 		foreach (var comment in comments)
 		{
-			comment.Author = new BasicUserModel(expectedUser, "test");
+			comment.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones");
+
 		}
 
 		var expected = comments.ToList();
@@ -199,7 +200,7 @@ public class CommentServiceTests
 			.Returns(_mockCacheEntry.Object);
 
 		//Act
-		var results = await sut.GetCommentsByUser(expectedUser);
+		var results = await sut.GetCommentsByUser(expectedUserId);
 
 		//Assert
 		results.Should().NotBeNull();
@@ -217,11 +218,12 @@ public class CommentServiceTests
 		const int expectedCount = 3;
 		var comments = FakeComment.GetComments(expectedCount).ToList();
 
-		const string expectedUser = "5dc1039a1521eaa36835e541";
+		const string expectedUserId = "5dc1039a1521eaa36835e541";
 
 		foreach (var comment in comments)
 		{
-			comment.Author = new BasicUserModel(expectedUser, "test");
+			comment.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones");
+
 		}
 
 		var expected = comments.ToList();
@@ -234,7 +236,7 @@ public class CommentServiceTests
 			.Returns(_mockCacheEntry.Object);
 
 		//Act
-		var results = await sut.GetCommentsByUser(expectedUser);
+		var results = await sut.GetCommentsByUser(expectedUserId);
 
 		//Assert
 		results.Should().NotBeNull();

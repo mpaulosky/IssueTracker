@@ -179,9 +179,9 @@ public class IssueServiceTests
 
 		var issues = FakeIssue.GetIssues(expectedCount).ToList();
 
-		const string expectedUser = "5dc1039a1521eaa36835e541";
+		const string expectedUserId = "5dc1039a1521eaa36835e541";
 
-		foreach (var issue in issues) { issue.Author = new BasicUserModel(expectedUser, "test"); }
+		foreach (var issue in issues) { issue.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones"); }
 
 		var expected = issues;
 
@@ -193,7 +193,7 @@ public class IssueServiceTests
 			.Returns(_mockCacheEntry.Object);
 
 		//Act
-		var results = await sut.GetIssuesByUser(expectedUser);
+		var results = await sut.GetIssuesByUser(expectedUserId);
 
 		//Assert
 		results.Should().NotBeNull();
@@ -207,14 +207,13 @@ public class IssueServiceTests
 
 		//Arrange
 		var sut = UnitUnderTest();
-
 		const int expectedCount = 2;
 
 		var issues = FakeIssue.GetIssues(expectedCount).ToList();
 
-		const string expectedUser = "5dc1039a1521eaa36835e541";
+		const string expectedUserId = "5dc1039a1521eaa36835e541";
 
-		foreach (var issue in issues) { issue.Author = new BasicUserModel(expectedUser, "test"); }
+		foreach (var issue in issues) { issue.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones"); }
 
 		var expected = issues;
 
@@ -232,7 +231,7 @@ public class IssueServiceTests
 			.Returns(true);
 
 		//Act
-		var results = await sut.GetIssuesByUser(expectedUser);
+		var results = await sut.GetIssuesByUser(expectedUserId);
 
 		//Assert
 		results.Should().NotBeNull();

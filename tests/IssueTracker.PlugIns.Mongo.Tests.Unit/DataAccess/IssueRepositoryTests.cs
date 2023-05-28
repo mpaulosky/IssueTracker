@@ -196,7 +196,7 @@ public class IssueRepositoryTests
 		// Arrange
 		const int expectedCount = 2;
 		string expectedUserId = new BsonObjectId(ObjectId.GenerateNewId()).ToString();
-		var expectedAuthor = new BasicUserModel(expectedUserId, "jimjones");
+		var expectedAuthor = new BasicUserModel(id: expectedUserId!, "Jim", "Jones", "jimjones@test.com", "jimjones");
 
 		var expected = FakeIssue.GetIssues(expectedCount).ToList();
 		expected[0].Author = expectedAuthor;

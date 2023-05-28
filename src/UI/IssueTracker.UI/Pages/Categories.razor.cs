@@ -71,7 +71,7 @@ public partial class Categories
 	private async Task DeleteRow(CategoryModel category)
 	{
 
-		if (_categories.Contains(category)) _categories.Remove(category);
+		if (_categories!.Contains(category)) _categories.Remove(category);
 
 		_categoriesGrid!.CancelEditRow(category);
 
@@ -98,7 +98,7 @@ public partial class Categories
 
 		await CategoryService.CreateCategory(category);
 
-		_categories.Add(category);
+		_categories!.Add(category);
 
 		await _categoriesGrid!.Reload();
 
