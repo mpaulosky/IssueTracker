@@ -1,14 +1,10 @@
 ﻿@page "/solution"
-@using IssueTracker.UseCases.Solution.Interfaces
-@using IssueTracker.UseCases.Users.Interfaces
 
 @attribute [Authorize]
 
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
-@inject ICreateSolutionUseCase SolutionUseCase
-@inject IViewUserFromAuthenticationUseCase ViewUserFromAuthenticationUseCase
-@inject IUserRepository UserService
+@inject IUserService UserService
 
 <h3>Solution</h3>
 
@@ -18,7 +14,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		_loggedInUser = await AuthProvider.GetUserFromAuth(ViewUserFromAuthenticationUseCase);
+		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 	}
 }
 

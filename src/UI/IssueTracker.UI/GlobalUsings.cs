@@ -19,7 +19,6 @@ global using IssueTracker.Services.User.Interface;
 global using IssueTracker.UI.Extensions;
 global using IssueTracker.UI.Helpers;
 global using IssueTracker.UI.Models;
-global using IssueTracker.UseCases.Solution;
 
 global using JetBrains.Annotations;
 

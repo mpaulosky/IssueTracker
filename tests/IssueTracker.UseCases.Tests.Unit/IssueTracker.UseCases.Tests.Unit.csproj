@@ -29,7 +29,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-		<ProjectReference Include="..\..\src\UseCases\IssueTracker.UseCases\IssueTracker.UseCases.csproj" />
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 
