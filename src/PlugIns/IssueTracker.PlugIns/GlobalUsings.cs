@@ -1,5 +1,6 @@
 ﻿// Global using directives
 
+global using IssueTracker.CoreBusiness.Contracts;
 global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Contracts;

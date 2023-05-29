@@ -1,0 +1,24 @@
+﻿@page "/solution"
+@using IssueTracker.UseCases.Solution.Interfaces
+@using IssueTracker.UseCases.Users.Interfaces
+
+@attribute [Authorize]
+
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject ICreateSolutionUseCase SolutionUseCase
+@inject IViewUserFromAuthenticationUseCase ViewUserFromAuthenticationUseCase
+@inject IUserRepository UserService
+
+<h3>Solution</h3>
+
+@code {
+	private CreateSolutionDto _solution = new CreateSolutionDto();
+	private UserModel? _loggedInUser;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_loggedInUser = await AuthProvider.GetUserFromAuth(ViewUserFromAuthenticationUseCase);
+	}
+}
+

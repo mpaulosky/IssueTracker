@@ -52,11 +52,11 @@ public partial class Index
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		AuthenticationState? authState = await AuthProvider.GetAuthenticationStateAsync();
+		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (!string.IsNullOrWhiteSpace(objectId))
 		{
-			_loggedInUser = await UserService.GetUserFromAuthentication(objectId) ?? new UserModel();
+			_loggedInUser = await UserService.GetUserFromAuthentication(objectId);
 			var firstName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("givenname"))?.Value;
 			var lastName = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("surname"))?.Value;
 			var displayName = authState.User.Claims.FirstOrDefault(c => c.Type.Equals("name"))?.Value;
@@ -158,11 +158,11 @@ public partial class Index
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		List<IssueModel>? output = await IssueService.GetApprovedIssues();
+		List<IssueModel> output = await IssueService.GetApprovedIssues();
 
-		if (_selectedCategory != "All") output = output.Where(s => s.Category?.CategoryName == _selectedCategory).ToList();
+		if (_selectedCategory != "All") output = output.Where(s => s.Category.CategoryName == _selectedCategory).ToList();
 
-		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus?.StatusName == _selectedStatus).ToList();
+		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus.StatusName == _selectedStatus).ToList();
 
 		if (!string.IsNullOrWhiteSpace(_searchText))
 			output = output.Where(s =>

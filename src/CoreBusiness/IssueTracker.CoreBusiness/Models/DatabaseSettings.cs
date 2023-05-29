@@ -7,13 +7,18 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace IssueTracker.CoreBusiness.Helpers;
+namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///		DatabaseSettings class
 /// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {
+
+	public DatabaseSettings()
+	{
+
+	}
 
 	public DatabaseSettings(string connectionStrings, string databaseName)
 	{
@@ -23,17 +28,8 @@ public class DatabaseSettings : IDatabaseSettings
 
 	}
 
-	public string ConnectionStrings { get; init; }
+	public string ConnectionStrings { get; set; } = null!;
 
-	public string DatabaseName { get; init; }
-
-}
-
-public interface IDatabaseSettings
-{
-
-	string ConnectionStrings { get; init; }
-
-	string DatabaseName { get; init; }
+	public string DatabaseName { get; set; } = null!;
 
 }

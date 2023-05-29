@@ -3,7 +3,7 @@
 global using System.Linq;
 
 global using Bogus;
-
+global using IssueTracker.CoreBusiness.Contracts;
 global using IssueTracker.CoreBusiness.Models;
 
 global using MongoDB.Bson;

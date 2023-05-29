@@ -7,8 +7,9 @@ public static partial class ServiceCollectionExtensions
 	{
 
 		var section = config.GetSection("MongoDbSettings");
-		var mongoClientConfig = section.Get<MongoDbSettings>();
-		services.AddSingleton<IDatabaseSettings>(_ => new DatabaseSettings(mongoClientConfig!.ConnectionStrings!, mongoClientConfig!.DatabaseName!));
+		ArgumentNullException.ThrowIfNull(section);
+		DatabaseSettings mongoSettings = section.Get<DatabaseSettings>()!;
+		services.AddSingleton<IDatabaseSettings>(mongoSettings);
 
 		return services;
 

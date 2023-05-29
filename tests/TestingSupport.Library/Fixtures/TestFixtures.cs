@@ -1,4 +1,5 @@
-﻿using IssueTracker.PlugIns.Contracts;
+﻿using IssueTracker.CoreBusiness.Models;
+using IssueTracker.PlugIns.Contracts;
 
 namespace TestingSupport.Library.Fixtures;
 
@@ -93,7 +94,7 @@ public static class TestFixtures
 
 	}
 
-	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionStrings)
+	public static IOptions<DatabaseSettings> Settings(string connectionStrings, string databaseName)
 	{
 
 		var settings = new DatabaseSettings(connectionStrings: connectionStrings, databaseName: databaseName)

@@ -71,7 +71,7 @@ public partial class Statuses
 	private async Task DeleteRow(StatusModel status)
 	{
 
-		if (_statuses.Contains(status)) _statuses.Remove(status);
+		if (_statuses!.Contains(status)) _statuses.Remove(status);
 
 		_statusesGrid.CancelEditRow(status);
 
@@ -98,7 +98,7 @@ public partial class Statuses
 
 		await StatusService.CreateStatus(status);
 
-		_statuses.Add(status);
+		_statuses!.Add(status);
 
 		await _statusesGrid.Reload();
 

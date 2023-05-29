@@ -15,11 +15,11 @@ namespace IssueTracker.UI.Pages;
 public partial class Details
 {
 
-	private List<CommentModel> _comments = new();
+	private List<CommentModel>? _comments = new();
 
-	private IssueModel _issue = new();
+	private IssueModel? _issue = new();
 
-	private UserModel _loggedInUser = new();
+	private UserModel? _loggedInUser = new();
 	private string? _settingStatus;
 	private List<StatusModel> _statuses = new();
 	private string? _urlText;
@@ -56,28 +56,28 @@ public partial class Details
 
 				if (string.IsNullOrWhiteSpace(_urlText)) return;
 
-				StatusModel? selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
-				_issue.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
+				StatusModel selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				_issue!.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
 
 				break;
 
 			case "in work":
 
-				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
 					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 
 				break;
 
 			case "watching":
 
-				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
 					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 
 				break;
 
 			case "dismissed":
 
-				_issue.IssueStatus = new BasicStatusModel(_statuses.First(s =>
+				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
 					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
 
 				break;

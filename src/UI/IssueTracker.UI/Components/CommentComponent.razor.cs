@@ -11,14 +11,15 @@ public partial class CommentComponent
 {
 	[Parameter] public CommentModel Item { get; set; } = new();
 
-	[Parameter] public UserModel LoggedInUser { get; set; } = new();
+	[Parameter] public UserModel? LoggedInUser { get; set; } = new();
 
 	/// <summary>
 	///		VoteUp method
 	/// </summary>
 	/// <param name = "comment">CommentModel</param>
-	private async Task VoteUp(CommentModel comment)
+	public async Task VoteUp(CommentModel comment)
 	{
+
 		if (LoggedInUser is not null)
 		{
 			if (comment.Author.Id == LoggedInUser.Id) return; // Can't vote on your own comments
@@ -27,6 +28,7 @@ public partial class CommentComponent
 
 			await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
 		}
+
 	}
 
 	/// <summary>
@@ -34,9 +36,9 @@ public partial class CommentComponent
 	/// </summary>
 	/// <param name = "comment">CommentModel</param>
 	/// <returns>string</returns>
-	private string GetUpVoteTopText(CommentModel comment)
+	public string GetUpVoteTopText(CommentModel comment)
 	{
-		if (comment.UserVotes?.Count > 0) return comment.UserVotes.Count.ToString("00");
+		if (comment.UserVotes.Count > 0) return comment.UserVotes.Count.ToString("00");
 
 		return comment.Author.Id == LoggedInUser?.Id ? "Awaiting" : "Click To";
 	}
@@ -46,9 +48,11 @@ public partial class CommentComponent
 	/// </summary>
 	/// <param name = "comment">CommentModel</param>
 	/// <returns>string</returns>
-	private static string GetUpVoteBottomText(CommentModel comment)
+	public string GetUpVoteBottomText(CommentModel comment)
 	{
-		return comment.UserVotes?.Count > 1 ? "UpVotes" : "UpVote";
+
+		return comment.UserVotes.Count > 1 ? "UpVotes" : "UpVote";
+
 	}
 
 	/// <summary>
@@ -56,10 +60,12 @@ public partial class CommentComponent
 	/// </summary>
 	/// <param name = "comment">CommentModel</param>
 	/// <returns>string css class</returns>
-	private string GetVoteCssClass(CommentModel comment)
+	public string GetVoteCssClass(CommentModel comment)
 	{
-		if (comment.UserVotes is null || comment.UserVotes.Count == 0) return "issue-detail-no-votes";
 
-		return comment.UserVotes.Contains(LoggedInUser.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
+		if (comment.UserVotes.Count == 0) return "issue-detail-no-votes";
+
+		return comment.UserVotes.Contains(LoggedInUser!.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
+
 	}
 }

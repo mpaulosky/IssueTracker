@@ -12,26 +12,12 @@
 
 <h1 class="page-heading text-uppercase mb-4">Issues</h1>
 
-<AuthorizeView>
-
-	<Authorized>
-
-		<div class="issue-container">
-			<button @onclick="LoadCreateIssuePage" class="btn btn-outline-light btn-lg text-uppercase">
-				New
-				Issue
-			</button>
-		</div>
-
-	</Authorized>
-
-	<NotAuthorized>
-
-		<a class="login-link" href="MicrosoftIdentity/Account/SignIn">To Create a new Issue please Login</a>
-
-	</NotAuthorized>
-
-</AuthorizeView>
+<div class="issue-container">
+	<button @onclick="LoadCreateIssuePage" class="btn btn-outline-light btn-lg text-uppercase">
+		New
+		Issue
+	</button>
+</div>
 
 <div class="row">
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
@@ -52,7 +38,7 @@
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null)
 		{
-			@if ((bool)_showCategories)
+			@if (_showCategories)
 			{
 
 				<div class="categories">
@@ -78,7 +64,7 @@
 
 		@if (_statuses is not null)
 		{
-			@if ((bool)_showStatuses)
+			@if (_showStatuses)
 			{
 
 				<div class="statuses">

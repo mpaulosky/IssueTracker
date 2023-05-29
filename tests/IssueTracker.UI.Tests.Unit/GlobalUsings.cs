@@ -30,6 +30,7 @@ global using IssueTracker.Services.Status;
 global using IssueTracker.Services.Status.Interface;
 global using IssueTracker.Services.User;
 global using IssueTracker.Services.User.Interface;
+global using IssueTracker.UI.Components;
 global using Microsoft.Extensions.Caching.Memory;
 
 global using Moq;

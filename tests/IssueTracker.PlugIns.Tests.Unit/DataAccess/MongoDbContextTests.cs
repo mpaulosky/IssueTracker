@@ -1,5 +1,4 @@
-﻿
-namespace IssueTracker.PlugIns.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests

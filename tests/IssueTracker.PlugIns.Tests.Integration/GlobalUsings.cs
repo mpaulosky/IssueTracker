@@ -6,6 +6,7 @@ global using System.Net;
 global using FluentAssertions;
 
 global using IssueTracker.CoreBusiness.BogusFakes;
+global using IssueTracker.CoreBusiness.Contracts;
 global using IssueTracker.CoreBusiness.Helpers;
 global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.PlugIns.Contracts;

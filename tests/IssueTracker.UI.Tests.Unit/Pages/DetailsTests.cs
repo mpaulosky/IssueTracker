@@ -462,6 +462,7 @@ public class DetailsTests : TestContext
 		{
 			comment.CommentOnSource = new BasicCommentOnSourceModel(_expectedIssue);
 		}
+
 		_commentRepositoryMock
 			.Setup(x => x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
 			.ReturnsAsync(comments);
@@ -507,4 +508,5 @@ public class DetailsTests : TestContext
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 	}
+
 }

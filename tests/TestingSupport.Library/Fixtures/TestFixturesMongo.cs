@@ -1,4 +1,5 @@
-﻿using IssueTracker.PlugIns.Mongo.Contracts;
+﻿using IssueTracker.CoreBusiness.Models;
+using IssueTracker.PlugIns.Mongo.Contracts;
 
 namespace TestingSupport.Library.Fixtures;
 
@@ -76,16 +77,4 @@ public static class TestFixturesMongo
 
 	}
 
-	public static IOptions<DatabaseSettings> Settings(string databaseName, string connectionStrings)
-	{
-
-		var settings = new DatabaseSettings(connectionStrings: connectionStrings, databaseName: databaseName)
-		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
-		};
-
-		return Options.Create(settings);
-
-	}
 }

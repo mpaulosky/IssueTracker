@@ -26,6 +26,19 @@ public class StatusesTests : TestContext
 
 	}
 
+	private IRenderedComponent<Statuses> ComponentUnderTest()
+	{
+
+		SetupMocks();
+		SetMemoryCache();
+		RegisterServices();
+
+		IRenderedComponent<Statuses> component = RenderComponent<Statuses>();
+
+		return component;
+
+	}
+
 	[Fact]
 	public void Statuses_CloseButton_Should_WhenClickedNavigateToIndexPage_Test()
 	{
@@ -33,14 +46,10 @@ public class StatusesTests : TestContext
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.Find("#close-page").Click();
 
@@ -194,15 +203,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
 
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
@@ -412,14 +416,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -598,14 +598,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -623,14 +619,10 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -653,14 +645,10 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
@@ -684,14 +672,10 @@ public class StatusesTests : TestContext
 	{
 
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[3].Click(); // Delete Button
 
@@ -871,14 +855,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(isAdmin: true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Statuses> cut = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> cut = ComponentUnderTest();
 
 		var buttons = cut.FindAll("button").ToList();
 		buttons[2].Click(); // Edit Button

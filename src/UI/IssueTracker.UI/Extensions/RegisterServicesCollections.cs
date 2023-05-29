@@ -7,7 +7,6 @@
 
 using IssueTracker.Services.Category;
 using IssueTracker.Services.Comment;
-using IssueTracker.Services.Comment.Interface;
 using IssueTracker.Services.Issue;
 using IssueTracker.Services.Issue.Interface;
 using IssueTracker.Services.Status;

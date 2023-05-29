@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.CoreBusiness.Helpers;
+﻿namespace IssueTracker.CoreBusiness.Models;
 
 [ExcludeFromCodeCoverage]
 public class DatabaseSettingsTests
@@ -28,6 +28,26 @@ public class DatabaseSettingsTests
 		// Assert
 		databaseSettings.ConnectionStrings.Should().Be(expectedCs);
 		databaseSettings.DatabaseName.Should().Be(expectedDbName);
+
+	}
+
+	[Fact(DisplayName = "GetDatabaseSettings")]
+	public void GetDatabaseSettings_With_Valid_Data_Should_Be_Successful_Test()
+	{
+
+		// Arrange
+		const string expectedCs = "ConnectionString";
+		const string expectedDbName = "DatabaseName";
+
+		var databaseSettings = CreateDatabaseSettings(expectedCs, expectedDbName);
+
+		// Act
+		var valConn = databaseSettings.ConnectionStrings;
+		var valDbName = databaseSettings.DatabaseName;
+
+		// Assert
+		valConn.Should().Be(expectedCs);
+		valDbName.Should().Be(expectedDbName);
 
 	}
 

@@ -64,7 +64,10 @@ public class FakeUserTests
 		// Assert
 		sut.Count.Should().Be(1);
 		sut.First().Id.Should().NotBeNull();
+		sut.First().FirstName.Should().NotBeNull();
+		sut.First().LastName.Should().NotBeNull();
 		sut.First().DisplayName.Should().NotBeNull();
+		sut.First().EmailAddress.Should().NotBeNull();
 
 	}
 

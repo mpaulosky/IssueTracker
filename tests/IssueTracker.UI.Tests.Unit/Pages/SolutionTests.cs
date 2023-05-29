@@ -1,7 +1,7 @@
 ﻿namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class ProfileTests : TestContext
+public class SolutionTests : TestContext
 {
 
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
@@ -13,7 +13,8 @@ public class ProfileTests : TestContext
 	private readonly List<IssueModel> _expectedIssues;
 	private readonly UserModel _expectedUser;
 
-	public ProfileTests()
+
+	public SolutionTests()
 	{
 
 		_issueRepositoryMock = new Mock<IIssueRepository>();
@@ -27,23 +28,24 @@ public class ProfileTests : TestContext
 		_expectedIssues = FakeIssue.GetIssues(5).ToList();
 		_expectedComments = FakeComment.GetComments(5).ToList();
 
+
 	}
 
-	private IRenderedComponent<Profile> ComponentUnderTest()
+	private IRenderedComponent<Solution> ComponentUnderTest()
 	{
 
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Profile> component = RenderComponent<Profile>();
+		IRenderedComponent<Solution> component = RenderComponent<Solution>();
 
 		return component;
 
 	}
 
-	[Fact]
-	public void Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
+	[Fact(DisplayName = "Check Logged In User")]
+	public Task CheckLoggedInUser_With_NullLoggedInUser_Should_ThrowAArgumentNullException_TestAsync()
 	{
 
 		// Arrange
@@ -53,71 +55,14 @@ public class ProfileTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		Func<IRenderedComponent<Profile>> cut = ComponentUnderTest;
+		Func<IRenderedComponent<Solution>> cut = ComponentUnderTest;
 
 		// Assert
 		cut.Should()
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
-
-	}
-
-	[Fact]
-	public void Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test()
-	{
-
-		// Arrange
-		const string expectedUri = "http://localhost/";
-
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		IRenderedComponent<Profile> cut = ComponentUnderTest();
-
-		cut.Find("#close-page").Click();
-
-		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
-		navMan.Uri.Should().NotBeNull();
-		navMan.Uri.Should().Be(expectedUri);
-
-	}
-
-	[Fact]
-	public void Profile_With_ValidIssuesAndComments_Should_DisplayTheIssuesAndComments_Test()
-	{
-
-		// Arrange
-		foreach (var issue in _expectedIssues)
-		{
-
-			issue.Author = new BasicUserModel(_expectedUser);
-			issue.ApprovedForRelease = true;
-			issue.Archived = false;
-			issue.Rejected = false;
-
-		}
-
-		foreach (var comment in _expectedComments)
-		{
-
-			comment.Author = new BasicUserModel(_expectedUser);
-			comment.Archived = false;
-
-		}
-
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		IRenderedComponent<Profile> cut = ComponentUnderTest();
-		var issueDivs = cut.FindAll("div.issue-container").ToList();
-		var commentDivs = cut.FindAll("div#comment-entry").ToList();
-
-		// Assert
-		issueDivs.Count.Should().Be(5);
-		commentDivs.Count.Should().Be(5);
-
+		return Task.CompletedTask;
 	}
 
 	private void SetupMocks()
@@ -126,17 +71,17 @@ public class ProfileTests : TestContext
 		_issueRepositoryMock
 			.Setup(x => x
 				.GetByUserAsync(_expectedUser.Id))
-				.ReturnsAsync(_expectedIssues);
+			.ReturnsAsync(_expectedIssues);
 
 		_userRepositoryMock
 			.Setup(x => x
 				.GetFromAuthenticationAsync(It.IsAny<string>()))
-				.ReturnsAsync(_expectedUser);
+			.ReturnsAsync(_expectedUser);
 
 		_commentRepositoryMock
 			.Setup(x => x
 				.GetByUserAsync(It.IsAny<string>()))
-				.ReturnsAsync(_expectedComments);
+			.ReturnsAsync(_expectedComments);
 
 	}
 
@@ -179,5 +124,6 @@ public class ProfileTests : TestContext
 			.Returns(_mockCacheEntry.Object);
 
 	}
+
 
 }
