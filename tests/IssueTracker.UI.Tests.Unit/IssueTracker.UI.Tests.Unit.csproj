@@ -40,7 +40,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.5.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.5.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.5.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
 		<PackageReference Include="coverlet.collector" Version="3.2.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
