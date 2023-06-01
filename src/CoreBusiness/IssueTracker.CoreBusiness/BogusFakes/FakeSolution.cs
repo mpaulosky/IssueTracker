@@ -65,6 +65,11 @@ public static class FakeSolution
 
 		var solutions = _solutionGenerator!.Generate(numberOfSolutions);
 
+		foreach (var item in solutions.Where(x => x.Archived))
+		{
+			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+		}
+
 		return solutions;
 
 	}
@@ -79,9 +84,10 @@ public static class FakeSolution
 
 		SetupGenerator();
 
-		var solutions = _solutionGenerator!.Generate(numberOfSolutions);
+		var solutions = GetSolutions(numberOfSolutions);
 
-		var basicSolutions = solutions.Select(c => new BasicSolutionModel(c));
+		var basicSolutions =
+			solutions.Select(c => new BasicSolutionModel(c));
 
 		return basicSolutions;
 

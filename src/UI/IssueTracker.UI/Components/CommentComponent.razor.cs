@@ -9,6 +9,7 @@ namespace IssueTracker.UI.Components;
 
 public partial class CommentComponent
 {
+
 	[Parameter] public CommentModel Item { get; set; } = new();
 
 	[Parameter] public UserModel? LoggedInUser { get; set; } = new();
@@ -22,11 +23,13 @@ public partial class CommentComponent
 
 		if (LoggedInUser is not null)
 		{
+
 			if (comment.Author.Id == LoggedInUser.Id) return; // Can't vote on your own comments
 
 			if (!comment.UserVotes.Add(LoggedInUser.Id)) comment.UserVotes.Remove(LoggedInUser.Id);
 
 			await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
+
 		}
 
 	}
@@ -38,9 +41,11 @@ public partial class CommentComponent
 	/// <returns>string</returns>
 	public string GetUpVoteTopText(CommentModel comment)
 	{
+
 		if (comment.UserVotes.Count > 0) return comment.UserVotes.Count.ToString("00");
 
 		return comment.Author.Id == LoggedInUser?.Id ? "Awaiting" : "Click To";
+
 	}
 
 	/// <summary>
@@ -68,4 +73,5 @@ public partial class CommentComponent
 		return comment.UserVotes.Contains(LoggedInUser!.Id) ? "issue-detail-voted" : "issue-detail-not-voted";
 
 	}
+
 }

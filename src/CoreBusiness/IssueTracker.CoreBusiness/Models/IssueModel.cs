@@ -91,6 +91,14 @@ public class IssueModel
 	public bool Archived { get; set; }
 
 	/// <summary>
+	/// Gets or sets who archived the record.
+	/// </summary>
+	/// <value>
+	/// Who archived the record.
+	/// </value>
+	public BasicUserModel ArchivedBy { get; set; } = new BasicUserModel();
+
+	/// <summary>
 	/// Gets or sets a value indicating whether [approved for release].
 	/// </summary>
 	/// <value>

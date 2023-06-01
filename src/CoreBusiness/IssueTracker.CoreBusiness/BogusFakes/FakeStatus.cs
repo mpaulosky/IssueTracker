@@ -63,7 +63,7 @@ public static class FakeStatus
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Answered",
-				StatusDescription = "The suggestion was accepted and the corresponding item was created.",
+				StatusDescription = "The issue was accepted and the corresponding item was created.",
 				Archived = false
 			},
 			new()
@@ -71,21 +71,21 @@ public static class FakeStatus
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Watching",
 				StatusDescription =
-					"The suggestion is interesting. We are watching to see how much interest there is in it.",
+					"The issue is interesting. We are watching to see how much interest there is in it.",
 				Archived = false
 			},
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
-				StatusName = "In Work",
-				StatusDescription = "The suggestion was accepted and it will be released soon.",
+				StatusName = "InWork",
+				StatusDescription = "The issue was accepted and it is in work.",
 				Archived = false
 			},
 			new()
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Dismissed",
-				StatusDescription = "The suggestion was not something that we are going to undertake.",
+				StatusDescription = "The issue was not something that we are going to undertake.",
 				Archived = false
 			}
 		};
@@ -106,6 +106,11 @@ public static class FakeStatus
 
 		var statuses = _statusGenerator!.Generate(numberOfStatuses);
 
+		foreach (var item in statuses.Where(x => x.Archived))
+		{
+			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+		}
+
 		return statuses;
 
 	}
@@ -120,9 +125,10 @@ public static class FakeStatus
 
 		SetupGenerator();
 
-		var statuses = _statusGenerator!.Generate(numberOfStatuses);
+		var statuses = GetStatuses(numberOfStatuses);
 
-		var basicStatuses = statuses.Select(s => new BasicStatusModel(s));
+		var basicStatuses =
+			statuses.Select(s => new BasicStatusModel(s));
 
 		return basicStatuses;
 

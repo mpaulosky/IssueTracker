@@ -90,4 +90,12 @@ public class SolutionModel
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
 
+	/// <summary>
+	/// Gets or sets who archived the record.
+	/// </summary>
+	/// <value>
+	/// Who archived the record.
+	/// </value>
+	public BasicUserModel ArchivedBy { get; set; } = new BasicUserModel();
+
 }

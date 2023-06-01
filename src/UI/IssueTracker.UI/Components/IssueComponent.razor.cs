@@ -9,12 +9,12 @@ namespace IssueTracker.UI.Components;
 
 public partial class IssueComponent
 {
-	[Parameter]
-	public bool CanArchive { get; set; }
-	[Parameter]
-	public UserModel LoggedInUser { get; set; } = new();
-	[Parameter]
-	public IssueModel Item { get; set; } = new();
+
+	[Parameter] public bool CanArchive { get; set; }
+
+	[Parameter] public UserModel LoggedInUser { get; set; } = new();
+
+	[Parameter] public IssueModel Item { get; set; } = new();
 
 	private IssueModel? _archivingIssue;
 
@@ -25,16 +25,21 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueCategoryCssClass(IssueModel issue)
 	{
+
 		var output = issue.Category.CategoryName switch
 		{
+
 			"Design" => "issue-entry-category-design",
 			"Documentation" => "issue-entry-category-documentation",
 			"Implementation" => "issue-entry-category-implementation",
 			"Clarification" => "issue-entry-category-clarification",
 			"Miscellaneous" => "issue-entry-category-miscellaneous",
 			_ => "issue-entry-category-none"
+
 		};
+
 		return output;
+
 	}
 
 	/// <summary>
@@ -44,15 +49,20 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueStatusCssClass(IssueModel issue)
 	{
+
 		var output = issue.IssueStatus.StatusName switch
 		{
+
 			"Answered" => "issue-entry-status-answered",
-			"In Work" => "issue-entry-status-inwork",
+			"InWork" => "issue-entry-status-inwork",
 			"Watching" => "issue-entry-status-watching",
 			"Dismissed" => "issue-entry-status-dismissed",
 			_ => "issue-entry-status-none"
+
 		};
+
 		return output;
+
 	}
 
 	/// <summary>
@@ -61,7 +71,9 @@ public partial class IssueComponent
 	/// <param name = "issue">IssueModel</param>
 	private void OpenDetailsPage(IssueModel issue)
 	{
+
 		NavManager.NavigateTo($"/Details/{issue.Id}");
+
 	}
 
 	/// <summary>
@@ -69,8 +81,12 @@ public partial class IssueComponent
 	/// </summary>
 	private async Task ArchiveIssue()
 	{
+
+		_archivingIssue!.ArchivedBy = new BasicUserModel(LoggedInUser);
 		_archivingIssue!.Archived = true;
 		await IssueService.UpdateIssue(_archivingIssue);
 		_archivingIssue = null;
+
 	}
+
 }

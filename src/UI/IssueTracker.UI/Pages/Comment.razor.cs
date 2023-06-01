@@ -28,7 +28,6 @@ public partial class Comment
 	{
 
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
-		ArgumentNullException.ThrowIfNull(_loggedInUser);
 
 		_issue = await IssueService.GetIssue(issueId: Id);
 

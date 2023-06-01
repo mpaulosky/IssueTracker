@@ -283,8 +283,8 @@ a,
 }
 
 .text-description {
-	flex-grow: 1;
-	padding-top: 10px;
+    flex-grow: 1;
+    padding-top: 10px;
 }
 
 .text-category {

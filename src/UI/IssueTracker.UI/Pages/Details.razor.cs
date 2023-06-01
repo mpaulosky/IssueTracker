@@ -61,7 +61,7 @@ public partial class Details
 
 				break;
 
-			case "in work":
+			case "inwork":
 
 				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
 					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));

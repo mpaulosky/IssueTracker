@@ -65,6 +65,11 @@ public static class FakeUser
 
 		var users = _userGenerator!.Generate(numberOfUsers);
 
+		foreach (var item in users.Where(x => x.Archived))
+		{
+			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+		}
+
 		return users;
 
 	}
@@ -79,9 +84,10 @@ public static class FakeUser
 
 		SetupGenerator();
 
-		var users = _userGenerator!.Generate(numberOfUsers);
+		var users = GetUsers(numberOfUsers);
 
-		var basicUsers = users.Select(c => new BasicUserModel(c));
+		var basicUsers =
+			users.Select(c => new BasicUserModel(c));
 
 		return basicUsers;
 

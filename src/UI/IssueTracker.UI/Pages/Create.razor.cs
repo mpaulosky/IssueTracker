@@ -36,13 +36,13 @@ public partial class Create
 	{
 		CategoryModel? category = _categories!.FirstOrDefault(c => c.Id == _issue.CategoryId);
 		StatusModel? status = _statuses!.FirstOrDefault(c => c.StatusName == "Watching");
-		IssueModel? s = new()
+		IssueModel s = new()
 		{
 			Title = _issue.Title!,
 			Description = _issue.Description!,
 			Author = new BasicUserModel(_loggedInUser!),
-			Category = new BasicCategoryModel(category!.CategoryName, category.CategoryDescription),
-			IssueStatus = new BasicStatusModel(status!.StatusName, status.StatusDescription)
+			Category = new BasicCategoryModel(category!),
+			IssueStatus = new BasicStatusModel(status!)
 		};
 
 		await IssueService.CreateIssue(s);

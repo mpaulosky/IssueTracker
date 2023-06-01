@@ -64,6 +64,11 @@ public static class FakeComment
 
 		var comments = _commentsGenerator!.Generate(numberOfComments);
 
+		foreach (var comment in comments.Where(comment => comment.Archived))
+		{
+			comment.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+		}
+
 		return comments;
 
 	}
@@ -76,11 +81,10 @@ public static class FakeComment
 	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
 	{
 
-		SetupGenerator();
+		var comments = GetComments(numberOfComments);
 
-		var comments = _commentsGenerator!.Generate(numberOfComments);
-
-		var basicComments = comments.Select(c => new BasicCommentModel(c));
+		var basicComments =
+			comments.Select(c => new BasicCommentModel(c));
 
 		return basicComments;
 

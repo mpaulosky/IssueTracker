@@ -51,6 +51,16 @@ public static class FakeIssue
 
 		issue.Archived = false;
 
+		var status = new StatusModel
+		{
+			Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
+			StatusName = "InWork",
+			StatusDescription = "The issue was accepted and it is in work.",
+			Archived = false
+		};
+
+		issue.IssueStatus = new BasicStatusModel(status);
+
 		return issue;
 
 	}
@@ -67,6 +77,11 @@ public static class FakeIssue
 
 		var issues = _issueGenerator!.Generate(numberOfIssues);
 
+		foreach (var item in issues.Where(x => x.Archived))
+		{
+			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+		}
+
 		return issues;
 
 	}
@@ -81,9 +96,10 @@ public static class FakeIssue
 
 		SetupGenerator();
 
-		var issues = _issueGenerator!.Generate(numberOfIssues);
+		var issues = GetIssues(numberOfIssues);
 
-		var basicIssues = issues.Select(c => new BasicIssueModel(c));
+		var basicIssues =
+			issues.Select(c => new BasicIssueModel(c));
 
 		return basicIssues;
 

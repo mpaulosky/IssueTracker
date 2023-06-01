@@ -6,7 +6,7 @@
 @inject NavigationManager NavManager
 @inject IUserService UserService
 
-<h3>Solution</h3>
+<h3>Solution</h3><h3 class="link">@_loggedInUser?.DisplayName</h3>
 
 @code {
 	private CreateSolutionDto _solution = new CreateSolutionDto();

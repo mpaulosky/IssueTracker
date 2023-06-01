@@ -37,7 +37,7 @@ public class BasicSolutionModel
 	/// <value>
 	/// The identifier.
 	/// </value>
-	public string Id { get; set; } = string.Empty;
+	public string Id { get; set; }
 
 	/// <summary>
 	/// Gets or sets the title.
@@ -45,7 +45,7 @@ public class BasicSolutionModel
 	/// <value>
 	/// The title.
 	/// </value>
-	public string Title { get; set; } = string.Empty;
+	public string Title { get; set; }
 
 	/// <summary>
 	/// Gets or sets the description.
@@ -53,7 +53,7 @@ public class BasicSolutionModel
 	/// <value>
 	/// The description.
 	/// </value>
-	public string Description { get; set; } = string.Empty;
+	public string Description { get; set; }
 
 	/// <summary>
 	/// Gets or sets the issue.
@@ -61,7 +61,7 @@ public class BasicSolutionModel
 	/// <value>
 	/// The issue.
 	/// </value>
-	public BasicIssueModel Issue { get; set; } = new BasicIssueModel();
+	public BasicIssueModel Issue { get; set; }
 
 	/// <summary>
 	/// Gets or sets the author.
@@ -69,6 +69,6 @@ public class BasicSolutionModel
 	/// <value>
 	/// The author.
 	/// </value>
-	public BasicUserModel Author { get; set; } = new();
+	public BasicUserModel Author { get; set; }
 
 }
