@@ -44,8 +44,8 @@ public class SolutionTests : TestContext
 
 	}
 
-	[Fact(DisplayName = "Check Logged In User")]
-	public Task CheckLoggedInUser_With_NullLoggedInUser_Should_ThrowAArgumentNullException_TestAsync()
+	[Fact(DisplayName = "Solution Page Check Logged In User With Null User")]
+	public Task Solution_With_NullLoggedInUser_Should_ThrowAArgumentNullException_TestAsync()
 	{
 
 		// Arrange
@@ -63,6 +63,25 @@ public class SolutionTests : TestContext
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
 		return Task.CompletedTask;
+
+	}
+
+	[Fact(DisplayName = "Solution Page Check Logged In User With Valid User")]
+	public void CheckLoggedInUser_With_ValidUser_Should_DisplayAUser_TestAsync()
+	{
+
+		// Arrange
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Solution> cut = ComponentUnderTest();
+
+		// Assert
+		cut.MarkupMatches
+		(
+			"""<h3>Solution</h3><h3 class="link" diff:ignore>Winfield_Upton73</h3>"""
+		);
+
 	}
 
 	private void SetupMocks()

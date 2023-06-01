@@ -30,19 +30,38 @@ public class CreateTests : TestContext
 
 	}
 
+	private IRenderedComponent<Create> ComponentUnderTest()
+	{
+
+		SetupMocks();
+		SetMemoryCache();
+		RegisterServices();
+
+		IRenderedComponent<Create> component = RenderComponent<Create>();
+
+		return component;
+
+	}
+
 	[Fact]
 	public void Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
-		// Arrange
-		this.AddTestAuthorization();
 
-		RegisterServices();
+		// Arrange
+		const string expectedParamName = "userObjectIdentifierId";
+		const string expectedMessage = "Value cannot be null.?*";
+
+		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
+		Func<IRenderedComponent<Create>> cut = ComponentUnderTest;
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Create>()).Message.Should()
-			.Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+		cut.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 	[Fact]
@@ -51,14 +70,11 @@ public class CreateTests : TestContext
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Create> cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = ComponentUnderTest();
 		cut.Find("#close-page").Click();
 
 		// Assert
@@ -125,14 +141,11 @@ public class CreateTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Create> cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
@@ -145,17 +158,11 @@ public class CreateTests : TestContext
 
 		// Arrange
 		var category = _expectedCategories.First();
-		SetupMocks();
-		SetMemoryCache();
-
-		using var ctx = new TestContext();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
-
 
 		// Act
-		IRenderedComponent<Create> cut = RenderComponent<Create>();
+		IRenderedComponent<Create> cut = ComponentUnderTest();
 
 		cut.Find("#issue-title").Change("Test Issue");
 		cut.Find("#description").Change("Test Description");

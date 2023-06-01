@@ -9,9 +9,9 @@ public class ProfileTests : TestContext
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private readonly List<CommentModel> _expectedComments;
-	private readonly List<IssueModel> _expectedIssues;
-	private readonly UserModel _expectedUser;
+	private readonly List<CommentModel>? _expectedComments;
+	private readonly List<IssueModel>? _expectedIssues;
+	private readonly UserModel? _expectedUser;
 
 	public ProfileTests()
 	{
@@ -147,7 +147,7 @@ public class ProfileTests : TestContext
 
 		if (isAuth)
 		{
-			authContext.SetAuthorized(_expectedUser.DisplayName);
+			authContext.SetAuthorized(_expectedUser!.DisplayName);
 			authContext.SetClaims(
 				new Claim("objectidentifier", _expectedUser.Id)
 			);

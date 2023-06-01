@@ -3,6 +3,7 @@
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
 {
+
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
@@ -30,59 +31,79 @@ public class DetailsTests : TestContext
 
 	}
 
-	[Fact]
-	public void Details_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
+	private IRenderedComponent<Details> ComponentUnderTest(string? issueId)
 	{
-		// Arrange
-		SetAuthenticationAndAuthorization(false, false);
 
+		SetupMocks();
+		SetMemoryCache();
 		RegisterServices();
 
+		IRenderedComponent<Details> component = RenderComponent<Details>(parameter =>
+		{
+
+			parameter.Add(p => p.Id, issueId);
+
+		});
+
+		return component;
+
+	}
+
+	[Fact]
+	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
+	{
+
+		// Arrange
+		const string expectedParamName = "userObjectIdentifierId";
+		const string expectedMessage = "Value cannot be null.?*";
+
+		SetAuthenticationAndAuthorization(false, false);
+
 		// Act
+		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(_expectedIssue.Id);
+
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, null);
-		})).Message.Should().Be("Value cannot be null. (Parameter 'userObjectIdentifierId')");
+		cut.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 	[Fact]
 	public void Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test()
 	{
+
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
+		const string expectedParamName = "Id";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
+		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(null);
+
 
 		// Assert
-		Assert.Throws<ArgumentNullException>(() => RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, null);
-		}));
+		cut.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+
 	}
 
 	[Fact]
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
+
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#close-page").Click();
 
@@ -90,6 +111,7 @@ public class DetailsTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+
 	}
 
 	[Fact]
@@ -117,17 +139,10 @@ public class DetailsTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
@@ -136,6 +151,7 @@ public class DetailsTests : TestContext
 	[Fact]
 	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
 	{
+
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -170,39 +186,27 @@ public class DetailsTests : TestContext
 		</div>
 		""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
+
 	}
 
 	[Fact]
 	public void Details_With_AddCommentClick_Should_NavigateToCommentPage_Test()
 	{
-		// Arrange
-		SetupMocks();
-		SetMemoryCache();
 
+		// Arrange
 		var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#create-comment").Click();
 
@@ -220,44 +224,34 @@ public class DetailsTests : TestContext
 	[InlineData(4, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
 	{
+
 		// Arrange
+		const int expectedCount = 1;
 		_expectedIssue.IssueStatus = index == 4 ? new BasicStatusModel() : new BasicStatusModel(_expectedStatuses[index]);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		var results = cut.FindAll("div");
 
 		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
 
 		// Assert
-		items.Count.Should().Be(1);
+		items.Count.Should().Be(expectedCount);
+
 	}
 
 	[Fact]
 	public void Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test()
 	{
-		// Arrange
-		SetupMocks();
-		SetMemoryCache();
 
+		// Arrange
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[0].Click();
 
@@ -265,6 +259,7 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 	}
 
 	[Fact]
@@ -272,17 +267,10 @@ public class DetailsTests : TestContext
 	{
 
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[2].Click();
 
@@ -333,17 +321,10 @@ public class DetailsTests : TestContext
 			</div>
 			"""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#answered").Click();
 		cut.Find("#input-answer").Change("");
@@ -379,17 +360,10 @@ public class DetailsTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[0].Click();
 
@@ -406,17 +380,10 @@ public class DetailsTests : TestContext
 	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(string statusId)
 	{
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		var cut = RenderComponent<Details>(parameter =>
-		{
-			parameter.Add(p => p.Id, _expectedIssue.Id);
-		});
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		switch (statusId)
 		{
@@ -443,6 +410,7 @@ public class DetailsTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+
 	}
 
 	private void SetupMocks()

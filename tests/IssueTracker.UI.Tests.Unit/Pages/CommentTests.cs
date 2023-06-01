@@ -26,29 +26,40 @@ public class CommentTests : TestContext
 
 	}
 
+	private IRenderedComponent<Comment> ComponentUnderTest(string? issueId)
+	{
+
+		SetupMocks();
+		SetMemoryCache();
+		RegisterServices();
+
+		IRenderedComponent<Comment> component = RenderComponent<Comment>(parameter =>
+		{
+
+			parameter.Add(p => p.Id, issueId);
+
+		});
+
+		return component;
+
+	}
+
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
 
 		// Arrange
-		const string expectedParamName = "_loggedInUser";
+		const string expectedParamName = "userObjectIdentifierId";
 		const string expectedMessage = "Value cannot be null.?*";
 
-		SetAuthenticationAndAuthorization(false, true);
-
-		RegisterServices();
+		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		var act = () => RenderComponent<Comment>(parameter =>
-		{
+		Func<IRenderedComponent<Comment>> cut = () => ComponentUnderTest(_expectedIssue.Id);
 
-			parameter
-				.Add(p => p.Id, _expectedIssue.Id);
-
-		});
 
 		// Assert
-		act.Should()
+		cut.Should()
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
@@ -63,22 +74,14 @@ public class CommentTests : TestContext
 		const string expectedParamName = "issueId";
 		const string expectedMessage = "Value cannot be null.?*";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		var act = () => RenderComponent<Comment>(parameter =>
-		{
+		Func<IRenderedComponent<Comment>> cut = () => ComponentUnderTest(null);
 
-			parameter.Add(p => p.Id, null);
-
-		});
 
 		// Assert
-		act.Should()
+		cut.Should()
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
@@ -92,20 +95,10 @@ public class CommentTests : TestContext
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
-		{
-
-			parameter
-				.Add(p => p.Id, _expectedIssue.Id);
-
-		});
+		IRenderedComponent<Comment> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#close-page").Click();
 
@@ -121,20 +114,10 @@ public class CommentTests : TestContext
 	{
 
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Comment> cut = RenderComponent<Comment>(parameter =>
-		{
-
-			parameter
-				.Add(p => p.Id, _expectedIssue.Id);
-
-		});
+		IRenderedComponent<Comment> cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#title").Change("Test Comment");
 		cut.Find("#desc").Change("Test Description");
