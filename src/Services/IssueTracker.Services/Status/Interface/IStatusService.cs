@@ -18,5 +18,4 @@ public interface IStatusService
 	Task UpdateStatus(StatusModel status);
 
 	Task DeleteStatus(StatusModel status);
-
 }

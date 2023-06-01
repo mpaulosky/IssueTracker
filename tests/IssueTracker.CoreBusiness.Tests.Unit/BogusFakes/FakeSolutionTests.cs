@@ -3,13 +3,11 @@
 [ExcludeFromCodeCoverage]
 public class FakeSolutionTests
 {
-
 	[Theory(DisplayName = "FakeSolution GetNewSolution Tests")]
 	[InlineData(true)]
 	[InlineData(false)]
 	public void GetNewSolution_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
-
 		// Arrange
 		// Act
 		var result = FakeSolution.GetNewSolution(expected);
@@ -30,7 +28,6 @@ public class FakeSolutionTests
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
-
 	}
 
 	[Fact(DisplayName = "FakeSolution GetNewSolution Test")]
@@ -49,7 +46,6 @@ public class FakeSolutionTests
 		result.Author.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
 		result.UserVotes.Should().NotBeNull();
-
 	}
 
 	[Fact(DisplayName = "FakeSolution GetSolutions Test")]
@@ -68,13 +64,11 @@ public class FakeSolutionTests
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
 		result.UserVotes.Should().NotBeNull();
-
 	}
 
 	[Fact(DisplayName = "FakeSolution GetBasicSolutions Test")]
 	public void GetBasicSolutions_StateUnderTest_ExpectedBehavior()
 	{
-
 		// Arrange
 		const int numberOfSolutions = 1;
 
@@ -87,7 +81,5 @@ public class FakeSolutionTests
 		result.Description.Should().NotBeNull();
 		result.Issue.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
-
 	}
-
 }

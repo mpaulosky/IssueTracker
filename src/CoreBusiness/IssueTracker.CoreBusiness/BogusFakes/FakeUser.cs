@@ -10,16 +10,14 @@
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
-/// FakeUser class
+///   FakeUser class
 /// </summary>
 public static class FakeUser
 {
-
 	private static Faker<UserModel>? _userGenerator;
 
 	private static void SetupGenerator()
 	{
-
 		Randomizer.Seed = new Random(123);
 
 		_userGenerator = new Faker<UserModel>()
@@ -30,58 +28,55 @@ public static class FakeUser
 			.RuleFor(x => x.DisplayName, (f, u) => f.Internet.UserName(u.FirstName, u.LastName))
 			.RuleFor(x => x.EmailAddress, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-
 	}
 
 	/// <summary>
-	/// Gets a new user.
+	///   Gets a new user.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>UserModel</returns>
 	public static UserModel GetNewUser(bool keepId = false)
 	{
-
 		SetupGenerator();
 
 		var user = _userGenerator!.Generate();
 
-		if (!keepId) user.Id = string.Empty;
+		if (!keepId)
+		{
+			user.Id = string.Empty;
+		}
 
 		user.Archived = false;
 
 		return user;
-
 	}
 
 	/// <summary>
-	/// Gets a list of users.
+	///   Gets a list of users.
 	/// </summary>
 	/// <param name="numberOfUsers">The number of users.</param>
 	/// <returns>IEnumerable List of UserModels</returns>
 	public static IEnumerable<UserModel> GetUsers(int numberOfUsers)
 	{
-
 		SetupGenerator();
 
 		var users = _userGenerator!.Generate(numberOfUsers);
 
 		foreach (var item in users.Where(x => x.Archived))
 		{
-			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+			item.ArchivedBy = new BasicUserModel(GetNewUser());
 		}
 
 		return users;
-
 	}
 
 	/// <summary>
-	/// Gets the basic user.
+	///   Gets the basic user.
 	/// </summary>
 	/// <param name="numberOfUsers">The number of users.</param>
 	/// <returns>IEnumerable List of BasicUserModels</returns>
 	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)
 	{
-
 		SetupGenerator();
 
 		var users = GetUsers(numberOfUsers);
@@ -90,7 +85,5 @@ public static class FakeUser
 			users.Select(c => new BasicUserModel(c));
 
 		return basicUsers;
-
 	}
-
 }

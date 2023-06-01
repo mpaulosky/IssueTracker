@@ -5,39 +5,50 @@
 [UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
+	private readonly string _databaseName;
 
 	private readonly MongoDbContainer _mongoDbContainer;
 
-	private readonly string _databaseName;
+	public IssueTrackerTestFactory()
+	{
+		_mongoDbContainer = new MongoDbBuilder().Build();
+
+		_databaseName = $"test_{Guid.NewGuid():N}";
+	}
 
 	private IDatabaseSettings? DbConfig { get; set; }
 
 	public IMongoDbContextFactory? DbContext { get; set; }
 
-	public IssueTrackerTestFactory()
+	public async Task InitializeAsync()
 	{
+		await _mongoDbContainer.StartAsync();
 
-		_mongoDbContainer = new MongoDbBuilder().Build();
+		var connString = _mongoDbContainer.GetConnectionString();
+		var dbName = _databaseName!;
 
-		_databaseName = $"test_{Guid.NewGuid():N}";
+		DbConfig = new DatabaseSettings(connString, dbName) { ConnectionStrings = connString, DatabaseName = dbName };
+	}
 
+	public new async Task DisposeAsync()
+	{
+		await DbContext!.Client.DropDatabaseAsync(_databaseName);
+		await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
 	}
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
-
 		builder.ConfigureTestServices(services =>
 		{
-
 			var dbConnectionDescriptor = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IMongoDbContextFactory));
+				     typeof(IMongoDbContextFactory));
 
 			services.Remove(dbConnectionDescriptor!);
 
 			var dbSettings = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IDatabaseSettings));
+				     typeof(IDatabaseSettings));
 
 			services.Remove(dbSettings!);
 
@@ -49,47 +60,16 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 			using var serviceProvider = services.BuildServiceProvider();
 
 			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
-
 		});
 
 		builder.UseEnvironment("Development");
-
 	}
 
 	public async Task ResetCollectionAsync(string? collection)
 	{
-
 		if (!string.IsNullOrWhiteSpace(collection))
 		{
-
 			await DbContext!.Client.GetDatabase(_databaseName).DropCollectionAsync(collection);
-
 		}
-
 	}
-
-	public async Task InitializeAsync()
-	{
-
-		await _mongoDbContainer.StartAsync();
-
-		string? connString = _mongoDbContainer.GetConnectionString();
-		string? dbName = _databaseName!;
-
-		DbConfig = new DatabaseSettings(connString, dbName)
-		{
-			ConnectionStrings = connString,
-			DatabaseName = dbName
-		};
-
-	}
-
-	public new async Task DisposeAsync()
-	{
-
-		await DbContext!.Client.DropDatabaseAsync(_databaseName);
-		await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
-
-	}
-
 }

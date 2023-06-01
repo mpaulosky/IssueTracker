@@ -6,23 +6,30 @@ namespace IssueTracker.PlugIns.DataAccess;
 [Collection("Test Collection")]
 public class UpVoteCommentTests : IAsyncLifetime
 {
+	private const string? CleanupValue = "comments";
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private const string? CleanupValue = "comments";
 
 	public UpVoteCommentTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new CommentRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact(DisplayName = "UpVoteAsync With Valid Comment Should Add Vote")]
 	public async Task UpVoteAsync_With_ValidComment_Should_AddUserToUpVoteField_Test()
 	{
-
 		// Arrange
 		var expectedUserId = new BsonObjectId(ObjectId.GenerateNewId()).ToString();
 		var expected = FakeComment.GetNewComment();
@@ -38,13 +45,11 @@ public class UpVoteCommentTests : IAsyncLifetime
 
 		// Assert
 		result.UserVotes.Should().Contain(expectedUserId);
-
 	}
 
 	[Fact(DisplayName = "UpVoteAsync With User Already Voted Should Remove User Vote")]
 	public async Task UpVoteAsync_With_UserAlreadyVoted_Should_RemoveUsersVote_Test()
 	{
-
 		// Arrange
 		var expectedUserId = Guid.NewGuid().ToString("N");
 		var expected = FakeComment.GetNewComment();
@@ -61,20 +66,5 @@ public class UpVoteCommentTests : IAsyncLifetime
 
 		// Assert
 		result.UserVotes.Should().BeEmpty();
-
-	}
-
-	public Task InitializeAsync()
-	{
-
-		return Task.CompletedTask;
-
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
 	}
 }

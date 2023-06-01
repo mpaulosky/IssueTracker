@@ -1,28 +1,34 @@
-﻿
-namespace IssueTracker.PlugIns.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
 public class ArchiveStatusTests : IAsyncLifetime
 {
+	private const string CleanupValue = "statuses";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusRepository _sut;
-	private const string CleanupValue = "statuses";
 
 	public ArchiveStatusTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new StatusRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact(DisplayName = "Archive Status With Valid Data (Archive)")]
 	public async Task ArchiveAsync_With_ValidData_Should_ArchiveAStatus_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeStatus.GetNewStatus();
 
@@ -37,19 +43,5 @@ public class ArchiveStatusTests : IAsyncLifetime
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
 		result.Archived.Should().BeTrue();
-
 	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

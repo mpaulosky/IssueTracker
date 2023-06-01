@@ -8,12 +8,12 @@
 namespace IssueTracker.UI.Helpers;
 
 /// <summary>
-///		AuthenticationStateProviderHelpers class
+///   AuthenticationStateProviderHelpers class
 /// </summary>
 public static class AuthenticationStateProviderHelpers
 {
 	/// <summary>
-	///		Gets the user from authentication.
+	///   Gets the user from authentication.
 	/// </summary>
 	/// <param name="provider">The AuthenticationState provider.</param>
 	/// <param name="userData">The user service.</param>
@@ -22,14 +22,11 @@ public static class AuthenticationStateProviderHelpers
 		this AuthenticationStateProvider provider,
 		IUserService userData)
 	{
-
 		var authState = await provider.GetAuthenticationStateAsync();
 
-		string? objectId = authState.User.Claims
+		var objectId = authState.User.Claims
 			.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 
 		return await userData.GetUserFromAuthentication(objectId);
-
 	}
-
 }

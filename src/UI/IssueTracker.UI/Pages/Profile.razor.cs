@@ -8,13 +8,12 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Profile page class
+///   Profile page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [UsedImplicitly]
 public partial class Profile
 {
-
 	private List<IssueModel>? _approved;
 	private List<IssueModel>? _archived;
 	private List<CommentModel>? _comments;
@@ -25,20 +24,18 @@ public partial class Profile
 	private List<IssueModel>? _rejected;
 
 	/// <summary>
-	///		OnInitializedAsync event
+	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
 		_comments = await CommentService.GetCommentsByUser(_loggedInUser!.Id);
 
-		List<IssueModel> results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
+		var results = await IssueService.GetIssuesByUser(_loggedInUser.Id);
 
 		if (results.Count != 0)
 		{
-
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
 			_approved = _issues
@@ -54,19 +51,14 @@ public partial class Profile
 				.ToList();
 
 			_rejected = _issues.Where(s => s.Rejected).ToList();
-
 		}
-
 	}
 
 	/// <summary>
-	///		ClosePage method
+	///   ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{
-
 		NavManager.NavigateTo("/");
-
 	}
-
 }

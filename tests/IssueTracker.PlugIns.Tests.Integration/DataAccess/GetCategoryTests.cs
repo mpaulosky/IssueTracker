@@ -4,24 +4,31 @@
 [Collection("Test Collection")]
 public class GetCategoryTests : IAsyncLifetime
 {
+	private const string CleanupValue = "categories";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CategoryRepository _sut;
-	private const string CleanupValue = "categories";
 
 	public GetCategoryTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new CategoryRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact(DisplayName = "GetAsync With Valid Data Should Succeed")]
 	public async Task GetAsync_With_WithData_Should_Return_A_Valid_Category_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeCategory.GetNewCategory();
 		await _sut.CreateAsync(expected);
@@ -31,7 +38,6 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
-
 	}
 
 	[Theory(DisplayName = "GetAsync With In Valid Data Should Fail")]
@@ -45,19 +51,5 @@ public class GetCategoryTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeNull();
-
 	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

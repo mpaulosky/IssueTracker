@@ -9,7 +9,6 @@ namespace IssueTracker.Services.PlugInRepositoryInterfaces;
 
 public interface ICommentRepository
 {
-
 	Task ArchiveAsync(CommentModel comment);
 
 	Task CreateAsync(CommentModel comment);
@@ -25,5 +24,4 @@ public interface ICommentRepository
 	Task UpdateAsync(string itemId, CommentModel comment);
 
 	Task UpVoteAsync(string itemId, string userId);
-
 }

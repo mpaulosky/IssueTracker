@@ -18,7 +18,11 @@ public class MyInputRadioGroup<TValue> : InputRadioGroup<TValue>
 	{
 		var fieldClass = EditContext.FieldCssClass(FieldIdentifier);
 
-		if (fieldClass == _fieldClass && Name == _name) return;
+		if (fieldClass == _fieldClass && Name == _name)
+		{
+			return;
+		}
+
 		_fieldClass = fieldClass;
 		_name = Name;
 		base.OnParametersSet();

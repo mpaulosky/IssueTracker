@@ -4,22 +4,29 @@
 [Collection("Test Collection")]
 public class MongoDbContextFactoryTests : IAsyncLifetime
 {
+	private const string CleanupValue = "";
 
 	private readonly IssueTrackerTestFactory _factory;
-	private const string CleanupValue = "";
 
 	public MongoDbContextFactoryTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		_factory.DbContext = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact]
 	public void GetCollection_With_Valid_DbContext_Should_Return_Value_Test()
 	{
-
 		// Arrange
 		const string name = "users";
 
@@ -29,13 +36,11 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 
 		// Assert
 		result.Should().NotBeNull();
-
 	}
 
 	[Fact]
 	public void ConnectionStateReturnsOpen()
 	{
-
 		// Given
 		var client = _factory.DbContext!.Client;
 
@@ -43,14 +48,13 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 		using var databases = client.ListDatabases();
 
 		// Then
-		Assert.Contains(databases.ToEnumerable(), database => database.TryGetValue("name", out var name) && "admin".Equals(name.AsString));
-
+		Assert.Contains(databases.ToEnumerable(),
+			database => database.TryGetValue("name", out var name) && "admin".Equals(name.AsString));
 	}
 
 	[Fact]
 	public async Task Be_healthy_if_mongodb_is_available()
 	{
-
 		// Arrange
 		var sut = _factory.Server;
 
@@ -59,21 +63,5 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 
 		// Assert
 		response.StatusCode.Should().Be(HttpStatusCode.OK);
-
 	}
-
-	public Task InitializeAsync()
-	{
-
-		return Task.CompletedTask;
-
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

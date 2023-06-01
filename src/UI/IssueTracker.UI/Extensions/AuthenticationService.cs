@@ -8,25 +8,22 @@
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>
-/// IServiceCollectionExtensions
+///   IServiceCollectionExtensions
 /// </summary>
 public static partial class ServiceCollectionExtensions
 {
-
 	/// <summary>
-	/// Add Authentication Services
+	///   Add Authentication Services
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
 	/// <param name="config">ConfigurationManager</param>
 	/// <returns>IServiceCollection</returns>
-	public static IServiceCollection AddAuthenticationService(this IServiceCollection services, ConfigurationManager config)
+	public static IServiceCollection AddAuthenticationService(this IServiceCollection services,
+		ConfigurationManager config)
 	{
-
 		services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 			.AddMicrosoftIdentityWebApp(config.GetSection("AzureAdB2C"));
 
 		return services;
-
 	}
-
 }

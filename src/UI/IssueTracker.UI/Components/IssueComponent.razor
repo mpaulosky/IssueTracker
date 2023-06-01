@@ -1,5 +1,4 @@
-﻿@using IssueTracker.Services.Issue.Interface
-@inject NavigationManager NavManager
+﻿@inject NavigationManager NavManager
 @inject AuthenticationStateProvider AuthProvider
 @inject IIssueService IssueService
 
@@ -24,7 +23,6 @@
 
 			@if (CanArchive)
 			{
-
 				@if (_archivingIssue is null || _archivingIssue.Id != Item.Id)
 				{
 					<div class="text-category">
@@ -46,7 +44,6 @@
 						</button>
 					</div>
 				}
-
 			}
 		</div>
 

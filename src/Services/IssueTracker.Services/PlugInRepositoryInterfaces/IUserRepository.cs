@@ -9,7 +9,6 @@ namespace IssueTracker.Services.PlugInRepositoryInterfaces;
 
 public interface IUserRepository
 {
-
 	Task ArchiveAsync(UserModel user);
 
 	Task CreateAsync(UserModel user);
@@ -21,5 +20,4 @@ public interface IUserRepository
 	Task<IEnumerable<UserModel>> GetAllAsync();
 
 	Task UpdateAsync(string itemId, UserModel user);
-
 }

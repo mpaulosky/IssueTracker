@@ -32,11 +32,9 @@
 
 		@foreach (var item in _approved)
 		{
-
 			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true/>
 			</div>
-
 		}
 
 	</div>
@@ -50,11 +48,9 @@
 
 		@foreach (var item in _pending)
 		{
-
 			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=false />
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=false/>
 			</div>
-
 		}
 
 	</div>
@@ -68,11 +64,9 @@
 
 		@foreach (var item in _rejected)
 		{
-
 			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true/>
 			</div>
-
 		}
 
 	</div>
@@ -86,11 +80,9 @@
 
 		@foreach (var item in _archived)
 		{
-
 			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true />
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive=true/>
 			</div>
-
 		}
 
 
@@ -105,9 +97,7 @@
 
 		@foreach (var comment in _comments)
 		{
-
-			<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser" />
-
+			<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser"/>
 		}
 	</div>
 }

@@ -8,7 +8,7 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Admin page class
+///   Admin page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [UsedImplicitly]
@@ -21,7 +21,7 @@ public partial class Admin
 	private List<IssueModel>? _issues;
 
 	/// <summary>
-	///		OnInitializedAsync event
+	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
@@ -29,37 +29,33 @@ public partial class Admin
 	}
 
 	/// <summary>
-	///		ApproveIssue method
+	///   ApproveIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private async Task ApproveIssue(IssueModel issue)
 	{
-
 		issue.ApprovedForRelease = true;
 
 		_issues?.Remove(issue);
 
 		await IssueService.UpdateIssue(issue);
-
 	}
 
 	/// <summary>
-	///		RejectIssue method
+	///   RejectIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private async Task RejectIssue(IssueModel issue)
 	{
-
 		issue.Rejected = true;
 
 		_issues?.Remove(issue);
 
 		await IssueService.UpdateIssue(issue);
-
 	}
 
 	/// <summary>
-	///		EditTitle method
+	///   EditTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private void EditTitle(IssueModel model)
@@ -70,7 +66,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	///		SaveTitle method
+	///   SaveTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private async Task SaveTitle(IssueModel model)
@@ -81,7 +77,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	///		EditDescription method
+	///   EditDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private void EditDescription(IssueModel model)
@@ -92,7 +88,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	///		SaveDescription method
+	///   SaveDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
 	private async Task SaveDescription(IssueModel model)
@@ -103,7 +99,7 @@ public partial class Admin
 	}
 
 	/// <summary>
-	///		ClosePage method
+	///   ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

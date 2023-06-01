@@ -4,24 +4,31 @@
 [Collection("Test Collection")]
 public class GetIssueTests : IAsyncLifetime
 {
+	private const string CleanupValue = "issues";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private const string CleanupValue = "issues";
 
 	public GetIssueTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new IssueRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact]
 	public async Task GetAsync_With_Data_Should_ReturnAValidIssue_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateAsync(expected);
@@ -34,7 +41,6 @@ public class GetIssueTests : IAsyncLifetime
 		result.Title.Should().Be(expected.Title);
 		result.Id.Should().Be(expected.Id);
 		result.Author.Id.Should().Be(expected.Author.Id);
-
 	}
 
 	[Theory]
@@ -48,19 +54,5 @@ public class GetIssueTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeNull();
-
 	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

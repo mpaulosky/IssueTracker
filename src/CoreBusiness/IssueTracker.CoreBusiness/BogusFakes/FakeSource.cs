@@ -10,7 +10,7 @@
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
-/// FakeSource class
+///   FakeSource class
 /// </summary>
 public static class FakeSource
 {
@@ -18,7 +18,6 @@ public static class FakeSource
 
 	private static void SetupGenerator()
 	{
-
 		Randomizer.Seed = new Random(123);
 
 		_sourceGenerator = new Faker<BasicCommentOnSourceModel>()
@@ -27,22 +26,18 @@ public static class FakeSource
 			.RuleFor(x => x.Title, f => f.Lorem.Sentence(10, 4))
 			.RuleFor(x => x.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First());
-
 	}
 
 	/// <summary>
-	/// Gets a basic source.
+	///   Gets a basic source.
 	/// </summary>
 	/// <returns>BasicCommentSourceModel</returns>
 	public static BasicCommentOnSourceModel GetSource()
 	{
-
 		SetupGenerator();
 
-		BasicCommentOnSourceModel source = _sourceGenerator!.Generate();
+		var source = _sourceGenerator!.Generate();
 
 		return source;
-
 	}
-
 }

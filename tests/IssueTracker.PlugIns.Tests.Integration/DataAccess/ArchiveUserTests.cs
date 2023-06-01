@@ -1,28 +1,36 @@
-﻿
-namespace IssueTracker.PlugIns.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
 public class ArchiveUserTests : IAsyncLifetime
 {
+	private const string CleanupValue = "users";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly UserRepository _sut;
-	private const string CleanupValue = "users";
 
 	public ArchiveUserTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new UserRepository(context);
+	}
 
+	[Fact]
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	[Fact]
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact(DisplayName = "Archive User With Valid Data (Archive)")]
 	public async Task ArchiveAsync_With_ValidData_Should_ArchiveAUser_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeUser.GetNewUser();
 
@@ -37,23 +45,5 @@ public class ArchiveUserTests : IAsyncLifetime
 		result.Should().NotBeNull();
 		result.Id.Should().Be(expected.Id);
 		result.Archived.Should().BeTrue();
-
 	}
-
-	[Fact]
-	public Task InitializeAsync()
-	{
-
-		return Task.CompletedTask;
-
-	}
-
-	[Fact]
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

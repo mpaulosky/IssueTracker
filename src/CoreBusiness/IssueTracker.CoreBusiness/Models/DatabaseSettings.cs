@@ -10,26 +10,21 @@
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
-///		DatabaseSettings class
+///   DatabaseSettings class
 /// </summary>
 public class DatabaseSettings : IDatabaseSettings
 {
-
 	public DatabaseSettings()
 	{
-
 	}
 
 	public DatabaseSettings(string connectionStrings, string databaseName)
 	{
-
 		ConnectionStrings = connectionStrings;
 		DatabaseName = databaseName;
-
 	}
 
 	public string ConnectionStrings { get; set; } = null!;
 
 	public string DatabaseName { get; set; } = null!;
-
 }

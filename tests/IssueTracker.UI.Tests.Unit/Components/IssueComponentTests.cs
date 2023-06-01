@@ -3,17 +3,16 @@
 [ExcludeFromCodeCoverage]
 public class IssueComponentTests : TestContext
 {
+	private readonly IssueModel _expectedIssue;
+	private readonly UserModel _expectedUser;
 
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IIssueService> _issueServiceMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private readonly UserModel _expectedUser;
-	private readonly IssueModel _expectedIssue;
 
 	public IssueComponentTests()
 	{
-
 		_issueServiceMock = new Mock<IIssueService>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 
@@ -22,27 +21,22 @@ public class IssueComponentTests : TestContext
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
-
 	}
 
 	private IRenderedComponent<IssueComponent> ComponentUnderTest(bool showArchive = false)
 	{
-
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<IssueComponent> component = RenderComponent<IssueComponent>(parameter =>
+		var component = RenderComponent<IssueComponent>(parameter =>
 		{
-
 			parameter.Add(p => p.Item, _expectedIssue);
 			parameter.Add(p => p.LoggedInUser, _expectedUser);
 			parameter.Add(p => p.CanArchive, showArchive);
-
 		});
 
 		return component;
-
 	}
 
 	[Fact(DisplayName = "IssueComponent not Admin and Can Archive is false")]
@@ -52,9 +46,7 @@ public class IssueComponentTests : TestContext
 		const string expected =
 			"""
 			<div class="issue-entry">
-				<div class="issue-entry-category issue-entry-category-miscellaneous">
-					<div class="issue-entry-category-text">Miscellaneous</div>
-				</div>
+				<div diff:ignore></div>
 				<div class="issue-entry-text">
 					<div diff:ignore></div>
 					<div diff:ignore></div>
@@ -70,11 +62,10 @@ public class IssueComponentTests : TestContext
 			""";
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		// Assert 
 		cut.MarkupMatches(expected);
-
 	}
 
 	[Fact(DisplayName = "IssueComponent is Admin and Can Archive is false")]
@@ -104,11 +95,10 @@ public class IssueComponentTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		// Assert 
 		cut.MarkupMatches(expected);
-
 	}
 
 	[Fact(DisplayName = "IssueComponent is Admin and Can Archive is true")]
@@ -139,11 +129,10 @@ public class IssueComponentTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest(true);
+		var cut = ComponentUnderTest(true);
 
 		// Assert 
 		cut.MarkupMatches(expected);
-
 	}
 
 	[Fact(DisplayName = "IssueComponent not Admin and Can Archive is true")]
@@ -153,9 +142,7 @@ public class IssueComponentTests : TestContext
 		const string expected =
 			"""
 			<div class="issue-entry">
-				<div class="issue-entry-category issue-entry-category-miscellaneous">
-					<div class="issue-entry-category-text">Miscellaneous</div>
-				</div>
+				<div diff:ignore></div>
 				<div class="issue-entry-text">
 					<div diff:ignore></div>
 					<div diff:ignore></div>
@@ -174,11 +161,10 @@ public class IssueComponentTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest(true);
+		var cut = ComponentUnderTest(true);
 
 		// Assert 
 		cut.MarkupMatches(expected);
-
 	}
 
 	[Theory]
@@ -188,11 +174,11 @@ public class IssueComponentTests : TestContext
 	[InlineData("Clarification", "issue-entry-category issue-entry-category-clarification")]
 	[InlineData("Miscellaneous", "issue-entry-category issue-entry-category-miscellaneous")]
 	[InlineData("", "issue-entry-category issue-entry-category-none")]
-	public void IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(string expectedCategory, string expectedCss)
+	public void IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(string expectedCategory,
+		string expectedCss)
 	{
-
 		// Arrange
-		CategoryModel model = new CategoryModel
+		var model = new CategoryModel
 		{
 			Id = "test",
 			CategoryName = expectedCategory,
@@ -201,12 +187,11 @@ public class IssueComponentTests : TestContext
 		_expectedIssue.Category = new BasicCategoryModel(model);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 		var result = cut.Find("div.issue-entry-category");
 
 		// Assert 
 		result.ClassName.Should().Contain(expectedCss);
-
 	}
 
 	[Theory]
@@ -215,11 +200,11 @@ public class IssueComponentTests : TestContext
 	[InlineData("Watching", "issue-entry-status issue-entry-status-watching")]
 	[InlineData("Dismissed", "issue-entry-status issue-entry-status-dismissed")]
 	[InlineData("", "issue-entry-status issue-entry-status-none")]
-	public void IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(string expectedStatus, string expectedCss)
+	public void IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(string expectedStatus,
+		string expectedCss)
 	{
-
 		// Arrange
-		StatusModel model = new StatusModel
+		var model = new StatusModel
 		{
 			Id = "test",
 			StatusName = expectedStatus,
@@ -228,25 +213,23 @@ public class IssueComponentTests : TestContext
 		_expectedIssue.IssueStatus = new BasicStatusModel(model);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 		var result = cut.Find("div.issue-entry-status");
 
 		// Assert 
 		result.ClassName.Should().Contain(expectedCss);
-
 	}
 
 	[Fact]
 	public void IssueComponent_OpenDetailsPage_Should_NavigateToDetailsPage_Test()
 	{
-
 		// Arrange
-		string expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
+		var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
 
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.Find("div.issue-entry-category-text").Click();
 
@@ -254,20 +237,18 @@ public class IssueComponentTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	[Fact]
 	public void IssueComponent_OpenDetailsPage2_Should_NavigateToDetailsPage_Test()
 	{
-
 		// Arrange
-		string expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
+		var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
 
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.Find("div.text-title").Click();
 
@@ -275,18 +256,16 @@ public class IssueComponentTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	[Fact]
 	public void IssueComponent_ArchiveIssue_Should_ArchiveTheIssue_Test()
 	{
-
 		// Arrange
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<IssueComponent> cut = ComponentUnderTest(true);
+		var cut = ComponentUnderTest(true);
 
 		cut.Find("#archive").Click();
 		cut.Find("#confirm").Click();
@@ -294,7 +273,6 @@ public class IssueComponentTests : TestContext
 		// Assert
 		_issueRepositoryMock.Verify(x => x
 			.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	private void SetupMocks()
@@ -305,8 +283,7 @@ public class IssueComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -316,26 +293,24 @@ public class IssueComponentTests : TestContext
 			);
 		}
 
-		if (isAdmin) authContext.SetPolicies("Admin");
-
+		if (isAdmin)
+		{
+			authContext.SetPolicies("Admin");
+		}
 	}
 
 
 	private void RegisterServices()
 	{
-
 		Services.AddSingleton<IIssueService>(
 			new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
 }

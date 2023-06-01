@@ -1,5 +1,4 @@
 ﻿@page "/Admin"
-@using IssueTracker.Services.Issue.Interface
 
 @attribute [Authorize(Policy = "Admin")]
 
@@ -31,7 +30,7 @@
 					@if (_currentEditingTitle == s.Id)
 					{
 						<EditForm class="approval-edit-form" Model="@_editedTitle" OnSubmit="() => SaveTitle(s)">
-							<InputText class="form-control approval-edit-field" id="title-text" @bind-Value="_editedTitle" />
+							<InputText class="form-control approval-edit-field" id="title-text" @bind-Value="_editedTitle"/>
 							<button id="submit-edit" class="btn" type="submit">
 								<span class="oi oi-check issue-edit-approve"></span>
 							</button>
@@ -50,12 +49,12 @@
 					@if (_currentEditingDescription == s.Id)
 					{
 						<EditForm class="approval-edit-form" Model="@_editedDescription" OnSubmit="() => SaveDescription(s)">
-							<InputText class="form-control approval-edit-field" id="description-text" @bind-Value="_editedDescription" />
+							<InputText class="form-control approval-edit-field" id="description-text" @bind-Value="_editedDescription"/>
 							<button id="submit-description" class="btn" type="submit">
 								<span class="oi oi-check issue-edit-approve"></span>
 							</button>
 							<button id="reject-description" type="button" class="btn"
-							@onclick="() => _currentEditingDescription = string.Empty">
+							        @onclick="() => _currentEditingDescription = string.Empty">
 								<span class="oi oi-x issue-edit-reject"></span>
 							</button>
 						</EditForm>

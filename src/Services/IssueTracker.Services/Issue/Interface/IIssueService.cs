@@ -22,5 +22,4 @@ public interface IIssueService
 	Task<List<IssueModel>> GetIssuesWaitingForApproval();
 
 	Task UpdateIssue(IssueModel issue);
-
 }

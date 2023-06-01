@@ -3,31 +3,27 @@
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
 {
-
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 
 	public AdminTests()
 	{
-
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-
 	}
 
 	[Fact]
 	public void Admin_With_No_Issues_Should_DisplayHeaderAndIssueCountOfZero_Test()
 	{
-
 		// Arrange
 		const string expectedCount = "0";
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
@@ -35,20 +31,18 @@ public class AdminTests : TestContext
 		cut.MarkupMatches
 		(
 			@"<h1 class=""page-heading text-uppercase mb-4"">Pending Issues</h1>
-				<div class=""row"">
-				  <div class=""issue-count col-8 text-light mt-2"">0 Issues</div>
-				  <div class=""col-4 close-button-section"">
-				    <button id=""close-page"" class=""btn btn-close"" ></button>
-				  </div>
-				</div>"
+<div class=""row"">
+	<div class=""issue-count col-8 text-light mt-2"">0 Issues</div>
+	<div class=""col-4 close-button-section"">
+		<button id=""close-page"" class=""btn btn-close""></button>
+	</div>
+</div>"
 		);
-
 	}
 
 	[Fact]
 	public void Admin_With_UnApprovedIssues_Should_DisplayTheIssueAndIssueCountOfOne_Test()
 	{
-
 		// Arrange
 		const string expectedCount = "1";
 		const string expectedHtml =
@@ -82,18 +76,16 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 
 		// Assert
 		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Admin_With_ApprovedButtonClick_Should_SetApprovedToTrue_Test()
 	{
-
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -102,20 +94,18 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#approve-issue").Click();
 
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditTitleSpanClick_Should_ShowIssueTitleEditTextBox_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -158,18 +148,16 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditDescriptionSpanClick_Should_ShowIssueDescriptionEditTextBox_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -213,18 +201,16 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueTitleSubmit_Should_SaveChanges_Test()
 	{
-
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -233,7 +219,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#title-text").Change("Text Change");
 		cut.Find("#submit-edit").Click();
@@ -242,13 +228,11 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueTitleReject_Should_RevertTheChanges_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -280,19 +264,17 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-title").Click();
 		cut.Find("#reject-edit").Click();
 
 		// Assert 
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueDescriptionSubmit_Should_SaveChanges_Test()
 	{
-
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -301,7 +283,7 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#submit-description").Click();
@@ -310,13 +292,11 @@ public class AdminTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Admin_With_EditIssueDescriptionReject_Should_RevertTheChanges_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -348,20 +328,18 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#edit-description").Click();
 		cut.Find("#description-text").Change("Description Changed");
 		cut.Find("#reject-description").Click();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Admin_With_RejectButtonClick_Should_SetRejectToTrue_Test()
 	{
-
 		// Arrange
 		SetupRepositoryMock();
 		SetMemoryCache();
@@ -370,20 +348,18 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#reject-issue").Click();
 
 		// Assert
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Admin_ClosePageButtonClick_Should_NavigateToIndexPage_Test()
 	{
-
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
@@ -392,41 +368,33 @@ public class AdminTests : TestContext
 			_memoryCacheMock.Object));
 
 		// Act
-		IRenderedComponent<Admin> cut = RenderComponent<Admin>();
+		var cut = RenderComponent<Admin>();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	private void SetupRepositoryMock()
 	{
-
 		const int count = 1;
 		IEnumerable<IssueModel> expected = FakeIssue.GetIssues(count).ToList();
 		foreach (var issue in expected)
 		{
-
 			issue.ApprovedForRelease = false;
 			issue.Archived = false;
-
 		}
 
 		_issueRepositoryMock.Setup(x => x.GetWaitingForApprovalAsync()).ReturnsAsync(expected);
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
-
 }

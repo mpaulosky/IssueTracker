@@ -3,11 +3,9 @@
 [ExcludeFromCodeCoverage]
 public class BasicCommentModelTests
 {
-
 	[Fact(DisplayName = "BasicCommentModel With Comment Test")]
 	public void BasicCommentModel_With_Comment_Should_Return_A_BasicComment_Test()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment(true);
 
@@ -21,7 +19,5 @@ public class BasicCommentModelTests
 		result.Description.Should().Be(expected.Description);
 		result.DateCreated.Should().Be(expected.DateCreated);
 		result.Author.Should().Be(expected.Author);
-
 	}
-
 }

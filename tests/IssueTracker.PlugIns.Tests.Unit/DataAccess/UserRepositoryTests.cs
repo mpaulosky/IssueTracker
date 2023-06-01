@@ -3,7 +3,6 @@
 [ExcludeFromCodeCoverage]
 public class UserRepositoryTests
 {
-
 	private readonly Mock<IAsyncCursor<UserModel>> _cursor;
 	private readonly Mock<IMongoCollection<UserModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
@@ -11,26 +10,21 @@ public class UserRepositoryTests
 
 	public UserRepositoryTests()
 	{
-
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = TestFixtures.GetMockContext();
-
 	}
 
 	private UserRepository CreateRepository()
 	{
-
 		return new UserRepository(_mockContext.Object);
-
 	}
 
 	[Fact(DisplayName = "CreateUser with a valid user")]
 	public async Task CreateUser_With_Valid_User_Should_Insert_A_New_User_TestAsync()
 	{
-
 		// Arrange
 		var newUser = FakeUser.GetNewUser(true);
 
@@ -44,17 +38,15 @@ public class UserRepositoryTests
 		// Assert
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c
-		.InsertOneAsync(
-			newUser,
-			null,
-			default), Times.Once);
-
+			.InsertOneAsync(
+				newUser,
+				null,
+				default), Times.Once);
 	}
 
 	[Fact(DisplayName = "GetUser With a Valid Id")]
 	public async Task GetUser_With_Valid_Id_Should_Returns_One_User_Test()
 	{
-
 		// Arrange
 		var expected = FakeUser.GetNewUser(true);
 
@@ -75,17 +67,15 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<UserModel>>(),
-			It.IsAny<FindOptions<UserModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<UserModel>>(),
+				It.IsAny<FindOptions<UserModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "GetUser From Authentication")]
 	public async Task GetUserFromAuthentication_With_Valid_ObjectIdentifier_Should_Returns_One_User_Test()
 	{
-
 		// Arrange
 		var expected = FakeUser.GetNewUser(true);
 
@@ -107,17 +97,15 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<UserModel>>(),
-			It.IsAny<FindOptions<UserModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<UserModel>>(),
+				It.IsAny<FindOptions<UserModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Users")]
 	public async Task GetUsers_With_Valid_Context_Should_Return_A_List_Of_Users_Test()
 	{
-
 		// Arrange
 		const int expectedCount = 3;
 		var expected = FakeUser.GetUsers(expectedCount).ToList();
@@ -139,17 +127,15 @@ public class UserRepositoryTests
 
 		//Verify if FindAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			FilterDefinition<UserModel>.Empty,
-			It.IsAny<FindOptions<UserModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				FilterDefinition<UserModel>.Empty,
+				It.IsAny<FindOptions<UserModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update User with a valid Id and User")]
 	public async Task UpdateUser_With_A_Valid_Id_And_User_Should_UpdateUser_Test()
 	{
-
 		// Arrange
 		var expected = FakeUser.GetNewUser(true);
 
@@ -162,7 +148,7 @@ public class UserRepositoryTests
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		_mockContext.Setup(c => c
-		.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+			.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		var sut = CreateRepository();
 
@@ -172,18 +158,16 @@ public class UserRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<UserModel>>(),
-				updatedUser,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<UserModel>>(),
+					updatedUser,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Archive User")]
 	public async Task ArchiveUser_With_A_Valid_Id_And_User_Should_ArchiveUser_Test()
 	{
-
 		// Arrange
 		var expected = FakeUser.GetNewUser(true);
 
@@ -197,7 +181,7 @@ public class UserRepositoryTests
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		_mockContext.Setup(c => c
-		.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+			.GetCollection<UserModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		var sut = CreateRepository();
 
@@ -207,12 +191,10 @@ public class UserRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<UserModel>>(),
-				updatedUser,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<UserModel>>(),
+					updatedUser,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
-
 }

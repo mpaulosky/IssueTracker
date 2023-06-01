@@ -8,20 +8,18 @@
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>
-///		RegisterServices class
+///   RegisterServices class
 /// </summary>
 [ExcludeFromCodeCoverage]
 public static class AllServicesToRegister
 {
-
-	///  <summary>
-	/// 		Configures the services method.
-	///  </summary>
-	///  <param name="builder">The builder.</param>
-	///  <param name="config">ConfigurationManager</param>
+	/// <summary>
+	///   Configures the services method.
+	/// </summary>
+	/// <param name="builder">The builder.</param>
+	/// <param name="config">ConfigurationManager</param>
 	public static void ConfigureServices(this WebApplicationBuilder builder, ConfigurationManager config)
 	{
-
 		// Add services to the container.
 
 		builder.Services.AddServerSideBlazor().AddMicrosoftIdentityConsentHandler();
@@ -47,7 +45,5 @@ public static class AllServicesToRegister
 		builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 
 		builder.Services.AddBlazoredSessionStorage();
-
 	}
-
 }

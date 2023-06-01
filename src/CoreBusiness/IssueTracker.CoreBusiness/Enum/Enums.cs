@@ -1,44 +1,37 @@
 ﻿namespace IssueTracker.CoreBusiness.Enum;
+
 public class Enums
 {
-
 	/// <summary>
-	/// Category enum
+	///   Category enum
 	/// </summary>
 	internal enum Category
 	{
-
 		Design,
 		Documentation,
 		Implementation,
 		Clarification,
 		Miscellaneous
-
 	}
 
 	/// <summary>
-	/// Status enum
+	///   Status enum
 	/// </summary>
 	internal enum Status
 	{
-
 		Answered,
 		Watching,
 		Dismissed,
 		InWork
-
 	}
 
 	/// <summary>
-	/// SourceType enum
+	///   SourceType enum
 	/// </summary>
 	internal enum SourceType
 	{
-
 		Comment,
 		Issue,
 		Solution
-
 	}
-
 }

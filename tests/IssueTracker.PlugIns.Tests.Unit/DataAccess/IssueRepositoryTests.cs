@@ -1,10 +1,8 @@
-﻿
-namespace IssueTracker.PlugIns.DataAccess;
+﻿namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class IssueRepositoryTests
 {
-
 	private readonly Mock<IAsyncCursor<IssueModel>> _cursor;
 	private readonly Mock<IMongoCollection<IssueModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
@@ -12,26 +10,21 @@ public class IssueRepositoryTests
 
 	public IssueRepositoryTests()
 	{
-
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = TestFixtures.GetMockContext();
-
 	}
 
 	private IssueRepository CreateRepository()
 	{
-
 		return new IssueRepository(_mockContext.Object);
-
 	}
 
 	[Fact(DisplayName = "Archive Issue")]
 	public async Task ArchiveIssue_With_A_Valid_Id_And_Issue_Should_ArchiveIssue_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeIssue.GetNewIssue(true);
 
@@ -54,23 +47,21 @@ public class IssueRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<IssueModel>>(),
-				updatedIssue,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<IssueModel>>(),
+					updatedIssue,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Issue with valid Issue")]
 	public async Task CreateIssue_With_Valid_Issue_Should_Insert_A_New_Issue_TestAsync()
 	{
-
 		// Arrange
 		var newIssue = FakeIssue.GetNewIssue(true);
 
 		_mockContext.Setup(c => c
-		.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
+			.GetCollection<IssueModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
 		var sut = CreateRepository();
 
@@ -80,17 +71,15 @@ public class IssueRepositoryTests
 		// Assert
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c
-		.InsertOneAsync(
-			It.IsAny<IssueModel>(),
-			null,
-			default), Times.Once);
-
+			.InsertOneAsync(
+				It.IsAny<IssueModel>(),
+				null,
+				default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Issue With a Valid Id")]
 	public async Task GetIssue_With_Valid_Id_Should_Returns_One_Issue_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeIssue.GetNewIssue(true);
 
@@ -103,7 +92,7 @@ public class IssueRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		IssueModel result = await sut.GetAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -113,17 +102,15 @@ public class IssueRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<IssueModel>>(),
-			It.IsAny<FindOptions<IssueModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<IssueModel>>(),
+				It.IsAny<FindOptions<IssueModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Issues")]
 	public async Task GetIssues_With_Valid_Context_Should_Return_A_List_Of_Issues_Test()
 	{
-
 		// Arrange
 		const int expectedCount = 6;
 		_list = FakeIssue.GetIssues(expectedCount).ToList();
@@ -142,17 +129,15 @@ public class IssueRepositoryTests
 		results.Should().HaveCount(expectedCount);
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<IssueModel>>(),
-			It.IsAny<FindOptions<IssueModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<IssueModel>>(),
+				It.IsAny<FindOptions<IssueModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Users Issues")]
 	public async Task GetUsersIssues_With_Valid_Id_Should_Return_A_List_Of_User_Issues_TestAsync()
 	{
-
 		// Arrange
 		const int expectedCount = 2;
 		const string expectedUserId = "5dc1039a1521eaa36835e541";
@@ -161,8 +146,7 @@ public class IssueRepositoryTests
 
 		foreach (var item in expected)
 		{
-			item.Author = new BasicUserModel(id: expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones");
-
+			item.Author = new BasicUserModel(expectedUserId, "Jim", "Jones", "jimjones@test.com", "jimjones");
 		}
 
 		_list = new List<IssueModel>(expected).Where(x => x.Author.Id == expectedUserId).ToList();
@@ -181,29 +165,25 @@ public class IssueRepositoryTests
 		results.Should().HaveCount(expectedCount);
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<IssueModel>>(),
-			It.IsAny<FindOptions<IssueModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<IssueModel>>(),
+				It.IsAny<FindOptions<IssueModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "GetIssues Waiting For Approval")]
 	public async Task
 		GetIssuesWaitingForApproval_With_ListOfIssues_Should_ReturnAListOfIssuesWaitingForApproval_Test()
 	{
-
 		// Arrange
 		const int expectedCount = 3;
 		_list = FakeIssue.GetIssues(expectedCount).ToList();
 
 		foreach (var item in _list)
 		{
-
 			item.ApprovedForRelease = false;
 			item.Archived = false;
 			item.Rejected = false;
-
 		}
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
@@ -221,17 +201,15 @@ public class IssueRepositoryTests
 
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<IssueModel>>(),
-			It.IsAny<FindOptions<IssueModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<IssueModel>>(),
+				It.IsAny<FindOptions<IssueModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Approved Issues")]
 	public async Task GetApprovedIssues_With_ValidData_Should_ReturnAListOfIssues_Test()
 	{
-
 		// Arrange
 		const int expectedCount = 2;
 		_list = FakeIssue.GetIssues(expectedCount).ToList();
@@ -257,17 +235,15 @@ public class IssueRepositoryTests
 		results.Should().HaveCount(expectedCount);
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<IssueModel>>(),
-			It.IsAny<FindOptions<IssueModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<IssueModel>>(),
+				It.IsAny<FindOptions<IssueModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Issue with valid Issue")]
 	public async Task UpdateIssue_With_A_Valid_Id_And_Issue_Should_UpdateIssue_Test()
 	{
-
 		// Arrange
 		var expected = FakeIssue.GetNewIssue(true);
 
@@ -296,12 +272,10 @@ public class IssueRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<IssueModel>>(),
-				updatedIssue,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<IssueModel>>(),
+					updatedIssue,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
-
 }

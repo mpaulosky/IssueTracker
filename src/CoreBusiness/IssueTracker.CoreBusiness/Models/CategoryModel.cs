@@ -10,44 +10,43 @@
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
-/// CategoryModel class
+///   CategoryModel class
 /// </summary>
 [Serializable]
 public class CategoryModel
 {
-
 	/// <summary>
-	/// Gets or sets the identifier.
+	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
-	/// The identifier.
+	///   The identifier.
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string? Id { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the name of the category.
+	///   Gets or sets the name of the category.
 	/// </summary>
 	/// <value>
-	/// The name of the category.
+	///   The name of the category.
 	/// </value>
 	[BsonElement("category_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryName { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the category description.
+	///   Gets or sets the category description.
 	/// </summary>
 	/// <value>
-	/// The category description.
+	///   The category description.
 	/// </value>
 	[BsonElement("category-description")]
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryDescription { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets a value indicating whether this <see cref="CategoryModel"/> is archived.
+	///   Gets or sets a value indicating whether this <see cref="CategoryModel" /> is archived.
 	/// </summary>
 	/// <value>
 	///   <c>true</c> if archived; otherwise, <c>false</c>.
@@ -57,11 +56,10 @@ public class CategoryModel
 	public bool Archived { get; set; }
 
 	/// <summary>
-	/// Gets or sets who archived the record.
+	///   Gets or sets who archived the record.
 	/// </summary>
 	/// <value>
-	/// Who archived the record.
+	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new BasicUserModel();
-
+	public BasicUserModel ArchivedBy { get; set; } = new();
 }

@@ -86,24 +86,19 @@ public static class TestFixtures
 
 		var settings = new DatabaseSettings(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return settings;
-
 	}
 
 	public static IOptions<DatabaseSettings> Settings(string connectionStrings, string databaseName)
 	{
-
-		var settings = new DatabaseSettings(connectionStrings: connectionStrings, databaseName: databaseName)
+		var settings = new DatabaseSettings(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return Options.Create(settings);
-
 	}
 }

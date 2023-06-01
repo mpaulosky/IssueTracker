@@ -23,24 +23,23 @@
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
 		<button id="sort-by-new" class="btn btn-order @SortedByNewCssClass(true)"
-		@onclick="() => OrderByNew(true)">
+		        @onclick="() => OrderByNew(true)">
 			New
 		</button>
 		<button id="sort-by-popular" class="btn btn-order @SortedByNewCssClass(false)"
-		@onclick="() => OrderByNew(false)">
+		        @onclick="() => OrderByNew(false)">
 			Popular
 		</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search" aria-label="Search box" class="form-control rounded-control"
-		@oninput="txt => OnSearchInput((string)txt.Value!)" />
+		       @oninput="txt => OnSearchInput((string)txt.Value!)"/>
 	</div>
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null)
 		{
 			@if (_showCategories)
 			{
-
 				<div class="categories">
 					<span class="text-uppercase fw-bold">Category</span>
 					<div class="@GetSelectedCategoryCssClass()" @onclick="() => OnCategoryClick()">All</div>
@@ -51,9 +50,7 @@
 						</div>
 					}
 				</div>
-
 			}
-
 		}
 		else
 		{
@@ -66,7 +63,6 @@
 		{
 			@if (_showStatuses)
 			{
-
 				<div class="statuses">
 					<span class="text-uppercase fw-bold">Status</span>
 					<div class="@GetSelectedStatusCssClass()" @onclick="() => OnStatusClick()">All</div>
@@ -77,9 +73,7 @@
 						</div>
 					}
 				</div>
-
 			}
-
 		}
 		else
 		{
@@ -94,7 +88,7 @@
 	<div class="col-md-8 col-xl-9">
 		<Virtualize Context="item" Items="@_issues" OverscanCount="10">
 			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive="true" />
+				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive="true"/>
 			</div>
 		</Virtualize>
 	</div>

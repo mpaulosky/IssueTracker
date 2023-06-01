@@ -10,7 +10,7 @@
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
-/// FakeIssue class
+///   FakeIssue class
 /// </summary>
 public static class FakeIssue
 {
@@ -18,7 +18,6 @@ public static class FakeIssue
 
 	private static void SetupGenerator()
 	{
-
 		Randomizer.Seed = new Random(123);
 
 		_issueGenerator = new Faker<IssueModel>()
@@ -32,22 +31,23 @@ public static class FakeIssue
 			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
 			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-
 	}
 
 	/// <summary>
-	/// Gets the new issue.
+	///   Gets the new issue.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>IssueModel</returns>
 	public static IssueModel GetNewIssue(bool keepId = false)
 	{
-
 		SetupGenerator();
 
 		var issue = _issueGenerator!.Generate();
 
-		if (!keepId) issue.Id = string.Empty;
+		if (!keepId)
+		{
+			issue.Id = string.Empty;
+		}
 
 		issue.Archived = false;
 
@@ -62,17 +62,15 @@ public static class FakeIssue
 		issue.IssueStatus = new BasicStatusModel(status);
 
 		return issue;
-
 	}
 
 	/// <summary>
-	/// Gets the issues.
+	///   Gets the issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
 	/// <returns>IEnumerable List of IssueModels</returns>
 	public static IEnumerable<IssueModel> GetIssues(int numberOfIssues)
 	{
-
 		SetupGenerator();
 
 		var issues = _issueGenerator!.Generate(numberOfIssues);
@@ -83,17 +81,15 @@ public static class FakeIssue
 		}
 
 		return issues;
-
 	}
 
 	/// <summary>
-	/// Gets a list of basic issues.
+	///   Gets a list of basic issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
 	/// <returns>IEnumerable List of BasicIssueModels</returns>
 	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
 	{
-
 		SetupGenerator();
 
 		var issues = GetIssues(numberOfIssues);
@@ -102,7 +98,5 @@ public static class FakeIssue
 			issues.Select(c => new BasicIssueModel(c));
 
 		return basicIssues;
-
 	}
-
 }

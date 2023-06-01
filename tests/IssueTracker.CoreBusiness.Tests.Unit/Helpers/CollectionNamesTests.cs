@@ -3,7 +3,6 @@
 [ExcludeFromCodeCoverage]
 public class CollectionNamesTests
 {
-
 	[Theory(DisplayName = "GetCollectionName Tests")]
 	[InlineData("CategoryModel", "categories")]
 	[InlineData("CommentModel", "comments")]
@@ -20,6 +19,5 @@ public class CollectionNamesTests
 
 		// Assert
 		result.Should().Be(expected);
-
 	}
 }

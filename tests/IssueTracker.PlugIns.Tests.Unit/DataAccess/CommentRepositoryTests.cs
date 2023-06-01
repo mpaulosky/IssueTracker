@@ -3,7 +3,6 @@
 [ExcludeFromCodeCoverage]
 public class CommentRepositoryTests
 {
-
 	private readonly Mock<IAsyncCursor<CommentModel>> _cursor;
 	private readonly Mock<IMongoCollection<CommentModel>> _mockCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
@@ -14,7 +13,6 @@ public class CommentRepositoryTests
 
 	public CommentRepositoryTests()
 	{
-
 		_cursor = TestFixtures.GetMockCursor(_list);
 		_userCursor = TestFixtures.GetMockCursor(_users);
 
@@ -22,20 +20,16 @@ public class CommentRepositoryTests
 		_mockUserCollection = TestFixtures.GetMockCollection(_userCursor);
 
 		_mockContext = TestFixtures.GetMockContext();
-
 	}
 
 	private CommentRepository CreateRepository()
 	{
-
 		return new CommentRepository(_mockContext.Object);
-
 	}
 
 	[Fact(DisplayName = "Create Comment With Valid Comment")]
 	public async Task CreateComment_With_A_Valid_Comment_Should_Return_Success_TestAsync()
 	{
-
 		// Arrange
 		var newComment = FakeComment.GetNewComment();
 
@@ -55,17 +49,15 @@ public class CommentRepositoryTests
 		// Assert
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c
-		.InsertOneAsync(
-			It.IsAny<CommentModel>(),
-			null,
-			default), Times.Once);
-
+			.InsertOneAsync(
+				It.IsAny<CommentModel>(),
+				null,
+				default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Comment With a Valid Id")]
 	public async Task GetComment_With_Valid_Id_Should_Returns_One_Comment_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment(true);
 
@@ -78,7 +70,7 @@ public class CommentRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		CommentModel result = await sut.GetAsync(expected.Id).ConfigureAwait(false);
+		var result = await sut.GetAsync(expected.Id).ConfigureAwait(false);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -86,17 +78,15 @@ public class CommentRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<CommentModel>>(),
-			It.IsAny<FindOptions<CommentModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<CommentModel>>(),
+				It.IsAny<FindOptions<CommentModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Comments")]
 	public async Task GetComments_With_Valid_Context_Should_Return_A_List_Of_Comments_TestAsync()
 	{
-
 		// Arrange
 		const int expectedCount = 5;
 		var expected = FakeComment.GetComments(expectedCount).ToList();
@@ -119,23 +109,21 @@ public class CommentRepositoryTests
 		result.Should().HaveCount(expectedCount);
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<CommentModel>>(),
-			It.IsAny<FindOptions<CommentModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<CommentModel>>(),
+				It.IsAny<FindOptions<CommentModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Users Comments with valid Id")]
 	public async Task GetUsersComments_With_Valid_Users_Id_Should_Return_A_List_Of_Users_Comments_TestAsync()
 	{
-
 		// Arrange
 		const int expectedCount = 1;
 
 		var expected = FakeComment.GetNewComment(true);
 
-		_list = new List<CommentModel>() { expected };
+		_list = new List<CommentModel> { expected };
 
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
@@ -153,17 +141,15 @@ public class CommentRepositoryTests
 		results[0].Author.DisplayName.Should().NotBeNull();
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<CommentModel>>(),
-			It.IsAny<FindOptions<CommentModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<CommentModel>>(),
+				It.IsAny<FindOptions<CommentModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Comment")]
 	public async Task UpdateComment_With_A_Valid_Id_And_Comment_Should_UpdateComment_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment(true);
 
@@ -187,18 +173,16 @@ public class CommentRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<CommentModel>>(),
-				updatedComment,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<CommentModel>>(),
+					updatedComment,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Archive Comment")]
 	public async Task ArchiveComment_With_A_Valid_Id_And_Comment_Should_ArchiveComment_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment(true);
 
@@ -226,13 +210,11 @@ public class CommentRepositoryTests
 				updatedComment,
 				It.IsAny<ReplaceOptions>(),
 				It.IsAny<CancellationToken>()), Times.Once);
-
 	}
 
 	[Fact(DisplayName = "Upvote Comment With Valid Comment and User")]
 	public async Task UpVoteComment_With_A_Valid_CommentId_And_UserId_Should_Return_Success_TestAsync()
 	{
-
 		// Arrange
 		const int expectedCount = 1;
 		var expected = FakeComment.GetNewComment(true);
@@ -256,13 +238,11 @@ public class CommentRepositoryTests
 
 		// Assert
 		expected.UserVotes.Count.Should().Be(expectedCount);
-
 	}
 
 	[Fact(DisplayName = "Upvote Comment With User Already Voted")]
 	public async Task UpVoteComment_With_User_Already_Voted_Should_Remove_The_User_And_The_Comment_Test()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment(true);
 
@@ -287,13 +267,11 @@ public class CommentRepositoryTests
 
 		// Assert
 		expected.UserVotes.Count.Should().Be(0);
-
 	}
 
 	[Fact(DisplayName = "Get Comments By Source")]
 	public async Task GetCommentsBySourceAsync_With_ValidSource_Should_Return_A_List_Of_Comments_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetComments(1).First();
 		expected.Archived = false;
@@ -318,11 +296,9 @@ public class CommentRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<CommentModel>>(),
-			It.IsAny<FindOptions<CommentModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<CommentModel>>(),
+				It.IsAny<FindOptions<CommentModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
-
 }

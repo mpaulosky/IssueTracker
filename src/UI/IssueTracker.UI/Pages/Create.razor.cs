@@ -8,19 +8,19 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Create class
+///   Create class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [UsedImplicitly]
 public partial class Create
 {
 	private List<CategoryModel>? _categories;
-	private List<StatusModel>? _statuses;
 	private CreateIssueDto _issue = new();
 	private UserModel? _loggedInUser;
+	private List<StatusModel>? _statuses;
 
 	/// <summary>
-	///		OnInitializedAsync method
+	///   OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
@@ -30,12 +30,12 @@ public partial class Create
 	}
 
 	/// <summary>
-	///		CreateIssue method
+	///   CreateIssue method
 	/// </summary>
 	private async Task CreateIssue()
 	{
-		CategoryModel? category = _categories!.FirstOrDefault(c => c.Id == _issue.CategoryId);
-		StatusModel? status = _statuses!.FirstOrDefault(c => c.StatusName == "Watching");
+		var category = _categories!.FirstOrDefault(c => c.Id == _issue.CategoryId);
+		var status = _statuses!.FirstOrDefault(c => c.StatusName == "Watching");
 		IssueModel s = new()
 		{
 			Title = _issue.Title!,
@@ -52,7 +52,7 @@ public partial class Create
 	}
 
 	/// <summary>
-	///		ClosePage method
+	///   ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{

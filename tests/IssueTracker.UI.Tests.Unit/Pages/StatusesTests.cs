@@ -3,18 +3,17 @@
 [ExcludeFromCodeCoverage]
 public class StatusesTests : TestContext
 {
+	private readonly IEnumerable<StatusModel> _expectedStatuses;
+	private readonly UserModel _expectedUser;
+
+	private readonly Mock<IMemoryCache> _memoryCacheMock;
+	private readonly Mock<ICacheEntry> _mockCacheEntry;
 
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 
-	private readonly Mock<IMemoryCache> _memoryCacheMock;
-	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private readonly IEnumerable<StatusModel> _expectedStatuses;
-	private readonly UserModel _expectedUser;
-
 	public StatusesTests()
 	{
-
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
 
@@ -23,47 +22,41 @@ public class StatusesTests : TestContext
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedStatuses = FakeStatus.GetStatuses();
-
 	}
 
 	private IRenderedComponent<Statuses> ComponentUnderTest()
 	{
-
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Statuses> component = RenderComponent<Statuses>();
+		var component = RenderComponent<Statuses>();
 
 		return component;
-
 	}
 
 	[Fact]
 	public void Statuses_CloseButton_Should_WhenClickedNavigateToIndexPage_Test()
 	{
-
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	[Fact]
 	public void Statuses_Should_DisplayMarkup_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -103,20 +96,18 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Statuses_AddNewStatusButton_Should_InsertNewInputRow_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -190,22 +181,20 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Statuses_AddNewCategoryButton_Should_CancelInsertOnCancel_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -271,10 +260,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
@@ -284,71 +273,65 @@ public class StatusesTests : TestContext
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Statuses_AddNewStatusButton_Should_CreateNewStatus_Test()
 	{
-
 		// Arrange
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
 				x.CreateAsync(It.IsAny<StatusModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Statuses_OnClickEditButton_Should_UpdateStatusOnSubmit_Test()
 	{
-
 		// Arrange
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
 		_statusRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<StatusModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Statuses_OnClickDeleteButton_Should_Archive_The_Status_Test()
 	{
-
 		// Arrange
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.FindAll("button")[3].Click(); // Delete Button
 
@@ -356,13 +339,11 @@ public class StatusesTests : TestContext
 		_statusRepositoryMock
 			.Verify(x =>
 				x.ArchiveAsync(It.IsAny<StatusModel>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Statuses_OnClickEditButton_Should_CancelEditOnCancelClick_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -428,10 +409,10 @@ public class StatusesTests : TestContext
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(isAdmin: true, true);
+		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Statuses> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		var buttons = cut.FindAll("button").ToList();
 		buttons[2].Click(); // Edit Button
@@ -441,22 +422,18 @@ public class StatusesTests : TestContext
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	private void SetupMocks()
 	{
-
 		_statusRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedStatuses);
 
 		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
-
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -466,28 +443,25 @@ public class StatusesTests : TestContext
 			);
 		}
 
-		if (isAdmin) authContext.SetPolicies("Admin");
-
+		if (isAdmin)
+		{
+			authContext.SetPolicies("Admin");
+		}
 	}
 
 	private void RegisterServices()
 	{
-
 		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
-
 }

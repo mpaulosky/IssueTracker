@@ -1,14 +1,11 @@
-﻿
-namespace IssueTracker.CoreBusiness.Models;
+﻿namespace IssueTracker.CoreBusiness.Models;
 
 [ExcludeFromCodeCoverage]
 public class BasicCommentOnSourceModelTests
 {
-
 	[Fact(DisplayName = "BasicCommentOnSourceModel With Comment Test")]
 	public void BasicCommentOnSourceModel_With_Comment_Should_Return_A_Valid_Model_Test()
 	{
-
 		// Arrange
 		var comment = FakeComment.GetNewComment(true);
 
@@ -23,7 +20,6 @@ public class BasicCommentOnSourceModelTests
 		result.Description.Should().Be(comment.Description);
 		result.DateCreated.Should().Be(comment.DateCreated);
 		result.Author.Should().Be(comment.Author);
-
 	}
 
 	[Fact(DisplayName = "BasicCommentOnSourceModel With Issue Test")]
@@ -48,7 +44,6 @@ public class BasicCommentOnSourceModelTests
 	[Fact(DisplayName = "BasicCommentOnSourceModel With Null Solution Test")]
 	public void BasicCommentOnSourceModel_With_Solution_Should_Return_A_Valid_Model_Test()
 	{
-
 		// Arrange
 		var solution = FakeSolution.GetNewSolution(true);
 
@@ -63,7 +58,5 @@ public class BasicCommentOnSourceModelTests
 		result.Description.Should().Be(solution.Description);
 		result.DateCreated.Should().Be(solution.DateCreated);
 		result.Author.Should().Be(solution.Author);
-
 	}
-
 }

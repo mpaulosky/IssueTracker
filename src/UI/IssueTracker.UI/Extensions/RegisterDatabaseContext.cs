@@ -8,23 +8,19 @@
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>
-/// IServiceCollectionExtensions
+///   IServiceCollectionExtensions
 /// </summary>
 public static partial class ServiceCollectionExtensions
 {
-
 	/// <summary>
-	/// RegisterDatabaseContext
+	///   RegisterDatabaseContext
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
 	/// <returns>IServiceCollection</returns>
 	public static IServiceCollection RegisterDatabaseContext(this IServiceCollection services)
 	{
-
 		services.AddSingleton<IMongoDbContextFactory, MongoDbContextFactory>();
 
 		return services;
-
 	}
-
 }

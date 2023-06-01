@@ -1,12 +1,9 @@
-﻿
-namespace IssueTracker.UI.Extensions;
+﻿namespace IssueTracker.UI.Extensions;
 
 public static partial class ServiceCollectionExtensions
 {
-
 	public static IServiceCollection RegisterPlugInRepositories(this IServiceCollection services)
 	{
-
 		services.AddTransient<ICategoryRepository, CategoryRepository>();
 		services.AddTransient<ICommentRepository, CommentRepository>();
 		services.AddTransient<IIssueRepository, IssueRepository>();
@@ -14,7 +11,5 @@ public static partial class ServiceCollectionExtensions
 		services.AddTransient<IUserRepository, UserRepository>();
 
 		return services;
-
 	}
-
 }

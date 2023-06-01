@@ -10,16 +10,14 @@
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
-/// FakeSolution class
+///   FakeSolution class
 /// </summary>
 public static class FakeSolution
 {
-
 	private static Faker<SolutionModel>? _solutionGenerator;
 
 	private static void SetupGenerator()
 	{
-
 		Randomizer.Seed = new Random(123);
 
 		_solutionGenerator = new Faker<SolutionModel>()
@@ -30,37 +28,36 @@ public static class FakeSolution
 			.RuleFor(f => f.Issue, FakeIssue.GetBasicIssues(1).First())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-
 	}
 
 	/// <summary>
-	/// Gets a new solution.
+	///   Gets a new solution.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
 	/// <returns>SolutionModel</returns>
 	public static SolutionModel GetNewSolution(bool keepId = false)
 	{
-
 		SetupGenerator();
 
 		var solution = _solutionGenerator!.Generate();
 
-		if (!keepId) solution.Id = string.Empty;
+		if (!keepId)
+		{
+			solution.Id = string.Empty;
+		}
 
 		solution.Archived = false;
 
 		return solution;
-
 	}
 
 	/// <summary>
-	/// Gets a list of solutions.
+	///   Gets a list of solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
 	/// <returns>IEnumerable List of SolutionModel</returns>
 	public static IEnumerable<SolutionModel> GetSolutions(int numberOfSolutions)
 	{
-
 		SetupGenerator();
 
 		var solutions = _solutionGenerator!.Generate(numberOfSolutions);
@@ -71,17 +68,15 @@ public static class FakeSolution
 		}
 
 		return solutions;
-
 	}
 
 	/// <summary>
-	/// Gets a list of basic solutions.
+	///   Gets a list of basic solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
 	/// <returns>IEnumerable List of BasicSolutionModel</returns>
 	public static IEnumerable<BasicSolutionModel> GetBasicSolutions(int numberOfSolutions)
 	{
-
 		SetupGenerator();
 
 		var solutions = GetSolutions(numberOfSolutions);
@@ -90,7 +85,5 @@ public static class FakeSolution
 			solutions.Select(c => new BasicSolutionModel(c));
 
 		return basicSolutions;
-
 	}
-
 }

@@ -3,20 +3,18 @@
 [ExcludeFromCodeCoverage]
 public class SolutionTests : TestContext
 {
-
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
+	private readonly List<CommentModel> _expectedComments;
+	private readonly List<IssueModel> _expectedIssues;
+	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private readonly List<CommentModel> _expectedComments;
-	private readonly List<IssueModel> _expectedIssues;
-	private readonly UserModel _expectedUser;
 
 
 	public SolutionTests()
 	{
-
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_commentRepositoryMock = new Mock<ICommentRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
@@ -27,27 +25,22 @@ public class SolutionTests : TestContext
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssues = FakeIssue.GetIssues(5).ToList();
 		_expectedComments = FakeComment.GetComments(5).ToList();
-
-
 	}
 
 	private IRenderedComponent<Solution> ComponentUnderTest()
 	{
-
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Solution> component = RenderComponent<Solution>();
+		var component = RenderComponent<Solution>();
 
 		return component;
-
 	}
 
 	[Fact(DisplayName = "Solution Page Check Logged In User With Null User")]
 	public Task Solution_With_NullLoggedInUser_Should_ThrowAArgumentNullException_TestAsync()
 	{
-
 		// Arrange
 		const string expectedParamName = "userObjectIdentifierId";
 		const string expectedMessage = "Value cannot be null.?*";
@@ -55,7 +48,7 @@ public class SolutionTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		Func<IRenderedComponent<Solution>> cut = ComponentUnderTest;
+		var cut = ComponentUnderTest;
 
 		// Assert
 		cut.Should()
@@ -63,30 +56,29 @@ public class SolutionTests : TestContext
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
 		return Task.CompletedTask;
-
 	}
 
 	[Fact(DisplayName = "Solution Page Check Logged In User With Valid User")]
 	public void CheckLoggedInUser_With_ValidUser_Should_DisplayAUser_TestAsync()
 	{
-
 		// Arrange
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Solution> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches
 		(
-			"""<h3>Solution</h3><h3 class="link" diff:ignore>Winfield_Upton73</h3>"""
+			"""
+				<h3>Solution</h3>
+				<h3 class="link" diff:ignore>Winfield_Upton73</h3>
+				"""
 		);
-
 	}
 
 	private void SetupMocks()
 	{
-
 		_issueRepositoryMock
 			.Setup(x => x
 				.GetByUserAsync(_expectedUser.Id))
@@ -101,13 +93,11 @@ public class SolutionTests : TestContext
 			.Setup(x => x
 				.GetByUserAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedComments);
-
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -117,13 +107,14 @@ public class SolutionTests : TestContext
 			);
 		}
 
-		if (isAdmin) authContext.SetPolicies("Admin");
-
+		if (isAdmin)
+		{
+			authContext.SetPolicies("Admin");
+		}
 	}
 
 	private void RegisterServices()
 	{
-
 		Services.AddSingleton<IIssueService>(
 			new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object));
 
@@ -131,18 +122,13 @@ public class SolutionTests : TestContext
 			new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object));
 
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
-
-
 }

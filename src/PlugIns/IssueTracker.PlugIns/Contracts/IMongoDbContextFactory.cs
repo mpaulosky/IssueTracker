@@ -11,7 +11,6 @@ namespace IssueTracker.PlugIns.Contracts;
 
 public interface IMongoDbContextFactory
 {
-
 	IMongoDatabase Database { get; }
 
 	IMongoClient Client { get; }
@@ -21,5 +20,4 @@ public interface IMongoDbContextFactory
 	string DbName { get; }
 
 	IMongoCollection<T> GetCollection<T>(string name);
-
 }

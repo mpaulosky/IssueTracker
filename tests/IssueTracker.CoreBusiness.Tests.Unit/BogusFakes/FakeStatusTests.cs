@@ -3,7 +3,6 @@
 [ExcludeFromCodeCoverage]
 public class FakeStatusTests
 {
-
 	[Theory(DisplayName = "FakeStatus GetNewStatus Tests")]
 	[InlineData(true)]
 	[InlineData(false)]
@@ -27,13 +26,11 @@ public class FakeStatusTests
 		result.StatusName.Should().NotBeNull();
 		result.StatusDescription.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
-
 	}
 
 	[Fact(DisplayName = "FakeStatus GetStatuses Existing Test")]
 	public void GetStatuses_With_No_Variable_Should_Return_A_List_Of_Statuses_Test()
 	{
-
 		// Arrange
 		const int expected = 4;
 
@@ -46,13 +43,11 @@ public class FakeStatusTests
 		result.First().StatusName.Should().Be("Answered");
 		result.First().StatusDescription.Should().Be("The issue was accepted and the corresponding item was created.");
 		result.First().Archived.Should().BeFalse();
-
 	}
 
 	[Fact(DisplayName = "FakeStatus GetStatuses Test")]
 	public void GetStatuses_With_RequestForStatuses_Should_ReturnFakeStatuses_Test()
 	{
-
 		// Arrange
 
 
@@ -64,13 +59,11 @@ public class FakeStatusTests
 		result.First().Id.Should().NotBeNull();
 		result.First().StatusName.Should().NotBeNull();
 		result.First().StatusDescription.Should().NotBeNull();
-
 	}
 
 	[Fact(DisplayName = "FakeStatus GetBasicStatuses Test")]
 	public void GetBasicStatuses_With_RequestForBasicStatuses_Should_ReturnFakeBasicStatuses_Test()
 	{
-
 		// Arrange
 
 		// Act
@@ -80,7 +73,5 @@ public class FakeStatusTests
 		result.Count.Should().Be(1);
 		result.First().StatusName.Should().NotBeNull();
 		result.First().StatusDescription.Should().NotBeNull();
-
 	}
-
 }

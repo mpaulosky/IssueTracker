@@ -3,13 +3,11 @@
 [ExcludeFromCodeCoverage]
 public class FakeCommentsTests
 {
-
 	[Theory(DisplayName = "FakeComments GetNewComment Test")]
 	[InlineData(true)]
 	[InlineData(false)]
 	public void GetNewComment_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
-
 		// Arrange
 		// Act
 		var result = FakeComment.GetNewComment(expected);
@@ -24,17 +22,17 @@ public class FakeCommentsTests
 				result.Id.Should().BeNullOrWhiteSpace();
 				break;
 		}
+
 		result.Title.Should().NotBeNull();
 		result.Description.Should().NotBeNull();
 		result.CommentOnSource.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
-
 	}
+
 	[Fact(DisplayName = "FakeComment GetComments Test")]
 	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test()
 	{
-
 		// Arrange
 
 		// Act
@@ -47,13 +45,11 @@ public class FakeCommentsTests
 		result.First().Description.Should().NotBeNull();
 		result.First().CommentOnSource.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
-
 	}
 
 	[Fact(DisplayName = "FakeComment GetBasicComments Test")]
 	public void GetBasicComments_With_RequestForBasicComments_Should_ReturnFakeBasicComments_Test()
 	{
-
 		// Arrange
 
 		// Act
@@ -66,17 +62,15 @@ public class FakeCommentsTests
 		result.First().Description.Should().NotBeNull();
 		result.First().Author.Should().NotBeNull();
 		result.First().CommentOnSource.Should().NotBeNull();
-
 	}
 
 	[Fact(DisplayName = "FakeComment GetBasicComment Test")]
 	public void GetBasicComment_With_RequestForABasicComment_Should_ReturnAFakeBasicComment_Test()
 	{
-
 		// Arrange
 
 		// Act
-		BasicCommentModel result = FakeComment.GetBasicComments(1).First();
+		var result = FakeComment.GetBasicComments(1).First();
 
 		// Assert
 		result.Id.Should().NotBeNull();
@@ -84,7 +78,5 @@ public class FakeCommentsTests
 		result.Description.Should().NotBeNull();
 		result.Author.Should().NotBeNull();
 		result.CommentOnSource.Should().NotBeNull();
-
 	}
-
 }

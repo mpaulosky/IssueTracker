@@ -10,26 +10,21 @@ public class StatusRepositoryTests
 
 	public StatusRepositoryTests()
 	{
-
 		_cursor = TestFixtures.GetMockCursor(_list);
 
 		_mockCollection = TestFixtures.GetMockCollection(_cursor);
 
 		_mockContext = TestFixtures.GetMockContext();
-
 	}
 
 	private StatusRepository CreateRepository()
 	{
-
 		return new StatusRepository(_mockContext.Object);
-
 	}
 
 	[Fact(DisplayName = "Create Status")]
 	public async Task Create_With_Valid_Status_Should_Insert_A_New_Status_TestAsync()
 	{
-
 		// Arrange
 		var newStatus = FakeStatus.GetNewStatus(true);
 
@@ -43,17 +38,15 @@ public class StatusRepositoryTests
 		// Assert
 		//Verify if InsertOneAsync is called once 
 		_mockCollection.Verify(c => c
-		.InsertOneAsync(
-			newStatus,
-			null,
-			default), Times.Once);
-
+			.InsertOneAsync(
+				newStatus,
+				null,
+				default), Times.Once);
 	}
 
 	[Fact(DisplayName = "Archive Status")]
 	public async Task ArchiveStatus_With_Valid_Status_Should_Archive_the_Status_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeStatus.GetNewStatus(true);
 
@@ -76,18 +69,16 @@ public class StatusRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<StatusModel>>(),
-				updatedStatus,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<StatusModel>>(),
+					updatedStatus,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Status With a Valid Id")]
 	public async Task GetStatus_With_Valid_Id_Should_Returns_One_Status_Test()
 	{
-
 		// Arrange
 		var expected = FakeStatus.GetNewStatus(true);
 
@@ -100,7 +91,7 @@ public class StatusRepositoryTests
 		var sut = CreateRepository();
 
 		//Act
-		StatusModel result = await sut.GetAsync(expected.Id);
+		var result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -108,17 +99,15 @@ public class StatusRepositoryTests
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<StatusModel>>(),
-			It.IsAny<FindOptions<StatusModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<StatusModel>>(),
+				It.IsAny<FindOptions<StatusModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Statuses")]
 	public async Task GetStatuses_With_Valid_Context_Should_Return_A_List_Of_Statuses_Test()
 	{
-
 		// Arrange
 		const int expectedCount = 4;
 
@@ -140,17 +129,15 @@ public class StatusRepositoryTests
 		results.Should().HaveCount(expectedCount);
 
 		_mockCollection.Verify(c => c
-		.FindAsync(
-			It.IsAny<FilterDefinition<StatusModel>>(),
-			It.IsAny<FindOptions<StatusModel>>(),
-			It.IsAny<CancellationToken>()), Times.Once);
-
+			.FindAsync(
+				It.IsAny<FilterDefinition<StatusModel>>(),
+				It.IsAny<FindOptions<StatusModel>>(),
+				It.IsAny<CancellationToken>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Update Status")]
 	public async Task UpdateStatus_With_A_Valid_Id_And_Status_Should_UpdateStatus_Test()
 	{
-
 		// Arrange
 		var expected = FakeStatus.GetNewStatus(true);
 
@@ -174,12 +161,10 @@ public class StatusRepositoryTests
 		// Assert
 		_mockCollection.Verify(
 			c => c
-			.ReplaceOneAsync(
-				It.IsAny<FilterDefinition<StatusModel>>(),
-				updatedStatus,
-				It.IsAny<ReplaceOptions>(),
-				It.IsAny<CancellationToken>()), Times.Once);
-
+				.ReplaceOneAsync(
+					It.IsAny<FilterDefinition<StatusModel>>(),
+					updatedStatus,
+					It.IsAny<ReplaceOptions>(),
+					It.IsAny<CancellationToken>()), Times.Once);
 	}
-
 }

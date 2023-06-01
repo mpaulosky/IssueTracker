@@ -3,25 +3,23 @@
 [ExcludeFromCodeCoverage]
 public class IndexTests : TestContext
 {
-
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
-	private readonly Mock<IIssueRepository> _issueRepositoryMock;
-	private readonly Mock<IStatusRepository> _statusRepositoryMock;
-	private readonly Mock<IUserRepository> _userRepositoryMock;
-
-	private readonly Mock<IMemoryCache> _memoryCacheMock;
-	private readonly Mock<ICacheEntry> _mockCacheEntry;
 
 	private readonly List<CategoryModel>? _expectedCategories;
 	private readonly List<IssueModel>? _expectedIssues;
 	private readonly List<StatusModel>? _expectedStatuses;
 
 	private readonly UserModel? _expectedUser;
+	private readonly Mock<IIssueRepository> _issueRepositoryMock;
+
+	private readonly Mock<IMemoryCache> _memoryCacheMock;
+	private readonly Mock<ICacheEntry> _mockCacheEntry;
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private ISessionStorageService _sessionStorageService;
 
 	public IndexTests()
 	{
-
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
@@ -35,7 +33,6 @@ public class IndexTests : TestContext
 		_expectedIssues = FakeIssue.GetIssues(5).ToList();
 		_expectedCategories = FakeCategory.GetCategories().ToList();
 		_expectedStatuses = FakeStatus.GetStatuses().ToList();
-
 	}
 
 	[Theory]
@@ -76,8 +73,8 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
 		buttons.Count.Should().BeGreaterThan(0);
@@ -92,8 +89,8 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
 		buttons.Count.Should().Be(0);
@@ -110,12 +107,12 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.text-title")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
 	}
@@ -131,11 +128,11 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -151,12 +148,12 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -187,9 +184,9 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		var buttons = cut.FindAll("#archive");
 		buttons[0].Click();
 		cut.Find("#confirm").Click();
 
@@ -215,7 +212,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.categories > div")[index].Click();
 
@@ -239,7 +236,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.FindAll("div.statuses > div")[index].Click();
 
@@ -258,7 +255,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("#sort-by-new").Click();
 
@@ -277,7 +274,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("#sort-by-popular").Click();
 
@@ -297,7 +294,7 @@ public class IndexTests : TestContext
 		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		var cut = RenderComponent<Index>();
 
 		cut.Find("input").Input("test");
 
@@ -324,7 +321,6 @@ public class IndexTests : TestContext
 
 	private void SetUpTests(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
 	{
-
 		SetupMocks();
 
 		SetMemoryCache();
@@ -336,7 +332,6 @@ public class IndexTests : TestContext
 
 	private void SetupMocks()
 	{
-
 		_issueRepositoryMock
 			.Setup(x => x.GetApprovedAsync())
 			.ReturnsAsync(_expectedIssues!);
@@ -356,7 +351,6 @@ public class IndexTests : TestContext
 		_statusRepositoryMock
 			.Setup(x => x.GetAllAsync())
 			.ReturnsAsync(_expectedStatuses!);
-
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAuth, bool isAdmin, bool difUser, bool newUser = false)
@@ -367,7 +361,7 @@ public class IndexTests : TestContext
 			return;
 		}
 
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		if (!difUser)
@@ -405,12 +399,10 @@ public class IndexTests : TestContext
 		{
 			authContext.SetPolicies("Admin");
 		}
-
 	}
 
 	private void RegisterServices()
 	{
-
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -423,17 +415,13 @@ public class IndexTests : TestContext
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 
 		Services.AddBlazoredSessionStorage();
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
-
 }

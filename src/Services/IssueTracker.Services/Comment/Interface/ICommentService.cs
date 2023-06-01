@@ -9,7 +9,6 @@ namespace IssueTracker.Services.Comment.Interface;
 
 public interface ICommentService
 {
-
 	Task CreateComment(CommentModel comment);
 
 	Task<CommentModel> GetComment(string commentId);
@@ -23,5 +22,4 @@ public interface ICommentService
 	Task UpdateComment(CommentModel comment);
 
 	Task UpVoteComment(string commentId, string userId);
-
 }

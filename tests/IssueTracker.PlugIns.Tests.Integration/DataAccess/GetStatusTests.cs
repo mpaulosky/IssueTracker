@@ -4,24 +4,31 @@
 [Collection("Test Collection")]
 public class GetStatusTests : IAsyncLifetime
 {
+	private const string CleanupValue = "statuses";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly StatusRepository _sut;
-	private const string CleanupValue = "statuses";
 
 	public GetStatusTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new StatusRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact]
 	public async Task GetAsync_With_WithData_Should_ReturnAValidStatus_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeStatus.GetNewStatus();
 		await _sut.CreateAsync(expected);
@@ -31,7 +38,6 @@ public class GetStatusTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeEquivalentTo(expected);
-
 	}
 
 	[Theory(DisplayName = "GetAsync Without Valid Data Should Fail")]
@@ -45,19 +51,5 @@ public class GetStatusTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeNull();
-
 	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

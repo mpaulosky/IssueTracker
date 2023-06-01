@@ -8,19 +8,17 @@
 namespace IssueTracker.UI.Extensions;
 
 /// <summary>
-/// IServiceCollectionExtensions
+///   IServiceCollectionExtensions
 /// </summary>
 public static partial class ServiceCollectionExtensions
 {
-
 	/// <summary>
-	/// Add Authorization Services
+	///   Add Authorization Services
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
 	/// <returns>IServiceCollection</returns>
 	public static IServiceCollection AddAuthorizationService(this IServiceCollection services)
 	{
-
 		services.AddAuthorization(options =>
 		{
 			options.AddPolicy("Admin", policy =>
@@ -30,7 +28,5 @@ public static partial class ServiceCollectionExtensions
 		});
 
 		return services;
-
 	}
-
 }

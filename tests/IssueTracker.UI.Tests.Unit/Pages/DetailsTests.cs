@@ -3,20 +3,18 @@
 [ExcludeFromCodeCoverage]
 public class DetailsTests : TestContext
 {
-
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
+	private readonly IssueModel _expectedIssue;
+	private readonly List<StatusModel> _expectedStatuses;
+	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private readonly IssueModel _expectedIssue;
-	private readonly UserModel _expectedUser;
-	private readonly List<StatusModel> _expectedStatuses;
 
 	public DetailsTests()
 	{
-
 		_statusRepositoryMock = new Mock<IStatusRepository>();
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_commentRepositoryMock = new Mock<ICommentRepository>();
@@ -28,31 +26,25 @@ public class DetailsTests : TestContext
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
 		_expectedStatuses = FakeStatus.GetStatuses().ToList();
-
 	}
 
 	private IRenderedComponent<Details> ComponentUnderTest(string? issueId)
 	{
-
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Details> component = RenderComponent<Details>(parameter =>
+		var component = RenderComponent<Details>(parameter =>
 		{
-
 			parameter.Add(p => p.Id, issueId);
-
 		});
 
 		return component;
-
 	}
 
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
-
 		// Arrange
 		const string expectedParamName = "userObjectIdentifierId";
 		const string expectedMessage = "Value cannot be null.?*";
@@ -60,7 +52,7 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(_expectedIssue.Id);
+		var cut = () => ComponentUnderTest(_expectedIssue.Id);
 
 
 		// Assert
@@ -68,13 +60,11 @@ public class DetailsTests : TestContext
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
-
 	}
 
 	[Fact]
 	public void Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test()
 	{
-
 		// Arrange
 		const string expectedParamName = "Id";
 		const string expectedMessage = "Value cannot be null.?*";
@@ -82,7 +72,7 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(null);
+		var cut = () => ComponentUnderTest(null);
 
 
 		// Assert
@@ -90,20 +80,18 @@ public class DetailsTests : TestContext
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
-
 	}
 
 	[Fact]
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
 	{
-
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#close-page").Click();
 
@@ -111,7 +99,6 @@ public class DetailsTests : TestContext
 		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
-
 	}
 
 	[Fact]
@@ -142,7 +129,7 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
@@ -151,7 +138,6 @@ public class DetailsTests : TestContext
 	[Fact]
 	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -189,24 +175,22 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Details_With_AddCommentClick_Should_NavigateToCommentPage_Test()
 	{
-
 		// Arrange
 		var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#create-comment").Click();
 
@@ -224,7 +208,6 @@ public class DetailsTests : TestContext
 	[InlineData(4, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
 	{
-
 		// Arrange
 		const int expectedCount = 1;
 		_expectedIssue.IssueStatus = index == 4 ? new BasicStatusModel() : new BasicStatusModel(_expectedStatuses[index]);
@@ -232,7 +215,7 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		var results = cut.FindAll("div");
 
@@ -240,18 +223,16 @@ public class DetailsTests : TestContext
 
 		// Assert
 		items.Count.Should().Be(expectedCount);
-
 	}
 
 	[Fact]
 	public void Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test()
 	{
-
 		// Arrange
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[0].Click();
 
@@ -259,18 +240,16 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Details_WhenCommentHasVoteByUser_Should_RemoveVote_Test()
 	{
-
 		// Arrange
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[2].Click();
 
@@ -278,13 +257,11 @@ public class DetailsTests : TestContext
 		_commentRepositoryMock
 			.Verify(x =>
 				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-
 	}
 
 	[Fact]
 	public void Details_With_ChangingAnsweredStatusWithoutUrl_Should_Fail_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			""""
@@ -324,14 +301,13 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.Find("#answered").Click();
 		cut.Find("#input-answer").Change("");
 		cut.Find("#confirm-answered-status").Click();
 
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
@@ -363,13 +339,12 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		cut.FindAll("#vote")[0].Click();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Theory(DisplayName = "Update Status")]
@@ -383,7 +358,7 @@ public class DetailsTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+		var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		switch (statusId)
 		{
@@ -410,12 +385,10 @@ public class DetailsTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	private void SetupMocks()
 	{
-
 		_issueRepositoryMock
 			.Setup(x => x.GetAsync(_expectedIssue.Id))
 			.ReturnsAsync(_expectedIssue);
@@ -438,13 +411,11 @@ public class DetailsTests : TestContext
 		_statusRepositoryMock
 			.Setup(x => x.GetAllAsync())
 			.ReturnsAsync(_expectedStatuses);
-
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -454,8 +425,10 @@ public class DetailsTests : TestContext
 			);
 		}
 
-		if (isAdmin) authContext.SetPolicies("Admin");
-
+		if (isAdmin)
+		{
+			authContext.SetPolicies("Admin");
+		}
 	}
 
 	private void RegisterServices()
@@ -476,5 +449,4 @@ public class DetailsTests : TestContext
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 	}
-
 }

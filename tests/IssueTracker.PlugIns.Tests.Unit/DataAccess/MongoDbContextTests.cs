@@ -3,27 +3,22 @@
 [ExcludeFromCodeCoverage]
 public class MongoDbContextTests
 {
-
-	const string ConnectionString = "mongodb://test123";
-	const string DatabaseName = "TestDb";
+	private const string ConnectionString = "mongodb://test123";
+	private const string DatabaseName = "TestDb";
 
 	private static MongoDbContextFactory UnitUnderTest()
 	{
-
-		DatabaseSettings settings = new DatabaseSettings(ConnectionString, DatabaseName)
+		var settings = new DatabaseSettings(ConnectionString, DatabaseName)
 		{
-			ConnectionStrings = ConnectionString,
-			DatabaseName = DatabaseName
+			ConnectionStrings = ConnectionString, DatabaseName = DatabaseName
 		};
 
 		return Substitute.For<MongoDbContextFactory>(settings);
-
 	}
 
 	[Fact]
 	public void MongoDbContext_With_Valid_Data_Should_Return_A_Context_Test()
 	{
-
 		// Arrange
 		var sut = UnitUnderTest();
 
@@ -34,7 +29,6 @@ public class MongoDbContextTests
 		sut.Client.Should().NotBeNull();
 		sut.ConnectionString.Should().Be(ConnectionString);
 		sut.DbName.Should().Be(DatabaseName);
-
 	}
 
 	[Theory]
@@ -42,7 +36,6 @@ public class MongoDbContextTests
 	[InlineData("", "The value cannot be an empty string. (Parameter 'name')")]
 	public void GetCollection_With_Invalid_Name_Should_Fail_Test(string value, string expectedMessage)
 	{
-
 		// Arrange
 		var sut = UnitUnderTest();
 
@@ -54,13 +47,11 @@ public class MongoDbContextTests
 			.Throw<ArgumentException>()
 			.WithParameterName("name")
 			.WithMessage(expectedMessage);
-
 	}
 
 	[Fact]
 	public void GetCollection_With_ValidName_Should_ReturnACollection_Test()
 	{
-
 		// Arrange
 		var sut = UnitUnderTest();
 
@@ -71,7 +62,5 @@ public class MongoDbContextTests
 		// Assert
 		myCollection.Should().NotBeNull();
 		myCollection.CollectionNamespace.CollectionName.Should().BeSameAs("users");
-
 	}
-
 }

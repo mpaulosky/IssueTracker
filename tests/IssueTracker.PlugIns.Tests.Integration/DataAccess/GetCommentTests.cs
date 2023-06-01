@@ -4,24 +4,31 @@
 [Collection("Test Collection")]
 public class GetCommentTests : IAsyncLifetime
 {
+	private const string CleanupValue = "comments";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
-	private const string CleanupValue = "comments";
 
 	public GetCommentTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new CommentRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact]
 	public async Task GetComment_With_WithData_Should_ReturnAValidComment_TestAsync()
 	{
-
 		// Arrange
 		var expected = FakeComment.GetNewComment();
 		await _sut.CreateAsync(expected);
@@ -34,7 +41,6 @@ public class GetCommentTests : IAsyncLifetime
 		result.Title.Should().BeEquivalentTo(expected.Title);
 		result.Author.Should().BeEquivalentTo(expected.Author);
 		result.CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
-
 	}
 
 	[Fact]
@@ -48,13 +54,11 @@ public class GetCommentTests : IAsyncLifetime
 
 		// Assert
 		result.Should().BeNull();
-
 	}
 
 	[Fact]
 	public async Task GetComment_With_NullId_Should_ThrowArgumentNullException_Test()
 	{
-
 		// Arrange
 
 		// Act
@@ -62,18 +66,5 @@ public class GetCommentTests : IAsyncLifetime
 
 		// Assert
 		await act.Should().ThrowAsync<ArgumentNullException>();
-
-	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
 	}
 }

@@ -8,13 +8,12 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Details class
+///   Details class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [UsedImplicitly]
 public partial class Details
 {
-
 	private List<CommentModel>? _comments = new();
 
 	private IssueModel? _issue = new();
@@ -27,11 +26,10 @@ public partial class Details
 	[Parameter] public string? Id { get; set; }
 
 	/// <summary>
-	///		OnInitializedAsync method
+	///   OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
 		ArgumentNullException.ThrowIfNull(Id);
@@ -40,23 +38,24 @@ public partial class Details
 		var source = new BasicCommentOnSourceModel(_issue);
 		_comments = await CommentService.GetCommentsBySource(source);
 		_statuses = await StatusService.GetStatuses();
-
 	}
 
 	/// <summary>
-	///		CompleteSetStatus method
+	///   CompleteSetStatus method
 	/// </summary>
 	private async Task CompleteSetStatus()
 	{
-
 		switch (_settingStatus)
 		{
-
 			case "answered":
 
-				if (string.IsNullOrWhiteSpace(_urlText)) return;
+				if (string.IsNullOrWhiteSpace(_urlText))
+				{
+					return;
+				}
 
-				StatusModel selectedStatus = _statuses.First(s => string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
+				var selectedStatus = _statuses.First(s =>
+					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
 				_issue!.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
 
 				break;
@@ -85,33 +84,30 @@ public partial class Details
 			default:
 
 				return;
-
 		}
 
 		_settingStatus = null;
 
 		await IssueService.UpdateIssue(_issue);
-
 	}
 
 	/// <summary>
-	///		OpenCommentForm method
+	///   OpenCommentForm method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private void OpenCommentForm(IssueModel issue)
 	{
-
-		if (_loggedInUser is not null) NavManager.NavigateTo($"/Comment/{issue.Id}");
+		if (_loggedInUser is not null)
+		{
+			NavManager.NavigateTo($"/Comment/{issue.Id}");
+		}
 	}
 
 	/// <summary>
-	///		ClosePage method
+	///   ClosePage method
 	/// </summary>
 	private void ClosePage()
 	{
-
 		NavManager.NavigateTo("/");
-
 	}
-
 }

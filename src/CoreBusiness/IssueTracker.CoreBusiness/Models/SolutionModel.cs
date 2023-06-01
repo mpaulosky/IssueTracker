@@ -10,78 +10,77 @@
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
-/// SolutionModel class
+///   SolutionModel class
 /// </summary>
 [Serializable]
 public class SolutionModel
 {
-
 	/// <summary>
-	/// Gets or sets the identifier.
+	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
-	/// The identifier.
+	///   The identifier.
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the title.
+	///   Gets or sets the title.
 	/// </summary>
 	/// <value>
-	/// The title.
+	///   The title.
 	/// </value>
 	[BsonElement("solution_title")]
 	[BsonRepresentation(BsonType.String)]
 	public string Title { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the description.
+	///   Gets or sets the description.
 	/// </summary>
 	/// <value>
-	/// The description.
+	///   The description.
 	/// </value>
 	[BsonElement("solution_description")]
 	[BsonRepresentation(BsonType.String)]
 	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the date created.
+	///   Gets or sets the date created.
 	/// </summary>
 	/// <value>
-	/// The date created.
+	///   The date created.
 	/// </value>
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
 	/// <summary>
-	/// Gets or sets the issue.
+	///   Gets or sets the issue.
 	/// </summary>
 	/// <value>
-	/// The issue.
+	///   The issue.
 	/// </value>
 	public BasicIssueModel Issue { get; set; } = new();
 
 	/// <summary>
-	/// Gets or sets the author.
+	///   Gets or sets the author.
 	/// </summary>
 	/// <value>
-	/// The author.
+	///   The author.
 	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
 	/// <summary>
-	/// Gets or sets the user votes.
+	///   Gets or sets the user votes.
 	/// </summary>
 	/// <value>
-	/// The user votes.
+	///   The user votes.
 	/// </value>
 	public HashSet<string> UserVotes { get; set; } = new();
 
 	/// <summary>
-	/// Gets or sets a value indicating whether this <see cref="SolutionModel"/> is archived.
+	///   Gets or sets a value indicating whether this <see cref="SolutionModel" /> is archived.
 	/// </summary>
 	/// <value>
 	///   <c>true</c> if archived; otherwise, <c>false</c>.
@@ -91,11 +90,10 @@ public class SolutionModel
 	public bool Archived { get; set; }
 
 	/// <summary>
-	/// Gets or sets who archived the record.
+	///   Gets or sets who archived the record.
 	/// </summary>
 	/// <value>
-	/// Who archived the record.
+	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new BasicUserModel();
-
+	public BasicUserModel ArchivedBy { get; set; } = new();
 }

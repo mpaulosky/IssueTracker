@@ -3,20 +3,18 @@
 [ExcludeFromCodeCoverage]
 public class CreateTests : TestContext
 {
-
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
-	private readonly Mock<IStatusRepository> _statusRepositoryMock;
-	private readonly Mock<IIssueRepository> _issueRepositoryMock;
-	private readonly Mock<IMemoryCache> _memoryCacheMock;
-	private readonly Mock<ICacheEntry> _mockCacheEntry;
-	private readonly Mock<IUserRepository> _userRepositoryMock;
 	private readonly List<CategoryModel> _expectedCategories;
 	private readonly List<StatusModel> _expectedStatuses;
 	private readonly UserModel _expectedUser;
+	private readonly Mock<IIssueRepository> _issueRepositoryMock;
+	private readonly Mock<IMemoryCache> _memoryCacheMock;
+	private readonly Mock<ICacheEntry> _mockCacheEntry;
+	private readonly Mock<IStatusRepository> _statusRepositoryMock;
+	private readonly Mock<IUserRepository> _userRepositoryMock;
 
 	public CreateTests()
 	{
-
 		_issueRepositoryMock = new Mock<IIssueRepository>();
 		_categoryRepositoryMock = new Mock<ICategoryRepository>();
 		_userRepositoryMock = new Mock<IUserRepository>();
@@ -27,26 +25,22 @@ public class CreateTests : TestContext
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedCategories = FakeCategory.GetCategories().ToList();
 		_expectedStatuses = FakeStatus.GetStatuses().ToList();
-
 	}
 
 	private IRenderedComponent<Create> ComponentUnderTest()
 	{
-
 		SetupMocks();
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Create> component = RenderComponent<Create>();
+		var component = RenderComponent<Create>();
 
 		return component;
-
 	}
 
 	[Fact]
 	public void Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
 	{
-
 		// Arrange
 		const string expectedParamName = "userObjectIdentifierId";
 		const string expectedMessage = "Value cannot be null.?*";
@@ -54,14 +48,13 @@ public class CreateTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		Func<IRenderedComponent<Create>> cut = ComponentUnderTest;
+		var cut = ComponentUnderTest;
 
 		// Assert
 		cut.Should()
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
-
 	}
 
 	[Fact]
@@ -74,11 +67,11 @@ public class CreateTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Create> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -86,7 +79,6 @@ public class CreateTests : TestContext
 	[Fact]
 	public void Create_With_AuthorizedUser_Should_DisplayPage_Test()
 	{
-
 		// Arrange
 		const string expectedHtml =
 			"""
@@ -145,28 +137,26 @@ public class CreateTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Create> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
-
 	}
 
 	[Fact]
 	public void Create_With_ValidInput_Should_SaveNewIssue_Test()
 	{
-
 		// Arrange
 		var category = _expectedCategories.First();
 
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<Create> cut = ComponentUnderTest();
+		var cut = ComponentUnderTest();
 
 		cut.Find("#issue-title").Change("Test Issue");
 		cut.Find("#description").Change("Test Description");
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[1].Change(category.Id);
 		cut.Find("#submit").Click();
 
@@ -174,24 +164,20 @@ public class CreateTests : TestContext
 		_issueRepositoryMock
 			.Verify(x =>
 				x.CreateAsync(It.IsAny<IssueModel>()), Times.Once);
-
 	}
 
 	private void SetupMocks()
 	{
-
 		_categoryRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedCategories);
 
 		_statusRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(_expectedStatuses);
 
 		_userRepositoryMock.Setup(x => x.GetFromAuthenticationAsync(It.IsAny<string>())).ReturnsAsync(_expectedUser);
-
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = this.AddTestAuthorization();
 
 		if (isAuth)
 		{
@@ -201,13 +187,14 @@ public class CreateTests : TestContext
 			);
 		}
 
-		if (isAdmin) authContext.SetPolicies("Admin");
-
+		if (isAdmin)
+		{
+			authContext.SetPolicies("Admin");
+		}
 	}
 
 	private void RegisterServices()
 	{
-
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -217,17 +204,13 @@ public class CreateTests : TestContext
 		Services.AddSingleton<IStatusService>(new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object));
 
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
-
 	}
 
 	private void SetMemoryCache()
 	{
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
-
 	}
-
 }

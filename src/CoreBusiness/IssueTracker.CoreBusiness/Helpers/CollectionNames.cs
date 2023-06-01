@@ -10,19 +10,17 @@
 namespace IssueTracker.CoreBusiness.Helpers;
 
 /// <summary>
-///		CollectionNames class
+///   CollectionNames class
 /// </summary>
 public static class CollectionNames
 {
-
 	/// <summary>
-	///		GetCollectionName method
+	///   GetCollectionName method
 	/// </summary>
 	/// <param name="entityName">string</param>
 	/// <returns>string collection name</returns>
 	public static string GetCollectionName(string entityName)
 	{
-
 		return entityName switch
 		{
 			"CategoryModel" => "categories",
@@ -33,7 +31,5 @@ public static class CollectionNames
 			"UserModel" => "users",
 			_ => ""
 		};
-
 	}
-
 }

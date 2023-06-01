@@ -8,7 +8,7 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Index page class
+///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [UsedImplicitly]
@@ -27,7 +27,7 @@ public partial class Index
 	private List<StatusModel>? _statuses;
 
 	/// <summary>
-	///		OnInitializedAsync event
+	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
@@ -37,22 +37,26 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		LoadCreateIssuePage method
+	///   LoadCreateIssuePage method
 	/// </summary>
 	private void LoadCreateIssuePage()
 	{
 		if (_loggedInUser is not null)
+		{
 			NavManager.NavigateTo("/Create");
+		}
 		else
+		{
 			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
+		}
 	}
 
 	/// <summary>
-	///		LoadAndVerifyUser method
+	///   LoadAndVerifyUser method
 	/// </summary>
 	private async Task LoadAndVerifyUser()
 	{
-		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+		var authState = await AuthProvider.GetAuthenticationStateAsync();
 		var objectId = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("objectidentifier"))?.Value;
 		if (!string.IsNullOrWhiteSpace(objectId))
 		{
@@ -96,15 +100,19 @@ public partial class Index
 			if (isDirty)
 			{
 				if (string.IsNullOrWhiteSpace(_loggedInUser.Id))
+				{
 					await UserService.CreateUser(_loggedInUser);
+				}
 				else
+				{
 					await UserService.UpdateUser(_loggedInUser);
+				}
 			}
 		}
 	}
 
 	/// <summary>
-	///		OnAfterRenderAsync event
+	///   OnAfterRenderAsync event
 	/// </summary>
 	/// <param name="firstRender">bool</param>
 	protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -118,7 +126,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		LoadFilterState method
+	///   LoadFilterState method
 	/// </summary>
 	private async Task LoadFilterState()
 	{
@@ -143,7 +151,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		SaveFilterState method
+	///   SaveFilterState method
 	/// </summary>
 	private async Task SaveFilterState()
 	{
@@ -154,23 +162,34 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		FilterIssues method
+	///   FilterIssues method
 	/// </summary>
 	private async Task FilterIssues()
 	{
-		List<IssueModel> output = await IssueService.GetApprovedIssues();
+		var output = await IssueService.GetApprovedIssues();
 
-		if (_selectedCategory != "All") output = output.Where(s => s.Category.CategoryName == _selectedCategory).ToList();
+		if (_selectedCategory != "All")
+		{
+			output = output.Where(s => s.Category.CategoryName == _selectedCategory).ToList();
+		}
 
-		if (_selectedStatus != "All") output = output.Where(s => s.IssueStatus.StatusName == _selectedStatus).ToList();
+		if (_selectedStatus != "All")
+		{
+			output = output.Where(s => s.IssueStatus.StatusName == _selectedStatus).ToList();
+		}
 
 		if (!string.IsNullOrWhiteSpace(_searchText))
+		{
 			output = output.Where(s =>
 					s.Title.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase) ||
 					s.Description.Contains(_searchText, StringComparison.InvariantCultureIgnoreCase))
 				.ToList();
+		}
 
-		if (_isSortedByNew) output = output.OrderByDescending(s => s.DateCreated).ToList();
+		if (_isSortedByNew)
+		{
+			output = output.OrderByDescending(s => s.DateCreated).ToList();
+		}
 
 		_issues = output;
 
@@ -178,7 +197,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		OrderByNew method
+	///   OrderByNew method
 	/// </summary>
 	/// <param name="isNew">bool</param>
 	private async Task OrderByNew(bool isNew)
@@ -188,7 +207,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		OnSearchInput method
+	///   OnSearchInput method
 	/// </summary>
 	/// <param name="searchInput">string</param>
 	private async Task OnSearchInput(string searchInput)
@@ -198,7 +217,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		OnCategoryClick method
+	///   OnCategoryClick method
 	/// </summary>
 	/// <param name="category">string</param>
 	private async Task OnCategoryClick(string category = "All")
@@ -209,7 +228,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		OnStatusClick method
+	///   OnStatusClick method
 	/// </summary>
 	/// <param name="status">string</param>
 	private async Task OnStatusClick(string status = "All")
@@ -220,7 +239,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		SortedByNewCssClass method
+	///   SortedByNewCssClass method
 	/// </summary>
 	/// <param name="isNew">bool</param>
 	/// <returns>string</returns>
@@ -230,7 +249,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		GetSelectedCategoryCssClass method
+	///   GetSelectedCategoryCssClass method
 	/// </summary>
 	/// <param name="category">string</param>
 	/// <returns>string</returns>
@@ -240,7 +259,7 @@ public partial class Index
 	}
 
 	/// <summary>
-	///		GetSelectedStatusCssClass method
+	///   GetSelectedStatusCssClass method
 	/// </summary>
 	/// <param name="status">string</param>
 	/// <returns>string</returns>

@@ -4,24 +4,31 @@
 [Collection("Test Collection")]
 public class GetIssuesByUserTests : IAsyncLifetime
 {
+	private const string CleanupValue = "issues";
 
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
-	private const string CleanupValue = "issues";
 
 	public GetIssuesByUserTests(IssueTrackerTestFactory factory)
 	{
-
 		_factory = factory;
 		var context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
 		_sut = new IssueRepository(context);
+	}
 
+	public Task InitializeAsync()
+	{
+		return Task.CompletedTask;
+	}
+
+	public async Task DisposeAsync()
+	{
+		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
 	[Fact]
 	public async Task GetByUserAsync_With_ValidData_Should_ReturnIssues_Test()
 	{
-
 		// Arrange
 		var expected = FakeIssue.GetNewIssue();
 		await _sut.CreateAsync(expected);
@@ -34,19 +41,5 @@ public class GetIssuesByUserTests : IAsyncLifetime
 		results.First().Title.Should().Be(expected.Title);
 		results.First().Description.Should().Be(expected.Description);
 		results.First().Author.Id.Should().Be(expected.Author.Id);
-
 	}
-
-	public Task InitializeAsync()
-	{
-		return Task.CompletedTask;
-	}
-
-	public async Task DisposeAsync()
-	{
-
-		await _factory.ResetCollectionAsync(CleanupValue);
-
-	}
-
 }

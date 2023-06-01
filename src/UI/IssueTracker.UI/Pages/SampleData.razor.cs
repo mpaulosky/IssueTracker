@@ -8,18 +8,18 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		SampleData class
+///   SampleData class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
 [ExcludeFromCodeCoverage]
 [UsedImplicitly]
 public partial class SampleData
 {
-	private bool _usersCreated;
 	private bool _categoriesCreated;
-	private bool _statusesCreated;
 	private bool _commentsCreated;
 	private bool _issuesCreated;
+	private bool _statusesCreated;
+	private bool _usersCreated;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -36,75 +36,77 @@ public partial class SampleData
 	}
 
 	/// <summary>
-	/// Creates the Users method.
+	///   Creates the Users method.
 	/// </summary>
 	private async Task CreateUsers()
 	{
-		List<UserModel> users = await UserService.GetUsers();
+		var users = await UserService.GetUsers();
 
-		if (users?.Count > 0) return;
+		if (users?.Count > 0)
+		{
+			return;
+		}
 
-		IEnumerable<UserModel> items = FakeUser.GetUsers(2);
+		var items = FakeUser.GetUsers(2);
 
-		foreach (UserModel item in items) await UserService.CreateUser(item);
+		foreach (var item in items)
+		{
+			await UserService.CreateUser(item);
+		}
+
 		_usersCreated = true;
 	}
 
 	/// <summary>
-	///		Creates the categories method.
+	///   Creates the categories method.
 	/// </summary>
 	private async Task CreateCategories()
 	{
-		List<CategoryModel> categories = await CategoryService.GetCategories();
+		var categories = await CategoryService.GetCategories();
 
-		if (categories?.Count > 0) return;
-
-		CategoryModel item = new()
+		if (categories?.Count > 0)
 		{
-			CategoryName = "Design",
-			CategoryDescription = "An Issue with the design."
+			return;
+		}
+
+		CategoryModel item = new() { CategoryName = "Design", CategoryDescription = "An Issue with the design." };
+		await CategoryService.CreateCategory(item);
+
+		item = new CategoryModel
+		{
+			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Documentation",
-			CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Implementation",
-			CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(item);
 
-		item = new CategoryModel
-		{
-			CategoryName = "Clarification",
-			CategoryDescription = "A quick Issue with a general question."
-		};
-		await CategoryService.CreateCategory(item);
-
-		item = new CategoryModel
-		{
-			CategoryName = "Miscellaneous",
-			CategoryDescription = "Not sure where this fits."
-		};
+		item = new CategoryModel { CategoryName = "Miscellaneous", CategoryDescription = "Not sure where this fits." };
 		await CategoryService.CreateCategory(item);
 
 		_categoriesCreated = true;
 	}
 
 	/// <summary>
-	///		Creates the statuses method.
+	///   Creates the statuses method.
 	/// </summary>
 	private async Task CreateStatuses()
 	{
-		List<StatusModel> statuses = await StatusService.GetStatuses();
+		var statuses = await StatusService.GetStatuses();
 
-		if (statuses?.Count > 0) return;
+		if (statuses?.Count > 0)
+		{
+			return;
+		}
 
 		StatusModel item = new()
 		{
@@ -123,15 +125,13 @@ public partial class SampleData
 
 		item = new StatusModel
 		{
-			StatusName = "Upcoming",
-			StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(item);
 
 		item = new StatusModel
 		{
-			StatusName = "Dismissed",
-			StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(item);
 
@@ -139,32 +139,46 @@ public partial class SampleData
 	}
 
 	/// <summary>
-	///		Creates the comments method.
+	///   Creates the comments method.
 	/// </summary>
 	private async Task CreateComments()
 	{
-		List<CommentModel> comments = await CommentService.GetComments();
+		var comments = await CommentService.GetComments();
 
-		if (comments?.Count > 0) return;
+		if (comments?.Count > 0)
+		{
+			return;
+		}
 
-		IEnumerable<CommentModel> items = FakeComment.GetComments(4);
+		var items = FakeComment.GetComments(4);
 
-		foreach (CommentModel item in items) await CommentService.CreateComment(item);
+		foreach (var item in items)
+		{
+			await CommentService.CreateComment(item);
+		}
+
 		_commentsCreated = true;
 	}
 
 	/// <summary>
-	/// Creates Issues method.
+	///   Creates Issues method.
 	/// </summary>
 	private async Task CreateIssues()
 	{
-		List<IssueModel> issues = await IssueService.GetIssues();
+		var issues = await IssueService.GetIssues();
 
-		if (issues?.Count > 0) return;
+		if (issues?.Count > 0)
+		{
+			return;
+		}
 
-		IEnumerable<IssueModel> items = FakeIssue.GetIssues(6);
+		var items = FakeIssue.GetIssues(6);
 
-		foreach (IssueModel issue in items) await IssueService.CreateIssue(issue);
+		foreach (var issue in items)
+		{
+			await IssueService.CreateIssue(issue);
+		}
+
 		_issuesCreated = true;
 	}
 }

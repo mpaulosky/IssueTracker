@@ -10,58 +10,52 @@
 namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
-/// BasicStatusModel class
+///   BasicStatusModel class
 /// </summary>
 [Serializable]
 public class BasicStatusModel
 {
-
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicStatusModel"/> class.
+	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	public BasicStatusModel()
 	{
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicStatusModel"/> class.
+	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	/// <param name="status">The status.</param>
 	public BasicStatusModel(StatusModel status)
 	{
-
 		StatusName = status.StatusName;
 		StatusDescription = status.StatusDescription;
-
 	}
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BasicStatusModel"/> class.
+	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	/// <param name="statusName">Name of the status.</param>
 	/// <param name="statusDescription">The status description.</param>
 	public BasicStatusModel(string statusName, string statusDescription) : this()
 	{
-
 		StatusName = statusName;
 		StatusDescription = statusDescription;
-
 	}
 
 	/// <summary>
-	/// Gets the name of the status.
+	///   Gets the name of the status.
 	/// </summary>
 	/// <value>
-	/// The name of the status.
+	///   The name of the status.
 	/// </value>
 	public string StatusName { get; init; } = string.Empty;
 
 	/// <summary>
-	/// Gets the status description.
+	///   Gets the status description.
 	/// </summary>
 	/// <value>
-	/// The status description.
+	///   The status description.
 	/// </value>
 	public string StatusDescription { get; init; } = string.Empty;
-
 }

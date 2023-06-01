@@ -8,7 +8,7 @@
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
-///		Comment page class.
+///   Comment page class.
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 public partial class Comment
@@ -22,19 +22,17 @@ public partial class Comment
 	[Parameter] public string? Id { get; set; }
 
 	/// <summary>
-	///		OnInitializedAsync event.
+	///   OnInitializedAsync event.
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
-
 		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);
 
-		_issue = await IssueService.GetIssue(issueId: Id);
-
+		_issue = await IssueService.GetIssue(Id);
 	}
 
 	/// <summary>
-	///		CreateComment method.
+	///   CreateComment method.
 	/// </summary>
 	private async Task CreateComment()
 	{
@@ -54,7 +52,7 @@ public partial class Comment
 	}
 
 	/// <summary>
-	///		ClosePage method.
+	///   ClosePage method.
 	/// </summary>
 	private void ClosePage()
 	{
