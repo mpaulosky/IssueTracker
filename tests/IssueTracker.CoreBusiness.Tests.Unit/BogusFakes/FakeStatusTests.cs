@@ -44,7 +44,7 @@ public class FakeStatusTests
 		result.Count.Should().Be(expected);
 		result.First().Id.Should().NotBeNull();
 		result.First().StatusName.Should().Be("Answered");
-		result.First().StatusDescription.Should().Be("The suggestion was accepted and the corresponding item was created.");
+		result.First().StatusDescription.Should().Be("The issue was accepted and the corresponding item was created.");
 		result.First().Archived.Should().BeFalse();
 
 	}

@@ -25,6 +25,26 @@ public class CommentComponentTests : TestContext
 
 	}
 
+	private IRenderedComponent<CommentComponent> ComponentUnderTest()
+	{
+
+		SetupMocks();
+		SetMemoryCache();
+		RegisterServices();
+
+		IRenderedComponent<CommentComponent> component = RenderComponent<CommentComponent>(parameter =>
+		{
+
+			parameter.Add(p => p.Item, _expectedComment);
+			parameter.Add(p => p.LoggedInUser, _expectedUser);
+
+		});
+
+		return component;
+
+	}
+
+
 
 	[Fact]
 	public async Task VoteUp_RemovesUserVoteIfAlreadyUpVoted_TestAsync()
@@ -34,20 +54,10 @@ public class CommentComponentTests : TestContext
 		const int expectedCount = 0;
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		await cut.Instance.VoteUp(_expectedComment);
 
@@ -66,20 +76,11 @@ public class CommentComponentTests : TestContext
 
 		// Arrange
 		const int expectedCount = 1;
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		await cut.Instance.VoteUp(_expectedComment);
 
@@ -99,20 +100,10 @@ public class CommentComponentTests : TestContext
 		const int expectedCount = 0;
 		_expectedComment.Author = new BasicUserModel(_expectedUser);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		await cut.Instance.VoteUp(_expectedComment);
 
@@ -128,20 +119,11 @@ public class CommentComponentTests : TestContext
 		// Arrange
 		const string expectedText = "01";
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
 
@@ -157,20 +139,11 @@ public class CommentComponentTests : TestContext
 		// Arrange
 		const string expectedText = "Awaiting";
 		_expectedComment.Author = new BasicUserModel(_expectedUser);
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
 
@@ -186,20 +159,11 @@ public class CommentComponentTests : TestContext
 		// Arrange
 		const string expectedText = "Click To";
 		_expectedComment.UserVotes.Clear();
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
 
@@ -215,20 +179,11 @@ public class CommentComponentTests : TestContext
 		// Arrange
 		const string expectedText = "UpVote";
 		_expectedComment.UserVotes.Clear();
-		SetupMocks();
-		SetMemoryCache();
 
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);
 
@@ -247,20 +202,10 @@ public class CommentComponentTests : TestContext
 		var anotherUser = FakeUser.GetNewUser(true);
 		_expectedComment.UserVotes.Add(anotherUser.Id);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);
 
@@ -277,20 +222,10 @@ public class CommentComponentTests : TestContext
 		const string expectedText = "issue-detail-no-votes";
 		_expectedComment.UserVotes.Clear();
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetVoteCssClass(_expectedComment);
 
@@ -307,20 +242,10 @@ public class CommentComponentTests : TestContext
 		const string expectedText = "issue-detail-voted";
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		var result = cut.Instance.GetVoteCssClass(_expectedComment);
 
@@ -341,20 +266,10 @@ public class CommentComponentTests : TestContext
 
 		_expectedComment.UserVotes.Add(user.Id);
 
-		SetupMocks();
-		SetMemoryCache();
-
 		SetAuthenticationAndAuthorization(false, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<CommentComponent> cut = RenderComponent<CommentComponent>(parameter =>
-		{
-
-			parameter.Add(p => p.Item, _expectedComment);
-			parameter.Add(p => p.LoggedInUser, _expectedUser);
-
-		});
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 
 		var result = cut.Instance.GetVoteCssClass(_expectedComment);
@@ -412,6 +327,5 @@ public class CommentComponentTests : TestContext
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 	}
-
 
 }
