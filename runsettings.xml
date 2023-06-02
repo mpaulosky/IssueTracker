@@ -2,6 +2,7 @@
 
 <RunSettings>
 	<RunConfiguration>
+		<ResultsDirectory>./TestResults</ResultsDirectory>
 		<TestSessionTimeout>35000</TestSessionTimeout>
 	</RunConfiguration>
 	<DataCollectionRunSettings>
