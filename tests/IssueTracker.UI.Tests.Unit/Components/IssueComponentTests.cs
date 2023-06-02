@@ -75,9 +75,7 @@ public class IssueComponentTests : TestContext
 		const string expected =
 			"""
 			<div class="issue-entry">
-				<div class="issue-entry-category issue-entry-category-miscellaneous">
-					<div class="issue-entry-category-text">Miscellaneous</div>
-				</div>
+				<div diff:ignore></div>
 				<div class="issue-entry-text">
 					<div diff:ignore></div>
 					<div diff:ignore></div>
