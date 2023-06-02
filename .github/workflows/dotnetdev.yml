@@ -1,5 +1,4 @@
 ---
-
 name: "Build and Test dev"
 
 on:
@@ -8,16 +7,16 @@ on:
       - dev
 
     paths-ignore:
-      - '**/*.md'
-      - '**/*.gitignore'
-      - '**/*.gitattributes'
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
 
   workflow_dispatch:
     inputs:
       reason:
-        description: 'The reason for running the workflow'
+        description: "The reason for running the workflow"
         required: true
-        default: 'Manual run'
+        default: "Manual run"
 
 jobs:
   build-and-test:
@@ -58,7 +57,7 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
@@ -74,7 +73,7 @@ jobs:
         with:
           name: IssueTracker-test-results
           path: TestResults
-        
-        # Use always() to always run this step to 
+
+        # Use always() to always run this step to
         # publish test results when there are test failures
         if: ${{ always() }}
