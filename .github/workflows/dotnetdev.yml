@@ -53,7 +53,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test --no-restore --no-build --verbosity normal
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
