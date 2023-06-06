@@ -11,11 +11,9 @@ public partial class IssueComponent
 {
 	private IssueModel? _archivingIssue;
 
-	[Parameter] public bool CanArchive { get; set; }
+	[Parameter] public IssueModel Item { get; set; } = new();
 
 	[Parameter] public UserModel LoggedInUser { get; set; } = new();
-
-	[Parameter] public IssueModel Item { get; set; } = new();
 
 	/// <summary>
 	///   GetIssueCategoryCssClass

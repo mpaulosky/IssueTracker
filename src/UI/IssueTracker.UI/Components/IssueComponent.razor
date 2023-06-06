@@ -2,7 +2,7 @@
 @inject AuthenticationStateProvider AuthProvider
 @inject IIssueService IssueService
 
-<div class="issue-entry">
+<div class="issue-item-container">
 
 	<div class="issue-entry-category @GetIssueCategoryCssClass(Item)">
 		<div class="issue-entry-category-text" @onclick="() => OpenDetailsPage(Item)">
@@ -11,45 +11,45 @@
 	</div>
 
 	<div class="issue-entry-text">
-		<div class="text-title" @onclick="() => OpenDetailsPage(Item)">
+		<div class="issue-text-title" @onclick="() => OpenDetailsPage(Item)">
 			@Item.Title
 		</div>
-		<div class="text-description">
+		<div class="issue-text-description">
 			@Item.Description
 		</div>
 		<div class="issue-entry-bottom">
-			<div class="text-category">@Item.DateCreated.ToString("MM.dd.yyyy")</div>
-			<div class="text-author">@Item.Author.DisplayName</div>
 
-			@if (CanArchive)
+			<div class="issue-text-created">@Item.DateCreated.ToString("MM.dd.yyyy")</div>
+
+			@if (_archivingIssue is null || _archivingIssue.Id != Item.Id)
 			{
-				@if (_archivingIssue is null || _archivingIssue.Id != Item.Id)
-				{
-					<div class="text-category">
-						<AuthorizeView Policy="Admin">
-							<button id="archive" @onclick="() => _archivingIssue = Item" class="btn text-category btn-archive">
-								archive
-							</button>
-						</AuthorizeView>
-					</div>
-				}
-				else
-				{
-					<div class="text-category">
-						<button id="confirm" class="btn btn-archive btn-archive-confirm" @onclick="ArchiveIssue">
-							confirm
-						</button>
-						<button id="reject" class="btn btn-archive btn-archive-reject" @onclick="() => _archivingIssue = null">
-							cancel
+				<AuthorizeView Policy="Admin">
+					<div class="issue-text-archive">
+						<button id="archive" @onclick="() => _archivingIssue = Item" class="btn issue-btn-archive">
+							archive
 						</button>
 					</div>
-				}
+				</AuthorizeView>
 			}
+			else
+			{
+				<div class="issue-text-archive">
+					<button id="confirm" class="btn issue-btn-archive issue-btn-archive-confirm" @onclick="ArchiveIssue">
+						confirm
+					</button>
+					<button id="reject" class="btn issue-btn-archive issue-btn-archive-reject" @onclick="() => _archivingIssue = null">
+						cancel
+					</button>
+				</div>
+			}
+
+			<div class="issue-text-author">@Item.Author.DisplayName</div>
+
 		</div>
 
 	</div>
 	<div class="issue-entry-status @GetIssueStatusCssClass(Item)">
-		<div class="text-status">
+		<div class="issue-text-status">
 			@Item.IssueStatus.StatusName
 		</div>
 	</div>

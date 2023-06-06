@@ -6,9 +6,6 @@ public partial class SetStatusComponent : ComponentBase
 	public IssueModel Issue { get; set; } = new();
 
 	[Parameter]
-	public UserModel LoggedInUser { get; set; } = new();
-
-	[Parameter]
 	public EventCallback<IssueModel> IssueChanged { get; set; }
 
 	private string? _settingStatus;
@@ -42,8 +39,10 @@ public partial class SetStatusComponent : ComponentBase
 
 		return IssueChanged.InvokeAsync(Issue);
 
-	}
+	}
+
 	private async Task SaveStatus()
 	{
 		await IssueService.UpdateIssue(Issue);
-	}}
+	}
+}
