@@ -1,20 +1,14 @@
-﻿//-----------------------------------------------------------------------// <copyright file="Admin.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="Admin.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   Admin page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]public partial class Admin{	private string _currentEditingDescription = "";	private string _currentEditingTitle = "";	private string _editedDescription = "";	private string _editedTitle = "";	private List<IssueModel>? _issues;
-
-	/// <summary>
+[UsedImplicitly]public partial class Admin{	private string _currentEditingDescription = "";	private string _currentEditingTitle = "";	private string _editedDescription = "";	private string _editedTitle = "";	private List<IssueModel>? _issues;	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
 	{
 		_issues = await IssueService.GetIssuesWaitingForApproval();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ApproveIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -25,9 +19,7 @@
 		_issues?.Remove(issue);
 
 		await IssueService.UpdateIssue(issue);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   RejectIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -38,9 +30,7 @@
 		_issues?.Remove(issue);
 
 		await IssueService.UpdateIssue(issue);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   EditTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
@@ -49,9 +39,7 @@
 		_editedTitle = model.Title;
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   SaveTitle method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
@@ -60,9 +48,7 @@
 		_currentEditingTitle = string.Empty;
 		model.Title = _editedTitle;
 		await IssueService.UpdateIssue(model);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   EditDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
@@ -71,9 +57,7 @@
 		_editedDescription = model.Description;
 		_currentEditingTitle = "";
 		_currentEditingDescription = model.Id;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   SaveDescription method
 	/// </summary>
 	/// <param name="model">IssueModel</param>
@@ -82,9 +66,7 @@
 		_currentEditingDescription = string.Empty;
 		model.Description = _editedDescription;
 		await IssueService.UpdateIssue(model);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ClosePage method
 	/// </summary>
 	private void ClosePage()	{		NavManager.NavigateTo("/");	}}

@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSource.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSource.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeSource class
 /// </summary>
 public static class FakeSource{	private static Faker<BasicCommentOnSourceModel>? _sourceGenerator;	private static void SetupGenerator()
@@ -13,9 +11,7 @@ public static class FakeSource{	private static Faker<BasicCommentOnSourceModel
 			.RuleFor(x => x.Title, f => f.Lorem.Sentence(10, 4))
 			.RuleFor(x => x.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a basic source.
 	/// </summary>
 	/// <returns>BasicCommentSourceModel</returns>

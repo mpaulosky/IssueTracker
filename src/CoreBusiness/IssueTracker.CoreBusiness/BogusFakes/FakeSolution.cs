@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSolution.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSolution.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeSolution class
 /// </summary>
 public static class FakeSolution{	private static Faker<SolutionModel>? _solutionGenerator;	private static void SetupGenerator()
@@ -15,9 +13,7 @@ public static class FakeSolution{	private static Faker<SolutionModel>? _soluti
 			.RuleFor(f => f.Issue, FakeIssue.GetBasicIssues(1).First())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a new solution.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
@@ -36,9 +32,7 @@ public static class FakeSolution{	private static Faker<SolutionModel>? _soluti
 		solution.Archived = false;
 
 		return solution;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
@@ -55,9 +49,7 @@ public static class FakeSolution{	private static Faker<SolutionModel>? _soluti
 		}
 
 		return solutions;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of basic solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>

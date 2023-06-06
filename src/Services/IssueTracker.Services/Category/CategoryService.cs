@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="CategoryService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Category;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="CategoryService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Category;/// <summary>
 ///   CategoryService class
 /// </summary>
-public class CategoryService : ICategoryService{	private const string CacheName = "CategoryData";	private readonly IMemoryCache _cache;	private readonly ICategoryRepository _repository;
-
-	/// <summary>
+public class CategoryService : ICategoryService{	private const string CacheName = "CategoryData";	private readonly IMemoryCache _cache;	private readonly ICategoryRepository _repository;	/// <summary>
 	///   CategoryService constructor
 	/// </summary>
 	/// <param name="repository">ICategoryRepository</param>
@@ -18,9 +14,7 @@ public class CategoryService : ICategoryService{	private const string CacheNam
 
 		_repository = repository;
 		_cache = cache;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
@@ -33,9 +27,7 @@ public class CategoryService : ICategoryService{	private const string CacheNam
 		_cache.Remove(CacheName);
 
 		return _repository.CreateAsync(category);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   DeleteCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
@@ -48,9 +40,7 @@ public class CategoryService : ICategoryService{	private const string CacheNam
 		_cache.Remove(CacheName);
 
 		return _repository.ArchiveAsync(category);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetCategory method
 	/// </summary>
 	/// <param name="categoryId">string</param>
@@ -63,9 +53,7 @@ public class CategoryService : ICategoryService{	private const string CacheNam
 		var result = await _repository.GetAsync(categoryId);
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetCategories method
 	/// </summary>
 	/// <returns>Task of List CategoryModel</returns>
@@ -85,9 +73,7 @@ public class CategoryService : ICategoryService{	private const string CacheNam
 		_cache.Set(CacheName, output, TimeSpan.FromDays(1));
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>

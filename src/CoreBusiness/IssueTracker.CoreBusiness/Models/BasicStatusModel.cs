@@ -1,17 +1,12 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicStatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicStatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   BasicStatusModel class
 /// </summary>
-[Serializable]public class BasicStatusModel{
-	/// <summary>
+[Serializable]public class BasicStatusModel{	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	public BasicStatusModel()
 	{
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	/// <param name="status">The status.</param>
@@ -19,9 +14,7 @@
 	{
 		StatusName = status.StatusName;
 		StatusDescription = status.StatusDescription;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
 	/// <param name="statusName">Name of the status.</param>
@@ -30,17 +23,13 @@
 	{
 		StatusName = statusName;
 		StatusDescription = statusDescription;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets the name of the status.
 	/// </summary>
 	/// <value>
 	///   The name of the status.
 	/// </value>
-	public string StatusName { get; init; } = string.Empty;
-
-	/// <summary>
+	public string StatusName { get; init; } = string.Empty;	/// <summary>
 	///   Gets the status description.
 	/// </summary>
 	/// <value>

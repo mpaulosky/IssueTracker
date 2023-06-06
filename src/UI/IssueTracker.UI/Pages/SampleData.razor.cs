@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright file="SampleData.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="SampleData.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   SampleData class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
@@ -11,9 +9,7 @@
 		_statusesCreated = (await StatusService.GetStatuses()).Any();
 		_commentsCreated = (await CommentService.GetComments()).Any();
 		_issuesCreated = (await IssueService.GetIssues()).Any();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Creates the Users method.
 	/// </summary>
 	private async Task CreateUsers()
@@ -33,9 +29,7 @@
 		}
 
 		_usersCreated = true;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Creates the categories method.
 	/// </summary>
 	private async Task CreateCategories()
@@ -52,19 +46,19 @@
 
 		item = new CategoryModel
 		{
-			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Documentation",			CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Implementation",			CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
+			CategoryName = "Clarification",			CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(item);
 
@@ -72,9 +66,7 @@
 		await CategoryService.CreateCategory(item);
 
 		_categoriesCreated = true;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Creates the statuses method.
 	/// </summary>
 	private async Task CreateStatuses()
@@ -103,20 +95,18 @@
 
 		item = new StatusModel
 		{
-			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming",			StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(item);
 
 		item = new StatusModel
 		{
-			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed",			StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(item);
 
 		_statusesCreated = true;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Creates the comments method.
 	/// </summary>
 	private async Task CreateComments()
@@ -136,9 +126,7 @@
 		}
 
 		_commentsCreated = true;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Creates Issues method.
 	/// </summary>
 	private async Task CreateIssues()	{		var issues = await IssueService.GetIssues();		if (issues?.Count > 0)		{			return;		}		var items = FakeIssue.GetIssues(6);		foreach (var issue in items)		{			await IssueService.CreateIssue(issue);		}		_issuesCreated = true;	}}

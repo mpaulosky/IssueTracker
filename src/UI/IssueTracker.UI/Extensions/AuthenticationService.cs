@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="AddAuthorizationAuthenticationServices.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Extensions;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="AddAuthorizationAuthenticationServices.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Extensions;/// <summary>
 ///   IServiceCollectionExtensions
 /// </summary>
-public static partial class ServiceCollectionExtensions{
-	/// <summary>
+public static partial class ServiceCollectionExtensions{	/// <summary>
 	///   Add Authentication Services
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>

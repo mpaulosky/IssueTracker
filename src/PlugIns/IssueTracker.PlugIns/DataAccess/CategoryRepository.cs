@@ -1,11 +1,9 @@
-﻿//-----------------------------------------------------------------------// <copyright file="CategoryRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky// Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="CategoryRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky// Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;/// <summary>
 ///   CategoryRepository class
 /// </summary>
-public class CategoryRepository : ICategoryRepository{	private readonly IMongoCollection<CategoryModel> _collection;
-
-	/// <summary>
+public class CategoryRepository : ICategoryRepository
+{
+	private readonly IMongoCollection<CategoryModel> _collection;	/// <summary>
 	///   CategoryRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
@@ -17,31 +15,23 @@ public class CategoryRepository : ICategoryRepository{	private readonly IMongo
 		var collectionName = GetCollectionName(nameof(CategoryModel));
 
 		_collection = context.GetCollection<CategoryModel>(collectionName);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Archive Category method
 	/// </summary>
 	/// <param name="category"></param>
 	/// <returns></returns>
 	public async Task ArchiveAsync(CategoryModel category)
-	{
-		// Archive the category
-		category.Archived = true;
+	{		// Archive the category																category.Archived = true;
 
 		await UpdateAsync(category.Id, category);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Create Category method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	public async Task CreateAsync(CategoryModel category)
 	{
 		await _collection.InsertOneAsync(category);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Get Category method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -55,9 +45,7 @@ public class CategoryRepository : ICategoryRepository{	private readonly IMongo
 		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Get Categories method
 	/// </summary>
 	/// <returns>Task of IEnumerable CategoryModel</returns>
@@ -68,11 +56,17 @@ public class CategoryRepository : ICategoryRepository{	private readonly IMongo
 		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Update Category method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="category">CategoryModel</param>
-	public async Task UpdateAsync(string? itemId, CategoryModel category)	{		var objectId = new ObjectId(itemId);		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);		await _collection.ReplaceOneAsync(filter, category);	}}
+	public async Task UpdateAsync(string? itemId, CategoryModel category)
+	{
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
+
+		await _collection.ReplaceOneAsync(filter, category);
+	}
+}

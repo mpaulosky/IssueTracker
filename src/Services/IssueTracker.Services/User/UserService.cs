@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		UserService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.User;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		UserService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.User;/// <summary>
 ///   UserService class
 /// </summary>
-public class UserService : IUserService{	private readonly IUserRepository _repo;
-
-	/// <summary>
+public class UserService : IUserService{	private readonly IUserRepository _repo;	/// <summary>
 	///   UserService constructor
 	/// </summary>
 	/// <param name="repository">IUserRepository</param>
@@ -14,9 +10,7 @@ public class UserService : IUserService{	private readonly IUserRepository _rep
 	{
 		ArgumentNullException.ThrowIfNull(repository);
 		_repo = repository;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
@@ -27,9 +21,7 @@ public class UserService : IUserService{	private readonly IUserRepository _rep
 		ArgumentNullException.ThrowIfNull(user);
 
 		return _repo.CreateAsync(user);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUser method
 	/// </summary>
 	/// <param name="userId">string</param>
@@ -42,9 +34,7 @@ public class UserService : IUserService{	private readonly IUserRepository _rep
 		var results = await _repo.GetAsync(userId);
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUsers method
 	/// </summary>
 	/// <returns>Task if List UserModel</returns>
@@ -53,9 +43,7 @@ public class UserService : IUserService{	private readonly IUserRepository _rep
 		var results = await _repo.GetAllAsync();
 
 		return results.ToList();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUserFromAuthentication method
 	/// </summary>
 	/// <param name="userObjectIdentifierId">string</param>
@@ -68,9 +56,7 @@ public class UserService : IUserService{	private readonly IUserRepository _rep
 		var results = await _repo.GetFromAuthenticationAsync(userObjectIdentifierId);
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>

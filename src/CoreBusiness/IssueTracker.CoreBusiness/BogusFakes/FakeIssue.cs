@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeIssue.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeIssue.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeIssue class
 /// </summary>
 public static class FakeIssue{	private static Faker<IssueModel>? _issueGenerator;	private static void SetupGenerator()
@@ -18,9 +16,7 @@ public static class FakeIssue{	private static Faker<IssueModel>? _issueGenerat
 			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
 			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets the new issue.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
@@ -49,9 +45,7 @@ public static class FakeIssue{	private static Faker<IssueModel>? _issueGenerat
 		issue.IssueStatus = new BasicStatusModel(status);
 
 		return issue;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets the issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
@@ -68,9 +62,7 @@ public static class FakeIssue{	private static Faker<IssueModel>? _issueGenerat
 		}
 
 		return issues;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of basic issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>

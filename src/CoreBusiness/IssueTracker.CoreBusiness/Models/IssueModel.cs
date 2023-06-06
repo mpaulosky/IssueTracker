@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   IssueModel class
 /// </summary>
-[Serializable]public class IssueModel{
-	/// <summary>
+[Serializable]public class IssueModel{	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
@@ -12,9 +9,7 @@
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; } = string.Empty;
-
-	/// <summary>
+	public string Id { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the title.
 	/// </summary>
 	/// <value>
@@ -22,9 +17,7 @@
 	/// </value>
 	[BsonElement("issue_title")]
 	[BsonRepresentation(BsonType.String)]
-	public string Title { get; set; } = string.Empty;
-
-	/// <summary>
+	public string Title { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the description.
 	/// </summary>
 	/// <value>
@@ -32,9 +25,7 @@
 	/// </value>
 	[BsonElement("issue_description")]
 	[BsonRepresentation(BsonType.String)]
-	public string Description { get; set; } = string.Empty;
-
-	/// <summary>
+	public string Description { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the date created.
 	/// </summary>
 	/// <value>
@@ -42,33 +33,25 @@
 	/// </value>
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-
-	/// <summary>
+	public DateTime DateCreated { get; set; } = DateTime.UtcNow;	/// <summary>
 	///   Gets or sets the category.
 	/// </summary>
 	/// <value>
 	///   The category.
 	/// </value>
-	public BasicCategoryModel Category { get; set; } = new();
-
-	/// <summary>
+	public BasicCategoryModel Category { get; set; } = new();	/// <summary>
 	///   Gets or sets the author.
 	/// </summary>
 	/// <value>
 	///   The author.
 	/// </value>
-	public BasicUserModel Author { get; set; } = new();
-
-	/// <summary>
+	public BasicUserModel Author { get; set; } = new();	/// <summary>
 	///   Gets or sets the issue status.
 	/// </summary>
 	/// <value>
 	///   The issue status.
 	/// </value>
-	public BasicStatusModel IssueStatus { get; set; } = new();
-
-	/// <summary>
+	public BasicStatusModel IssueStatus { get; set; } = new();	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="IssueModel" /> is archived.
 	/// </summary>
 	/// <value>
@@ -76,17 +59,13 @@
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; }
-
-	/// <summary>
+	public bool Archived { get; set; }	/// <summary>
 	///   Gets or sets who archived the record.
 	/// </summary>
 	/// <value>
 	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new();
-
-	/// <summary>
+	public BasicUserModel ArchivedBy { get; set; } = new();	/// <summary>
 	///   Gets or sets a value indicating whether [approved for release].
 	/// </summary>
 	/// <value>
@@ -94,9 +73,7 @@
 	/// </value>
 	[BsonElement("approved_for_release")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool ApprovedForRelease { get; set; }
-
-	/// <summary>
+	public bool ApprovedForRelease { get; set; }	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="IssueModel" /> is rejected.
 	/// </summary>
 	/// <value>

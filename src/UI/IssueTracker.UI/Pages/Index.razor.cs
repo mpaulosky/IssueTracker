@@ -1,12 +1,8 @@
-﻿//-----------------------------------------------------------------------// <copyright file="Index.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="Index.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]public partial class Index{	private List<CategoryModel>? _categories;	private bool _isSortedByNew = true;	private List<IssueModel>? _issues = new();	private UserModel? _loggedInUser;	private string? _searchText = string.Empty;	private string? _selectedCategory = "All";	private string? _selectedStatus = "All";	private bool _showCategories;	private bool _showStatuses;	private List<StatusModel>? _statuses;
-
-	/// <summary>
+[UsedImplicitly]public partial class Index{	private List<CategoryModel>? _categories;	private bool _isSortedByNew = true;	private List<IssueModel>? _issues = new();	private UserModel? _loggedInUser;	private string? _searchText = string.Empty;	private string? _selectedCategory = "All";	private string? _selectedStatus = "All";	private bool _showCategories;	private bool _showStatuses;	private List<StatusModel>? _statuses;	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
@@ -14,9 +10,7 @@
 		_categories = await CategoryService.GetCategories();
 		_statuses = await StatusService.GetStatuses();
 		await LoadAndVerifyUser();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   LoadCreateIssuePage method
 	/// </summary>
 	private void LoadCreateIssuePage()
@@ -29,9 +23,7 @@
 		{
 			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   LoadAndVerifyUser method
 	/// </summary>
 	private async Task LoadAndVerifyUser()
@@ -89,9 +81,7 @@
 				}
 			}
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OnAfterRenderAsync event
 	/// </summary>
 	/// <param name="firstRender">bool</param>
@@ -103,9 +93,7 @@
 			await FilterIssues();
 			StateHasChanged();
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   LoadFilterState method
 	/// </summary>
 	private async Task LoadFilterState()
@@ -128,9 +116,7 @@
 
 			_isSortedByNew = boolResults;
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   SaveFilterState method
 	/// </summary>
 	private async Task SaveFilterState()
@@ -139,9 +125,7 @@
 		await SessionStorage.SetItemAsync(nameof(_selectedStatus), _selectedStatus);
 		await SessionStorage.SetItemAsync(nameof(_searchText), _searchText);
 		await SessionStorage.SetItemAsync(nameof(_isSortedByNew), _isSortedByNew);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   FilterIssues method
 	/// </summary>
 	private async Task FilterIssues()
@@ -174,9 +158,7 @@
 		_issues = output;
 
 		await SaveFilterState();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OrderByNew method
 	/// </summary>
 	/// <param name="isNew">bool</param>
@@ -184,9 +166,7 @@
 	{
 		_isSortedByNew = isNew;
 		await FilterIssues();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OnSearchInput method
 	/// </summary>
 	/// <param name="searchInput">string</param>
@@ -194,9 +174,7 @@
 	{
 		_searchText = searchInput;
 		await FilterIssues();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OnCategoryClick method
 	/// </summary>
 	/// <param name="category">string</param>
@@ -205,9 +183,7 @@
 		_selectedCategory = category;
 		_showCategories = false;
 		await FilterIssues();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OnStatusClick method
 	/// </summary>
 	/// <param name="status">string</param>
@@ -216,9 +192,7 @@
 		_selectedStatus = status;
 		_showStatuses = false;
 		await FilterIssues();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   SortedByNewCssClass method
 	/// </summary>
 	/// <param name="isNew">bool</param>
@@ -226,9 +200,7 @@
 	private string SortedByNewCssClass(bool isNew)
 	{
 		return isNew == _isSortedByNew ? "sort-selected" : string.Empty;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetSelectedCategoryCssClass method
 	/// </summary>
 	/// <param name="category">string</param>
@@ -236,9 +208,7 @@
 	private string GetSelectedCategoryCssClass(string category = "All")
 	{
 		return category == _selectedCategory ? "selected-category" : string.Empty;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetSelectedStatusCssClass method
 	/// </summary>
 	/// <param name="status">string</param>

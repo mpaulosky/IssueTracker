@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		CategoryModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CategoryModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   CategoryModel class
 /// </summary>
-[Serializable]public class CategoryModel{
-	/// <summary>
+[Serializable]public class CategoryModel{	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
@@ -12,9 +9,7 @@
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string? Id { get; set; } = string.Empty;
-
-	/// <summary>
+	public string? Id { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the name of the category.
 	/// </summary>
 	/// <value>
@@ -22,9 +17,7 @@
 	/// </value>
 	[BsonElement("category_name")]
 	[BsonRepresentation(BsonType.String)]
-	public string CategoryName { get; set; } = string.Empty;
-
-	/// <summary>
+	public string CategoryName { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the category description.
 	/// </summary>
 	/// <value>
@@ -32,9 +25,7 @@
 	/// </value>
 	[BsonElement("category-description")]
 	[BsonRepresentation(BsonType.String)]
-	public string CategoryDescription { get; set; } = string.Empty;
-
-	/// <summary>
+	public string CategoryDescription { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="CategoryModel" /> is archived.
 	/// </summary>
 	/// <value>
@@ -42,9 +33,7 @@
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; }
-
-	/// <summary>
+	public bool Archived { get; set; }	/// <summary>
 	///   Gets or sets who archived the record.
 	/// </summary>
 	/// <value>

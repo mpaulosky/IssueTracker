@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="StatusRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="StatusRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;/// <summary>
 ///   StatusRepository class
 /// </summary>
-public class StatusRepository : IStatusRepository{	private readonly IMongoCollection<StatusModel> _collection;
-
-	/// <summary>
+public class StatusRepository : IStatusRepository{	private readonly IMongoCollection<StatusModel> _collection;	/// <summary>
 	///   StatusRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
@@ -17,30 +13,22 @@ public class StatusRepository : IStatusRepository{	private readonly IMongoColl
 		var collectionName = GetCollectionName(nameof(StatusModel));
 
 		_collection = context.GetCollection<StatusModel>(collectionName);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ArchiveStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	public async Task ArchiveAsync(StatusModel status)
-	{
-		// Archive the category
-		status.Archived = true;
+	{		// Archive the category																status.Archived = true;
 
 		await UpdateAsync(status.Id, status);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
 	public async Task CreateAsync(StatusModel status)
 	{
 		await _collection.InsertOneAsync(status);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -54,9 +42,7 @@ public class StatusRepository : IStatusRepository{	private readonly IMongoColl
 		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of IEnumerable StatusModel</returns>
@@ -67,9 +53,7 @@ public class StatusRepository : IStatusRepository{	private readonly IMongoColl
 		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>

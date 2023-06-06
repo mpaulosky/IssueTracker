@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCommentModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCommentModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   BasicCommentModel class
 /// </summary>
-[Serializable]public class BasicCommentModel{
-	/// <summary>
+[Serializable]public class BasicCommentModel{	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentModel" /> class.
 	/// </summary>
 	/// <param name="comment">The comment.</param>

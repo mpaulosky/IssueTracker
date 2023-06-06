@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright file="CommentComponent.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Components;public partial class CommentComponent{	private CommentModel? _archivingComment;	[Parameter] public CommentModel Item { get; set; } = new();	[Parameter] public UserModel LoggedInUser { get; set; } = new();
-
-	/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="CommentComponent.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Components;public partial class CommentComponent{	private CommentModel? _archivingComment;	[Parameter] public CommentModel Item { get; set; } = new();	[Parameter] public UserModel LoggedInUser { get; set; } = new();	/// <summary>
 	///   VoteUp method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
@@ -8,8 +6,7 @@
 	{
 		if (comment.Author.Id == LoggedInUser.Id)
 		{
-			return; // Can't vote on your own comments
-		}
+			return; // Can't vote on your own comments																				}
 
 		if (!comment.UserVotes.Add(LoggedInUser.Id))
 		{
@@ -17,9 +14,7 @@
 		}
 
 		await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUpVoteTopText method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
@@ -32,9 +27,7 @@
 		}
 
 		return comment.Author.Id == LoggedInUser.Id ? "Awaiting" : "Click To";
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUpVoteBottomText method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
@@ -42,9 +35,7 @@
 	public string GetUpVoteBottomText(CommentModel comment)
 	{
 		return comment.UserVotes.Count > 1 ? "UpVotes" : "UpVote";
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetVoteCssClass method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>

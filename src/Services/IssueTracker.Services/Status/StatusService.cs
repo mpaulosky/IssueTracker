@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="StatusService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Status;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="StatusService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Status;/// <summary>
 ///   StatusService class
 /// </summary>
-public class StatusService : IStatusService{	private const string CacheName = "StatusData";	private readonly IMemoryCache _cache;	private readonly IStatusRepository _repository;
-
-	/// <summary>
+public class StatusService : IStatusService{	private const string CacheName = "StatusData";	private readonly IMemoryCache _cache;	private readonly IStatusRepository _repository;	/// <summary>
 	///   StatusService constructor
 	/// </summary>
 	/// <param name="repository">IStatusRepository</param>
@@ -18,9 +14,7 @@ public class StatusService : IStatusService{	private const string CacheName = 
 
 		_repository = repository;
 		_cache = cache;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
@@ -31,9 +25,7 @@ public class StatusService : IStatusService{	private const string CacheName = 
 		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.CreateAsync(status);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   DeleteStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
@@ -44,9 +36,7 @@ public class StatusService : IStatusService{	private const string CacheName = 
 		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.ArchiveAsync(status);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetStatus method
 	/// </summary>
 	/// <param name="statusId">string</param>
@@ -60,9 +50,7 @@ public class StatusService : IStatusService{	private const string CacheName = 
 		var result = await _repository.GetAsync(statusId);
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of List StatusModels</returns>
@@ -82,9 +70,7 @@ public class StatusService : IStatusService{	private const string CacheName = 
 		_cache.Set(CacheName, output, TimeSpan.FromDays(1));
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>

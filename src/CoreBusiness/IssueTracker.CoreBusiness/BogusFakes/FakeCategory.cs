@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeCategory.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeCategory.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeCategory class
 /// </summary>
 public static class FakeCategory{	private static Faker<CategoryModel>? _categoryGenerator;	private static void SetupGenerator()
@@ -12,9 +10,7 @@ public static class FakeCategory{	private static Faker<CategoryModel>? _catego
 			.RuleFor(x => x.CategoryName, f => f.PickRandom<Category>().ToString())
 			.RuleFor(x => x.CategoryDescription, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a new category
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
@@ -33,9 +29,7 @@ public static class FakeCategory{	private static Faker<CategoryModel>? _catego
 		category.Archived = false;
 
 		return category;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of categories that exit.
 	/// </summary>
 	/// <returns>IEnumerable List of CategoryModels</returns>
@@ -81,9 +75,7 @@ public static class FakeCategory{	private static Faker<CategoryModel>? _catego
 		};
 
 		return categories;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of categories.
 	/// </summary>
 	/// <param name="numberOfCategories">The number of categories.</param>
@@ -95,9 +87,7 @@ public static class FakeCategory{	private static Faker<CategoryModel>? _catego
 		var categories = _categoryGenerator!.Generate(numberOfCategories);
 
 		return categories;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets the basic categories.
 	/// </summary>
 	/// <param name="numberOfCategories">The number of categories.</param>
@@ -108,12 +98,8 @@ public static class FakeCategory{	private static Faker<CategoryModel>? _catego
 
 		var categories = _categoryGenerator!.Generate(numberOfCategories);
 
-		return (from category in categories
-			let basicCategory = new BasicCategoryModel(category)
-			select basicCategory).ToList();
-	}
-
-	/// <summary>
+		return (from category in categories						let basicCategory = new BasicCategoryModel(category)						select basicCategory).ToList();
+	}	/// <summary>
 	///   Gets the basic category.
 	/// </summary>
 	/// <returns>BasicCategoryModel</returns>

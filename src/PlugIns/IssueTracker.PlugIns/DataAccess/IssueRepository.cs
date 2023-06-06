@@ -1,11 +1,9 @@
-﻿//-----------------------------------------------------------------------// <copyright file="IssueRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="IssueRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;/// <summary>
 ///   IssueRepository class
 /// </summary>
-public class IssueRepository : IIssueRepository{	private readonly IMongoCollection<IssueModel> _issueCollection;
-
-	/// <summary>
+public class IssueRepository : IIssueRepository
+{
+	private readonly IMongoCollection<IssueModel> _issueCollection;	/// <summary>
 	///   IssueRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
@@ -17,22 +15,16 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var issueCollectionName = GetCollectionName(nameof(IssueModel));
 
 		_issueCollection = context.GetCollection<IssueModel>(issueCollectionName);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Archive Issue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <returns>Task</returns>
 	public async Task ArchiveAsync(IssueModel issue)
-	{
-		// Archive the category
-		issue.Archived = true;
+	{		// Archive the category																issue.Archived = true;
 
 		await UpdateAsync(issue.Id, issue);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -40,9 +32,7 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 	public async Task CreateAsync(IssueModel issue)
 	{
 		await _issueCollection.InsertOneAsync(issue);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssue method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -56,9 +46,7 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var result = (await _issueCollection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
@@ -69,9 +57,7 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var results = (await _issueCollection.FindAsync(filter)).ToList();
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
@@ -82,9 +68,7 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of IEnumerable IssueModel</returns>
@@ -95,9 +79,7 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var results = output.Where(x => x.ApprovedForRelease && !x.Rejected).ToList();
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUserIssues method
 	/// </summary>
 	/// <param name="userId">string</param>
@@ -107,11 +89,17 @@ public class IssueRepository : IIssueRepository{	private readonly IMongoCollec
 		var results = (await _issueCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateIssue method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="issue">IssueModel</param>
-	public async Task UpdateAsync(string itemId, IssueModel issue)	{		var objectId = new ObjectId(itemId);		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);		await _issueCollection.ReplaceOneAsync(filter, issue);	}}
+	public async Task UpdateAsync(string itemId, IssueModel issue)
+	{
+		var objectId = new ObjectId(itemId);
+
+		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
+
+		await _issueCollection.ReplaceOneAsync(filter, issue);
+	}
+}

@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		StatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		StatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   StatusModel class
 /// </summary>
-[Serializable]public class StatusModel{
-	/// <summary>
+[Serializable]public class StatusModel{	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
@@ -12,9 +9,7 @@
 	/// </value>
 	[BsonId]
 	[BsonRepresentation(BsonType.ObjectId)]
-	public string Id { get; set; } = string.Empty;
-
-	/// <summary>
+	public string Id { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the name of the status.
 	/// </summary>
 	/// <value>
@@ -22,9 +17,7 @@
 	/// </value>
 	[BsonElement("status_name")]
 	[BsonRepresentation(BsonType.String)]
-	public string StatusName { get; set; } = string.Empty;
-
-	/// <summary>
+	public string StatusName { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets the status description.
 	/// </summary>
 	/// <value>
@@ -32,9 +25,7 @@
 	/// </value>
 	[BsonElement("status_description")]
 	[BsonRepresentation(BsonType.String)]
-	public string StatusDescription { get; set; } = string.Empty;
-
-	/// <summary>
+	public string StatusDescription { get; set; } = string.Empty;	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="StatusModel" /> is archived.
 	/// </summary>
 	/// <value>
@@ -42,9 +33,7 @@
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; }
-
-	/// <summary>
+	public bool Archived { get; set; }	/// <summary>
 	///   Gets or sets who archived the record.
 	/// </summary>
 	/// <value>

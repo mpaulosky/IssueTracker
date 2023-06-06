@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeComment.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeComment.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeComment class
 /// </summary>
 public static class FakeComment{	private static Faker<CommentModel>? _commentsGenerator;	private static void SetupGenerator()
@@ -15,9 +13,7 @@ public static class FakeComment{	private static Faker<CommentModel>? _comments
 			.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 			.RuleFor(c => c.DateCreated, f => f.Date.Past())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a new comment.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
@@ -36,9 +32,7 @@ public static class FakeComment{	private static Faker<CommentModel>? _comments
 		comment.Archived = false;
 
 		return comment;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of comments.
 	/// </summary>
 	/// <param name="numberOfComments">The number of comments.</param>
@@ -55,9 +49,7 @@ public static class FakeComment{	private static Faker<CommentModel>? _comments
 		}
 
 		return comments;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of basic comments.
 	/// </summary>
 	/// <param name="numberOfComments">The number of comments.</param>

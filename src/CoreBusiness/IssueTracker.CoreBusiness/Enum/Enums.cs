@@ -1,5 +1,4 @@
-﻿namespace IssueTracker.CoreBusiness.Enum;public class Enums{
-	/// <summary>
+﻿namespace IssueTracker.CoreBusiness.Enum;public class Enums{	/// <summary>
 	///   Category enum
 	/// </summary>
 	internal enum Category
@@ -9,9 +8,7 @@
 		Implementation,
 		Clarification,
 		Miscellaneous
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Status enum
 	/// </summary>
 	internal enum Status
@@ -20,9 +17,7 @@
 		Watching,
 		Dismissed,
 		InWork
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   SourceType enum
 	/// </summary>
 	internal enum SourceType	{		Comment,		Issue,		Solution	}}

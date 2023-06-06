@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Issue;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Issue;/// <summary>
 ///   IssueService class
 /// </summary>
-public class IssueService : IIssueService{	private const string CacheName = "IssueData";	private readonly IMemoryCache _cache;	private readonly IIssueRepository _repository;
-
-	/// <summary>
+public class IssueService : IIssueService{	private const string CacheName = "IssueData";	private readonly IMemoryCache _cache;	private readonly IIssueRepository _repository;	/// <summary>
 	///   IssueService
 	/// </summary>
 	/// <param name="repository">IIssueRepository</param>
@@ -18,9 +14,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 
 		_repository = repository;
 		_cache = cache;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -30,9 +24,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		ArgumentNullException.ThrowIfNull(issue);
 
 		await _repository.CreateAsync(issue);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssue method
 	/// </summary>
 	/// <param name="issueId">string</param>
@@ -45,9 +37,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		var results = await _repository.GetAsync(issueId);
 
 		return results;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
@@ -67,9 +57,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssuesByUser method
 	/// </summary>
 	/// <param name="userId">string</param>
@@ -93,9 +81,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssuesWaitingForApproval method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
@@ -104,9 +90,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		var results = await _repository.GetWaitingForApprovalAsync();
 
 		return results.ToList();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetApprovedIssues method
 	/// </summary>
 	/// <returns>Task of List IssueModels</returns>
@@ -115,9 +99,7 @@ public class IssueService : IIssueService{	private const string CacheName = "I
 		var results = await _repository.GetApprovedAsync();
 
 		return results.ToList();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateIssue
 	/// </summary>
 	/// <param name="issue">IssueModel</param>

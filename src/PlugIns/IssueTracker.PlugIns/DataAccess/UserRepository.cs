@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="UserRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="UserRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;/// <summary>
 ///   UserRepository class
 /// </summary>
-public class UserRepository : IUserRepository{	private readonly IMongoCollection<UserModel> _collection;
-
-	/// <summary>
+public class UserRepository : IUserRepository{	private readonly IMongoCollection<UserModel> _collection;	/// <summary>
 	///   UserRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
@@ -17,31 +13,23 @@ public class UserRepository : IUserRepository{	private readonly IMongoCollecti
 		var collectionName = GetCollectionName(nameof(UserModel));
 
 		_collection = context.GetCollection<UserModel>(collectionName);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Archive User method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>
 	public async Task ArchiveAsync(UserModel user)
-	{
-		// Archive the category
-		user.Archived = true;
+	{		// Archive the category																user.Archived = true;
 
 		await UpdateAsync(user.Id, user);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateUser method
 	/// </summary>
 	/// <param name="user">UserModel</param>
 	public async Task CreateAsync(UserModel user)
 	{
 		await _collection.InsertOneAsync(user);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUser method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -55,9 +43,7 @@ public class UserRepository : IUserRepository{	private readonly IMongoCollecti
 		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUsers method
 	/// </summary>
 	/// <returns>Task of IEnumerable UserModel</returns>
@@ -68,9 +54,7 @@ public class UserRepository : IUserRepository{	private readonly IMongoCollecti
 		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateUser method
 	/// </summary>
 	/// <param name="itemId">string</param>
@@ -82,9 +66,7 @@ public class UserRepository : IUserRepository{	private readonly IMongoCollecti
 		var filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
 		await _collection.ReplaceOneAsync(filter!, user);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetUserFromAuthentication method
 	/// </summary>
 	/// <param name="userObjectIdentifierId">string</param>

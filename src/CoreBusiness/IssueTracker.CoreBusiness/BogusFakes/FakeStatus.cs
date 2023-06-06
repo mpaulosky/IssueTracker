@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeStatus.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeStatus.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;/// <summary>
 ///   FakeStatus class
 /// </summary>
 public static class FakeStatus{	private static Faker<StatusModel>? _statusGenerator;	private static void SetupGenerator()
@@ -12,9 +10,7 @@ public static class FakeStatus{	private static Faker<StatusModel>? _statusGene
 			.RuleFor(x => x.StatusName, f => f.PickRandom<Status>().ToString())
 			.RuleFor(x => x.StatusDescription, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a new status.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
@@ -33,9 +29,7 @@ public static class FakeStatus{	private static Faker<StatusModel>? _statusGene
 		status.Archived = false;
 
 		return status;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of statuses that exist.
 	/// </summary>
 	/// <returns>IEnumerable List of StatusModels</returns>
@@ -75,9 +69,7 @@ public static class FakeStatus{	private static Faker<StatusModel>? _statusGene
 		};
 
 		return statuses;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of statuses.
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>
@@ -94,9 +86,7 @@ public static class FakeStatus{	private static Faker<StatusModel>? _statusGene
 		}
 
 		return statuses;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Gets a list of basic statuses.
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>

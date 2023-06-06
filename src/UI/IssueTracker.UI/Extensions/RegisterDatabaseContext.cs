@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="RegisterDatabaseContext.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Extensions;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="RegisterDatabaseContext.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Extensions;/// <summary>
 ///   IServiceCollectionExtensions
 /// </summary>
-public static partial class ServiceCollectionExtensions{
-	/// <summary>
+public static partial class ServiceCollectionExtensions{	/// <summary>
 	///   RegisterDatabaseContext
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>

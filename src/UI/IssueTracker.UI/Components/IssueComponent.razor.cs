@@ -1,6 +1,4 @@
-﻿//-----------------------------------------------------------------------// <copyright file="IssueComponent.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Components;public partial class IssueComponent{	private IssueModel? _archivingIssue;	[Parameter] public IssueModel Item { get; set; } = new();	[Parameter] public UserModel LoggedInUser { get; set; } = new();
-
-	/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="IssueComponent.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Components;public partial class IssueComponent{	private IssueModel? _archivingIssue;	[Parameter] public IssueModel Item { get; set; } = new();	[Parameter] public UserModel LoggedInUser { get; set; } = new();	/// <summary>
 	///   GetIssueCategoryCssClass
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -18,9 +16,7 @@
 		};
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetIssueStatusCssClass method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -37,18 +33,14 @@
 		};
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OpenDetailsPage method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	private void OpenDetailsPage(IssueModel issue)
 	{
 		NavManager.NavigateTo($"/Details/{issue.Id}");
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Archive issue method
 	/// </summary>
 	private async Task ArchiveIssue()	{		_archivingIssue!.ArchivedBy = new BasicUserModel(LoggedInUser);		_archivingIssue!.Archived = true;		await IssueService.UpdateIssue(_archivingIssue);		_archivingIssue = null;	}}

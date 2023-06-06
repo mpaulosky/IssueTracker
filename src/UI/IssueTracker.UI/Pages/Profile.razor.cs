@@ -1,12 +1,8 @@
-﻿//-----------------------------------------------------------------------// <copyright file="Profile.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="Profile.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   Profile page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]public partial class Profile{	private List<IssueModel>? _approved;	private List<IssueModel>? _archived;	private List<CommentModel>? _comments;	private List<IssueModel>? _issues;	private UserModel? _loggedInUser;	private List<IssueModel>? _pending;	private List<IssueModel>? _rejected;
-
-	/// <summary>
+[UsedImplicitly]public partial class Profile{	private List<IssueModel>? _approved;	private List<IssueModel>? _archived;	private List<CommentModel>? _comments;	private List<IssueModel>? _issues;	private UserModel? _loggedInUser;	private List<IssueModel>? _pending;	private List<IssueModel>? _rejected;	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
 	protected override async Task OnInitializedAsync()
@@ -35,9 +31,7 @@
 
 			_rejected = _issues.Where(s => s.Rejected).ToList();
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ClosePage method
 	/// </summary>
 	private void ClosePage()	{		NavManager.NavigateTo("/");	}}

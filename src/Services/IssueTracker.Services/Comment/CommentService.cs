@@ -1,11 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		CommentService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Comment;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CommentService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Comment;/// <summary>
 ///   CommentService class
 /// </summary>
-public class CommentService : ICommentService{	private const string CacheName = "CommentData";	private readonly IMemoryCache _cache;	private readonly ICommentRepository _repository;
-
-	/// <summary>
+public class CommentService : ICommentService{	private const string CacheName = "CommentData";	private readonly IMemoryCache _cache;	private readonly ICommentRepository _repository;	/// <summary>
 	///   CommentService constructor
 	/// </summary>
 	/// <param name="repository">ICommentRepository</param>
@@ -18,9 +14,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 
 		_repository = repository;
 		_cache = cache;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
@@ -30,9 +24,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		ArgumentNullException.ThrowIfNull(comment);
 
 		await _repository.CreateAsync(comment);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetComment method
 	/// </summary>
 	/// <param name="commentId">string</param>
@@ -45,9 +37,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		var result = await _repository.GetAsync(commentId);
 
 		return result;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetComments method
 	/// </summary>
 	/// <returns>Task of List CommentModels</returns>
@@ -67,9 +57,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetCommentsByUser method
 	/// </summary>
 	/// <param name="userId">string</param>
@@ -82,9 +70,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		var results = await _repository.GetByUserAsync(userId);
 
 		return results.ToList();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   GetCommentsByIssue method
 	/// </summary>
 	/// <param name="source">BasicCommentOnSourceModel</param>
@@ -97,9 +83,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		var results = await _repository.GetBySourceAsync(source);
 
 		return results.ToList();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpdateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>
@@ -111,9 +95,7 @@ public class CommentService : ICommentService{	private const string CacheName 
 		await _repository.UpdateAsync(comment.Id, comment);
 
 		_cache.Remove(CacheName);
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   UpVoteComment method
 	/// </summary>
 	/// <param name="commentId">string</param>

@@ -1,12 +1,8 @@
-﻿//-----------------------------------------------------------------------// <copyright file="Details.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="Details.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   Details class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]public partial class Details{	private List<CommentModel>? _comments = new();	private IssueModel? _issue = new();	private UserModel? _loggedInUser = new();	[Parameter] public string? Id { get; set; }
-
-	/// <summary>
+[UsedImplicitly]public partial class Details{	private List<CommentModel>? _comments = new();	private IssueModel? _issue = new();	private UserModel? _loggedInUser = new();	[Parameter] public string? Id { get; set; }	/// <summary>
 	///   OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
@@ -19,9 +15,7 @@
 		var source = new BasicCommentOnSourceModel(_issue);
 		_comments = await CommentService.GetCommentsBySource(source);
 		await StatusService.GetStatuses();
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   OpenCommentForm method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -31,9 +25,7 @@
 		{
 			NavManager.NavigateTo($"/Comment/{issue.Id}");
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ClosePage method
 	/// </summary>
 	private void ClosePage()	{		NavManager.NavigateTo("/");	}}

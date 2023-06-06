@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		CollectionNames.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Helpers;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CollectionNames.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Helpers;/// <summary>
 ///   CollectionNames class
 /// </summary>
-public static class CollectionNames{
-	/// <summary>
+public static class CollectionNames{	/// <summary>
 	///   GetCollectionName method
 	/// </summary>
 	/// <param name="entityName">string</param>

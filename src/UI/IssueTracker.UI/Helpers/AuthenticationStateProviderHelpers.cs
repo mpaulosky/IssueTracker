@@ -1,10 +1,7 @@
-﻿//-----------------------------------------------------------------------// <copyright file="AuthenticationStateProviderHelpers.cs" company="mpaulosky">//		Author: Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Helpers;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="AuthenticationStateProviderHelpers.cs" company="mpaulosky">//		Author: Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Helpers;/// <summary>
 ///   AuthenticationStateProviderHelpers class
 /// </summary>
-public static class AuthenticationStateProviderHelpers{
-	/// <summary>
+public static class AuthenticationStateProviderHelpers{	/// <summary>
 	///   Gets the user from authentication.
 	/// </summary>
 	/// <param name="provider">The AuthenticationState provider.</param>

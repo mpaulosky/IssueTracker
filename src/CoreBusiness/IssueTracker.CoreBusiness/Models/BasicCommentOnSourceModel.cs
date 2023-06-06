@@ -1,17 +1,12 @@
-﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCommentSourceModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCommentSourceModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;/// <summary>
 ///   BasicCommentSourceModel
 /// </summary>
-[Serializable]public class BasicCommentOnSourceModel{
-	/// <summary>
+[Serializable]public class BasicCommentOnSourceModel{	/// <summary>
 	///   BasicCommentOnSourceModel constructor
 	/// </summary>
 	public BasicCommentOnSourceModel()
 	{
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
 	/// <param name="issue">The issue.</param>
@@ -23,9 +18,7 @@
 		Description = issue.Description;
 		DateCreated = issue.DateCreated;
 		Author = issue.Author;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
 	/// <param name="solution">The solution.</param>
@@ -37,9 +30,7 @@
 		Description = solution.Description;
 		DateCreated = solution.DateCreated;
 		Author = solution.Author;
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
 	/// <param name="comment">The comment.</param>
