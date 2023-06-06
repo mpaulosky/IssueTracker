@@ -204,15 +204,6 @@ a,
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
-#comment-entry {
-    display: grid;
-    grid-template-columns: 100px auto;
-    border-radius: 20px;
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-}
-
     #comment-entry div {
         padding: 10px;
     }
@@ -233,41 +224,6 @@ a,
     color: #a9a9a9;
     font-weight: bold;
     float: right;
-}
-
-.issue-entry-no-votes,
-.issue-entry-voted,
-.issue-entry-not-voted {
-    text-align: center;
-    border-right: 3px #39bad8 solid;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    background-color: #39bad8;
-    color: white;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    min-height: 142px;
-    cursor: pointer;
-}
-
-.issue-entry-no-votes {
-    background-color: #dddddd;
-    color: #ffffff;
-    border-color: #dddddd;
-}
-
-.issue-entry-voted {
-    background-color: #39bad8;
-    color: #ffffff;
-}
-
-.issue-entry-not-voted {
-    background-color: #ffffff;
-    color: #39bad8;
 }
 
 .issue-entry-text {
@@ -316,13 +272,6 @@ a,
     padding: 1rem 1rem 1rem 0.2rem;
 }
 
-.issue-entry-category {
-    border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
-    display: flex;
-    padding: 1rem 1rem 1rem 0.2rem;
-}
-
 .text-status {
     text-transform: uppercase;
     writing-mode: vertical-rl;
@@ -334,74 +283,6 @@ a,
     font-weight: bold;
     font-size: 0.8rem;
     letter-spacing: 1.2px;
-}
-
-.issue-entry-category-text {
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    color: white;
-    padding: 5px;
-    text-align: center;
-    line-height: 1.75;
-    font-weight: bold;
-    font-size: 0.8rem;
-    letter-spacing: 1.2px;
-}
-
-.issue-entry-status-answered {
-    background-color: #b5d43a;
-    border: 1px #b5d43a solid;
-}
-
-.issue-entry-status-watching {
-    background-color: #e9354c;
-    border: 1px solid #e9354c;
-}
-
-.issue-entry-status-inwork {
-    background-color: #fd7e14;
-    border: 1px solid #fd7e14;
-}
-
-.issue-entry-status-dismissed {
-    background-color: #f9c30b;
-    border: 1px solid #f9c30b;
-}
-
-.issue-entry-status-none {
-    background-color: #ffffff;
-    border: 1px solid #ffffff;
-}
-
-.issue-entry-category-design {
-    background-color: #b5d43a;
-    border: 1px #b5d43a solid;
-}
-
-.issue-entry-category-documentation {
-    background-color: #bf878e;
-    border: 1px solid #bf878e;
-}
-
-.issue-entry-category-implementatioin {
-    background-color: #fd7e14;
-    border: 1px solid #fd7e14;
-}
-
-.issue-entry-category-clarification {
-    background-color: #f9c30b;
-    border: 1px solid #f9c30b;
-}
-
-.issue-entry-category-miscellaneous {
-    background-color: #f9c30b;
-    border: 1px solid #f9c30b;
-}
-
-.issue-entry-category-none {
-    background-color: #ffffff;
-    border: 1px solid #ffffff;
 }
 
 .issue-profile-status {
@@ -569,10 +450,6 @@ a,
 .issue-detail-not-voted {
     background-color: #ffffff;
     color: #39bad8;
-}
-
-.detail-upvote {
-    font-size: 2.7rem;
 }
 
 .issue-detail-date {
@@ -767,28 +644,6 @@ a,
     flex: unset;
 }
 
-.btn-archive {
-    border: 0;
-    background-color: #ffffff;
-    padding: 0 10px;
-    flex: unset;
-}
-
-.btn-archive-confirm,
-.btn-archive-reject,
-.btn-comment {
-    text-transform: uppercase;
-    color: darkgray;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    font-size: 0.8rem;
-    flex: 1;
-}
-
-.btn-archive-confirm {
-    color: #e9354c;
-}
-
 /* This Lesson */
 
 .admin-details {
@@ -805,21 +660,6 @@ a,
     margin-top: 1rem;
 }
 
-.btn-status-answered:hover {
-    color: #b5d43a;
-}
-
-.btn-status-inwork:hover {
-    color: #fd7e14;
-}
-
-.btn-status-watching:hover {
-    color: #e9354c;
-}
-
-.btn-status-dismissed:hover {
-    color: #b9c30b;
-}
 
 .category-entry {
     display: grid;
@@ -841,8 +681,6 @@ a,
     align-items: flex-end;
 }
 
-.category-entry-text-name {
-}
 /* Done Here */
 @media screen and (max-width: 575px) {
     .btn-approve,

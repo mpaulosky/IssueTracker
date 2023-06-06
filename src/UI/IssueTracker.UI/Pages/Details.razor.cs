@@ -1,13 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Details.razor.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022.2022 All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.UI.Pages;
-
-/// <summary>
+﻿//-----------------------------------------------------------------------// <copyright file="Details.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;/// <summary>
 ///   Details class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
@@ -19,13 +10,8 @@ public partial class Details
 	private IssueModel? _issue = new();
 
 	private UserModel? _loggedInUser = new();
-	private string? _settingStatus;
-	private List<StatusModel> _statuses = new();
-	private string? _urlText;
 
-	[Parameter] public string? Id { get; set; }
-
-	/// <summary>
+	[Parameter] public string? Id { get; set; }	/// <summary>
 	///   OnInitializedAsync method
 	/// </summary>
 	protected override async Task OnInitializedAsync()
@@ -37,61 +23,8 @@ public partial class Details
 		_issue = await IssueService.GetIssue(Id);
 		var source = new BasicCommentOnSourceModel(_issue);
 		_comments = await CommentService.GetCommentsBySource(source);
-		_statuses = await StatusService.GetStatuses();
-	}
-
-	/// <summary>
-	///   CompleteSetStatus method
-	/// </summary>
-	private async Task CompleteSetStatus()
-	{
-		switch (_settingStatus)
-		{
-			case "answered":
-
-				if (string.IsNullOrWhiteSpace(_urlText))
-				{
-					return;
-				}
-
-				var selectedStatus = _statuses.First(s =>
-					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase));
-				_issue!.IssueStatus = new BasicStatusModel(selectedStatus.StatusName, selectedStatus.StatusDescription);
-
-				break;
-
-			case "inwork":
-
-				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
-
-				break;
-
-			case "watching":
-
-				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
-
-				break;
-
-			case "dismissed":
-
-				_issue!.IssueStatus = new BasicStatusModel(_statuses.First(s =>
-					string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase)));
-
-				break;
-
-			default:
-
-				return;
-		}
-
-		_settingStatus = null;
-
-		await IssueService.UpdateIssue(_issue);
-	}
-
-	/// <summary>
+		await StatusService.GetStatuses();
+	}	/// <summary>
 	///   OpenCommentForm method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
@@ -101,9 +34,7 @@ public partial class Details
 		{
 			NavManager.NavigateTo($"/Comment/{issue.Id}");
 		}
-	}
-
-	/// <summary>
+	}	/// <summary>
 	///   ClosePage method
 	/// </summary>
 	private void ClosePage()

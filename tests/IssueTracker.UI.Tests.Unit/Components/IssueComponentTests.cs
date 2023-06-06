@@ -23,7 +23,7 @@ public class IssueComponentTests : TestContext
 		_expectedIssue = FakeIssue.GetNewIssue(true);
 	}
 
-	private IRenderedComponent<IssueComponent> ComponentUnderTest(bool showArchive = false)
+	private IRenderedComponent<IssueComponent> ComponentUnderTest()
 	{
 		SetupMocks();
 		SetMemoryCache();
@@ -33,20 +33,18 @@ public class IssueComponentTests : TestContext
 		{
 			parameter.Add(p => p.Item, _expectedIssue);
 			parameter.Add(p => p.LoggedInUser, _expectedUser);
-			parameter.Add(p => p.CanArchive, showArchive);
 		});
 
 		return component;
 	}
 
-	[Fact(DisplayName = "IssueComponent not Admin and Can Archive is false")]
-	public void IssueComponent_With_NotAdminAndCanArchiveIsFalse_Should_DisplaysComponent_Test()
-	{
-		// Arrange
-		const string expected =
-			"""
-			<div class="issue-entry">
-				<div diff:ignore></div>
+	[Fact(DisplayName = "IssueComponent not Admin")]
+	public void IssueComponent_With_NotAdmin_Should_NotDisplaysArchiveButton_Test()
+	{		// Arrange									const string expected ="""
+			<div class="issue-item-container">
+				<div class="issue-entry-category issue-entry-category-miscellaneous">
+					<div class="issue-entry-category-text">Miscellaneous</div>
+				</div>
 				<div class="issue-entry-text">
 					<div diff:ignore></div>
 					<div diff:ignore></div>
@@ -56,113 +54,41 @@ public class IssueComponentTests : TestContext
 					</div>
 				</div>
 				<div class="issue-entry-status issue-entry-status-inwork">
-					<div class="text-status">InWork</div>
+					<div class="issue-text-status">InWork</div>
 				</div>
 			</div>
 			""";
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		// Assert 
-		cut.MarkupMatches(expected);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();		// Assert 										cut.MarkupMatches(expected);
 	}
 
-	[Fact(DisplayName = "IssueComponent is Admin and Can Archive is false")]
-	public void IssueComponent_With_IsAdminAndCanArchiveIsFalse_Should_DisplaysComponent_Test()
-	{
-		// Arrange
-		const string expected =
-			"""
-			<div class="issue-entry">
-				<div diff:ignore></div>
+	[Fact(DisplayName = "IssueComponent is Admin")]
+	public void IssueComponent_With_IsAdmin_Should_DisplaysArchiveButton_Test()
+	{		// Arrange									const string expected ="""
+			<div class="issue-item-container">
+				<div class="issue-entry-category issue-entry-category-miscellaneous">
+					<div diff:ignore></div>
+				</div>
 				<div class="issue-entry-text">
 					<div diff:ignore></div>
 					<div diff:ignore></div>
 					<div class="issue-entry-bottom">
 						<div diff:ignore></div>
-						<div diff:ignore></div>
-					</div>
-				</div>
-				<div class="issue-entry-status issue-entry-status-inwork">
-					<div class="text-status">InWork</div>
-				</div>
-			</div>
-			""";
-
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest();
-
-		// Assert 
-		cut.MarkupMatches(expected);
-	}
-
-	[Fact(DisplayName = "IssueComponent is Admin and Can Archive is true")]
-	public void IssueComponent_With_IsAdminAndCanArchiveIsTrue_Should_DisplaysComponent_Test()
-	{
-		// Arrange
-		const string expected =
-			"""
-			<div class="issue-entry">
-				<div diff:ignore></div>
-				<div class="issue-entry-text">
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div class="issue-entry-bottom">
-						<div diff:ignore></div>
-						<div diff:ignore></div>
-						<div class="text-category">
-						  <button id="archive"  class="btn text-category btn-archive">
-						    archive
-						  </button>
+						<div class="issue-text-archive">
+							<button id="archive" class="btn issue-btn-archive">
+								archive
+							</button>
 						</div>
-					</div>
-				</div>
-				<div diff:ignore></div>
-			</div>
-			""";
-
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(true);
-
-		// Assert 
-		cut.MarkupMatches(expected);
-	}
-
-	[Fact(DisplayName = "IssueComponent not Admin and Can Archive is true")]
-	public void IssueComponent_With_NotAdminAndCanArchiveIsTrue_Should_DisplaysComponent_Test()
-	{
-		// Arrange
-		const string expected =
-			"""
-			<div class="issue-entry">
-				<div diff:ignore></div>
-				<div class="issue-entry-text">
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div class="issue-entry-bottom">
 						<div diff:ignore></div>
-						<div diff:ignore></div>
-						<div class="text-category"></div>
 					</div>
 				</div>
 				<div class="issue-entry-status issue-entry-status-inwork">
-					<div class="text-status">InWork</div>
+					<div diff:ignore></div>
 				</div>
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		var cut = ComponentUnderTest(true);
-
-		// Assert 
-		cut.MarkupMatches(expected);
+		SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest();		// Assert 										cut.MarkupMatches(expected);
 	}
 
 	[Theory]
@@ -174,22 +100,12 @@ public class IssueComponentTests : TestContext
 	[InlineData("", "issue-entry-category issue-entry-category-none")]
 	public void IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(string expectedCategory,
 		string expectedCss)
-	{
-		// Arrange
-		var model = new CategoryModel
-		{
-			Id = "test",
-			CategoryName = expectedCategory,
-			CategoryDescription = _expectedIssue.Category.CategoryDescription
-		};
+	{		// Arrange									var model = new CategoryModel									{										Id = "test",										CategoryName = expectedCategory,										CategoryDescription = _expectedIssue.Category.CategoryDescription									};
 		_expectedIssue.Category = new BasicCategoryModel(model);
 
-		// Act
-		var cut = ComponentUnderTest();
-		var result = cut.Find("div.issue-entry-category");
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
+		var result = cut.Find("div.issue-entry-category");		// Assert 										result.ClassName.Should().Contain(expectedCss);
 
-		// Assert 
-		result.ClassName.Should().Contain(expectedCss);
 	}
 
 	[Theory]
@@ -200,77 +116,41 @@ public class IssueComponentTests : TestContext
 	[InlineData("", "issue-entry-status issue-entry-status-none")]
 	public void IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(string expectedStatus,
 		string expectedCss)
-	{
-		// Arrange
-		var model = new StatusModel
-		{
-			Id = "test",
-			StatusName = expectedStatus,
-			StatusDescription = _expectedIssue.IssueStatus.StatusDescription
-		};
+	{		// Arrange									var model = new StatusModel									{										Id = "test",										StatusName = expectedStatus,										StatusDescription = _expectedIssue.IssueStatus.StatusDescription									};
 		_expectedIssue.IssueStatus = new BasicStatusModel(model);
 
-		// Act
-		var cut = ComponentUnderTest();
-		var result = cut.Find("div.issue-entry-status");
-
-		// Assert 
-		result.ClassName.Should().Contain(expectedCss);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
+		var result = cut.Find("div.issue-entry-status");		// Assert 										result.ClassName.Should().Contain(expectedCss);
 	}
 
 	[Fact]
 	public void IssueComponent_OpenDetailsPage_Should_NavigateToDetailsPage_Test()
-	{
-		// Arrange
-		var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
+	{		// Arrange									var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		cut.Find("div.issue-entry-category-text").Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.Find("div.issue-entry-category-text").Click();		// Assert										var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	[Fact]
 	public void IssueComponent_OpenDetailsPage2_Should_NavigateToDetailsPage_Test()
-	{
-		// Arrange
-		var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
+	{		// Arrange									var expectedUri = $"http://localhost/Details/{_expectedIssue.Id}";
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		cut.Find("div.text-title").Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.Find("div.issue-text-title").Click();		// Assert										var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	[Fact]
 	public void IssueComponent_ArchiveIssue_Should_ArchiveTheIssue_Test()
-	{
-		// Arrange
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(true);
+	{		// Arrange									SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest();
 
 		cut.Find("#archive").Click();
-		cut.Find("#confirm").Click();
-
-		// Assert
-		_issueRepositoryMock.Verify(x => x
-			.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+		cut.Find("#confirm").Click();		// Assert										_issueRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	private void SetupMocks()

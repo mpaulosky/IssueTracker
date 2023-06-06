@@ -37,23 +37,76 @@ public class CommentComponentTests : TestContext
 		return component;
 	}
 
+	[Fact(DisplayName = "CommentComponent not Admin")]
+	public void CommentComponent_With_NotAdmin_Should_NotDisplaysArchiveButton_Test()
+	{		// Arrange									const string expected ="""
+			<div class="comment-item-container">
+				<div class="comment-vote comment-no-votes">
+					<div id="vote">
+						<div>Click To</div>
+						<span class="oi oi-caret-top comment-detail-upvote"></span>
+						<div>UpVote</div>
+					</div>
+				</div>
+				<div class="comment-entry-text">
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+					<div class="comment-entry-bottom">
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+					</div>
+				</div>
+				<div class="comment-entry-status">
+					<div diff:ignore></div>
+				</div>
+			</div>
+			""";
+
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();		// Assert 										cut.MarkupMatches(expected);
+	}
+
+	[Fact(DisplayName = "CommentComponent is Admin")]
+	public void CommentComponent_With_IsAdmin_Should_DisplaysArchiveButton_Test()
+	{		// Arrange									const string expected ="""
+			<div class="comment-item-container">
+				<div class="comment-vote comment-no-votes">
+					<div id="vote">
+						<div>Click To</div>
+						<span class="oi oi-caret-top comment-detail-upvote"></span>
+						<div>UpVote</div>
+					</div>
+				</div>
+				<div class="comment-entry-text">
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+					<div class="comment-entry-bottom">
+						<div diff:ignore></div>
+						<div class="comment-text-archive">
+							<button id="archive" class="btn comment-btn-archive">
+								archive
+							</button>
+						</div>
+						<div diff:ignore></div>
+					</div>
+				</div>
+				<div class="comment-entry-status">
+					<div diff:ignore></div>
+				</div>
+			</div>
+			""";
+
+		SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest();		// Assert 										cut.MarkupMatches(expected);
+	}
+
 
 	[Fact]
 	public async Task VoteUp_RemovesUserVoteIfAlreadyUpVoted_TestAsync()
-	{
-		// Arrange
-		const int expectedCount = 0;
+	{		// Arrange									const int expectedCount = 0;
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		await cut.Instance.VoteUp(_expectedComment);
-
-		// Assert
-		_expectedComment.UserVotes.Count.Should().Be(expectedCount);
+		await cut.Instance.VoteUp(_expectedComment);		// Assert										_expectedComment.UserVotes.Count.Should().Be(expectedCount);
 
 		_commentRepositoryMock.Verify(x => x
 			.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -61,19 +114,11 @@ public class CommentComponentTests : TestContext
 
 	[Fact]
 	public async Task VoteUp_AddsUserVoteIfNotAlreadyUpVoted_TestAsync()
-	{
-		// Arrange
-		const int expectedCount = 1;
+	{		// Arrange									const int expectedCount = 1;
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		await cut.Instance.VoteUp(_expectedComment);
-
-		// Assert
-		_expectedComment.UserVotes.Count.Should().Be(expectedCount);
+		await cut.Instance.VoteUp(_expectedComment);		// Assert										_expectedComment.UserVotes.Count.Should().Be(expectedCount);
 
 		_commentRepositoryMock.Verify(x => x
 			.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
@@ -81,171 +126,107 @@ public class CommentComponentTests : TestContext
 
 	[Fact]
 	public async Task VoteUp_ReturnsIfAuthorEqualsLoggedInUser_TestAsync()
-	{
-		// Arrange
-		const int expectedCount = 0;
+	{		// Arrange									const int expectedCount = 0;
 		_expectedComment.Author = new BasicUserModel(_expectedUser);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		await cut.Instance.VoteUp(_expectedComment);
-
-		// Assert
-		_expectedComment.UserVotes.Count.Should().Be(expectedCount);
+		await cut.Instance.VoteUp(_expectedComment);		// Assert										_expectedComment.UserVotes.Count.Should().Be(expectedCount);
 	}
 
 	[Fact]
 	public void GetUpVoteTopText_ReturnsUserVoteCountAsStringWithPadding_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "01";
+	{		// Arrange									const string expectedText = "01";
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetUpVoteTopText(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
 	public void GetUpVoteTopText_ReturnsAwaitingIfCurrentUserIsAuthor_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "Awaiting";
+	{		// Arrange									const string expectedText = "Awaiting";
 		_expectedComment.Author = new BasicUserModel(_expectedUser);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetUpVoteTopText(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
 	public void GetUpVoteTopText_ReturnsClickToIfUserHasNotYetVoted_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "Click To";
+	{		// Arrange									const string expectedText = "Click To";
 		_expectedComment.UserVotes.Clear();
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetUpVoteTopText(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetUpVoteTopText(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
 	public void GetUpVoteBottomText_ReturnsUpVoteForSingleUpVote_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "UpVote";
+	{		// Arrange									const string expectedText = "UpVote";
 		_expectedComment.UserVotes.Clear();
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
 	public void GetUpVoteBottomText_ReturnsUpVotesForMultipleUpVotes()
-	{
-		// Arrange
-		const string expectedText = "UpVotes";
+	{		// Arrange									const string expectedText = "UpVotes";
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 		var anotherUser = FakeUser.GetNewUser(true);
 		_expectedComment.UserVotes.Add(anotherUser.Id);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetUpVoteBottomText(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
-	public void GetVoteCssClass_ReturnsIssueDetailNoVotesIfNoVotes_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "issue-detail-no-votes";
+	public void GetVoteCssClass_ReturnsCommentDetailNoVotesIfNoVotes_TestAsync()
+	{		// Arrange									const string expectedText = "comment-no-votes";
 		_expectedComment.UserVotes.Clear();
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetVoteCssClass(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetVoteCssClass(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
-	public void GetVoteCssClass_ReturnsIssueDetailVotedIfCurrentUserHasVoted_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "issue-detail-voted";
+	public void GetVoteCssClass_ReturnsCommentDetailVotedIfCurrentUserHasNotVoted_TestAsync()
+	{		// Arrange									const string expectedText = "comment-not-voted";
 		_expectedComment.UserVotes.Add(_expectedUser.Id);
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
-		// Act
-		var cut = ComponentUnderTest();
-
-		var result = cut.Instance.GetVoteCssClass(_expectedComment);
-
-		// Assert 
-		result.Should().Be(expectedText);
+		var result = cut.Instance.GetVoteCssClass(_expectedComment);		// Assert 										result.Should().Be(expectedText);
 	}
 
 	[Fact]
-	public void GetVoteCssClass_ReturnsIssueDetailNotVotedIfCurrentUserHasNotVoted_TestAsync()
-	{
-		// Arrange
-		const string expectedText = "issue-detail-not-voted";
+	public void GetVoteCssClass_ReturnsCommentDetailNotVotedIfCurrentUserHasVoted_TestAsync()
+	{		// Arrange									const string expectedText = "comment-voted";
 		_expectedComment.UserVotes.Clear();
 
 		var user = FakeUser.GetNewUser(true);
 
 		_expectedComment.UserVotes.Add(user.Id);
 
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		var cut = ComponentUnderTest();
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest();
 
 
-		var result = cut.Instance.GetVoteCssClass(_expectedComment);
+		var result = cut.Instance.GetVoteCssClass(_expectedComment);		// Assert 										result.Should().Be(expectedText);
+	}
 
-		// Assert 
-		result.Should().Be(expectedText);
+	[Fact]
+	public void CommentComponent_ArchiveComment_Should_ArchiveTheComment_Test()
+	{		// Arrange									SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest();
+
+		cut.Find("#archive").Click();
+		cut.Find("#confirm").Click();		// Assert										_commentRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
 	}
 
 	private void SetupMocks()

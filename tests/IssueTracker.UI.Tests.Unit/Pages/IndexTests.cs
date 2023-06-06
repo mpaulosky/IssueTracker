@@ -41,17 +41,9 @@ public class IndexTests : TestContext
 	[InlineData("_searchText", "")]
 	[InlineData("_isSortedByNew", "false")]
 	public async Task Index_OnInitialize_Should_SaveSessionValues_Test(string key, string expectedValue)
-	{
-		// Arrange
-		SetUpTests(true, true, false);
+	{		// Arrange		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		RenderComponent<Index>();
-
-		// Assert
-		switch (key)
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		RenderComponent<Index>();		// Assert		switch (key)
 		{
 			case "_isSortedByNew":
 				var value = await _sessionStorageService.GetItemAsync<bool>(key);
@@ -66,132 +58,76 @@ public class IndexTests : TestContext
 
 	[Fact]
 	public void Index_With_DataAndAsAdmin_Should_DisplayIssuesWithArchiveButton_Test()
-	{
-		// Arrange
-		SetUpTests(true, true, false);
+	{		// Arrange		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		var cut = RenderComponent<Index>();
-		var buttons = cut.FindAll("#archive");
-
-		// Assert
-		buttons.Count.Should().BeGreaterThan(0);
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");		// Assert		buttons.Count.Should().BeGreaterThan(0);
 	}
 
 	[Fact]
 	public void Index_With_DataNotAsAdmin_Should_DisplayIssuesWithOutArchiveButton_Test()
-	{
-		// Arrange
-		SetUpTests(true, false, false);
+	{		// Arrange		SetUpTests(true, false, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		var cut = RenderComponent<Index>();
-		var buttons = cut.FindAll("#archive");
-
-		// Assert
-		buttons.Count.Should().Be(0);
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
+		var buttons = cut.FindAll("#archive");		// Assert		buttons.Count.Should().Be(0);
 	}
 
 	[Fact]
 	public void Index_With_ClickingOnIssue_Should_NavigateToDetailsPage_Test()
-	{
-		// Arrange
-		const string expectedUri = "http://localhost/Details";
+	{		// Arrange		const string expectedUri = "http://localhost/Details";
 
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.FindAll("div.text-title")[0].Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.FindAll("div.issue-text-title")[0].Click();		// Assert		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
 	}
 
 	[Fact]
 	public void Index_With_ClickOfNewIssueButton_Should_NavigateToTheCreatePage_Test()
-	{
-		// Arrange
-		const string expectedUri = "http://localhost/Create";
+	{		// Arrange		const string expectedUri = "http://localhost/Create";
 
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		var cut = RenderComponent<Index>();
-		cut.FindAll("button")[0].Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
+		cut.FindAll("button")[0].Click();		// Assert		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	[Fact]
 	public void Index_With_NotAuthenticatedAnClickCreateIssue_Should_NavigateToLoginPage_Test()
-	{
-		// Arrange
-		const string expectedUri = "http://localhost/MicrosoftIdentity/Account/SignIn";
+	{		// Arrange		const string expectedUri = "http://localhost/MicrosoftIdentity/Account/SignIn";
 
 		SetUpTests(false, false, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.FindAll("button")[0].Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.FindAll("button")[0].Click();		// Assert		var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	[Fact]
 	public void Index_With_LoggedOnUserInfoIsDifferent_Should_UpdateUser_Test()
-	{
-		// Arrange
-		SetUpTests(true, false, true);
+	{		// Arrange		SetUpTests(true, false, true);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		RenderComponent<Index>();
-
-		// Assert
-		_userRepositoryMock
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		RenderComponent<Index>();		// Assert		_userRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact]
 	public void Index_With_ArchiveButtonClick_Should_UpdateIssueToArchived_Test()
-	{
-		// Arrange
-		SetUpTests(true, true, false);
+	{		// Arrange		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		var cut = RenderComponent<Index>();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
 		var buttons = cut.FindAll("#archive");
 		buttons[0].Click();
-		cut.Find("#confirm").Click();
-
-		// Assert
-		_issueRepositoryMock
+		cut.Find("#confirm").Click();		// Assert		_issueRepositoryMock
 			.Verify(x =>
 				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
@@ -204,20 +140,12 @@ public class IndexTests : TestContext
 	[InlineData(4, "Clarification")]
 	[InlineData(5, "Miscellaneous")]
 	public async Task Index_With_SelectingACategory_Should_FilterIssues_Test(int index, string expected)
-	{
-		// Arrange
-		const string sessionName = "_selectedCategory";
+	{		// Arrange		const string sessionName = "_selectedCategory";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.FindAll("div.categories > div")[index].Click();
-
-		// Assert
-		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		cut.FindAll("div.categories > div")[index].Click();		// Assert		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
 		result.Should().Be(expected);
 	}
 
@@ -228,78 +156,46 @@ public class IndexTests : TestContext
 	[InlineData(3, "InWork")]
 	[InlineData(4, "Dismissed")]
 	public async Task Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(int index, string expected)
-	{
-		// Arrange
-		const string sessionName = "_selectedStatus";
+	{		// Arrange		const string sessionName = "_selectedStatus";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.FindAll("div.statuses > div")[index].Click();
-
-		// Assert
-		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		cut.FindAll("div.statuses > div")[index].Click();		// Assert		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
 		result.Should().Be(expected);
 	}
 
 	[Fact]
 	public async Task Index_With_SelectingSortByNewest_Should_OrderIssuesNewestFirst_TestAsync()
-	{
-		// Arrange
-		const string sessionName = "_isSortedByNew";
+	{		// Arrange		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.Find("#sort-by-new").Click();
-
-		// Assert
-		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		cut.Find("#sort-by-new").Click();		// Assert		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
 		result.Should().BeTrue();
 	}
 
 	[Fact]
 	public async Task Index_With_SelectingSortByPopular_Should_OrderIssuesByPopularity_TestAsync()
-	{
-		// Arrange
-		const string sessionName = "_isSortedByNew";
+	{		// Arrange		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.Find("#sort-by-popular").Click();
-
-		// Assert
-		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		cut.Find("#sort-by-popular").Click();		// Assert		var result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
 		result.Should().BeFalse();
 	}
 
 	[Fact]
 	public async Task Index_With_EnterSearchText_Should_FilterByText_TestAsync()
-	{
-		// Arrange
-		const string sessionName = "_searchText";
+	{		// Arrange		const string sessionName = "_searchText";
 		const string expected = "test";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		var cut = RenderComponent<Index>();
 
-		// Act
-		var cut = RenderComponent<Index>();
-
-		cut.Find("input").Input("test");
-
-		// Assert
-		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		cut.Find("input").Input("test");		// Assert		var result = await _sessionStorageService.GetItemAsync<string>(sessionName);
 		result.Should().Be(expected);
 	}
 
@@ -308,13 +204,7 @@ public class IndexTests : TestContext
 	{
 		SetUpTests(true, false, false, true);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
-
-		// Act
-		RenderComponent<Index>();
-
-		// Assert
-		_userRepositoryMock
+		_sessionStorageService = this.AddBlazoredSessionStorage();		// Act		RenderComponent<Index>();		// Assert		_userRepositoryMock
 			.Verify(x =>
 				x.CreateAsync(It.IsAny<UserModel>()), Times.Once);
 	}

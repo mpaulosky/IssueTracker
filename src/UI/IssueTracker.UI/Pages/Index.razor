@@ -23,17 +23,17 @@
 	<div class="issues-count col-md-4 text-light mt-2">@_issues?.Count Issues</div>
 	<div class="col-md-4 col-xl-5 btn-group">
 		<button id="sort-by-new" class="btn btn-order @SortedByNewCssClass(true)"
-		        @onclick="() => OrderByNew(true)">
+		@onclick="() => OrderByNew(true)">
 			New
 		</button>
 		<button id="sort-by-popular" class="btn btn-order @SortedByNewCssClass(false)"
-		        @onclick="() => OrderByNew(false)">
+		@onclick="() => OrderByNew(false)">
 			Popular
 		</button>
 	</div>
 	<div class="col-md-4 col-xl-3 search-box">
 		<input type="text" placeholder="Search" aria-label="Search box" class="form-control rounded-control"
-		       @oninput="txt => OnSearchInput((string)txt.Value!)"/>
+		@oninput="txt => OnSearchInput((string)txt.Value!)" />
 	</div>
 	<div class="col-12 d-block d-md-none">
 		@if (_categories is not null)
@@ -87,9 +87,9 @@
 <div class="row">
 	<div class="col-md-8 col-xl-9">
 		<Virtualize Context="item" Items="@_issues" OverscanCount="10">
-			<div class="issue-container">
-				<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" CanArchive="true"/>
-			</div>
+
+			<IssueComponent Item="@item" LoggedInUser="@_loggedInUser" />
+
 		</Virtualize>
 	</div>
 

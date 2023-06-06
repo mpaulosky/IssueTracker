@@ -44,158 +44,91 @@ public class DetailsTests : TestContext
 
 	[Fact]
 	public void Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test()
-	{
-		// Arrange
-		const string expectedParamName = "userObjectIdentifierId";
+	{		// Arrange									const string expectedParamName = "userObjectIdentifierId";
 		const string expectedMessage = "Value cannot be null.?*";
 
-		SetAuthenticationAndAuthorization(false, false);
-
-		// Act
-		var cut = () => ComponentUnderTest(_expectedIssue.Id);
-
-
-		// Assert
-		cut.Should()
-			.Throw<ArgumentNullException>()
-			.WithParameterName(expectedParamName)
-			.WithMessage(expectedMessage);
+		SetAuthenticationAndAuthorization(false, false);		// Act								var cut = () => ComponentUnderTest(_expectedIssue.Id);		// Assert										cut.Should().Throw<ArgumentNullException>().WithParameterName(expectedParamName).WithMessage(expectedMessage);
 	}
 
 	[Fact]
 	public void Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test()
-	{
-		// Arrange
-		const string expectedParamName = "Id";
+	{		// Arrange									const string expectedParamName = "Id";
 		const string expectedMessage = "Value cannot be null.?*";
 
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		var cut = () => ComponentUnderTest(null);
-
-
-		// Assert
-		cut.Should()
-			.Throw<ArgumentNullException>()
-			.WithParameterName(expectedParamName)
-			.WithMessage(expectedMessage);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = () => ComponentUnderTest(null);		// Assert										cut.Should().Throw<ArgumentNullException>().WithParameterName(expectedParamName).WithMessage(expectedMessage);
 	}
 
 	[Fact]
 	public void Details_ClosePageClick_Should_NavigateToIndexPage_Test()
-	{
-		// Arrange
-		const string expectedUri = "http://localhost/";
+	{		// Arrange									const string expectedUri = "http://localhost/";
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.Find("#close-page").Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.Find("#close-page").Click();		// Assert										var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
 
 	[Fact]
 	public void Details_With_NonAdminUser_Should_ShowDetailsNotSetStatus_Test()
-	{
-		// Arrange
-		const string expectedHtml =
-			"""
+	{		// Arrange									const string expectedHtml ="""
 			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
-			<div class="issue-container">
-				<button id="create-comment" class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Add Comment</button>
-			</div>
+			<div diff:ignore></div>
 			<div class="form-layout mb-3">
 				<div class="close-button-section">
-					<button id="close-page" class="btn btn-close" ></button>
+					<button id="close-page" class="btn btn-close"></button>
+				</div>
+				<div diff:ignore></div>
+				<div diff:ignore></div>
+			</div>
+			""";
+
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);		// Assert										cut.MarkupMatches(expectedHtml);
+	}
+
+	[Fact]
+	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
+	{		// Arrange									const string expectedHtml ="""
+			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+			<div diff:ignore></div>
+			<div class="form-layout mb-3">
+				<div diff:ignore></div>
+				<div class="issue-item-container">
+					<div diff:ignore></div>
+					<div diff:ignore></div>
+					<div diff:ignore></div>
 				</div>
 				<div class="issue-container">
-					<div class="issue-entry">
-						<div diff:ignore></div>
-						<div diff:ignore></div>
-						<div diff:ignore></div>
+					<div class="status-layout flex-container">
+						<button class="btn btn-status btn-status-status fw-bold">Set Status</button>
+						<button id="answered" class="btn btn-status btn-status-answered">
+							answered
+						</button>
+						<button id="inwork" class="btn btn-status btn-status-inwork">
+							in work
+						</button>
+						<button id="watching" class="btn btn-status btn-status-watching">
+							watching
+						</button>
+						<button id="dismissed" class="btn btn-status btn-status-dismissed">
+							dismissed
+						</button>
 					</div>
 				</div>
 				<div diff:ignore></div>
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(false, true);
-
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		// Assert
-		cut.MarkupMatches(expectedHtml);
-	}
-
-	[Fact]
-	public void Details_With_AdminUser_Should_BeAbleToSetStatus_Test()
-	{
-		// Arrange
-		const string expectedHtml =
-			"""
-		<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
-		<div diff:ignore></div>
-		<div class="form-layout mb-3">
-		  <div diff:ignore></div>
-		  <div diff:ignore></div>
-		  <div class="issue-container">
-		    <div class="form-layout status-entry">
-		      <div class="fw-bold mb-2">
-		        Set Status
-		      </div>
-		      <div class="admin-set-statuses">
-		        <button id="answered"  class="btn text-category btn-archive btn-status-answered">
-		          answered
-		        </button>
-		        <button id="inwork"  class="btn text-category btn-archive btn-status-inwork">
-		          in work
-		        </button>
-		        <button id="watching"  class="btn text-category btn-archive btn-status-watching">
-		          watching
-		        </button>
-		        <button id="dismissed"  class="btn text-category btn-archive btn-status-dismissed">
-		          dismissed
-		        </button>
-		      </div>
-		    </div>
-		  </div>
-		  <div diff:ignore>
-		  </div>
-		</div>
-		""";
-
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		// Assert
-		cut.MarkupMatches(expectedHtml);
+		SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);		// Assert										cut.MarkupMatches(expectedHtml);
 	}
 
 	[Fact]
 	public void Details_With_AddCommentClick_Should_NavigateToCommentPage_Test()
-	{
-		// Arrange
-		var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
+	{		// Arrange									var expectedUri = $"http://localhost/Comment/{_expectedIssue.Id}";
 
-		SetAuthenticationAndAuthorization(false, true);
+		SetAuthenticationAndAuthorization(false, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.Find("#create-comment").Click();
-
-		// Assert
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		cut.Find("#create-comment").Click();		// Assert										var navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -207,144 +140,83 @@ public class DetailsTests : TestContext
 	[InlineData(3, "issue-entry-status-dismissed")]
 	[InlineData(4, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
-	{
-		// Arrange
-		const int expectedCount = 1;
+	{		// Arrange									const int expectedCount = 1;
 		_expectedIssue.IssueStatus = index == 4 ? new BasicStatusModel() : new BasicStatusModel(_expectedStatuses[index]);
 
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
+		SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		var results = cut.FindAll("div");
 
-		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
-
-		// Assert
-		items.Count.Should().Be(expectedCount);
+		var items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();		// Assert										items.Count.Should().Be(expectedCount);
 	}
 
 	[Fact]
 	public void Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test()
-	{
-		// Arrange
-		SetAuthenticationAndAuthorization(true, true);
+	{		// Arrange									SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.FindAll("#vote")[0].Click();
-
-		// Assert
-		_commentRepositoryMock
-			.Verify(x =>
-				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+		cut.FindAll("#vote")[0].Click();		// Assert										_commentRepositoryMock.Verify(x =>x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Fact]
 	public void Details_WhenCommentHasVoteByUser_Should_RemoveVote_Test()
-	{
-		// Arrange
-		SetAuthenticationAndAuthorization(true, true);
+	{		// Arrange									SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.FindAll("#vote")[2].Click();
-
-		// Assert
-		_commentRepositoryMock
-			.Verify(x =>
-				x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-	}
-
-	[Fact]
-	public void Details_With_ChangingAnsweredStatusWithoutUrl_Should_Fail_Test()
-	{
-		// Arrange
-		const string expectedHtml =
-			""""
-			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
-			<div diff:ignore></div>
-			<div class="form-layout mb-3">
-			  <div diff:ignore></div>
-			  <div class="issue-container">
-			    <div class="issue-entry">
-			      <div diff:ignore></div>
-			      <div diff:ignore></div>
-			      <div diff:ignore></div>
-			    </div>
-			  </div>
-			  <div class="issue-container">
-			    <div class="form-layout status-entry">
-			      <div class="fw-bold mb-2">
-			        Set Status
-			      </div>
-			      <div>
-			        <input id="input-answer" class="form-control rounded-control" type="text" placeholder="Url" aria-label="Content Url" value="" >
-			      </div>
-			      <div class="issue-entry-bottom">
-			        <button id="confirm-answered-status" class="btn btn-archive-confirm" >
-			          confirm
-			        </button>
-			        <button id="cancel-answered-status" class="btn btn-archive-reject" >
-			          cancel
-			        </button>
-			      </div>
-			    </div>
-			  </div>
-			  <div diff:ignore></div>
-			</div>
-			"""";
-
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.Find("#answered").Click();
-		cut.Find("#input-answer").Change("");
-		cut.Find("#confirm-answered-status").Click();
-
-		cut.MarkupMatches(expectedHtml);
+		cut.FindAll("#vote")[2].Click();		// Assert										_commentRepositoryMock.Verify(x =>x.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 	}
 
 	[Fact]
 	public void Details_With_AttemptOfCommentAuthorToVote_Should_Fail_Test()
-	{
-		// Arrange
-		const string expectedHtml =
-			"""
+	{		// Arrange									const string expectedHtml ="""
 			<h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
-			<div class="issue-container">
-				<button id="create-comment"  class="suggest-btn btn btn-outline-light btn-lg text-uppercase">Add Comment</button>
-			</div>
+			<div diff:ignore></div>
 			<div class="form-layout mb-3">
 				<div class="close-button-section">
-					<button id="close-page" class="btn btn-close" ></button>
-				</div>
-				<div class="issue-container">
-					<div diff:ignore>
-					</div>
-				</div>
-				<div class="issue-container">
-					<div diff:ignore>
-					</div>
+					<button id="close-page" class="btn btn-close"></button>
 				</div>
 				<div diff:ignore></div>
+				<div diff:ignore></div>
+				<div class="issue-container">
+					<div class="fw-bold mb-2">Comments</div>
+					<div class="comment-item-container">
+						<div class="comment-vote comment-not-voted">
+							<div id="vote">
+								<div>01</div>
+								<span class="oi oi-caret-top comment-detail-upvote"></span>
+								<div>UpVote</div>
+							</div>
+						</div>
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+					</div>
+					<div class="comment-item-container">
+						<div class="comment-vote comment-not-voted">
+							<div id="vote">
+								<div>01</div>
+								<span class="oi oi-caret-top comment-detail-upvote"></span>
+								<div>UpVote</div>
+							</div>
+						</div>
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+					</div>
+					<div class="comment-item-container">
+						<div class="comment-vote comment-no-votes">
+							<div id="vote">
+								<div>Click To</div>
+								<span class="oi oi-caret-top comment-detail-upvote"></span>
+								<div>UpVote</div>
+							</div>
+						</div>
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+					</div>
+				</div>
 			</div>
 			""";
 
-		SetAuthenticationAndAuthorization(true, true);
+		SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
-
-		cut.FindAll("#vote")[0].Click();
-
-		// Assert
-		cut.MarkupMatches(expectedHtml);
+		cut.FindAll("#vote")[0].Click();		// Assert										cut.MarkupMatches(expectedHtml);
 	}
 
 	[Theory(DisplayName = "Update Status")]
@@ -353,19 +225,13 @@ public class DetailsTests : TestContext
 	[InlineData("inwork")]
 	[InlineData("dismissed")]
 	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(string statusId)
-	{
-		// Arrange
-		SetAuthenticationAndAuthorization(true, true);
-
-		// Act
-		var cut = ComponentUnderTest(_expectedIssue.Id);
+	{		// Arrange									SetAuthenticationAndAuthorization(true, true);		// Act								var cut = ComponentUnderTest(_expectedIssue.Id);
 
 		switch (statusId)
 		{
 			case "answered":
 				cut.Find("#answered").Click();
-				cut.Find("#input-answer").Change("http://localhost/");
-				cut.Find("#confirm-answered-status").Click();
+				cut.Find("#confirm-status-change").Click();
 				break;
 			case "watching":
 				cut.Find("#watching").Click();
@@ -379,12 +245,7 @@ public class DetailsTests : TestContext
 				cut.Find("#inwork").Click();
 				cut.Find("#confirm-status-change").Click();
 				break;
-		}
-
-		// Assert
-		_issueRepositoryMock
-			.Verify(x =>
-				x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
+		}		// Assert										_issueRepositoryMock.Verify(x =>x.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>()), Times.Once);
 	}
 
 	private void SetupMocks()
