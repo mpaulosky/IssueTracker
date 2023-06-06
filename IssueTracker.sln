@@ -5,7 +5,6 @@ VisualStudioVersion = 17.1.32203.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{9288ED2B-642B-4EC8-B5B6-9039CF2D3538}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		codecov.yml = codecov.yml
@@ -60,13 +59,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service Tests", "Service Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.Services.Tests.Unit", "tests\IssueTracker.Services.Tests.Unit\IssueTracker.Services.Tests.Unit.csproj", "{59CE646C-9719-4BE0-AA92-6E34F144D0A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.CoreBusiness.Tests.Unit", "tests\IssueTracker.CoreBusiness.Tests.Unit\IssueTracker.CoreBusiness.Tests.Unit.csproj", "{3E8564ED-B139-4F96-A830-217B3CAFF7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.CoreBusiness.Tests.Unit", "tests\IssueTracker.CoreBusiness.Tests.Unit\IssueTracker.CoreBusiness.Tests.Unit.csproj", "{3E8564ED-B139-4F96-A830-217B3CAFF7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingSupport.Library", "tests\TestingSupport.Library\TestingSupport.Library.csproj", "{12BC61F5-E9E1-4FC1-A395-679B2C180FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSupport.Library", "tests\TestingSupport.Library\TestingSupport.Library.csproj", "{12BC61F5-E9E1-4FC1-A395-679B2C180FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UI.Tests.Unit", "tests\IssueTracker.UI.Tests.Unit\IssueTracker.UI.Tests.Unit.csproj", "{720F534B-6C70-4DF0-A013-55E7A8441A8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI.Tests.Unit", "tests\IssueTracker.UI.Tests.Unit\IssueTracker.UI.Tests.Unit.csproj", "{720F534B-6C70-4DF0-A013-55E7A8441A8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IssueTracker.UI", "src\UI\IssueTracker.UI\IssueTracker.UI.csproj", "{770B26B7-E6F7-4EEE-B0FC-4D831216E5F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IssueTracker.UI", "src\UI\IssueTracker.UI\IssueTracker.UI.csproj", "{770B26B7-E6F7-4EEE-B0FC-4D831216E5F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
