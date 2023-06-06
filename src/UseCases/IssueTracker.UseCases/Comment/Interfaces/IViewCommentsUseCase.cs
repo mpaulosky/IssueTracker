@@ -10,5 +10,7 @@ namespace IssueTracker.UseCases.Comment.Interfaces;
 
 public interface IViewCommentsUseCase
 {
-	Task<IEnumerable<CommentModel>> ExecuteAsync();
+
+	Task<IEnumerable<CommentModel>?> ExecuteAsync(bool includeArchived = false);
+
 }

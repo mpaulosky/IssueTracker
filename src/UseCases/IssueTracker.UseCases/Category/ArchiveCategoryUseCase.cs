@@ -21,12 +21,9 @@ public class ArchiveCategoryUseCase : IArchiveCategoryUseCase
 	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
-		if (category == null) return;
+		ArgumentNullException.ThrowIfNull(category);
 
-		// Archive the category
-		category.Archived = true;
-
-		await _categoryRepository.UpdateCategoryAsync(category);
+		await _categoryRepository.ArchiveAsync(category);
 
 	}
 

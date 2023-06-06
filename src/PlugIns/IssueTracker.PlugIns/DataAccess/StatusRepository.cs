@@ -1,113 +1,77 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StatusRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-using IStatusRepository = IssueTracker.PlugIns.PlugInRepositoryInterfaces.IStatusRepository;
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="StatusRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
-///		StatusRepository class
+///   StatusRepository class
 /// </summary>
-public class StatusRepository : IStatusRepository
-{
-
-	private readonly IMongoCollection<StatusModel> _collection;
+public class StatusRepository : IStatusRepository{	private readonly IMongoCollection<StatusModel> _collection;
 
 	/// <summary>
-	///		StatusRepository constructor
+	///   StatusRepository constructor
 	/// </summary>
 	/// <param name="context">IMongoDbContext</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	public StatusRepository(IMongoDbContextFactory context)
 	{
-
-		Guard.Against.Null(context, nameof(context));
+		ArgumentNullException.ThrowIfNull(context);
 
 		var collectionName = GetCollectionName(nameof(StatusModel));
 
 		_collection = context.GetCollection<StatusModel>(collectionName);
-
 	}
 
 	/// <summary>
-	///		CreateStatus method
+	///   ArchiveStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
-	public async Task CreateStatusAsync(StatusModel status)
+	public async Task ArchiveAsync(StatusModel status)
 	{
-
-		await _collection.InsertOneAsync(status);
-
-	}
-
-	/// <summary>
-	/// ArchiveStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	public async Task ArchiveStatusAsync(StatusModel status)
-	{
-
-		var objectId = new ObjectId(status.Id);
-
-		// Archive the status
+		// Archive the category
 		status.Archived = true;
 
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, status);
-
+		await UpdateAsync(status.Id, status);
 	}
 
 	/// <summary>
-	///		GetStatus method
+	///   CreateStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	public async Task CreateAsync(StatusModel status)
+	{
+		await _collection.InsertOneAsync(status);
+	}
+
+	/// <summary>
+	///   GetStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <returns>Task of StatusModel</returns>
-	public async Task<StatusModel> GetStatusAsync(string itemId)
+	public async Task<StatusModel> GetAsync(string itemId)
 	{
-
 		var objectId = new ObjectId(itemId);
 
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
+		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
-		StatusModel result = (await _collection.FindAsync(filter)).FirstOrDefault();
+		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
 
 		return result;
-
 	}
 
 	/// <summary>
-	///		GetStatuses method
+	///   GetStatuses method
 	/// </summary>
 	/// <returns>Task of IEnumerable StatusModel</returns>
-	public async Task<IEnumerable<StatusModel>> GetStatusesAsync()
+	public async Task<IEnumerable<StatusModel>> GetAllAsync()
 	{
-
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Empty;
+		var filter = Builders<StatusModel>.Filter.Empty;
 
 		var result = (await _collection.FindAsync(filter)).ToList();
 
 		return result;
-
 	}
 
 	/// <summary>
-	///		UpdateStatus method
+	///   UpdateStatus method
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="status">StatusModel</param>
-	public async Task UpdateStatusAsync(string itemId, StatusModel status)
-	{
-
-		var objectId = new ObjectId(itemId);
-
-		FilterDefinition<StatusModel> filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, status);
-
-	}
-
-}
+	public async Task UpdateAsync(string itemId, StatusModel status)	{		var objectId = new ObjectId(itemId);		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);		await _collection.ReplaceOneAsync(filter, status);	}}

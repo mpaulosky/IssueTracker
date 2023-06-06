@@ -18,10 +18,10 @@ public class ViewUsersUseCase : IViewUsersUseCase
 		_userRepository = userRepository;
 	}
 
-	public async Task<IEnumerable<UserModel>> ExecuteAsync()
+	public async Task<IEnumerable<UserModel>?> ExecuteAsync(bool includeArchived = false)
 	{
 
-		return await _userRepository.GetUsersAsync();
+		return await _userRepository.GetAllAsync(includeArchived);
 
 	}
 

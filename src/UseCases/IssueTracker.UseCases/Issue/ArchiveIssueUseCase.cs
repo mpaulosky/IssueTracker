@@ -24,15 +24,9 @@ public class ArchiveIssueUseCase : IArchiveIssueUseCase
 	public async Task ExecuteAsync(IssueModel? issue)
 	{
 
-		if (issue == null)
-		{
-			return;
-		}
+		ArgumentNullException.ThrowIfNull(issue);
 
-		// Archive the issue
-		issue.Archived = true;
-
-		await _issueRepository.UpdateIssueAsync(issue);
+		await _issueRepository.ArchiveAsync(issue);
 
 	}
 

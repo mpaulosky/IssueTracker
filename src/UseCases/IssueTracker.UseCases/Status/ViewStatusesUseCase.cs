@@ -20,10 +20,10 @@ public class ViewStatusesUseCase : IViewStatusesUseCase
 
 	}
 
-	public async Task<IEnumerable<StatusModel>> ExecuteAsync()
+	public async Task<IEnumerable<StatusModel>?> ExecuteAsync(bool includeArchived = false)
 	{
 
-		return await _statusRepository.GetStatusesAsync();
+		return await _statusRepository.GetAllAsync(includeArchived);
 
 	}
 

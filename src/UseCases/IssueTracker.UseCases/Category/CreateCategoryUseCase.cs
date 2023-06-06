@@ -23,9 +23,9 @@ public class CreateCategoryUseCase : ICreateCategoryUseCase
 	public async Task ExecuteAsync(CategoryModel? category)
 	{
 
-		if (category == null) return;
+		ArgumentNullException.ThrowIfNull(category);
 
-		await _categoryRepository.CreateCategoryAsync(category);
+		await _categoryRepository.CreateAsync(category);
 
 	}
 

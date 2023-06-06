@@ -1,26 +1,14 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		UserModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		UserModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
-/// UserModel class
+///   UserModel class
 /// </summary>
-[Serializable]
-public class UserModel
-{
-
+[Serializable]public class UserModel{
 	/// <summary>
-	/// Gets or sets the identifier.
+	///   Gets or sets the identifier.
 	/// </summary>
 	/// <value>
-	/// The identifier.
+	///   The identifier.
 	/// </value>
 	[BsonId]
 	[BsonElement("_id")]
@@ -28,62 +16,68 @@ public class UserModel
 	public string Id { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the object identifier.
+	///   Gets or sets the object identifier.
 	/// </summary>
 	/// <value>
-	/// The object identifier.
+	///   The object identifier.
 	/// </value>
 	[BsonElement("object_identifier")]
 	public string ObjectIdentifier { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the first name.
+	///   Gets or sets the first name.
 	/// </summary>
 	/// <value>
-	/// The first name.
+	///   The first name.
 	/// </value>
 	[BsonElement("first_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string FirstName { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the last name.
+	///   Gets or sets the last name.
 	/// </summary>
 	/// <value>
-	/// The last name.
+	///   The last name.
 	/// </value>
 	[BsonElement("last_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string LastName { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the display name.
+	///   Gets or sets the display name.
 	/// </summary>
 	/// <value>
-	/// The display name.
+	///   The display name.
 	/// </value>
 	[BsonElement("display_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string DisplayName { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the email address.
+	///   Gets or sets the email address.
 	/// </summary>
 	/// <value>
-	/// The email address.
+	///   The email address.
 	/// </value>
 	[BsonElement("email_address")]
 	[BsonRepresentation(BsonType.String)]
 	public string EmailAddress { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets a value indicating whether this <see cref="UserModel"/> is archived.
+	///   Gets or sets a value indicating whether this <see cref="UserModel" /> is archived.
 	/// </summary>
 	/// <value>
 	///   <c>true</c> if archived; otherwise, <c>false</c>.
 	/// </value>
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool Archived { get; set; } = false;
+	public bool Archived { get; set; }
 
-}
+	/// <summary>
+	///   Gets or sets who archived the record.
+	/// </summary>
+	/// <value>
+	///   Who archived the record.
+	/// </value>
+	public BasicUserModel ArchivedBy { get; set; } = new();}

@@ -20,10 +20,11 @@ public class ViewCommentsUseCase : IViewCommentsUseCase
 
 	}
 
-	public async Task<IEnumerable<CommentModel>> ExecuteAsync()
+	public async Task<IEnumerable<CommentModel>?> ExecuteAsync(bool includeArchived = false)
 	{
 
-		return await _commentRepository.GetCommentsAsync();
+		return await _commentRepository.GetAllAsync(includeArchived);
 
 	}
+
 }

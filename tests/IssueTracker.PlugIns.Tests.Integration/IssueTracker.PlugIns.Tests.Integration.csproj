@@ -14,6 +14,22 @@
 		<PackageReference Include="FluentAssertions" Version="6.11.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.5" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.6.0" />
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:tests/IssueTracker.Library.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.5.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.5.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.5.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.5.0" />
+		<PackageReference Include="Respawn" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.5" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+		<PackageReference Include="Testcontainers" Version="3.1.0" />
+		<PackageReference Include="Testcontainers.MongoDb" Version="3.1.0" />
+========
+>>>>>>> dev
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0" />
@@ -24,6 +40,10 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
 		<PackageReference Include="Testcontainers.MongoDb" Version="3.2.0" />
 		<PackageReference Include="Testcontainers" Version="3.2.0" />
+<<<<<<< HEAD
+=======
+>>>>>>>> dev:tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+>>>>>>> dev
 		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -37,7 +57,13 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+<<<<<<< HEAD
 		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+=======
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
+>>>>>>> dev
 	</ItemGroup>
 
 </Project>

@@ -21,15 +21,12 @@ public class ArchiveCommentUseCase : IArchiveCommentUseCase
 
 	}
 
-	public async Task Execute(CommentModel? comment)
+	public async Task ExecuteAsync(CommentModel? comment)
 	{
 
-		if (comment == null) return;
+		ArgumentNullException.ThrowIfNull(comment);
 
-		// Set the comment to archived
-		comment.Archived = true;
-
-		await _commentRepository.UpdateCommentAsync(comment);
+		await _commentRepository.ArchiveAsync(comment);
 
 	}
 

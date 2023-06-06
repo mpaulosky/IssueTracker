@@ -9,29 +9,24 @@
 
 namespace IssueTracker.UseCases.Solution;
 
-public class ViewSolutionByIssueIdUseCase : IViewSolutionByIssueIdUseCase
+public class ViewSolutionsByIssueUseCase : IViewSolutionsByIssueUseCase
 {
 
 	private readonly ISolutionRepository _solutionRepository;
 
-	public ViewSolutionByIssueIdUseCase(ISolutionRepository solutionRepository)
+	public ViewSolutionsByIssueUseCase(ISolutionRepository solutionRepository)
 	{
 
 		_solutionRepository = solutionRepository;
 
 	}
 
-	public async Task<SolutionModel> ExecuteAsync(IssueModel issue)
+	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(BasicIssueModel? issue)
 	{
 
-		if (issue == null)
-		{
+		ArgumentNullException.ThrowIfNull(issue);
 
-			return new SolutionModel();
-
-		}
-
-		return await _solutionRepository.GetSolutionByIssueIdAsync(issue.Id);
+		return await _solutionRepository.GetByIssueAsync(issue);
 
 	}
 

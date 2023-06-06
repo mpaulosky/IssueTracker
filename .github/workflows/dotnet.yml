@@ -1,25 +1,26 @@
 ---
-
 name: "Build and Test"
 
 on:
   push:
+    branches:
+      - main
 
   pull_request:
     branches:
       - main
 
     paths-ignore:
-      - '**/*.md'
-      - '**/*.gitignore'
-      - '**/*.gitattributes'
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
 
   workflow_dispatch:
     inputs:
       reason:
-        description: 'The reason for running the workflow'
+        description: "The reason for running the workflow"
         required: true
-        default: 'Manual run'
+        default: "Manual run"
 
 jobs:
   build-and-test:
@@ -43,15 +44,6 @@ jobs:
         run: |
           git fetch --prune --unshallow
 
-      - name: Start dependencies (docker-compose)
-        run: |
-          docker-compose up -d
-
-      - name: Wait for MongoDb Server container
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '5s'
-
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -64,12 +56,12 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-restore --no-build --logger trx --collect:"XPlat Code Coverage" --results-directory "TestResults/" --settings runsettings.xml
+        run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
@@ -85,7 +77,7 @@ jobs:
         with:
           name: IssueTracker-test-results
           path: TestResults
-        
-        # Use always() to always run this step to 
+
+        # Use always() to always run this step to
         # publish test results when there are test failures
         if: ${{ always() }}

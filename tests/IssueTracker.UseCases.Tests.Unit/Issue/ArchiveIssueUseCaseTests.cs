@@ -1,5 +1,4 @@
-﻿
-namespace IssueTracker.UseCases.Tests.Unit.Issue;
+﻿namespace IssueTracker.UseCases.Issue;
 
 [ExcludeFromCodeCoverage]
 public class ArchiveIssueUseCaseTests
@@ -26,32 +25,35 @@ public class ArchiveIssueUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
-		IssueModel? issue = FakeIssue.GetIssues(1).First();
+		var sut = CreateUseCase();
+		IssueModel issue = FakeIssue.GetIssues(1).First();
 
 		// Act
-		await _sut.ExecuteAsync(issue);
+		await sut.ExecuteAsync(issue);
 
 		// Assert
 		_issueRepositoryMock.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<IssueModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<IssueModel>()), Times.Once);
 
 	}
 
 	[Fact(DisplayName = "ArchiveIssueUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	public async Task ExecuteAsync_With_InValidData_Should_ReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
-		IssueModel? issue = null;
+		var sut = this.CreateUseCase();
+		const string expectedParamName = "issue";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		await _sut.ExecuteAsync(issue);
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
 
 		// Assert
-		_issueRepositoryMock.Verify(x =>
-				x.UpdateIssueAsync(It.IsAny<IssueModel>()), Times.Never);
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

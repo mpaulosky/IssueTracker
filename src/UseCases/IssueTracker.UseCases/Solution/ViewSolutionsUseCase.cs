@@ -21,10 +21,10 @@ public class ViewSolutionsUseCase : IViewSolutionsUseCase
 
 	}
 
-	public async Task<IEnumerable<SolutionModel>> ExecuteAsync()
+	public async Task<IEnumerable<SolutionModel>?> ExecuteAsync(bool includeArchived = false)
 	{
 
-		return await _solutionRepository.GetSolutionsAsync();
+		return await _solutionRepository.GetAllAsync(includeArchived);
 
 	}
 }

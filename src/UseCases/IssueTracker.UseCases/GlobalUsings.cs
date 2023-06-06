@@ -1,4 +1,6 @@
-﻿global using IssueTracker.CoreBusiness.Models;
+﻿// Global using directives
+
+global using IssueTracker.CoreBusiness.Models;
 global using IssueTracker.UseCases.Category.Interfaces;
 global using IssueTracker.UseCases.Comment.Interfaces;
 global using IssueTracker.UseCases.Issue.Interfaces;

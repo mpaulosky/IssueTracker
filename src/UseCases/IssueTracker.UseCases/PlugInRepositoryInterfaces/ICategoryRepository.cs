@@ -11,12 +11,14 @@ namespace IssueTracker.UseCases.PlugInRepositoryInterfaces;
 public interface ICategoryRepository
 {
 
-	Task CreateCategoryAsync(CategoryModel category);
+	Task ArchiveAsync(CategoryModel category);
 
-	Task<CategoryModel> GetCategoryByIdAsync(string categoryId);
+	Task CreateAsync(CategoryModel category);
 
-	Task<IEnumerable<CategoryModel>> GetCategoriesAsync();
+	Task<CategoryModel?> GetAsync(string? categoryId);
 
-	Task UpdateCategoryAsync(CategoryModel category);
+	Task<IEnumerable<CategoryModel>?> GetAllAsync(bool includeArchived = false);
+
+	Task UpdateAsync(CategoryModel category);
 
 }

@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Category;
+﻿namespace IssueTracker.UseCases.Category;
 
 [ExcludeFromCodeCoverage]
 public class ArchiveCategoryUseCaseTests
@@ -24,32 +24,34 @@ public class ArchiveCategoryUseCaseTests
 	public async Task ExecuteAsync_WithValidCategoryModel_ShouldUpdateAsArchived_TestAsync()
 	{
 		// Arrange
-		var _sut = CreateUseCase();
-		CategoryModel? category = FakeCategory.GetCategories(1).First();
+		var sut = CreateUseCase();
+		var category = FakeCategory.GetCategories(1).First();
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		await sut.ExecuteAsync(category);
 
 		// Assert
 		_categoryRepositoryMock.Verify(x =>
-				x.UpdateCategoryAsync(It.IsAny<CategoryModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<CategoryModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "ArchiveCategoryUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_WithInValidCategoryModel_ShouldReturnNull_TestAsync()
+	public async Task ExecuteAsync_WithInValidCategoryModel_ShouldReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
-		var _sut = this.CreateUseCase();
-
-		CategoryModel? category = null;
+		var sut = CreateUseCase();
+		const string expectedParamName = "category";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		await _sut.ExecuteAsync(category);
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
 
 		// Assert
-		_categoryRepositoryMock.Verify(x =>
-				x.UpdateCategoryAsync(It.IsAny<CategoryModel>()), Times.Never);
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

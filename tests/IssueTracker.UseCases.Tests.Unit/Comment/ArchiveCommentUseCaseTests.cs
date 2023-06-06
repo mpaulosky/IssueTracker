@@ -1,4 +1,4 @@
-﻿namespace IssueTracker.UseCases.Tests.Unit.Comment;
+﻿namespace IssueTracker.UseCases.Comment;
 
 [ExcludeFromCodeCoverage]
 public class ArchiveCommentUseCaseTests
@@ -25,32 +25,35 @@ public class ArchiveCommentUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
-		CommentModel? comment = FakeComment.GetComments(1).First();
+		var sut = CreateUseCase();
+		CommentModel comment = FakeComment.GetComments(1).First();
 
 		// Act
-		await _sut.Execute(comment);
+		await sut.ExecuteAsync(comment);
 
 		// Assert
 		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Once);
+				x.ArchiveAsync(It.IsAny<CommentModel>()), Times.Once);
 
 	}
 
 	[Fact(DisplayName = "ArchiveCommentUseCase With In Valid Data Test")]
-	public async Task ExecuteAsync_With_InValidData_Should_ReturnNull_TestAsync()
+	public async Task ExecuteAsync_With_InValidData_Should_ReturnArgumentNullException_TestAsync()
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
-		CommentModel? comment = null;
+		var sut = this.CreateUseCase();
+		const string expectedParamName = "comment";
+		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		await _sut.Execute(comment);
+		Func<Task> act = async () => { await sut.ExecuteAsync(null!); };
 
 		// Assert
-		_commentRepositoryMock.Verify(x =>
-				x.UpdateCommentAsync(It.IsAny<CommentModel>()), Times.Never);
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
 
 	}
 

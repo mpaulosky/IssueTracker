@@ -2,5 +2,7 @@
 
 public interface IViewCategoriesUseCase
 {
-	Task<IEnumerable<CategoryModel>> ExecuteAsync();
+
+	Task<IEnumerable<CategoryModel>?> ExecuteAsync(bool includeArchived = false);
+
 }

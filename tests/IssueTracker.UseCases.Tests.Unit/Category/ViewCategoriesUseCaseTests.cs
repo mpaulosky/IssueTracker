@@ -1,5 +1,5 @@
 ﻿
-namespace IssueTracker.UseCases.Tests.Unit.Category;
+namespace IssueTracker.UseCases.Category;
 
 [ExcludeFromCodeCoverage]
 public class ViewCategoriesUseCaseTests
@@ -17,7 +17,7 @@ public class ViewCategoriesUseCaseTests
 	private ViewCategoriesUseCase CreateUseCase()
 	{
 
-		_categoryRepositoryMock.Setup(x => x.GetCategoriesAsync())
+		_categoryRepositoryMock.Setup(x => x.GetAllAsync(false))
 			.ReturnsAsync(FakeCategory.GetCategories(1));
 
 		return new ViewCategoriesUseCase(_categoryRepositoryMock.Object);
@@ -29,19 +29,19 @@ public class ViewCategoriesUseCaseTests
 	{
 
 		// Arrange
-		var _sut = CreateUseCase();
+		var sut = CreateUseCase();
 
 		// Act
-		var result = await _sut.ExecuteAsync();
+		CategoryModel result = (await sut.ExecuteAsync())!.First();
 
 		// Assert
 		result.Should().NotBeNull();
-		result.First().Id.Should().NotBeNull();
-		result.First().CategoryName.Should().NotBeNull();
-		result.First().CategoryDescription.Should().NotBeNull();
+		result.Id.Should().NotBeNull();
+		result.CategoryName.Should().NotBeNull();
+		result.CategoryDescription.Should().NotBeNull();
 
 		_categoryRepositoryMock.Verify(x =>
-				x.GetCategoriesAsync(), Times.Once);
+				x.GetAllAsync(false), Times.Once);
 
 	}
 
