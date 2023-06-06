@@ -46,10 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-<<<<<<< HEAD
-=======
 		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
->>>>>>> dev
 		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 
