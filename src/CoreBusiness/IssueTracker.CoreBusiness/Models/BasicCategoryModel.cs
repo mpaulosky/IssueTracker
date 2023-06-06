@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		BasicCategoryModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCategoryModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   Basic Category Model class
 /// </summary>
-[Serializable]
-public class BasicCategoryModel
-{
+[Serializable]public class BasicCategoryModel{
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCategoryModel" /> class.
 	/// </summary>
@@ -57,5 +46,4 @@ public class BasicCategoryModel
 	/// <value>
 	///   The category description.
 	/// </value>
-	public string CategoryDescription { get; init; } = string.Empty;
-}
+	public string CategoryDescription { get; init; } = string.Empty;}

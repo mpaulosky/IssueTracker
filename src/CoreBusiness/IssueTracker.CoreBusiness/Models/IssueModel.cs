@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		IssueModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   IssueModel class
 /// </summary>
-[Serializable]
-public class IssueModel
-{
+[Serializable]public class IssueModel{
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -113,7 +102,4 @@ public class IssueModel
 	/// <value>
 	///   <c>true</c> if rejected; otherwise, <c>false</c>.
 	/// </value>
-	[BsonElement("rejected")]
-	[BsonRepresentation(BsonType.Boolean)]
-	public bool Rejected { get; set; }
-}
+	[BsonElement("rejected")]	[BsonRepresentation(BsonType.Boolean)]	public bool Rejected { get; set; }}

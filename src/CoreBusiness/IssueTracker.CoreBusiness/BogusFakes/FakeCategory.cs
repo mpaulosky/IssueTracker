@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeCategory.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeCategory.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeCategory class
 /// </summary>
-public static class FakeCategory
-{
-	private static Faker<CategoryModel>? _categoryGenerator;
-
-	private static void SetupGenerator()
+public static class FakeCategory{	private static Faker<CategoryModel>? _categoryGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -130,12 +117,4 @@ public static class FakeCategory
 	///   Gets the basic category.
 	/// </summary>
 	/// <returns>BasicCategoryModel</returns>
-	public static BasicCategoryModel GetBasicCategory()
-	{
-		SetupGenerator();
-
-		var category = _categoryGenerator!.Generate();
-
-		return new BasicCategoryModel(category);
-	}
-}
+	public static BasicCategoryModel GetBasicCategory()	{		SetupGenerator();		var category = _categoryGenerator!.Generate();		return new BasicCategoryModel(category);	}}

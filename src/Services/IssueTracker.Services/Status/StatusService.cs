@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StatusService.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.Services.Status;
+﻿//-----------------------------------------------------------------------// <copyright file="StatusService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Status;
 
 /// <summary>
 ///   StatusService class
 /// </summary>
-public class StatusService : IStatusService
-{
-	private const string CacheName = "StatusData";
-	private readonly IMemoryCache _cache;
-	private readonly IStatusRepository _repository;
+public class StatusService : IStatusService{	private const string CacheName = "StatusData";	private readonly IMemoryCache _cache;	private readonly IStatusRepository _repository;
 
 	/// <summary>
 	///   StatusService constructor
@@ -101,10 +90,4 @@ public class StatusService : IStatusService
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task UpdateStatus(StatusModel status)
-	{
-		ArgumentNullException.ThrowIfNull(status);
-
-		return _repository.UpdateAsync(status.Id, status);
-	}
-}
+	public Task UpdateStatus(StatusModel status)	{		ArgumentNullException.ThrowIfNull(status);		return _repository.UpdateAsync(status.Id, status);	}}

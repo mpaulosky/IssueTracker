@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		UserModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		UserModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   UserModel class
 /// </summary>
-[Serializable]
-public class UserModel
-{
+[Serializable]public class UserModel{
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -91,5 +80,4 @@ public class UserModel
 	/// <value>
 	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new();
-}
+	public BasicUserModel ArchivedBy { get; set; } = new();}

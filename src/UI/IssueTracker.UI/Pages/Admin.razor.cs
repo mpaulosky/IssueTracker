@@ -1,24 +1,10 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Admin.razor.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.UI.Pages;
+﻿//-----------------------------------------------------------------------// <copyright file="Admin.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
 
 /// <summary>
 ///   Admin page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]
-public partial class Admin
-{
-	private string _currentEditingDescription = "";
-	private string _currentEditingTitle = "";
-	private string _editedDescription = "";
-	private string _editedTitle = "";
-	private List<IssueModel>? _issues;
+[UsedImplicitly]public partial class Admin{	private string _currentEditingDescription = "";	private string _currentEditingTitle = "";	private string _editedDescription = "";	private string _editedTitle = "";	private List<IssueModel>? _issues;
 
 	/// <summary>
 	///   OnInitializedAsync event
@@ -101,8 +87,4 @@ public partial class Admin
 	/// <summary>
 	///   ClosePage method
 	/// </summary>
-	private void ClosePage()
-	{
-		NavManager.NavigateTo("/");
-	}
-}
+	private void ClosePage()	{		NavManager.NavigateTo("/");	}}

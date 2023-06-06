@@ -1,18 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="StatusRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="StatusRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   StatusRepository class
 /// </summary>
-public class StatusRepository : IStatusRepository
-{
-	private readonly IMongoCollection<StatusModel> _collection;
+public class StatusRepository : IStatusRepository{	private readonly IMongoCollection<StatusModel> _collection;
 
 	/// <summary>
 	///   StatusRepository constructor
@@ -83,12 +74,4 @@ public class StatusRepository : IStatusRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="status">StatusModel</param>
-	public async Task UpdateAsync(string itemId, StatusModel status)
-	{
-		var objectId = new ObjectId(itemId);
-
-		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, status);
-	}
-}
+	public async Task UpdateAsync(string itemId, StatusModel status)	{		var objectId = new ObjectId(itemId);		var filter = Builders<StatusModel>.Filter.Eq("_id", objectId);		await _collection.ReplaceOneAsync(filter, status);	}}

@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		BasicStatusModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicStatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   BasicStatusModel class
 /// </summary>
-[Serializable]
-public class BasicStatusModel
-{
+[Serializable]public class BasicStatusModel{
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
@@ -57,5 +46,4 @@ public class BasicStatusModel
 	/// <value>
 	///   The status description.
 	/// </value>
-	public string StatusDescription { get; init; } = string.Empty;
-}
+	public string StatusDescription { get; init; } = string.Empty;}

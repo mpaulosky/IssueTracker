@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		BasicCommentSourceModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicCommentSourceModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   BasicCommentSourceModel
 /// </summary>
-[Serializable]
-public class BasicCommentOnSourceModel
-{
+[Serializable]public class BasicCommentOnSourceModel{
 	/// <summary>
 	///   BasicCommentOnSourceModel constructor
 	/// </summary>
@@ -54,20 +43,4 @@ public class BasicCommentOnSourceModel
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
 	/// <param name="comment">The comment.</param>
-	public BasicCommentOnSourceModel(CommentModel comment)
-	{
-		Id = comment.Id;
-		SourceType = "Comment";
-		Title = comment.Title;
-		Description = comment.Description;
-		DateCreated = comment.DateCreated;
-		Author = comment.Author;
-	}
-
-	public string? Id { get; set; }
-	public string? SourceType { get; set; }
-	public string? Title { get; set; }
-	public string? Description { get; set; }
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
-	public BasicUserModel? Author { get; set; }
-}
+	public BasicCommentOnSourceModel(CommentModel comment)	{		Id = comment.Id;		SourceType = "Comment";		Title = comment.Title;		Description = comment.Description;		DateCreated = comment.DateCreated;		Author = comment.Author;	}	public string? Id { get; set; }	public string? SourceType { get; set; }	public string? Title { get; set; }	public string? Description { get; set; }	public DateTime DateCreated { get; set; } = DateTime.UtcNow;	public BasicUserModel? Author { get; set; }}

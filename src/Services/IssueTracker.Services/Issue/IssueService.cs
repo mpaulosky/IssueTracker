@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		IssueService.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.Services.Issue;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		IssueService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Issue;
 
 /// <summary>
 ///   IssueService class
 /// </summary>
-public class IssueService : IIssueService
-{
-	private const string CacheName = "IssueData";
-	private readonly IMemoryCache _cache;
-	private readonly IIssueRepository _repository;
+public class IssueService : IIssueService{	private const string CacheName = "IssueData";	private readonly IMemoryCache _cache;	private readonly IIssueRepository _repository;
 
 	/// <summary>
 	///   IssueService
@@ -135,12 +122,4 @@ public class IssueService : IIssueService
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task UpdateIssue(IssueModel issue)
-	{
-		ArgumentNullException.ThrowIfNull(issue);
-
-		await _repository.UpdateAsync(issue.Id, issue);
-
-		_cache.Remove(CacheName);
-	}
-}
+	public async Task UpdateIssue(IssueModel issue)	{		ArgumentNullException.ThrowIfNull(issue);		await _repository.UpdateAsync(issue.Id, issue);		_cache.Remove(CacheName);	}}

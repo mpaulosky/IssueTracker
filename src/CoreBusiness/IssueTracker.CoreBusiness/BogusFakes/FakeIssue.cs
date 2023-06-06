@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeIssue.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeIssue.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeIssue class
 /// </summary>
-public static class FakeIssue
-{
-	private static Faker<IssueModel>? _issueGenerator;
-
-	private static void SetupGenerator()
+public static class FakeIssue{	private static Faker<IssueModel>? _issueGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -88,15 +75,4 @@ public static class FakeIssue
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
 	/// <returns>IEnumerable List of BasicIssueModels</returns>
-	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
-	{
-		SetupGenerator();
-
-		var issues = GetIssues(numberOfIssues);
-
-		var basicIssues =
-			issues.Select(c => new BasicIssueModel(c));
-
-		return basicIssues;
-	}
-}
+	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)	{		SetupGenerator();		var issues = GetIssues(numberOfIssues);		var basicIssues =			issues.Select(c => new BasicIssueModel(c));		return basicIssues;	}}

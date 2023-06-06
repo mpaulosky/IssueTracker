@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeStatus.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeStatus.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeStatus class
 /// </summary>
-public static class FakeStatus
-{
-	private static Faker<StatusModel>? _statusGenerator;
-
-	private static void SetupGenerator()
+public static class FakeStatus{	private static Faker<StatusModel>? _statusGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -114,15 +101,4 @@ public static class FakeStatus
 	/// </summary>
 	/// <param name="numberOfStatuses">The number of statuses.</param>
 	/// <returns>IEnumerable List of BasicStatusModels</returns>
-	public static IEnumerable<BasicStatusModel> GetBasicStatuses(int numberOfStatuses)
-	{
-		SetupGenerator();
-
-		var statuses = GetStatuses(numberOfStatuses);
-
-		var basicStatuses =
-			statuses.Select(s => new BasicStatusModel(s));
-
-		return basicStatuses;
-	}
-}
+	public static IEnumerable<BasicStatusModel> GetBasicStatuses(int numberOfStatuses)	{		SetupGenerator();		var statuses = GetStatuses(numberOfStatuses);		var basicStatuses =			statuses.Select(s => new BasicStatusModel(s));		return basicStatuses;	}}

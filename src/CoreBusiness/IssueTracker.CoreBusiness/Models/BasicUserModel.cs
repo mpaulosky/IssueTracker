@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		BasicUserModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicUserModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   BasicUserModel class
 /// </summary>
-[Serializable]
-public class BasicUserModel
-{
+[Serializable]public class BasicUserModel{
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicUserModel" /> class.
 	/// </summary>
@@ -92,5 +81,4 @@ public class BasicUserModel
 	/// <value>
 	///   The email address.
 	/// </value>
-	public string EmailAddress { get; set; } = string.Empty;
-}
+	public string EmailAddress { get; set; } = string.Empty;}

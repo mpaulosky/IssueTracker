@@ -1,32 +1,10 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="SampleData.razor.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022.2022 All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.UI.Pages;
+﻿//-----------------------------------------------------------------------// <copyright file="SampleData.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
 
 /// <summary>
 ///   SampleData class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Components.ComponentBase" />
-[ExcludeFromCodeCoverage]
-[UsedImplicitly]
-public partial class SampleData
-{
-	private bool _categoriesCreated;
-	private bool _commentsCreated;
-	private bool _issuesCreated;
-	private bool _statusesCreated;
-	private bool _usersCreated;
-
-	protected override async Task OnInitializedAsync()
-	{
-		await SetButtonStatus();
-	}
-
-	private async Task SetButtonStatus()
+[ExcludeFromCodeCoverage][UsedImplicitly]public partial class SampleData{	private bool _categoriesCreated;	private bool _commentsCreated;	private bool _issuesCreated;	private bool _statusesCreated;	private bool _usersCreated;	protected override async Task OnInitializedAsync()	{		await SetButtonStatus();	}	private async Task SetButtonStatus()
 	{
 		_usersCreated = (await UserService.GetUsers()).Any();
 		_categoriesCreated = (await CategoryService.GetCategories()).Any();
@@ -163,22 +141,4 @@ public partial class SampleData
 	/// <summary>
 	///   Creates Issues method.
 	/// </summary>
-	private async Task CreateIssues()
-	{
-		var issues = await IssueService.GetIssues();
-
-		if (issues?.Count > 0)
-		{
-			return;
-		}
-
-		var items = FakeIssue.GetIssues(6);
-
-		foreach (var issue in items)
-		{
-			await IssueService.CreateIssue(issue);
-		}
-
-		_issuesCreated = true;
-	}
-}
+	private async Task CreateIssues()	{		var issues = await IssueService.GetIssues();		if (issues?.Count > 0)		{			return;		}		var items = FakeIssue.GetIssues(6);		foreach (var issue in items)		{			await IssueService.CreateIssue(issue);		}		_issuesCreated = true;	}}

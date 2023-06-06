@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		CategoryModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CategoryModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   CategoryModel class
 /// </summary>
-[Serializable]
-public class CategoryModel
-{
+[Serializable]public class CategoryModel{
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -61,5 +50,4 @@ public class CategoryModel
 	/// <value>
 	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new();
-}
+	public BasicUserModel ArchivedBy { get; set; } = new();}

@@ -1,19 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		MongoDbContextFactory.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		MongoDbContextFactory.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   MongoDbContext class
 /// </summary>
-public class MongoDbContextFactory : IMongoDbContextFactory
-{
+public class MongoDbContextFactory : IMongoDbContextFactory{
 	/// <summary>
 	///   MongoDbContextFactory constructor
 	/// </summary>
@@ -68,12 +58,4 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// <typeparam name="T">The Entity Name cref="CategoryModel"</typeparam>
 	/// <returns>IMongoCollection</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public IMongoCollection<T> GetCollection<T>(string? name)
-	{
-		ArgumentException.ThrowIfNullOrEmpty(name);
-
-		var collection = Database.GetCollection<T>(name);
-
-		return collection;
-	}
-}
+	public IMongoCollection<T> GetCollection<T>(string? name)	{		ArgumentException.ThrowIfNullOrEmpty(name);		var collection = Database.GetCollection<T>(name);		return collection;	}}

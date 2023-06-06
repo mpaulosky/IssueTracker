@@ -1,17 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		CommentModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
-
-[Serializable]
-public class CommentModel
-{
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CommentModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;[Serializable]public class CommentModel{
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -92,5 +79,4 @@ public class CommentModel
 	/// <value>
 	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new();
-}
+	public BasicUserModel ArchivedBy { get; set; } = new();}

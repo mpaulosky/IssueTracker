@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		CommentService.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.Services.Comment;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		CommentService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Comment;
 
 /// <summary>
 ///   CommentService class
 /// </summary>
-public class CommentService : ICommentService
-{
-	private const string CacheName = "CommentData";
-	private readonly IMemoryCache _cache;
-	private readonly ICommentRepository _repository;
+public class CommentService : ICommentService{	private const string CacheName = "CommentData";	private readonly IMemoryCache _cache;	private readonly ICommentRepository _repository;
 
 	/// <summary>
 	///   CommentService constructor
@@ -132,14 +119,4 @@ public class CommentService : ICommentService
 	/// <param name="commentId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="ArgumentNullException"></exception>
-	public async Task UpVoteComment(string commentId, string userId)
-	{
-		ArgumentException.ThrowIfNullOrEmpty(commentId);
-
-		ArgumentException.ThrowIfNullOrEmpty(userId);
-
-		await _repository.UpVoteAsync(commentId, userId);
-
-		_cache.Remove(CacheName);
-	}
-}
+	public async Task UpVoteComment(string commentId, string userId)	{		ArgumentException.ThrowIfNullOrEmpty(commentId);		ArgumentException.ThrowIfNullOrEmpty(userId);		await _repository.UpVoteAsync(commentId, userId);		_cache.Remove(CacheName);	}}

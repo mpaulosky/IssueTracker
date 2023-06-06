@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeSource.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSource.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeSource class
 /// </summary>
-public static class FakeSource
-{
-	private static Faker<BasicCommentOnSourceModel>? _sourceGenerator;
-
-	private static void SetupGenerator()
+public static class FakeSource{	private static Faker<BasicCommentOnSourceModel>? _sourceGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -32,12 +19,4 @@ public static class FakeSource
 	///   Gets a basic source.
 	/// </summary>
 	/// <returns>BasicCommentSourceModel</returns>
-	public static BasicCommentOnSourceModel GetSource()
-	{
-		SetupGenerator();
-
-		var source = _sourceGenerator!.Generate();
-
-		return source;
-	}
-}
+	public static BasicCommentOnSourceModel GetSource()	{		SetupGenerator();		var source = _sourceGenerator!.Generate();		return source;	}}

@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeUser.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeUser.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeUser class
 /// </summary>
-public static class FakeUser
-{
-	private static Faker<UserModel>? _userGenerator;
-
-	private static void SetupGenerator()
+public static class FakeUser{	private static Faker<UserModel>? _userGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -75,15 +62,4 @@ public static class FakeUser
 	/// </summary>
 	/// <param name="numberOfUsers">The number of users.</param>
 	/// <returns>IEnumerable List of BasicUserModels</returns>
-	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)
-	{
-		SetupGenerator();
-
-		var users = GetUsers(numberOfUsers);
-
-		var basicUsers =
-			users.Select(c => new BasicUserModel(c));
-
-		return basicUsers;
-	}
-}
+	public static IEnumerable<BasicUserModel> GetBasicUser(int numberOfUsers)	{		SetupGenerator();		var users = GetUsers(numberOfUsers);		var basicUsers =			users.Select(c => new BasicUserModel(c));		return basicUsers;	}}

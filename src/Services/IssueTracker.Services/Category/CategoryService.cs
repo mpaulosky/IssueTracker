@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="CategoryService.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.Services.Category;
+﻿//-----------------------------------------------------------------------// <copyright file="CategoryService.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.Category;
 
 /// <summary>
 ///   CategoryService class
 /// </summary>
-public class CategoryService : ICategoryService
-{
-	private const string CacheName = "CategoryData";
-	private readonly IMemoryCache _cache;
-	private readonly ICategoryRepository _repository;
+public class CategoryService : ICategoryService{	private const string CacheName = "CategoryData";	private readonly IMemoryCache _cache;	private readonly ICategoryRepository _repository;
 
 	/// <summary>
 	///   CategoryService constructor
@@ -104,12 +93,4 @@ public class CategoryService : ICategoryService
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task UpdateCategory(CategoryModel category)
-	{
-		ArgumentNullException.ThrowIfNull(category);
-
-		_cache.Remove(CacheName);
-
-		return _repository.UpdateAsync(category.Id, category);
-	}
-}
+	public Task UpdateCategory(CategoryModel category)	{		ArgumentNullException.ThrowIfNull(category);		_cache.Remove(CacheName);		return _repository.UpdateAsync(category.Id, category);	}}

@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeSolution.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeSolution.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeSolution class
 /// </summary>
-public static class FakeSolution
-{
-	private static Faker<SolutionModel>? _solutionGenerator;
-
-	private static void SetupGenerator()
+public static class FakeSolution{	private static Faker<SolutionModel>? _solutionGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -75,15 +62,4 @@ public static class FakeSolution
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
 	/// <returns>IEnumerable List of BasicSolutionModel</returns>
-	public static IEnumerable<BasicSolutionModel> GetBasicSolutions(int numberOfSolutions)
-	{
-		SetupGenerator();
-
-		var solutions = GetSolutions(numberOfSolutions);
-
-		var basicSolutions =
-			solutions.Select(c => new BasicSolutionModel(c));
-
-		return basicSolutions;
-	}
-}
+	public static IEnumerable<BasicSolutionModel> GetBasicSolutions(int numberOfSolutions)	{		SetupGenerator();		var solutions = GetSolutions(numberOfSolutions);		var basicSolutions =			solutions.Select(c => new BasicSolutionModel(c));		return basicSolutions;	}}

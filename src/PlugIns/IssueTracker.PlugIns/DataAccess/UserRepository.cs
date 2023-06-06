@@ -1,18 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="UserRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="UserRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   UserRepository class
 /// </summary>
-public class UserRepository : IUserRepository
-{
-	private readonly IMongoCollection<UserModel> _collection;
+public class UserRepository : IUserRepository{	private readonly IMongoCollection<UserModel> _collection;
 
 	/// <summary>
 	///   UserRepository constructor
@@ -98,12 +89,4 @@ public class UserRepository : IUserRepository
 	/// </summary>
 	/// <param name="userObjectIdentifierId">string</param>
 	/// <returns>Task of UserModel</returns>
-	public async Task<UserModel> GetFromAuthenticationAsync(string userObjectIdentifierId)
-	{
-		var filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);
-
-		var result = (await _collection.FindAsync(filter)).FirstOrDefault();
-
-		return result;
-	}
-}
+	public async Task<UserModel> GetFromAuthenticationAsync(string userObjectIdentifierId)	{		var filter = Builders<UserModel>.Filter.Eq("object_identifier", userObjectIdentifierId);		var result = (await _collection.FindAsync(filter)).FirstOrDefault();		return result;	}}

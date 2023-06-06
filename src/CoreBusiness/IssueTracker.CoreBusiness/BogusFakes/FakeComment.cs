@@ -1,22 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		FakeComment.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.BogusFakes;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		FakeComment.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.BogusFakes;
 
 /// <summary>
 ///   FakeComment class
 /// </summary>
-public static class FakeComment
-{
-	private static Faker<CommentModel>? _commentsGenerator;
-
-	private static void SetupGenerator()
+public static class FakeComment{	private static Faker<CommentModel>? _commentsGenerator;	private static void SetupGenerator()
 	{
 		Randomizer.Seed = new Random(123);
 
@@ -75,13 +62,4 @@ public static class FakeComment
 	/// </summary>
 	/// <param name="numberOfComments">The number of comments.</param>
 	/// <returns>IEnumerable List of BasicCommentModels</returns>
-	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)
-	{
-		var comments = GetComments(numberOfComments);
-
-		var basicComments =
-			comments.Select(c => new BasicCommentModel(c));
-
-		return basicComments;
-	}
-}
+	public static IEnumerable<BasicCommentModel> GetBasicComments(int numberOfComments)	{		var comments = GetComments(numberOfComments);		var basicComments =			comments.Select(c => new BasicCommentModel(c));		return basicComments;	}}

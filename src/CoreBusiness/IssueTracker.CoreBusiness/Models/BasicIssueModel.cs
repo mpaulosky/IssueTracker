@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		BasicIssueModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		BasicIssueModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   BasicIssueModel class
 /// </summary>
-[Serializable]
-public class BasicIssueModel
-{
+[Serializable]public class BasicIssueModel{
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicIssueModel" /> class.
 	/// </summary>
@@ -82,5 +71,4 @@ public class BasicIssueModel
 	/// <value>
 	///   The status.
 	/// </value>
-	public BasicStatusModel Status { get; set; } = new();
-}
+	public BasicStatusModel Status { get; set; } = new();}

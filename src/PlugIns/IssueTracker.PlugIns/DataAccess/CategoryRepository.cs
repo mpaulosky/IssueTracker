@@ -1,18 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="CategoryRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-// Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="CategoryRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky// Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   CategoryRepository class
 /// </summary>
-public class CategoryRepository : ICategoryRepository
-{
-	private readonly IMongoCollection<CategoryModel> _collection;
+public class CategoryRepository : ICategoryRepository{	private readonly IMongoCollection<CategoryModel> _collection;
 
 	/// <summary>
 	///   CategoryRepository constructor
@@ -84,12 +75,4 @@ public class CategoryRepository : ICategoryRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="category">CategoryModel</param>
-	public async Task UpdateAsync(string? itemId, CategoryModel category)
-	{
-		var objectId = new ObjectId(itemId);
-
-		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
-
-		await _collection.ReplaceOneAsync(filter, category);
-	}
-}
+	public async Task UpdateAsync(string? itemId, CategoryModel category)	{		var objectId = new ObjectId(itemId);		var filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);		await _collection.ReplaceOneAsync(filter, category);	}}

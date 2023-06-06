@@ -1,7 +1,4 @@
-﻿namespace IssueTracker.CoreBusiness.Enum;
-
-public class Enums
-{
+﻿namespace IssueTracker.CoreBusiness.Enum;public class Enums{
 	/// <summary>
 	///   Category enum
 	/// </summary>
@@ -28,10 +25,4 @@ public class Enums
 	/// <summary>
 	///   SourceType enum
 	/// </summary>
-	internal enum SourceType
-	{
-		Comment,
-		Issue,
-		Solution
-	}
-}
+	internal enum SourceType	{		Comment,		Issue,		Solution	}}

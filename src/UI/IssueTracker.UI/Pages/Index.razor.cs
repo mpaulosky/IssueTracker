@@ -1,30 +1,10 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Index.razor.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022.2022 All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.UI.Pages;
+﻿//-----------------------------------------------------------------------// <copyright file="Index.razor.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022.2022 All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.UI.Pages;
 
 /// <summary>
 ///   Index page class
 /// </summary>
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
-[UsedImplicitly]
-public partial class Index
-{
-	private List<CategoryModel>? _categories;
-	private bool _isSortedByNew = true;
-	private List<IssueModel>? _issues = new();
-
-	private UserModel? _loggedInUser;
-	private string? _searchText = string.Empty;
-	private string? _selectedCategory = "All";
-	private string? _selectedStatus = "All";
-	private bool _showCategories;
-	private bool _showStatuses;
-	private List<StatusModel>? _statuses;
+[UsedImplicitly]public partial class Index{	private List<CategoryModel>? _categories;	private bool _isSortedByNew = true;	private List<IssueModel>? _issues = new();	private UserModel? _loggedInUser;	private string? _searchText = string.Empty;	private string? _selectedCategory = "All";	private string? _selectedStatus = "All";	private bool _showCategories;	private bool _showStatuses;	private List<StatusModel>? _statuses;
 
 	/// <summary>
 	///   OnInitializedAsync event
@@ -263,8 +243,4 @@ public partial class Index
 	/// </summary>
 	/// <param name="status">string</param>
 	/// <returns>string</returns>
-	private string GetSelectedStatusCssClass(string status = "All")
-	{
-		return status == _selectedStatus ? "selected-status" : string.Empty;
-	}
-}
+	private string GetSelectedStatusCssClass(string status = "All")	{		return status == _selectedStatus ? "selected-status" : string.Empty;	}}

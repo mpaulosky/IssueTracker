@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		StatusModel.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.CoreBusiness.Models;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		StatusModel.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.CoreBusiness.Models;
 
 /// <summary>
 ///   StatusModel class
 /// </summary>
-[Serializable]
-public class StatusModel
-{
+[Serializable]public class StatusModel{
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -61,5 +50,4 @@ public class StatusModel
 	/// <value>
 	///   Who archived the record.
 	/// </value>
-	public BasicUserModel ArchivedBy { get; set; } = new();
-}
+	public BasicUserModel ArchivedBy { get; set; } = new();}

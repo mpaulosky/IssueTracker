@@ -1,20 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright>
-//	File:		UserService.cs
-//	Company:mpaulosky
-//	Author:	Matthew Paulosky
-//	Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.Services.User;
+﻿//-----------------------------------------------------------------------// <copyright>//	File:		UserService.cs//	Company:mpaulosky//	Author:	Matthew Paulosky//	Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.Services.User;
 
 /// <summary>
 ///   UserService class
 /// </summary>
-public class UserService : IUserService
-{
-	private readonly IUserRepository _repo;
+public class UserService : IUserService{	private readonly IUserRepository _repo;
 
 	/// <summary>
 	///   UserService constructor
@@ -87,10 +76,4 @@ public class UserService : IUserService
 	/// <param name="user">UserModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task UpdateUser(UserModel user)
-	{
-		ArgumentNullException.ThrowIfNull(user);
-
-		return _repo.UpdateAsync(user.Id, user);
-	}
-}
+	public Task UpdateUser(UserModel user)	{		ArgumentNullException.ThrowIfNull(user);		return _repo.UpdateAsync(user.Id, user);	}}

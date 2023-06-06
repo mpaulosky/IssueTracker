@@ -1,18 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="CommentRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="CommentRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   CommentRepository class
 /// </summary>
-public class CommentRepository : ICommentRepository
-{
-	private readonly IMongoCollection<CommentModel> _commentCollection;
+public class CommentRepository : ICommentRepository{	private readonly IMongoCollection<CommentModel> _commentCollection;
 
 	/// <summary>
 	///   CommentRepository constructor
@@ -126,21 +117,4 @@ public class CommentRepository : ICommentRepository
 	/// <param name="itemId">string</param>
 	/// <param name="userId">string</param>
 	/// <exception cref="Exception"></exception>
-	public async Task UpVoteAsync(string itemId, string userId)
-	{
-		var objectId = new ObjectId(itemId);
-
-		var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
-
-		var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();
-
-		var isUpVote = comment.UserVotes.Add(userId);
-
-		if (!isUpVote)
-		{
-			comment.UserVotes.Remove(userId);
-		}
-
-		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);
-	}
-}
+	public async Task UpVoteAsync(string itemId, string userId)	{		var objectId = new ObjectId(itemId);		var filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);		var comment = (await _commentCollection.FindAsync(filterComment)).FirstOrDefault();		var isUpVote = comment.UserVotes.Add(userId);		if (!isUpVote)		{			comment.UserVotes.Remove(userId);		}		await _commentCollection.ReplaceOneAsync(s => s.Id == itemId, comment);	}}

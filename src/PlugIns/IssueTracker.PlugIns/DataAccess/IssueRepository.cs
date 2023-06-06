@@ -1,18 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="IssueRepository.cs" company="mpaulosky">
-//		Author:  Matthew Paulosky
-//		Copyright (c) 2022. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-namespace IssueTracker.PlugIns.DataAccess;
+﻿//-----------------------------------------------------------------------// <copyright file="IssueRepository.cs" company="mpaulosky">//		Author:  Matthew Paulosky//		Copyright (c) 2022. All rights reserved.// </copyright>//-----------------------------------------------------------------------namespace IssueTracker.PlugIns.DataAccess;
 
 /// <summary>
 ///   IssueRepository class
 /// </summary>
-public class IssueRepository : IIssueRepository
-{
-	private readonly IMongoCollection<IssueModel> _issueCollection;
+public class IssueRepository : IIssueRepository{	private readonly IMongoCollection<IssueModel> _issueCollection;
 
 	/// <summary>
 	///   IssueRepository constructor
@@ -123,12 +114,4 @@ public class IssueRepository : IIssueRepository
 	/// </summary>
 	/// <param name="itemId">string</param>
 	/// <param name="issue">IssueModel</param>
-	public async Task UpdateAsync(string itemId, IssueModel issue)
-	{
-		var objectId = new ObjectId(itemId);
-
-		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
-
-		await _issueCollection.ReplaceOneAsync(filter, issue);
-	}
-}
+	public async Task UpdateAsync(string itemId, IssueModel issue)	{		var objectId = new ObjectId(itemId);		var filter = Builders<IssueModel>.Filter.Eq("_id", objectId);		await _issueCollection.ReplaceOneAsync(filter, issue);	}}
