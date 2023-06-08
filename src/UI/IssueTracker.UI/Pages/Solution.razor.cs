@@ -1,0 +1,1 @@
+﻿namespace IssueTracker.UI.Pages;[UsedImplicitly]public partial class Solution{	private CreateSolutionDto _solution = new();	private UserModel? _loggedInUser;	protected override async Task OnInitializedAsync()	{		_loggedInUser = await AuthProvider.GetUserFromAuth(UserService);	}}
