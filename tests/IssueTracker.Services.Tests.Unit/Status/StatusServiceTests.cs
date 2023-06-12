@@ -175,7 +175,6 @@ public class StatusServiceTests
 
 		IEnumerable<StatusModel> expected = FakeStatus.GetStatuses();
 
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)

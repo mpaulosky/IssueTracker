@@ -306,7 +306,6 @@ public class IssueServiceTests
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 
-
 		//Act
 		List<IssueModel> results = await sut.GetApprovedIssues();
 

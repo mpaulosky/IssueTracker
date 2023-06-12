@@ -23,7 +23,6 @@ public class MainLayoutTests : TestContext
 		// Arrange
 		SetAuthenticationAndAuthorization(true, true);
 
-
 		// Act
 		IRenderedComponent<MainLayout> cut = RenderComponent<MainLayout>();
 

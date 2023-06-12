@@ -14,7 +14,6 @@ public class StatusRepository : IStatusRepository
 {
 	private readonly IMongoCollection<StatusModel> _collection;
 
-
 	/// <summary>
 	///   StatusRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class StatusRepository : IStatusRepository
 		_collection = context.GetCollection<StatusModel>(collectionName);
 	}
 
-
 	/// <summary>
 	///   ArchiveStatus method
 	/// </summary>
@@ -42,7 +40,6 @@ public class StatusRepository : IStatusRepository
 		await UpdateAsync(status.Id, status);
 	}
 
-
 	/// <summary>
 	///   CreateStatus method
 	/// </summary>
@@ -51,7 +48,6 @@ public class StatusRepository : IStatusRepository
 	{
 		await _collection.InsertOneAsync(status);
 	}
-
 
 	/// <summary>
 	///   GetStatus method
@@ -69,7 +65,6 @@ public class StatusRepository : IStatusRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   GetStatuses method
 	/// </summary>
@@ -82,7 +77,6 @@ public class StatusRepository : IStatusRepository
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   UpdateStatus method

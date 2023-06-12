@@ -72,7 +72,6 @@ public class CreateTests : TestContext
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
@@ -91,7 +90,6 @@ public class CreateTests : TestContext
 		// Arrange
 		const string expectedHtml =
 			"""			<h1 class="page-heading text-light text-uppercase mb-4">Create An Issue</h1>			<div class="row justify-content-center create-form">				<div class="col-xl-8 col-lg-10 form-layout">					<div class="close-button-section">						<button id="close-page" class="btn btn-close" ></button>					</div>					<form >						<div class="input-section">							<label class="form-label fw-bold text-uppercase" for="issue-title">Issue Title</label>							<div class="input-description">Focus on the topic or technology you want to learn about.</div>							<input id="issue-title" class="form-control valid"  >						</div>						<div class="input-section">							<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>							<div class="input-description">Briefly describe your suggestion.</div>							<textarea id="description" class="form-control valid"></textarea>						</div>						<div class="input-section">							<label class="form-label fw-bold text-uppercase" for="category">Category</label>							<div class="input-description">Choose one category.</div>							<div class="col-lg-8">								<div class="radio-item-group">								  <input diff:ignore>								  <label diff:ignore></label>								</div>								<div class="radio-item-group">								  <input diff:ignore>								  <label diff:ignore></label>								</div>								<div class="radio-item-group">								  <input diff:ignore>								  <label diff:ignore></label>								</div>								<div class="radio-item-group">								  <input diff:ignore>								  <label diff:ignore></label>								</div>								<div class="radio-item-group">								  <input diff:ignore>								  <label diff:ignore></label>								</div>							</div>						</div>						<div class="center-children">							<button id="submit" class="btn btn-main btn-lg text-uppercase" type="submit">Create Issue</button>						</div>					</form>				</div>			</div>			""";
-
 
 		SetAuthenticationAndAuthorization(false, true);
 

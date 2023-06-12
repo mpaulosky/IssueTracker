@@ -21,7 +21,6 @@ public partial class Statuses
 	private StatusModel? _statusToInsert;
 	private StatusModel? _statusToUpdate;
 
-
 	/// <summary>
 	///   OnInitializedAsync event.
 	/// </summary>
@@ -78,7 +77,6 @@ public partial class Statuses
 		await _statusesGrid.Reload();
 	}
 
-
 	private async Task InsertRow()
 	{
 		_statusToInsert = new StatusModel();
@@ -99,7 +97,6 @@ public partial class Statuses
 
 		await _statusesGrid.Reload();
 	}
-
 
 	/// <summary>
 	///   ClosePage method.

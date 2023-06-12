@@ -23,7 +23,6 @@ public partial class Profile
 	private List<IssueModel>? _pending;
 	private List<IssueModel>? _rejected;
 
-
 	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
@@ -54,7 +53,6 @@ public partial class Profile
 			_rejected = _issues.Where(s => s.Rejected).ToList();
 		}
 	}
-
 
 	/// <summary>
 	///   ClosePage method

@@ -14,7 +14,6 @@ public class UserRepository : IUserRepository
 {
 	private readonly IMongoCollection<UserModel> _collection;
 
-
 	/// <summary>
 	///   UserRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class UserRepository : IUserRepository
 		_collection = context.GetCollection<UserModel>(collectionName);
 	}
 
-
 	/// <summary>
 	///   Archive User method
 	/// </summary>
@@ -43,7 +41,6 @@ public class UserRepository : IUserRepository
 		await UpdateAsync(user.Id, user);
 	}
 
-
 	/// <summary>
 	///   CreateUser method
 	/// </summary>
@@ -52,7 +49,6 @@ public class UserRepository : IUserRepository
 	{
 		await _collection.InsertOneAsync(user);
 	}
-
 
 	/// <summary>
 	///   GetUser method
@@ -70,7 +66,6 @@ public class UserRepository : IUserRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   GetUsers method
 	/// </summary>
@@ -83,7 +78,6 @@ public class UserRepository : IUserRepository
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   UpdateUser method
@@ -98,7 +92,6 @@ public class UserRepository : IUserRepository
 
 		await _collection.ReplaceOneAsync(filter!, user);
 	}
-
 
 	/// <summary>
 	///   GetUserFromAuthentication method

@@ -14,7 +14,6 @@ public class CategoryRepository : ICategoryRepository
 {
 	private readonly IMongoCollection<CategoryModel> _collection;
 
-
 	/// <summary>
 	///   CategoryRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class CategoryRepository : ICategoryRepository
 		_collection = context.GetCollection<CategoryModel>(collectionName);
 	}
 
-
 	/// <summary>
 	///   Archive Category method
 	/// </summary>
@@ -43,7 +41,6 @@ public class CategoryRepository : ICategoryRepository
 		await UpdateAsync(category.Id, category);
 	}
 
-
 	/// <summary>
 	///   Create Category method
 	/// </summary>
@@ -52,7 +49,6 @@ public class CategoryRepository : ICategoryRepository
 	{
 		await _collection.InsertOneAsync(category);
 	}
-
 
 	/// <summary>
 	///   Get Category method
@@ -70,7 +66,6 @@ public class CategoryRepository : ICategoryRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   Get Categories method
 	/// </summary>
@@ -83,7 +78,6 @@ public class CategoryRepository : ICategoryRepository
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   Update Category method

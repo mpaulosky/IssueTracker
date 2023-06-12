@@ -59,7 +59,6 @@ public class FakeStatusTests
 	{
 		// Arrange
 
-
 		// Act
 		List<StatusModel> result = FakeStatus.GetStatuses(1).ToList();
 

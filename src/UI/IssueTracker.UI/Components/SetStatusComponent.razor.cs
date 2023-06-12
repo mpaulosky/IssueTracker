@@ -16,7 +16,6 @@ public partial class SetStatusComponent : ComponentBase
 
 	[Parameter] public EventCallback<IssueModel> IssueChanged { get; set; }
 
-
 	/// <summary>
 	///   OnInitializedAsync method
 	/// </summary>
@@ -24,7 +23,6 @@ public partial class SetStatusComponent : ComponentBase
 	{
 		_statuses = await StatusService.GetStatuses();
 	}
-
 
 	/// <summary>
 	///   CompleteSetStatus method

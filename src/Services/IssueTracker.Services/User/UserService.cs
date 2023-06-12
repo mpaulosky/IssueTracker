@@ -14,7 +14,6 @@ public class UserService : IUserService
 {
 	private readonly IUserRepository _repo;
 
-
 	/// <summary>
 	///   UserService constructor
 	/// </summary>
@@ -25,7 +24,6 @@ public class UserService : IUserService
 		ArgumentNullException.ThrowIfNull(repository);
 		_repo = repository;
 	}
-
 
 	/// <summary>
 	///   CreateUser method
@@ -39,7 +37,6 @@ public class UserService : IUserService
 
 		return _repo.CreateAsync(user);
 	}
-
 
 	/// <summary>
 	///   GetUser method
@@ -56,7 +53,6 @@ public class UserService : IUserService
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetUsers method
 	/// </summary>
@@ -67,7 +63,6 @@ public class UserService : IUserService
 
 		return results.ToList();
 	}
-
 
 	/// <summary>
 	///   GetUserFromAuthentication method
@@ -83,7 +78,6 @@ public class UserService : IUserService
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   UpdateUser method

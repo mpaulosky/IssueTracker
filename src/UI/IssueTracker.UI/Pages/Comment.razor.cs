@@ -21,7 +21,6 @@ public partial class Comment
 
 	[Parameter] public string? Id { get; set; }
 
-
 	/// <summary>
 	///   OnInitializedAsync event.
 	/// </summary>
@@ -31,7 +30,6 @@ public partial class Comment
 
 		_issue = await IssueService.GetIssue(Id);
 	}
-
 
 	/// <summary>
 	///   CreateComment method.
@@ -52,7 +50,6 @@ public partial class Comment
 
 		ClosePage();
 	}
-
 
 	/// <summary>
 	///   ClosePage method.

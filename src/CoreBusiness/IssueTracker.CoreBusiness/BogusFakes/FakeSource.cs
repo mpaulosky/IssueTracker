@@ -26,7 +26,6 @@ public static class FakeSource
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First());
 	}
 
-
 	/// <summary>
 	///   Gets a basic source.
 	/// </summary>

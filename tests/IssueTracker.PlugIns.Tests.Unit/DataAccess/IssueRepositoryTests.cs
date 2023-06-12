@@ -106,7 +106,6 @@ public class IssueRepositoryTests
 		result.Should().BeEquivalentTo(expected);
 		result.Description.Length.Should().BeGreaterThan(1);
 
-
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c
 			.FindAsync(
@@ -205,7 +204,6 @@ public class IssueRepositoryTests
 		// Assert
 		results.Should().NotBeNull();
 		results.Should().HaveCount(expectedCount);
-
 
 		_mockCollection.Verify(c => c
 			.FindAsync(

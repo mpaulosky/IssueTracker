@@ -20,7 +20,6 @@ public partial class Admin
 	private string _editedTitle = "";
 	private List<IssueModel>? _issues;
 
-
 	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
@@ -28,7 +27,6 @@ public partial class Admin
 	{
 		_issues = await IssueService.GetIssuesWaitingForApproval();
 	}
-
 
 	/// <summary>
 	///   ApproveIssue method
@@ -43,7 +41,6 @@ public partial class Admin
 		await IssueService.UpdateIssue(issue);
 	}
 
-
 	/// <summary>
 	///   RejectIssue method
 	/// </summary>
@@ -57,7 +54,6 @@ public partial class Admin
 		await IssueService.UpdateIssue(issue);
 	}
 
-
 	/// <summary>
 	///   EditTitle method
 	/// </summary>
@@ -68,7 +64,6 @@ public partial class Admin
 		_currentEditingTitle = model.Id;
 		_currentEditingDescription = "";
 	}
-
 
 	/// <summary>
 	///   SaveTitle method
@@ -81,7 +76,6 @@ public partial class Admin
 		await IssueService.UpdateIssue(model);
 	}
 
-
 	/// <summary>
 	///   EditDescription method
 	/// </summary>
@@ -93,7 +87,6 @@ public partial class Admin
 		_currentEditingDescription = model.Id;
 	}
 
-
 	/// <summary>
 	///   SaveDescription method
 	/// </summary>
@@ -104,7 +97,6 @@ public partial class Admin
 		model.Description = _editedDescription;
 		await IssueService.UpdateIssue(model);
 	}
-
 
 	/// <summary>
 	///   ClosePage method

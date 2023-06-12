@@ -20,7 +20,7 @@ public class ErrorTests
 	[Fact]
 	public void ShowRequestId_Should_ReturnFalse()
 	{
-		var result = _errorModel.ShowRequestId;
+		bool result = _errorModel.ShowRequestId;
 
 		Assert.False(result);
 	}
@@ -28,7 +28,7 @@ public class ErrorTests
 	[Fact]
 	public void RequestId_Should_ReturnNull()
 	{
-		var result = _errorModel.RequestId;
+		string result = _errorModel.RequestId;
 
 		Assert.Null(result);
 	}

@@ -20,7 +20,6 @@ public class BasicStatusModel
 	{
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
 	/// </summary>
@@ -30,7 +29,6 @@ public class BasicStatusModel
 		StatusName = status.StatusName;
 		StatusDescription = status.StatusDescription;
 	}
-
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicStatusModel" /> class.
@@ -43,7 +41,6 @@ public class BasicStatusModel
 		StatusDescription = statusDescription;
 	}
 
-
 	/// <summary>
 	///   Gets the name of the status.
 	/// </summary>
@@ -51,7 +48,6 @@ public class BasicStatusModel
 	///   The name of the status.
 	/// </value>
 	public string StatusName { get; init; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets the status description.

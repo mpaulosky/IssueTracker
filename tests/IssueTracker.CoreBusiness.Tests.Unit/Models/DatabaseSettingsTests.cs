@@ -29,7 +29,6 @@ public class DatabaseSettingsTests
 		// Act
 		DatabaseSettings databaseSettings = CreateDatabaseSettings(expectedCs, expectedDbName);
 
-
 		// Assert
 		databaseSettings.ConnectionStrings.Should().Be(expectedCs);
 		databaseSettings.DatabaseName.Should().Be(expectedDbName);

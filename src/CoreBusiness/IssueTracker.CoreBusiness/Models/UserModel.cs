@@ -24,7 +24,6 @@ public class UserModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the object identifier.
 	/// </summary>
@@ -33,7 +32,6 @@ public class UserModel
 	/// </value>
 	[BsonElement("object_identifier")]
 	public string ObjectIdentifier { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the first name.
@@ -45,7 +43,6 @@ public class UserModel
 	[BsonRepresentation(BsonType.String)]
 	public string FirstName { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the last name.
 	/// </summary>
@@ -55,7 +52,6 @@ public class UserModel
 	[BsonElement("last_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string LastName { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the display name.
@@ -67,7 +63,6 @@ public class UserModel
 	[BsonRepresentation(BsonType.String)]
 	public string DisplayName { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the email address.
 	/// </summary>
@@ -78,7 +73,6 @@ public class UserModel
 	[BsonRepresentation(BsonType.String)]
 	public string EmailAddress { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="UserModel" /> is archived.
 	/// </summary>
@@ -88,7 +82,6 @@ public class UserModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets who archived the record.

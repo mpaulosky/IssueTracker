@@ -23,7 +23,6 @@ public class StatusModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the name of the status.
 	/// </summary>
@@ -33,7 +32,6 @@ public class StatusModel
 	[BsonElement("status_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string StatusName { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the status description.
@@ -45,7 +43,6 @@ public class StatusModel
 	[BsonRepresentation(BsonType.String)]
 	public string StatusDescription { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="StatusModel" /> is archived.
 	/// </summary>
@@ -55,7 +52,6 @@ public class StatusModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets who archived the record.

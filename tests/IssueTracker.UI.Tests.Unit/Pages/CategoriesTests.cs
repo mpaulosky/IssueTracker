@@ -389,7 +389,6 @@ public class CategoriesTests : TestContext
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
-
 		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");

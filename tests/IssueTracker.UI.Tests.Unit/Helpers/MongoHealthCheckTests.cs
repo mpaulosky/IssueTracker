@@ -39,7 +39,6 @@ public class MongoHealthCheckTests : TestContext
 		HealthCheckContext context = new HealthCheckContext();
 		CancellationToken cancellationToken = new CancellationToken();
 
-
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(
 			context,
@@ -56,7 +55,6 @@ public class MongoHealthCheckTests : TestContext
 		MongoHealthCheck mongoHealthCheck = CreateMongoHealthCheck(false);
 		HealthCheckContext context = new HealthCheckContext();
 		CancellationToken cancellationToken = new CancellationToken();
-
 
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(

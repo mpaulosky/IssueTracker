@@ -14,7 +14,6 @@ public class SolutionRepository : ISolutionRepository
 {
 	private readonly IMongoCollection<SolutionModel> _solutionCollection;
 
-
 	/// <summary>
 	///   SolutionRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class SolutionRepository : ISolutionRepository
 		_solutionCollection = context.GetCollection<SolutionModel>(solutionCollectionName);
 	}
 
-
 	/// <summary>
 	///   ArchiveAsync method
 	/// </summary>
@@ -43,7 +41,6 @@ public class SolutionRepository : ISolutionRepository
 		await UpdateAsync(solution.Id, solution);
 	}
 
-
 	/// <summary>
 	///   CreateAsync method
 	/// </summary>
@@ -53,7 +50,6 @@ public class SolutionRepository : ISolutionRepository
 	{
 		await _solutionCollection.InsertOneAsync(solution);
 	}
-
 
 	/// <summary>
 	///   GetAsync method
@@ -71,7 +67,6 @@ public class SolutionRepository : ISolutionRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   GetAllAsync method
 	/// </summary>
@@ -85,7 +80,6 @@ public class SolutionRepository : ISolutionRepository
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetByUserAsync method
 	/// </summary>
@@ -98,7 +92,6 @@ public class SolutionRepository : ISolutionRepository
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetByIssueAsync method
 	/// </summary>
@@ -110,7 +103,6 @@ public class SolutionRepository : ISolutionRepository
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   UpdateSolution method

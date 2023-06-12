@@ -16,7 +16,6 @@ public class SolutionService : ISolutionService
 	private readonly IMemoryCache _cache;
 	private readonly ISolutionRepository _repository;
 
-
 	/// <summary>
 	///   SolutionService
 	/// </summary>
@@ -32,7 +31,6 @@ public class SolutionService : ISolutionService
 		_cache = cache;
 	}
 
-
 	/// <summary>
 	///   CreateSolution method
 	/// </summary>
@@ -44,7 +42,6 @@ public class SolutionService : ISolutionService
 
 		await _repository.CreateAsync(solution);
 	}
-
 
 	/// <summary>
 	///   GetSolution method
@@ -60,7 +57,6 @@ public class SolutionService : ISolutionService
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   GetSolutions method
@@ -83,7 +79,6 @@ public class SolutionService : ISolutionService
 
 		return output;
 	}
-
 
 	/// <summary>
 	///   GetSolutionsByUser method
@@ -111,7 +106,6 @@ public class SolutionService : ISolutionService
 		return output;
 	}
 
-
 	/// <summary>
 	///   GetSolutionsByIssue method
 	/// </summary>
@@ -137,7 +131,6 @@ public class SolutionService : ISolutionService
 
 		return output;
 	}
-
 
 	/// <summary>
 	///   UpdateSolution

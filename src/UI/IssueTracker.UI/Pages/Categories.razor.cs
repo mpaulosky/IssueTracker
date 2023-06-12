@@ -21,7 +21,6 @@ public partial class Categories
 	private CategoryModel? _categoryToInsert;
 	private CategoryModel? _categoryToUpdate;
 
-
 	/// <summary>
 	///   OnInitializedAsync event.
 	/// </summary>
@@ -78,7 +77,6 @@ public partial class Categories
 		await _categoriesGrid.Reload();
 	}
 
-
 	private async Task InsertRow()
 	{
 		_categoryToInsert = new CategoryModel();
@@ -99,7 +97,6 @@ public partial class Categories
 
 		await _categoriesGrid!.Reload();
 	}
-
 
 	/// <summary>
 	///   ClosePage method.

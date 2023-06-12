@@ -25,7 +25,6 @@ public class ErrorModel : PageModel
 
 	public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-
 	/// <summary>
 	///   Called when [get].
 	/// </summary>

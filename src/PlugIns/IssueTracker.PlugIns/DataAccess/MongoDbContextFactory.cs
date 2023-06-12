@@ -27,7 +27,6 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 		Database = Client.GetDatabase(settings.DatabaseName);
 	}
 
-
 	/// <summary>
 	///   Gets the database.
 	/// </summary>
@@ -35,7 +34,6 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	///   The database.
 	/// </value>
 	public IMongoDatabase Database { get; }
-
 
 	/// <summary>
 	///   Gets the client.
@@ -45,7 +43,6 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// </value>
 	public IMongoClient Client { get; }
 
-
 	/// <summary>
 	///   Gets the connection string.
 	/// </summary>
@@ -54,7 +51,6 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	/// </value>
 	public string ConnectionString { get; }
 
-
 	/// <summary>
 	///   Gets the name of the database.
 	/// </summary>
@@ -62,7 +58,6 @@ public class MongoDbContextFactory : IMongoDbContextFactory
 	///   The name of the database.
 	/// </value>
 	public string DbName { get; }
-
 
 	/// <summary>
 	///   GetCollection method

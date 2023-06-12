@@ -28,7 +28,6 @@ public static class FakeComment
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets a new comment.
 	/// </summary>
@@ -50,7 +49,6 @@ public static class FakeComment
 		return comment;
 	}
 
-
 	/// <summary>
 	///   Gets a list of comments.
 	/// </summary>
@@ -69,7 +67,6 @@ public static class FakeComment
 
 		return comments;
 	}
-
 
 	/// <summary>
 	///   Gets a list of basic comments.

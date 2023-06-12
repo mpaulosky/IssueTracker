@@ -16,7 +16,6 @@ public class IssueService : IIssueService
 	private readonly IMemoryCache _cache;
 	private readonly IIssueRepository _repository;
 
-
 	/// <summary>
 	///   IssueService
 	/// </summary>
@@ -32,7 +31,6 @@ public class IssueService : IIssueService
 		_cache = cache;
 	}
 
-
 	/// <summary>
 	///   CreateIssue method
 	/// </summary>
@@ -44,7 +42,6 @@ public class IssueService : IIssueService
 
 		await _repository.CreateAsync(issue);
 	}
-
 
 	/// <summary>
 	///   GetIssue method
@@ -60,7 +57,6 @@ public class IssueService : IIssueService
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   GetIssues method
@@ -83,7 +79,6 @@ public class IssueService : IIssueService
 
 		return output;
 	}
-
 
 	/// <summary>
 	///   GetIssuesByUser method
@@ -111,7 +106,6 @@ public class IssueService : IIssueService
 		return output;
 	}
 
-
 	/// <summary>
 	///   GetIssuesWaitingForApproval method
 	/// </summary>
@@ -123,7 +117,6 @@ public class IssueService : IIssueService
 		return results.ToList();
 	}
 
-
 	/// <summary>
 	///   GetApprovedIssues method
 	/// </summary>
@@ -134,7 +127,6 @@ public class IssueService : IIssueService
 
 		return results.ToList();
 	}
-
 
 	/// <summary>
 	///   UpdateIssue

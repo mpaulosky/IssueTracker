@@ -35,7 +35,6 @@ public partial class SampleData
 		_issuesCreated = (await IssueService.GetIssues()).Any();
 	}
 
-
 	/// <summary>
 	///   Creates the Users method.
 	/// </summary>
@@ -57,7 +56,6 @@ public partial class SampleData
 
 		_usersCreated = true;
 	}
-
 
 	/// <summary>
 	///   Creates the categories method.
@@ -100,7 +98,6 @@ public partial class SampleData
 
 		_categoriesCreated = true;
 	}
-
 
 	/// <summary>
 	///   Creates the statuses method.
@@ -146,7 +143,6 @@ public partial class SampleData
 		_statusesCreated = true;
 	}
 
-
 	/// <summary>
 	///   Creates the comments method.
 	/// </summary>
@@ -168,7 +164,6 @@ public partial class SampleData
 
 		_commentsCreated = true;
 	}
-
 
 	/// <summary>
 	///   Creates Issues method.

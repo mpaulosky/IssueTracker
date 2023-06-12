@@ -63,7 +63,6 @@ public class DetailsTests : TestContext
 		// Act
 		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(_expectedIssue.Id);
 
-
 		// Assert
 		cut.Should()
 			.Throw<ArgumentNullException>()
@@ -82,7 +81,6 @@ public class DetailsTests : TestContext
 
 		// Act
 		Func<IRenderedComponent<Details>> cut = () => ComponentUnderTest(null);
-
 
 		// Assert
 		cut.Should()

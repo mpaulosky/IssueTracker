@@ -28,7 +28,6 @@ public static class FakeUser
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets a new user.
 	/// </summary>
@@ -50,7 +49,6 @@ public static class FakeUser
 		return user;
 	}
 
-
 	/// <summary>
 	///   Gets a list of users.
 	/// </summary>
@@ -69,7 +67,6 @@ public static class FakeUser
 
 		return users;
 	}
-
 
 	/// <summary>
 	///   Gets the basic user.

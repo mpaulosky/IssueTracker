@@ -20,7 +20,6 @@ public class BasicCommentOnSourceModel
 	{
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
@@ -35,7 +34,6 @@ public class BasicCommentOnSourceModel
 		Author = issue.Author;
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.
 	/// </summary>
@@ -49,7 +47,6 @@ public class BasicCommentOnSourceModel
 		DateCreated = solution.DateCreated;
 		Author = solution.Author;
 	}
-
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCommentOnSourceModel" /> class.

@@ -23,7 +23,6 @@ public class CategoryModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string? Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the name of the category.
 	/// </summary>
@@ -33,7 +32,6 @@ public class CategoryModel
 	[BsonElement("category_name")]
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryName { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the category description.
@@ -45,7 +43,6 @@ public class CategoryModel
 	[BsonRepresentation(BsonType.String)]
 	public string CategoryDescription { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="CategoryModel" /> is archived.
 	/// </summary>
@@ -55,7 +52,6 @@ public class CategoryModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets who archived the record.

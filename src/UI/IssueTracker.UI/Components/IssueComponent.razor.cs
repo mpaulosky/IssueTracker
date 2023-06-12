@@ -15,7 +15,6 @@ public partial class IssueComponent
 
 	[Parameter] public UserModel LoggedInUser { get; set; } = new();
 
-
 	/// <summary>
 	///   GetIssueCategoryCssClass
 	/// </summary>
@@ -36,7 +35,6 @@ public partial class IssueComponent
 		return output;
 	}
 
-
 	/// <summary>
 	///   GetIssueStatusCssClass method
 	/// </summary>
@@ -56,7 +54,6 @@ public partial class IssueComponent
 		return output;
 	}
 
-
 	/// <summary>
 	///   OpenDetailsPage method
 	/// </summary>
@@ -65,7 +62,6 @@ public partial class IssueComponent
 	{
 		NavManager.NavigateTo($"/Details/{issue.Id}");
 	}
-
 
 	/// <summary>
 	///   Archive issue method

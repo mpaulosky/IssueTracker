@@ -25,7 +25,6 @@ public static class FakeStatus
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets a new status.
 	/// </summary>
@@ -46,7 +45,6 @@ public static class FakeStatus
 
 		return status;
 	}
-
 
 	/// <summary>
 	///   Gets a list of statuses that exist.
@@ -90,7 +88,6 @@ public static class FakeStatus
 		return statuses;
 	}
 
-
 	/// <summary>
 	///   Gets a list of statuses.
 	/// </summary>
@@ -109,7 +106,6 @@ public static class FakeStatus
 
 		return statuses;
 	}
-
 
 	/// <summary>
 	///   Gets a list of basic statuses.

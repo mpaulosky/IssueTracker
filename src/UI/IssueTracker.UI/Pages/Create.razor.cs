@@ -19,7 +19,6 @@ public partial class Create
 	private UserModel? _loggedInUser;
 	private List<StatusModel>? _statuses;
 
-
 	/// <summary>
 	///   OnInitializedAsync method
 	/// </summary>
@@ -29,7 +28,6 @@ public partial class Create
 		_categories = await CategoryService.GetCategories();
 		_statuses = await StatusService.GetStatuses();
 	}
-
 
 	/// <summary>
 	///   CreateIssue method
@@ -52,7 +50,6 @@ public partial class Create
 		_issue = new CreateIssueDto();
 		ClosePage();
 	}
-
 
 	/// <summary>
 	///   ClosePage method

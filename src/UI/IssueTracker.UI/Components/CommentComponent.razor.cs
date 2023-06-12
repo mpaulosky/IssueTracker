@@ -14,7 +14,6 @@ public partial class CommentComponent
 
 	[Parameter] public UserModel LoggedInUser { get; set; } = new();
 
-
 	/// <summary>
 	///   VoteUp method
 	/// </summary>
@@ -34,7 +33,6 @@ public partial class CommentComponent
 		await CommentService.UpVoteComment(comment.Id, LoggedInUser.Id);
 	}
 
-
 	/// <summary>
 	///   GetUpVoteTopText method
 	/// </summary>
@@ -50,7 +48,6 @@ public partial class CommentComponent
 		return comment.Author.Id == LoggedInUser.Id ? "Awaiting" : "Click To";
 	}
 
-
 	/// <summary>
 	///   GetUpVoteBottomText method
 	/// </summary>
@@ -60,7 +57,6 @@ public partial class CommentComponent
 	{
 		return comment.UserVotes.Count > 1 ? "UpVotes" : "UpVote";
 	}
-
 
 	/// <summary>
 	///   GetVoteCssClass method

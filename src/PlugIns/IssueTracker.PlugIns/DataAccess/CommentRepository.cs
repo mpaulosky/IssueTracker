@@ -14,7 +14,6 @@ public class CommentRepository : ICommentRepository
 {
 	private readonly IMongoCollection<CommentModel> _commentCollection;
 
-
 	/// <summary>
 	///   CommentRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class CommentRepository : ICommentRepository
 		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
 	}
 
-
 	/// <summary>
 	///   Archive the comment by setting the Archived property to true
 	/// </summary>
@@ -43,7 +41,6 @@ public class CommentRepository : ICommentRepository
 		await UpdateAsync(comment.Id, comment);
 	}
 
-
 	/// <summary>
 	///   CreateComment method
 	/// </summary>
@@ -53,7 +50,6 @@ public class CommentRepository : ICommentRepository
 	{
 		await _commentCollection.InsertOneAsync(comment);
 	}
-
 
 	/// <summary>
 	///   GetComment method
@@ -71,7 +67,6 @@ public class CommentRepository : ICommentRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   GetComments method
 	/// </summary>
@@ -84,7 +79,6 @@ public class CommentRepository : ICommentRepository
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   GetCommentsBySource method
@@ -100,7 +94,6 @@ public class CommentRepository : ICommentRepository
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetCommentsByUser method
 	/// </summary>
@@ -112,7 +105,6 @@ public class CommentRepository : ICommentRepository
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   UpdateComment method
@@ -127,7 +119,6 @@ public class CommentRepository : ICommentRepository
 
 		await _commentCollection.ReplaceOneAsync(filter, comment);
 	}
-
 
 	/// <summary>
 	///   Up vote Comment method

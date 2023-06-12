@@ -16,7 +16,6 @@ public class CategoryService : ICategoryService
 	private readonly IMemoryCache _cache;
 	private readonly ICategoryRepository _repository;
 
-
 	/// <summary>
 	///   CategoryService constructor
 	/// </summary>
@@ -31,7 +30,6 @@ public class CategoryService : ICategoryService
 		_repository = repository;
 		_cache = cache;
 	}
-
 
 	/// <summary>
 	///   CreateCategory method
@@ -48,7 +46,6 @@ public class CategoryService : ICategoryService
 		return _repository.CreateAsync(category);
 	}
 
-
 	/// <summary>
 	///   DeleteCategory method
 	/// </summary>
@@ -64,7 +61,6 @@ public class CategoryService : ICategoryService
 		return _repository.ArchiveAsync(category);
 	}
 
-
 	/// <summary>
 	///   GetCategory method
 	/// </summary>
@@ -79,7 +75,6 @@ public class CategoryService : ICategoryService
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   GetCategories method
@@ -102,7 +97,6 @@ public class CategoryService : ICategoryService
 
 		return output;
 	}
-
 
 	/// <summary>
 	///   UpdateCategory method

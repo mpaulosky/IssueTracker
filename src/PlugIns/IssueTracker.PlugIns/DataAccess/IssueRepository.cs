@@ -14,7 +14,6 @@ public class IssueRepository : IIssueRepository
 {
 	private readonly IMongoCollection<IssueModel> _issueCollection;
 
-
 	/// <summary>
 	///   IssueRepository constructor
 	/// </summary>
@@ -29,7 +28,6 @@ public class IssueRepository : IIssueRepository
 		_issueCollection = context.GetCollection<IssueModel>(issueCollectionName);
 	}
 
-
 	/// <summary>
 	///   Archive Issue method
 	/// </summary>
@@ -43,7 +41,6 @@ public class IssueRepository : IIssueRepository
 		await UpdateAsync(issue.Id, issue);
 	}
 
-
 	/// <summary>
 	///   CreateIssue method
 	/// </summary>
@@ -53,7 +50,6 @@ public class IssueRepository : IIssueRepository
 	{
 		await _issueCollection.InsertOneAsync(issue);
 	}
-
 
 	/// <summary>
 	///   GetIssue method
@@ -71,7 +67,6 @@ public class IssueRepository : IIssueRepository
 		return result;
 	}
 
-
 	/// <summary>
 	///   GetIssues method
 	/// </summary>
@@ -84,7 +79,6 @@ public class IssueRepository : IIssueRepository
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   GetIssuesWaitingForApproval method
@@ -99,7 +93,6 @@ public class IssueRepository : IIssueRepository
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetApprovedIssues method
 	/// </summary>
@@ -113,7 +106,6 @@ public class IssueRepository : IIssueRepository
 		return results;
 	}
 
-
 	/// <summary>
 	///   GetUserIssues method
 	/// </summary>
@@ -125,7 +117,6 @@ public class IssueRepository : IIssueRepository
 
 		return results;
 	}
-
 
 	/// <summary>
 	///   UpdateIssue method

@@ -28,7 +28,6 @@ public static class FakeSolution
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets a new solution.
 	/// </summary>
@@ -50,7 +49,6 @@ public static class FakeSolution
 		return solution;
 	}
 
-
 	/// <summary>
 	///   Gets a list of solutions.
 	/// </summary>
@@ -69,7 +67,6 @@ public static class FakeSolution
 
 		return solutions;
 	}
-
 
 	/// <summary>
 	///   Gets a list of basic solutions.

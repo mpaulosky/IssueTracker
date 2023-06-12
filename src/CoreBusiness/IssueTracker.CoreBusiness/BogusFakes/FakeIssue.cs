@@ -31,7 +31,6 @@ public static class FakeIssue
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets the new issue.
 	/// </summary>
@@ -63,7 +62,6 @@ public static class FakeIssue
 		return issue;
 	}
 
-
 	/// <summary>
 	///   Gets the issues.
 	/// </summary>
@@ -82,7 +80,6 @@ public static class FakeIssue
 
 		return issues;
 	}
-
 
 	/// <summary>
 	///   Gets a list of basic issues.

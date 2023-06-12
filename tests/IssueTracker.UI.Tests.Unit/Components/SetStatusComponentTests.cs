@@ -111,7 +111,6 @@ public class SetStatusComponentTests : TestContext
 		_issueRepositoryMock.Setup(x => x
 			.UpdateAsync(It.IsAny<string>(), It.IsAny<IssueModel>())).Verifiable();
 
-
 		_statusRepositoryMock.Setup(x => x
 			.GetAllAsync()).ReturnsAsync(FakeStatus.GetStatuses().ToList());
 	}
@@ -133,7 +132,6 @@ public class SetStatusComponentTests : TestContext
 			authContext.SetPolicies("Admin");
 		}
 	}
-
 
 	private void RegisterServices()
 	{

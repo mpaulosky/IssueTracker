@@ -20,7 +20,6 @@ public class BasicIssueModel
 	{
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicIssueModel" /> class.
 	/// </summary>
@@ -35,7 +34,6 @@ public class BasicIssueModel
 		Author = issue.Author;
 	}
 
-
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -43,7 +41,6 @@ public class BasicIssueModel
 	///   The identifier.
 	/// </value>
 	public string Id { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the title.
@@ -53,7 +50,6 @@ public class BasicIssueModel
 	/// </value>
 	public string Title { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the description.
 	/// </summary>
@@ -61,7 +57,6 @@ public class BasicIssueModel
 	///   The description.
 	/// </value>
 	public string Description { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -71,7 +66,6 @@ public class BasicIssueModel
 	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
-
 	/// <summary>
 	///   Gets or sets the category.
 	/// </summary>
@@ -79,7 +73,6 @@ public class BasicIssueModel
 	///   The category.
 	/// </value>
 	public BasicCategoryModel Category { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets the status.

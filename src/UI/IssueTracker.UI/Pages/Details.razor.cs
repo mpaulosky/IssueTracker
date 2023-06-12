@@ -22,7 +22,6 @@ public partial class Details
 
 	[Parameter] public string? Id { get; set; }
 
-
 	/// <summary>
 	///   OnInitializedAsync method
 	/// </summary>
@@ -38,7 +37,6 @@ public partial class Details
 		await StatusService.GetStatuses();
 	}
 
-
 	/// <summary>
 	///   OpenCommentForm method
 	/// </summary>
@@ -50,7 +48,6 @@ public partial class Details
 			NavManager.NavigateTo($"/Comment/{issue.Id}");
 		}
 	}
-
 
 	/// <summary>
 	///   ClosePage method

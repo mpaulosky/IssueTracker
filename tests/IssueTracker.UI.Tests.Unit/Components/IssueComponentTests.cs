@@ -254,7 +254,6 @@ public class IssueComponentTests : TestContext
 		}
 	}
 
-
 	private void RegisterServices()
 	{
 		Services.AddSingleton<IIssueService>(

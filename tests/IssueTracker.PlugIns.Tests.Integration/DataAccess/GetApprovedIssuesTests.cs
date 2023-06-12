@@ -16,7 +16,6 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly IssueRepository _sut;
 
-
 	public GetApprovedIssuesTests(IssueTrackerTestFactory factory)
 	{
 		_factory = factory;

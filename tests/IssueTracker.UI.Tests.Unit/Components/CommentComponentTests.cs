@@ -76,7 +76,6 @@ public class CommentComponentTests : TestContext
 		cut.MarkupMatches(expected);
 	}
 
-
 	[Fact]
 	public async Task VoteUp_RemovesUserVoteIfAlreadyUpVoted_TestAsync()
 	{
@@ -280,7 +279,6 @@ public class CommentComponentTests : TestContext
 		// Act
 		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
-
 		string result = cut.Instance.GetVoteCssClass(_expectedComment);
 
 		// Assert 
@@ -310,7 +308,6 @@ public class CommentComponentTests : TestContext
 			.Setup(x => x
 				.UpVoteAsync(It.IsAny<string>(), It.IsAny<string>()))
 			.Returns(Task.CompletedTask).Verifiable();
-
 
 		_commentServiceMock.Setup(x => x
 			.UpVoteComment(It.IsAny<string>(), It.IsAny<string>())).Verifiable();

@@ -20,7 +20,6 @@ public class BasicCategoryModel
 	{
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCategoryModel" /> class.
 	/// </summary>
@@ -30,7 +29,6 @@ public class BasicCategoryModel
 		CategoryName = category.CategoryName;
 		CategoryDescription = category.CategoryDescription;
 	}
-
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicCategoryModel" /> class.
@@ -43,7 +41,6 @@ public class BasicCategoryModel
 		CategoryDescription = categoryDescription;
 	}
 
-
 	/// <summary>
 	///   Gets the name of the category.
 	/// </summary>
@@ -51,7 +48,6 @@ public class BasicCategoryModel
 	///   The name of the category.
 	/// </value>
 	public string CategoryName { get; init; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets the category description.

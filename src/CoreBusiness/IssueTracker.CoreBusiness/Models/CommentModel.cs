@@ -20,7 +20,6 @@ public class CommentModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the title.
 	/// </summary>
@@ -30,7 +29,6 @@ public class CommentModel
 	[BsonElement("comment_title")]
 	[BsonRepresentation(BsonType.String)]
 	public string Title { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the description.
@@ -42,7 +40,6 @@ public class CommentModel
 	[BsonRepresentation(BsonType.String)]
 	public string Description { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the date created.
 	/// </summary>
@@ -53,7 +50,6 @@ public class CommentModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-
 	/// <summary>
 	///   Gets or sets the source.
 	/// </summary>
@@ -61,7 +57,6 @@ public class CommentModel
 	///   The source.
 	/// </value>
 	public BasicCommentOnSourceModel? CommentOnSource { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -71,7 +66,6 @@ public class CommentModel
 	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
-
 	/// <summary>
 	///   Gets or sets the user votes.
 	/// </summary>
@@ -79,7 +73,6 @@ public class CommentModel
 	///   The user votes.
 	/// </value>
 	public HashSet<string> UserVotes { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="CommentModel" /> is archived.
@@ -90,7 +83,6 @@ public class CommentModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets who archived the record.

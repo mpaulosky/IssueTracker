@@ -56,7 +56,6 @@ public class CommentTests : TestContext
 		// Act
 		Func<IRenderedComponent<Comment>> cut = () => ComponentUnderTest(_expectedIssue.Id);
 
-
 		// Assert
 		cut.Should()
 			.Throw<ArgumentNullException>()
@@ -75,7 +74,6 @@ public class CommentTests : TestContext
 
 		// Act
 		Func<IRenderedComponent<Comment>> cut = () => ComponentUnderTest(null);
-
 
 		// Assert
 		cut.Should()

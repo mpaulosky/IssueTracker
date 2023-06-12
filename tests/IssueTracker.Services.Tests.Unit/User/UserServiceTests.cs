@@ -100,7 +100,6 @@ public class UserServiceTests
 			.WithMessage(expectedMessage);
 	}
 
-
 	[Fact(DisplayName = "Get Users")]
 	public async Task GetUsers_Should_Return_A_List_Of_Users_Test()
 	{

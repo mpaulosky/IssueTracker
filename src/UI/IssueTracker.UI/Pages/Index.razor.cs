@@ -26,7 +26,6 @@ public partial class Index
 	private bool _showStatuses;
 	private List<StatusModel>? _statuses;
 
-
 	/// <summary>
 	///   OnInitializedAsync event
 	/// </summary>
@@ -36,7 +35,6 @@ public partial class Index
 		_statuses = await StatusService.GetStatuses();
 		await LoadAndVerifyUser();
 	}
-
 
 	/// <summary>
 	///   LoadCreateIssuePage method
@@ -52,7 +50,6 @@ public partial class Index
 			NavManager.NavigateTo("/MicrosoftIdentity/Account/SignIn", true);
 		}
 	}
-
 
 	/// <summary>
 	///   LoadAndVerifyUser method
@@ -114,7 +111,6 @@ public partial class Index
 		}
 	}
 
-
 	/// <summary>
 	///   OnAfterRenderAsync event
 	/// </summary>
@@ -128,7 +124,6 @@ public partial class Index
 			StateHasChanged();
 		}
 	}
-
 
 	/// <summary>
 	///   LoadFilterState method
@@ -155,7 +150,6 @@ public partial class Index
 		}
 	}
 
-
 	/// <summary>
 	///   SaveFilterState method
 	/// </summary>
@@ -166,7 +160,6 @@ public partial class Index
 		await SessionStorage.SetItemAsync(nameof(_searchText), _searchText);
 		await SessionStorage.SetItemAsync(nameof(_isSortedByNew), _isSortedByNew);
 	}
-
 
 	/// <summary>
 	///   FilterIssues method
@@ -203,7 +196,6 @@ public partial class Index
 		await SaveFilterState();
 	}
 
-
 	/// <summary>
 	///   OrderByNew method
 	/// </summary>
@@ -214,7 +206,6 @@ public partial class Index
 		await FilterIssues();
 	}
 
-
 	/// <summary>
 	///   OnSearchInput method
 	/// </summary>
@@ -224,7 +215,6 @@ public partial class Index
 		_searchText = searchInput;
 		await FilterIssues();
 	}
-
 
 	/// <summary>
 	///   OnCategoryClick method
@@ -237,7 +227,6 @@ public partial class Index
 		await FilterIssues();
 	}
 
-
 	/// <summary>
 	///   OnStatusClick method
 	/// </summary>
@@ -249,7 +238,6 @@ public partial class Index
 		await FilterIssues();
 	}
 
-
 	/// <summary>
 	///   SortedByNewCssClass method
 	/// </summary>
@@ -260,7 +248,6 @@ public partial class Index
 		return isNew == _isSortedByNew ? "sort-selected" : string.Empty;
 	}
 
-
 	/// <summary>
 	///   GetSelectedCategoryCssClass method
 	/// </summary>
@@ -270,7 +257,6 @@ public partial class Index
 	{
 		return category == _selectedCategory ? "selected-category" : string.Empty;
 	}
-
 
 	/// <summary>
 	///   GetSelectedStatusCssClass method

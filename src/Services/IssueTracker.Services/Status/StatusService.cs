@@ -16,7 +16,6 @@ public class StatusService : IStatusService
 	private readonly IMemoryCache _cache;
 	private readonly IStatusRepository _repository;
 
-
 	/// <summary>
 	///   StatusService constructor
 	/// </summary>
@@ -32,7 +31,6 @@ public class StatusService : IStatusService
 		_cache = cache;
 	}
 
-
 	/// <summary>
 	///   CreateStatus method
 	/// </summary>
@@ -46,7 +44,6 @@ public class StatusService : IStatusService
 		return _repository.CreateAsync(status);
 	}
 
-
 	/// <summary>
 	///   DeleteStatus method
 	/// </summary>
@@ -59,7 +56,6 @@ public class StatusService : IStatusService
 
 		return _repository.ArchiveAsync(status);
 	}
-
 
 	/// <summary>
 	///   GetStatus method
@@ -76,7 +72,6 @@ public class StatusService : IStatusService
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   GetStatuses method
@@ -99,7 +94,6 @@ public class StatusService : IStatusService
 
 		return output;
 	}
-
 
 	/// <summary>
 	///   UpdateStatus method

@@ -23,7 +23,6 @@ public class SolutionModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the title.
 	/// </summary>
@@ -33,7 +32,6 @@ public class SolutionModel
 	[BsonElement("solution_title")]
 	[BsonRepresentation(BsonType.String)]
 	public string Title { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the description.
@@ -45,7 +43,6 @@ public class SolutionModel
 	[BsonRepresentation(BsonType.String)]
 	public string Description { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the date created.
 	/// </summary>
@@ -56,7 +53,6 @@ public class SolutionModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-
 	/// <summary>
 	///   Gets or sets the issue.
 	/// </summary>
@@ -64,7 +60,6 @@ public class SolutionModel
 	///   The issue.
 	/// </value>
 	public BasicIssueModel Issue { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -74,7 +69,6 @@ public class SolutionModel
 	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
-
 	/// <summary>
 	///   Gets or sets the user votes.
 	/// </summary>
@@ -82,7 +76,6 @@ public class SolutionModel
 	///   The user votes.
 	/// </value>
 	public HashSet<string> UserVotes { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="SolutionModel" /> is archived.
@@ -93,7 +86,6 @@ public class SolutionModel
 	[BsonElement("archived")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets who archived the record.

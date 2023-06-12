@@ -16,7 +16,6 @@ public class CommentService : ICommentService
 	private readonly IMemoryCache _cache;
 	private readonly ICommentRepository _repository;
 
-
 	/// <summary>
 	///   CommentService constructor
 	/// </summary>
@@ -32,7 +31,6 @@ public class CommentService : ICommentService
 		_cache = cache;
 	}
 
-
 	/// <summary>
 	///   CreateComment method
 	/// </summary>
@@ -44,7 +42,6 @@ public class CommentService : ICommentService
 
 		await _repository.CreateAsync(comment);
 	}
-
 
 	/// <summary>
 	///   GetComment method
@@ -60,7 +57,6 @@ public class CommentService : ICommentService
 
 		return result;
 	}
-
 
 	/// <summary>
 	///   GetComments method
@@ -84,7 +80,6 @@ public class CommentService : ICommentService
 		return output;
 	}
 
-
 	/// <summary>
 	///   GetCommentsByUser method
 	/// </summary>
@@ -99,7 +94,6 @@ public class CommentService : ICommentService
 
 		return results.ToList();
 	}
-
 
 	/// <summary>
 	///   GetCommentsByIssue method
@@ -116,7 +110,6 @@ public class CommentService : ICommentService
 		return results.ToList();
 	}
 
-
 	/// <summary>
 	///   UpdateComment method
 	/// </summary>
@@ -130,7 +123,6 @@ public class CommentService : ICommentService
 
 		_cache.Remove(CacheName);
 	}
-
 
 	/// <summary>
 	///   UpVoteComment method

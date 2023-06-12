@@ -25,7 +25,6 @@ public static class FakeCategory
 			.RuleFor(f => f.Archived, f => f.Random.Bool());
 	}
 
-
 	/// <summary>
 	///   Gets a new category
 	/// </summary>
@@ -46,7 +45,6 @@ public static class FakeCategory
 
 		return category;
 	}
-
 
 	/// <summary>
 	///   Gets a list of categories that exit.
@@ -96,7 +94,6 @@ public static class FakeCategory
 		return categories;
 	}
 
-
 	/// <summary>
 	///   Gets a list of categories.
 	/// </summary>
@@ -111,7 +108,6 @@ public static class FakeCategory
 		return categories;
 	}
 
-
 	/// <summary>
 	///   Gets the basic categories.
 	/// </summary>
@@ -124,10 +120,9 @@ public static class FakeCategory
 		List<CategoryModel>? categories = _categoryGenerator!.Generate(numberOfCategories);
 
 		return (from category in categories
-			let basicCategory = new BasicCategoryModel(category)
-			select basicCategory).ToList();
+						let basicCategory = new BasicCategoryModel(category)
+						select basicCategory).ToList();
 	}
-
 
 	/// <summary>
 	///   Gets the basic category.

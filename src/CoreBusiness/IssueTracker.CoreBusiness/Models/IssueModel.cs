@@ -23,7 +23,6 @@ public class IssueModel
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string Id { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the title.
 	/// </summary>
@@ -33,7 +32,6 @@ public class IssueModel
 	[BsonElement("issue_title")]
 	[BsonRepresentation(BsonType.String)]
 	public string Title { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the description.
@@ -45,7 +43,6 @@ public class IssueModel
 	[BsonRepresentation(BsonType.String)]
 	public string Description { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the date created.
 	/// </summary>
@@ -56,7 +53,6 @@ public class IssueModel
 	[BsonRepresentation(BsonType.DateTime)]
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-
 	/// <summary>
 	///   Gets or sets the category.
 	/// </summary>
@@ -64,7 +60,6 @@ public class IssueModel
 	///   The category.
 	/// </value>
 	public BasicCategoryModel Category { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -74,7 +69,6 @@ public class IssueModel
 	/// </value>
 	public BasicUserModel Author { get; set; } = new();
 
-
 	/// <summary>
 	///   Gets or sets the issue status.
 	/// </summary>
@@ -82,7 +76,6 @@ public class IssueModel
 	///   The issue status.
 	/// </value>
 	public BasicStatusModel IssueStatus { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="IssueModel" /> is archived.
@@ -94,7 +87,6 @@ public class IssueModel
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool Archived { get; set; }
 
-
 	/// <summary>
 	///   Gets or sets who archived the record.
 	/// </summary>
@@ -102,7 +94,6 @@ public class IssueModel
 	///   Who archived the record.
 	/// </value>
 	public BasicUserModel ArchivedBy { get; set; } = new();
-
 
 	/// <summary>
 	///   Gets or sets a value indicating whether [approved for release].
@@ -113,7 +104,6 @@ public class IssueModel
 	[BsonElement("approved_for_release")]
 	[BsonRepresentation(BsonType.Boolean)]
 	public bool ApprovedForRelease { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="IssueModel" /> is rejected.

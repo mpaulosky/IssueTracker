@@ -22,7 +22,6 @@ public class SolutionTests : TestContext
 	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
 
-
 	public SolutionTests()
 	{
 		_issueRepositoryMock = new Mock<IIssueRepository>();
@@ -125,10 +124,6 @@ public class SolutionTests : TestContext
 			.Setup(x => x
 				.GetFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
-
-
-
-
 
 		/*_solutionRepositoryMock
 			.Setup(x => x

@@ -34,7 +34,6 @@ public class CommentServiceTests
 
 		CommentModel comment = FakeComment.GetNewComment();
 
-
 		// Act
 		await sut.CreateComment(comment);
 

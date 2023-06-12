@@ -101,7 +101,6 @@ public class UserRepositoryTests
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(expected);
 
-
 		//Verify if FindAsync is called once
 		_mockCollection.Verify(c => c
 			.FindAsync(

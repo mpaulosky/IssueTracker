@@ -21,7 +21,6 @@ public class Enums
 		Miscellaneous
 	}
 
-
 	/// <summary>
 	///   Status enum
 	/// </summary>
@@ -32,7 +31,6 @@ public class Enums
 		Dismissed,
 		InWork
 	}
-
 
 	/// <summary>
 	///   SourceType enum

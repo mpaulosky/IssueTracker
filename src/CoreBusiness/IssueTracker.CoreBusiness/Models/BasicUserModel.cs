@@ -20,7 +20,6 @@ public class BasicUserModel
 	{
 	}
 
-
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicUserModel" /> class.
 	/// </summary>
@@ -33,7 +32,6 @@ public class BasicUserModel
 		EmailAddress = user.EmailAddress;
 		DisplayName = user.DisplayName;
 	}
-
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="BasicUserModel" /> class.
@@ -57,7 +55,6 @@ public class BasicUserModel
 		DisplayName = displayName;
 	}
 
-
 	/// <summary>
 	///   Gets the identifier.
 	/// </summary>
@@ -65,7 +62,6 @@ public class BasicUserModel
 	///   The identifier.
 	/// </value>
 	public string Id { get; init; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the first name.
@@ -75,7 +71,6 @@ public class BasicUserModel
 	/// </value>
 	public string FirstName { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the last name.
 	/// </summary>
@@ -84,7 +79,6 @@ public class BasicUserModel
 	/// </value>
 	public string LastName { get; set; } = string.Empty;
 
-
 	/// <summary>
 	///   Gets or sets the display name.
 	/// </summary>
@@ -92,7 +86,6 @@ public class BasicUserModel
 	///   The display name.
 	/// </value>
 	public string DisplayName { get; set; } = string.Empty;
-
 
 	/// <summary>
 	///   Gets or sets the email address.

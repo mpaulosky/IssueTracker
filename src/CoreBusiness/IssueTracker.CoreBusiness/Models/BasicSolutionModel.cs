@@ -26,7 +26,6 @@ public class BasicSolutionModel
 		Author = solution.Author;
 	}
 
-
 	/// <summary>
 	///   Gets or sets the identifier.
 	/// </summary>
@@ -34,7 +33,6 @@ public class BasicSolutionModel
 	///   The identifier.
 	/// </value>
 	public string Id { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets the title.
@@ -44,7 +42,6 @@ public class BasicSolutionModel
 	/// </value>
 	public string Title { get; set; }
 
-
 	/// <summary>
 	///   Gets or sets the description.
 	/// </summary>
@@ -53,7 +50,6 @@ public class BasicSolutionModel
 	/// </value>
 	public string Description { get; set; }
 
-
 	/// <summary>
 	///   Gets or sets the issue.
 	/// </summary>
@@ -61,7 +57,6 @@ public class BasicSolutionModel
 	///   The issue.
 	/// </value>
 	public BasicIssueModel Issue { get; set; }
-
 
 	/// <summary>
 	///   Gets or sets the author.
