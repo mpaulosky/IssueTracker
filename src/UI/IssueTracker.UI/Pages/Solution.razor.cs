@@ -12,7 +12,7 @@ public partial class Solution
 {
 	private IssueModel? _issue;
 	private UserModel? _loggedInUser;
-	private CreateSolutionDto _solution = new();
+	private readonly CreateSolutionDto _solution = new();
 	[Parameter] public string? Id { get; set; }
 
 	protected override async Task OnInitializedAsync()
