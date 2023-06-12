@@ -5,6 +5,7 @@ VisualStudioVersion = 17.1.32203.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{9288ED2B-642B-4EC8-B5B6-9039CF2D3538}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		codecov.yml = codecov.yml

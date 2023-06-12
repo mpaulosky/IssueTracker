@@ -1,1 +1,21 @@
-﻿// Copyright (c) 2023. All rights reserved.// File Name :     IUserService.cs// Company :       mpaulosky// Author :        Matthew Paulosky// Solution Name : IssueTracker// Project Name :  IssueTracker.Servicesnamespace IssueTracker.Services.User.Interface;public interface IUserService{	Task CreateUser(UserModel user);	Task<UserModel> GetUser(string? userId);	Task<UserModel> GetUserFromAuthentication(string? userObjectIdentifierId);	Task<List<UserModel>> GetUsers();	Task UpdateUser(UserModel user);}
+﻿// Copyright (c) 2023. All rights reserved.
+// File Name :     IUserService.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : IssueTracker
+// Project Name :  IssueTracker.Services
+
+namespace IssueTracker.Services.User.Interface;
+
+public interface IUserService
+{
+	Task CreateUser(UserModel user);
+
+	Task<UserModel> GetUser(string? userId);
+
+	Task<UserModel> GetUserFromAuthentication(string? userObjectIdentifierId);
+
+	Task<List<UserModel>> GetUsers();
+
+	Task UpdateUser(UserModel user);
+}
