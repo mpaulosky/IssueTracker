@@ -15,10 +15,9 @@ public class MongoDbContextTests
 
 	private static MongoDbContextFactory UnitUnderTest()
 	{
-		DatabaseSettings settings = new DatabaseSettings(ConnectionString, DatabaseName)
+		DatabaseSettings settings = new(ConnectionString, DatabaseName)
 		{
-			ConnectionStrings = ConnectionString,
-			DatabaseName = DatabaseName
+			ConnectionStrings = ConnectionString, DatabaseName = DatabaseName
 		};
 
 		return Substitute.For<MongoDbContextFactory>(settings);

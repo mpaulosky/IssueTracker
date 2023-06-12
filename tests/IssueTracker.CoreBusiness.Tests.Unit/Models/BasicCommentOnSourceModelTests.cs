@@ -17,7 +17,7 @@ public class BasicCommentOnSourceModelTests
 		CommentModel comment = FakeComment.GetNewComment(true);
 
 		// Act
-		BasicCommentOnSourceModel result = new BasicCommentOnSourceModel(comment);
+		BasicCommentOnSourceModel result = new(comment);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -36,7 +36,7 @@ public class BasicCommentOnSourceModelTests
 		IssueModel issue = FakeIssue.GetNewIssue(true);
 
 		// Act
-		BasicCommentOnSourceModel result = new BasicCommentOnSourceModel(issue);
+		BasicCommentOnSourceModel result = new(issue);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -55,7 +55,7 @@ public class BasicCommentOnSourceModelTests
 		SolutionModel solution = FakeSolution.GetNewSolution(true);
 
 		// Act
-		BasicCommentOnSourceModel result = new BasicCommentOnSourceModel(solution);
+		BasicCommentOnSourceModel result = new(solution);
 
 		// Assert
 		result.Should().NotBeNull();

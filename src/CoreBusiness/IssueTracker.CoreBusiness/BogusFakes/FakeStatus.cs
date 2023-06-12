@@ -52,7 +52,7 @@ public static class FakeStatus
 	/// <returns>IEnumerable List of StatusModels</returns>
 	public static IEnumerable<StatusModel> GetStatuses()
 	{
-		List<StatusModel>? statuses = new List<StatusModel>
+		List<StatusModel>? statuses = new()
 		{
 			new()
 			{

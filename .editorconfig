@@ -4,6 +4,10 @@ root = true
 [*]
 indent_style = space
 
+# New line preferences
+end_of_line = crlf
+insert_final_newline = true
+
 # C# files
 [*.cs]
 
@@ -13,10 +17,6 @@ indent_style = space
 indent_size = 2
 tab_width = 2
 indent_style = tab
-
-# New line preferences
-end_of_line = crlf
-insert_final_newline = false
 
 #### .NET Coding Conventions ####
 [*.{cs,vb}]

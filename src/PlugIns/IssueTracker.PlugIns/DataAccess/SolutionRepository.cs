@@ -58,7 +58,7 @@ public class SolutionRepository : ISolutionRepository
 	/// <returns>Task of SolutionModel</returns>
 	public async Task<SolutionModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<SolutionModel>? filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
@@ -111,7 +111,7 @@ public class SolutionRepository : ISolutionRepository
 	/// <param name="solution">SolutionModel</param>
 	public async Task UpdateAsync(string itemId, SolutionModel solution)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<SolutionModel>? filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
