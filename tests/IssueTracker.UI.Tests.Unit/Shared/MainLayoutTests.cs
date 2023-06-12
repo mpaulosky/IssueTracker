@@ -29,7 +29,8 @@ public class MainLayoutTests : TestContext
 		// Assert
 		cut.MarkupMatches
 		(
-			@"			<div class=""page"">
+			@"
+			<div class=""page"">
 				<main class=""container-xxl"">
 					<div class=""px-5 pt-3 nav-links"">
 						<a class=""login-link"" href=""/Admin"">Admin</a>

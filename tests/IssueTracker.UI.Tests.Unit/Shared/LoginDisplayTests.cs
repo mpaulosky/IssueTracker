@@ -59,7 +59,9 @@ public class LoginDisplayTests : TestContext
 		// Assert
 		cut.MarkupMatches
 		(
-			@"				<a class=""login-link"" href=""/Admin"">Admin</a><a class=""login-link"" href=""/Categories"">Categories</a><a class=""login-link"" href=""/Statuses"">Statuses</a><a class=""login-link"" href=""/Profile"">Profile</a><a class=""login-link"" href=""MicrosoftIdentity/Account/SignOut"">Logout</a>			"
+			@"
+				<a class=""login-link"" href=""/Admin"">Admin</a><a class=""login-link"" href=""/Categories"">Categories</a><a class=""login-link"" href=""/Statuses"">Statuses</a><a class=""login-link"" href=""/Profile"">Profile</a><a class=""login-link"" href=""MicrosoftIdentity/Account/SignOut"">Logout</a>
+			"
 		);
 	}
 

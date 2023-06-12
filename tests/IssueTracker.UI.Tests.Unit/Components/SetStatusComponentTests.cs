@@ -67,7 +67,25 @@ public class SetStatusComponentTests : TestContext
 	{
 		// Arrange
 		const string expected =
-			"""			<div class="issue-container">				<div class="status-layout flex-container">					<button class="btn btn-status btn-status-status fw-bold">Set Status</button>					<button id="answered" class="btn btn-status btn-status-answered">						answered					</button>					<button id="inwork" class="btn btn-status btn-status-inwork">						in work					</button>					<button id="watching" class="btn btn-status btn-status-watching">						watching					</button>					<button id="dismissed" class="btn btn-status btn-status-dismissed">						dismissed					</button>				</div>			</div>			""";
+			"""
+			<div class="issue-container">
+				<div class="status-layout flex-container">
+					<button class="btn btn-status btn-status-status fw-bold">Set Status</button>
+					<button id="answered" class="btn btn-status btn-status-answered">
+						answered
+					</button>
+					<button id="inwork" class="btn btn-status btn-status-inwork">
+						in work
+					</button>
+					<button id="watching" class="btn btn-status btn-status-watching">
+						watching
+					</button>
+					<button id="dismissed" class="btn btn-status btn-status-dismissed">
+						dismissed
+					</button>
+				</div>
+			</div>
+			""";
 
 		SetAuthenticationAndAuthorization(true, true);
 
