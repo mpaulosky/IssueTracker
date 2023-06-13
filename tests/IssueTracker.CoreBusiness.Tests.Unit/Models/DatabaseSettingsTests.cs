@@ -14,7 +14,8 @@ public class DatabaseSettingsTests
 	{
 		return new DatabaseSettings(expectedCs, expectedDbName)
 		{
-			ConnectionStrings = expectedCs, DatabaseName = expectedDbName
+			ConnectionStrings = expectedCs,
+			DatabaseName = expectedDbName
 		};
 	}
 
