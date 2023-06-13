@@ -32,6 +32,21 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
+	///   ArchiveStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveStatus(StatusModel status)
+	{
+		ArgumentNullException.ThrowIfNull(status);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(status);
+	}
+
+	/// <summary>
 	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>

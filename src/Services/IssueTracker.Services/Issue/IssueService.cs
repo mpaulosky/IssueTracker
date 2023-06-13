@@ -32,6 +32,21 @@ public class IssueService : IIssueService
 	}
 
 	/// <summary>
+	///   ArchiveIssue method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveIssue(IssueModel issue)
+	{
+		ArgumentNullException.ThrowIfNull(issue);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(issue);
+	}
+
+	/// <summary>
 	///   CreateIssue method
 	/// </summary>
 	/// <param name="issue">IssueModel</param>
