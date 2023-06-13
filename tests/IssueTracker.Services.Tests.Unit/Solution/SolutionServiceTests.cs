@@ -26,6 +26,41 @@ public class SolutionServiceTests
 		return new SolutionService(_solutionRepositoryMock.Object, _memoryCacheMock.Object);
 	}
 
+	[Fact(DisplayName = "Archive Solution With Invalid Solution Throws Exception")]
+	public async Task ArchiveSolution_With_Invalid_Solution_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		SolutionService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveSolution(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("solution")
+			.WithMessage("Value cannot be null. (Parameter 'solution')");
+	}
+
+	[Fact(DisplayName = "Archive Solution With Valid Values")]
+	public async Task ArchiveSolution_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		SolutionService sut = UnitUnderTest();
+		SolutionModel expected = FakeSolution.GetNewSolution(true);
+
+		// Act
+		await sut.ArchiveSolution(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_solutionRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<SolutionModel>()), Times.Once);
+	}
+
 	[Fact(DisplayName = "Create Solution With Valid Values")]
 	public async Task CreateSolution_With_Valid_Values_Should_Return_Test()
 	{
@@ -55,7 +90,7 @@ public class SolutionServiceTests
 		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		Func<Task> act = async () => { await sut.CreateSolution(null!); };
+		Func<Task> act = async () => await sut.CreateSolution(null!);
 
 		// Assert
 		await act.Should()
@@ -92,7 +127,7 @@ public class SolutionServiceTests
 		SolutionService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetSolution(value); };
+		Func<Task> act = async () => await sut.GetSolution(value);
 
 		// Assert
 		await act.Should()
@@ -162,8 +197,8 @@ public class SolutionServiceTests
 		results.Count.Should().Be(expectedCount);
 	}
 
-	[Fact(DisplayName = "Get Users Solutions With Valid Id")]
-	public async Task GetByUserAsync_With_A_Valid_Id_Should_Return_A_List_Of_User_Solutions_Test()
+	[Fact(DisplayName = "Get Solutions By User Solutions With Valid Id")]
+	public async Task GetSolutionsByUser_With_A_Valid_Id_Should_Return_A_List_Of_User_Solutions_Test()
 	{
 		//Arrange
 		SolutionService sut = UnitUnderTest();
@@ -195,13 +230,14 @@ public class SolutionServiceTests
 		results.Count.Should().Be(expectedCount);
 	}
 
-	[Fact(DisplayName = "Get Users Solutions with memory cache")]
-	public async Task GetByUserAsync_With_Cache_Should_Return_A_ListOfSolutions_TestAsync()
+	[Fact(DisplayName = "Get Solutions By User with memory cache")]
+	public async Task GetSolutionsByUser_With_Cache_Should_Return_A_ListOfSolutions_TestAsync()
 	{
 		//Arrange
 		SolutionService sut = UnitUnderTest();
 
 		const int expectedCount = 3;
+
 		List<SolutionModel> solutions = FakeSolution.GetSolutions(expectedCount).ToList();
 
 		const string expectedUserId = "5dc1039a1521eaa36835e541";
@@ -213,12 +249,19 @@ public class SolutionServiceTests
 
 		List<SolutionModel> expected = solutions.ToList();
 
-		_solutionRepositoryMock.Setup(x => x.GetByUserAsync(It.IsAny<string>())).ReturnsAsync(expected);
-
 		_memoryCacheMock
 			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
+
+		object whatever = expected;
+
+		_memoryCacheMock
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
+				v = whatever)) // mocked value here (and/or breakpoint)
+			.Returns(true);
+
 
 		//Act
 		List<SolutionModel> results = await sut.GetSolutionsByUser(expectedUserId);
@@ -231,14 +274,109 @@ public class SolutionServiceTests
 	[Theory(DisplayName = "Get Solutions By User With Invalid Id")]
 	[InlineData(null, "userId", "Value cannot be null.?*")]
 	[InlineData("", "userId", "The value cannot be an empty string.?*")]
-	public async Task GetUsersSolutions_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(
+	public async Task GetSolutionsByUser_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(
 		string value, string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		SolutionService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetSolutionsByUser(value); };
+		Func<Task> act = async () => await sut.GetSolutionsByUser(value);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+	}
+
+	[Fact(DisplayName = "Get Solutions By Issue With Valid Id")]
+	public async Task GetSolutionsByIssue_With_A_Valid_Id_Should_Return_A_List_Of_Solutions_Test()
+	{
+		//Arrange
+		SolutionService sut = UnitUnderTest();
+
+		const int expectedCount = 3;
+
+		List<SolutionModel> solutions = FakeSolution.GetSolutions(expectedCount).ToList();
+
+		IssueModel expectedIssue = FakeIssue.GetNewIssue(true);
+
+		foreach (SolutionModel? solution in solutions)
+		{
+			solution.Issue = new BasicIssueModel(expectedIssue);
+		}
+
+		List<SolutionModel> expected = solutions.ToList();
+
+		_solutionRepositoryMock.Setup(x => x
+			.GetByIssueAsync(It.IsAny<string>())).ReturnsAsync(expected);
+
+		_memoryCacheMock
+			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+			.Callback((object k) => _ = (string)k)
+			.Returns(_mockCacheEntry.Object);
+
+		//Act
+		List<SolutionModel> results = await sut.GetSolutionsByIssue(expectedIssue.Id);
+
+		//Assert
+		results.Should().NotBeNull();
+		results.Count.Should().Be(expectedCount);
+	}
+
+	[Fact(DisplayName = "Get Solutions By Issue with memory cache")]
+	public async Task GetSolutionsByIssue_With_Cache_Should_Return_A_ListOfSolutions_TestAsync()
+	{
+		//Arrange
+		SolutionService sut = UnitUnderTest();
+
+		const int expectedCount = 3;
+
+		List<SolutionModel> solutions = FakeSolution.GetSolutions(expectedCount).ToList();
+
+		IssueModel expectedIssue = FakeIssue.GetNewIssue(true);
+
+		foreach (SolutionModel? solution in solutions)
+		{
+			solution.Issue = new BasicIssueModel(expectedIssue);
+		}
+
+		List<SolutionModel> expected = solutions.ToList();
+
+		_memoryCacheMock
+			.Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+			.Callback((object k) => _ = (string)k)
+			.Returns(_mockCacheEntry.Object);
+
+		object whatever = expected;
+
+		_memoryCacheMock
+			.Setup(mc => mc.TryGetValue(It.IsAny<object>(), out whatever!))
+			.Callback(new OutDelegate<object, object>((object _, out object v) =>
+				v = whatever)) // mocked value here (and/or breakpoint)
+			.Returns(true);
+
+
+		//Act
+		List<SolutionModel> results = await sut.GetSolutionsByIssue(expectedIssue.Id);
+
+		//Assert
+		results.Should().NotBeNull();
+		results.Count.Should().Be(expectedCount);
+	}
+
+	[Theory(DisplayName = "Get Solutions By Issue With Invalid Id")]
+	[InlineData(null, "issueId", "Value cannot be null.?*")]
+	[InlineData("", "issueId", "The value cannot be an empty string.?*")]
+	public async Task GetSolutionsByIssue_With_InvalidData_Should_Return_An_ArgumentException_TestAsync(
+		string value, string expectedParamName, string expectedMessage)
+	{
+		// Arrange
+		SolutionService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.GetSolutionsByIssue(value);
 
 		// Assert
 		await act.Should()
@@ -275,7 +413,7 @@ public class SolutionServiceTests
 		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		Func<Task> act = async () => { await sut.UpdateSolution(null!); };
+		Func<Task> act = async () => await sut.UpdateSolution(null!);
 
 		// Assert
 		await act.Should()
@@ -316,7 +454,7 @@ public class SolutionServiceTests
 		SolutionService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.UpVoteSolution(solutionId, userId); };
+		Func<Task> act = async () => await sut.UpVoteSolution(solutionId, userId);
 
 		// Assert
 		await act.Should()
