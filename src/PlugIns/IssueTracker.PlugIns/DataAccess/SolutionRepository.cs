@@ -117,4 +117,28 @@ public class SolutionRepository : ISolutionRepository
 
 		await _solutionCollection.ReplaceOneAsync(filter, solution);
 	}
+
+	/// <summary>
+	///   Up vote Solution method
+	/// </summary>
+	/// <param name="itemId">string</param>
+	/// <param name="userId">string</param>
+	/// <exception cref="Exception"></exception>
+	public async Task UpVoteAsync(string itemId, string userId)
+	{
+		ObjectId objectId = new(itemId);
+
+		FilterDefinition<SolutionModel>? filterSolution = Builders<SolutionModel>.Filter.Eq("_id", objectId);
+
+		SolutionModel? solution = (await _solutionCollection.FindAsync(filterSolution)).FirstOrDefault();
+
+		bool isUpVote = solution.UserVotes.Add(userId);
+
+		if (!isUpVote)
+		{
+			solution.UserVotes.Remove(userId);
+		}
+
+		await _solutionCollection.ReplaceOneAsync(s => s.Id == itemId, solution);
+	}
 }
