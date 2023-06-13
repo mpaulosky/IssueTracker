@@ -5,8 +5,8 @@ root = true
 indent_style = space
 
 # New line preferences
-end_of_line = crlf
-insert_final_newline = true
+end_of_line = lf
+insert_final_newline = false
 
 # C# files
 [*.cs]
@@ -379,9 +379,16 @@ dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental = false:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 
-# Xml files
-[*.{xml,yml}]
+# yml json files
+[*.{yml,json}]
 indent_size = 2
+indent_style = space
+
+# Xml files
+[*.{csproj,props,targets,config,xml}]
+indent_size = 2
+indent_style = tab
+tab_width = 2
 
 # Html, cshtml, razor
 [#.{html,cshtml,razor}]

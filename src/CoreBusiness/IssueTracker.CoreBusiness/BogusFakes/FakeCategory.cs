@@ -120,8 +120,8 @@ public static class FakeCategory
 		List<CategoryModel>? categories = _categoryGenerator!.Generate(numberOfCategories);
 
 		return (from category in categories
-			let basicCategory = new BasicCategoryModel(category)
-			select basicCategory).ToList();
+						let basicCategory = new BasicCategoryModel(category)
+						select basicCategory).ToList();
 	}
 
 	/// <summary>
