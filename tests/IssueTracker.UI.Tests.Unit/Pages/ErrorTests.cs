@@ -1,5 +1,6 @@
 namespace IssueTracker.UI.Pages;
 
+[ExcludeFromCodeCoverage]
 public class ErrorTests
 {
 	private readonly ErrorModel _errorModel;
