@@ -131,7 +131,9 @@ public class IssueComponentTests : TestContext
 		// Arrange
 		CategoryModel model = new()
 		{
-			Id = "test", CategoryName = expectedCategory, CategoryDescription = _expectedIssue.Category.CategoryDescription
+			Id = "test",
+			CategoryName = expectedCategory,
+			CategoryDescription = _expectedIssue.Category.CategoryDescription
 		};
 		_expectedIssue.Category = new BasicCategoryModel(model);
 
@@ -157,7 +159,9 @@ public class IssueComponentTests : TestContext
 		// Arrange
 		StatusModel model = new()
 		{
-			Id = "test", StatusName = expectedStatus, StatusDescription = _expectedIssue.IssueStatus.StatusDescription
+			Id = "test",
+			StatusName = expectedStatus,
+			StatusDescription = _expectedIssue.IssueStatus.StatusDescription
 		};
 		_expectedIssue.IssueStatus = new BasicStatusModel(model);
 

@@ -17,7 +17,8 @@ public class MongoDbContextTests
 	{
 		DatabaseSettings settings = new(ConnectionString, DatabaseName)
 		{
-			ConnectionStrings = ConnectionString, DatabaseName = DatabaseName
+			ConnectionStrings = ConnectionString,
+			DatabaseName = DatabaseName
 		};
 
 		return Substitute.For<MongoDbContextFactory>(settings);
