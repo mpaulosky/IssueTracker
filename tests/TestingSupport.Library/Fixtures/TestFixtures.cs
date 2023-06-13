@@ -92,8 +92,7 @@ public static class TestFixtures
 
 		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return settings;
@@ -103,8 +102,7 @@ public static class TestFixtures
 	{
 		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return Options.Create(settings);

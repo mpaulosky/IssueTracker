@@ -49,13 +49,13 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		{
 			ServiceDescriptor? dbConnectionDescriptor = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IMongoDbContextFactory));
+				     typeof(IMongoDbContextFactory));
 
 			services.Remove(dbConnectionDescriptor!);
 
 			ServiceDescriptor? dbSettings = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IDatabaseSettings));
+				     typeof(IDatabaseSettings));
 
 			services.Remove(dbSettings!);
 
