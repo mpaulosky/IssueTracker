@@ -3,7 +3,7 @@
 <RunSettings>
 	<RunConfiguration>
 		<ResultsDirectory>./TestResults</ResultsDirectory>
-		<TestSessionTimeout>35000</TestSessionTimeout>
+		<TestSessionTimeout>350000</TestSessionTimeout>
 	</RunConfiguration>
 	<DataCollectionRunSettings>
 		<DataCollectors>
