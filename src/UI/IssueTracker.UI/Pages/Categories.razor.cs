@@ -72,7 +72,7 @@ public partial class Categories
 
 		_categoriesGrid!.CancelEditRow(category);
 
-		await CategoryService.DeleteCategory(category);
+		await CategoryService.ArchiveCategory(category);
 
 		await _categoriesGrid.Reload();
 	}

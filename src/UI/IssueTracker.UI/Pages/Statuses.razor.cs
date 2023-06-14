@@ -72,7 +72,7 @@ public partial class Statuses
 
 		_statusesGrid.CancelEditRow(status);
 
-		await StatusService.DeleteStatus(status);
+		await StatusService.ArchiveStatus(status);
 
 		await _statusesGrid.Reload();
 	}

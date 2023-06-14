@@ -32,6 +32,21 @@ public class CommentService : ICommentService
 	}
 
 	/// <summary>
+	///   ArchiveComment method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveComment(CommentModel comment)
+	{
+		ArgumentNullException.ThrowIfNull(comment);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(comment);
+	}
+
+	/// <summary>
 	///   CreateComment method
 	/// </summary>
 	/// <param name="comment">CommentModel</param>

@@ -10,9 +10,9 @@ namespace IssueTracker.UI.Pages;
 [UsedImplicitly]
 public partial class Solution
 {
+	private readonly CreateSolutionDto _solution = new();
 	private IssueModel? _issue;
 	private UserModel? _loggedInUser;
-	private readonly CreateSolutionDto _solution = new();
 	[Parameter] public string? Id { get; set; }
 
 	protected override async Task OnInitializedAsync()

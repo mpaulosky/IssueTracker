@@ -26,6 +26,41 @@ public class IssueServiceTests
 		return new IssueService(_issueRepositoryMock.Object, _memoryCacheMock.Object);
 	}
 
+	[Fact(DisplayName = "Archive Issue With Invalid Issue Throws Exception")]
+	public async Task ArchiveIssue_With_Invalid_Issue_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveIssue(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("issue")
+			.WithMessage("Value cannot be null. (Parameter 'issue')");
+	}
+
+	[Fact(DisplayName = "Archive Issue With Valid Values")]
+	public async Task ArchiveIssue_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel expected = FakeIssue.GetNewIssue(true);
+
+		// Act
+		await sut.ArchiveIssue(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_issueRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<IssueModel>()), Times.Once);
+	}
+
 	[Fact(DisplayName = "Create Issue With Valid Values")]
 	public async Task CreateIssue_With_Valid_Values_Should_Return_Test()
 	{

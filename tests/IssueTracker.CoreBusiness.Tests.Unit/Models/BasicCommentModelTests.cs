@@ -17,7 +17,7 @@ public class BasicCommentModelTests
 		CommentModel expected = FakeComment.GetNewComment(true);
 
 		// Act
-		BasicCommentModel result = new BasicCommentModel(expected);
+		BasicCommentModel result = new(expected);
 
 		// Assert
 		result.Should().NotBeNull();

@@ -26,6 +26,41 @@ public class CommentServiceTests
 		return new CommentService(_commentRepositoryMock.Object, _memoryCacheMock.Object);
 	}
 
+	[Fact(DisplayName = "Archive Comment With Invalid Comment Throws Exception")]
+	public async Task ArchiveComment_With_Invalid_Comment_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveComment(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("comment")
+			.WithMessage("Value cannot be null. (Parameter 'comment')");
+	}
+
+	[Fact(DisplayName = "Archive Comment With Valid Values")]
+	public async Task ArchiveComment_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel expected = FakeComment.GetNewComment(true);
+
+		// Act
+		await sut.ArchiveComment(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_commentRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<CommentModel>()), Times.Once);
+	}
+
 	[Fact(DisplayName = "Create Comment With Valid Values")]
 	public async Task CreateComment_With_Valid_Values_Should_Return_Test()
 	{

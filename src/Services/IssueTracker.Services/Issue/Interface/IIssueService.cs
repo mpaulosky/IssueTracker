@@ -9,6 +9,8 @@ namespace IssueTracker.Services.Issue.Interface;
 
 public interface IIssueService
 {
+	Task ArchiveIssue(IssueModel issue);
+
 	Task CreateIssue(IssueModel issue);
 
 	Task<IssueModel> GetIssue(string? issueId);

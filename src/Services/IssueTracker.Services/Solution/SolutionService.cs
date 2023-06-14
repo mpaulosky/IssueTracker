@@ -32,6 +32,21 @@ public class SolutionService : ISolutionService
 	}
 
 	/// <summary>
+	///   ArchiveSolution method
+	/// </summary>
+	/// <param name="solution">SolutionModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveSolution(SolutionModel solution)
+	{
+		ArgumentNullException.ThrowIfNull(solution);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(solution);
+	}
+
+	/// <summary>
 	///   CreateSolution method
 	/// </summary>
 	/// <param name="solution">SolutionModel</param>
@@ -142,6 +157,23 @@ public class SolutionService : ISolutionService
 		ArgumentNullException.ThrowIfNull(solution);
 
 		await _repository.UpdateAsync(solution.Id, solution);
+
+		_cache.Remove(CacheName);
+	}
+
+	/// <summary>
+	///   UpVoteSolution method
+	/// </summary>
+	/// <param name="solutionId">string</param>
+	/// <param name="userId">string</param>
+	/// <exception cref="ArgumentNullException"></exception>
+	public async Task UpVoteSolution(string solutionId, string userId)
+	{
+		ArgumentException.ThrowIfNullOrEmpty(solutionId);
+
+		ArgumentException.ThrowIfNullOrEmpty(userId);
+
+		await _repository.UpVoteAsync(solutionId, userId);
 
 		_cache.Remove(CacheName);
 	}

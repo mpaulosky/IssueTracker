@@ -36,8 +36,8 @@ public class MongoHealthCheckTests : TestContext
 	{
 		// Arrange
 		MongoHealthCheck mongoHealthCheck = CreateMongoHealthCheck();
-		HealthCheckContext context = new HealthCheckContext();
-		CancellationToken cancellationToken = new CancellationToken();
+		HealthCheckContext context = new();
+		CancellationToken cancellationToken = new();
 
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(
@@ -53,8 +53,8 @@ public class MongoHealthCheckTests : TestContext
 	{
 		// Arrange
 		MongoHealthCheck mongoHealthCheck = CreateMongoHealthCheck(false);
-		HealthCheckContext context = new HealthCheckContext();
-		CancellationToken cancellationToken = new CancellationToken();
+		HealthCheckContext context = new();
+		CancellationToken cancellationToken = new();
 
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(

@@ -17,7 +17,7 @@ public class BasicCategoryModelTests
 		CategoryModel expected = FakeCategory.GetNewCategory();
 
 		// Act
-		BasicCategoryModel result = new BasicCategoryModel(expected);
+		BasicCategoryModel result = new(expected);
 
 		// Assert
 		result.CategoryDescription.Should().Be(expected.CategoryDescription);
@@ -31,7 +31,7 @@ public class BasicCategoryModelTests
 		CategoryModel expected = FakeCategory.GetNewCategory();
 
 		// Act
-		BasicCategoryModel result = new BasicCategoryModel(expected.CategoryName, expected.CategoryDescription);
+		BasicCategoryModel result = new(expected.CategoryName, expected.CategoryDescription);
 
 		// Assert
 		result.CategoryDescription.Should().Be(expected.CategoryDescription);

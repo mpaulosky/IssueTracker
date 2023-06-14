@@ -32,7 +32,7 @@ public partial class Details
 		ArgumentNullException.ThrowIfNull(Id);
 
 		_issue = await IssueService.GetIssue(Id);
-		BasicCommentOnSourceModel source = new BasicCommentOnSourceModel(_issue);
+		BasicCommentOnSourceModel source = new(_issue);
 		_comments = await CommentService.GetCommentsBySource(source);
 		await StatusService.GetStatuses();
 	}
