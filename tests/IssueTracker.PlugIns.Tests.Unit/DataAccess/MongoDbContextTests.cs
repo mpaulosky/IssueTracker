@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     MongoDbContextTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns.Tests.Unit
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -17,8 +19,7 @@ public class MongoDbContextTests
 	{
 		DatabaseSettings settings = new(ConnectionString, DatabaseName)
 		{
-			ConnectionStrings = ConnectionString,
-			DatabaseName = DatabaseName
+			ConnectionStrings = ConnectionString, DatabaseName = DatabaseName
 		};
 
 		return Substitute.For<MongoDbContextFactory>(settings);

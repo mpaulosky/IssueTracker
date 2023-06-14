@@ -1,18 +1,20 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     SolutionServiceTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services.Tests.Unit
+// =============================================
 
 namespace IssueTracker.Services.Solution;
 
 [ExcludeFromCodeCoverage]
 public class SolutionServiceTests
 {
-	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
+	private readonly Mock<ISolutionRepository> _solutionRepositoryMock;
 
 	public SolutionServiceTests()
 	{

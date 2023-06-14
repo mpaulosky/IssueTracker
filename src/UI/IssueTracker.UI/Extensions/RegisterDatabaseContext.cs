@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     RegisterDatabaseContext.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 namespace IssueTracker.UI.Extensions;
 

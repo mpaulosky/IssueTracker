@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     Enums.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness
+// =============================================
 
 namespace IssueTracker.CoreBusiness.Enum;
 

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     ICategoryService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Category.Interface;
 

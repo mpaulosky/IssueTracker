@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     FakeUser.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness
+// =============================================
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
@@ -77,9 +79,9 @@ public static class FakeUser
 	{
 		SetupGenerator();
 
-		IEnumerable<UserModel>? users = GetUsers(numberOfUsers);
+		IEnumerable<UserModel> users = GetUsers(numberOfUsers);
 
-		IEnumerable<BasicUserModel>? basicUsers =
+		IEnumerable<BasicUserModel> basicUsers =
 			users.Select(c => new BasicUserModel(c));
 
 		return basicUsers;

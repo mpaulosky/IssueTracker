@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IssueComponent.razor.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 namespace IssueTracker.UI.Components;
 
@@ -22,7 +24,7 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueCategoryCssClass(IssueModel issue)
 	{
-		string? output = issue.Category.CategoryName switch
+		string output = issue.Category.CategoryName switch
 		{
 			"Design" => "issue-entry-category-design",
 			"Documentation" => "issue-entry-category-documentation",
@@ -42,7 +44,7 @@ public partial class IssueComponent
 	/// <returns>string css class</returns>
 	private static string GetIssueStatusCssClass(IssueModel issue)
 	{
-		string? output = issue.IssueStatus.StatusName switch
+		string output = issue.IssueStatus.StatusName switch
 		{
 			"Answered" => "issue-entry-status-answered",
 			"InWork" => "issue-entry-status-inwork",

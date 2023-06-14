@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IssueComponentTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
 
 using AngleSharp.Dom;
 
@@ -108,9 +110,7 @@ public class IssueComponentTests : TestContext
 		// Arrange
 		CategoryModel model = new()
 		{
-			Id = "test",
-			CategoryName = expectedCategory,
-			CategoryDescription = _expectedIssue.Category.CategoryDescription
+			Id = "test", CategoryName = expectedCategory, CategoryDescription = _expectedIssue.Category.CategoryDescription
 		};
 		_expectedIssue.Category = new BasicCategoryModel(model);
 
@@ -136,9 +136,7 @@ public class IssueComponentTests : TestContext
 		// Arrange
 		StatusModel model = new()
 		{
-			Id = "test",
-			StatusName = expectedStatus,
-			StatusDescription = _expectedIssue.IssueStatus.StatusDescription
+			Id = "test", StatusName = expectedStatus, StatusDescription = _expectedIssue.IssueStatus.StatusDescription
 		};
 		_expectedIssue.IssueStatus = new BasicStatusModel(model);
 

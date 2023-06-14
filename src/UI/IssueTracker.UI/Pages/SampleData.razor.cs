@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     SampleData.razor.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 namespace IssueTracker.UI.Pages;
 
@@ -74,22 +76,19 @@ public partial class SampleData
 
 		item = new CategoryModel
 		{
-			CategoryName = "Documentation",
-			CategoryDescription = "An Issue with the documentation."
+			CategoryName = "Documentation", CategoryDescription = "An Issue with the documentation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Implementation",
-			CategoryDescription = "An Issue with the implementation."
+			CategoryName = "Implementation", CategoryDescription = "An Issue with the implementation."
 		};
 		await CategoryService.CreateCategory(item);
 
 		item = new CategoryModel
 		{
-			CategoryName = "Clarification",
-			CategoryDescription = "A quick Issue with a general question."
+			CategoryName = "Clarification", CategoryDescription = "A quick Issue with a general question."
 		};
 		await CategoryService.CreateCategory(item);
 
@@ -128,15 +127,13 @@ public partial class SampleData
 
 		item = new StatusModel
 		{
-			StatusName = "Upcoming",
-			StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(item);
 
 		item = new StatusModel
 		{
-			StatusName = "Dismissed",
-			StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(item);
 

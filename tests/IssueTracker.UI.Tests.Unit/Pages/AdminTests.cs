@@ -1,20 +1,24 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     AdminTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
+
+using AngleSharp.Dom;
 
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
 public class AdminTests : TestContext
 {
+	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
 	private readonly Mock<IMemoryCache> _memoryCacheMock;
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private IEnumerable<IssueModel> _expectedIssues;
-	private readonly UserModel _expectedUser;
 
 
 	public AdminTests()
@@ -131,7 +135,7 @@ public class AdminTests : TestContext
 		cut.Find("#edit-description").Click();
 
 		// Assert
-		var expectedButton = cut.Find("#submit-description");
+		IElement expectedButton = cut.Find("#submit-description");
 		expectedButton.HasAttribute("type");
 		expectedButton.GetAttribute("type").Should().Be("submit");
 	}
