@@ -26,9 +26,9 @@
 
 	@if (_issue is not null)
 	{
-		<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser"/>
+		<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser" />
 
-		<SetStatusComponent @bind-Issue="_issue"/>
+		<SetStatusComponent @bind-Issue="_issue" />
 
 		@if (_comments is not null && _comments.Any())
 		{
@@ -36,7 +36,7 @@
 				<div class="fw-bold mb-2">Comments</div>
 				@foreach (var comment in _comments)
 				{
-					<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser"/>
+					<CommentComponent Item="@comment" LoggedInUser="@_loggedInUser" />
 				}
 
 			</div>
