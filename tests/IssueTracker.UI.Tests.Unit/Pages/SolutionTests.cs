@@ -124,11 +124,6 @@ public class SolutionTests : TestContext
 			.Setup(x => x
 				.GetFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
-
-		/*_solutionRepositoryMock
-			.Setup(x => x
-				.GetByIssueAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedIssue);*/
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)

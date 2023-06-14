@@ -10,14 +10,6 @@ public class ErrorTests
 		_errorModel = new ErrorModel();
 	}
 
-	//[Fact]
-	//public void OnGet_Should_ReturnPageResult()
-	//{
-	//	object? result = _errorModel.OnGet();
-
-	//	Assert.IsType<PageResult>(result);
-	//}
-
 	[Fact]
 	public void ShowRequestId_Should_ReturnFalse()
 	{

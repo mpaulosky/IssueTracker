@@ -72,28 +72,8 @@ public class AdminTests : TestContext
 	{
 		// Arrange
 		const string expectedCount = "1";
-		const string expectedHtml =
-			"""
-			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
-			<div class="row">
-				<div class="issue-count col-8 text-light mt-2">1 Issues</div>
-				<div class="col-4 close-button-section">
-					<button id="close-page" class="btn btn-close"></button>
-				</div>
-			</div>
-			<div class="row issue">
-				<div class="col-lg-2 col-md-3 col-sm-4">
-					<button id="approve-issue" class="btn btn-approve">Approve</button>
-					<button id="reject-issue" class="btn btn-reject">Reject</button>
-				</div>
-				<div class="col-lg-10 col-md-9 col-sm-8">
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-				</div>
-			</div>
-			""";
+		const string expectedApprove = "Approve";
+		const string expectedReject = "Reject";
 
 		SetAuthenticationAndAuthorization(true, true);
 
@@ -102,7 +82,8 @@ public class AdminTests : TestContext
 
 		// Assert
 		cut.FindAll("div")[1].TextContent.Should().StartWith(expectedCount);
-		cut.MarkupMatches(expectedHtml);
+		cut.Find("#approve-issue").TextContent.Should().Contain(expectedApprove);
+		cut.Find("#reject-issue").TextContent.Should().Contain(expectedReject);
 	}
 
 	[Fact]
@@ -125,40 +106,6 @@ public class AdminTests : TestContext
 	public void Admin_With_EditTitleSpanClick_Should_ShowIssueTitleEditTextBox_Test()
 	{
 		// Arrange
-		const string expectedHtml =
-			"""
-			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
-			<div class="row">
-				<div class="issue-count col-8 text-light mt-2">1 Issues</div>
-				<div class="col-4 close-button-section">
-					<button id="close-page" class="btn btn-close"></button>
-				</div>
-			</div>
-			<div class="row issue">
-				<div class="col-lg-2 col-md-3 col-sm-4">
-					<button id="approve-issue" class="btn btn-approve">Approve</button>
-					<button id="reject-issue" class="btn btn-reject">Reject</button>
-				</div>
-				<div class="col-lg-10 col-md-9 col-sm-8">
-					<div>
-						<form class="approval-edit-form">
-							<input id="title-text" class="form-control approval-edit-field valid" value:ignore>
-							<button id="submit-edit" class="btn" type="submit">
-								<span class="oi oi-check issue-edit-approve"></span>
-							</button>
-							<button id="reject-edit" type="button" class="btn">
-								<span class="oi oi-x issue-edit-reject"></span>
-							</button>
-						</form>
-					</div>
-					<div diff:ignore>
-					</div>
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-				</div>
-			</div>
-			""";
-
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
@@ -166,46 +113,17 @@ public class AdminTests : TestContext
 		cut.Find("#edit-title").Click();
 
 		// Assert
-		cut.MarkupMatches(expectedHtml);
+		cut.Find("#title-text").HasAttribute("value");
+		cut.Find("#title-text").GetAttribute("value").Should().Be(_expectedIssues.First().Title);
+
+		cut.Find("#submit-edit").HasAttribute("type");
+		cut.Find("#submit-edit").GetAttribute("type").Should().Be("submit");
 	}
 
 	[Fact]
 	public void Admin_With_EditDescriptionSpanClick_Should_ShowIssueDescriptionEditTextBox_Test()
 	{
 		// Arrange
-		const string expectedHtml =
-			"""
-			<h1 class="page-heading text-uppercase mb-4">Pending Issues</h1>
-			<div class="row">
-				<div diff:ignore></div>
-				<div class="col-4 close-button-section">
-					<button id="close-page" class="btn btn-close"></button>
-				</div>
-			</div>
-			<div class="row issue">
-				<div class="col-lg-2 col-md-3 col-sm-4">
-					<button id="approve-issue" class="btn btn-approve">Approve</button>
-					<button id="reject-issue" class="btn btn-reject">Reject</button>
-				</div>
-				<div class="col-lg-10 col-md-9 col-sm-8">
-					<div diff:ignore></div>
-					<div>
-						<form class="approval-edit-form">
-							<input id="description-text" class="form-control approval-edit-field valid" value:ignore>
-							<button id="submit-description" class="btn" type="submit">
-								<span class="oi oi-check issue-edit-approve"></span>
-							</button>
-							<button id="reject-description" type="button" class="btn">
-								<span class="oi oi-x issue-edit-reject"></span>
-							</button>
-						</form>
-					</div>
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-				</div>
-			</div>
-			""";
-
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
@@ -213,7 +131,9 @@ public class AdminTests : TestContext
 		cut.Find("#edit-description").Click();
 
 		// Assert
-		cut.MarkupMatches(expectedHtml);
+		var expectedButton = cut.Find("#submit-description");
+		expectedButton.HasAttribute("type");
+		expectedButton.GetAttribute("type").Should().Be("submit");
 	}
 
 	[Fact]

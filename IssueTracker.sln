@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		REFERENCES.md = REFERENCES.md
 		runsettings.xml = runsettings.xml
 		SECURITY.md = SECURITY.md
-		.github\workflows\super-linter-dev.yml = .github\workflows\super-linter-dev.yml
-		.github\workflows\super-linter-main.yml = .github\workflows\super-linter-main.yml
 		test.html = test.html
 	EndProjectSection
 EndProject
