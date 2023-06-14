@@ -61,7 +61,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
+        run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml --test-adapter-timeout 5400s 
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
