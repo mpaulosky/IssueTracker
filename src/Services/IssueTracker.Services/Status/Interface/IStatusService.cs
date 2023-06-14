@@ -9,6 +9,8 @@ namespace IssueTracker.Services.Status.Interface;
 
 public interface IStatusService
 {
+	Task ArchiveStatus(StatusModel status);
+
 	Task CreateStatus(StatusModel status);
 
 	Task<StatusModel> GetStatus(string statusId);
@@ -16,6 +18,4 @@ public interface IStatusService
 	Task<List<StatusModel>> GetStatuses();
 
 	Task UpdateStatus(StatusModel status);
-
-	Task DeleteStatus(StatusModel status);
 }

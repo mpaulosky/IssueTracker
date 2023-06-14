@@ -12,7 +12,7 @@ namespace IssueTracker.Services.User;
 /// </summary>
 public class UserService : IUserService
 {
-	private readonly IUserRepository _repo;
+	private readonly IUserRepository _repository;
 
 	/// <summary>
 	///   UserService constructor
@@ -22,7 +22,20 @@ public class UserService : IUserService
 	public UserService(IUserRepository repository)
 	{
 		ArgumentNullException.ThrowIfNull(repository);
-		_repo = repository;
+		_repository = repository;
+	}
+
+	/// <summary>
+	///   ArchiveUser method
+	/// </summary>
+	/// <param name="user">UserModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveUser(UserModel user)
+	{
+		ArgumentNullException.ThrowIfNull(user);
+
+		return _repository.ArchiveAsync(user);
 	}
 
 	/// <summary>
@@ -35,7 +48,7 @@ public class UserService : IUserService
 	{
 		ArgumentNullException.ThrowIfNull(user);
 
-		return _repo.CreateAsync(user);
+		return _repository.CreateAsync(user);
 	}
 
 	/// <summary>
@@ -48,7 +61,7 @@ public class UserService : IUserService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(userId);
 
-		UserModel results = await _repo.GetAsync(userId);
+		UserModel results = await _repository.GetAsync(userId);
 
 		return results;
 	}
@@ -59,7 +72,7 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		IEnumerable<UserModel> results = await _repo.GetAllAsync();
+		IEnumerable<UserModel> results = await _repository.GetAllAsync();
 
 		return results.ToList();
 	}
@@ -74,7 +87,7 @@ public class UserService : IUserService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(userObjectIdentifierId);
 
-		UserModel results = await _repo.GetFromAuthenticationAsync(userObjectIdentifierId);
+		UserModel results = await _repository.GetFromAuthenticationAsync(userObjectIdentifierId);
 
 		return results;
 	}
@@ -89,6 +102,6 @@ public class UserService : IUserService
 	{
 		ArgumentNullException.ThrowIfNull(user);
 
-		return _repo.UpdateAsync(user.Id, user);
+		return _repository.UpdateAsync(user.Id, user);
 	}
 }

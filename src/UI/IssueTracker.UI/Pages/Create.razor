@@ -19,17 +19,17 @@
 		@if (_categories is not null)
 		{
 			<EditForm Model="_issue" OnValidSubmit="CreateIssue">
-				<DataAnnotationsValidator />
-				<ValidationSummary />
+				<DataAnnotationsValidator/>
+				<ValidationSummary/>
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="issue-title">Issue Title</label>
 					<div class="input-description">Focus on the topic or technology you want to learn about.</div>
-					<InputText class="form-control" id="issue-title" @bind-Value="_issue.Title" />
+					<InputText class="form-control" id="issue-title" @bind-Value="_issue.Title"/>
 				</div>
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>
 					<div class="input-description">Briefly describe your suggestion.</div>
-					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description" />
+					<InputTextArea class="form-control" id="description" @bind-Value="_issue.Description"/>
 				</div>
 				<div class="input-section">
 					<label class="form-label fw-bold text-uppercase" for="category">Category</label>
@@ -39,7 +39,7 @@
 							@foreach (var c in _categories)
 							{
 								<div class="radio-item-group">
-									<InputRadio Value="@c.Id" id="@c.Id" />
+									<InputRadio Value="@c.Id" id="@c.Id"/>
 									<label for="@c.Id">@c.CategoryName - @c.CategoryDescription</label>
 								</div>
 							}

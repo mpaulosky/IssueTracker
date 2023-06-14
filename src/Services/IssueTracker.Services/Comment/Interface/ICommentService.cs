@@ -9,6 +9,8 @@ namespace IssueTracker.Services.Comment.Interface;
 
 public interface ICommentService
 {
+	Task ArchiveComment(CommentModel comment);
+
 	Task CreateComment(CommentModel comment);
 
 	Task<CommentModel> GetComment(string commentId);

@@ -9,6 +9,8 @@ namespace IssueTracker.Services.User.Interface;
 
 public interface IUserService
 {
+	Task ArchiveUser(UserModel user);
+
 	Task CreateUser(UserModel user);
 
 	Task<UserModel> GetUser(string? userId);

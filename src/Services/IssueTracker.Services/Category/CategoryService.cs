@@ -47,12 +47,12 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///   DeleteCategory method
+	///   ArchiveCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task DeleteCategory(CategoryModel category)
+	public Task ArchiveCategory(CategoryModel category)
 	{
 		ArgumentNullException.ThrowIfNull(category);
 

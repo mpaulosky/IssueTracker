@@ -17,7 +17,7 @@ public class BasicStatusModelTests
 		StatusModel expected = FakeStatus.GetNewStatus(true);
 
 		//Act
-		BasicStatusModel result = new BasicStatusModel(expected);
+		BasicStatusModel result = new(expected);
 
 		//Assert
 		result.StatusName.Should().Be(expected.StatusName);
@@ -31,7 +31,7 @@ public class BasicStatusModelTests
 		StatusModel expected = FakeStatus.GetNewStatus(true);
 
 		// Act
-		BasicStatusModel result = new BasicStatusModel(expected.StatusName, expected.StatusDescription);
+		BasicStatusModel result = new(expected.StatusName, expected.StatusDescription);
 
 		// Assert
 		result.StatusName.Should().Be(expected.StatusName);

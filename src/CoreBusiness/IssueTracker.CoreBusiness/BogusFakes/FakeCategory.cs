@@ -54,35 +54,35 @@ public static class FakeCategory
 	{
 		List<CategoryModel> categories = new()
 		{
-			new()
+			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
 				CategoryDescription = "An Issue with the design.",
 				CategoryName = "Design",
 				Archived = false
 			},
-			new()
+			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
 				CategoryDescription = "An Issue with the documentation.",
 				CategoryName = "Documentation",
 				Archived = false
 			},
-			new()
+			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
 				CategoryDescription = "An Issue with the implementation.",
 				CategoryName = "Implementation",
 				Archived = false
 			},
-			new()
+			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
 				CategoryDescription = "An Issue needs clarification.",
 				CategoryName = "Clarification",
 				Archived = false
 			},
-			new()
+			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
 				CategoryDescription = "A miscellaneous Issue.",

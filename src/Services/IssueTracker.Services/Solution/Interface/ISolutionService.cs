@@ -9,6 +9,8 @@ namespace IssueTracker.Services.Solution.Interface;
 
 public interface ISolutionService
 {
+	Task ArchiveSolution(SolutionModel solution);
+
 	Task CreateSolution(SolutionModel solution);
 
 	Task<SolutionModel> GetSolution(string? solutionId);
@@ -20,4 +22,6 @@ public interface ISolutionService
 	Task<List<SolutionModel>> GetSolutionsByIssue(string issueId);
 
 	Task UpdateSolution(SolutionModel solution);
+
+	Task UpVoteSolution(string solutionId, string userId);
 }

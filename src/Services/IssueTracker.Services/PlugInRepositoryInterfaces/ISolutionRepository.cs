@@ -22,4 +22,6 @@ public interface ISolutionRepository
 	Task<IEnumerable<SolutionModel>> GetByIssueAsync(string issueId);
 
 	Task UpdateAsync(string itemId, SolutionModel solution);
+
+	Task UpVoteAsync(string itemId, string userId);
 }

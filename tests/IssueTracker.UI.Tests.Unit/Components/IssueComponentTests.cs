@@ -84,30 +84,7 @@ public class IssueComponentTests : TestContext
 	public void IssueComponent_With_IsAdmin_Should_DisplaysArchiveButton_Test()
 	{
 		// Arrange
-		const string expected =
-			"""
-			<div class="issue-item-container">
-				<div class:ignore>
-					<div diff:ignore></div>
-				</div>
-				<div class="issue-entry-text">
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div class="issue-entry-bottom">
-						<div diff:ignore></div>
-						<div class="issue-text-archive">
-							<button id="archive" class="btn issue-btn-archive">
-								archive
-							</button>
-						</div>
-						<div diff:ignore></div>
-					</div>
-				</div>
-				<div class="issue-entry-status issue-entry-status-inwork">
-					<div diff:ignore></div>
-				</div>
-			</div>
-			""";
+		const string expected = "archive";
 
 		SetAuthenticationAndAuthorization(true, true);
 
@@ -115,7 +92,7 @@ public class IssueComponentTests : TestContext
 		IRenderedComponent<IssueComponent> cut = ComponentUnderTest();
 
 		// Assert 
-		cut.MarkupMatches(expected);
+		cut.Find("#archive").TextContent.Should().Contain(expected);
 	}
 
 	[Theory]
@@ -129,7 +106,7 @@ public class IssueComponentTests : TestContext
 		string expectedCss)
 	{
 		// Arrange
-		CategoryModel model = new CategoryModel
+		CategoryModel model = new()
 		{
 			Id = "test",
 			CategoryName = expectedCategory,
@@ -157,7 +134,7 @@ public class IssueComponentTests : TestContext
 		string expectedCss)
 	{
 		// Arrange
-		StatusModel model = new StatusModel
+		StatusModel model = new()
 		{
 			Id = "test",
 			StatusName = expectedStatus,

@@ -9,13 +9,13 @@ namespace IssueTracker.Services.Category.Interface;
 
 public interface ICategoryService
 {
+	Task ArchiveCategory(CategoryModel category);
+
+	Task CreateCategory(CategoryModel category);
+
 	Task<CategoryModel> GetCategory(string? categoryId);
 
 	Task<List<CategoryModel>> GetCategories();
 
-	Task CreateCategory(CategoryModel category);
-
 	Task UpdateCategory(CategoryModel category);
-
-	Task DeleteCategory(CategoryModel category);
 }
