@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     StatusServiceTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services.Tests.Unit
+// =============================================
 
 namespace IssueTracker.Services.Status;
 
@@ -24,6 +26,41 @@ public class StatusServiceTests
 	private StatusService UnitUnderTest()
 	{
 		return new StatusService(_statusRepositoryMock.Object, _memoryCacheMock.Object);
+	}
+
+	[Fact(DisplayName = "Archive Status With Invalid Status Throws Exception")]
+	public async Task ArchiveStatus_With_Invalid_Status_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveStatus(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("status")
+			.WithMessage("Value cannot be null. (Parameter 'status')");
+	}
+
+	[Fact(DisplayName = "Archive Status With Valid Values")]
+	public async Task ArchiveStatus_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel expected = FakeStatus.GetNewStatus(true);
+
+		// Act
+		await sut.ArchiveStatus(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_statusRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<StatusModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create Status With Valid Values")]

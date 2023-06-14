@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     FakeCategoryTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
+// =============================================
 
 using IssueTracker.CoreBusiness.Models;
 
@@ -23,17 +25,15 @@ public class FakeCategoryTests
 		CategoryModel result = FakeCategory.GetNewCategory(expected);
 
 		// Assert
-		switch (expected)
+		if (expected)
 		{
-			case true:
-				result.Id.Should().NotBeNull();
-				break;
-			default:
-				result.Id.Should().BeEmpty();
-				break;
+			result.Id.Should().NotBeNull();
+		}
+		else
+		{
+			result.Id.Should().BeEmpty();
 		}
 
-		result.Id.Should().NotBeNull();
 		result.CategoryName.Should().NotBeNull();
 		result.CategoryDescription.Should().NotBeNull();
 		result.Archived.Should().BeFalse();
@@ -49,6 +49,7 @@ public class FakeCategoryTests
 		List<CategoryModel> result = FakeCategory.GetCategories().ToList();
 
 		// Assert
+
 		result.Count.Should().Be(expected);
 		result.First().Id.Should().NotBeNull();
 		result.First().CategoryName.Should().Be("Design");

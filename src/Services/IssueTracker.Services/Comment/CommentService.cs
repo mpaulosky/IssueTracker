@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CommentService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Comment;
 
@@ -29,6 +31,21 @@ public class CommentService : ICommentService
 
 		_repository = repository;
 		_cache = cache;
+	}
+
+	/// <summary>
+	///   ArchiveComment method
+	/// </summary>
+	/// <param name="comment">CommentModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveComment(CommentModel comment)
+	{
+		ArgumentNullException.ThrowIfNull(comment);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(comment);
 	}
 
 	/// <summary>

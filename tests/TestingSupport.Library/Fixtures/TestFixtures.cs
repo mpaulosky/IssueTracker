@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     TestFixtures.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  TestingSupport.Library
+// =============================================
 
 using IssueTracker.CoreBusiness.Models;
 using IssueTracker.PlugIns.Contracts;
@@ -15,7 +17,7 @@ public static class TestFixtures
 {
 	public static Mock<IAsyncCursor<TEntity>> GetMockCursor<TEntity>(IEnumerable<TEntity> list) where TEntity : class?
 	{
-		Mock<IAsyncCursor<TEntity>> cursor = new Mock<IAsyncCursor<TEntity>>();
+		Mock<IAsyncCursor<TEntity>> cursor = new();
 		cursor.Setup(_ => _.Current).Returns(list);
 		cursor
 			.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
@@ -31,8 +33,7 @@ public static class TestFixtures
 	public static Mock<IMongoCollection<TEntity>> GetMockCollection<TEntity>(Mock<IAsyncCursor<TEntity>> cursor)
 		where TEntity : class?
 	{
-		Mock<IMongoCollection<TEntity>> collection =
-			new Mock<IMongoCollection<TEntity>> { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
+		Mock<IMongoCollection<TEntity>> collection = new() { Name = CollectionNames.GetCollectionName(nameof(TEntity)) };
 
 		collection.Setup(op =>
 				op.FindAsync
@@ -56,10 +57,10 @@ public static class TestFixtures
 
 	public static Mock<IMongoDbContextFactory> GetMockContext()
 	{
-		Mock<IMongoClient> mockClient = new Mock<IMongoClient>();
-		Mock<IMongoDatabase> mockDatabase = new Mock<IMongoDatabase>();
-		Mock<IMongoDbContextFactory> context = new Mock<IMongoDbContextFactory>();
-		Mock<IClientSessionHandle> mockSession = new Mock<IClientSessionHandle>();
+		Mock<IMongoClient> mockClient = new();
+		Mock<IMongoDatabase> mockDatabase = new();
+		Mock<IMongoDbContextFactory> context = new();
+		Mock<IClientSessionHandle> mockSession = new();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
 		context.Setup(op => op.Database).Returns(mockDatabase.Object);
 		context.Setup(op =>
@@ -73,9 +74,9 @@ public static class TestFixtures
 
 	public static Mock<IMongoDbContextFactory> GetMockContextWithOutDataBase()
 	{
-		Mock<IMongoClient> mockClient = new Mock<IMongoClient>();
-		Mock<IMongoDbContextFactory> context = new Mock<IMongoDbContextFactory>();
-		Mock<IClientSessionHandle> mockSession = new Mock<IClientSessionHandle>();
+		Mock<IMongoClient> mockClient = new();
+		Mock<IMongoDbContextFactory> context = new();
+		Mock<IClientSessionHandle> mockSession = new();
 		context.Setup(op => op.Client).Returns(mockClient.Object);
 		context.Setup(op =>
 				op.Client.StartSessionAsync(
@@ -91,10 +92,9 @@ public static class TestFixtures
 		const string connectionStrings = "mongodb://test123";
 		const string databaseName = "TestDb";
 
-		DatabaseSettings settings = new DatabaseSettings(connectionStrings, databaseName)
+		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return settings;
@@ -102,10 +102,9 @@ public static class TestFixtures
 
 	public static IOptions<DatabaseSettings> Settings(string connectionStrings, string databaseName)
 	{
-		DatabaseSettings settings = new DatabaseSettings(connectionStrings, databaseName)
+		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return Options.Create(settings);

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     UserServiceTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services.Tests.Unit
+// =============================================
 
 namespace IssueTracker.Services.User;
 
@@ -20,6 +22,41 @@ public class UserServiceTests
 	private UserService UnitUnderTest()
 	{
 		return new UserService(_userRepositoryMock.Object);
+	}
+
+	[Fact(DisplayName = "Archive User With Invalid User Throws Exception")]
+	public async Task ArchiveUser_With_Invalid_User_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		UserService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveUser(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("user")
+			.WithMessage("Value cannot be null. (Parameter 'user')");
+	}
+
+	[Fact(DisplayName = "Archive User With Valid Values")]
+	public async Task ArchiveUser_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		UserService sut = UnitUnderTest();
+		UserModel expected = FakeUser.GetNewUser(true);
+
+		// Act
+		await sut.ArchiveUser(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_userRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<UserModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Create User With Valid Values")]

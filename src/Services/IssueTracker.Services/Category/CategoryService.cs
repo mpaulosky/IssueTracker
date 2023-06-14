@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CategoryService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Category;
 
@@ -47,12 +49,12 @@ public class CategoryService : ICategoryService
 	}
 
 	/// <summary>
-	///   DeleteCategory method
+	///   ArchiveCategory method
 	/// </summary>
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task DeleteCategory(CategoryModel category)
+	public Task ArchiveCategory(CategoryModel category)
 	{
 		ArgumentNullException.ThrowIfNull(category);
 

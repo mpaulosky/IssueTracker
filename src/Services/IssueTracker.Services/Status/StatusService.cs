@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     StatusService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Status;
 
@@ -32,6 +34,21 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
+	///   ArchiveStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveStatus(StatusModel status)
+	{
+		ArgumentNullException.ThrowIfNull(status);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(status);
+	}
+
+	/// <summary>
 	///   CreateStatus method
 	/// </summary>
 	/// <param name="status">StatusModel</param>
@@ -42,19 +59,6 @@ public class StatusService : IStatusService
 		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.CreateAsync(status);
-	}
-
-	/// <summary>
-	///   DeleteStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	/// <returns>Task</returns>
-	/// <exception cref="ArgumentNullException"></exception>
-	public Task DeleteStatus(StatusModel status)
-	{
-		ArgumentNullException.ThrowIfNull(status);
-
-		return _repository.ArchiveAsync(status);
 	}
 
 	/// <summary>
@@ -106,5 +110,18 @@ public class StatusService : IStatusService
 		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.UpdateAsync(status.Id, status);
+	}
+
+	/// <summary>
+	///   DeleteStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task DeleteStatus(StatusModel status)
+	{
+		ArgumentNullException.ThrowIfNull(status);
+
+		return _repository.ArchiveAsync(status);
 	}
 }

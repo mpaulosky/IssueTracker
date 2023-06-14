@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     FakeStatus.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness
+// =============================================
 
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
@@ -52,16 +54,16 @@ public static class FakeStatus
 	/// <returns>IEnumerable List of StatusModels</returns>
 	public static IEnumerable<StatusModel> GetStatuses()
 	{
-		List<StatusModel>? statuses = new List<StatusModel>
+		List<StatusModel> statuses = new()
 		{
-			new()
+			new StatusModel
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Answered",
 				StatusDescription = "The issue was accepted and the corresponding item was created.",
 				Archived = false
 			},
-			new()
+			new StatusModel
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Watching",
@@ -69,14 +71,14 @@ public static class FakeStatus
 					"The issue is interesting. We are watching to see how much interest there is in it.",
 				Archived = false
 			},
-			new()
+			new StatusModel
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "InWork",
 				StatusDescription = "The issue was accepted and it is in work.",
 				Archived = false
 			},
-			new()
+			new StatusModel
 			{
 				Id = Guid.NewGuid().ToString(),
 				StatusName = "Dismissed",
@@ -116,9 +118,9 @@ public static class FakeStatus
 	{
 		SetupGenerator();
 
-		IEnumerable<StatusModel>? statuses = GetStatuses(numberOfStatuses);
+		IEnumerable<StatusModel> statuses = GetStatuses(numberOfStatuses);
 
-		IEnumerable<BasicStatusModel>? basicStatuses =
+		IEnumerable<BasicStatusModel> basicStatuses =
 			statuses.Select(s => new BasicStatusModel(s));
 
 		return basicStatuses;

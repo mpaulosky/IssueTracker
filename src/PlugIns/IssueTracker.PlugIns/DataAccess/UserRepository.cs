@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     UserRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -57,7 +59,7 @@ public class UserRepository : IUserRepository
 	/// <returns>Task of UserModel</returns>
 	public async Task<UserModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<UserModel>? filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 
@@ -86,7 +88,7 @@ public class UserRepository : IUserRepository
 	/// <param name="user">UserModel</param>
 	public async Task UpdateAsync(string itemId, UserModel user)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<UserModel>? filter = Builders<UserModel>.Filter.Eq("_id", objectId);
 

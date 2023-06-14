@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     MongoHealthCheckTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
 
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -36,8 +38,8 @@ public class MongoHealthCheckTests : TestContext
 	{
 		// Arrange
 		MongoHealthCheck mongoHealthCheck = CreateMongoHealthCheck();
-		HealthCheckContext context = new HealthCheckContext();
-		CancellationToken cancellationToken = new CancellationToken();
+		HealthCheckContext context = new();
+		CancellationToken cancellationToken = new();
 
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(
@@ -53,8 +55,8 @@ public class MongoHealthCheckTests : TestContext
 	{
 		// Arrange
 		MongoHealthCheck mongoHealthCheck = CreateMongoHealthCheck(false);
-		HealthCheckContext context = new HealthCheckContext();
-		CancellationToken cancellationToken = new CancellationToken();
+		HealthCheckContext context = new();
+		CancellationToken cancellationToken = new();
 
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(

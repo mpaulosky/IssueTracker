@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CategoryServiceTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services.Tests.Unit
+// =============================================
 
 namespace IssueTracker.Services.Category;
 
@@ -27,6 +29,41 @@ public class CategoryServiceTests
 		return new CategoryService(_categoryRepositoryMock.Object, _memoryCacheMock.Object);
 	}
 
+	[Fact(DisplayName = "Archive Category With Invalid Category Throws Exception")]
+	public async Task ArchiveCategory_With_Invalid_Category_Should_Return_ArgumentNullException_TestAsync()
+	{
+		// Arrange
+		CategoryService sut = UnitUnderTest();
+
+		// Act
+		Func<Task> act = async () => await sut.ArchiveCategory(null!);
+
+		// Assert
+		await act.Should()
+			.ThrowAsync<ArgumentNullException>()
+			.WithParameterName("category")
+			.WithMessage("Value cannot be null. (Parameter 'category')");
+	}
+
+	[Fact(DisplayName = "Archive Category With Valid Values")]
+	public async Task ArchiveCategory_With_Valid_Values_Should_Return_Test()
+	{
+		// Arrange
+		CategoryService sut = UnitUnderTest();
+		CategoryModel expected = FakeCategory.GetNewCategory(true);
+
+		// Act
+		await sut.ArchiveCategory(expected);
+
+		// Assert
+		sut.Should().NotBeNull();
+		expected.Id.Should().Be(expected.Id);
+
+		_categoryRepositoryMock
+			.Verify(x =>
+				x.ArchiveAsync(It.IsAny<CategoryModel>()), Times.Once);
+	}
+
 	[Fact(DisplayName = "Create Category With Valid Values")]
 	public async Task CreateCategory_With_Valid_Values_Should_Return_Test()
 	{
@@ -47,37 +84,19 @@ public class CategoryServiceTests
 	}
 
 	[Fact(DisplayName = "Create Category With Invalid Category Throws Exception")]
-	public async Task Create_With_Invalid_Category_Should_Return_ArgumentNullException_TestAsync()
+	public async Task CreateCategory_With_Invalid_Category_Should_Return_ArgumentNullException_TestAsync()
 	{
 		// Arrange
 		CategoryService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.CreateCategory(null!); };
+		Func<Task> act = async () => await sut.CreateCategory(null!);
 
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentNullException>()
 			.WithParameterName("category")
 			.WithMessage("Value cannot be null. (Parameter 'category')");
-	}
-
-	[Fact(DisplayName = "Delete Category")]
-	public async Task DeleteCategory_With_Valid_Values_Should_Delete_The_Category_TestAsync()
-	{
-		// Arrange
-		CategoryService sut = UnitUnderTest();
-		CategoryModel expected = FakeCategory.GetNewCategory(true);
-
-		// Act
-		await sut.DeleteCategory(expected);
-
-		// Assert
-		sut.Should().NotBeNull();
-
-		_categoryRepositoryMock
-			.Verify(x =>
-				x.ArchiveAsync(It.IsAny<CategoryModel>()), Times.Once);
 	}
 
 	[Fact(DisplayName = "Get Category With Valid Id")]
@@ -107,7 +126,7 @@ public class CategoryServiceTests
 		CategoryService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetCategory(value); };
+		Func<Task> act = async () => await sut.GetCategory(value);
 
 		// Assert
 		await act.Should()
@@ -197,7 +216,7 @@ public class CategoryServiceTests
 		const string expectedMessage = "Value cannot be null.?*";
 
 		// Act
-		Func<Task> act = async () => { await sut.UpdateCategory(null!); };
+		Func<Task> act = async () => await sut.UpdateCategory(null!);
 
 		// Assert
 		await act.Should()

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     BasicCommentModelTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
+// =============================================
 
 namespace IssueTracker.CoreBusiness.Models;
 
@@ -17,7 +19,7 @@ public class BasicCommentModelTests
 		CommentModel expected = FakeComment.GetNewComment(true);
 
 		// Act
-		BasicCommentModel result = new BasicCommentModel(expected);
+		BasicCommentModel result = new(expected);
 
 		// Assert
 		result.Should().NotBeNull();

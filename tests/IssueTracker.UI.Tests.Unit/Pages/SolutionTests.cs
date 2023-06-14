@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     SolutionTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
 
 using IssueTracker.Services.Solution;
 using IssueTracker.Services.Solution.Interface;
@@ -13,7 +15,6 @@ namespace IssueTracker.UI.Pages;
 [ExcludeFromCodeCoverage]
 public class SolutionTests : TestContext
 {
-	private readonly List<CommentModel> _expectedComments;
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
@@ -33,7 +34,6 @@ public class SolutionTests : TestContext
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
-		_expectedComments = FakeComment.GetComments(1).ToList();
 	}
 
 	private IRenderedComponent<Solution> ComponentUnderTest(string? issueId)
@@ -124,11 +124,6 @@ public class SolutionTests : TestContext
 			.Setup(x => x
 				.GetFromAuthenticationAsync(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
-
-		/*_solutionRepositoryMock
-			.Setup(x => x
-				.GetByIssueAsync(It.IsAny<string>()))
-			.ReturnsAsync(_expectedIssue);*/
 	}
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)

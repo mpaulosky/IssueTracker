@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IssueService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Issue;
 
@@ -29,6 +31,21 @@ public class IssueService : IIssueService
 
 		_repository = repository;
 		_cache = cache;
+	}
+
+	/// <summary>
+	///   ArchiveIssue method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task ArchiveIssue(IssueModel issue)
+	{
+		ArgumentNullException.ThrowIfNull(issue);
+
+		_cache.Remove(CacheName);
+
+		return _repository.ArchiveAsync(issue);
 	}
 
 	/// <summary>

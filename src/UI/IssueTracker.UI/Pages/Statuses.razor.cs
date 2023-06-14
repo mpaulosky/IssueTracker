@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     Statuses.razor.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 using Radzen.Blazor;
 
@@ -72,7 +74,7 @@ public partial class Statuses
 
 		_statusesGrid.CancelEditRow(status);
 
-		await StatusService.DeleteStatus(status);
+		await StatusService.ArchiveStatus(status);
 
 		await _statusesGrid.Reload();
 	}

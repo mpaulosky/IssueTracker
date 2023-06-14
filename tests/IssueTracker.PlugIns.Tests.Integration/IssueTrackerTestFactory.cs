@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IssueTrackerTestFactory.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns.Tests.Integration
+// =============================================
 
 namespace IssueTracker.PlugIns;
 
@@ -49,13 +51,13 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		{
 			ServiceDescriptor? dbConnectionDescriptor = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IMongoDbContextFactory));
+				     typeof(IMongoDbContextFactory));
 
 			services.Remove(dbConnectionDescriptor!);
 
 			ServiceDescriptor? dbSettings = services.SingleOrDefault(
 				d => d.ServiceType ==
-						 typeof(IDatabaseSettings));
+				     typeof(IDatabaseSettings));
 
 			services.Remove(dbSettings!);
 

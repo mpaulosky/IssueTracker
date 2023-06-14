@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CategoryRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -57,7 +59,7 @@ public class CategoryRepository : ICategoryRepository
 	/// <returns>Task of CategoryModel</returns>
 	public async Task<CategoryModel> GetAsync(string? itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CategoryModel>? filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 
@@ -86,7 +88,7 @@ public class CategoryRepository : ICategoryRepository
 	/// <param name="category">CategoryModel</param>
 	public async Task UpdateAsync(string? itemId, CategoryModel category)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CategoryModel>? filter = Builders<CategoryModel>.Filter.Eq("_id", objectId);
 

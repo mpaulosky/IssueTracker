@@ -1,19 +1,21 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     Program.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-ConfigurationManager? config = builder.Configuration;
+ConfigurationManager config = builder.Configuration;
 config.AddEnvironmentVariables("IssueTrackerUI_");
 
 // Add services to the container.
 builder.ConfigureServices(config);
 
-WebApplication? app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     Details.razor.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 namespace IssueTracker.UI.Pages;
 
@@ -32,7 +34,7 @@ public partial class Details
 		ArgumentNullException.ThrowIfNull(Id);
 
 		_issue = await IssueService.GetIssue(Id);
-		BasicCommentOnSourceModel source = new BasicCommentOnSourceModel(_issue);
+		BasicCommentOnSourceModel source = new(_issue);
 		_comments = await CommentService.GetCommentsBySource(source);
 		await StatusService.GetStatuses();
 	}

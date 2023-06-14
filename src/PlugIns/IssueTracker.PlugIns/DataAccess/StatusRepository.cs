@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     StatusRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -56,7 +58,7 @@ public class StatusRepository : IStatusRepository
 	/// <returns>Task of StatusModel</returns>
 	public async Task<StatusModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<StatusModel>? filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 
@@ -85,7 +87,7 @@ public class StatusRepository : IStatusRepository
 	/// <param name="status">StatusModel</param>
 	public async Task UpdateAsync(string itemId, StatusModel status)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<StatusModel>? filter = Builders<StatusModel>.Filter.Eq("_id", objectId);
 

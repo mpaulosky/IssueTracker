@@ -1,14 +1,18 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IUserService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.User.Interface;
 
 public interface IUserService
 {
+	Task ArchiveUser(UserModel user);
+
 	Task CreateUser(UserModel user);
 
 	Task<UserModel> GetUser(string? userId);

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     SolutionRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -58,7 +60,7 @@ public class SolutionRepository : ISolutionRepository
 	/// <returns>Task of SolutionModel</returns>
 	public async Task<SolutionModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<SolutionModel>? filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
@@ -111,10 +113,34 @@ public class SolutionRepository : ISolutionRepository
 	/// <param name="solution">SolutionModel</param>
 	public async Task UpdateAsync(string itemId, SolutionModel solution)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<SolutionModel>? filter = Builders<SolutionModel>.Filter.Eq("_id", objectId);
 
 		await _solutionCollection.ReplaceOneAsync(filter, solution);
+	}
+
+	/// <summary>
+	///   Up vote Solution method
+	/// </summary>
+	/// <param name="itemId">string</param>
+	/// <param name="userId">string</param>
+	/// <exception cref="Exception"></exception>
+	public async Task UpVoteAsync(string itemId, string userId)
+	{
+		ObjectId objectId = new(itemId);
+
+		FilterDefinition<SolutionModel>? filterSolution = Builders<SolutionModel>.Filter.Eq("_id", objectId);
+
+		SolutionModel? solution = (await _solutionCollection.FindAsync(filterSolution)).FirstOrDefault();
+
+		bool isUpVote = solution.UserVotes.Add(userId);
+
+		if (!isUpVote)
+		{
+			solution.UserVotes.Remove(userId);
+		}
+
+		await _solutionCollection.ReplaceOneAsync(s => s.Id == itemId, solution);
 	}
 }

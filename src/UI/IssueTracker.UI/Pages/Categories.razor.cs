@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     Categories.razor.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI
+// =============================================
 
 using Radzen.Blazor;
 
@@ -72,7 +74,7 @@ public partial class Categories
 
 		_categoriesGrid!.CancelEditRow(category);
 
-		await CategoryService.DeleteCategory(category);
+		await CategoryService.ArchiveCategory(category);
 
 		await _categoriesGrid.Reload();
 	}

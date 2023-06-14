@@ -1,5 +1,15 @@
+// ============================================
+// Copyright (c) 2023. All rights reserved.
+// File Name :     ErrorTests.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : IssueTracker
+// Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
+
 namespace IssueTracker.UI.Pages;
 
+[ExcludeFromCodeCoverage]
 public class ErrorTests
 {
 	private readonly ErrorModel _errorModel;
@@ -8,14 +18,6 @@ public class ErrorTests
 	{
 		_errorModel = new ErrorModel();
 	}
-
-	//[Fact]
-	//public void OnGet_Should_ReturnPageResult()
-	//{
-	//	object? result = _errorModel.OnGet();
-
-	//	Assert.IsType<PageResult>(result);
-	//}
 
 	[Fact]
 	public void ShowRequestId_Should_ReturnFalse()

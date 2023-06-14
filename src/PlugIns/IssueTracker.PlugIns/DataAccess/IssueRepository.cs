@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     IssueRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -58,7 +60,7 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IssueModel</returns>
 	public async Task<IssueModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<IssueModel>? filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 
@@ -86,9 +88,9 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetWaitingForApprovalAsync()
 	{
-		IEnumerable<IssueModel>? output = await GetAllAsync();
+		IEnumerable<IssueModel> output = await GetAllAsync();
 
-		List<IssueModel>? results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
+		List<IssueModel> results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
 
 		return results;
 	}
@@ -99,9 +101,9 @@ public class IssueRepository : IIssueRepository
 	/// <returns>Task of IEnumerable IssueModel</returns>
 	public async Task<IEnumerable<IssueModel>> GetApprovedAsync()
 	{
-		IEnumerable<IssueModel>? output = await GetAllAsync();
+		IEnumerable<IssueModel> output = await GetAllAsync();
 
-		List<IssueModel>? results = output.Where(x => x is { ApprovedForRelease: true, Rejected: false }).ToList();
+		List<IssueModel> results = output.Where(x => x is { ApprovedForRelease: true, Rejected: false }).ToList();
 
 		return results;
 	}
@@ -125,7 +127,7 @@ public class IssueRepository : IIssueRepository
 	/// <param name="issue">IssueModel</param>
 	public async Task UpdateAsync(string itemId, IssueModel issue)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<IssueModel>? filter = Builders<IssueModel>.Filter.Eq("_id", objectId);
 

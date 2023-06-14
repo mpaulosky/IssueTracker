@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CategoriesTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
 
 using AngleSharp.Dom;
 
@@ -31,20 +33,27 @@ public class CategoriesTests : TestContext
 		_expectedCategories = FakeCategory.GetCategories(1);
 	}
 
+	private IRenderedComponent<Categories> ComponentUnderTest()
+	{
+		SetupMocks();
+		SetMemoryCache();
+		RegisterServices();
+		SetAuthenticationAndAuthorization(true, true);
+
+		IRenderedComponent<Categories> component = RenderComponent<Categories>();
+
+		return component;
+	}
+
+
 	[Fact]
 	public void Categories_CloseButton_Should_WhenClickedNavigateToIndexPage_Test()
 	{
 		// Arrange
 		const string expectedUri = "http://localhost/";
 
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.Find("#close-page").Click();
 
@@ -142,15 +151,8 @@ public class CategoriesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		// Assert
 		cut.MarkupMatches(expectedHtml);
@@ -222,14 +224,8 @@ public class CategoriesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Category Button
 
@@ -327,14 +323,8 @@ public class CategoriesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Category Button
 
@@ -350,14 +340,9 @@ public class CategoriesTests : TestContext
 	public void Categories_AddNewCategoryButton_Should_CreateNewCategory_Test()
 	{
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[1].Click(); // Add New Category Button
 
@@ -378,14 +363,9 @@ public class CategoriesTests : TestContext
 	public void Categories_OnClickEditButton_Should_UpdateCategoryOnSubmit_Test()
 	{
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
@@ -406,14 +386,9 @@ public class CategoriesTests : TestContext
 	public void Categories_OnClickDeleteButton_Should_DeleteCategory_Test()
 	{
 		// Arrange
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
 
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		cut.FindAll("button")[3].Click(); // Delete Button
 
@@ -513,14 +488,8 @@ public class CategoriesTests : TestContext
 			</div>
 			""";
 
-		SetupMocks();
-		SetMemoryCache();
-
-		SetAuthenticationAndAuthorization(true, true);
-		RegisterServices();
-
 		// Act
-		IRenderedComponent<Categories> cut = RenderComponent<Categories>();
+		IRenderedComponent<Categories> cut = ComponentUnderTest();
 
 		List<IElement> buttons = cut.FindAll("button").ToList();
 		buttons[2].Click(); // Edit Button
@@ -553,7 +522,7 @@ public class CategoriesTests : TestContext
 
 		if (isAdmin)
 		{
-			authContext.SetPolicies("Admin");
+			authContext.SetPolicies("Categories");
 		}
 	}
 

@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CommentRepository.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.PlugIns
+// =============================================
 
 namespace IssueTracker.PlugIns.DataAccess;
 
@@ -58,7 +60,7 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of CommentModel</returns>
 	public async Task<CommentModel> GetAsync(string itemId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CommentModel>? filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
@@ -113,7 +115,7 @@ public class CommentRepository : ICommentRepository
 	/// <param name="comment">CommentModel</param>
 	public async Task UpdateAsync(string itemId, CommentModel comment)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CommentModel>? filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
 
@@ -128,7 +130,7 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="Exception"></exception>
 	public async Task UpVoteAsync(string itemId, string userId)
 	{
-		ObjectId objectId = new ObjectId(itemId);
+		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CommentModel>? filterComment = Builders<CommentModel>.Filter.Eq("_id", objectId);
 

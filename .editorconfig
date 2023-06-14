@@ -4,6 +4,10 @@ root = true
 [*]
 indent_style = space
 
+# New line preferences
+end_of_line = crlf
+insert_final_newline = false
+
 # C# files
 [*.cs]
 
@@ -13,10 +17,6 @@ indent_style = space
 indent_size = 2
 tab_width = 2
 indent_style = tab
-
-# New line preferences
-end_of_line = crlf
-insert_final_newline = false
 
 #### .NET Coding Conventions ####
 [*.{cs,vb}]
@@ -378,13 +378,22 @@ dotnet_naming_style.s_camelcase.capitalization = camel_case
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental = false:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
-
-# Xml files
-[*.{xml,yml}]
+tab_width = 2
 indent_size = 2
 
+# yml json files
+[*.{yml,json}]
+indent_size = 2
+indent_style = space
+
+# Xml files
+[*.{csproj,props,targets,config,xml}]
+indent_size = 2
+indent_style = tab
+tab_width = 2
+
 # Html, cshtml, razor
-[#.{html,cshtml,razor}]
+[*.{html,cshtml,razor}]
 indent_size = 2
 indent_style = tab
 tab_width = 2

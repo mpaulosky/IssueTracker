@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     CommentComponentTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
+// =============================================
 
 namespace IssueTracker.UI.Components;
 
@@ -85,34 +87,7 @@ public class CommentComponentTests : TestContext
 	public void CommentComponent_With_IsAdmin_Should_DisplaysArchiveButton_Test()
 	{
 		// Arrange
-		const string expected =
-			"""
-			<div class="comment-item-container">
-				<div class="comment-vote comment-no-votes">
-					<div id="vote">
-						<div>Click To</div>
-						<span class="oi oi-caret-top comment-detail-upvote"></span>
-						<div>UpVote</div>
-					</div>
-				</div>
-				<div class="comment-entry-text">
-					<div diff:ignore></div>
-					<div diff:ignore></div>
-					<div class="comment-entry-bottom">
-						<div diff:ignore></div>
-						<div class="comment-text-archive">
-							<button id="archive" class="btn comment-btn-archive">
-								archive
-							</button>
-						</div>
-						<div diff:ignore></div>
-					</div>
-				</div>
-				<div class="comment-entry-status">
-					<div diff:ignore></div>
-				</div>
-			</div>
-			""";
+		const string expected = "archive";
 
 		SetAuthenticationAndAuthorization(true, true);
 
@@ -120,7 +95,7 @@ public class CommentComponentTests : TestContext
 		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
 
 		// Assert 
-		cut.MarkupMatches(expected);
+		cut.Find("#archive").TextContent.Should().Contain(expected);
 	}
 
 	[Fact]

@@ -1,14 +1,18 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     ICommentService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Comment.Interface;
 
 public interface ICommentService
 {
+	Task ArchiveComment(CommentModel comment);
+
 	Task CreateComment(CommentModel comment);
 
 	Task<CommentModel> GetComment(string commentId);

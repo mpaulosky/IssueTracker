@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     BasicStatusModelTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
+// =============================================
 
 namespace IssueTracker.CoreBusiness.Models;
 
@@ -17,7 +19,7 @@ public class BasicStatusModelTests
 		StatusModel expected = FakeStatus.GetNewStatus(true);
 
 		//Act
-		BasicStatusModel result = new BasicStatusModel(expected);
+		BasicStatusModel result = new(expected);
 
 		//Assert
 		result.StatusName.Should().Be(expected.StatusName);
@@ -31,7 +33,7 @@ public class BasicStatusModelTests
 		StatusModel expected = FakeStatus.GetNewStatus(true);
 
 		// Act
-		BasicStatusModel result = new BasicStatusModel(expected.StatusName, expected.StatusDescription);
+		BasicStatusModel result = new(expected.StatusName, expected.StatusDescription);
 
 		// Assert
 		result.StatusName.Should().Be(expected.StatusName);
