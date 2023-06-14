@@ -40,15 +40,6 @@ jobs:
         run: |
           git fetch --prune --unshallow
 
-      - name: Start dependencies (docker-compose)
-        run: |
-          docker-compose up -d
-
-      - name: Wait for MongoDb Server container
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '5s'
-          
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -61,7 +52,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml --test-adapter-timeout 5400s 
+        run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
