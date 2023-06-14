@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     DatabaseSettingsTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
+// =============================================
 
 namespace IssueTracker.CoreBusiness.Models;
 
@@ -14,8 +16,7 @@ public class DatabaseSettingsTests
 	{
 		return new DatabaseSettings(expectedCs, expectedDbName)
 		{
-			ConnectionStrings = expectedCs,
-			DatabaseName = expectedDbName
+			ConnectionStrings = expectedCs, DatabaseName = expectedDbName
 		};
 	}
 

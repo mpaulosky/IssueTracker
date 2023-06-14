@@ -1,13 +1,22 @@
-﻿namespace IssueTracker.PlugIns.DataAccess;
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
+// File Name :     SolutionRepositoryTests.cs
+// Company :       mpaulosky
+// Author :        Matthew Paulosky
+// Solution Name : IssueTracker
+// Project Name :  IssueTracker.PlugIns.Tests.Unit
+// =============================================
+
+namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 public class SolutionRepositoryTests
 {
 	private readonly Mock<IAsyncCursor<SolutionModel>> _cursor;
-	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private readonly Mock<IMongoCollection<SolutionModel>> _mockCollection;
-	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
+	private readonly Mock<IMongoCollection<UserModel>> _mockUserCollection;
+	private readonly Mock<IAsyncCursor<UserModel>> _userCursor;
 	private List<SolutionModel> _list = new();
 	private List<UserModel> _users = new();
 
@@ -185,7 +194,7 @@ public class SolutionRepositoryTests
 
 		List<SolutionModel> expected = FakeSolution.GetSolutions(expectedCount).ToList();
 
-		var expectedIssue = FakeIssue.GetNewIssue(true);
+		IssueModel expectedIssue = FakeIssue.GetNewIssue(true);
 
 		foreach (SolutionModel? item in expected)
 		{
@@ -212,7 +221,6 @@ public class SolutionRepositoryTests
 				It.IsAny<FilterDefinition<SolutionModel>>(),
 				It.IsAny<FindOptions<SolutionModel>>(),
 				It.IsAny<CancellationToken>()), Times.Once);
-
 	}
 
 	[Fact(DisplayName = "Up vote Solution With Valid Solution and User")]
@@ -256,7 +264,7 @@ public class SolutionRepositoryTests
 			Title = "Test Solution 1 updated",
 			Description = "A new test solution 1 updated",
 			DateCreated = expected.DateCreated,
-			Archived = expected.Archived,
+			Archived = expected.Archived
 		};
 
 		_list = new List<SolutionModel> { expected };
@@ -264,7 +272,7 @@ public class SolutionRepositoryTests
 		_cursor.Setup(_ => _.Current).Returns(_list);
 
 		_mockContext.Setup(c => c
-			.GetCollection<SolutionModel>(It.IsAny<string>()))
+				.GetCollection<SolutionModel>(It.IsAny<string>()))
 			.Returns(_mockCollection.Object);
 
 		SolutionRepository sut = SystemUnderTest();

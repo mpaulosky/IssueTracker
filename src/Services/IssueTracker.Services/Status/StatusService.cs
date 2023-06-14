@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     StatusService.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.Services
+// =============================================
 
 namespace IssueTracker.Services.Status;
 
@@ -60,19 +62,6 @@ public class StatusService : IStatusService
 	}
 
 	/// <summary>
-	///   DeleteStatus method
-	/// </summary>
-	/// <param name="status">StatusModel</param>
-	/// <returns>Task</returns>
-	/// <exception cref="ArgumentNullException"></exception>
-	public Task DeleteStatus(StatusModel status)
-	{
-		ArgumentNullException.ThrowIfNull(status);
-
-		return _repository.ArchiveAsync(status);
-	}
-
-	/// <summary>
 	///   GetStatus method
 	/// </summary>
 	/// <param name="statusId">string</param>
@@ -121,5 +110,18 @@ public class StatusService : IStatusService
 		ArgumentNullException.ThrowIfNull(status);
 
 		return _repository.UpdateAsync(status.Id, status);
+	}
+
+	/// <summary>
+	///   DeleteStatus method
+	/// </summary>
+	/// <param name="status">StatusModel</param>
+	/// <returns>Task</returns>
+	/// <exception cref="ArgumentNullException"></exception>
+	public Task DeleteStatus(StatusModel status)
+	{
+		ArgumentNullException.ThrowIfNull(status);
+
+		return _repository.ArchiveAsync(status);
 	}
 }

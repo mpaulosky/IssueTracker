@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     TestFixtures.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  TestingSupport.Library
+// =============================================
 
 using IssueTracker.CoreBusiness.Models;
 using IssueTracker.PlugIns.Contracts;
@@ -92,8 +94,7 @@ public static class TestFixtures
 
 		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return settings;
@@ -103,8 +104,7 @@ public static class TestFixtures
 	{
 		DatabaseSettings settings = new(connectionStrings, databaseName)
 		{
-			ConnectionStrings = connectionStrings,
-			DatabaseName = databaseName
+			ConnectionStrings = connectionStrings, DatabaseName = databaseName
 		};
 
 		return Options.Create(settings);

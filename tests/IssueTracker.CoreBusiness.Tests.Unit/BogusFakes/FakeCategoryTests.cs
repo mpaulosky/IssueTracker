@@ -1,9 +1,11 @@
-﻿// Copyright (c) 2023. All rights reserved.
+﻿// ============================================
+// Copyright (c) 2023. All rights reserved.
 // File Name :     FakeCategoryTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
+// =============================================
 
 using IssueTracker.CoreBusiness.Models;
 
@@ -44,7 +46,7 @@ public class FakeCategoryTests
 		const int expected = 5;
 
 		// Act
-		var result = FakeCategory.GetCategories().ToList();
+		List<CategoryModel> result = FakeCategory.GetCategories().ToList();
 
 		// Assert
 
