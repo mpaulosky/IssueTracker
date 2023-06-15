@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -20,68 +18,108 @@ public class FakeStatusTests
 	public void GetNewStatus_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
 		// Arrange
+
 		// Act
-		StatusModel result = FakeStatus.GetNewStatus(expected);
+		var result = FakeStatus.GetNewStatus(expected);
 
 		// Assert
-		switch (expected)
-		{
-			case true:
-				result.Id.Should().NotBeNull();
-				break;
-			default:
-				result.Id.Should().BeNullOrWhiteSpace();
-				break;
-		}
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeStatus.GetNewStatus(expected),
+			options => options.Excluding(t => t.Id));
 
-		result.StatusName.Should().NotBeNull();
-		result.StatusDescription.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
 	}
 
-	[Fact(DisplayName = "FakeStatus GetStatuses Existing Test")]
+	[Fact(DisplayName = "FakeStatus GetStatuses List Test")]
 	public void GetStatuses_With_No_Variable_Should_Return_A_List_Of_Statuses_Test()
 	{
 		// Arrange
-		const int expected = 4;
+		const int expectedCount = 4;
 
 		// Act
-		List<StatusModel> result = FakeStatus.GetStatuses().ToList();
+		var result = FakeStatus.GetStatuses();
 
 		// Assert
-		result.Count.Should().Be(expected);
-		result.First().Id.Should().NotBeNull();
-		result.First().StatusName.Should().Be("Answered");
-		result.First().StatusDescription.Should().Be("The issue was accepted and the corresponding item was created.");
-		result.First().Archived.Should().BeFalse();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeStatus.GetStatuses(),
+			options => options.Excluding(t => t.Id));
 	}
 
-	[Fact(DisplayName = "FakeStatus GetStatuses Test")]
-	public void GetStatuses_With_RequestForStatuses_Should_ReturnFakeStatuses_Test()
+	[Theory(DisplayName = "FakeStatus GetStatuses With Number Needed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetStatuses_With_NumberNeeded_Should_ReturnStatuses_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<StatusModel> result = FakeStatus.GetStatuses(1).ToList();
+		var result = FakeStatus.GetBasicStatuses(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().Id.Should().NotBeNull();
-		result.First().StatusName.Should().NotBeNull();
-		result.First().StatusDescription.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeStatus.GetBasicStatuses(expectedCount));
 	}
 
-	[Fact(DisplayName = "FakeStatus GetBasicStatuses Test")]
-	public void GetBasicStatuses_With_RequestForBasicStatuses_Should_ReturnFakeBasicStatuses_Test()
+
+	[Theory(DisplayName = "FakeStatus GetBasicStatuses Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicStatuses_With_RequestForBasicStatuses_Should_ReturnFakeBasicStatuses_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<BasicStatusModel> result = FakeStatus.GetBasicStatuses(1).ToList();
+		var result = FakeStatus.GetBasicStatuses(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().StatusName.Should().NotBeNull();
-		result.First().StatusDescription.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeStatus.GetBasicStatuses(expectedCount));
+	}
+
+	[Theory(DisplayName = "FakeStatus GetNewStatus With New Seed Tests")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewStatus_With_BooleanAndWithNewSeed_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeStatus.GetNewStatus(expected, true);
+
+		// Assert
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeStatus.GetNewStatus(expected, true),
+			options => options.Excluding(t => t.Id));
+
+	}
+
+	[Theory(DisplayName = "FakeStatus GetStatuses With Number Needed With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetStatuses_With_NumberNeededAndWithNewSeed_Should_ReturnStatuses_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeStatus.GetBasicStatuses(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeStatus.GetBasicStatuses(expectedCount, true));
+	}
+
+
+	[Theory(DisplayName = "FakeStatus GetBasicStatuses With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicStatuses_With_RequestForBasicStatusesWithNewSeed_Should_ReturnFakeBasicStatuses_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeStatus.GetBasicStatuses(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeStatus.GetBasicStatuses(expectedCount, true));
 	}
 }
