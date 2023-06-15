@@ -84,13 +84,7 @@ public class FakeSolutionTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeSolution.GetNewSolution(expected, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.Issue.Id)
-				.Excluding(t => t.Issue.Author.Id));
+		result.Should().NotBeEquivalentTo(FakeSolution.GetNewSolution(expected, true));
 	}
 
 	[Theory(DisplayName = "FakeSolution GetSolutions With New Seed Test")]
@@ -105,13 +99,7 @@ public class FakeSolutionTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeSolution.GetSolutions(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.Issue.Id)
-				.Excluding(t => t.Issue.Author.Id));
+		result.Should().NotBeEquivalentTo(FakeSolution.GetSolutions(expectedCount, true));
 	}
 
 	[Theory(DisplayName = "FakeSolution GetBasicSolutions With New Seed Test")]
@@ -126,11 +114,6 @@ public class FakeSolutionTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeSolution.GetBasicSolutions(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.Issue.Id)
-				.Excluding(t => t.Issue.Author.Id));
+		result.Should().NotBeEquivalentTo(FakeSolution.GetBasicSolutions(expectedCount, true));
 	}
 }

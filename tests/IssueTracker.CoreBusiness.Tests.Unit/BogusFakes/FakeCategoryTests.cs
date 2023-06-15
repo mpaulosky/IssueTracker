@@ -41,8 +41,7 @@ public class FakeCategoryTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeCategory.GetNewCategory(expected, true),
-			options => options.Excluding(t => t.Id));
+		result.Should().NotBeEquivalentTo(FakeCategory.GetNewCategory(expected, true));
 
 	}
 
@@ -75,7 +74,9 @@ public class FakeCategoryTests
 		// Assert
 		result.Count.Should().Be(countRequested);
 		result.Should().BeEquivalentTo(FakeCategory.GetCategories(countRequested),
-			options => options.Excluding(t => t.Id));
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.ArchivedBy.Id));
 	}
 
 	[Theory(DisplayName = "FakeCategory GetCategories Test with use new seed")]
@@ -90,8 +91,7 @@ public class FakeCategoryTests
 
 		// Assert
 		result.Count.Should().Be(countRequested);
-		result.Should().NotBeEquivalentTo(FakeCategory.GetCategories(countRequested),
-			options => options.Excluding(t => t.Id));
+		result.Should().NotBeEquivalentTo(FakeCategory.GetCategories(countRequested, true));
 	}
 
 	[Fact(DisplayName = "FakeCategory GetBasicCategory Test")]
@@ -119,6 +119,6 @@ public class FakeCategoryTests
 
 		// Assert
 		result.Count.Should().Be(countRequested);
-		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested));
+		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested, true));
 	}
 }

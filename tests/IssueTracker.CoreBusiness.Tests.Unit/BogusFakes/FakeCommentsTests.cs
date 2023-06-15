@@ -89,14 +89,7 @@ public class FakeCommentsTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeComment.GetNewComment(expected, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.CommentOnSource!.Id)
-				.Excluding(t => t.CommentOnSource!.DateCreated)
-				.Excluding(t => t.CommentOnSource!.Author!.Id));
+		result.Should().NotBeEquivalentTo(FakeComment.GetNewComment(expected, true));
 	}
 
 	[Theory(DisplayName = "FakeComment GetComments With New Seed Test")]
@@ -111,15 +104,7 @@ public class FakeCommentsTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeComment.GetComments(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.ArchivedBy.Id)
-				.Excluding(t => t.CommentOnSource!.Id)
-				.Excluding(t => t.CommentOnSource!.DateCreated)
-				.Excluding(t => t.CommentOnSource!.Author!.Id));
+		result.Should().NotBeEquivalentTo(FakeComment.GetComments(expectedCount, true));
 	}
 
 	[Theory(DisplayName = "FakeComment GetBasicComments With New Seed Test")]
@@ -134,13 +119,6 @@ public class FakeCommentsTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeComment.GetBasicComments(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.CommentOnSource.Id)
-				.Excluding(t => t.CommentOnSource.DateCreated)
-				.Excluding(t => t.CommentOnSource.Author!.Id));
+		result.Should().NotBeEquivalentTo(FakeComment.GetBasicComments(expectedCount, true));
 	}
 }

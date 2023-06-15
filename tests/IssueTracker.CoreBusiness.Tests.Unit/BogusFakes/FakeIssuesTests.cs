@@ -82,11 +82,7 @@ public class FakeIssuesTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeIssue.GetNewIssue(expected, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id));
+		result.Should().NotBeEquivalentTo(FakeIssue.GetNewIssue(expected, true));
 
 	}
 
@@ -102,12 +98,7 @@ public class FakeIssuesTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeIssue.GetIssues(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.ArchivedBy.Id));
+		result.Should().NotBeEquivalentTo(FakeIssue.GetIssues(expectedCount, true));
 	}
 
 	[Theory(DisplayName = "FakeIssue GetBasicIssues With New Seed Test")]
@@ -122,9 +113,6 @@ public class FakeIssuesTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeIssue.GetBasicIssues(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.Author.Id));
+		result.Should().NotBeEquivalentTo(FakeIssue.GetBasicIssues(expectedCount, true));
 	}
 }
