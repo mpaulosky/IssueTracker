@@ -82,7 +82,7 @@ public static class FakeStatus
 	/// <param name="numberOfStatuses">The number of statuses.</param>
 	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>A List of StatusModels</returns>
-	public static IEnumerable<StatusModel> GetStatuses(int numberOfStatuses, bool useNewSeed = false)
+	public static List<StatusModel> GetStatuses(int numberOfStatuses, bool useNewSeed = false)
 	{
 		var statuses = GenerateFake(useNewSeed).Generate(numberOfStatuses);
 

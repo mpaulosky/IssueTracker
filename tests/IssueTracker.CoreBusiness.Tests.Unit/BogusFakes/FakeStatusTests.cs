@@ -52,11 +52,12 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetBasicStatuses(expectedCount);
+		var result = FakeStatus.GetStatuses(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().BeEquivalentTo(FakeStatus.GetBasicStatuses(expectedCount));
+		result.Should().BeEquivalentTo(FakeStatus.GetStatuses(expectedCount),
+			options => options.Excluding(t => t.Id));
 	}
 
 
