@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -20,61 +18,113 @@ public class FakeIssuesTests
 	public void GetNewIssue_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
 		// Arrange
+
 		// Act
-		IssueModel result = FakeIssue.GetNewIssue(expected);
+		var result = FakeIssue.GetNewIssue(expected);
 
 		// Assert
-		switch (expected)
-		{
-			case true:
-				result.Id.Should().NotBeNull();
-				break;
-			default:
-				result.Id.Should().BeNullOrEmpty();
-				break;
-		}
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeIssue.GetNewIssue(expected),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id));
 
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Category.Should().NotBeNull();
-		result.IssueStatus.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
 	}
 
-	[Fact(DisplayName = "FakeIssue GetIssues Test")]
-	public void GetIssues_With_RequestForIssues_Should_ReturnFakeIssues_Test()
+	[Theory(DisplayName = "FakeIssue GetIssues Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetIssues_With_RequestForIssues_Should_ReturnFakeIssues_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<IssueModel> result = FakeIssue.GetIssues(1).ToList();
+		var result = FakeIssue.GetIssues(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().Id.Should().NotBeNull();
-		result.First().Title.Should().NotBeNull();
-		result.First().Description.Should().NotBeNull();
-		result.First().Category.Should().NotBeNull();
-		result.First().IssueStatus.Should().NotBeNull();
-		result.First().Author.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeIssue.GetIssues(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.ArchivedBy.Id));
 	}
 
-	[Fact(DisplayName = "FakeIssue GetBasicIssues Test")]
-	public void GetBasicIssues_With_RequestForBasicIssues_Should_ReturnFakeBasicIssues_Test()
+	[Theory(DisplayName = "FakeIssue GetBasicIssues Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicIssues_With_RequestForBasicIssues_Should_ReturnFakeBasicIssues_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<BasicIssueModel> result = FakeIssue.GetBasicIssues(1).ToList();
+		var result = FakeIssue.GetBasicIssues(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().Id.Should().NotBeNull();
-		result.First().Title.Should().NotBeNull();
-		result.First().Description.Should().NotBeNull();
-		result.First().Category.Should().NotBeNull();
-		result.First().Status.Should().NotBeNull();
-		result.First().Author.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeIssue.GetBasicIssues(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.Author.Id));
+	}
+
+	[Theory(DisplayName = "FakeIssue GetNewIssue With New Seed Tests")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewIssue_With_BooleanWithNewSeed_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeIssue.GetNewIssue(expected, true);
+
+		// Assert
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeIssue.GetNewIssue(expected, true),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id));
+
+	}
+
+	[Theory(DisplayName = "FakeIssue GetIssues With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetIssues_With_RequestForIssuesWithNewSeed_Should_ReturnFakeIssues_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeIssue.GetIssues(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeIssue.GetIssues(expectedCount, true),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.ArchivedBy.Id));
+	}
+
+	[Theory(DisplayName = "FakeIssue GetBasicIssues With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicIssues_With_RequestForBasicIssuesWithNewSeed_Should_ReturnFakeBasicIssues_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeIssue.GetBasicIssues(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeIssue.GetBasicIssues(expectedCount, true),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.Author.Id));
 	}
 }
