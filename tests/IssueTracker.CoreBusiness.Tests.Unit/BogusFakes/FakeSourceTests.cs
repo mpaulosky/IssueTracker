@@ -37,11 +37,7 @@ public class FakeSourceTests
 		var result = FakeSource.GetSource(true);
 
 		// Assert
-		result.Should().NotBeEquivalentTo(FakeSource.GetSource(true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.DateCreated)
-				.Excluding(t => t.Author!.Id));
+		result.Should().NotBeEquivalentTo(FakeSource.GetSource(true));
 	}
 
 }

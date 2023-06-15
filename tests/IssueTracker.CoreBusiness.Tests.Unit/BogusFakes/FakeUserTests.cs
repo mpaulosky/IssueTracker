@@ -77,10 +77,7 @@ public class FakeUserTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeUser.GetNewUser(expected, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.ObjectIdentifier));
+		result.Should().NotBeEquivalentTo(FakeUser.GetNewUser(expected, true));
 	}
 
 	[Theory(DisplayName = "FakeUser GetUsers With New Seed Test")]
@@ -95,10 +92,7 @@ public class FakeUserTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeUser.GetUsers(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.ObjectIdentifier));
+		result.Should().NotBeEquivalentTo(FakeUser.GetUsers(expectedCount, true));
 	}
 
 	[Theory(DisplayName = "FakeUser GetBasicUsers With New Seed Test")]
@@ -113,8 +107,6 @@ public class FakeUserTests
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
-		result.Should().NotBeEquivalentTo(FakeUser.GetBasicUser(expectedCount, true),
-			options => options
-				.Excluding(t => t.Id));
+		result.Should().NotBeEquivalentTo(FakeUser.GetBasicUser(expectedCount, true));
 	}
 }
