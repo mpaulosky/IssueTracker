@@ -74,9 +74,7 @@ public class FakeCategoryTests
 		// Assert
 		result.Count.Should().Be(countRequested);
 		result.Should().BeEquivalentTo(FakeCategory.GetCategories(countRequested),
-			options => options
-				.Excluding(t => t.Id)
-				.Excluding(t => t.ArchivedBy.Id));
+			options => options.Excluding(t => t.Id));
 	}
 
 	[Theory(DisplayName = "FakeCategory GetCategories Test with use new seed")]
@@ -119,6 +117,6 @@ public class FakeCategoryTests
 
 		// Assert
 		result.Count.Should().Be(countRequested);
-		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested, true));
+		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested));
 	}
 }
