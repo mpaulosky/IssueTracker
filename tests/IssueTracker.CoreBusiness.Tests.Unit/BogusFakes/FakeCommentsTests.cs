@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -21,73 +19,106 @@ public class FakeCommentsTests
 	{
 		// Arrange
 		// Act
-		CommentModel result = FakeComment.GetNewComment(expected);
+		var result = FakeComment.GetNewComment(expected);
 
 		// Assert
-		switch (expected)
-		{
-			case true:
-				result.Id.Should().NotBeNull();
-				break;
-			default:
-				result.Id.Should().BeNullOrWhiteSpace();
-				break;
-		}
-
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.CommentOnSource.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeComment.GetNewComment(expected),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.CommentOnSource!.Id)
+				.Excluding(t => t.CommentOnSource!.DateCreated)
+				.Excluding(t => t.CommentOnSource!.Author!.Id));
 	}
 
-	[Fact(DisplayName = "FakeComment GetComments Test")]
-	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test()
+	[Theory(DisplayName = "FakeComment GetComments Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetComments_With_RequestForComments_Should_ReturnFakeComments_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<CommentModel> result = FakeComment.GetComments(1).ToList();
+		var result = FakeComment.GetComments(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().Id.Should().NotBeNull();
-		result.First().Title.Should().NotBeNull();
-		result.First().Description.Should().NotBeNull();
-		result.First().CommentOnSource.Should().NotBeNull();
-		result.First().Author.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeComment.GetComments(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.ArchivedBy.Id)
+				.Excluding(t => t.CommentOnSource!.Id)
+				.Excluding(t => t.CommentOnSource!.DateCreated)
+				.Excluding(t => t.CommentOnSource!.Author!.Id));
 	}
 
-	[Fact(DisplayName = "FakeComment GetBasicComments Test")]
-	public void GetBasicComments_With_RequestForBasicComments_Should_ReturnFakeBasicComments_Test()
+	[Theory(DisplayName = "FakeComment GetBasicComments Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicComments_With_RequestForBasicComments_Should_ReturnFakeBasicComments_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<BasicCommentModel> result = FakeComment.GetBasicComments(1).ToList();
+		var result = FakeComment.GetBasicComments(expectedCount);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().Id.Should().NotBeNull();
-		result.First().Title.Should().NotBeNull();
-		result.First().Description.Should().NotBeNull();
-		result.First().Author.Should().NotBeNull();
-		result.First().CommentOnSource.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeComment.GetBasicComments(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.CommentOnSource.Id)
+				.Excluding(t => t.CommentOnSource.DateCreated)
+				.Excluding(t => t.CommentOnSource.Author!.Id));
 	}
 
-	[Fact(DisplayName = "FakeComment GetBasicComment Test")]
-	public void GetBasicComment_With_RequestForABasicComment_Should_ReturnAFakeBasicComment_Test()
+	[Theory(DisplayName = "FakeComments GetNewComment With New Seed Test")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewComment_With_Boolean_WithNewSeed_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+		// Arrange
+		// Act
+		var result = FakeComment.GetNewComment(expected, true);
+
+		// Assert
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeComment.GetNewComment(expected, true));
+	}
+
+	[Theory(DisplayName = "FakeComment GetComments With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetComments_With_RequestForCommentsWithNewSeed_Should_ReturnFakeComments_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		BasicCommentModel result = FakeComment.GetBasicComments(1).First();
+		var result = FakeComment.GetComments(expectedCount, true);
 
 		// Assert
-		result.Id.Should().NotBeNull();
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.CommentOnSource.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeComment.GetComments(expectedCount, true));
+	}
+
+	[Theory(DisplayName = "FakeComment GetBasicComments With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicComments_With_RequestForBasicCommentsWithNewSeed_Should_ReturnFakeBasicComments_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeComment.GetBasicComments(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeComment.GetBasicComments(expectedCount, true));
 	}
 }

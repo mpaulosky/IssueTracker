@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -20,58 +18,95 @@ public class FakeUserTests
 	public void GetNewUser_With_Boolean_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
 		// Arrange
+
 		// Act
 		UserModel result = FakeUser.GetNewUser(expected);
 
 		// Assert
-		switch (expected)
-		{
-			case true:
-				result.Id.Should().NotBeNull();
-				break;
-			default:
-				result.Id.Should().BeNullOrWhiteSpace();
-				break;
-		}
-
-		result.FirstName.Should().NotBeNull();
-		result.LastName.Should().NotBeNull();
-		result.DisplayName.Should().NotBeNull();
-		result.EmailAddress.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeUser.GetNewUser(expected),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.ObjectIdentifier));
 	}
 
-	[Fact(DisplayName = "FakeUser GetUsers Test")]
-	public void GetUser_WhenUserRequested_Returns_FakeUser_Test()
+	[Theory(DisplayName = "FakeUser GetUsers Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetUser_WhenUserRequested_Returns_FakeUser_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<UserModel> sut = FakeUser.GetUsers(1).ToList();
+		var result = FakeUser.GetUsers(expectedCount);
 
 		// Assert
-		sut.Count.Should().Be(1);
-		sut.First().Id.Should().NotBeNull();
-		sut.First().FirstName.Should().NotBeNull();
-		sut.First().LastName.Should().NotBeNull();
-		sut.First().DisplayName.Should().NotBeNull();
-		sut.First().EmailAddress.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeUser.GetUsers(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.ObjectIdentifier));
 	}
 
-	[Fact(DisplayName = "FakeUser GetBasicUser Test")]
-	public void GetBasicUser_WhenBasicUserRequested_Returns_FakeBasicUser_Test()
+	[Theory(DisplayName = "FakeUser GetBasicUsers Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicUser_WhenBasicUserRequested_Returns_FakeBasicUser_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		List<BasicUserModel> sut = FakeUser.GetBasicUser(1).ToList();
+		var result = FakeUser.GetBasicUser(expectedCount);
 
 		// Assert
-		sut.Count.Should().Be(1);
-		sut.First().Id.Should().NotBeNull();
-		sut.First().FirstName.Should().NotBeNull();
-		sut.First().LastName.Should().NotBeNull();
-		sut.First().DisplayName.Should().NotBeNull();
-		sut.First().EmailAddress.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeUser.GetBasicUser(expectedCount),
+			options => options
+				.Excluding(t => t.Id));
+	}
+
+	[Theory(DisplayName = "FakeUser GetNewUser With New Seed Tests")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewUser_With_BooleanAndWithNewSeed_Should_Return_With_Or_Without_An_Id_Test(bool expected)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeUser.GetNewUser(expected, true);
+
+		// Assert
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeUser.GetNewUser(expected, true));
+	}
+
+	[Theory(DisplayName = "FakeUser GetUsers With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetUser_With_NumberRequestedAndWithNewSeed_Returns_FakeUser_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeUser.GetUsers(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeUser.GetUsers(expectedCount, true));
+	}
+
+	[Theory(DisplayName = "FakeUser GetBasicUsers With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicUser_With_NumberRequestedAndWithNewSeed_Returns_FakeBasicUser_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeUser.GetBasicUser(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeUser.GetBasicUser(expectedCount, true));
 	}
 }

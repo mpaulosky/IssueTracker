@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -20,12 +18,26 @@ public class FakeSourceTests
 		// Arrange
 
 		// Act
-		BasicCommentOnSourceModel result = FakeSource.GetSource();
+		var result = FakeSource.GetSource();
 
 		// Assert
-		result.Id.Should().NotBeNull();
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
+		result.Should().BeEquivalentTo(FakeSource.GetSource(),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author!.Id));
 	}
+
+	[Fact(DisplayName = "FakeSource GetSource With New Seed Test")]
+	public void GetSource_With_RequestForFakeSourceWithNewSeed_Should_Return_AValidBasicCommentSourceModel_Test()
+	{
+		// Arrange
+
+		// Act
+		var result = FakeSource.GetSource(true);
+
+		// Assert
+		result.Should().NotBeEquivalentTo(FakeSource.GetSource(true));
+	}
+
 }

@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -22,82 +20,105 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		CategoryModel result = FakeCategory.GetNewCategory(expected);
+		var result = FakeCategory.GetNewCategory(expected);
 
 		// Assert
-		if (expected)
-		{
-			result.Id.Should().NotBeNull();
-		}
-		else
-		{
-			result.Id.Should().BeEmpty();
-		}
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeCategory.GetNewCategory(expected),
+			options => options.Excluding(t => t.Id));
+	}
 
-		result.CategoryName.Should().NotBeNull();
-		result.CategoryDescription.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
+	[Theory(DisplayName = "FakeCategory GetNewCategory With New Seed Test")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewCategory_With_UsingNewSeedSetTrue_Should_ReturnRandomValues_Test(bool expected)
+	{
+		// Arrange
+
+		// Act
+		CategoryModel result = FakeCategory.GetNewCategory(expected, true);
+
+
+		// Assert
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeCategory.GetNewCategory(expected, true));
+
 	}
 
 	[Fact(DisplayName = "FakeCategory GetCategories Existing Test")]
 	public void GetCategories_With_No_Variable_Should_Return_A_List_Of_Categories_Test()
 	{
 		// Arrange
-		const int expected = 5;
+		const int excludingCount = 5;
 
 		// Act
-		List<CategoryModel> result = FakeCategory.GetCategories().ToList();
+		var result = FakeCategory.GetCategories();
 
 		// Assert
 
-		result.Count.Should().Be(expected);
-		result.First().Id.Should().NotBeNull();
-		result.First().CategoryName.Should().Be("Design");
-		result.First().CategoryDescription.Should().Be("An Issue with the design.");
-		result.First().Archived.Should().BeFalse();
+		result.Count.Should().Be(excludingCount);
+		result.Should().BeEquivalentTo(FakeCategory.GetCategories(),
+			options => options.Excluding(t => t.Id));
 	}
 
 	[Theory(DisplayName = "FakeCategory GetCategories Test")]
 	[InlineData(1)]
-	[InlineData(2)]
+	[InlineData(5)]
 	public void GetCategories_With_RequestForCategories_Should_ReturnFakeCategories_Test(int countRequested)
 	{
 		// Arrange
 
 		// Act
-		List<CategoryModel> result = FakeCategory.GetCategories(countRequested).ToList();
+		var result = FakeCategory.GetCategories(countRequested);
 
 		// Assert
 		result.Count.Should().Be(countRequested);
-		result.First().Id.Should().NotBeNull();
-		result.First().CategoryName.Should().NotBeNull();
-		result.First().CategoryDescription.Should().NotBeNull();
+		result.Should().BeEquivalentTo(FakeCategory.GetCategories(countRequested),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.ArchivedBy.Id));
+	}
+
+	[Theory(DisplayName = "FakeCategory GetCategories Test with use new seed")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetCategories_With_UseNewSeed_Should_ReturnFakeCategoriesThatAreDifferent_Test(int countRequested)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeCategory.GetCategories(countRequested, true);
+
+		// Assert
+		result.Count.Should().Be(countRequested);
+		result.Should().NotBeEquivalentTo(FakeCategory.GetCategories(countRequested, true));
 	}
 
 	[Fact(DisplayName = "FakeCategory GetBasicCategory Test")]
 	public void GetBasicCategories_With_RequestForBasicCategories_Should_ReturnFakeBasicCategories_Test()
 	{
 		// Arrange
+		const int countRequested = 1;
 
 		// Act
-		List<BasicCategoryModel> result = FakeCategory.GetBasicCategories(1).ToList();
+		var result = FakeCategory.GetBasicCategories(countRequested);
 
 		// Assert
-		result.Count.Should().Be(1);
-		result.First().CategoryName.Should().NotBeNull();
-		result.First().CategoryDescription.Should().NotBeNull();
+		result.Count.Should().Be(countRequested);
+		result.Should().BeEquivalentTo(FakeCategory.GetBasicCategories(countRequested));
 	}
 
-	[Fact(DisplayName = "FakeCategory GetBasicCategory Test")]
-	public void GetBasicCategory_With_RequestForABasicCategory_Should_ReturnAFakeBasicCategory_Test()
+	[Fact(DisplayName = "FakeCategory GetBasicCategory Test With Use New Seed")]
+	public void GetBasicCategories_With_UseNewSeed_Should_ReturnFakeBasicCategories_Test()
 	{
 		// Arrange
+		const int countRequested = 1;
 
 		// Act
-		BasicCategoryModel result = FakeCategory.GetBasicCategory();
+		var result = FakeCategory.GetBasicCategories(countRequested, true);
 
 		// Assert
-		result.CategoryName.Should().NotBeNull();
-		result.CategoryDescription.Should().NotBeNull();
+		result.Count.Should().Be(countRequested);
+		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested));
 	}
 }

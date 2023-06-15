@@ -7,8 +7,6 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
-using IssueTracker.CoreBusiness.Models;
-
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -21,76 +19,101 @@ public class FakeSolutionTests
 	{
 		// Arrange
 		// Act
-		SolutionModel result = FakeSolution.GetNewSolution(expected);
+		var result = FakeSolution.GetNewSolution(expected);
 
 		// Assert
-		switch (expected)
-		{
-			case true:
-				result.Id.Should().NotBeEmpty();
-				break;
-			default:
-				result.Id.Should().BeEmpty();
-				break;
-		}
-
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Issue.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().BeEquivalentTo(FakeSolution.GetNewSolution(expected),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.Issue.Author.Id));
 	}
 
-	[Fact(DisplayName = "FakeSolution GetNewSolution Test")]
-	public void GetNewSolution_With_Empty_Value_Should_Return_WithOut_Id_Test()
+	[Theory(DisplayName = "FakeSolution GetSolutions Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetSolutions_With_An_Int_Value_Should_Return_Multiple_Solutions_Test(int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		SolutionModel result = FakeSolution.GetNewSolution();
+		var result = FakeSolution.GetSolutions(expectedCount);
 
 		// Assert
-		result.Id.Should().BeEmpty();
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Issue.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.Archived.Should().BeFalse();
-		result.UserVotes.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeSolution.GetSolutions(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.Issue.Author.Id));
 	}
 
-	[Fact(DisplayName = "FakeSolution GetSolutions Test")]
-	public void GetSolutions_With_An_Int_Value_Should_Return_Multiple_Solutions_Test()
+	[Theory(DisplayName = "FakeSolution GetBasicSolutions Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicSolutions_With_IntValue_Should_ReturnSameModelsTest(int expectedCount)
 	{
 		// Arrange
-		const int numberOfSolutions = 1;
 
 		// Act
-		SolutionModel result = FakeSolution.GetSolutions(numberOfSolutions).First();
+		var result = FakeSolution.GetBasicSolutions(expectedCount);
 
 		// Assert
-		result.Id.Should().NotBeNull();
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Issue.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
-		result.UserVotes.Should().NotBeNull();
+		result.Count.Should().Be(expectedCount);
+		result.Should().BeEquivalentTo(FakeSolution.GetBasicSolutions(expectedCount),
+			options => options
+				.Excluding(t => t.Id)
+				.Excluding(t => t.Author.Id)
+				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.Issue.Author.Id));
 	}
 
-	[Fact(DisplayName = "FakeSolution GetBasicSolutions Test")]
-	public void GetBasicSolutions_StateUnderTest_ExpectedBehavior()
+	[Theory(DisplayName = "FakeSolution GetNewSolution With New Seed Tests")]
+	[InlineData(true)]
+	[InlineData(false)]
+	public void GetNewSolution_With_BooleanWithNewSeed_Should_Return_With_Or_Without_An_Id_Test(bool expected)
 	{
 		// Arrange
-		const int numberOfSolutions = 1;
-
 		// Act
-		BasicSolutionModel result = FakeSolution.GetBasicSolutions(numberOfSolutions).First();
+		var result = FakeSolution.GetNewSolution(expected, true);
 
 		// Assert
-		result.Id.Should().NotBeNull();
-		result.Title.Should().NotBeNull();
-		result.Description.Should().NotBeNull();
-		result.Issue.Should().NotBeNull();
-		result.Author.Should().NotBeNull();
+		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+		result.Should().NotBeEquivalentTo(FakeSolution.GetNewSolution(expected, true));
+	}
+
+	[Theory(DisplayName = "FakeSolution GetSolutions With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetSolutions_With_An_Int_ValueWithNewSeed_Should_Return_Multiple_Solutions_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeSolution.GetSolutions(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeSolution.GetSolutions(expectedCount, true));
+	}
+
+	[Theory(DisplayName = "FakeSolution GetBasicSolutions With New Seed Test")]
+	[InlineData(1)]
+	[InlineData(5)]
+	public void GetBasicSolutions_WithNewSeed_Should_ReturnRandomModels_Test(int expectedCount)
+	{
+		// Arrange
+
+		// Act
+		var result = FakeSolution.GetBasicSolutions(expectedCount, true);
+
+		// Assert
+		result.Count.Should().Be(expectedCount);
+		result.Should().NotBeEquivalentTo(FakeSolution.GetBasicSolutions(expectedCount, true));
 	}
 }
