@@ -13,13 +13,13 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/mpaulosky/issuetracker?label=pull%20requests%20main&logo=github)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mpaulosky/issuetracker?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/main?label=last%20commit%20main&logo=github)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/dev?label=last%20commit%20dev&logo=github)
 
 ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/IssueTracker/dotnet.yml?branch=main&label=Build%20%26%20Test%20main&logo=github)
 [![Build and Test dev](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnetdev.yml/badge.svg?branch=dev)](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnetdev.yml)
 
 [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
 [![CodeQL main](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml?branch=main)
-[![Lint Code Main](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter-main.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/super-linter-main.yml)
 
 ****
 
