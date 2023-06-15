@@ -14,32 +14,15 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 /// </summary>
 public static class FakeSolution
 {
-	private static Faker<SolutionModel>? _solutionGenerator;
-
-	private static void SetupGenerator()
-	{
-		Randomizer.Seed = new Random(123);
-
-		_solutionGenerator = new Faker<SolutionModel>()
-			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
-			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
-			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
-			.RuleFor(f => f.DateCreated, f => f.Date.Past())
-			.RuleFor(f => f.Issue, FakeIssue.GetBasicIssues(1).First())
-			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
-			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
 	/// <summary>
 	///   Gets a new solution.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>SolutionModel</returns>
-	public static SolutionModel GetNewSolution(bool keepId = false)
+	public static SolutionModel GetNewSolution(bool keepId = false, bool useNewSeed = false)
 	{
-		SetupGenerator();
-
-		SolutionModel? solution = _solutionGenerator!.Generate();
+		var solution = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -55,16 +38,15 @@ public static class FakeSolution
 	///   Gets a list of solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
-	/// <returns>IEnumerable List of SolutionModel</returns>
-	public static IEnumerable<SolutionModel> GetSolutions(int numberOfSolutions)
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A List of SolutionModel</returns>
+	public static List<SolutionModel> GetSolutions(int numberOfSolutions, bool useNewSeed = false)
 	{
-		SetupGenerator();
+		var solutions = GenerateFake(useNewSeed).Generate(numberOfSolutions);
 
-		List<SolutionModel>? solutions = _solutionGenerator!.Generate(numberOfSolutions);
-
-		foreach (SolutionModel? item in solutions.Where(x => x.Archived))
+		foreach (var solution in solutions.Where(x => x.Archived))
 		{
-			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+			solution.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
 		}
 
 		return solutions;
@@ -74,16 +56,36 @@ public static class FakeSolution
 	///   Gets a list of basic solutions.
 	/// </summary>
 	/// <param name="numberOfSolutions">The number of solutions.</param>
-	/// <returns>IEnumerable List of BasicSolutionModel</returns>
-	public static IEnumerable<BasicSolutionModel> GetBasicSolutions(int numberOfSolutions)
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A List of BasicSolutionModel</returns>
+	public static List<BasicSolutionModel> GetBasicSolutions(int numberOfSolutions, bool useNewSeed = false)
 	{
-		SetupGenerator();
+		var solutions = GenerateFake(useNewSeed).Generate(numberOfSolutions);
 
-		IEnumerable<SolutionModel> solutions = GetSolutions(numberOfSolutions);
+		return solutions.Select(c => new BasicSolutionModel(c)).ToList();
+	}
 
-		IEnumerable<BasicSolutionModel> basicSolutions =
-			solutions.Select(c => new BasicSolutionModel(c));
+	/// <summary>
+	/// GenerateFake method
+	/// </summary>
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A Faker SolutionModel</returns>
+	private static Faker<SolutionModel> GenerateFake(bool useNewSeed = false)
+	{
+		var seed = 0;
+		if (useNewSeed)
+		{
+			seed = Random.Shared.Next(10, int.MaxValue);
+		}
 
-		return basicSolutions;
+		return new Faker<SolutionModel>()
+			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
+			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
+			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
+			.RuleFor(f => f.DateCreated, f => f.Date.Past())
+			.RuleFor(f => f.Issue, FakeIssue.GetBasicIssues(1).First())
+			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
+			.RuleFor(f => f.Archived, f => f.Random.Bool())
+			.UseSeed(seed);
 	}
 }

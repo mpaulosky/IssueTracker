@@ -14,35 +14,15 @@ namespace IssueTracker.CoreBusiness.BogusFakes;
 /// </summary>
 public static class FakeIssue
 {
-	private static Faker<IssueModel>? _issueGenerator;
-
-	private static void SetupGenerator()
-	{
-		Randomizer.Seed = new Random(123);
-
-		_issueGenerator = new Faker<IssueModel>()
-			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
-			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
-			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
-			.RuleFor(f => f.DateCreated, f => f.Date.Past())
-			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
-			.RuleFor(f => f.Rejected, f => f.Random.Bool())
-			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
-			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
-			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
-			.RuleFor(f => f.Archived, f => f.Random.Bool());
-	}
-
 	/// <summary>
 	///   Gets the new issue.
 	/// </summary>
 	/// <param name="keepId">bool whether to keep the generated Id</param>
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>IssueModel</returns>
-	public static IssueModel GetNewIssue(bool keepId = false)
+	public static IssueModel GetNewIssue(bool keepId = false, bool useNewSeed = false)
 	{
-		SetupGenerator();
-
-		IssueModel? issue = _issueGenerator!.Generate();
+		var issue = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -51,15 +31,9 @@ public static class FakeIssue
 
 		issue.Archived = false;
 
-		StatusModel status = new()
-		{
-			Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
-			StatusName = "InWork",
-			StatusDescription = "The issue was accepted and it is in work.",
-			Archived = false
-		};
+		var statuses = FakeStatus.GetStatuses();
 
-		issue.IssueStatus = new BasicStatusModel(status);
+		issue.IssueStatus = new BasicStatusModel(statuses[2]);
 
 		return issue;
 	}
@@ -68,16 +42,15 @@ public static class FakeIssue
 	///   Gets the issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
-	/// <returns>IEnumerable List of IssueModels</returns>
-	public static IEnumerable<IssueModel> GetIssues(int numberOfIssues)
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A List of IssueModels</returns>
+	public static List<IssueModel> GetIssues(int numberOfIssues, bool useNewSeed = false)
 	{
-		SetupGenerator();
+		var issues = GenerateFake(useNewSeed).Generate(numberOfIssues);
 
-		List<IssueModel>? issues = _issueGenerator!.Generate(numberOfIssues);
-
-		foreach (IssueModel? item in issues.Where(x => x.Archived))
+		foreach (var issue in issues.Where(x => x.Archived))
 		{
-			item.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
+			issue.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser(true));
 		}
 
 		return issues;
@@ -87,16 +60,39 @@ public static class FakeIssue
 	///   Gets a list of basic issues.
 	/// </summary>
 	/// <param name="numberOfIssues">The number of issues.</param>
-	/// <returns>IEnumerable List of BasicIssueModels</returns>
-	public static IEnumerable<BasicIssueModel> GetBasicIssues(int numberOfIssues)
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A List of BasicIssueModels</returns>
+	public static List<BasicIssueModel> GetBasicIssues(int numberOfIssues, bool useNewSeed = false)
 	{
-		SetupGenerator();
+		List<IssueModel> issues = GenerateFake(useNewSeed).Generate(numberOfIssues);
 
-		IEnumerable<IssueModel> issues = GetIssues(numberOfIssues);
+		return issues.Select(c => new BasicIssueModel(c)).ToList();
+	}
 
-		IEnumerable<BasicIssueModel> basicIssues =
-			issues.Select(c => new BasicIssueModel(c));
+	/// <summary>
+	/// GenerateFake method
+	/// </summary>
+	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
+	/// <returns>A Faker IssueModel</returns>
+	private static Faker<IssueModel> GenerateFake(bool useNewSeed = false)
+	{
+		var seed = 0;
+		if (useNewSeed)
+		{
+			seed = Random.Shared.Next(10, int.MaxValue);
+		}
 
-		return basicIssues;
+		return new Faker<IssueModel>()
+			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
+			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
+			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
+			.RuleFor(f => f.DateCreated, f => f.Date.Past())
+			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
+			.RuleFor(f => f.Rejected, f => f.Random.Bool())
+			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
+			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())
+			.RuleFor(f => f.IssueStatus, FakeStatus.GetBasicStatuses(1).First())
+			.RuleFor(f => f.Archived, f => f.Random.Bool())
+			.UseSeed(seed);
 	}
 }
