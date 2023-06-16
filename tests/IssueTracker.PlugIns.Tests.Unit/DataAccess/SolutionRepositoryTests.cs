@@ -229,6 +229,7 @@ public class SolutionRepositoryTests
 		// Arrange
 		const int expectedCount = 1;
 		SolutionModel expected = FakeSolution.GetNewSolution(true);
+		expected.UserVotes.Clear();
 
 		_list = new List<SolutionModel> { expected };
 
@@ -295,6 +296,7 @@ public class SolutionRepositoryTests
 	{
 		// Arrange
 		SolutionModel expected = FakeSolution.GetNewSolution(true);
+		expected.UserVotes.Clear();
 
 		UserModel user = FakeUser.GetNewUser(true);
 		_users = new List<UserModel> { user };

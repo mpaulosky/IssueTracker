@@ -10,6 +10,7 @@
 using IssueTracker.Services.Category;
 using IssueTracker.Services.Comment;
 using IssueTracker.Services.Issue;
+using IssueTracker.Services.Solution;
 using IssueTracker.Services.Status;
 using IssueTracker.Services.User;
 
@@ -32,6 +33,7 @@ public static partial class ServiceCollectionExtensions
 		services.AddSingleton<IStatusService, StatusService>();
 		services.AddSingleton<IIssueService, IssueService>();
 		services.AddSingleton<IUserService, UserService>();
+		services.AddSingleton<ISolutionService, SolutionService>();
 
 		return services;
 	}

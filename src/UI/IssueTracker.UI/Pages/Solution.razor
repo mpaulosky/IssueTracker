@@ -8,13 +8,38 @@
 @inject ISolutionService SolutionService
 @inject IIssueService IssueService
 
+<h1 class="page-heading text-light text-uppercase mb-4">Provide a Solution to an Issue</h1>
+<div class="issue-container">
+	<button id="create-comment" @onclick="() => OpenCommentForm(_issue!)"
+					class="suggest-btn btn btn-outline-light btn-lg text-uppercase">
+		Add Comment
+	</button>
+</div>
 
-<h1 class="page-heading text-light text-uppercase mb-4">Solution to an Issue</h1>
-
-<div class="row justify-content-center create-form">
-	<div class="col-xl-8 col-lg-10 form-layout">
-		<div class="close-button-section">
-			<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
-		</div>
+<div class="form-layout mb-3">
+	<div class="close-button-section">
+		<button id="close-page" class="btn btn-close" @onclick="ClosePage"></button>
 	</div>
+	@if (_issue is not null)
+	{
+		<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser" />
+
+		<EditForm Model="_solution" OnValidSubmit="CreateSolution">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+			<div class="input-section">
+				<label class="form-label fw-bold text-uppercase" for="title">Title of the Solution</label>
+				<div class="input-description">Brief title of the Solution.</div>
+				<InputTextArea class="form-control" id="title" @bind-Value="_solution.Title" />
+			</div>
+			<div class="input-section">
+				<label class="form-label fw-bold text-uppercase" for="desc">Give a solution for the issue.</label>
+				<div class="input-description">Give, in full your solution.</div>
+				<InputTextArea class="form-control" id="desc" @bind-Value="_solution.Description" />
+			</div>
+			<div class="center-children">
+				<button id="submit-solution" class="btn btn-main btn-lg text-uppercase" type="submit">Create Solution</button>
+			</div>
+		</EditForm>
+	}
 </div>

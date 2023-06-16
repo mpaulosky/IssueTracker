@@ -85,7 +85,13 @@ public static class FakeSolution
 			.RuleFor(f => f.DateCreated, f => f.Date.Past())
 			.RuleFor(f => f.Issue, FakeIssue.GetBasicIssues(1).First())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
+			.RuleFor(f => f.UserVotes, GenerateHashSet())
 			.RuleFor(f => f.Archived, f => f.Random.Bool())
 			.UseSeed(seed);
+	}
+
+	private static HashSet<string> GenerateHashSet()
+	{
+		return new HashSet<string> { FakeUser.GetNewUser(true).Id };
 	}
 }

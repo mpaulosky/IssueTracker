@@ -65,6 +65,67 @@ public class CommentTests : TestContext
 			.WithMessage(expectedMessage);
 	}
 
+	[Fact(DisplayName = "Comment With Valid User Should Display Markup")]
+	public void Comment_With_ValidUser_Should_DisplayMarkup_TestAsync()
+	{
+		// Arrange
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Comment> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		// Assert
+		cut.MarkupMatches
+		(
+			"""
+			<h1 class="page-heading text-light text-uppercase mb-4">Comment on an Issue</h1>
+			<div class="row justify-content-center create-form">
+			  <div class="col-xl-8 col-lg-10 form-layout">
+			    <div class="row issue-detail-row">
+			      <div class="col-11 issue-detail">
+			        <div>
+			          <div class="issue-detail-date">
+				          <div diff:ignore></div>
+			          </div>
+			        </div>
+			        <div class="issue-detail-text">
+				        <div diff:ignore></div>
+				        <div diff:ignore></div>
+				        <div diff:ignore></div>
+			          <div class="suggestion-entry-text-category d-none d-md-block">Clarification</div>
+			        </div>
+			      </div>
+			      <div class="col-1 close-button-section">
+			        <button id="close-page" class="btn btn-close" ></button>
+			      </div>
+			    </div>
+			    <div class="row d-block d-md-none">
+			      <div class="issue-detail-text">
+				      <div diff:ignore></div>
+			        <div class="text-category">Clarification</div>
+			      </div>
+			    </div>
+			    <form >
+			      <div class="input-section">
+			        <label class="form-label fw-bold text-uppercase" for="title">Title of the Comment</label>
+			        <div class="input-description">Brief title of the Comment.</div>
+			        <textarea id="title" class="form-control valid"  ></textarea>
+			      </div>
+			      <div class="input-section">
+			        <label class="form-label fw-bold text-uppercase" for="desc">Comment On the Issue</label>
+			        <div class="input-description">Give, in full your comments.</div>
+			        <textarea id="desc" class="form-control valid"  ></textarea>
+			      </div>
+			      <div class="center-children">
+			        <button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Create Comment</button>
+			      </div>
+			    </form>
+			  </div>
+			</div>
+			"""
+		);
+	}
+
 	[Fact]
 	public void Comment_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialize_Test()
 	{

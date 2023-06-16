@@ -7,7 +7,6 @@
 // Project Name :  IssueTracker.UI.Tests.Unit
 // =============================================
 
-using IssueTracker.Services.Solution;
 using IssueTracker.Services.Solution.Interface;
 
 namespace IssueTracker.UI.Pages;
@@ -69,6 +68,25 @@ public class SolutionTests : TestContext
 			.WithMessage(expectedMessage);
 	}
 
+	[Fact]
+	public void Solution_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialize_Test()
+	{
+		// Arrange
+		const string expectedParamName = "issueId";
+		const string expectedMessage = "Value cannot be null.?*";
+
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		Func<IRenderedComponent<Solution>> cut = () => ComponentUnderTest(null);
+
+		// Assert
+		cut.Should()
+			.Throw<ArgumentNullException>()
+			.WithParameterName(expectedParamName)
+			.WithMessage(expectedMessage);
+	}
+
 	[Fact(DisplayName = "Solution With Valid User Should Display Markup")]
 	public void Solution_With_ValidUser_Should_DisplayMarkup_TestAsync()
 	{
@@ -82,13 +100,45 @@ public class SolutionTests : TestContext
 		cut.MarkupMatches
 		(
 			"""
-				<h1 class="page-heading text-light text-uppercase mb-4">Solution to an Issue</h1>
-			<div class="row justify-content-center create-form">
-				<div class="col-xl-8 col-lg-10 form-layout">
-					<div class="close-button-section">
-						<button id="close-page" class="btn btn-close"></button>
-					</div>
+			<h1 class="page-heading text-light text-uppercase mb-4" >Provide a Solution to an Issue</h1>
+			<div class="issue-container" >
+				<button id="create-comment"  class="suggest-btn btn btn-outline-light btn-lg text-uppercase" >
+					Add Comment
+				</button>
+			</div>
+			<div class="form-layout mb-3" >
+				<div class="close-button-section" >
+				 <button id="close-page" class="btn btn-close"  ></button>
 				</div>
+				<div class="issue-item-container" >
+				 <div class="issue-entry-category issue-entry-category-clarification" >
+				   <div class="issue-entry-category-text"  >Clarification</div>
+				 </div>
+				 <div class="issue-entry-text" >
+					 <div diff:ignore></div>
+					 <div diff:ignore></div>
+				   <div class="issue-entry-bottom" >
+					   <div diff:ignore></div>
+					   <div diff:ignore></div>
+				   </div>
+				 </div>
+				 <div class:ignore >
+					 <div diff:ignore></div>
+				 </div>
+				</div>
+				<form >
+					<div class="input-section" >
+						<label class="form-label fw-bold text-uppercase" for="title" >Title of the Solution</label>
+						<div class="input-description" >Brief title of the Solution.</div>
+						<textarea id="title" class="form-control valid"  ></textarea>
+					</div>
+					<div class="input-section" >
+						<label class="form-label fw-bold text-uppercase" for="desc" >Give a solution for the issue.</label>
+						<div class="input-description" >Give, in full your solution.</div>
+							<textarea id="desc" class="form-control valid"  ></textarea>
+						</div>
+					<div diff:ignore></div>
+				</form>
 			</div>
 			"""
 		);
@@ -111,6 +161,25 @@ public class SolutionTests : TestContext
 		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
+	}
+
+	[Fact]
+	public void Solution_With_ValidComment_Should_SaveTheSolution_Test()
+	{
+		// Arrange
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Solution> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		cut.Find("#title").Change("Test Solution");
+		cut.Find("#desc").Change("Test Description");
+		cut.Find("#submit-solution").Click();
+
+		// Assert
+		_solutionRepositoryMock
+			.Verify(x =>
+				x.CreateAsync(It.IsAny<SolutionModel>()), Times.Once);
 	}
 
 	private void SetupMocks()

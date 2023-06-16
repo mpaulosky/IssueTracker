@@ -30,6 +30,7 @@ global using IssueTracker.Services.Comment.Interface;
 global using IssueTracker.Services.Issue;
 global using IssueTracker.Services.Issue.Interface;
 global using IssueTracker.Services.PlugInRepositoryInterfaces;
+global using IssueTracker.Services.Solution;
 global using IssueTracker.Services.Status;
 global using IssueTracker.Services.Status.Interface;
 global using IssueTracker.Services.User;
