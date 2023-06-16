@@ -18,6 +18,7 @@ public static partial class ServiceCollectionExtensions
 		services.AddTransient<IIssueRepository, IssueRepository>();
 		services.AddTransient<IStatusRepository, StatusRepository>();
 		services.AddTransient<IUserRepository, UserRepository>();
+		services.AddTransient<ISolutionRepository, SolutionRepository>();
 
 		return services;
 	}

@@ -29,6 +29,7 @@ public class FakeSolutionTests
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id)
 				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.UserVotes)
 				.Excluding(t => t.Issue.Author.Id));
 	}
 
@@ -50,6 +51,7 @@ public class FakeSolutionTests
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id)
 				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.UserVotes)
 				.Excluding(t => t.Issue.Author.Id));
 	}
 
