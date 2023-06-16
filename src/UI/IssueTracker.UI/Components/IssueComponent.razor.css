@@ -1,4 +1,6 @@
-﻿.issue-item-container {
+﻿/* IssueComponent.razor.css */
+
+.issue-item-container {
 	display: grid;
 	grid-template-columns: 45px 1fr 45px;
 	border-radius: 20px;

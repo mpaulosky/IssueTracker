@@ -79,33 +79,32 @@ public class CommentTests : TestContext
 		(
 			"""
 			<h1 class="page-heading text-light text-uppercase mb-4">Comment on an Issue</h1>
-			<div class="row justify-content-center create-form">
-			  <div class="col-xl-8 col-lg-10 form-layout">
-			    <div class="row issue-detail-row">
-			      <div class="col-11 issue-detail">
-			        <div>
-			          <div class="issue-detail-date">
-				          <div diff:ignore></div>
-			          </div>
-			        </div>
-			        <div class="issue-detail-text">
-				        <div diff:ignore></div>
-				        <div diff:ignore></div>
-				        <div diff:ignore></div>
-			          <div class="suggestion-entry-text-category d-none d-md-block">Clarification</div>
-			        </div>
-			      </div>
-			      <div class="col-1 close-button-section">
-			        <button id="close-page" class="btn btn-close" ></button>
-			      </div>
-			    </div>
-			    <div class="row d-block d-md-none">
-			      <div class="issue-detail-text">
-				      <div diff:ignore></div>
-			        <div class="text-category">Clarification</div>
-			      </div>
-			    </div>
-			    <form >
+			<div class="issue-container">
+				<button id="create-comment"  class="suggest-btn btn btn-outline-light btn-lg text-uppercase">
+					Add Comment
+				</button>
+			</div>
+			<div class="form-layout mb-3">
+				<div class="close-button-section">
+				 <button id="close-page" class="btn btn-close" ></button>
+				</div>
+				<div class="issue-item-container" >
+				 <div class:ignore>
+					 <div diff:ignore></div>
+				 </div>
+				 <div class="issue-entry-text" >
+					 <div diff:ignore></div>
+					 <div diff:ignore></div>
+				   <div class="issue-entry-bottom" >
+					   <div diff:ignore></div>
+					   <div diff:ignore></div>
+				   </div>
+				 </div>
+				 <div class:ignore>
+					 <div diff:ignore></div>
+				 </div>
+				</div>
+				<form >
 			      <div class="input-section">
 			        <label class="form-label fw-bold text-uppercase" for="title">Title of the Comment</label>
 			        <div class="input-description">Brief title of the Comment.</div>

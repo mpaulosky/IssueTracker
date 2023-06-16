@@ -54,6 +54,18 @@ public partial class Comment
 	}
 
 	/// <summary>
+	///   OpenCommentForm method
+	/// </summary>
+	/// <param name="issue">IssueModel</param>
+	private void OpenCommentForm(IssueModel issue)
+	{
+		if (_loggedInUser is not null)
+		{
+			NavManager.NavigateTo($"/Comment/{issue.Id}");
+		}
+	}
+
+	/// <summary>
 	///   ClosePage method.
 	/// </summary>
 	private void ClosePage()
