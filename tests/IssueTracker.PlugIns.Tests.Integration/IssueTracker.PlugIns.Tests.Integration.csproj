@@ -11,20 +11,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.11.0"/>
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.5"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.5"/>
-		<PackageReference Include="MongoDB.Driver" Version="2.19.2"/>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2"/>
-		<PackageReference Include="Testcontainers.MongoDb" Version="3.2.0"/>
-		<PackageReference Include="Testcontainers" Version="3.2.0"/>
-		<PackageReference Include="xunit" Version="2.4.2"/>
+		<PackageReference Include="FluentAssertions" Version="6.11.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.7" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.6.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.7" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.2" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
+		<PackageReference Include="Testcontainers.MongoDb" Version="3.2.0" />
+		<PackageReference Include="Testcontainers" Version="3.2.0" />
+		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
@@ -36,10 +36,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj"/>
-		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj"/>
-		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj"/>
-		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj"/>
+		<ProjectReference Include="..\..\src\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\..\src\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 
 </Project>
