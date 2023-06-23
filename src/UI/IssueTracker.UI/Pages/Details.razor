@@ -1,5 +1,7 @@
 ﻿@page "/Details/{Id}"
 
+@attribute [Authorize]
+
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
