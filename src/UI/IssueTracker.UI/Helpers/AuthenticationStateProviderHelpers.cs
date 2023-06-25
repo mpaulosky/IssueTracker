@@ -31,4 +31,22 @@ public static class AuthenticationStateProviderHelpers
 
 		return await userData.GetUserFromAuthentication(objectId);
 	}
+
+	/// <summary>
+	/// Is User Authorized Async method
+	/// </summary>
+	/// <param name="provider"></param>
+	/// <returns>Task bool</returns>
+	public static async Task<bool> IsUserAdminAsync(
+		this AuthenticationStateProvider provider)
+	{
+		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
+		var user = authState.User;
+
+		string? jobTitle = user.Claims
+			.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
+
+
+		return string.Equals(jobTitle, "Admin", StringComparison.Ordinal);
+	}
 }

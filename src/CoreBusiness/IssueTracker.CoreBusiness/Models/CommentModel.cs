@@ -93,4 +93,21 @@ public class CommentModel
 	///   Who archived the record.
 	/// </value>
 	public BasicUserModel ArchivedBy { get; set; } = new();
+
+	/// <summary>
+	///  Gets or sets that this comment is the selected answer to the associated Issue.
+	/// </summary>
+	/// <value>
+	///   <c>true</c> if is the answer; otherwise, <c>false</c>.
+	/// </value>
+	[BsonElement("is_answer")]
+	[BsonRepresentation(BsonType.Boolean)] public bool IsAnswer { get; set; }
+
+	/// <summary>
+	/// Gets or sets the user that selected this comment as the answer to the associated Issue.
+	/// </summary>
+	/// <value>
+	///   Who selected this comment as the answer to the associated Issue.
+	/// </value>
+	public BasicUserModel? AnswerSelectedBy { get; set; }
 }
