@@ -68,9 +68,7 @@ public class CommentComponentTests : TestContext
 						<div diff:ignore></div>
 					</div>
 				</div>
-				<div class="comment-entry-status">
-					<div diff:ignore></div>
-				</div>
+				<div class="comment-answer-status comment-answer-status-unanswered" ></div>
 			</div>
 			""";
 
