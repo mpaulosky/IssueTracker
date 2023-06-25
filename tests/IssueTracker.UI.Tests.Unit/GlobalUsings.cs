@@ -36,6 +36,7 @@ global using IssueTracker.Services.Status.Interface;
 global using IssueTracker.Services.User;
 global using IssueTracker.Services.User.Interface;
 
+global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Extensions.Caching.Memory;
 
 global using Moq;

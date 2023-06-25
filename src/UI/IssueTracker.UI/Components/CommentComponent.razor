@@ -10,7 +10,6 @@
 			<div>@GetUpVoteBottomText(Item)</div>
 		</div>
 	</div>
-
 	<div class="comment-entry-text">
 		<div class="comment-text-title">
 			@Item.Title
@@ -48,10 +47,23 @@
 
 		</div>
 	</div>
-	<div class="comment-entry-status">
-		<div class="comment-text-status">
-			<label>Test Text</label>
-		</div>
+	<div class="comment-answer-status @GetAnswerStatusCssClass(Item)">
+		@if (Item.IsAnswer)
+		{
+			<div class="comment-text-status">
+				<span class="oi oi-check"></span>
+				<span>Answer</span>
+			</div>
+		}
+		else
+		{
+			if (CanMarkAnswer())
+			{
+				<div class="comment-text-status setanswer-link" @onclick="@(() => SetAnswer(Item))">
+					<span>set as answer</span>
+				</div>
+			}
+		}
 	</div>
 
 </div>
