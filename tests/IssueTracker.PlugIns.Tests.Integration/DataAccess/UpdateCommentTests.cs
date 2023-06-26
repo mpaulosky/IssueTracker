@@ -51,7 +51,6 @@ public class UpdateCommentTests : IAsyncLifetime
 		result.Id.Should().Be(expected.Id);
 		result.Title.Should().Be(expected.Title);
 		result.Author.Should().BeEquivalentTo(expected.Author);
-		result.CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
 	}
 
 	[Fact(DisplayName = "UpdateAsync With Invalid Data Should Fail")]

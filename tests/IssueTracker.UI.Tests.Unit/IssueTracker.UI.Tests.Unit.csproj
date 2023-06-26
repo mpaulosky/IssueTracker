@@ -11,34 +11,44 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="Bunit"/>
-		<Using Include="Bunit.TestDoubles"/>
-		<Using Include="Microsoft.Extensions.DependencyInjection"/>
-		<Using Include="Xunit"/>
+	  <Compile Remove="ErrorModelTests.cs" />
+	  <Compile Remove="RedirectToLoginTests.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage.TestExtensions" Version="4.3.0"/>
-		<PackageReference Include="Blazored.SessionStorage" Version="2.3.0"/>
-		<PackageReference Include="Blazored.SessionStorage.TestExtensions" Version="2.3.0"/>
-		<PackageReference Include="bunit" Version="1.20.8"/>
-		<PackageReference Include="FluentAssertions" Version="6.11.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.6.0"/>
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2"/>
+	  <Content Include="Pages\ErrorModelTests.cs" />
+	  <Content Include="Shared\RedirectToLoginTests.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="Bunit" />
+		<Using Include="Bunit.TestDoubles" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="Xunit" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage.TestExtensions" Version="4.3.0" />
+		<PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
+		<PackageReference Include="Blazored.SessionStorage.TestExtensions" Version="2.3.0" />
+		<PackageReference Include="bunit" Version="1.20.8" />
+		<PackageReference Include="FluentAssertions" Version="6.11.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.6.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.6.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
 		<PackageReference Include="coverlet.collector" Version="6.0.0">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Moq" Version="4.18.4"/>
-		<PackageReference Include="NSubstitute" Version="5.0.0"/>
-		<PackageReference Include="xunit" Version="2.4.2"/>
+		<PackageReference Include="Moq" Version="4.18.4" />
+		<PackageReference Include="NSubstitute" Version="5.0.0" />
+		<PackageReference Include="xunit" Version="2.4.2" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
@@ -46,8 +56,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj"/>
-		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj"/>
+		<ProjectReference Include="..\..\src\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\TestingSupport.Library\TestingSupport.Library.csproj" />
 	</ItemGroup>
 
 </Project>

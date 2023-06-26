@@ -60,14 +60,14 @@ public class CommentModelTests
 	}
 
 	[Fact]
-	public void Test_GetCommentOnSource_ReturnsCommentOnSourceModel()
+	public void Test_GetIssue_ReturnsIssueModel()
 	{
 		// Arrange
-		var expected = FakeSource.GetSource(false);
-		var comment = new CommentModel { CommentOnSource = expected };
+		var expected = FakeIssue.GetBasicIssues(1, false).First();
+		var comment = new CommentModel { Issue = expected };
 
 		// Act
-		var actual = comment.CommentOnSource;
+		var actual = comment.Issue;
 
 		// Assert
 		Assert.Equal(expected, actual);

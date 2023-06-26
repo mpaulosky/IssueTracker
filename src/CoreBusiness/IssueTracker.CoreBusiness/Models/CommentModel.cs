@@ -53,12 +53,12 @@ public class CommentModel
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
 	/// <summary>
-	///   Gets or sets the source.
+	///   Gets or sets the issue.
 	/// </summary>
 	/// <value>
-	///   The source.
+	///   The issue.
 	/// </value>
-	public BasicCommentOnSourceModel? CommentOnSource { get; set; }
+	public BasicIssueModel? Issue { get; set; }
 
 	/// <summary>
 	///   Gets or sets the author.

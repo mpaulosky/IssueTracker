@@ -20,7 +20,6 @@ namespace IssueTracker.UI.Pages;
 /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 [IgnoreAntiforgeryToken]
-[ExcludeFromCodeCoverage]
 public class ErrorModel : PageModel
 {
 	public string RequestId { get; set; } = default!;

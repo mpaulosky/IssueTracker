@@ -82,7 +82,7 @@ public static class FakeComment
 			.RuleFor(x => x.Id, new BsonObjectId(ObjectId.GenerateNewId()).ToString())
 			.RuleFor(c => c.Title, f => f.Lorem.Sentence())
 			.RuleFor(c => c.Description, f => f.Lorem.Paragraph())
-			.RuleFor(x => x.CommentOnSource, FakeSource.GetSource())
+			.RuleFor(x => x.Issue, FakeIssue.GetBasicIssues(1, false).First())
 			.RuleFor(c => c.Author, FakeUser.GetBasicUser(1).First())
 			.RuleFor(c => c.DateCreated, f => f.Date.Past())
 			.RuleFor(f => f.Archived, f => f.Random.Bool())

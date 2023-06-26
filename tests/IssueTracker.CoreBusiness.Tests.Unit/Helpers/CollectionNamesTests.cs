@@ -16,7 +16,6 @@ public class CollectionNamesTests
 	[InlineData("CategoryModel", "categories")]
 	[InlineData("CommentModel", "comments")]
 	[InlineData("IssueModel", "issues")]
-	[InlineData("SolutionModel", "solutions")]
 	[InlineData("StatusModel", "statuses")]
 	[InlineData("UserModel", "users")]
 	public void GetCollectionName_WithValidInput_Should_ReturnExpectedValue(string entityName, string expected)

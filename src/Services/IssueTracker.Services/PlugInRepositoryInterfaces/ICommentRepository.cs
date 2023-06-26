@@ -21,7 +21,7 @@ public interface ICommentRepository
 
 	Task<IEnumerable<CommentModel>> GetByUserAsync(string userId);
 
-	Task<IEnumerable<CommentModel>> GetBySourceAsync(BasicCommentOnSourceModel source);
+	Task<IEnumerable<CommentModel>> GetByIssueAsync(BasicIssueModel issue);
 
 	Task UpdateAsync(string itemId, CommentModel comment);
 

@@ -33,14 +33,4 @@ public class Enums
 		Dismissed,
 		InWork
 	}
-
-	/// <summary>
-	///   SourceType enum
-	/// </summary>
-	internal enum SourceType
-	{
-		Comment,
-		Issue,
-		Solution
-	}
 }

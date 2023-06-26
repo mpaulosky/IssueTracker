@@ -31,6 +31,7 @@ public class BasicIssueModel
 		Id = issue.Id;
 		Title = issue.Title;
 		Description = issue.Description;
+		DateCreated = issue.DateCreated;
 		Category = issue.Category;
 		Status = issue.IssueStatus;
 		Author = issue.Author;
@@ -59,6 +60,12 @@ public class BasicIssueModel
 	///   The description.
 	/// </value>
 	public string Description { get; set; } = string.Empty;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+
 
 	/// <summary>
 	///   Gets or sets the author.

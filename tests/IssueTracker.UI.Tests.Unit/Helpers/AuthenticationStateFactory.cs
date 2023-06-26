@@ -9,6 +9,7 @@
 
 namespace IssueTracker.UI.Helpers;
 
+[ExcludeFromCodeCoverage]
 public static class AuthenticationStateFactory
 {
 	public static AuthenticationState Create(bool isAuthenticated, bool isAdmin, UserModel user)

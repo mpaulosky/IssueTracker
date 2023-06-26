@@ -25,7 +25,7 @@ public partial class CommentComponent
 	private bool CanMarkAnswer()
 	{
 		var isAdmin = AuthProvider.IsUserAdminAsync().Result;
-		return Item.CommentOnSource!.Author!.Id == LoggedInUser.Id || isAdmin;
+		return Item.Issue!.Author.Id == LoggedInUser.Id || isAdmin;
 	}
 
 	/// <summary>

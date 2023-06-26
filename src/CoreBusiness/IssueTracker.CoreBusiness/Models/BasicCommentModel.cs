@@ -25,7 +25,7 @@ public class BasicCommentModel
 		Title = comment.Title;
 		Description = comment.Description;
 		DateCreated = comment.DateCreated;
-		CommentOnSource = comment.CommentOnSource!;
+		Issue = comment.Issue!;
 		Author = comment.Author;
 	}
 
@@ -33,6 +33,6 @@ public class BasicCommentModel
 	public string Title { get; set; }
 	public string Description { get; set; }
 	public DateTime DateCreated { get; set; }
-	public BasicCommentOnSourceModel CommentOnSource { get; set; }
+	public BasicIssueModel Issue { get; set; }
 	public BasicUserModel Author { get; set; }
 }

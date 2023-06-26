@@ -67,6 +67,7 @@ public class FakeIssuesTests
 		result.Should().BeEquivalentTo(FakeIssue.GetBasicIssues(expectedCount),
 			options => options
 				.Excluding(t => t.Id)
+				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id));
 	}
 

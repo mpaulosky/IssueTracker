@@ -28,9 +28,9 @@ public class FakeCommentsTests
 				.Excluding(t => t.Id)
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.CommentOnSource!.Id)
-				.Excluding(t => t.CommentOnSource!.DateCreated)
-				.Excluding(t => t.CommentOnSource!.Author!.Id));
+				.Excluding(t => t.Issue!.Id)
+				.Excluding(t => t.Issue!.DateCreated)
+				.Excluding(t => t.Issue!.Author.Id));
 	}
 
 	[Theory(DisplayName = "FakeComment GetComments Test")]
@@ -51,9 +51,9 @@ public class FakeCommentsTests
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id)
 				.Excluding(t => t.ArchivedBy.Id)
-				.Excluding(t => t.CommentOnSource!.Id)
-				.Excluding(t => t.CommentOnSource!.DateCreated)
-				.Excluding(t => t.CommentOnSource!.Author!.Id));
+				.Excluding(t => t.Issue!.Id)
+				.Excluding(t => t.Issue!.DateCreated)
+				.Excluding(t => t.Issue!.Author.Id));
 	}
 
 	[Theory(DisplayName = "FakeComment GetBasicComments Test")]
@@ -73,9 +73,9 @@ public class FakeCommentsTests
 				.Excluding(t => t.Id)
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id)
-				.Excluding(t => t.CommentOnSource.Id)
-				.Excluding(t => t.CommentOnSource.DateCreated)
-				.Excluding(t => t.CommentOnSource.Author!.Id));
+				.Excluding(t => t.Issue.Id)
+				.Excluding(t => t.Issue.DateCreated)
+				.Excluding(t => t.Issue.Author.Id));
 	}
 
 	[Theory(DisplayName = "FakeComments GetNewComment With New Seed Test")]

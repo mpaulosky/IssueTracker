@@ -376,11 +376,11 @@ public class DetailsTests : TestContext
 		comments[1].UserVotes.Add(_expectedUser.Id);
 		foreach (CommentModel? comment in comments)
 		{
-			comment.CommentOnSource = new BasicCommentOnSourceModel(_expectedIssue);
+			comment.Issue = new BasicIssueModel(_expectedIssue);
 		}
 
 		_commentRepositoryMock
-			.Setup(x => x.GetBySourceAsync(It.IsAny<BasicCommentOnSourceModel>()))
+			.Setup(x => x.GetByIssueAsync(It.IsAny<BasicIssueModel>()))
 			.ReturnsAsync(comments);
 
 		_statusRepositoryMock
