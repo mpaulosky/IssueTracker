@@ -22,7 +22,7 @@ public static class FakeCategory
 	/// <returns>CategoryModel</returns>
 	public static CategoryModel GetNewCategory(bool keepId = false, bool useNewSeed = false)
 	{
-		var category = GenerateFake(useNewSeed).Generate();
+		CategoryModel? category = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -90,9 +90,9 @@ public static class FakeCategory
 	/// <returns>A List of CategoryModels</returns>
 	public static List<CategoryModel> GetCategories(int numberOfCategories, bool useNewSeed = false)
 	{
-		var categories = GenerateFake(useNewSeed).Generate(numberOfCategories);
+		List<CategoryModel>? categories = GenerateFake(useNewSeed).Generate(numberOfCategories);
 
-		foreach (var category in categories.Where(x => x.Archived))
+		foreach (CategoryModel? category in categories.Where(x => x.Archived))
 		{
 			category.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser(true));
 		}
@@ -114,13 +114,13 @@ public static class FakeCategory
 	}
 
 	/// <summary>
-	/// GenerateFake method
+	///   GenerateFake method
 	/// </summary>
 	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>A Faker CategoryModel</returns>
 	private static Faker<CategoryModel> GenerateFake(bool useNewSeed = false)
 	{
-		var seed = 0;
+		int seed = 0;
 		if (useNewSeed)
 		{
 			seed = Random.Shared.Next(10, int.MaxValue);

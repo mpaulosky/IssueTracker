@@ -22,7 +22,7 @@ public static class FakeUser
 	/// <returns>UserModel</returns>
 	public static UserModel GetNewUser(bool keepId = false, bool useNewSeed = false)
 	{
-		var user = GenerateFake(useNewSeed).Generate();
+		UserModel? user = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -42,9 +42,9 @@ public static class FakeUser
 	/// <returns>A List of UserModels</returns>
 	public static List<UserModel> GetUsers(int numberOfUsers, bool useNewSeed = false)
 	{
-		var users = GenerateFake(useNewSeed).Generate(numberOfUsers);
+		List<UserModel>? users = GenerateFake(useNewSeed).Generate(numberOfUsers);
 
-		foreach (var user in users.Where(x => x.Archived))
+		foreach (UserModel? user in users.Where(x => x.Archived))
 		{
 			user.ArchivedBy = new BasicUserModel(GetNewUser());
 		}
@@ -60,19 +60,19 @@ public static class FakeUser
 	/// <returns>A List of BasicUserModels</returns>
 	public static List<BasicUserModel> GetBasicUser(int numberOfUsers, bool useNewSeed = false)
 	{
-		var users = GenerateFake(useNewSeed).Generate(numberOfUsers);
+		List<UserModel>? users = GenerateFake(useNewSeed).Generate(numberOfUsers);
 
 		return users.Select(c => new BasicUserModel(c)).ToList();
 	}
 
 	/// <summary>
-	///  Generates a fake user.
+	///   Generates a fake user.
 	/// </summary>
 	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>A Faker UserModel</returns>
 	private static Faker<UserModel> GenerateFake(bool useNewSeed = false)
 	{
-		var seed = 0;
+		int seed = 0;
 		if (useNewSeed)
 		{
 			seed = Random.Shared.Next(10, int.MaxValue);

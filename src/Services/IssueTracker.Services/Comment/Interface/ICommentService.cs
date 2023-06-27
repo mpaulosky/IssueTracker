@@ -21,7 +21,7 @@ public interface ICommentService
 
 	Task<List<CommentModel>> GetCommentsByUser(string userId);
 
-	Task<List<CommentModel>> GetCommentsBySource(BasicCommentOnSourceModel source);
+	Task<List<CommentModel>> GetCommentsByIssue(BasicIssueModel issue);
 
 	Task UpdateComment(CommentModel comment);
 

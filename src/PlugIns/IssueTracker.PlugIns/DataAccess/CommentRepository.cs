@@ -83,14 +83,14 @@ public class CommentRepository : ICommentRepository
 	}
 
 	/// <summary>
-	///   GetCommentsBySource method
+	///   GetCommentsByIssue method
 	/// </summary>
-	/// <param name="source">BasicCommentOnSourceModel</param>
+	/// <param name="issue">BasicIssueModel</param>
 	/// <returns>Task of IEnumerable CommentModel</returns>
-	public async Task<IEnumerable<CommentModel>> GetBySourceAsync(BasicCommentOnSourceModel source)
+	public async Task<IEnumerable<CommentModel>> GetByIssueAsync(BasicIssueModel issue)
 	{
 		List<CommentModel>? results = (await _commentCollection
-				.FindAsync(s => s.CommentOnSource!.Id == source.Id && s.CommentOnSource.SourceType == source.SourceType))
+				.FindAsync(s => s.Issue!.Id == issue.Id))
 			.ToList();
 
 		return results;

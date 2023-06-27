@@ -7,6 +7,8 @@
 // Project Name :  IssueTracker.UI
 // =============================================
 
+using System.Security.Claims;
+
 namespace IssueTracker.UI.Helpers;
 
 /// <summary>
@@ -33,7 +35,7 @@ public static class AuthenticationStateProviderHelpers
 	}
 
 	/// <summary>
-	/// Is User Authorized Async method
+	///   Is User Authorized Async method
 	/// </summary>
 	/// <param name="provider"></param>
 	/// <returns>Task bool</returns>
@@ -41,7 +43,7 @@ public static class AuthenticationStateProviderHelpers
 		this AuthenticationStateProvider provider)
 	{
 		AuthenticationState authState = await provider.GetAuthenticationStateAsync();
-		var user = authState.User;
+		ClaimsPrincipal user = authState.User;
 
 		string? jobTitle = user.Claims
 			.FirstOrDefault(c => c.Type.Contains("jobTitle"))?.Value;
