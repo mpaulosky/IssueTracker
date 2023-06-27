@@ -62,7 +62,6 @@ public class BasicIssueModel
 	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
-	/// 
 	/// </summary>
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 

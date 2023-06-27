@@ -20,10 +20,11 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetNewCategory(expected);
+		CategoryModel result = FakeCategory.GetNewCategory(expected);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().BeEquivalentTo(FakeCategory.GetNewCategory(expected),
 			options => options.Excluding(t => t.Id));
 	}
@@ -41,8 +42,8 @@ public class FakeCategoryTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeCategory.GetNewCategory(expected, true));
 
+		result.Should().NotBeEquivalentTo(FakeCategory.GetNewCategory(expected, true));
 	}
 
 	[Fact(DisplayName = "FakeCategory GetCategories Existing Test")]
@@ -52,7 +53,7 @@ public class FakeCategoryTests
 		const int excludingCount = 5;
 
 		// Act
-		var result = FakeCategory.GetCategories();
+		List<CategoryModel> result = FakeCategory.GetCategories();
 
 		// Assert
 
@@ -69,7 +70,7 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetCategories(countRequested);
+		List<CategoryModel> result = FakeCategory.GetCategories(countRequested);
 
 		// Assert
 		result.Count.Should().Be(countRequested);
@@ -87,7 +88,7 @@ public class FakeCategoryTests
 		// Arrange
 
 		// Act
-		var result = FakeCategory.GetCategories(countRequested, true);
+		List<CategoryModel> result = FakeCategory.GetCategories(countRequested, true);
 
 		// Assert
 		result.Count.Should().Be(countRequested);
@@ -101,7 +102,7 @@ public class FakeCategoryTests
 		const int countRequested = 1;
 
 		// Act
-		var result = FakeCategory.GetBasicCategories(countRequested);
+		List<BasicCategoryModel> result = FakeCategory.GetBasicCategories(countRequested);
 
 		// Assert
 		result.Count.Should().Be(countRequested);
@@ -115,7 +116,7 @@ public class FakeCategoryTests
 		const int countRequested = 1;
 
 		// Act
-		var result = FakeCategory.GetBasicCategories(countRequested, true);
+		List<BasicCategoryModel> result = FakeCategory.GetBasicCategories(countRequested, true);
 
 		// Assert
 		result.Count.Should().Be(countRequested);

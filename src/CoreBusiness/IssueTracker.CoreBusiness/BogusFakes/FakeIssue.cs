@@ -22,7 +22,7 @@ public static class FakeIssue
 	/// <returns>IssueModel</returns>
 	public static IssueModel GetNewIssue(bool keepId = false, bool useNewSeed = false)
 	{
-		var issue = GenerateFake(useNewSeed).Generate();
+		IssueModel? issue = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -31,7 +31,7 @@ public static class FakeIssue
 
 		issue.Archived = false;
 
-		var statuses = FakeStatus.GetStatuses();
+		List<StatusModel> statuses = FakeStatus.GetStatuses();
 
 		issue.IssueStatus = new BasicStatusModel(statuses[2]);
 
@@ -46,9 +46,9 @@ public static class FakeIssue
 	/// <returns>A List of IssueModels</returns>
 	public static List<IssueModel> GetIssues(int numberOfIssues, bool useNewSeed = false)
 	{
-		var issues = GenerateFake(useNewSeed).Generate(numberOfIssues);
+		List<IssueModel>? issues = GenerateFake(useNewSeed).Generate(numberOfIssues);
 
-		foreach (var issue in issues.Where(x => x.Archived))
+		foreach (IssueModel? issue in issues.Where(x => x.Archived))
 		{
 			issue.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser(true));
 		}
@@ -70,13 +70,13 @@ public static class FakeIssue
 	}
 
 	/// <summary>
-	/// GenerateFake method
+	///   GenerateFake method
 	/// </summary>
 	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>A Faker IssueModel</returns>
 	private static Faker<IssueModel> GenerateFake(bool useNewSeed = false)
 	{
-		var seed = 0;
+		int seed = 0;
 		if (useNewSeed)
 		{
 			seed = Random.Shared.Next(10, int.MaxValue);

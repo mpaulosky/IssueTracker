@@ -20,16 +20,16 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetNewIssue(expected);
+		IssueModel result = FakeIssue.GetNewIssue(expected);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().BeEquivalentTo(FakeIssue.GetNewIssue(expected),
 			options => options
 				.Excluding(t => t.Id)
 				.Excluding(t => t.DateCreated)
 				.Excluding(t => t.Author.Id));
-
 	}
 
 	[Theory(DisplayName = "FakeIssue GetIssues Test")]
@@ -40,7 +40,7 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetIssues(expectedCount);
+		List<IssueModel> result = FakeIssue.GetIssues(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -60,7 +60,7 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetBasicIssues(expectedCount);
+		List<BasicIssueModel> result = FakeIssue.GetBasicIssues(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -79,12 +79,12 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetNewIssue(expected, true);
+		IssueModel result = FakeIssue.GetNewIssue(expected, true);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
-		result.Should().NotBeEquivalentTo(FakeIssue.GetNewIssue(expected, true));
 
+		result.Should().NotBeEquivalentTo(FakeIssue.GetNewIssue(expected, true));
 	}
 
 	[Theory(DisplayName = "FakeIssue GetIssues With New Seed Test")]
@@ -95,7 +95,7 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetIssues(expectedCount, true);
+		List<IssueModel> result = FakeIssue.GetIssues(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -110,7 +110,7 @@ public class FakeIssuesTests
 		// Arrange
 
 		// Act
-		var result = FakeIssue.GetBasicIssues(expectedCount, true);
+		List<BasicIssueModel> result = FakeIssue.GetBasicIssues(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);

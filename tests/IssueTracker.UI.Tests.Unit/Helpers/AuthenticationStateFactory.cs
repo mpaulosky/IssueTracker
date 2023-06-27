@@ -14,18 +14,20 @@ public static class AuthenticationStateFactory
 {
 	public static AuthenticationState Create(bool isAuthenticated, bool isAdmin, UserModel user)
 	{
-		var identity = new ClaimsIdentity(new[]
+		ClaimsIdentity identity = new(
+			new[]
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.ObjectIdentifier), new Claim(ClaimTypes.Name, user.DisplayName),
+				new Claim(ClaimTypes.GivenName, user.FirstName), new Claim(ClaimTypes.Surname, user.LastName),
+				new Claim(ClaimTypes.Email, user.EmailAddress)
+			}, "test");
+
+		if (isAdmin)
 		{
-			new Claim(ClaimTypes.NameIdentifier, user.ObjectIdentifier),
-			new Claim(ClaimTypes.Name, user.DisplayName),
-			new Claim(ClaimTypes.GivenName, user.FirstName),
-			new Claim(ClaimTypes.Surname, user.LastName),
-			new Claim(ClaimTypes.Email, user.EmailAddress)
-		}, "test");
+			identity.AddClaim(new Claim("jobTitle", "Admin"));
+		}
 
-		if (isAdmin) identity.AddClaim(new Claim("jobTitle", "Admin"));
-
-		var principal = new ClaimsPrincipal(identity);
+		ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
 		if (!isAuthenticated)
 		{

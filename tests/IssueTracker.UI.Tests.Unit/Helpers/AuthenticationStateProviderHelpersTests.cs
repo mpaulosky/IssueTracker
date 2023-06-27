@@ -10,7 +10,7 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 
 	public AuthenticationStateProviderHelpersTests()
 	{
-		_expectedUser = FakeUser.GetNewUser(true, false);
+		_expectedUser = FakeUser.GetNewUser(true);
 		_mockProvider = new Mock<AuthenticationStateProvider>();
 		_mockUserData = new Mock<IUserService>();
 	}
@@ -23,7 +23,7 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 		SetupMocks();
 
 		// Act
-		var result = await AuthenticationStateProviderHelpers.GetUserFromAuth(_mockProvider.Object, _mockUserData.Object);
+		UserModel result = await _mockProvider.Object.GetUserFromAuth(_mockUserData.Object);
 
 		// Assert
 		result.Should().BeEquivalentTo(_expectedUser);
@@ -38,7 +38,7 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 		SetupMocks();
 
 		// Act
-		var result = await AuthenticationStateProviderHelpers.IsUserAdminAsync(_mockProvider.Object);
+		bool result = await _mockProvider.Object.IsUserAdminAsync();
 
 		// Assert
 		_mockProvider.Verify(x => x.GetAuthenticationStateAsync(), Times.Once);
@@ -52,7 +52,7 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 		SetupMocks();
 
 		// Act
-		var result = await AuthenticationStateProviderHelpers.IsUserAdminAsync(_mockProvider.Object);
+		bool result = await _mockProvider.Object.IsUserAdminAsync();
 
 		// Assert
 		result.Should().BeTrue();
@@ -66,7 +66,7 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 		SetupMocks();
 
 		// Act
-		var result = await AuthenticationStateProviderHelpers.IsUserAdminAsync(_mockProvider.Object);
+		bool result = await _mockProvider.Object.IsUserAdminAsync();
 
 		// Assert
 		result.Should().BeFalse();
@@ -75,11 +75,10 @@ public class AuthenticationStateProviderHelpersTests : TestContext
 	private void SetupMocks()
 	{
 		_mockUserData.Setup(x => x
-			.GetUserFromAuthentication(It.IsAny<string>()))
+				.GetUserFromAuthentication(It.IsAny<string>()))
 			.ReturnsAsync(_expectedUser);
 
 		_mockProvider.Setup(x => x
 			.GetAuthenticationStateAsync()).ReturnsAsync(_authState);
-
 	}
 }

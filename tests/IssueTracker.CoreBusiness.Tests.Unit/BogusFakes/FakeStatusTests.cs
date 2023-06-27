@@ -20,13 +20,13 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetNewStatus(expected);
+		StatusModel result = FakeStatus.GetNewStatus(expected);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().BeEquivalentTo(FakeStatus.GetNewStatus(expected),
 			options => options.Excluding(t => t.Id));
-
 	}
 
 	[Fact(DisplayName = "FakeStatus GetStatuses List Test")]
@@ -36,7 +36,7 @@ public class FakeStatusTests
 		const int expectedCount = 4;
 
 		// Act
-		var result = FakeStatus.GetStatuses();
+		List<StatusModel> result = FakeStatus.GetStatuses();
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -52,7 +52,7 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetStatuses(expectedCount);
+		List<StatusModel> result = FakeStatus.GetStatuses(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -69,7 +69,7 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetBasicStatuses(expectedCount);
+		List<BasicStatusModel> result = FakeStatus.GetBasicStatuses(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -84,13 +84,13 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetNewStatus(expected, true);
+		StatusModel result = FakeStatus.GetNewStatus(expected, true);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().NotBeEquivalentTo(FakeStatus.GetNewStatus(expected, true),
 			options => options.Excluding(t => t.Id));
-
 	}
 
 	[Theory(DisplayName = "FakeStatus GetStatuses With Number Needed With New Seed Test")]
@@ -101,7 +101,7 @@ public class FakeStatusTests
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetBasicStatuses(expectedCount, true);
+		List<BasicStatusModel> result = FakeStatus.GetBasicStatuses(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -112,12 +112,13 @@ public class FakeStatusTests
 	[Theory(DisplayName = "FakeStatus GetBasicStatuses With New Seed Test")]
 	[InlineData(1)]
 	[InlineData(5)]
-	public void GetBasicStatuses_With_RequestForBasicStatusesWithNewSeed_Should_ReturnFakeBasicStatuses_Test(int expectedCount)
+	public void GetBasicStatuses_With_RequestForBasicStatusesWithNewSeed_Should_ReturnFakeBasicStatuses_Test(
+		int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		var result = FakeStatus.GetBasicStatuses(expectedCount, true);
+		List<BasicStatusModel> result = FakeStatus.GetBasicStatuses(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);

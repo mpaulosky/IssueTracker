@@ -19,10 +19,11 @@ public class FakeCommentsTests
 	{
 		// Arrange
 		// Act
-		var result = FakeComment.GetNewComment(expected);
+		CommentModel result = FakeComment.GetNewComment(expected);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().BeEquivalentTo(FakeComment.GetNewComment(expected),
 			options => options
 				.Excluding(t => t.Id)
@@ -41,7 +42,7 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetComments(expectedCount);
+		List<CommentModel> result = FakeComment.GetComments(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -64,7 +65,7 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetBasicComments(expectedCount);
+		List<BasicCommentModel> result = FakeComment.GetBasicComments(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -85,10 +86,11 @@ public class FakeCommentsTests
 	{
 		// Arrange
 		// Act
-		var result = FakeComment.GetNewComment(expected, true);
+		CommentModel result = FakeComment.GetNewComment(expected, true);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().NotBeEquivalentTo(FakeComment.GetNewComment(expected, true));
 	}
 
@@ -100,7 +102,7 @@ public class FakeCommentsTests
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetComments(expectedCount, true);
+		List<CommentModel> result = FakeComment.GetComments(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -110,12 +112,13 @@ public class FakeCommentsTests
 	[Theory(DisplayName = "FakeComment GetBasicComments With New Seed Test")]
 	[InlineData(1)]
 	[InlineData(5)]
-	public void GetBasicComments_With_RequestForBasicCommentsWithNewSeed_Should_ReturnFakeBasicComments_Test(int expectedCount)
+	public void GetBasicComments_With_RequestForBasicCommentsWithNewSeed_Should_ReturnFakeBasicComments_Test(
+		int expectedCount)
 	{
 		// Arrange
 
 		// Act
-		var result = FakeComment.GetBasicComments(expectedCount, true);
+		List<BasicCommentModel> result = FakeComment.GetBasicComments(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);

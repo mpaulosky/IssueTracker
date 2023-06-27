@@ -7,10 +7,7 @@ public class ErrorModelTests
 	public void ShowRequestIdShouldReturnRequestId()
 	{
 		//Arrange
-		var model = new ErrorModel()
-		{
-			RequestId = "12345",
-		};
+		ErrorModel model = new ErrorModel { RequestId = "12345" };
 
 		//Assert
 		Assert.True(model.ShowRequestId);
@@ -21,10 +18,7 @@ public class ErrorModelTests
 	public void ShowRequestIdShouldNotReturnRequestId()
 	{
 		//Arrange
-		var model = new ErrorModel()
-		{
-			RequestId = null,
-		};
+		ErrorModel model = new ErrorModel { RequestId = null };
 
 		//Assert
 		Assert.False(model.ShowRequestId);

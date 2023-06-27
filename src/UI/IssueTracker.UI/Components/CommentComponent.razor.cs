@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 /// <summary>
-/// Razor component for displaying a comment.
+///   Razor component for displaying a comment.
 /// </summary>
 public partial class CommentComponent
 {
@@ -19,13 +19,12 @@ public partial class CommentComponent
 	[Parameter] public UserModel LoggedInUser { get; set; } = new();
 
 	/// <summary>
-	/// Check if the logged in user is able to mark the comment as an answer.
+	///   Check if the logged in user is able to mark the comment as an answer.
 	/// </summary>
 	/// <returns>True if the user can mark the comment as an answer, otherwise false.</returns>
 	private bool CanMarkAnswer()
 	{
-		var isAdmin = AuthProvider.IsUserAdminAsync().Result;
-		return Item.Issue!.Author.Id == LoggedInUser.Id || isAdmin;
+		return Item.Issue!.Author.Id == LoggedInUser.Id;
 	}
 
 	/// <summary>
@@ -48,7 +47,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Gets the text to display for the top part of the vote up button.
+	///   Gets the text to display for the top part of the vote up button.
 	/// </summary>
 	/// <param name="comment">The comment to get the vote up information for.</param>
 	/// <returns>The text to display for the top part of the vote up button.</returns>
@@ -63,7 +62,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Gets the text to display for the bottom part of the vote up button.
+	///   Gets the text to display for the bottom part of the vote up button.
 	/// </summary>
 	/// <param name="comment">The comment to get the vote up information for.</param>
 	/// <returns>The text to display for the bottom part of the vote up button.</returns>
@@ -73,7 +72,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Gets the css class to apply to the vote up button.
+	///   Gets the css class to apply to the vote up button.
 	/// </summary>
 	/// <param name="comment">The comment to get the vote up information for.</param>
 	/// <returns>The css class to apply to the vote up button.</returns>
@@ -88,7 +87,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Archives the currently selected comment.
+	///   Archives the currently selected comment.
 	/// </summary>
 	/// <returns>A task representing the asynchronous archiving operation.</returns>
 	private async Task ArchiveComment()
@@ -100,7 +99,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Sets the currently selected comment as the answer to the issue.
+	///   Sets the currently selected comment as the answer to the issue.
 	/// </summary>
 	/// <param name="comment">The comment to set as the answer.</param>
 	/// <returns>A task representing the asynchronous set answer operation.</returns>
@@ -112,7 +111,7 @@ public partial class CommentComponent
 	}
 
 	/// <summary>
-	/// Gets the css class to apply to the answer status display for the comment.
+	///   Gets the css class to apply to the answer status display for the comment.
 	/// </summary>
 	/// <param name="comment">The comment to get the answer status css class for.</param>
 	/// <returns>The css class to apply to the answer status display for the comment.</returns>

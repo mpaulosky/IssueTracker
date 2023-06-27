@@ -19,7 +19,7 @@ public class RedirectToLoginTests : TestContext
 
 		// Act
 		RenderComponent<RedirectToLogin>();
-		var navMan = Services.GetRequiredService<FakeNavigationManager>();
+		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
 
 		// Assert
 		navMan!.Uri.Should().NotBeNull();
