@@ -53,12 +53,12 @@ public class CommentModel
 	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
 	/// <summary>
-	///   Gets or sets the source.
+	///   Gets or sets the issue.
 	/// </summary>
 	/// <value>
-	///   The source.
+	///   The issue.
 	/// </value>
-	public BasicCommentOnSourceModel? CommentOnSource { get; set; }
+	public BasicIssueModel? Issue { get; set; }
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -95,16 +95,17 @@ public class CommentModel
 	public BasicUserModel ArchivedBy { get; set; } = new();
 
 	/// <summary>
-	///  Gets or sets that this comment is the selected answer to the associated Issue.
+	///   Gets or sets that this comment is the selected answer to the associated Issue.
 	/// </summary>
 	/// <value>
 	///   <c>true</c> if is the answer; otherwise, <c>false</c>.
 	/// </value>
 	[BsonElement("is_answer")]
-	[BsonRepresentation(BsonType.Boolean)] public bool IsAnswer { get; set; }
+	[BsonRepresentation(BsonType.Boolean)]
+	public bool IsAnswer { get; set; }
 
 	/// <summary>
-	/// Gets or sets the user that selected this comment as the answer to the associated Issue.
+	///   Gets or sets the user that selected this comment as the answer to the associated Issue.
 	/// </summary>
 	/// <value>
 	///   Who selected this comment as the answer to the associated Issue.

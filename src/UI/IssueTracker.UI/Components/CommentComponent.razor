@@ -50,19 +50,28 @@
 	<div class="comment-answer-status @GetAnswerStatusCssClass(Item)">
 		@if (Item.IsAnswer)
 		{
-			<div class="comment-text-status">
+			<div id="answered" class="comment-text-status">
 				<span class="oi oi-check"></span>
 				<span>Answer</span>
 			</div>
 		}
 		else
 		{
-			if (CanMarkAnswer())
-			{
-				<div class="comment-text-status setanswer-link" @onclick="@(() => SetAnswer(Item))">
-					<span>set as answer</span>
-				</div>
-			}
+			<AuthorizeView Policy="Admin">
+				<NotAuthorized>
+					@if (CanMarkAnswer())
+					{
+						<div id="answer-owner" class="comment-text-status setanswer-link" @onclick="@(() => SetAnswer(Item))">
+							<span>set as answer</span>
+						</div>
+					}
+				</NotAuthorized>
+				<Authorized>
+					<div id="answer-admin" class="comment-text-status setanswer-link" @onclick="@(() => SetAnswer(Item))">
+						<span>set as answer</span>
+					</div>
+				</Authorized>
+			</AuthorizeView>
 		}
 	</div>
 

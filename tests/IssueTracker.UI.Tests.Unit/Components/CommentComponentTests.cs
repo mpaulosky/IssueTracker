@@ -96,6 +96,146 @@ public class CommentComponentTests : TestContext
 		cut.Find("#archive").TextContent.Should().Contain(expected);
 	}
 
+	[Fact(DisplayName = "CommentComponent is Not Admin and is Not Owner Display nothing")]
+	public void CommentComponent_With_IsNotAdminAndNotOwner_Should_DisplaysEmptyArea_Test()
+	{
+		// Arrange
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		cut.Find("div.comment-answer-status").TextContent.Should().BeEmpty();
+		cut.MarkupMatches(
+			"""
+				 <div class="comment-item-container">
+					 <div class="comment-vote comment-no-votes">
+						 <div id="vote">
+							 <div >Click To</div>
+							 <span class="oi oi-caret-top comment-detail-upvote"></span>
+							 <div >UpVote</div>
+						 </div>
+					 </div>
+					 <div class="comment-entry-text">
+						 <div diff:ignore></div>
+						 <div diff:ignore></div>
+						 <div class="comment-entry-bottom">
+							 <div diff:ignore></div>
+							 <div diff:ignore></div>
+						 </div>
+					 </div>
+					 <div class="comment-answer-status comment-answer-status-unanswered"></div>
+				 </div>
+			""");
+	}
+
+	[Fact(DisplayName = "CommentComponent is Not Admin and is Not Owner is Answered Display Answered")]
+	public void CommentComponent_With_IsNotAdminAndNotOwnerIsAnswered_Should_DisplaysAnswered_Test()
+	{
+		// Arrange
+		const string expected = "Answer";
+		SetAuthenticationAndAuthorization(false, true);
+		_expectedComment.IsAnswer = true;
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		cut.Find("div.comment-answer-status").TextContent.Should().Contain(expected);
+		cut.MarkupMatches(
+			"""
+				 <div class="comment-item-container">
+					 <div class="comment-vote comment-no-votes">
+						 <div id="vote">
+							 <div >Click To</div>
+							 <span class="oi oi-caret-top comment-detail-upvote"></span>
+							 <div >UpVote</div>
+						 </div>
+					 </div>
+					 <div class="comment-entry-text">
+						 <div diff:ignore></div>
+						 <div diff:ignore></div>
+						 <div class="comment-entry-bottom">
+							 <div diff:ignore></div>
+							 <div diff:ignore></div>
+						 </div>
+					 </div>
+					 <div class="comment-answer-status comment-answer-status-answered">
+						 <div id="answered" class="comment-text-status">
+							 <span class="oi oi-check"></span>
+							 <span >Answer</span>
+						 </div>
+					 </div>
+				 </div>
+			""");
+	}
+
+
+	[Fact(DisplayName = "CommentComponent is Admin Display Set Answer Admin")]
+	public void CommentComponent_With_IsAdmin_Should_DisplaysSetAnswerButton_Test()
+	{
+		// Arrange
+		const string expected = "set as answer";
+
+		SetAuthenticationAndAuthorization(true, true);
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		//cut.MarkupMatches("");
+		cut.Find("#answer-admin").TextContent.Should().Contain(expected);
+	}
+
+	[Fact(DisplayName = "CommentComponent is Admin Display Set Answer Owner")]
+	public void CommentComponent_With_IsNotAdminButIsOwner_Should_DisplaysSetAnswerButton_Test()
+	{
+		// Arrange
+		const string expected = "set as answer";
+		_expectedComment.Issue!.Author = new BasicUserModel(_expectedUser);
+
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		//cut.MarkupMatches("");
+		cut.Find("#answer-owner").TextContent.Should().Contain(expected);
+	}
+
+	[Fact(DisplayName = "CommentComponent Admin Select Comment as Answer")]
+	public void CommentComponent_With_IsAdminSelectAsAnswer_Should_UpdateCommentAsAnswer_Test()
+	{
+		SetAuthenticationAndAuthorization(true, true);
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		cut.Find("#answer-admin").Click();
+
+		_commentRepositoryMock.Verify(x => x
+			.UpdateAsync(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
+	}
+
+	[Fact(DisplayName = "CommentComponent Owner Select Comment as Answer")]
+	public void CommentComponent_With_IsOwnerSelectAsAnswer_Should_UpdateCommentAsAnswer_Test()
+	{
+		SetAuthenticationAndAuthorization(false, true);
+		_expectedComment.Issue!.Author = new BasicUserModel(_expectedUser);
+
+		// Act
+		IRenderedComponent<CommentComponent> cut = ComponentUnderTest();
+
+		// Assert 
+		cut.Find("#answer-owner").Click();
+
+		_commentRepositoryMock.Verify(x => x
+			.UpdateAsync(It.IsAny<string>(), It.IsAny<CommentModel>()), Times.Once);
+	}
+
 	[Fact]
 	public async Task VoteUp_RemovesUserVoteIfAlreadyUpVoted_TestAsync()
 	{

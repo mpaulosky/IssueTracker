@@ -40,7 +40,7 @@ public partial class Comment
 	{
 		CommentModel comment = new()
 		{
-			CommentOnSource = new BasicCommentOnSourceModel(_issue!),
+			Issue = new BasicIssueModel(_issue!),
 			Author = new BasicUserModel(_loggedInUser!),
 			Title = _comment.Title!,
 			Description = _comment.Description!

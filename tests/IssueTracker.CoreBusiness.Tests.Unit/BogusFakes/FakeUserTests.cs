@@ -24,6 +24,7 @@ public class FakeUserTests
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().BeEquivalentTo(FakeUser.GetNewUser(expected),
 			options => options
 				.Excluding(t => t.Id)
@@ -38,7 +39,7 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var result = FakeUser.GetUsers(expectedCount);
+		List<UserModel> result = FakeUser.GetUsers(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -56,7 +57,7 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var result = FakeUser.GetBasicUser(expectedCount);
+		List<BasicUserModel> result = FakeUser.GetBasicUser(expectedCount);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -73,10 +74,11 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var result = FakeUser.GetNewUser(expected, true);
+		UserModel result = FakeUser.GetNewUser(expected, true);
 
 		// Assert
 		if (!expected) { result.Id.Should().BeNullOrWhiteSpace(); }
+
 		result.Should().NotBeEquivalentTo(FakeUser.GetNewUser(expected, true));
 	}
 
@@ -88,7 +90,7 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var result = FakeUser.GetUsers(expectedCount, true);
+		List<UserModel> result = FakeUser.GetUsers(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);
@@ -103,7 +105,7 @@ public class FakeUserTests
 		// Arrange
 
 		// Act
-		var result = FakeUser.GetBasicUser(expectedCount, true);
+		List<BasicUserModel> result = FakeUser.GetBasicUser(expectedCount, true);
 
 		// Assert
 		result.Count.Should().Be(expectedCount);

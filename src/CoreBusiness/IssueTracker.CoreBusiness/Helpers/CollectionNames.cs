@@ -26,7 +26,6 @@ public static class CollectionNames
 			"CategoryModel" => "categories",
 			"CommentModel" => "comments",
 			"IssueModel" => "issues",
-			"SolutionModel" => "solutions",
 			"StatusModel" => "statuses",
 			"UserModel" => "users",
 			_ => ""

@@ -21,7 +21,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.6.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="7.0.8" />
-		<PackageReference Include="MongoDB.Bson" Version="2.19.2" />
+		<PackageReference Include="MongoDB.Bson" Version="2.20.0" />
 	</ItemGroup>
 
 </Project>

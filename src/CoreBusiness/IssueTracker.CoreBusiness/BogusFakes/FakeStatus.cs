@@ -22,7 +22,7 @@ public static class FakeStatus
 	/// <returns>StatusModel</returns>
 	public static StatusModel GetNewStatus(bool keepId = false, bool useNewSeed = false)
 	{
-		var status = GenerateFake(useNewSeed).Generate();
+		StatusModel? status = GenerateFake(useNewSeed).Generate();
 
 		if (!keepId)
 		{
@@ -84,9 +84,9 @@ public static class FakeStatus
 	/// <returns>A List of StatusModels</returns>
 	public static List<StatusModel> GetStatuses(int numberOfStatuses, bool useNewSeed = false)
 	{
-		var statuses = GenerateFake(useNewSeed).Generate(numberOfStatuses);
+		List<StatusModel>? statuses = GenerateFake(useNewSeed).Generate(numberOfStatuses);
 
-		foreach (var status in statuses.Where(x => x.Archived))
+		foreach (StatusModel? status in statuses.Where(x => x.Archived))
 		{
 			status.ArchivedBy = new BasicUserModel(FakeUser.GetNewUser());
 		}
@@ -102,19 +102,19 @@ public static class FakeStatus
 	/// <returns>A List of BasicStatusModels</returns>
 	public static List<BasicStatusModel> GetBasicStatuses(int numberOfStatuses, bool useNewSeed = false)
 	{
-		var statuses = GenerateFake(useNewSeed).Generate(numberOfStatuses);
+		List<StatusModel>? statuses = GenerateFake(useNewSeed).Generate(numberOfStatuses);
 
 		return statuses.Select(s => new BasicStatusModel(s)).ToList();
 	}
 
 	/// <summary>
-	/// GenerateFake method
+	///   GenerateFake method
 	/// </summary>
 	/// <param name="useNewSeed">bool whether to use a seed other than 0</param>
 	/// <returns>A Faker StatusModel</returns>
 	private static Faker<StatusModel> GenerateFake(bool useNewSeed = false)
 	{
-		var seed = 0;
+		int seed = 0;
 		if (useNewSeed)
 		{
 			seed = Random.Shared.Next(10, int.MaxValue);

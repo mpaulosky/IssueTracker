@@ -1,6 +1,6 @@
 ﻿// ============================================
 // Copyright (c) 2023. All rights reserved.
-// File Name :     GetCommentsBySourceTests.cs
+// File Name :     GetCommentsByIssueTests.cs
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
@@ -11,13 +11,13 @@ namespace IssueTracker.PlugIns.DataAccess;
 
 [ExcludeFromCodeCoverage]
 [Collection("Test Collection")]
-public class GetCommentsBySourceTests : IAsyncLifetime
+public class GetCommentsByIssueTests : IAsyncLifetime
 {
 	private const string? CleanupValue = "comments";
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
 
-	public GetCommentsBySourceTests(IssueTrackerTestFactory factory)
+	public GetCommentsByIssueTests(IssueTrackerTestFactory factory)
 	{
 		_factory = factory;
 		IMongoDbContextFactory context = _factory.Services.GetRequiredService<IMongoDbContextFactory>();
@@ -34,19 +34,19 @@ public class GetCommentsBySourceTests : IAsyncLifetime
 		await _factory.ResetCollectionAsync(CleanupValue);
 	}
 
-	[Fact(DisplayName = "GetBySourceAsync With Valid Data Should Succeed")]
-	public async Task GetBySourceAsync_With_ValidData_Should_ReturnValidComment_Test()
+	[Fact(DisplayName = "GetByIssueAsync With Valid Data Should Succeed")]
+	public async Task GetByIssueAsync_With_ValidData_Should_ReturnValidComment_Test()
 	{
 		// Arrange
 		CommentModel expected = FakeComment.GetNewComment();
 		await _sut.CreateAsync(expected);
 
 		// Act
-		List<CommentModel> result = (await _sut.GetBySourceAsync(expected.CommentOnSource!)).ToList();
+		List<CommentModel> result = (await _sut.GetByIssueAsync(expected.Issue!)).ToList();
 
 		// Assert
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
-		result[0].CommentOnSource!.Id.Should().Be(expected.CommentOnSource!.Id);
+		result[0].Issue!.Id.Should().Be(expected.Issue!.Id);
 	}
 }

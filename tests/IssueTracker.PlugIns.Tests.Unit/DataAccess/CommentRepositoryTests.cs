@@ -278,8 +278,8 @@ public class CommentRepositoryTests
 		expected.UserVotes.Count.Should().Be(0);
 	}
 
-	[Fact(DisplayName = "Get Comments By Source")]
-	public async Task GetCommentsBySourceAsync_With_ValidSource_Should_Return_A_List_Of_Comments_TestAsync()
+	[Fact(DisplayName = "Get Comments By Issue")]
+	public async Task GetCommentsByIssueAsync_With_ValidIssue_Should_Return_A_List_Of_Comments_TestAsync()
 	{
 		// Arrange
 		CommentModel expected = FakeComment.GetComments(1).First();
@@ -294,14 +294,14 @@ public class CommentRepositoryTests
 		CommentRepository sut = CreateRepository();
 
 		//Act
-		List<CommentModel> result = (await sut.GetBySourceAsync(expected.CommentOnSource!).ConfigureAwait(false)).ToList();
+		List<CommentModel> result = (await sut.GetByIssueAsync(expected.Issue!).ConfigureAwait(false)).ToList();
 
 		//Assert 
 		result.Should().NotBeNull();
 		result.First().Should().BeEquivalentTo(expected);
 		result.First().DateCreated.Should().NotBeBefore(Convert.ToDateTime("01/01/2000"));
-		result.First().CommentOnSource.Should().NotBeNull();
-		result.First().CommentOnSource.Should().BeEquivalentTo(expected.CommentOnSource);
+		result.First().Issue.Should().NotBeNull();
+		result.First().Issue.Should().BeEquivalentTo(expected.Issue);
 
 		//Verify if InsertOneAsync is called once
 		_mockCollection.Verify(c => c

@@ -49,6 +49,5 @@ public class GetCommentsTests : IAsyncLifetime
 		results.Count.Should().Be(1);
 		results[0].Title.Should().Be(expected.Title);
 		results[0].Author.Should().BeEquivalentTo(expected.Author);
-		results[0].CommentOnSource!.SourceType.Should().Be(expected.CommentOnSource!.SourceType);
 	}
 }
