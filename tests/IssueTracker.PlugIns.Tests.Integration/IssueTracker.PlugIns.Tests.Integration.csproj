@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.6.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="4.6.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.6.0" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.8" />
 		<PackageReference Include="MongoDB.Driver" Version="2.19.2" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.2" />
 		<PackageReference Include="Testcontainers.MongoDb" Version="3.2.0" />
