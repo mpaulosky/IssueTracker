@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		runsettings.xml = runsettings.xml
 		SECURITY.md = SECURITY.md
 		test.html = test.html
+		test1.html = test1.html
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6A67744E-6DCA-4EDD-8B65-CEE1BD980F94}"

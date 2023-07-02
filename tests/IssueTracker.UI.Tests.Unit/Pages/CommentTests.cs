@@ -85,41 +85,46 @@ public class CommentTests : TestContext
 				</button>
 			</div>
 			<div class="form-layout mb-3">
-								       <div class="close-button-section">
-									       <button id="close-page" class="btn btn-close"></button>
-								       </div>
-								       <div class="issue-item-container">
-									       <div class:ignore>
-										       <div diff:ignore></div>
-									       </div>
-									       <div class="issue-entry-text">
-										       <div diff:ignore></div>
-										       <div diff:ignore></div>
-										       <div class="issue-entry-bottom">
-											       <div diff:ignore></div>
-											       <div diff:ignore></div>
-										       </div>
-									       </div>
-									       <div class:ignore>
-										       <div diff:ignore></div>
-									       </div>
-								       </div>
-								       <form >
-									       <div class="input-section">
-										       <label class="form-label fw-bold text-uppercase" for="title">Title of the Comment</label>
-										       <div class="input-description">Brief title of the Comment.</div>
-										       <textarea id="title" class="form-control valid"  ></textarea>
-									       </div>
-									       <div class="input-section">
-										       <label class="form-label fw-bold text-uppercase" for="desc">Comment On the Issue</label>
-										       <div class="input-description">Give, in full your comments.</div>
-										       <textarea id="desc" class="form-control valid"  ></textarea>
-									       </div>
-									       <div class="center-children">
-										       <button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Create Comment</button>
-									       </div>
-								       </form>
-							       </div>
+				<div class="close-button-section">
+					<button id="close-page" class="btn btn-close"></button>
+				</div>
+				<div class="issue-item-container">
+					<div class:ignore>
+						<div diff:ignore></div>
+					</div>
+					<div class="issue-entry-text">
+						<div diff:ignore></div>
+						<div diff:ignore></div>
+						<div class="issue-entry-bottom">
+							<div diff:ignore></div>
+							<div diff:ignore></div>
+						</div>
+					</div>
+					<div class:ignore>
+						<div diff:ignore></div>
+					</div>
+				</div>
+				<div class="comment-item-container">
+					<div class="comment-vote comment-vote-none"></div>
+					<div class="comment-entry-text">
+						<form>
+							<div class="input-section">
+								<label class="form-label fw-bold text-uppercase" for="title">Title of the Comment</label>
+								<div class="input-description">Brief title of the Comment.</div>
+								<textarea id="title" class="form-control valid"></textarea>
+							</div>
+							<div class="input-section">
+								<label class="form-label fw-bold text-uppercase" for="desc">Comment On the Issue</label>
+								<div class="input-description">Give, in full your comments.</div>
+								<textarea id="desc" class="form-control valid"></textarea>
+							</div>
+							<div class="center-children">
+								<button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Create Comment</button>
+							</div>
+						</form>
+					</div>
+					<div class:ignore></div>
+				</div>
 			</div>
 			"""
 		);
