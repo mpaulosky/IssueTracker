@@ -11,7 +11,7 @@
 <h1 class="page-heading text-light text-uppercase mb-4">Comment on an Issue</h1>
 <div class="issue-container">
 	<button id="create-comment" @onclick="() => OpenCommentForm(_issue!)"
-	        class="suggest-btn btn btn-outline-light btn-lg text-uppercase">
+					class="suggest-btn btn btn-outline-light btn-lg text-uppercase">
 		Add Comment
 	</button>
 </div>
@@ -24,7 +24,9 @@
 	{
 		<IssueComponent Item="@_issue" LoggedInUser="@_loggedInUser"/>
 
-		<EditForm Model="_comment" OnValidSubmit="CreateComment">
+		<CommentCreateComponent Issue="@_issue" LoggedInUser="@_loggedInUser"/>
+
+@* 		<EditForm Model="_comment" OnValidSubmit="CreateComment">
 			<DataAnnotationsValidator/>
 			<ValidationSummary/>
 			<div class="input-section">
@@ -40,6 +42,6 @@
 			<div class="center-children">
 				<button id="submit-comment" class="btn btn-main btn-lg text-uppercase" type="submit">Create Comment</button>
 			</div>
-		</EditForm>
+		</EditForm> *@
 	}
 </div>

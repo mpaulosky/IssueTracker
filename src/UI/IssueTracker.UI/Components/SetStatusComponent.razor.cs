@@ -46,12 +46,12 @@ public partial class SetStatusComponent : ComponentBase
 
 		_settingStatus = null;
 
-		_ = SaveStatus();
+		SaveStatus();
 
 		return IssueChanged.InvokeAsync(Issue);
 	}
 
-	private async Task SaveStatus()
+	private async void SaveStatus()
 	{
 		await IssueService.UpdateIssue(Issue);
 	}

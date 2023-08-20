@@ -14,16 +14,9 @@ namespace IssueTracker.PlugIns;
 [UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
-	private readonly string _databaseName;
+	private readonly string _databaseName = $"test_{Guid.NewGuid():N}";
 
-	private readonly MongoDbContainer _mongoDbContainer;
-
-	public IssueTrackerTestFactory()
-	{
-		_mongoDbContainer = new MongoDbBuilder().Build();
-
-		_databaseName = $"test_{Guid.NewGuid():N}";
-	}
+	private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder().Build();
 
 	private IDatabaseSettings? DbConfig { get; set; }
 

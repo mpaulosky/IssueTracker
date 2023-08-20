@@ -18,7 +18,7 @@ public class ErrorModelTests
 	public void ShowRequestIdShouldNotReturnRequestId()
 	{
 		//Arrange
-		ErrorModel model = new ErrorModel { RequestId = null };
+		ErrorModel model = new() { RequestId = null! };
 
 		//Assert
 		Assert.False(model.ShowRequestId);

@@ -90,7 +90,7 @@ public class CommentRepository : ICommentRepository
 	public async Task<IEnumerable<CommentModel>> GetByIssueAsync(BasicIssueModel issue)
 	{
 		List<CommentModel>? results = (await _commentCollection
-				.FindAsync(s => s.Issue!.Id == issue.Id))
+				.FindAsync(s => s.Issue.Id == issue.Id))
 			.ToList();
 
 		return results;

@@ -58,7 +58,7 @@ public class CommentModel
 	/// <value>
 	///   The issue.
 	/// </value>
-	public BasicIssueModel? Issue { get; set; }
+	public BasicIssueModel Issue { get; set; } = new();
 
 	/// <summary>
 	///   Gets or sets the author.
@@ -110,5 +110,5 @@ public class CommentModel
 	/// <value>
 	///   Who selected this comment as the answer to the associated Issue.
 	/// </value>
-	public BasicUserModel? AnswerSelectedBy { get; set; }
+	public BasicUserModel AnswerSelectedBy { get; set; } = new();
 }
