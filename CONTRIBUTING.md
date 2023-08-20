@@ -1,11 +1,11 @@
-# Contributing to Issue Tracker
+# Contributing to This Project
 
 Thank you for taking the time to consider contributing to our project.
 
 The following is a set of guidelines for contributing to the project. These are mostly guidelines, not rules, and can be
 changed in the future. Please submit your suggestions with a pull-request to this document.
 
-- [Contributing to Issue Tracker](#contributing-to-issue-tracker)
+- [Contributing to this Project](#contributing-to-issue-tracker)
 	- [Code of Conduct](#code-of-conduct)
 		- [What should I know before I get started](#what-should-i-know-before-i-get-started)
 			- [Project Folder Structure](#project-folder-structure)
@@ -46,11 +46,11 @@ those tools as well. The folders are configured as follows:
 ```
 
 All official versions of the project are built and delivered with GitHub Actions and linked in the main README.md
-and [releases tab in GitHub](https://github.com/mpaulosky/IssueTracker/releases).
+and [releases tab in GitHub](https://github.com/mpaulosky/BlazorBlogApp/releases).
 
 ### Design Decisions
 
-Design for this project is ultimately decided by the project
+Design for this project is ultimately decided by the project team
 lead, [Matthew Paulosky](mailto:matthew.paulosky@outlook.com). The following project tenets are adhered to when making
 decisions:
 
@@ -71,7 +71,7 @@ This means one of several types of contributions:
 
 ### Create an Issue
 
-Create a [New Issue Here](https://github.com/mpaulosky/IssueTracker/issues).
+Create a [New Issue Here](https://github.com/mpaulosky/BlazorBlogApp/issues).
 
 1. If you are reporting a `Bug` that you have found. Be sure to add the `Bug` label so that we can triage and track it.
 1. If you are reporting an `Enhancement` that you think would improve the project. Be sure to add the `Enhancement`
@@ -79,7 +79,7 @@ Create a [New Issue Here](https://github.com/mpaulosky/IssueTracker/issues).
 
 ### Respond to an Issue
 
-[Fork the Repository to your GitHub account](https://github.com/mpaulosky/IssueTracker/fork).
+[Fork the Repository to your GitHub account](https://github.com/mpaulosky/BlazorBlogApp/fork).
 
 1. Create a new Branch from the develop branch with a reference to the existing Issue number.
 1. Work on the issue.
