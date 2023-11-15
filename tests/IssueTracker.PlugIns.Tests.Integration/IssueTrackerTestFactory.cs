@@ -7,6 +7,8 @@
 // Project Name :  IssueTracker.PlugIns.Tests.Integration
 // =============================================
 
+using Testcontainers.MongoDb;
+
 namespace IssueTracker.PlugIns;
 
 [Collection("Test collection")]

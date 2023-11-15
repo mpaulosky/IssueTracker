@@ -102,12 +102,12 @@ public class CreateTests : TestContext
 						<div class="input-section">
 							<label class="form-label fw-bold text-uppercase" for="issue-title">Issue Title</label>
 							<div class="input-description">Focus on the topic or technology you want to learn about.</div>
-							<input id="issue-title" class="form-control valid"  >
+							<input id="issue-title" name="_issue.Title" class="form-control valid"  >
 						</div>
 						<div class="input-section">
 							<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>
 							<div class="input-description">Briefly describe your suggestion.</div>
-							<textarea id="description" class="form-control valid"></textarea>
+							<textarea id="description" name="_issue.Description" class="form-control valid"></textarea>
 						</div>
 						<div class="input-section">
 							<label class="form-label fw-bold text-uppercase" for="category">Category</label>
