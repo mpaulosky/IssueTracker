@@ -28,6 +28,4 @@ global using Microsoft.Extensions.DependencyInjection;
 
 global using MongoDB.Driver;
 
-global using Testcontainers.MongoDb;
-
 global using Xunit;
