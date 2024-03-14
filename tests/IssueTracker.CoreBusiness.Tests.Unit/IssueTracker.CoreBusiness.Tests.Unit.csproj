@@ -20,10 +20,12 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.1"/>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1"/>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.1"/>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6"/>
 		<PackageReference Include="Moq" Version="4.20.70"/>
+
 		<PackageReference Include="NSubstitute" Version="5.1.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
