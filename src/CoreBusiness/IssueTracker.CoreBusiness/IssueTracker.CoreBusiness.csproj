@@ -17,8 +17,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Bogus" Version="35.4.0"/>
-		<PackageReference Include="MongoDB.Bson" Version="2.23.1"/>
+		<PackageReference Include="Bogus" Version="35.5.1" />
+		<PackageReference Include="MongoDB.Bson" Version="2.25.0" />
 	</ItemGroup>
 
 </Project>
