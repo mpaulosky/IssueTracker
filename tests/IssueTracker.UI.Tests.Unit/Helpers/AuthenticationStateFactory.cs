@@ -2,7 +2,7 @@
 // Copyright (c) 2023. All rights reserved.
 // File Name :     AuthenticationStateFactory.cs
 // Company :       mpaulosky
-// Author :        Matthew Paulosky
+// Author :        teqsl
 // Solution Name : IssueTracker
 // Project Name :  IssueTracker.UI.Tests.Unit
 // =============================================
@@ -27,7 +27,7 @@ public static class AuthenticationStateFactory
 			identity.AddClaim(new Claim("jobTitle", "Admin"));
 		}
 
-		ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+		ClaimsPrincipal principal = new(identity);
 
 		if (!isAuthenticated)
 		{

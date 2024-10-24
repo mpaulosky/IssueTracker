@@ -6,10 +6,12 @@
 		<Nullable>enable</Nullable>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<RootNamespace>IssueTracker.PlugIns</RootNamespace>
+		<UserSecretsId>28fafd4e-2ac8-4134-b43a-17ef290ab4fe</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
+		<PackageReference Include="MongoDB.Driver" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

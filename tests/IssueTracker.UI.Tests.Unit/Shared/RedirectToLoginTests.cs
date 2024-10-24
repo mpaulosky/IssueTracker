@@ -3,12 +3,7 @@ namespace IssueTracker.UI.Shared;
 [ExcludeFromCodeCoverage]
 public class RedirectToLoginTests : TestContext
 {
-	private readonly UserModel _expectedUser;
-
-	public RedirectToLoginTests()
-	{
-		_expectedUser = FakeUser.GetNewUser(true);
-	}
+	private readonly UserModel _expectedUser = FakeUser.GetNewUser(true);
 
 	[Fact]
 	public void RedirectToLogin_NavigatesToSignIn()
@@ -30,17 +25,21 @@ public class RedirectToLoginTests : TestContext
 	{
 		TestAuthorizationContext authContext = this.AddTestAuthorization();
 
-		if (isAuth)
+		switch (isAuth)
 		{
-			authContext.SetAuthorized(_expectedUser.DisplayName);
-			authContext.SetClaims(
-				new Claim("objectidentifier", _expectedUser.Id)
-			);
+			case true:
+				authContext.SetAuthorized(_expectedUser.DisplayName);
+				authContext.SetClaims(
+					new Claim("objectidentifier", _expectedUser.Id)
+				);
+				break;
 		}
 
-		if (isAdmin)
+		switch (isAdmin)
 		{
-			authContext.SetPolicies("Admin");
+			case true:
+				authContext.SetPolicies("Admin");
+				break;
 		}
 	}
 }
