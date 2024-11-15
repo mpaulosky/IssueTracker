@@ -37,6 +37,8 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task</returns>
 	public async Task ArchiveAsync(CommentModel comment)
 	{
+		ArgumentNullException.ThrowIfNull(comment, nameof(comment));
+		
 		// Archive the category
 		comment.Archived = true;
 
@@ -50,6 +52,8 @@ public class CommentRepository : ICommentRepository
 	/// <exception cref="Exception"></exception>
 	public async Task CreateAsync(CommentModel comment)
 	{
+		ArgumentNullException.ThrowIfNull(comment, nameof(comment));
+		
 		await _commentCollection.InsertOneAsync(comment);
 	}
 
@@ -60,6 +64,8 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of CommentModel</returns>
 	public async Task<CommentModel> GetAsync(string itemId)
 	{
+		ArgumentException.ThrowIfNullOrWhiteSpace(itemId, nameof(itemId));
+
 		ObjectId objectId = new(itemId);
 
 		FilterDefinition<CommentModel>? filter = Builders<CommentModel>.Filter.Eq("_id", objectId);
@@ -89,6 +95,8 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetByIssueAsync(BasicIssueModel issue)
 	{
+		ArgumentNullException.ThrowIfNull(issue, nameof(issue));
+		
 		List<CommentModel>? results = (await _commentCollection
 				.FindAsync(s => s.Issue.Id == issue.Id))
 			.ToList();
@@ -103,6 +111,8 @@ public class CommentRepository : ICommentRepository
 	/// <returns>Task of IEnumerable CommentModel</returns>
 	public async Task<IEnumerable<CommentModel>> GetByUserAsync(string userId)
 	{
+		ArgumentException.ThrowIfNullOrWhiteSpace(userId, nameof(userId));
+		
 		List<CommentModel>? results = (await _commentCollection.FindAsync(s => s.Author.Id == userId)).ToList();
 
 		return results;
