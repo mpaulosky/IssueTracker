@@ -65,14 +65,18 @@ public class GetCommentTests : IAsyncLifetime
 	}
 
 	[Fact]
-	public async Task GetComment_With_NullId_Should_ThrowArgumentNullException_Test()
+	public async Task GetComment_With_Empty_Id_Should_ThrowArgumentException_Test()
 	{
 		// Arrange
+		
+		const string id = "";
 
 		// Act
-		Func<Task<CommentModel>> act = async () => await _sut.GetAsync(null!);
+		
+		Func<Task<CommentModel>> act = async () => await _sut.GetAsync(id);
 
 		// Assert
-		await act.Should().ThrowAsync<ArgumentNullException>();
+		
+		await act.Should().ThrowAsync<ArgumentException>();
 	}
 }

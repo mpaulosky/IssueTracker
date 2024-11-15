@@ -56,7 +56,7 @@ public class GetCategoryTests : IAsyncLifetime
 		// Arrange
 
 		// Act
-		CategoryModel result = await _sut.GetAsync(value!);
+		CategoryModel result = await _sut.GetAsync(value);
 
 		// Assert
 		result.Should().BeNull();
