@@ -27,7 +27,7 @@
 	<ItemGroup>
 		<PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
 		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="3.2.2" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="3.3.1" />
 		<PackageReference Include="Microsoft.Identity.Web.UI" Version="3.2.2" />
 		<PackageReference Include="Radzen.Blazor" Version="5.3.5" />
 	</ItemGroup>
