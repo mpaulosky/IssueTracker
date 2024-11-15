@@ -35,13 +35,13 @@ public static class FakeCategory
 	}
 
 	/// <summary>
-	///   Gets a list of categories that exit.
+	///   Gets a list of categories that exist.
 	/// </summary>
 	/// <returns>A Default List of CategoryModels</returns>
 	public static List<CategoryModel> GetCategories()
 	{
-		List<CategoryModel> categories = new()
-		{
+		List<CategoryModel> categories =
+		[
 			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
@@ -49,6 +49,7 @@ public static class FakeCategory
 				CategoryName = "Design",
 				Archived = false
 			},
+
 			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
@@ -56,6 +57,7 @@ public static class FakeCategory
 				CategoryName = "Documentation",
 				Archived = false
 			},
+
 			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
@@ -63,6 +65,7 @@ public static class FakeCategory
 				CategoryName = "Implementation",
 				Archived = false
 			},
+
 			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
@@ -70,6 +73,7 @@ public static class FakeCategory
 				CategoryName = "Clarification",
 				Archived = false
 			},
+
 			new CategoryModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
@@ -77,7 +81,7 @@ public static class FakeCategory
 				CategoryName = "Miscellaneous",
 				Archived = false
 			}
-		};
+		];
 
 		return categories;
 	}
