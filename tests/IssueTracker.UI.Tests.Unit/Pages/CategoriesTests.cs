@@ -77,10 +77,7 @@ public class CategoriesTests : TestContext
 			    </div>
 			    <div class="" >
 			      <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
-			        <span class="rz-button-box">
-			          <i class="rz-button-icon-left rzi">add_circle_outline</i>
-			          <span class="rz-button-text">Add New Category</span>
-			        </span>
+			        <span diff:ignore></span>
 			      </button>
 			      <div class="rz-data-grid rz-has-pager rz-datatable rz-datatable-scrollable " id:ignore tabindex="0">
 			        <div class="rz-data-grid-data" tabindex="-1">
@@ -94,25 +91,17 @@ public class CategoriesTests : TestContext
 			              <tr>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:120px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Category Name">
-			                      <span class="rz-column-title-content">Category Name</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:200px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Description">
-			                      <span class="rz-column-title-content">Description</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-text-align-right" scope="col" style="width:156px;text-align:right" >
 			                  <div  >
-			                    <span class="rz-column-title">
-			                      <span class="rz-column-title-content"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			              </tr>
@@ -128,14 +117,10 @@ public class CategoriesTests : TestContext
 			                <td style="width:156px;text-align:right;" >
 			                  <span class="rz-cell-data">
 			                    <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">edit</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">delete</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                  </span>
 			                </td>
@@ -170,10 +155,7 @@ public class CategoriesTests : TestContext
 			    </div>
 			    <div class="" >
 			      <button disabled="" tabindex="-1" type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default rz-state-disabled mt-2 mb-4" id:ignore>
-			        <span class="rz-button-box">
-			          <i class="rz-button-icon-left rzi">add_circle_outline</i>
-			          <span class="rz-button-text">Add New Category</span>
-			        </span>
+			        <span diff:ignore></span>
 			      </button>
 			      <div class="rz-data-grid rz-has-pager rz-datatable  rz-datatable-scrollable " id:ignore tabindex="0"   >
 			        <div class="rz-data-grid-data" tabindex="-1">
@@ -187,25 +169,17 @@ public class CategoriesTests : TestContext
 			              <tr>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:120px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Category Name">
-			                      <span class="rz-column-title-content">Category Name</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column rz-text-align-left" scope="col" style="width:200px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Description">
-			                      <span class="rz-column-title-content">Description</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-text-align-right" scope="col" style="width:156px;text-align:right" >
 			                  <div  >
-			                    <span class="rz-column-title">
-			                      <span class="rz-column-title-content"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			              </tr>
@@ -225,19 +199,13 @@ public class CategoriesTests : TestContext
 			                <td style="width:156px;text-align:right;" >
 			                  <span class="rz-cell-data">
 			                    <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-flat rz-success rz-shade-default rz-button-icon-only" id:ignore >
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">check</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">close</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">delete</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                  </span>
 			                </td>
@@ -252,14 +220,10 @@ public class CategoriesTests : TestContext
 			                <td style="width:156px;text-align:right;" >
 			                  <span class="rz-cell-data">
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">edit</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">delete</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                  </span>
 			                </td>
@@ -296,10 +260,7 @@ public class CategoriesTests : TestContext
 			    </div>
 			    <div class="" >
 			      <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
-			        <span class="rz-button-box">
-			          <i class="rz-button-icon-left rzi">add_circle_outline</i>
-			          <span class="rz-button-text">Add New Category</span>
-			        </span>
+			        <span diff:ignore></span>
 			      </button>
 			      <div class="rz-data-grid rz-has-pager rz-datatable  rz-datatable-scrollable " id:ignore tabindex="0"   >
 			        <div class="rz-data-grid-data" tabindex="-1">
@@ -313,18 +274,12 @@ public class CategoriesTests : TestContext
 			              <tr>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:120px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Category Name">
-			                      <span class="rz-column-title-content">Category Name</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:200px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Description">
-			                      <span class="rz-column-title-content">Description</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col" style="width:156px;text-align:right" >
@@ -347,14 +302,10 @@ public class CategoriesTests : TestContext
 			                <td style="width:156px;text-align:right;" >
 			                  <span class="rz-cell-data">
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">edit</i>
-			                      </span>
+			                     <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">delete</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                  </span>
 			                </td>
@@ -457,10 +408,7 @@ public class CategoriesTests : TestContext
 			    </div>
 			    <div class="" >
 			      <button tabindex="0" type="button" class="rz-button rz-button-md rz-variant-filled rz-success rz-shade-default mt-2 mb-4" id:ignore>
-			        <span class="rz-button-box">
-			          <i class="rz-button-icon-left rzi">add_circle_outline</i>
-			          <span class="rz-button-text">Add New Category</span>
-			        </span>
+			        <span diff:ignore></span>
 			      </button>
 			      <div class="rz-data-grid rz-has-pager rz-datatable  rz-datatable-scrollable " id:ignore tabindex="0"   >
 			        <div class="rz-data-grid-data" tabindex="-1">
@@ -474,25 +422,17 @@ public class CategoriesTests : TestContext
 			              <tr>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:120px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Category Name">
-			                      <span class="rz-column-title-content">Category Name</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text rz-sortable-column    rz-text-align-left" scope="col" style="width:200px" >
 			                  <div  >
-			                    <span class="rz-column-title" title="Description">
-			                      <span class="rz-column-title-content">Description</span>
-			                      <span class="rz-sortable-column-icon rzi-grid-sort rzi-sort"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			                <th rowspan="1" colspan="1" class="rz-unselectable-text     rz-text-align-right" scope="col" style="width:156px;text-align:right" >
 			                  <div  >
-			                    <span class="rz-column-title">
-			                      <span class="rz-column-title-content"></span>
-			                    </span>
+			                    <span diff:ignore></span>
 			                  </div>
 			                </th>
 			              </tr>
@@ -508,14 +448,10 @@ public class CategoriesTests : TestContext
 			                <td style="width:156px;text-align:right;" >
 			                  <span class="rz-cell-data">
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-light rz-shade-default rz-button-icon-only" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">edit</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                    <button tabindex="0" type="button"  class="rz-button rz-button-md rz-variant-flat rz-danger rz-shade-lighter rz-button-icon-only my-1 ms-1" id:ignore>
-			                      <span class="rz-button-box">
-			                        <i class="rz-button-icon-left rzi">delete</i>
-			                      </span>
+			                      <span diff:ignore></span>
 			                    </button>
 			                  </span>
 			                </td>
