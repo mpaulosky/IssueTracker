@@ -7,6 +7,8 @@
 // Project Name :  IssueTracker.CoreBusiness.Tests.Unit
 // =============================================
 
+using Bogus;
+
 namespace IssueTracker.CoreBusiness.BogusFakes;
 
 [ExcludeFromCodeCoverage]
@@ -32,7 +34,7 @@ public class FakeCategoryTests
 	[Theory(DisplayName = "FakeCategory GetNewCategory With New Seed Test")]
 	[InlineData(true)]
 	[InlineData(false)]
-	public void GetNewCategory_With_UsingNewSeedSetTrue_Should_ReturnRandomValues_Test(bool expected)
+	public void GetNewCategory_Using_NewSeed_SetTrue_Should_ReturnRandomValues_Test(bool expected)
 	{
 		// Arrange
 
@@ -121,5 +123,21 @@ public class FakeCategoryTests
 		// Assert
 		result.Count.Should().Be(countRequested);
 		result.Should().NotBeEquivalentTo(FakeCategory.GetBasicCategories(countRequested));
+	}
+	
+	
+	[Fact]
+	public void GenerateFake_Should_ReturnFakerInstance_Test()
+	{
+		// Act
+
+		var faker = typeof(FakeCategory).GetMethod("GenerateFake",
+				System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+			?.Invoke(null, [false]) as Faker<CategoryModel>;
+
+		// Assert
+
+		faker.Should().NotBeNull();
+		faker.Should().BeOfType<Faker<CategoryModel>>();
 	}
 }
