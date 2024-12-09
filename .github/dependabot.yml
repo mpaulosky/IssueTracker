@@ -11,10 +11,49 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "github-actions"
+      - "dependencies"
+    reviewers:
+      - "mpaulosky"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
 
   # Maintain dependencies for nuget
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/nuget/helpers/lib/NuGetUpdater"
     schedule:
       interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "nuget"
+      - "dependencies"
+    reviewers:
+      - "mpaulosky"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
+
+  #Maintain DotNet Sdk
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/nuget/helpers/lib/NuGetUpdater"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dotnet-sdk"
+      - "dependencies"
+    reviewers:
+      - "mpaulosky"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
