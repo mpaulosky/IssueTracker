@@ -71,7 +71,13 @@ jobs:
 
       - name: Codecov
         uses: codecov/codecov-action@v5.1.1
-
+        
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
