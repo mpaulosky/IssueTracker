@@ -55,13 +55,13 @@ jobs:
         run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.0.3
+        uses: gittools/actions/gitversion/setup@v3.1.1
         with:
           versionSpec: "5.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v3.0.3
+        uses: gittools/actions/gitversion/execute@v3.1.1
       - run: |
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
