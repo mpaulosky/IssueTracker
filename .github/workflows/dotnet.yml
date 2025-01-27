@@ -65,7 +65,7 @@ jobs:
           path: TestResults
 
       - name: Codecov
-        uses: codecov/codecov-action@v5.1.2
+        uses: codecov/codecov-action@v5.3.1
         
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
@@ -74,13 +74,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.1.1
+        uses: gittools/actions/gitversion/setup@v3.1.11
         with:
           versionSpec: "5.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v3.1.1
+        uses: gittools/actions/gitversion/execute@v3.1.11
       - run: |
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
