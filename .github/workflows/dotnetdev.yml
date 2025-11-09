@@ -55,13 +55,13 @@ jobs:
         run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.1.0
+        uses: gittools/actions/gitversion/setup@v4.2.0
         with:
           versionSpec: "5.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v4.1.0
+        uses: gittools/actions/gitversion/execute@v4.2.0
       - run: |
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 
@@ -69,7 +69,7 @@ jobs:
         uses: codecov/codecov-action@v5.5.1
 
       - name: Upload dotnet test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: IssueTracker-test-results
           path: TestResults
