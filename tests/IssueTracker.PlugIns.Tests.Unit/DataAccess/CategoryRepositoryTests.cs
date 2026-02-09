@@ -121,7 +121,7 @@ public class CategoryRepositoryTests
 		CategoryRepository sut = CreateRepository();
 
 		// Act
-		List<CategoryModel> results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
+		List<CategoryModel> results = (await sut.GetAllAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();

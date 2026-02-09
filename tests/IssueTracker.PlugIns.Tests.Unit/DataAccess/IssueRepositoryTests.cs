@@ -130,7 +130,7 @@ public class IssueRepositoryTests
 		IssueRepository sut = CreateRepository();
 
 		// Act
-		List<IssueModel> results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
+		List<IssueModel> results = (await sut.GetAllAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -166,7 +166,7 @@ public class IssueRepositoryTests
 		IssueRepository sut = CreateRepository();
 
 		// Act
-		IEnumerable<IssueModel> results = (await sut.GetByUserAsync(expectedUserId).ConfigureAwait(false)).ToList();
+		IEnumerable<IssueModel> results = (await sut.GetByUserAsync(expectedUserId)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -201,7 +201,7 @@ public class IssueRepositoryTests
 		IssueRepository sut = CreateRepository();
 
 		// Act
-		List<IssueModel> results = (await sut.GetWaitingForApprovalAsync().ConfigureAwait(false)).ToList();
+		List<IssueModel> results = (await sut.GetWaitingForApprovalAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -235,7 +235,7 @@ public class IssueRepositoryTests
 		IssueRepository sut = CreateRepository();
 
 		// Act
-		IEnumerable<IssueModel> results = (await sut.GetApprovedAsync().ConfigureAwait(false)).ToList();
+		IEnumerable<IssueModel> results = (await sut.GetApprovedAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();

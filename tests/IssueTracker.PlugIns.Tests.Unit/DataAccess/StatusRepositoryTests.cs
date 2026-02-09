@@ -131,7 +131,7 @@ public class StatusRepositoryTests
 		StatusRepository sut = CreateRepository();
 
 		// Act
-		List<StatusModel> results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
+		List<StatusModel> results = (await sut.GetAllAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();

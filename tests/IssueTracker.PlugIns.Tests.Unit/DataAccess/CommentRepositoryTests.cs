@@ -79,7 +79,7 @@ public class CommentRepositoryTests
 		CommentRepository sut = CreateRepository();
 
 		//Act
-		CommentModel result = await sut.GetAsync(expected.Id).ConfigureAwait(false);
+		CommentModel result = await sut.GetAsync(expected.Id);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -111,7 +111,7 @@ public class CommentRepositoryTests
 		CommentRepository sut = CreateRepository();
 
 		// Act
-		List<CommentModel> result = (await sut.GetAllAsync().ConfigureAwait(false))!.ToList();
+		List<CommentModel> result = (await sut.GetAllAsync())!.ToList();
 
 		// Assert
 		result.Should().NotBeNull();
@@ -141,7 +141,7 @@ public class CommentRepositoryTests
 		CommentRepository sut = CreateRepository();
 
 		// Act
-		List<CommentModel> results = (await sut.GetByUserAsync(expected.Author.Id).ConfigureAwait(false)).ToList();
+		List<CommentModel> results = (await sut.GetByUserAsync(expected.Author.Id)).ToList();
 
 		// Assert
 		results.Should().NotBeNull();
@@ -294,7 +294,7 @@ public class CommentRepositoryTests
 		CommentRepository sut = CreateRepository();
 
 		//Act
-		List<CommentModel> result = (await sut.GetByIssueAsync(expected.Issue!).ConfigureAwait(false)).ToList();
+		List<CommentModel> result = (await sut.GetByIssueAsync(expected.Issue!)).ToList();
 
 		//Assert 
 		result.Should().NotBeNull();
