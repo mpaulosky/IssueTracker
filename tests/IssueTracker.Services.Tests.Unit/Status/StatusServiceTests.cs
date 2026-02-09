@@ -161,8 +161,7 @@ public class StatusServiceTests
 	[Theory(DisplayName = "Get Status With Invalid Id")]
 	[InlineData(null, "statusId", "Value cannot be null.?*")]
 	[InlineData("", "statusId", "The value cannot be an empty string.?*")]
-	public async Task GetStatus_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value,
-		string expectedParamName, string expectedMessage)
+	public async Task GetStatus_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string? value, string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		StatusService sut = UnitUnderTest();

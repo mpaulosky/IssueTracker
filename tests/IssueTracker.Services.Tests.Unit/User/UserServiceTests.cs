@@ -121,7 +121,7 @@ public class UserServiceTests
 	[Theory(DisplayName = "Get User With Invalid Id")]
 	[InlineData(null, "userId", "Value cannot be null.?*")]
 	[InlineData("", "userId", "The value cannot be an empty string.?*")]
-	public async Task GetUser_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value,
+	public async Task GetUser_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		// Arrange
@@ -181,7 +181,7 @@ public class UserServiceTests
 	[Theory(DisplayName = "Get User From Authentication With Invalid Data")]
 	[InlineData(null, "userObjectIdentifierId", "Value cannot be null.?*")]
 	[InlineData("", "userObjectIdentifierId", "The value cannot be an empty string.?*")]
-	public async Task GetUserFromAuthentication_With_Invalid_Value_Should_Return_A_ArgumentException_Test(string value,
+	public async Task GetUserFromAuthentication_With_Invalid_Value_Should_Return_A_ArgumentException_Test(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		//Arrange

@@ -119,7 +119,7 @@ public class CategoryServiceTests
 	[Theory(DisplayName = "Get Category With Invalid Id")]
 	[InlineData(null, "categoryId", "Value cannot be null.?*")]
 	[InlineData("", "categoryId", "The value cannot be an empty string.?*")]
-	public async Task GetCategory_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value,
+	public async Task GetCategory_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		// Arrange
