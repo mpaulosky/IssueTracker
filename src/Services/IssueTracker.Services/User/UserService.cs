@@ -12,20 +12,8 @@ namespace IssueTracker.Services.User;
 /// <summary>
 ///   UserService class
 /// </summary>
-public class UserService : IUserService
+public class UserService(IUserRepository repository) : IUserService
 {
-	private readonly IUserRepository _repository;
-
-	/// <summary>
-	///   UserService constructor
-	/// </summary>
-	/// <param name="repository">IUserRepository</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public UserService(IUserRepository repository)
-	{
-		ArgumentNullException.ThrowIfNull(repository);
-		_repository = repository;
-	}
 
 	/// <summary>
 	///   ArchiveUser method
@@ -37,7 +25,7 @@ public class UserService : IUserService
 	{
 		ArgumentNullException.ThrowIfNull(user);
 
-		return _repository.ArchiveAsync(user);
+		return repository.ArchiveAsync(user);
 	}
 
 	/// <summary>
@@ -50,7 +38,7 @@ public class UserService : IUserService
 	{
 		ArgumentNullException.ThrowIfNull(user);
 
-		return _repository.CreateAsync(user);
+		return repository.CreateAsync(user);
 	}
 
 	/// <summary>
@@ -63,7 +51,7 @@ public class UserService : IUserService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(userId);
 
-		UserModel results = await _repository.GetAsync(userId);
+		UserModel results = await repository.GetAsync(userId);
 
 		return results;
 	}
@@ -74,7 +62,7 @@ public class UserService : IUserService
 	/// <returns>Task if List UserModel</returns>
 	public async Task<List<UserModel>> GetUsers()
 	{
-		IEnumerable<UserModel> results = await _repository.GetAllAsync();
+		IEnumerable<UserModel> results = await repository.GetAllAsync();
 
 		return results.ToList();
 	}
@@ -89,7 +77,7 @@ public class UserService : IUserService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(userObjectIdentifierId);
 
-		UserModel results = await _repository.GetFromAuthenticationAsync(userObjectIdentifierId);
+		UserModel results = await repository.GetFromAuthenticationAsync(userObjectIdentifierId);
 
 		return results;
 	}
@@ -104,6 +92,6 @@ public class UserService : IUserService
 	{
 		ArgumentNullException.ThrowIfNull(user);
 
-		return _repository.UpdateAsync(user.Id, user);
+		return repository.UpdateAsync(user.Id, user);
 	}
 }

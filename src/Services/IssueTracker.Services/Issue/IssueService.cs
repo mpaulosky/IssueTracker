@@ -12,26 +12,9 @@ namespace IssueTracker.Services.Issue;
 /// <summary>
 ///   IssueService class
 /// </summary>
-public class IssueService : IIssueService
+public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIssueService
 {
 	private const string CacheName = "IssueData";
-	private readonly IMemoryCache _cache;
-	private readonly IIssueRepository _repository;
-
-	/// <summary>
-	///   IssueService
-	/// </summary>
-	/// <param name="repository">IIssueRepository</param>
-	/// <param name="cache">IMemoryCache</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public IssueService(IIssueRepository repository, IMemoryCache cache)
-	{
-		ArgumentNullException.ThrowIfNull(repository);
-		ArgumentNullException.ThrowIfNull(cache);
-
-		_repository = repository;
-		_cache = cache;
-	}
 
 	/// <summary>
 	///   ArchiveIssue method
@@ -43,9 +26,9 @@ public class IssueService : IIssueService
 	{
 		ArgumentNullException.ThrowIfNull(issue);
 
-		_cache.Remove(CacheName);
+		cache.Remove(CacheName);
 
-		return _repository.ArchiveAsync(issue);
+		return repository.ArchiveAsync(issue);
 	}
 
 	/// <summary>
@@ -57,7 +40,7 @@ public class IssueService : IIssueService
 	{
 		ArgumentNullException.ThrowIfNull(issue);
 
-		await _repository.CreateAsync(issue);
+		await repository.CreateAsync(issue);
 	}
 
 	/// <summary>
@@ -70,7 +53,7 @@ public class IssueService : IIssueService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(issueId);
 
-		IssueModel results = await _repository.GetAsync(issueId);
+		IssueModel results = await repository.GetAsync(issueId);
 
 		return results;
 	}
@@ -81,18 +64,18 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssues()
 	{
-		List<IssueModel>? output = _cache.Get<List<IssueModel>>(CacheName);
+		List<IssueModel>? output = cache.Get<List<IssueModel>>(CacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<IssueModel> results = await _repository.GetAllAsync();
+		IEnumerable<IssueModel> results = await repository.GetAllAsync();
 
 		output = results.ToList();
 
-		_cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
+		cache.Set(CacheName, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
@@ -107,18 +90,18 @@ public class IssueService : IIssueService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(userId);
 
-		List<IssueModel>? output = _cache.Get<List<IssueModel>>(userId);
+		List<IssueModel>? output = cache.Get<List<IssueModel>>(userId);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<IssueModel> results = await _repository.GetByUserAsync(userId);
+		IEnumerable<IssueModel> results = await repository.GetByUserAsync(userId);
 
 		output = results.ToList();
 
-		_cache.Set(userId, output, TimeSpan.FromMinutes(1));
+		cache.Set(userId, output, TimeSpan.FromMinutes(1));
 
 		return output;
 	}
@@ -129,7 +112,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetIssuesWaitingForApproval()
 	{
-		IEnumerable<IssueModel> results = await _repository.GetWaitingForApprovalAsync();
+		IEnumerable<IssueModel> results = await repository.GetWaitingForApprovalAsync();
 
 		return results.ToList();
 	}
@@ -140,7 +123,7 @@ public class IssueService : IIssueService
 	/// <returns>Task of List IssueModels</returns>
 	public async Task<List<IssueModel>> GetApprovedIssues()
 	{
-		IEnumerable<IssueModel> results = await _repository.GetApprovedAsync();
+		IEnumerable<IssueModel> results = await repository.GetApprovedAsync();
 
 		return results.ToList();
 	}
@@ -154,8 +137,8 @@ public class IssueService : IIssueService
 	{
 		ArgumentNullException.ThrowIfNull(issue);
 
-		await _repository.UpdateAsync(issue.Id, issue);
+		await repository.UpdateAsync(issue.Id, issue);
 
-		_cache.Remove(CacheName);
+		cache.Remove(CacheName);
 	}
 }
