@@ -29,10 +29,10 @@ public class BasicCommentModel
 		Author = comment.Author;
 	}
 
-	public string Id { get; set; }
-	public string Title { get; set; }
-	public string Description { get; set; }
-	public DateTime DateCreated { get; set; }
-	public BasicIssueModel Issue { get; set; }
-	public BasicUserModel Author { get; set; }
+	public string Id { get; init; }
+	public string Title { get; init; }
+	public string Description { get; init; }
+	public DateTime DateCreated { get; init; }
+	public BasicIssueModel Issue { get; init; }
+	public BasicUserModel Author { get; init; }
 }

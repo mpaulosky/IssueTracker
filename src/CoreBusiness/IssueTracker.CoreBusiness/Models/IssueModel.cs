@@ -53,7 +53,7 @@ public class IssueModel
 	/// </value>
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+	public DateTime DateCreated { get; init; } = DateTime.UtcNow;
 
 	/// <summary>
 	///   Gets or sets the category.

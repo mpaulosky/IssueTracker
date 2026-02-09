@@ -71,7 +71,7 @@ public class BasicUserModel
 	/// <value>
 	///   The first name.
 	/// </value>
-	public string FirstName { get; set; } = string.Empty;
+	public string FirstName { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the last name.
@@ -79,7 +79,7 @@ public class BasicUserModel
 	/// <value>
 	///   The last name.
 	/// </value>
-	public string LastName { get; set; } = string.Empty;
+	public string LastName { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the display name.
@@ -87,7 +87,7 @@ public class BasicUserModel
 	/// <value>
 	///   The display name.
 	/// </value>
-	public string DisplayName { get; set; } = string.Empty;
+	public string DisplayName { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the email address.
@@ -95,5 +95,5 @@ public class BasicUserModel
 	/// <value>
 	///   The email address.
 	/// </value>
-	public string EmailAddress { get; set; } = string.Empty;
+	public string EmailAddress { get; init; } = string.Empty;
 }

@@ -22,6 +22,7 @@ public class CategoryModel
 	///   The identifier.
 	/// </value>
 	[BsonId]
+	[BsonElement("_id")]
 	[BsonRepresentation(BsonType.ObjectId)]
 	public string? Id { get; set; } = string.Empty;
 
