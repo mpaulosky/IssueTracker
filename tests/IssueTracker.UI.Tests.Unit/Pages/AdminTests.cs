@@ -336,4 +336,5 @@ public class AdminTests : TestContext
 			.Callback((object k) => _ = (string)k)
 			.Returns(_mockCacheEntry.Object);
 	}
+
 }

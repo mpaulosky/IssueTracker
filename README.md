@@ -1,48 +1,53 @@
 # Issue Tracker
 
-## New Blazor Hosted Application
-
-### A tool to track issues and their resolution using a MongoDb to store documents. It includes both unit and integration tests with the integration tests using a docker container for the test MongoDb database to ensuere  clean isolated data for the tests.
-
-****
+A modern issue tracking application built with Blazor and MongoDB, featuring comprehensive unit and integration testing with Docker-based test isolation.
 
 [![Issues Open](https://img.shields.io/github/issues/mpaulosky/IssueTracker.svg?style=flatsquare&logo=github&label=Open%20Issues)](https://github.com/mpaulosky/IssueTracker/issues)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed/mpaulosky/IssueTracker?logo=github)
 ![GitHub](https://img.shields.io/github/license/mpaulosky/IssueTracker?logo=github)
-
-![GitHub pull requests](https://img.shields.io/github/issues-pr/mpaulosky/issuetracker?label=pull%20requests%20main&logo=github)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/mpaulosky/issuetracker?logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/main?label=last%20commit%20main&logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/mpaulosky/IssueTracker/dev?label=last%20commit%20dev&logo=github)
-
 ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/IssueTracker/dotnet.yml?branch=main&label=Build%20%26%20Test%20main&logo=github)
-[![Build and Test dev](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnetdev.yml/badge.svg?branch=dev)](https://github.com/mpaulosky/IssueTracker/actions/workflows/dotnetdev.yml)
-
 [![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
-[![CodeQL main](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml?branch=main)
 
-****
+## 🚀 Quick Start
 
-## How to Engage, Contribute, and Give Feedback
+```bash
+# Clone the repository
+git clone https://github.com/mpaulosky/IssueTracker.git
+cd IssueTracker
 
-Review the [Code Of Conduct](./CODE_OF_CONDUCT.md).
+# Restore dependencies
+dotnet restore
 
-Some of the best ways to contribute are to try things out, file issues, and make pull-requests.
+# Run the application
+dotnet run --project src/IssueTracker.UI/IssueTracker.UI.csproj
+```
 
-Check out the [contributing page](./CONTRIBUTING.md) to see the best places to log issues and start discussions.
+## 📖 Documentation
 
-****
+For detailed documentation, architecture guides, and comprehensive references, visit our **[documentation site](https://mpaulosky.github.io/IssueTracker/)**.
 
-## Software References
+- [Getting Started Guide](docs/getting-started.md)
+- [Architecture Overview](docs/architecture.md)
+- [Testing Guide](docs/testing.md)
+- [Contributing Guide](docs/CONTRIBUTING.md)
+- [Code Metrics](docs/CODE_METRICS.md)
 
-* .NET 7
-* C#
-* HTML
-* Bootstrap CSS
-* Blazor Server
-* MongoDb
-* Docker
+## 🛠️ Tech Stack
 
-## Code of conduct
+- **.NET 9** - Modern C# framework
+- **Blazor Server** - Interactive web UI
+- **MongoDB** - Document database
+- **Docker** - Containerization and test isolation
+- **xUnit & bUnit** - Comprehensive testing
 
-See the [CODE-OF-CONDUCT](./CODE_OF_CONDUCT.md) document.
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](docs/CONTRIBUTING.md) and [Code of Conduct](docs/CODE_OF_CONDUCT.md) before submitting pull requests.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🔒 Security
+
+For security concerns, please review our [Security Policy](docs/SECURITY.md).

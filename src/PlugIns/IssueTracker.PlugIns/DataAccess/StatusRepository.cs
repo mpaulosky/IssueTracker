@@ -12,23 +12,10 @@ namespace IssueTracker.PlugIns.DataAccess;
 /// <summary>
 ///   StatusRepository class
 /// </summary>
-public class StatusRepository : IStatusRepository
+public class StatusRepository(IMongoDbContextFactory context) : IStatusRepository
 {
-	private readonly IMongoCollection<StatusModel> _collection;
-
-	/// <summary>
-	///   StatusRepository constructor
-	/// </summary>
-	/// <param name="context">IMongoDbContext</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public StatusRepository(IMongoDbContextFactory context)
-	{
-		ArgumentNullException.ThrowIfNull(context);
-
-		string collectionName = GetCollectionName(nameof(StatusModel));
-
-		_collection = context.GetCollection<StatusModel>(collectionName);
-	}
+	private readonly IMongoCollection<StatusModel> _collection =
+		context.GetCollection<StatusModel>(GetCollectionName(nameof(StatusModel)));
 
 	/// <summary>
 	///   ArchiveStatus method

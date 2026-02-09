@@ -1,25 +1,58 @@
+
 root = true
 
-# All files
-[*]
+########################################
+# Global defaults
+########################################
+[ * ]
+# Use UTF-8 for all text files
+charset = utf-8
+# Enforce LF for repository (change to crlf if you prefer Windows-native EOL)
+end_of_line = lf
+# Trim trailing whitespace generally, but override for Markdown below
+trim_trailing_whitespace = true
+# Ensure files end with a newline (POSIX-friendly)
+insert_final_newline = true
+
+########################################
+# Binary / generated files (don't touch trailing whitespace)
+########################################
+[*.{png,jpg,jpeg,gif,ico,zip,exe,dll,pdb,so,a,lib}]
+trim_trailing_whitespace = false
+
+#############################
+# Markdown / docs
+#############################
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = true
 indent_style = space
+indent_size = 2
 
-# New line preferences
-end_of_line = crlf
-insert_final_newline = false
+#############################
+# YAML
+#############################
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+end_of_line = lf
 
-# C# files
-[*.cs]
-
-#### Core EditorConfig Options ####
-
-# Indentation and spacing
+#############################
+# Web files (HTML/CSS/JSON/XML)
+#############################
+[*.{html,htm,css,xml,json,js,ts,jsx,razor,razor.cshtml}]
+indent_style = tab
 indent_size = 2
 tab_width = 2
-indent_style = tab
 
-#### .NET Coding Conventions ####
-[*.{cs,vb}]
+########################################
+# C# / .NET rules
+########################################
+[*.cs]
+# Use tabs with a display width of 2 (repository preference)
+indent_style = tab
+indent_size = 2
+tab_width = 2
 
 # Organize usings
 dotnet_separate_import_directive_groups = true
@@ -51,7 +84,7 @@ dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_object_initializer = true:suggestion
-dotnet_style_operator_placement_when_wrapping = beginning_of_line
+dotnet_style_operator_placement_when_wrapping = beginning_of_line:silent
 dotnet_style_prefer_auto_properties = true:suggestion
 dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
@@ -68,12 +101,9 @@ dotnet_style_readonly_field = true:warning
 # Parameter preferences
 dotnet_code_quality_unused_parameters = all:suggestion
 
-# Suppression preferences
-dotnet_remove_unnecessary_suppression_exclusions = none
-
-#### C# Coding Conventions ####
-[*.cs]
-
+#############################
+# C# Coding Conventions
+#############################
 # var preferences
 csharp_style_var_elsewhere = false:silent
 csharp_style_var_for_built_in_types = false:silent
@@ -101,7 +131,7 @@ csharp_style_conditional_delegate_call = true:suggestion
 
 # Modifier preferences
 csharp_prefer_static_local_function = true:warning
-csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:silent
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
 
 # Code-block preferences
 csharp_prefer_braces = true:silent
@@ -111,7 +141,6 @@ csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
-csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
 csharp_style_throw_expression = true:suggestion
@@ -121,8 +150,9 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sil
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:silent
 
-#### C# Formatting Rules ####
-
+#############################
+# C# Formatting Rules
+#############################
 # New line preferences
 csharp_new_line_before_catch = true
 csharp_new_line_before_else = true
@@ -161,34 +191,17 @@ csharp_space_between_method_call_parameter_list_parentheses = false
 csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
 csharp_space_between_method_declaration_name_and_open_parenthesis = false
 csharp_space_between_method_declaration_parameter_list_parentheses = false
-csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
 
 # Wrapping preferences
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
-csharp_style_namespace_declarations = file_scoped:warning
-csharp_style_prefer_method_group_conversion = true:silent
-csharp_style_prefer_top_level_statements = true:silent
-csharp_style_prefer_null_check_over_type_check = true:suggestion
-csharp_style_prefer_local_over_anonymous_function = true:suggestion
-csharp_style_implicit_object_creation_when_type_is_apparent = true:suggestion
-csharp_style_prefer_tuple_swap = true:suggestion
-csharp_style_prefer_utf8_string_literals = true:suggestion
-csharp_style_prefer_readonly_struct = true:suggestion
-csharp_style_prefer_readonly_struct_member = true:suggestion
-csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
-csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
-csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
-csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
-csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
-csharp_style_prefer_extended_property_pattern = true:suggestion
 
-#### Naming styles ####
-[*.{cs,vb}]
+#############################
+# Naming styles
+#############################
 
 # Naming rules
-
 dotnet_naming_rule.types_and_namespaces_should_be_pascalcase.severity = suggestion
 dotnet_naming_rule.types_and_namespaces_should_be_pascalcase.symbols = types_and_namespaces
 dotnet_naming_rule.types_and_namespaces_should_be_pascalcase.style = pascalcase
@@ -229,13 +242,13 @@ dotnet_naming_rule.public_fields_should_be_pascalcase.severity = suggestion
 dotnet_naming_rule.public_fields_should_be_pascalcase.symbols = public_fields
 dotnet_naming_rule.public_fields_should_be_pascalcase.style = pascalcase
 
-dotnet_naming_rule.private_fields_should_be__camelcase.severity = suggestion
-dotnet_naming_rule.private_fields_should_be__camelcase.symbols = private_fields
-dotnet_naming_rule.private_fields_should_be__camelcase.style = _camelcase
+dotnet_naming_rule.private_fields_should_be_camelcase.severity = suggestion
+dotnet_naming_rule.private_fields_should_be_camelcase.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camelcase.style = _camelcase
 
 dotnet_naming_rule.private_static_fields_should_be_s_camelcase.severity = suggestion
 dotnet_naming_rule.private_static_fields_should_be_s_camelcase.symbols = private_static_fields
-dotnet_naming_rule.private_static_fields_should_be_s_camelcase.style = _camelcase
+dotnet_naming_rule.private_static_fields_should_be_s_camelcase.style = s_camelcase
 
 dotnet_naming_rule.public_constant_fields_should_be_pascalcase.severity = suggestion
 dotnet_naming_rule.public_constant_fields_should_be_pascalcase.symbols = public_constant_fields
@@ -307,7 +320,7 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
-dotnet_naming_symbols.type_parameters.applicable_kinds = namespace
+dotnet_naming_symbols.type_parameters.applicable_kinds = type_parameter
 dotnet_naming_symbols.type_parameters.applicable_accessibilities = *
 dotnet_naming_symbols.type_parameters.required_modifiers = 
 
@@ -374,26 +387,3 @@ dotnet_naming_style.s_camelcase.required_prefix = s_
 dotnet_naming_style.s_camelcase.required_suffix = 
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
-
-dotnet_style_namespace_match_folder = true:suggestion
-dotnet_style_allow_multiple_blank_lines_experimental = false:silent
-dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
-tab_width = 2
-indent_size = 2
-
-# yml json files
-[*.{yml,json}]
-indent_size = 2
-indent_style = space
-
-# Xml files
-[*.{csproj,props,targets,config,xml}]
-indent_size = 2
-indent_style = tab
-tab_width = 2
-
-# Html, cshtml, razor
-[*.{html,cshtml,razor}]
-indent_size = 2
-indent_style = tab
-tab_width = 2

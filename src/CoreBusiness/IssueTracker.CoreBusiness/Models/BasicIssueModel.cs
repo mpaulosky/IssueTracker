@@ -43,7 +43,7 @@ public class BasicIssueModel
 	/// <value>
 	///   The identifier.
 	/// </value>
-	public string Id { get; set; } = string.Empty;
+	public string Id { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the title.
@@ -51,7 +51,7 @@ public class BasicIssueModel
 	/// <value>
 	///   The title.
 	/// </value>
-	public string Title { get; set; } = string.Empty;
+	public string Title { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the description.
@@ -59,11 +59,11 @@ public class BasicIssueModel
 	/// <value>
 	///   The description.
 	/// </value>
-	public string Description { get; set; } = string.Empty;
+	public string Description { get; init; } = string.Empty;
 
 	/// <summary>
 	/// </summary>
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+	public DateTime DateCreated { get; init; } = DateTime.UtcNow;
 
 
 	/// <summary>
@@ -80,7 +80,7 @@ public class BasicIssueModel
 	/// <value>
 	///   The category.
 	/// </value>
-	public BasicCategoryModel Category { get; set; } = new();
+	public BasicCategoryModel Category { get; init; } = new();
 
 	/// <summary>
 	///   Gets or sets the status.
@@ -88,5 +88,5 @@ public class BasicIssueModel
 	/// <value>
 	///   The status.
 	/// </value>
-	public BasicStatusModel Status { get; set; } = new();
+	public BasicStatusModel Status { get; init; } = new();
 }

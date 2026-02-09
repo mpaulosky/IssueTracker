@@ -43,7 +43,7 @@ public class MongoDbContextTests
 	[Theory]
 	[InlineData(null, "Value cannot be null. (Parameter 'name')")]
 	[InlineData("", "The value cannot be an empty string. (Parameter 'name')")]
-	public void GetCollection_With_Invalid_Name_Should_Fail_Test(string value, string expectedMessage)
+	public void GetCollection_With_Invalid_Name_Should_Fail_Test(string? value, string expectedMessage)
 	{
 		// Arrange
 		MongoDbContextFactory sut = UnitUnderTest();

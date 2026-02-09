@@ -31,7 +31,7 @@ public class GetUserFromAuthenticationTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact]

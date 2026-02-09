@@ -18,11 +18,12 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 	private const string CleanupValue = "";
 
 	private readonly IssueTrackerTestFactory _factory;
+	private readonly IMongoDbContextFactory _dbContext;
 
 	public MongoDbContextFactoryTests(IssueTrackerTestFactory factory)
 	{
 		_factory = factory;
-		_factory.DbContext = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
+		_dbContext = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 	}
 
 	public Task InitializeAsync()
@@ -32,7 +33,7 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact]
@@ -43,7 +44,7 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 
 		// Act
 		IMongoCollection<UserModel> result =
-			_factory.DbContext!.GetCollection<UserModel>(name);
+			_dbContext.GetCollection<UserModel>(name);
 
 		// Assert
 		result.Should().NotBeNull();
@@ -53,7 +54,7 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 	public void ConnectionStateReturnsOpen()
 	{
 		// Given
-		IMongoClient client = _factory.DbContext!.Client;
+		IMongoClient client = _dbContext.Client;
 
 		// When
 		using IAsyncCursor<BsonDocument>? databases = client.ListDatabases();

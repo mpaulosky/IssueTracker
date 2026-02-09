@@ -12,23 +12,10 @@ namespace IssueTracker.PlugIns.DataAccess;
 /// <summary>
 ///   CategoryRepository class
 /// </summary>
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository(IMongoDbContextFactory context) : ICategoryRepository
 {
-	private readonly IMongoCollection<CategoryModel> _collection;
-
-	/// <summary>
-	///   CategoryRepository constructor
-	/// </summary>
-	/// <param name="context">IMongoDbContext</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public CategoryRepository(IMongoDbContextFactory context)
-	{
-		ArgumentNullException.ThrowIfNull(context);
-
-		string collectionName = GetCollectionName(nameof(CategoryModel));
-
-		_collection = context.GetCollection<CategoryModel>(collectionName);
-	}
+	private readonly IMongoCollection<CategoryModel> _collection =
+		context.GetCollection<CategoryModel>(GetCollectionName(nameof(CategoryModel)));
 
 	/// <summary>
 	///   Archive Category method

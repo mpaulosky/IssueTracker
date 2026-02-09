@@ -97,7 +97,7 @@ public class UserRepositoryTests
 		UserRepository sut = CreateRepository();
 
 		//Act
-		UserModel result = await sut.GetFromAuthenticationAsync(expected.ObjectIdentifier).ConfigureAwait(false);
+		UserModel result = await sut.GetFromAuthenticationAsync(expected.ObjectIdentifier);
 
 		//Assert 
 		result.Should().NotBeNull();
@@ -127,7 +127,7 @@ public class UserRepositoryTests
 		UserRepository sut = CreateRepository();
 
 		// Act
-		List<UserModel> results = (await sut.GetAllAsync().ConfigureAwait(false)).ToList();
+		List<UserModel> results = (await sut.GetAllAsync()).ToList();
 
 		// Assert
 		results.Should().NotBeNull();

@@ -12,26 +12,9 @@ namespace IssueTracker.Services.Status;
 /// <summary>
 ///   StatusService class
 /// </summary>
-public class StatusService : IStatusService
+public class StatusService(IStatusRepository repository, IMemoryCache cache) : IStatusService
 {
 	private const string CacheName = "StatusData";
-	private readonly IMemoryCache _cache;
-	private readonly IStatusRepository _repository;
-
-	/// <summary>
-	///   StatusService constructor
-	/// </summary>
-	/// <param name="repository">IStatusRepository</param>
-	/// <param name="cache">IMemoryCache</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public StatusService(IStatusRepository repository, IMemoryCache cache)
-	{
-		ArgumentNullException.ThrowIfNull(repository);
-		ArgumentNullException.ThrowIfNull(cache);
-
-		_repository = repository;
-		_cache = cache;
-	}
 
 	/// <summary>
 	///   ArchiveStatus method
@@ -43,9 +26,9 @@ public class StatusService : IStatusService
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		_cache.Remove(CacheName);
+		cache.Remove(CacheName);
 
-		return _repository.ArchiveAsync(status);
+		return repository.ArchiveAsync(status);
 	}
 
 	/// <summary>
@@ -58,7 +41,7 @@ public class StatusService : IStatusService
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return _repository.CreateAsync(status);
+		return repository.CreateAsync(status);
 	}
 
 	/// <summary>
@@ -72,7 +55,7 @@ public class StatusService : IStatusService
 	{
 		ArgumentException.ThrowIfNullOrEmpty(statusId);
 
-		StatusModel result = await _repository.GetAsync(statusId);
+		StatusModel result = await repository.GetAsync(statusId);
 
 		return result;
 	}
@@ -83,18 +66,18 @@ public class StatusService : IStatusService
 	/// <returns>Task of List StatusModels</returns>
 	public async Task<List<StatusModel>> GetStatuses()
 	{
-		List<StatusModel>? output = _cache.Get<List<StatusModel>>(CacheName);
+		List<StatusModel>? output = cache.Get<List<StatusModel>>(CacheName);
 
 		if (output is not null)
 		{
 			return output;
 		}
 
-		IEnumerable<StatusModel> results = await _repository.GetAllAsync();
+		IEnumerable<StatusModel> results = await repository.GetAllAsync();
 
 		output = results.ToList();
 
-		_cache.Set(CacheName, output, TimeSpan.FromDays(1));
+		cache.Set(CacheName, output, TimeSpan.FromDays(1));
 
 		return output;
 	}
@@ -109,7 +92,7 @@ public class StatusService : IStatusService
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return _repository.UpdateAsync(status.Id, status);
+		return repository.UpdateAsync(status.Id, status);
 	}
 
 	/// <summary>
@@ -122,6 +105,6 @@ public class StatusService : IStatusService
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return _repository.ArchiveAsync(status);
+		return repository.ArchiveAsync(status);
 	}
 }

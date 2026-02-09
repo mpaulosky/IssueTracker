@@ -12,23 +12,10 @@ namespace IssueTracker.PlugIns.DataAccess;
 /// <summary>
 ///   UserRepository class
 /// </summary>
-public class UserRepository : IUserRepository
+public class UserRepository(IMongoDbContextFactory context) : IUserRepository
 {
-	private readonly IMongoCollection<UserModel> _collection;
-
-	/// <summary>
-	///   UserRepository constructor
-	/// </summary>
-	/// <param name="context">IMongoDbContext</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public UserRepository(IMongoDbContextFactory context)
-	{
-		ArgumentNullException.ThrowIfNull(context);
-
-		string collectionName = GetCollectionName(nameof(UserModel));
-
-		_collection = context.GetCollection<UserModel>(collectionName);
-	}
+	private readonly IMongoCollection<UserModel> _collection =
+		context.GetCollection<UserModel>(GetCollectionName(nameof(UserModel)));
 
 	/// <summary>
 	///   Archive User method

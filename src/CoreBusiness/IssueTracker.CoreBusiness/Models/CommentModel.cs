@@ -40,7 +40,7 @@ public class CommentModel
 	/// </value>
 	[BsonElement("comment_description")]
 	[BsonRepresentation(BsonType.String)]
-	public string Description { get; set; } = string.Empty;
+	public string Description { get; init; } = string.Empty;
 
 	/// <summary>
 	///   Gets or sets the date created.
@@ -50,7 +50,7 @@ public class CommentModel
 	/// </value>
 	[BsonElement("date_created")]
 	[BsonRepresentation(BsonType.DateTime)]
-	public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+	public DateTime DateCreated { get; init; } = DateTime.UtcNow;
 
 	/// <summary>
 	///   Gets or sets the issue.
@@ -74,7 +74,7 @@ public class CommentModel
 	/// <value>
 	///   The user votes.
 	/// </value>
-	public HashSet<string> UserVotes { get; set; } = new();
+	public HashSet<string> UserVotes { get; init; } = new();
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="CommentModel" /> is archived.

@@ -122,14 +122,14 @@ public class CommentServiceTests
 	[Theory(DisplayName = "Get Comment With Invalid Id")]
 	[InlineData(null, "commentId", "Value cannot be null.?*")]
 	[InlineData("", "commentId", "The value cannot be an empty string.?*")]
-	public async Task GetComment_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value,
+	public async Task GetComment_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		CommentService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetComment(value); };
+		Func<Task> act = async () => { await sut.GetComment(value!); };
 
 		// Assert
 		await act.Should()
@@ -268,8 +268,7 @@ public class CommentServiceTests
 	[Theory(DisplayName = "Get Comments By User With Invalid Id")]
 	[InlineData(null, "userId", "Value cannot be null.?*")]
 	[InlineData("", "userId", "The value cannot be an empty string.?*")]
-	public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(
-		string value, string expectedParamName, string expectedMessage)
+	public async Task GetUsersComments_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(string? value, string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		CommentService sut = UnitUnderTest();
@@ -343,11 +342,7 @@ public class CommentServiceTests
 	[Theory(DisplayName = "UpVote Comment With Invalid inputs")]
 	[InlineData(null, "1", "commentId", "Value cannot be null.?*")]
 	[InlineData("1", null, "userId", "Value cannot be null.?*")]
-	public async Task UpVoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(
-		string commentId,
-		string userId,
-		string expectedParamName,
-		string expectedMessage)
+	public async Task UpVoteComment_With_Invalid_Inputs_Should_Return_An_ArgumentNullException_TestAsync(string? commentId, string? userId, string expectedParamName, string expectedMessage)
 	{
 		// Arrange
 		CommentService sut = UnitUnderTest();

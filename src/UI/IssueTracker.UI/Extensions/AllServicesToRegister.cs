@@ -16,7 +16,7 @@ namespace IssueTracker.UI.Extensions;
 public static class AllServicesToRegister
 {
 	/// <summary>
-	///   Configures the services method.
+	///   Configures the service's method.
 	/// </summary>
 	/// <param name="builder">The builder.</param>
 	/// <param name="config">ConfigurationManager</param>

@@ -32,7 +32,7 @@ public class GetCategoriesTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "GetAllAsync Categories With Valid Data Should Succeed")]

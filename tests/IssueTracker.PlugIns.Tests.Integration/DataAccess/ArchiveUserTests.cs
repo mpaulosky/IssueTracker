@@ -34,7 +34,7 @@ public class ArchiveUserTests : IAsyncLifetime
 	[Fact]
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "Archive User With Valid Data (Archive)")]

@@ -124,7 +124,7 @@ public class IssueServiceTests
 	[Theory(DisplayName = "Get Issue With Invalid Id")]
 	[InlineData(null, "issueId", "Value cannot be null.?*")]
 	[InlineData("", "issueId", "The value cannot be an empty string.?*")]
-	public async Task GetIssue_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string value,
+	public async Task GetIssue_With_Invalid_Id_Should_Return_An_ArgumentException_TestAsync(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		// Arrange
@@ -272,7 +272,7 @@ public class IssueServiceTests
 	[Theory(DisplayName = "Get iIssues By User With Invalid Id")]
 	[InlineData(null, "userId", "Value cannot be null.?*")]
 	[InlineData("", "userId", "The value cannot be an empty string.?*")]
-	public async Task GetUsersIssues_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(string value,
+	public async Task GetUsersIssues_With_Empty_String_Users_Id_Should_Return_An_ArgumentException_TestAsync(string? value,
 		string expectedParamName, string expectedMessage)
 	{
 		// Arrange
@@ -313,7 +313,7 @@ public class IssueServiceTests
 			.Returns(_mockCacheEntry.Object);
 
 		//Act
-		List<IssueModel> results = await sut.GetIssuesWaitingForApproval().ConfigureAwait(false);
+		List<IssueModel> results = await sut.GetIssuesWaitingForApproval();
 
 		//Assert
 		results.Should().NotBeNull();

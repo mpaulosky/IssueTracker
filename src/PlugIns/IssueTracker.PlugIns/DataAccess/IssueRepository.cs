@@ -12,23 +12,10 @@ namespace IssueTracker.PlugIns.DataAccess;
 /// <summary>
 ///   IssueRepository class
 /// </summary>
-public class IssueRepository : IIssueRepository
+public class IssueRepository(IMongoDbContextFactory context) : IIssueRepository
 {
-	private readonly IMongoCollection<IssueModel> _issueCollection;
-
-	/// <summary>
-	///   IssueRepository constructor
-	/// </summary>
-	/// <param name="context">IMongoDbContext</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public IssueRepository(IMongoDbContextFactory context)
-	{
-		ArgumentNullException.ThrowIfNull(context);
-
-		string issueCollectionName = GetCollectionName(nameof(IssueModel));
-
-		_issueCollection = context.GetCollection<IssueModel>(issueCollectionName);
-	}
+	private readonly IMongoCollection<IssueModel> _issueCollection =
+		context.GetCollection<IssueModel>(GetCollectionName(nameof(IssueModel)));
 
 	/// <summary>
 	///   Archive Issue method

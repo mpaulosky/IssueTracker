@@ -21,9 +21,9 @@
 				<RadzenDataGrid @ref="_categoriesGrid" AllowAlternatingRows="true" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="DataGridEditMode.Single" Data="@_categories" TItem="CategoryModel" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
 					<Columns>
 						<RadzenDataGridColumn TItem="CategoryModel" Property="CategoryName" Title="Category Name" Width="120px">
-							<Template Context="category">
-								@category.CategoryName
-							</Template>
+<Template Context="category">
+	<span class="rz-cell-data">@category.CategoryName</span>
+</Template>
 							<EditTemplate Context="category">
 								<RadzenTextBox @bind-Value="category.CategoryName" Style="width: 100%; display: block;" Name="CategoryName"/>
 								<RadzenRequiredValidator Text="Category Name is required" Component="CategoryName" Popup="true"/>
@@ -32,9 +32,9 @@
 							</EditTemplate>
 						</RadzenDataGridColumn>
 						<RadzenDataGridColumn TItem="CategoryModel" Property="CategoryDescription" Title="Description" Width="200px">
-							<Template Context="category">
-								@category.CategoryDescription
-							</Template>
+<Template Context="category">
+	<span class="rz-cell-data">@category.CategoryDescription</span>
+</Template>
 							<EditTemplate Context="category">
 								<RadzenTextBox @bind-Value="category.CategoryDescription" Style="width: 100%; display: block;" Name="CategoryDescription"/>
 								<RadzenRequiredValidator Text="Category Description is required" Component="CategoryDescription" Popup="true"/>
