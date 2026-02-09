@@ -15,7 +15,7 @@ namespace IssueTracker.PlugIns.DataAccess;
 [Collection("Test Collection")]
 public class UpVoteCommentTests : IAsyncLifetime
 {
-	private const string? CleanupValue = "comments";
+	private const string CleanupValue = "comments";
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
 
@@ -33,7 +33,7 @@ public class UpVoteCommentTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "UpVoteAsync With Valid Comment Should Add Vote")]

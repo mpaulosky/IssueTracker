@@ -13,7 +13,7 @@ namespace IssueTracker.PlugIns.DataAccess;
 [Collection("Test Collection")]
 public class GetCommentsByIssueTests : IAsyncLifetime
 {
-	private const string? CleanupValue = "comments";
+	private const string CleanupValue = "comments";
 	private readonly IssueTrackerTestFactory _factory;
 	private readonly CommentRepository _sut;
 
@@ -31,7 +31,7 @@ public class GetCommentsByIssueTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "GetByIssueAsync With Valid Data Should Succeed")]

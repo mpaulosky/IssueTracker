@@ -25,14 +25,14 @@ public class GetUsersTests : IAsyncLifetime
 		_sut = new UserRepository(context);
 	}
 
-	public Task InitializeAsync()
+	public async Task InitializeAsync()
 	{
-		return Task.CompletedTask;
+		await _factory.ResetDatabaseAsync();
 	}
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact]

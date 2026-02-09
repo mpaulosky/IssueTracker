@@ -32,7 +32,7 @@ public class UpdateCategoryTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "UpdateAsync With Valid Data Should Succeed")]
@@ -46,10 +46,10 @@ public class UpdateCategoryTests : IAsyncLifetime
 		expected.CategoryDescription = "Updated";
 		await _sut.UpdateAsync(expected.Id, expected);
 
-		CategoryModel result = (await _sut.GetAllAsync()).First();
+		CategoryModel result = await _sut.GetAsync(expected.Id);
 
 		// Assert
-		result.Should().BeEquivalentTo(expected);
+		result.Should().BeEquivalentTo(expected, options => options.Excluding(c => c.Id));
 	}
 
 	[Fact(DisplayName = "UpdateAsync With In Valid Data Should Fail")]

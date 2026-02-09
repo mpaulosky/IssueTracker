@@ -31,7 +31,7 @@ public class GetCommentsByUserTests : IAsyncLifetime
 
 	public async Task DisposeAsync()
 	{
-		await _factory.ResetCollectionAsync(CleanupValue);
+		await _factory.ResetDatabaseAsync();
 	}
 
 	[Fact(DisplayName = "GetByUserAsync With Valid Data Should Succeed")]

@@ -7,6 +7,9 @@
 // Project Name :  IssueTracker.PlugIns.Tests.Integration
 // =============================================
 
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
 using Testcontainers.MongoDb;
 
 namespace IssueTracker.PlugIns;
@@ -16,64 +19,186 @@ namespace IssueTracker.PlugIns;
 [UsedImplicitly]
 public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsyncLifetime
 {
-	private readonly string _databaseName = $"test_{Guid.NewGuid():N}";
+	private readonly ILogger<IssueTrackerTestFactory> _logger;
+	private readonly string _databaseName;
+	private readonly CancellationTokenSource _cts;
+	private static MongoDbContainer? _sharedContainer;
+	private static readonly Lock Lock = new();
+	private static int _port;
+	private static readonly SemaphoreSlim DbLock = new(1, 1);
 
-	private readonly MongoDbContainer _mongoDbContainer = new MongoDbBuilder().Build();
-
-	private IDatabaseSettings? DbConfig { get; set; }
-
-	public IMongoDbContextFactory? DbContext { get; set; }
-
-	public async Task InitializeAsync()
+	public IssueTrackerTestFactory()
 	{
-		await _mongoDbContainer.StartAsync();
+		_databaseName = $"test_db_{Guid.NewGuid()}";
+		_cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
 
-		string? connString = _mongoDbContainer.GetConnectionString();
-		string dbName = _databaseName;
+		var loggerFactory = LoggerFactory.Create(builder =>
+		{
+			builder.AddConsole();
+			builder.SetMinimumLevel(LogLevel.Debug);
+		});
+		_logger = loggerFactory.CreateLogger<IssueTrackerTestFactory>();
 
-		DbConfig = new DatabaseSettings(connString, dbName) { ConnectionStrings = connString, DatabaseName = dbName };
-	}
-
-	public new async Task DisposeAsync()
-	{
-		await DbContext!.Client.DropDatabaseAsync(_databaseName);
-		await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
+		// Initialize a shared container if not already done
+		if (_sharedContainer == null)
+		{
+			lock (Lock)
+			{
+				if (_sharedContainer == null)
+				{
+					_port = new Random().Next(27018, 28000);
+					_sharedContainer = new MongoDbBuilder()
+						.WithImage("mongo:latest")
+						.WithPortBinding(_port, 27017)
+						.WithEnvironment("MONGO_INITDB_ROOT_USERNAME", "admin")
+						.WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "password")
+						.Build();
+				}
+			}
+		}
 	}
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
-		builder.ConfigureTestServices(services =>
+		builder.ConfigureAppConfiguration((context, config) =>
 		{
-			ServiceDescriptor? dbConnectionDescriptor = services.SingleOrDefault(
-				d => d.ServiceType ==
-				     typeof(IMongoDbContextFactory));
-
-			services.Remove(dbConnectionDescriptor!);
-
-			ServiceDescriptor? dbSettings = services.SingleOrDefault(
-				d => d.ServiceType ==
-				     typeof(IDatabaseSettings));
-
-			services.Remove(dbSettings!);
-
-			services.AddSingleton<IDatabaseSettings>(_ => DbConfig!);
-
-			services.AddSingleton<IMongoDbContextFactory>(_ =>
-				new MongoDbContextFactory(DbConfig!));
-
-			using ServiceProvider serviceProvider = services.BuildServiceProvider();
-
-			DbContext = serviceProvider.GetRequiredService<IMongoDbContextFactory>();
+			config.AddInMemoryCollection(new Dictionary<string, string?>
+			{
+				["MongoDbSettings:ConnectionStrings"] = $"mongodb://admin:password@localhost:{_port}/{_databaseName}?authSource=admin",
+				["MongoDbSettings:DatabaseName"] = _databaseName
+			});
 		});
 
-		builder.UseEnvironment("Development");
+		builder.ConfigureServices(services =>
+		{
+			var connectionString = $"mongodb://admin:password@localhost:{_port}/{_databaseName}?authSource=admin";
+			
+			// Register IDatabaseSettings
+			services.AddSingleton<IDatabaseSettings>(new DatabaseSettings(connectionString, _databaseName));
+			
+			// Register IMongoClient
+			services.AddSingleton<IMongoClient>(sp =>
+			{
+				_logger.LogInformation("Using MongoDB connection string: {ConnectionString}", connectionString);
+				return new MongoClient(connectionString);
+			});
+		});
 	}
 
-	public async Task ResetCollectionAsync(string? collection)
+	public async Task InitializeAsync()
 	{
-		if (!string.IsNullOrWhiteSpace(collection))
+		try
 		{
-			await DbContext!.Client.GetDatabase(_databaseName).DropCollectionAsync(collection);
+			_logger.LogInformation("Starting MongoDB container...");
+			await _sharedContainer!.StartAsync(_cts.Token);
+			_logger.LogInformation("MongoDB container started successfully");
+
+			// Wait for MongoDB to be ready
+			var client = new MongoClient($"mongodb://admin:password@localhost:{_port}/?authSource=admin");
+			var maxRetries = 30;
+			var retryDelayMs = 1000;
+			for (int i = 0; i < maxRetries; i++)
+			{
+				try
+				{
+					await (await client.ListDatabaseNamesAsync()).FirstOrDefaultAsync(_cts.Token);
+					_logger.LogInformation("Successfully connected to MongoDB");
+					break;
+				}
+				catch (Exception ex)
+				{
+					_logger.LogWarning(ex, "Failed to connect to MongoDB (attempt {Attempt}/{MaxRetries})", i + 1, maxRetries);
+					if (i < maxRetries - 1)
+					{
+						await Task.Delay(retryDelayMs, _cts.Token);
+					}
+				}
+			}
 		}
+		catch (OperationCanceledException)
+		{
+			_logger.LogError("MongoDB container startup timed out after 5 minutes");
+			throw;
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Failed to start MongoDB container");
+			throw;
+		}
+	}
+
+	public override async ValueTask DisposeAsync()
+	{
+		try
+		{
+			// Clean up the database for this test instance
+			try
+			{
+				var client = Services.GetRequiredService<IMongoClient>();
+				await client.DropDatabaseAsync(_databaseName);
+				_logger.LogInformation("Database {DatabaseName} dropped successfully", _databaseName);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogWarning(ex, "Error dropping database {DatabaseName}", _databaseName);
+			}
+
+			// Note: We don't dispose the shared container here because it's shared across all tests
+			// The container will be cleaned up when the process exits
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Error in DisposeAsync");
+		}
+		finally
+		{
+			_cts.Dispose();
+			await base.DisposeAsync();
+		}
+	}
+
+	public async Task ResetDatabaseAsync()
+	{
+		try
+		{
+			await DbLock.WaitAsync();
+			var client = Services.GetRequiredService<IMongoClient>();
+			await client.DropDatabaseAsync(_databaseName);
+			_logger.LogInformation("Database {DatabaseName} dropped successfully", _databaseName);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Error dropping database");
+			throw;
+		}
+		finally
+		{
+			DbLock.Release();
+		}
+	}
+
+	public async Task ResetCollectionAsync(string collectionName)
+	{
+		try
+		{
+			await DbLock.WaitAsync();
+			var client = Services.GetRequiredService<IMongoClient>();
+			var database = client.GetDatabase(_databaseName);
+			await database.DropCollectionAsync(collectionName);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Error resetting collection {CollectionName}", collectionName);
+			throw;
+		}
+		finally
+		{
+			DbLock.Release();
+		}
+	}
+
+	Task IAsyncLifetime.DisposeAsync()
+	{
+		return DisposeAsync().AsTask();
 	}
 }
