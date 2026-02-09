@@ -1,0 +1,16 @@
+theme: jekyll-theme-cayman
+title: Issue Tracker Documentation
+description: A modern issue tracking application built with Blazor and MongoDB
+show_downloads: true
+
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
