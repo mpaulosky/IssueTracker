@@ -44,7 +44,7 @@ public class MongoHealthCheckTests : TestContext
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(
 			context,
-			cancellationToken).ConfigureAwait(false);
+			cancellationToken);
 
 		// Assert
 		result.Status.Should().Be(HealthStatus.Healthy);
@@ -61,7 +61,7 @@ public class MongoHealthCheckTests : TestContext
 		// Act
 		HealthCheckResult result = await mongoHealthCheck.CheckHealthAsync(
 			context,
-			cancellationToken).ConfigureAwait(false);
+			cancellationToken);
 
 		// Assert
 		result.Status.Should().Be(HealthStatus.Unhealthy);
