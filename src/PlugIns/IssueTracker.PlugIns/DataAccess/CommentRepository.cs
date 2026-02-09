@@ -12,23 +12,10 @@ namespace IssueTracker.PlugIns.DataAccess;
 /// <summary>
 ///   CommentRepository class
 /// </summary>
-public class CommentRepository : ICommentRepository
+public class CommentRepository(IMongoDbContextFactory context) : ICommentRepository
 {
-	private readonly IMongoCollection<CommentModel> _commentCollection;
-
-	/// <summary>
-	///   CommentRepository constructor
-	/// </summary>
-	/// <param name="context">IMongoDbContext</param>
-	/// <exception cref="ArgumentNullException"></exception>
-	public CommentRepository(IMongoDbContextFactory context)
-	{
-		ArgumentNullException.ThrowIfNull(context);
-
-		string commentCollectionName = GetCollectionName(nameof(CommentModel));
-
-		_commentCollection = context.GetCollection<CommentModel>(commentCollectionName);
-	}
+	private readonly IMongoCollection<CommentModel> _commentCollection =
+		context.GetCollection<CommentModel>(GetCollectionName(nameof(CommentModel)));
 
 	/// <summary>
 	///   Archive the comment by setting the Archived property to true
