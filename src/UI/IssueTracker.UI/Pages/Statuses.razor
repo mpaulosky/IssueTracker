@@ -21,9 +21,9 @@
 				<RadzenDataGrid @ref="_statusesGrid" AllowAlternatingRows="true" AllowFiltering="false" AllowPaging="true" PageSize="5" AllowSorting="true" EditMode="DataGridEditMode.Single" Data="@_statuses" TItem="StatusModel" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
 					<Columns>
 						<RadzenDataGridColumn TItem="StatusModel" Property="StatusName" Title="Status Name" Width="120px">
-							<Template Context="status">
-								@status.StatusName
-							</Template>
+<Template Context="status">
+	<span class="rz-cell-data">@status.StatusName</span>
+</Template>
 							<EditTemplate Context="status">
 								<RadzenTextBox @bind-Value="status.StatusName" Style="width: 100%; display: block;" Name="StatusName"/>
 								<RadzenRequiredValidator Text="Status Name is required" Component="StatusName" Popup="true"/>
@@ -32,9 +32,9 @@
 							</EditTemplate>
 						</RadzenDataGridColumn>
 						<RadzenDataGridColumn TItem="StatusModel" Property="StatusDescription" Title="Description" Width="200px">
-							<Template Context="status">
-								@status.StatusDescription
-							</Template>
+<Template Context="status">
+	<span class="rz-cell-data">@status.StatusDescription</span>
+</Template>
 							<EditTemplate Context="status">
 								<RadzenTextBox @bind-Value="status.StatusDescription" Style="width: 100%; display: block;" Name="StatusDescription"/>
 								<RadzenRequiredValidator Text="Status Description is required" Component="StatusDescription" Popup="true"/>

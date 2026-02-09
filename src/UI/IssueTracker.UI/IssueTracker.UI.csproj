@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UserSecretsId>aspnet-IssueTrackerUI-00E08DDA-E837-4DD5-9C9E-429A779DF71A</UserSecretsId>
@@ -25,11 +25,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
-		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="3.8.2" />
-		<PackageReference Include="Microsoft.Identity.Web.UI" Version="3.4.0" />
-		<PackageReference Include="Radzen.Blazor" Version="5.6.10" />
+		<PackageReference Include="Blazored.SessionStorage" />
+		<PackageReference Include="JetBrains.Annotations" />
+		<PackageReference Include="Microsoft.Identity.Web" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" />
+		<PackageReference Include="Radzen.Blazor" />
 	</ItemGroup>
 
 	<ItemGroup>
