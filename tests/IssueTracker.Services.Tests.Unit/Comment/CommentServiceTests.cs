@@ -274,7 +274,7 @@ public class CommentServiceTests
 		CommentService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetCommentsByUser(value); };
+		Func<Task> act = async () => { await sut.GetCommentsByUser(value!); };
 
 		// Assert
 		await act.Should()
@@ -348,7 +348,7 @@ public class CommentServiceTests
 		CommentService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.UpVoteComment(commentId, userId); };
+		Func<Task> act = async () => { await sut.UpVoteComment(commentId!, userId!); };
 
 		// Assert
 		await act.Should()
