@@ -1,0 +1,37 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+    <BuildType Name="Test" />
+  </Configurations>
+  <Folder Name="/src/" />
+  <Folder Name="/src/CoreBusiness/">
+    <Project Path="src/CoreBusiness/IssueTracker.CoreBusiness/IssueTracker.CoreBusiness.csproj" />
+  </Folder>
+  <Folder Name="/src/PlugIns/">
+    <Project Path="src/PlugIns/IssueTracker.PlugIns/IssueTracker.PlugIns.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/">
+    <Project Path="src/Services/IssueTracker.Services/IssueTracker.Services.csproj" />
+  </Folder>
+  <Folder Name="/src/UI/">
+    <Project Path="src/UI/IssueTracker.UI/IssueTracker.UI.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/CoreBusiness Tests/">
+    <Project Path="tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/tests/PlugIns Tests/">
+    <Project Path="tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj" />
+    <Project Path="tests/IssueTracker.PlugIns.Tests.Unit/IssueTracker.PlugIns.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/tests/Service Tests/">
+    <Project Path="tests/IssueTracker.Services.Tests.Unit/IssueTracker.Services.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/tests/Test Support/">
+    <Project Path="tests/TestingSupport.Library/TestingSupport.Library.csproj" />
+  </Folder>
+  <Folder Name="/tests/UI Tests/">
+    <Project Path="tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj" />
+  </Folder>
+</Solution>
