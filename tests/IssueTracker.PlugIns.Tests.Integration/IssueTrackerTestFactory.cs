@@ -60,7 +60,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		return $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
 	}
 
-	protected override void ConfigureWebHost(IWebHostBuilder builder)
+	public override async ValueTask DisposeAsync()
 	{
 		builder.ConfigureAppConfiguration((context, config) =>
 		{
