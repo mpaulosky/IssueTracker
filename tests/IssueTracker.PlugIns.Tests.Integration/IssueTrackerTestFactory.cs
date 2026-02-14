@@ -54,13 +54,17 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		}
 	}
 
+	private string GetConnectionString()
+	{
+		var port = _sharedContainer!.GetMappedPublicPort(27017);
+		return $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
+	}
+
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
 		builder.ConfigureAppConfiguration((context, config) =>
 		{
-			// Get the dynamically assigned host port for the MongoDB container
-			var port = _sharedContainer!.GetMappedPublicPort(27017);
-			var connectionString = $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
+			var connectionString = GetConnectionString();
 			
 			config.AddInMemoryCollection(new Dictionary<string, string?>
 			{
@@ -71,9 +75,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 		builder.ConfigureServices(services =>
 		{
-			// Get the dynamically assigned host port for the MongoDB container
-			var port = _sharedContainer!.GetMappedPublicPort(27017);
-			var connectionString = $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
+			var connectionString = GetConnectionString();
 			
 			// Register IDatabaseSettings
 			services.AddSingleton<IDatabaseSettings>(new DatabaseSettings(connectionString, _databaseName));
