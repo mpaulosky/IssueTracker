@@ -34,7 +34,7 @@ For detailed documentation, architecture guides, and comprehensive references, v
 
 ## 🛠️ Tech Stack
 
-- **.NET 9** - Modern C# framework
+- **.NET 10** - Modern C# framework
 - **Blazor Server** - Interactive web UI
 - **MongoDB** - Document database
 - **Docker** - Containerization and test isolation
