@@ -8,41 +8,37 @@ This guide describes how to configure Issue Tracker for different environments.
 
 ```json
 {
-  "DetailedErrors": true,
+  "ConnectionStrings": {
+    "MongoDB": "mongodb://localhost:27017",
+    "DatabaseName": "IssueTrackerDb"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
       "Microsoft.AspNetCore": "Warning"
     }
   },
-  "MongoDbSettings": {
-    "ConnectionStrings": "mongodb://localhost:27017/devissuetracker?authSource=admin",
-    "DatabaseName": "devissuetracker"
-  }
+  "AllowedHosts": "*"
 }
 ```
-
-**Note:** The development settings file contains a placeholder connection string without embedded credentials. For MongoDB instances requiring authentication, configure credentials using User Secrets or environment variables (see below).
 
 ### Production: `appsettings.Production.json`
 
 ```json
 {
+  "ConnectionStrings": {
+    "MongoDB": "mongodb://mongo-production:27017",
+    "DatabaseName": "IssueTrackerProd"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Warning",
       "Microsoft.AspNetCore": "Error"
     }
   },
-  "MongoDbSettings": {
-    "ConnectionStrings": "mongodb://mongo-production:27017/issuetrackerProd?authSource=admin",
-    "DatabaseName": "issuetrackerProd"
-  },
   "AllowedHosts": "yourdomain.com"
 }
 ```
-
-**Important:** Never commit production credentials to source control. Use environment variables or a secure configuration management service.
 
 ## Environment Variables
 
@@ -52,16 +48,16 @@ You can override settings using environment variables:
 
 ```bash
 # Linux/Mac
-export MongoDbSettings__ConnectionStrings="mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
-export MongoDbSettings__DatabaseName="devissuetracker"
+export ConnectionStrings__MongoDB="mongodb://localhost:27017"
+export ConnectionStrings__DatabaseName="IssueTrackerDb"
 
 # Windows (PowerShell)
-$env:MongoDbSettings__ConnectionStrings="mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
-$env:MongoDbSettings__DatabaseName="devissuetracker"
+$env:ConnectionStrings__MongoDB="mongodb://localhost:27017"
+$env:ConnectionStrings__DatabaseName="IssueTrackerDb"
 
 # Windows (CMD)
-set MongoDbSettings__ConnectionStrings=mongodb://username:password@localhost:27017/devissuetracker?authSource=admin
-set MongoDbSettings__DatabaseName=devissuetracker
+set ConnectionStrings__MongoDB=mongodb://localhost:27017
+set ConnectionStrings__DatabaseName=IssueTrackerDb
 ```
 
 ### Using Docker Compose
@@ -73,8 +69,8 @@ version: '3.8'
 services:
   app:
     environment:
-      - MongoDbSettings__ConnectionStrings=mongodb://mongo:27017/issuetracker?authSource=admin
-      - MongoDbSettings__DatabaseName=issuetracker
+      - ConnectionStrings__MongoDB=mongodb://mongo:27017
+      - ConnectionStrings__DatabaseName=IssueTrackerDb
       - ASPNETCORE_ENVIRONMENT=Production
   
   mongo:
@@ -94,8 +90,8 @@ volumes:
 
 | Setting | Description | Default | Required |
 |---------|-------------|---------|----------|
-| `MongoDbSettings:ConnectionStrings` | MongoDB connection string | `mongodb://localhost:27017/devissuetracker?authSource=admin` | Yes |
-| `MongoDbSettings:DatabaseName` | Database name | `devissuetracker` | Yes |
+| `ConnectionStrings:MongoDB` | MongoDB connection string | `mongodb://localhost:27017` | Yes |
+| `ConnectionStrings:DatabaseName` | Database name | `IssueTrackerDb` | Yes |
 
 ### Logging Settings
 
@@ -114,23 +110,20 @@ volumes:
 
 ## User Secrets (Development)
 
-For sensitive data in development (such as MongoDB credentials), use .NET User Secrets:
+For sensitive data in development, use .NET User Secrets:
 
 ### Initialize User Secrets
 
 ```bash
-cd src/UI/IssueTracker.UI
+cd src/IssueTracker.UI
 dotnet user-secrets init
 ```
 
 ### Set Secrets
 
 ```bash
-# Set MongoDB connection string with credentials
-dotnet user-secrets set "MongoDbSettings:ConnectionStrings" "mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
-
-# Set database name
-dotnet user-secrets set "MongoDbSettings:DatabaseName" "devissuetracker"
+dotnet user-secrets set "ConnectionStrings:MongoDB" "mongodb://localhost:27017"
+dotnet user-secrets set "ConnectionStrings:DatabaseName" "IssueTrackerDb"
 ```
 
 ### List Secrets
@@ -138,14 +131,6 @@ dotnet user-secrets set "MongoDbSettings:DatabaseName" "devissuetracker"
 ```bash
 dotnet user-secrets list
 ```
-
-### Remove a Secret
-
-```bash
-dotnet user-secrets remove "MongoDbSettings:ConnectionStrings"
-```
-
-**Note:** User secrets are stored outside the project directory and are never committed to source control. This is the recommended approach for local development with authenticated MongoDB instances.
 
 ## Azure Configuration
 
@@ -217,19 +202,18 @@ mongodb://username:password@localhost:27017/?authSource=admin
 
 ### 1. Never Commit Secrets
 
-- **Always** use User Secrets for development credentials
-- Use environment variables or secure vaults for production
-- The `appsettings.Development.json` file should never contain credentials
-- Add sensitive config files to `.gitignore` if they contain secrets
+- Use User Secrets for development
+- Use environment variables for production
+- Add `appsettings.*.json` to `.gitignore` if it contains secrets
 
 ### 2. Use Different Databases Per Environment
 
 ```json
 {
-  "MongoDbSettings": {
-    "DatabaseName": "issuetracker_development"  // Dev
-    // "issuetracker_staging"                    // Staging
-    // "issuetracker_production"                 // Production
+  "ConnectionStrings": {
+    "DatabaseName": "IssueTracker_Development"  // Dev
+    // "IssueTracker_Staging"                   // Staging
+    // "IssueTracker_Production"                // Production
   }
 }
 ```
@@ -239,7 +223,7 @@ mongodb://username:password@localhost:27017/?authSource=admin
 Add to `Program.cs`:
 
 ```csharp
-var mongoConnection = builder.Configuration["MongoDbSettings:ConnectionStrings"];
+var mongoConnection = builder.Configuration["ConnectionStrings:MongoDB"];
 if (string.IsNullOrEmpty(mongoConnection))
 {
     throw new InvalidOperationException("MongoDB connection string is not configured");
@@ -251,8 +235,8 @@ if (string.IsNullOrEmpty(mongoConnection))
 Register configuration objects:
 
 ```csharp
-builder.Services.Configure<MongoDbSettings>(
-    builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.Configure<DatabaseSettings>(
+    builder.Configuration.GetSection("ConnectionStrings"));
 ```
 
 Access in services:
@@ -260,9 +244,9 @@ Access in services:
 ```csharp
 public class MyService
 {
-    private readonly MongoDbSettings _settings;
+    private readonly DatabaseSettings _settings;
     
-    public MyService(IOptions<MongoDbSettings> settings)
+    public MyService(IOptions<DatabaseSettings> settings)
     {
         _settings = settings.Value;
     }
