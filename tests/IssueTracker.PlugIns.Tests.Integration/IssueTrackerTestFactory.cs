@@ -58,17 +58,22 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 	{
 		builder.ConfigureAppConfiguration((context, config) =>
 		{
-			var connectionString = _sharedContainer!.GetConnectionString();
+			// Get the dynamically assigned host port for the MongoDB container
+			var port = _sharedContainer!.GetMappedPublicPort(27017);
+			var connectionString = $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
+			
 			config.AddInMemoryCollection(new Dictionary<string, string?>
 			{
-				["MongoDbSettings:ConnectionStrings"] = $"{connectionString}/{_databaseName}",
+				["MongoDbSettings:ConnectionStrings"] = connectionString,
 				["MongoDbSettings:DatabaseName"] = _databaseName
 			});
 		});
 
 		builder.ConfigureServices(services =>
 		{
-			var connectionString = $"{_sharedContainer!.GetConnectionString()}/{_databaseName}";
+			// Get the dynamically assigned host port for the MongoDB container
+			var port = _sharedContainer!.GetMappedPublicPort(27017);
+			var connectionString = $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
 			
 			// Register IDatabaseSettings
 			services.AddSingleton<IDatabaseSettings>(new DatabaseSettings(connectionString, _databaseName));
@@ -91,8 +96,8 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 			_logger.LogInformation("MongoDB container started successfully");
 
 			// Wait for MongoDB to be ready
-			var connectionString = _sharedContainer.GetConnectionString();
-			var client = new MongoClient(connectionString);
+			var port = _sharedContainer.GetMappedPublicPort(27017);
+			var client = new MongoClient($"mongodb://admin:password@localhost:{port}/?authSource=admin");
 			var maxRetries = 30;
 			var retryDelayMs = 1000;
 			for (int i = 0; i < maxRetries; i++)
