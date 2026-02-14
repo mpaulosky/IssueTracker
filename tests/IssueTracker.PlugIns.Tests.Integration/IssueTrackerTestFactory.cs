@@ -1,4 +1,4 @@
-﻿// ============================================
+// ============================================
 // Copyright (c) 2023. All rights reserved.
 // File Name :     IssueTrackerTestFactory.cs
 // Company :       mpaulosky
@@ -60,12 +60,14 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		return $"mongodb://admin:password@localhost:{port}/{_databaseName}?authSource=admin";
 	}
 
-	public override async ValueTask DisposeAsync()
+	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
+		base.ConfigureWebHost(builder);
+
 		builder.ConfigureAppConfiguration((context, config) =>
 		{
 			var connectionString = GetConnectionString();
-			
+
 			config.AddInMemoryCollection(new Dictionary<string, string?>
 			{
 				["MongoDbSettings:ConnectionStrings"] = connectionString,
@@ -76,10 +78,10 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		builder.ConfigureServices(services =>
 		{
 			var connectionString = GetConnectionString();
-			
+
 			// Register IDatabaseSettings
 			services.AddSingleton<IDatabaseSettings>(new DatabaseSettings(connectionString, _databaseName));
-			
+
 			// Register IMongoClient
 			services.AddSingleton<IMongoClient>(sp =>
 			{
