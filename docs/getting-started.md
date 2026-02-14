@@ -63,7 +63,7 @@ $env:MongoDbSettings__DatabaseName="devissuetracker"
 
 #### Option C: MongoDB Without Authentication
 
-If your local MongoDB instance doesn't require authentication, the default connection string in `appsettings.Development.json` will work without any additional configuration
+If your local MongoDB instance doesn't require authentication, the default connection string in `appsettings.Development.json` will work without any additional configuration.
 
 ### 4. Restore Dependencies
 
