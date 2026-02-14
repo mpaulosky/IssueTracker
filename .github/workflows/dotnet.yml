@@ -39,7 +39,7 @@ jobs:
       DOTNET_MULTILEVEL_LOOKUP: 0
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Fetch all history for all tags and branches
         run: |
           git fetch --prune --unshallow
@@ -47,7 +47,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Restores
         run: dotnet restore
@@ -59,13 +59,13 @@ jobs:
         run: dotnet test --configuration Release --no-restore --no-build --settings runsettings.xml
           
       - name: Upload dotnet test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: IssueTracker-test-results
           path: TestResults
 
       - name: Codecov
-        uses: codecov/codecov-action@v5.5.1
+        uses: codecov/codecov-action@v5.5.2
         
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
@@ -74,13 +74,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.1.0
+        uses: gittools/actions/gitversion/setup@v4.2.0
         with:
           versionSpec: "6.x"
 
       - name: Use GitVersion
         id: gitversion # step id used as reference for output values
-        uses: gittools/actions/gitversion/execute@v4.1.0
+        uses: gittools/actions/gitversion/execute@v4.2.0
       - run: |
           echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
 

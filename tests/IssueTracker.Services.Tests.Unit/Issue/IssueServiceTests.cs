@@ -279,7 +279,7 @@ public class IssueServiceTests
 		IssueService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetIssuesByUser(value); };
+		Func<Task> act = async () => { await sut.GetIssuesByUser(value!); };
 
 		// Assert
 		await act.Should()

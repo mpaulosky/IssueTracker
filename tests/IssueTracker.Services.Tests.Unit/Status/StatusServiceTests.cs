@@ -167,7 +167,7 @@ public class StatusServiceTests
 		StatusService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetStatus(value); };
+		Func<Task> act = async () => { await sut.GetStatus(value!); };
 
 		// Assert
 		await act.Should()
