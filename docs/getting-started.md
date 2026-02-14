@@ -39,22 +39,31 @@ This will start a MongoDB instance on `localhost:27017`.
 
 ### 3. Configure the Application
 
-Create or update the `appsettings.Development.json` file in `src/IssueTracker.UI/`:
+The `appsettings.Development.json` file contains a placeholder MongoDB connection string without credentials. For local development with authentication, you have two options:
 
-```json
-{
-  "ConnectionStrings": {
-    "MongoDB": "mongodb://localhost:27017",
-    "DatabaseName": "IssueTrackerDb"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  }
-}
+#### Option A: Using User Secrets (Recommended)
+
+```bash
+cd src/UI/IssueTracker.UI
+dotnet user-secrets set "MongoDbSettings:ConnectionStrings" "mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
+dotnet user-secrets set "MongoDbSettings:DatabaseName" "devissuetracker"
 ```
+
+#### Option B: Using Environment Variables
+
+```bash
+# Linux/Mac
+export MongoDbSettings__ConnectionStrings="mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
+export MongoDbSettings__DatabaseName="devissuetracker"
+
+# Windows (PowerShell)
+$env:MongoDbSettings__ConnectionStrings="mongodb://username:password@localhost:27017/devissuetracker?authSource=admin"
+$env:MongoDbSettings__DatabaseName="devissuetracker"
+```
+
+#### Option C: MongoDB Without Authentication
+
+If your local MongoDB instance doesn't require authentication, the default connection string in `appsettings.Development.json` will work without any additional configuration
 
 ### 4. Restore Dependencies
 
