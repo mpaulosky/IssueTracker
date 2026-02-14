@@ -49,7 +49,8 @@ public class UpdateCategoryTests : IAsyncLifetime
 		CategoryModel result = await _sut.GetAsync(expected.Id);
 
 		// Assert
-		result.Should().BeEquivalentTo(expected, options => options.Excluding(c => c.Id));
+		result.Id.Should().Be(expected.Id);
+		result.Should().BeEquivalentTo(expected);
 	}
 
 	[Fact(DisplayName = "UpdateAsync With In Valid Data Should Fail")]
