@@ -99,6 +99,85 @@
 ### Remaining Considerations
 
 - **MongoDB Connection String**: UI service receives connection string via Aspire binding (not read from appsettings); RegisterConnections extension must consume from environment/provider
-- **Service Defaults Project**: Not implemented yet; future enhancement for shared middleware (logging, tracing, health checks) across services
 - **Build Order**: Visual Studio resolves dependency graph (AppHost → UI → CoreBusiness/Services/PlugIns)
+
+### Phase 2: ServiceDefaults Implementation Complete (2026-02-16)
+
+**OpenTelemetry Configuration:**
+- Full instrumentation pipeline: ASP.NET Core, HTTP Client, Runtime metrics
+- Dual exporters: Console (local dev debugging) + OTLP (Aspire dashboard / production)
+- Environment-aware sampling: 10% in production (TraceIdRatioBasedSampler), 100% in dev (AlwaysOnSampler)
+- Package versions: OpenTelemetry 1.11.0 (NU1902 vulnerability warning on OpenTelemetry.Api 1.11.1 transitive dependency — acceptable for dev)
+
+**MongoDB Health Check:**
+- Implemented `MongoDbHealthCheck` with 3-second timeout and graceful degradation
+- Uses MongoDB ping command against admin database (`{ping:1}`)
+- Proper exception handling: OperationCanceledException (timeout vs user cancellation), MongoException, generic fallback
+- Linked cancellation tokens for timeout + user cancellation coordination
+
+**ServiceDefaults Architecture:**
+- `Extensions.cs`: Entry point with `.AddServiceDefaults()` registering OpenTelemetry, health checks, and problem details
+- `Observability/OpenTelemetryExtensions.cs`: Centralized OTel configuration with `.AddOpenTelemetryExporters()`
+- `HealthChecks/MongoDbHealthCheck.cs`: Production-ready MongoDB connectivity check
+- Global usings: Added MongoDB.Driver, OpenTelemetry.* namespaces for cleaner code
+
+**Build Verification:**
+- ServiceDefaults: Builds successfully with 1 warning (NU1902)
+- Full solution: Builds successfully (0 errors)
+- Architecture tests: 4/4 passing
+
+**File Structure:**
+- `src/ServiceDefaults/Extensions.cs` — Main entry point
+- `src/ServiceDefaults/HealthChecks/MongoDbHealthCheck.cs` — MongoDB health check
+- `src/ServiceDefaults/Observability/OpenTelemetryExtensions.cs` — OTel configuration
+- `src/ServiceDefaults/GlobalUsings.cs` — Shared namespace imports
+- `Directory.Packages.props` — Added 7 OTel packages (version 1.11.0)
+
+**Next Phase:**
+- Phase 3: Wire UI/Program.cs to call `.AddServiceDefaults()` and `app.MapDefaultEndpoints()`
+- Phase 3: Update AppHost to use Aspire MongoDB resource binding
+
+### Phase 3 Step 2: Aspire AppHost Orchestration Complete (2026-02-16)
+
+**Aspire 13.0 MongoDB Integration Pattern:**
+- Used `.AddMongoDB("mongodb")` instead of manual `.AddContainer()` — Aspire-native MongoDB resource
+- `.WithDataVolume()` for persistent MongoDB data across container restarts
+- `.WithHealthCheck("mongodb")` requires explicit key parameter (breaking change from Aspire 10.0)
+- `.WithReference(mongodb)` establishes service-to-resource dependency and injects connection string
+- `.WaitFor(mongodb)` removed — not needed in Aspire 13.0 API (implicit with `.WithReference()`)
+
+**MongoDB Driver Version Compatibility:**
+- Aspire.Hosting.MongoDB 13.0.0 requires MongoDB.Driver >= 3.5.0
+- Updated Directory.Packages.props: MongoDB.Driver 3.4.3 → 3.5.0, MongoDB.Bson 3.4.3 → 3.5.0
+- Breaking change: Must coordinate Aspire package version with MongoDB.Driver minimum version requirement
+
+**AppHost Build Configuration:**
+- Added Aspire.Hosting.MongoDB package to Directory.Packages.props (version 13.0.0)
+- Added package reference to AppHost.csproj (CPM pattern — no version attribute)
+- AppHost.csproj requires `IsAspireProjectResource="true"` on UI project reference for strong-typed Projects namespace
+
+**Build Verification Results:**
+- AppHost builds successfully: 0 errors, 1 warning (NU1902 — OpenTelemetry.Api vulnerability, acceptable)
+- Full solution build: 0 errors, 12 warnings (all NU1902)
+- Architecture tests: 4/4 passing
+  - `AppHost_MustNotBeReferencedByOtherProjects` ✓
+  - `UI_ShouldNotDependOnAppHost` ✓
+  - `CoreBusiness_ShouldNotDependOnUIOrAppHost` ✓
+  - `ServiceDefaults_MustHaveNoCircularDependencies` ✓
+
+**Orchestration Architecture:**
+- AppHost orchestrates: MongoDB ContainerResource + Blazor UI ProjectResource
+- UI receives MongoDB connection string via Aspire dependency injection (not appsettings.json)
+- Health check key "mongodb" registered for monitoring
+- Data volume ensures dev data persists across container restarts
+
+**File Structure:**
+- `src/AppHost/Program.cs` — Full orchestration implementation
+- `src/AppHost/AppHost.csproj` — Verified with Aspire.Hosting.MongoDB reference
+- `Directory.Packages.props` — MongoDB.Driver 3.5.0, Aspire.Hosting.MongoDB 13.0.0
+
+**Next Phase:**
+- Phase 3 Step 3: Wire UI/Program.cs to consume MongoDB connection from Aspire binding
+- Phase 3 Step 4: Test full orchestration startup (`dotnet run --project src/AppHost`)
+
 

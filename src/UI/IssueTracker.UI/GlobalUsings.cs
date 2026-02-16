@@ -40,3 +40,5 @@ global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.AspNetCore.Rewrite;
 global using Microsoft.Identity.Web;
 global using Microsoft.Identity.Web.UI;
+
+global using ServiceDefaults;

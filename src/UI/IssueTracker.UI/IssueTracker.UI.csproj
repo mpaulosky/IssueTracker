@@ -24,6 +24,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
 		<ProjectReference Include="..\..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+		<ProjectReference Include="..\..\ServiceDefaults\ServiceDefaults.csproj" />
 	</ItemGroup>
 
 </Project>

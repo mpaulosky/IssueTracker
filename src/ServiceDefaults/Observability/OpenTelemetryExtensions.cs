@@ -12,9 +12,6 @@ namespace ServiceDefaults.Observability;
 /// <summary>
 /// Extension methods for configuring OpenTelemetry integration with Aspire.
 /// </summary>
-/// <remarks>
-/// Stub implementation for Phase 1. Phase 2 will add tracing, metrics, and logging exporters.
-/// </remarks>
 public static class OpenTelemetryExtensions
 {
 	/// <summary>
@@ -24,10 +21,21 @@ public static class OpenTelemetryExtensions
 	/// <returns>The builder for chaining.</returns>
 	public static IHostApplicationBuilder AddOpenTelemetryExporters(this IHostApplicationBuilder builder)
 	{
-		// Stub: Phase 2 will implement OpenTelemetry configuration:
-		// - AddOpenTelemetry()
-		// - WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation())
-		// - WithTracing(tracing => tracing.AddAspNetCoreInstrumentation())
+		var isProduction = builder.Environment.IsProduction();
+
+		builder.Services.AddOpenTelemetry()
+			.WithMetrics(metrics => metrics
+				.AddAspNetCoreInstrumentation()
+				.AddHttpClientInstrumentation()
+				.AddRuntimeInstrumentation()
+				.AddConsoleExporter()
+				.AddOtlpExporter())
+			.WithTracing(tracing => tracing
+				.AddAspNetCoreInstrumentation()
+				.AddHttpClientInstrumentation()
+				.SetSampler(isProduction ? new TraceIdRatioBasedSampler(0.1) : new AlwaysOnSampler())
+				.AddConsoleExporter()
+				.AddOtlpExporter());
 
 		return builder;
 	}

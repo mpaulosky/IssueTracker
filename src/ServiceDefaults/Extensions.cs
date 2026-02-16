@@ -21,12 +21,29 @@ public static class Extensions
 	/// <returns>The builder for chaining.</returns>
 	public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
 	{
-		// Placeholder for Phase 2 implementation:
-		// - OpenTelemetry (tracing, metrics, logging)
-		// - Health checks (MongoDB connectivity)
-		// - Problem details (RFC 7807)
-		// - Service discovery
+		// OpenTelemetry: Tracing, Metrics, Logging
+		Observability.OpenTelemetryExtensions.AddOpenTelemetryExporters(builder);
+
+		// Health Checks: MongoDB connectivity + base health endpoints
+		builder.Services.AddHealthChecks()
+			.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb");
+
+		// Problem Details: RFC 7807 standardized error responses
+		builder.Services.AddProblemDetails();
 
 		return builder;
+	}
+
+	/// <summary>
+	/// Maps default endpoints including health checks and other diagnostic endpoints.
+	/// </summary>
+	/// <param name="app">The web application.</param>
+	/// <returns>The application for chaining.</returns>
+	public static WebApplication MapDefaultEndpoints(this WebApplication app)
+	{
+		// Map health check endpoints
+		app.MapHealthChecks("/health");
+
+		return app;
 	}
 }

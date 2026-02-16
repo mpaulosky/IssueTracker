@@ -9,6 +9,15 @@
 
 global using System.Diagnostics.CodeAnalysis;
 
+global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Hosting;
+
+global using MongoDB.Bson;
+global using MongoDB.Driver;
+
+global using OpenTelemetry;
+global using OpenTelemetry.Metrics;
+global using OpenTelemetry.Resources;
+global using OpenTelemetry.Trace;

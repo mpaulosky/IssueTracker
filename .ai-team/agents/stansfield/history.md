@@ -94,3 +94,45 @@
 - README.md quick start commands are high-visibility — must match actual developer workflow
 - Deployment/configuration docs lag architecture decisions — acceptable tech debt if clearly marked as "legacy" or "manual setup"
 - Aspire dashboard URLs should be verified against actual AppHost configuration (can be :15000 or :17000 depending on config)
+
+### Phase 3 Step 1: UI Integration with ServiceDefaults (2026-02-16)
+
+**Objective:** Wire Blazor UI to ServiceDefaults infrastructure to enable health checks, observability, and problem details.
+
+**What I Did:**
+
+1. **Added ServiceDefaults project reference to UI.csproj**
+   - Location: `src/UI/IssueTracker.UI/IssueTracker.UI.csproj`
+   - Reference: `..\..\ServiceDefaults\ServiceDefaults.csproj`
+
+2. **Updated UI Program.cs with ServiceDefaults integration**
+   - Added `builder.AddServiceDefaults();` call immediately after `WebApplicationBuilder` creation
+   - Position: Before other service registrations so health checks, OTel, and problem details are configured first
+   - Added `app.MapDefaultEndpoints();` call after `WebApplication.Build()` to expose health check endpoints
+   - Removed duplicate `app.UseHealthChecks("/health");` middleware registration (now handled by ServiceDefaults)
+
+3. **Extended ServiceDefaults with MapDefaultEndpoints()**
+   - Added `MapDefaultEndpoints()` extension method to `ServiceDefaults/Extensions.cs`
+   - Signature: `public static WebApplication MapDefaultEndpoints(this WebApplication app)`
+   - Maps `/health` endpoint for health checks (OpenTelemetry, MongoDB connectivity)
+   - Added `Microsoft.AspNetCore.Builder` namespace to `ServiceDefaults/GlobalUsings.cs` for `WebApplication` type
+
+4. **Updated UI GlobalUsings.cs**
+   - Added `global using ServiceDefaults;` to expose extension methods without explicit using directives
+
+**Build Verification:**
+- ✅ UI project builds successfully (0 errors, warnings about OpenTelemetry vulnerability are pre-existing)
+- ✅ Full solution builds successfully (0 errors)
+- ✅ No regressions in existing projects
+
+**Technical Notes:**
+- ServiceDefaults extension methods operate on `IHostApplicationBuilder`, which `WebApplicationBuilder` implements
+- Health check endpoint at `/health` is now managed centrally by ServiceDefaults, not in UI middleware pipeline
+- OpenTelemetry, problem details, and MongoDB health checks are now active in the UI
+
+**File Locations:**
+- UI Program.cs: `src/UI/IssueTracker.UI/Program.cs`
+- UI .csproj: `src/UI/IssueTracker.UI/IssueTracker.UI.csproj`
+- ServiceDefaults Extensions: `src/ServiceDefaults/Extensions.cs`
+- ServiceDefaults GlobalUsings: `src/ServiceDefaults/GlobalUsings.cs`
+- UI GlobalUsings: `src/UI/IssueTracker.UI/GlobalUsings.cs`

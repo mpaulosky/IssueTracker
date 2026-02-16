@@ -11,15 +11,16 @@ using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// MongoDB container resource
-var mongodb = builder
-	.AddContainer("mongodb", "mongo")
-	.WithEnvironment("MONGO_INITDB_ROOT_USERNAME", "admin")
-	.WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "admin");
+// MongoDB container resource with Aspire API
+var mongodb = builder.AddMongoDB("mongodb")
+	.WithDataVolume()
+	.WithHealthCheck("mongodb");
 
 // Blazor UI service
 var ui = builder
 	.AddProject<Projects.IssueTracker_UI>("ui")
-	.WaitFor(mongodb);
+	.WithReference(mongodb);
 
-builder.Build().Run();
+var app = builder.Build();
+
+await app.RunAsync();

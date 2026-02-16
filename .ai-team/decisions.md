@@ -18,7 +18,7 @@
 
 1. **Orchestration Model**: AppHost is the single entry point; it launches Blazor UI (port 5000) as the primary host and manages MongoDB container via Aspire resources.
 
-2. **Service Architecture**: 
+2. **Service Architecture**:
    - CoreBusiness and Services are project references (internal dependencies) — NOT service bindings
    - PlugIns.Mongo is a project reference providing data access implementations
    - UI references CoreBusiness and PlugIns for business logic
@@ -65,6 +65,7 @@ Configured .NET Aspire orchestration for IssueTracker by creating the AppHost pr
 ### Implementation Details
 
 **AppHost Project Structure:**
+
 - Program.cs with Aspire DistributedApplication orchestration
 - MongoDB ContainerResource: SCRAM-SHA auth (admin/admin), port 27017, DNS name `mongodb`
 - Service Registration: Blazor UI via `AddProject<Projects.IssueTracker_UI>()`
@@ -72,9 +73,11 @@ Configured .NET Aspire orchestration for IssueTracker by creating the AppHost pr
 - Project References: IssueTracker.UI, Services, CoreBusiness, PlugIns
 
 **Central Package Versioning:**
+
 - Added Aspire packages to Directory.Packages.props: v10.0.0
 
 **Solution Configuration:**
+
 - Updated IssueTracker.slnx: AppHost project path, folder structure
 
 ### Local Development Workflow
@@ -83,8 +86,8 @@ Configured .NET Aspire orchestration for IssueTracker by creating the AppHost pr
 dotnet run --project src/IssueTracker.AppHost
 ```
 
-- Aspire dashboard: http://localhost:17000
-- Blazor UI: http://localhost:5000 (HTTP/5001 HTTPS)
+- Aspire dashboard: <http://localhost:17000>
+- Blazor UI: <http://localhost:5000> (HTTP/5001 HTTPS)
 - MongoDB: mongodb://admin:admin@localhost:27017 (debugging)
 - Expected startup: 10-15 seconds
 
@@ -112,11 +115,13 @@ Updated IssueTracker solution structure and local development documentation to s
 ### Changes
 
 **Solution File (IssueTracker.slnx):**
+
 - Added `/src/AppHost/` folder
 - Added reference to IssueTracker.AppHost.csproj
 - Build order includes AppHost as entry point
 
 **Getting Started Docs (docs/getting-started.md):**
+
 - Replaced docker-compose + manual MongoDB setup with `dotnet run --project AppHost`
 - Updated prerequisites: .NET 10 SDK, Docker Desktop (Aspire-managed)
 - Added Aspire dashboard documentation (`:15000`)
@@ -133,6 +138,7 @@ Updated IssueTracker solution structure and local development documentation to s
 ### Developer UX
 
 Single entry point: `dotnet run --project AppHost` handles everything:
+
 - Automatic database provisioning (devissuetracker + dev credentials)
 - Integrated health checks before readiness
 - Real-time Aspire dashboard for debugging
@@ -164,11 +170,13 @@ This is **Priority 1** work — blocks all other Aspire integration.
 **Decision:** Rename `IssueTracker.AppHost` → `AppHost`
 
 **Rationale:**
+
 - Consistency: Other projects follow simple naming (UI, Services, CoreBusiness, PlugIns)
 - Simplicity: "AppHost" clearly indicates orchestrator role without namespace clutter
 - .NET Aspire convention: Most reference architectures use simple names for orchestration projects
 
 **Impact:**
+
 - Rename folder: `src/IssueTracker.AppHost` → `src/AppHost`
 - Update `.csproj` name: `AppHost.csproj`
 - Update `IssueTracker.slnx` project reference
@@ -230,11 +238,13 @@ app.Run();
 ```
 
 **Why Not NuGet Package?**
+
 - Simplicity: Shared project reference is easier for local dev/debug
 - Deployment: AppHost publishes as single container; no NuGet complexity needed
 - Flexibility: Can refactor to package later if multi-repo scenarios emerge
 
 **Risks:**
+
 - **Concern:** Every project must remember to call `.AddServiceDefaults()`. Mitigate with architecture tests (NetArchTest).
 - **Risk:** ServiceDefaults grows into a "kitchen sink." Mitigate by strict code review — only infrastructure concerns allowed.
 
@@ -291,6 +301,7 @@ AppHost
 **Phase 2: ServiceDefaults Implementation** (2-3 hours)
 
 1. **Extensions.cs** — Main entry point:
+
    ```csharp
    public static class ServiceDefaultsExtensions
    {
@@ -312,6 +323,7 @@ AppHost
    ```
 
 2. **HealthChecks/MongoDbHealthCheck.cs** — Ping MongoDB:
+
    ```csharp
    public class MongoDbHealthCheck : IHealthCheck
    {
@@ -341,6 +353,7 @@ AppHost
    ```
 
 3. **Observability/OpenTelemetryExtensions.cs** — Aspire dashboard integration:
+
    ```csharp
    public static class OpenTelemetryExtensions
    {
