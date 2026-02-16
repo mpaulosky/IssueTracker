@@ -1,0 +1,22 @@
+{
+  "universe_usage_history": [
+    {
+      "assignment_id": "issue-tracker-aspire-001",
+      "universe": "Reservoir Dogs",
+      "timestamp": "2026-02-16T18:51:20Z"
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "issue-tracker-aspire-001": {
+      "universe": "Reservoir Dogs",
+      "agent_map": {
+        "milo": "Milo",
+        "stansfield": "Stansfield",
+        "wolinski": "Wolinski",
+        "hooper": "Hooper",
+        "scribe": "Scribe"
+      },
+      "created_at": "2026-02-16T18:51:20Z"
+    }
+  }
+}
