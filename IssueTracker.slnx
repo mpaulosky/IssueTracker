@@ -5,6 +5,12 @@
     <BuildType Name="Test" />
   </Configurations>
   <Folder Name="/src/" />
+  <Folder Name="/src/AppHost/">
+    <Project Path="src/AppHost/AppHost.csproj" />
+  </Folder>
+  <Folder Name="/src/ServiceDefaults/">
+    <Project Path="src/ServiceDefaults/ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/src/CoreBusiness/">
     <Project Path="src/CoreBusiness/IssueTracker.CoreBusiness/IssueTracker.CoreBusiness.csproj" />
   </Folder>
@@ -33,5 +39,8 @@
   </Folder>
   <Folder Name="/tests/UI Tests/">
     <Project Path="tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj" />
+  </Folder>
+  <Folder Name="/tests/Architecture Tests/">
+    <Project Path="tests/Architecture.Tests/Architecture.Tests.csproj" />
   </Folder>
 </Solution>

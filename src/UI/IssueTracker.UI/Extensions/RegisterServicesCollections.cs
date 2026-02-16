@@ -19,13 +19,17 @@ public static partial class ServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">IServiceCollection</param>
 	/// <returns>IServiceCollection</returns>
+	/// <remarks>
+	///   Services are registered as Scoped to avoid captive dependency issues with Transient repositories
+	///   and to support proper lifecycle management in Blazor Server per-circuit scenarios.
+	/// </remarks>
 	public static IServiceCollection RegisterServicesCollections(this IServiceCollection services)
 	{
-		services.AddSingleton<ICategoryService, CategoryService>();
-		services.AddSingleton<ICommentService, CommentService>();
-		services.AddSingleton<IStatusService, StatusService>();
-		services.AddSingleton<IIssueService, IssueService>();
-		services.AddSingleton<IUserService, UserService>();
+		services.AddScoped<ICategoryService, CategoryService>();
+		services.AddScoped<ICommentService, CommentService>();
+		services.AddScoped<IStatusService, StatusService>();
+		services.AddScoped<IIssueService, IssueService>();
+		services.AddScoped<IUserService, UserService>();
 
 		return services;
 	}
