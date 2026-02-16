@@ -1,36 +1,31 @@
-# Routing
+# Work Routing
 
-Routing rules determine which agent handles which type of work.
+How to decide who handles what.
 
-## Primary Routing
+## Routing Table
 
-| Domain | Agent | Examples |
-|--------|-------|----------|
-| **Architecture, decisions, code review, scope** | Milo (Lead) | "Set up Aspire", design reviews, approve PRs, triage issues |
-| **Blazor UI, components, client state, styling** | Stansfield (Frontend) | Build components, refactor views, Blazor state management |
-| **APIs, MongoDB, services, business logic, Aspire config** | Wolinski (Backend) | Implement endpoints, add repositories, Aspire orchestration |
-| **Tests, quality, coverage, edge cases, test automation** | Hooper (Tester) | Write xUnit/bUnit tests, validate requirements, quality gates |
-| **Session logging, decision merging, context management** | Scribe | Always — logs and syncs team state (never spawned on task) |
-| **Work queue monitoring, issue triage, backlog management** | Ralph (if active) | Scans GitHub, keeps team moving, prevents idle time |
+| Work Type | Route To | Examples |
+|-----------|----------|----------|
+| Architecture & scope | Rhodey | Project structure, NuGet strategy, API design, trade-offs |
+| .NET/Aspire hosting | Shuri | Hosting extensions, resource builders, Docker config, NuGet packaging |
+| RCON protocol | Shuri | RconClient, RconConnection, protocol parsing |
+| Minecraft interactions | Rocket | Worker service, holograms, scoreboards, in-world display, Minecraft commands |
+| OpenTelemetry | Shuri + Rocket | Metrics, tracing, structured logging |
+| Code review | Rhodey | Review PRs, check quality, suggest improvements |
+| Testing | Nebula | Write tests, find edge cases, verify fixes |
+| Scope & priorities | Rhodey | What to build next, trade-offs, decisions |
+| Documentation | Vision | README, API docs, usage guides, user documentation |
+| Blog posts & comms | Mantis | Release posts, changelogs, developer announcements |
+| CI/CD & GitHub | Wong | Actions workflows, branch policies, NuGet publishing pipeline |
+| Repo config | Wong | Issue labels, PR templates, dependabot, CODEOWNERS |
+| Release automation | Wong | Version tagging, NuGet push, release notes |
+| Session logging | Scribe | Automatic — never needs routing |
 
-## Decision Gates
+## Rules
 
-| Gate | Owner | Trigger | Action |
-|------|-------|---------|--------|
-| Architecture | Milo | Multi-system changes, Aspire design | Approve or reject before agents proceed |
-| Code Review | Milo | All PRs before merge | Approve, request changes, or reject |
-| Test Coverage | Hooper | Features without tests | Reject until coverage acceptable |
-
-## Ceremony Triggers
-
-Check `.ai-team/ceremonies.md` for automatic triggers:
-- Design Review (before multi-agent work affecting shared systems)
-- Retrospective (after work batches)
-
----
-
-## Notes
-
-- For ambiguous routing, ask Milo (Lead) first
-- All agents may write decisions to their inbox files simultaneously (no conflicts)
-- Ralph's work-check cycle runs after major work batches (if active)
+1. **Eager by default** — spawn all agents who could usefully start work, including anticipatory downstream work.
+2. **Scribe always runs** after substantial work, always as `mode: "background"`. Never blocks.
+3. **Quick facts → coordinator answers directly.** Don't spawn an agent for "what port does the server run on?"
+4. **When two agents could handle it**, pick the one whose domain is the primary concern.
+5. **"Team, ..." → fan-out.** Spawn all relevant agents in parallel as `mode: "background"`.
+6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
