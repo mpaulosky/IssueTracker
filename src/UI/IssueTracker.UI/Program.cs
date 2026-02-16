@@ -9,6 +9,9 @@
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// ServiceDefaults: Health checks, OTel, problem details
+builder.AddServiceDefaults();
+
 ConfigurationManager config = builder.Configuration;
 config.AddEnvironmentVariables("IssueTrackerUI_");
 
@@ -16,6 +19,9 @@ config.AddEnvironmentVariables("IssueTrackerUI_");
 builder.ConfigureServices(config);
 
 WebApplication app = builder.Build();
+
+// Map health check and default endpoints
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -27,8 +33,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseHealthChecks("/health");
 
 app.UseStaticFiles();
 
