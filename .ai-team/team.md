@@ -2,36 +2,37 @@
 
 ## Project Context
 
-| Field | Value |
-|-------|-------|
-| **Project** | IssueTracker — Issue tracking application with Blazor UI and MongoDB |
-| **Tech Stack** | .NET 10, Blazor Server, MongoDB, Docker, xUnit, bUnit |
-| **Goal** | Aspireify the application and enhance/improve features |
-| **Owner** | mpaulosky |
-| **Team Root** | E:\github\IssueTracker |
+**Project** IssueTracker — Issue tracking application with Blazor UI, MongoDB, Aspire, and Auth0
+**Tech Stack** .NET 10, Blazor Server, MongoDB, Docker, xUnit, bUnit, C#, Aspire, OpenTelemetry
+**Goal** Aspireify the application and enhance/improve features
+**Owner:** Matthew J Paulosky (mpaulosky@users.noreply.github.com)
+**Team Root** E:\github\IssueTracker
 
-## Active Members
+## Coordinator
+
+| Name | Role | Notes |
+|------|------|-------|
+| Squad | Coordinator | Routes work, enforces handoffs and reviewer gates. Does not generate domain artifacts. |
+
+## Members
 
 | Name | Role | Charter | Status |
 |------|------|---------|--------|
-| Milo | Lead | `.ai-team/agents/milo/charter.md` | ✅ Active |
-| Stansfield | Frontend Dev | `.ai-team/agents/stansfield/charter.md` | ✅ Active |
-| Wolinski | Backend Dev | `.ai-team/agents/wolinski/charter.md` | ✅ Active |
-| Hooper | Tester | `.ai-team/agents/hooper/charter.md` | ✅ Active |
-| Scribe | (silent) | `.ai-team/agents/scribe/charter.md` | ✅ Active |
+| Rhodey | Lead | `.ai-team/agents/rhodey/charter.md` | ✅ Active |
+| Shuri | Backend Dev | `.ai-team/agents/shuri/charter.md` | ✅ Active |
+| Rocket | Integration Dev | `.ai-team/agents/rocket/charter.md` | ✅ Active |
+| Nebula | Tester | `.ai-team/agents/nebula/charter.md` | ✅ Active |
+| Hawkeye | Playwright Expert | `.ai-team/agents/hawkeye/charter.md` | ✅ Active |
+| Mantis | Blogger | `.ai-team/agents/mantis/charter.md` | ✅ Active |
+| Wong | GitHub Ops | `.ai-team/agents/wong/charter.md` | ✅ Active |
+| Vision | Technical Writer | `.ai-team/agents/vision/charter.md` | ✅ Active |
+| Scribe | Session Logger | `.ai-team/agents/scribe/charter.md` | 📋 Silent |
 | Ralph | Work Monitor | — | 🔄 Monitor |
 
-## Casting
+## Issue Source
 
-**Universe:** Reservoir Dogs  
-**Assignment ID:** issue-tracker-aspire-001  
-**Created:** 2026-02-16
-
----
-
-## Notes
-
-- All agents read `.ai-team/decisions.md` at spawn time
-- Agents write decisions to `.ai-team/decisions/inbox/{name}-{slug}.md` (not directly to decisions.md)
-- Scribe merges inbox into decisions.md and commits `.ai-team/` changes
-- Each agent has append-only history in `.ai-team/agents/{name}/history.md`
+| Field | Value |
+|-------|-------|
+| **Repository** | mpaulosky/IssueTracker |
+| **Connected** | 2026-02-10 |
+| **Filters** | all open |

@@ -2,21 +2,22 @@
   "universe_usage_history": [
     {
       "assignment_id": "issue-tracker-aspire-001",
-      "universe": "Reservoir Dogs",
-      "timestamp": "2026-02-16T18:51:20Z"
+      "universe": "Marvel Cinematic Universe",
+      "timestamp": "2026-02-10T14:43:37Z"
     }
   ],
   "assignment_cast_snapshots": {
-    "issue-tracker-aspire-001": {
-      "universe": "Reservoir Dogs",
+    "2026-02-10-aspire-minecraft": {
+      "universe": "Marvel Cinematic Universe",
       "agent_map": {
-        "milo": "Milo",
-        "stansfield": "Stansfield",
-        "wolinski": "Wolinski",
-        "hooper": "Hooper",
-        "scribe": "Scribe"
+        "rhodey": "Rhodey",
+        "shuri": "Shuri",
+        "rocket": "Rocket",
+        "nebula": "Nebula",
+        "mantis": "Mantis",
+        "wong": "Wong"
       },
-      "created_at": "2026-02-16T18:51:20Z"
+      "created_at": "2026-02-10T14:43:37Z"
     }
   }
 }
