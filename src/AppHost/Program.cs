@@ -4,10 +4,8 @@
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
-// Project Name :  IssueTracker.AppHost
+// Project Name :  AppHost
 // =============================================
-
-namespace IssueTracker.AppHost;
 
 using Aspire.Hosting;
 
@@ -17,13 +15,11 @@ var builder = DistributedApplication.CreateBuilder(args);
 var mongodb = builder
 	.AddContainer("mongodb", "mongo")
 	.WithEnvironment("MONGO_INITDB_ROOT_USERNAME", "admin")
-	.WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "admin")
-	.WithBindPort(27017, 27017);
+	.WithEnvironment("MONGO_INITDB_ROOT_PASSWORD", "admin");
 
 // Blazor UI service
 var ui = builder
 	.AddProject<Projects.IssueTracker_UI>("ui")
-	.WithReference(mongodb)
 	.WaitFor(mongodb);
 
 builder.Build().Run();

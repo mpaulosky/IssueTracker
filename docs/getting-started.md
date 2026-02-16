@@ -31,7 +31,7 @@ dotnet restore
 The application uses **.NET Aspire** for local orchestration. Simply run the AppHost project, which manages MongoDB and launches the Blazor UI:
 
 ```bash
-dotnet run --project src/AppHost/IssueTracker.AppHost/IssueTracker.AppHost.csproj
+dotnet run --project src/AppHost/AppHost.csproj
 ```
 
 Or use the VS Code task:
@@ -134,7 +134,7 @@ If the Aspire orchestrator fails to start:
 1. Ensure Docker Desktop is running: `docker ps`
 2. Check available disk space (Aspire containers require ~500MB)
 3. Review logs in the Aspire dashboard at `http://localhost:15000`
-4. If MongoDB health check times out, increase the timeout in `src/AppHost/IssueTracker.AppHost/Program.cs`
+4. If MongoDB health check times out, increase the timeout in `src/AppHost/Program.cs`
 
 ### MongoDB Connection Issues
 
@@ -159,7 +159,7 @@ If you encounter build errors:
 If ports 5000/5001 are already in use:
 
 1. Stop the conflicting application
-2. Or modify the port configuration in `src/AppHost/IssueTracker.AppHost/Program.cs`
+2. Or modify the port configuration in `src/AppHost/Program.cs`
 3. Update your browser URL to match the new port
 
 ### Slow Startup

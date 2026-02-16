@@ -35,7 +35,35 @@
 
 ## Learnings
 
-(None yet — first session)
+### Phase 1: Aspire Foundation Architecture Implementation
+
+**Project Naming Convention:**
+- Renamed `src/IssueTracker.AppHost` → `src/AppHost` for consistency with other projects
+- Updated namespace references, solution file (IssueTracker.slnx), documentation (docs/getting-started.md)
+- Program.cs uses top-level statements — cannot have file-scoped namespace declaration
+
+**ServiceDefaults Project Structure:**
+- Created `src/ServiceDefaults/` as shared infrastructure project
+- Folder structure: HealthChecks/, Observability/ for future Phase 2 implementation
+- Extensions.cs provides `AddServiceDefaults()` entry point (placeholder stub)
+- MongoDbHealthCheck.cs and OpenTelemetryExtensions.cs created as stubs
+
+**Aspire 13.0 API Changes (from 10.0):**
+- `.WithBindPort()` and `.WithHostPort()` APIs removed — container ports auto-managed
+- `.WithReference()` for ContainerResource to ProjectResource incompatible — simplified to `.WaitFor()` only
+- Project references require `IsAspireProjectResource="true"` attribute for strong-typed Projects namespace generation
+- Directory.Packages.props version updated to Aspire 13.0.0 for compatibility
+
+**CPM (Centralized Package Management):**
+- All PackageReference elements in .csproj files must omit Version attribute
+- Versions managed exclusively in Directory.Packages.props at repo root
+- Enforced via `<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>`
+
+**File Paths:**
+- AppHost: `src/AppHost/AppHost.csproj`, `src/AppHost/Program.cs`
+- ServiceDefaults: `src/ServiceDefaults/ServiceDefaults.csproj`, `src/ServiceDefaults/Extensions.cs`
+- Solution: `IssueTracker.slnx` (XML-based solution format)
+- Documentation: `docs/getting-started.md`
 
 ## Session 2: 2026-02-16 — AppHost Aspire Orchestration Setup
 

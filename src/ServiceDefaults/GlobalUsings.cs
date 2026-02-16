@@ -4,9 +4,11 @@
 // Company :       mpaulosky
 // Author :        Matthew Paulosky
 // Solution Name : IssueTracker
-// Project Name :  IssueTracker.AppHost
+// Project Name :  ServiceDefaults
 // =============================================
 
 global using System.Diagnostics.CodeAnalysis;
 
-global using Aspire.Hosting;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Hosting;

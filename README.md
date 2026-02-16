@@ -19,7 +19,7 @@ cd IssueTracker
 dotnet restore
 
 # Run the application
-dotnet run --project src/IssueTracker.UI/IssueTracker.UI.csproj
+dotnet run --project src/AppHost/AppHost.csproj
 ```
 
 ## 📖 Documentation

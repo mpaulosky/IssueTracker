@@ -51,3 +51,46 @@
 - Getting-started.md should emphasize (1) one command, (2) what that command does, (3) where to look for debugging
 - Obsolete patterns (docker-compose, manual appsettings) must be removed to prevent confusion
 - Prerequisites should reflect actual deps (Docker + .NET SDK); optional tools should be noted separately
+
+### Phase 1 Documentation Audit (2026-02-16)
+
+**Audit Scope:**
+- Primary target: Verify no "IssueTracker.AppHost" references remain after rename to "AppHost"
+- Files scanned: README.md, docs/getting-started.md, docs/architecture.md, docs/project-structure.md, docs/deployment.md, docs/configuration.md
+
+**Findings:**
+
+✅ **docs/getting-started.md**: CLEAN
+- All AppHost references use correct path: `src/AppHost/AppHost.csproj`
+- Aspire dashboard URL correct: `http://localhost:15000`
+- MongoDB setup instructions accurate (container orchestration via Aspire)
+- No "IssueTracker.AppHost" references found
+
+✅ **docs/architecture.md**: CLEAN
+- No AppHost references (architecture doc focuses on layers)
+- Project naming consistent with conventions
+
+✅ **docs/project-structure.md**: CLEAN
+- No AppHost references (structure doc doesn't include orchestration layer yet)
+
+✅ **docs/deployment.md**: NEEDS UPDATE (but out of scope)
+- Still references .NET 7 and docker-compose patterns
+- Not critical for Phase 1 — marks older pre-Aspire deployment strategy
+
+✅ **docs/configuration.md**: NEEDS UPDATE (but out of scope)
+- Still describes manual appsettings.json for MongoDB connection
+- Aspire connection string injection pattern not documented
+- Not critical for Phase 1 — functional for manual setups
+
+❌ **README.md**: NEEDS FIX
+- Line 22: Quick start shows `dotnet run --project src/IssueTracker.UI/IssueTracker.UI.csproj`
+- Should be: `dotnet run --project src/AppHost/AppHost.csproj` (Aspire orchestration pattern)
+- This bypasses the orchestrator and won't start MongoDB automatically
+
+**Status:** Phase 1 docs 95% ready. One fix needed in README.md to align quick start with Aspire workflow.
+
+**Learnings:**
+- Documentation audit pattern: grep for exact old naming first, then verify replacement is functionally correct
+- README.md quick start commands are high-visibility — must match actual developer workflow
+- Deployment/configuration docs lag architecture decisions — acceptable tech debt if clearly marked as "legacy" or "manual setup"
+- Aspire dashboard URLs should be verified against actual AppHost configuration (can be :15000 or :17000 depending on config)

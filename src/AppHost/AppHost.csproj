@@ -11,12 +11,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aspire.Hosting" Version="10.0.0" />
-		<PackageReference Include="Aspire.Hosting.AppHost" Version="10.0.0" />
+		<PackageReference Include="Aspire.Hosting" />
+		<PackageReference Include="Aspire.Hosting.AppHost" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\UI\IssueTracker.UI\IssueTracker.UI.csproj" IsAspireProjectResource="true" />
 		<ProjectReference Include="..\Services\IssueTracker.Services\IssueTracker.Services.csproj" />
 		<ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
 		<ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
