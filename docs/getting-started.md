@@ -6,9 +6,8 @@ This guide will help you get the Issue Tracker application up and running on you
 
 Before you begin, ensure you have the following installed:
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
-- [MongoDB](https://www.mongodb.com/try/download/community) (or use Docker)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (optional, for containerized MongoDB)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) or later
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (required for local development — manages MongoDB via Aspire)
 - [Git](https://git-scm.com/downloads)
 - A code editor (recommended: [Visual Studio 2022](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/))
 
@@ -21,57 +20,18 @@ git clone https://github.com/mpaulosky/IssueTracker.git
 cd IssueTracker
 ```
 
-### 2. Set Up MongoDB
-
-#### Option A: Using Docker (Recommended)
-
-```bash
-docker-compose up -d
-```
-
-This will start a MongoDB instance on `localhost:27017`.
-
-#### Option B: Local MongoDB Installation
-
-1. Install MongoDB Community Edition
-2. Start the MongoDB service
-3. Ensure it's running on `localhost:27017`
-
-### 3. Configure the Application
-
-Create or update the `appsettings.Development.json` file in `src/IssueTracker.UI/`:
-
-```json
-{
-  "ConnectionStrings": {
-    "MongoDB": "mongodb://localhost:27017",
-    "DatabaseName": "IssueTrackerDb"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  }
-}
-```
-
-### 4. Restore Dependencies
+### 2. Restore Dependencies
 
 ```bash
 dotnet restore
 ```
 
-### 5. Build the Solution
+### 3. Run the Application
+
+The application uses **.NET Aspire** for local orchestration. Simply run the AppHost project, which manages MongoDB and launches the Blazor UI:
 
 ```bash
-dotnet build
-```
-
-### 6. Run the Application
-
-```bash
-dotnet run --project src/IssueTracker.UI/IssueTracker.UI.csproj
+dotnet run --project src/AppHost/IssueTracker.AppHost/IssueTracker.AppHost.csproj
 ```
 
 Or use the VS Code task:
@@ -80,7 +40,15 @@ Or use the VS Code task:
 # In VS Code, press Ctrl+Shift+P and select "Tasks: Run Task" > "watch"
 ```
 
-### 7. Access the Application
+This single command:
+
+- Starts the Aspire orchestrator
+- Provisions a MongoDB container (`devissuetracker` database) with default dev credentials
+- Launches the Blazor UI on port 5000 (HTTP) / 5001 (HTTPS)
+- Applies health checks before marking services ready
+- Provides a dashboard at `http://localhost:15000` (Aspire console)
+
+### 4. Access the Application
 
 Open your browser and navigate to:
 
@@ -93,6 +61,21 @@ or
 ```
 http://localhost:5000
 ```
+
+### 5. View Aspire Dashboard
+
+While the app is running, access the .NET Aspire dashboard at:
+
+```
+http://localhost:15000
+```
+
+This dashboard shows:
+
+- Real-time logs from all services
+- Health status of Blazor UI and MongoDB
+- Resource metrics (CPU, memory)
+- Environment configuration
 
 ## Running Tests
 
@@ -144,19 +127,29 @@ For a detailed breakdown, see [Project Structure](project-structure.md).
 
 ## Troubleshooting
 
+### Aspire Startup Issues
+
+If the Aspire orchestrator fails to start:
+
+1. Ensure Docker Desktop is running: `docker ps`
+2. Check available disk space (Aspire containers require ~500MB)
+3. Review logs in the Aspire dashboard at `http://localhost:15000`
+4. If MongoDB health check times out, increase the timeout in `src/AppHost/IssueTracker.AppHost/Program.cs`
+
 ### MongoDB Connection Issues
 
-If you can't connect to MongoDB:
+If MongoDB container fails to initialize:
 
-1. Verify MongoDB is running: `docker ps` or check your local MongoDB service
-2. Check the connection string in `appsettings.Development.json`
-3. Ensure port 27017 is not blocked by firewall
+1. Verify Docker is running and can create containers
+2. Check if port 27017 is already in use: `netstat -an | findstr 27017`
+3. View MongoDB logs: `docker logs <container-id>`
+4. Delete the MongoDB container and let Aspire recreate it: `docker container rm issuetracker-mongodb`
 
 ### Build Errors
 
 If you encounter build errors:
 
-1. Ensure you have .NET 9 SDK installed: `dotnet --version`
+1. Ensure you have .NET 10 SDK installed: `dotnet --version`
 2. Clean the solution: `dotnet clean`
 3. Restore packages: `dotnet restore`
 4. Rebuild: `dotnet build`
@@ -165,8 +158,20 @@ If you encounter build errors:
 
 If ports 5000/5001 are already in use:
 
-1. Change the ports in `src/IssueTracker.UI/Properties/launchSettings.json`
-2. Or stop the conflicting application
+1. Stop the conflicting application
+2. Or modify the port configuration in `src/AppHost/IssueTracker.AppHost/Program.cs`
+3. Update your browser URL to match the new port
+
+### Slow Startup
+
+AppHost orchestration typically takes 10-15 seconds on first startup while:
+
+- Docker images are pulled/cached
+- MongoDB container initializes
+- Health checks pass
+- Blazor runtime initializes
+
+This is normal. Subsequent runs are faster once images are cached.
 
 ## Getting Help
 

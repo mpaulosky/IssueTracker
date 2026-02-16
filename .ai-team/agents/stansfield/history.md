@@ -29,4 +29,25 @@
 
 ## Learnings
 
-(None yet — first session)
+### AppHost Integration (2026-02-16)
+
+**Solution Structure:**
+- AppHost is the orchestrator entry point; goes in `/src/AppHost/` alongside other source projects
+- `.slnx` file needs explicit folder structure `<Folder Name="/src/AppHost/">` before project reference
+- Build order is implicit in Aspire graph; no need for manual dependency ordering in slnx
+
+**Aspire & Blazor UI:**
+- Blazor UI (IssueTracker.UI) is referenced as project dependency in AppHost Program.cs, not as separate web host
+- Aspire handles port binding, health checks, and service lifecycle — UI doesn't need appsettings.json for MongoDB connection
+- Health checks critical for Aspire readiness; dashboard (`:15000`) is primary tool for observing service state
+
+**Developer UX Patterns:**
+- Single `dotnet run --project AppHost` is game-changing for onboarding — eliminates "mystery" steps
+- Troubleshooting docs must cover both Aspire orchestration AND underlying service issues (Docker, ports, timeouts)
+- Expected startup time (10-15s) should be documented to prevent false failure assumptions
+- Aspire dashboard is essential for developers to understand what's running and why
+
+**Documentation:**
+- Getting-started.md should emphasize (1) one command, (2) what that command does, (3) where to look for debugging
+- Obsolete patterns (docker-compose, manual appsettings) must be removed to prevent confusion
+- Prerequisites should reflect actual deps (Docker + .NET SDK); optional tools should be noted separately

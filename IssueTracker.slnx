@@ -5,6 +5,9 @@
     <BuildType Name="Test" />
   </Configurations>
   <Folder Name="/src/" />
+  <Folder Name="/src/AppHost/">
+    <Project Path="src/IssueTracker.AppHost/IssueTracker.AppHost.csproj" />
+  </Folder>
   <Folder Name="/src/CoreBusiness/">
     <Project Path="src/CoreBusiness/IssueTracker.CoreBusiness/IssueTracker.CoreBusiness.csproj" />
   </Folder>

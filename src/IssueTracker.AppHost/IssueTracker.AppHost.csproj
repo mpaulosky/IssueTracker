@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<Configurations>Debug;Release;Test</Configurations>
+		<LangVersion>14.0</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting" Version="10.0.0" />
+		<PackageReference Include="Aspire.Hosting.AppHost" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\UI\IssueTracker.UI\IssueTracker.UI.csproj" />
+		<ProjectReference Include="..\Services\IssueTracker.Services\IssueTracker.Services.csproj" />
+		<ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
+		<ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+	</ItemGroup>
+
+</Project>
