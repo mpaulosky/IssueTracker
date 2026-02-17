@@ -15,17 +15,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4
         with:
-          node-version: 22
+          versionSpec: "6.3.0"
 
-      - name: Run tests
-        run: node --test test/*.test.js
+      - name: Use GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v4
 
-      - name: Read version from package.json
+      - name: Set version outputs
         id: version
         run: |
-          VERSION=$(node -e "console.log(require('./package.json').version)")
+          VERSION=${{ steps.gitversion.outputs.fullSemVer }}
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
           echo "📦 Version: $VERSION (tag: v$VERSION)"
