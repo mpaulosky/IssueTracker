@@ -78,8 +78,14 @@ public static class MongoDBHostingExtensions
 
 					return CommandResults.Success();
 				}
-				catch
+				catch (MongoException)
 				{
+					// MongoDB-specific errors (connection, authentication, etc.)
+					return CommandResults.Failure();
+				}
+				catch (OperationCanceledException)
+				{
+					// Operation was cancelled by user or timeout
 					return CommandResults.Failure();
 				}
 			},
@@ -114,8 +120,14 @@ public static class MongoDBHostingExtensions
 					await client.DropDatabaseAsync(databaseName, context.CancellationToken);
 					return CommandResults.Success();
 				}
-				catch
+				catch (MongoException)
 				{
+					// MongoDB-specific errors (connection, authentication, etc.)
+					return CommandResults.Failure();
+				}
+				catch (OperationCanceledException)
+				{
+					// Operation was cancelled by user or timeout
 					return CommandResults.Failure();
 				}
 			},
