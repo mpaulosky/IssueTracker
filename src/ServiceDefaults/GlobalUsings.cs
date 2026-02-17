@@ -14,6 +14,7 @@ global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
 
 global using MongoDB.Bson;
 global using MongoDB.Driver;

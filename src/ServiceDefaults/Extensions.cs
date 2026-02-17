@@ -36,6 +36,9 @@ public static class Extensions
 		};
 	});
 
+	// Cache Service: Wrapper around IDistributedCache with JSON serialization
+	builder.Services.AddScoped<ICacheService, CacheService>();
+
 	// Health Checks: MongoDB connectivity, Redis connectivity, and base health endpoints
 	builder.Services.AddHealthChecks()
 		.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb")
