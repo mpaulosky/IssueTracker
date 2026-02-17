@@ -15,10 +15,8 @@ var builder = DistributedApplication.CreateBuilder(args);
 // MongoDB container resource with management commands
 var mongodb = builder.AddMongoDBWithManagement("mongodb");
 
-// Redis container resource with Aspire API
-var redis = builder.AddRedis("redis")
-	.WithDataVolume()
-	.WithHealthCheck("redis");
+// Redis cache resource using extension method
+var redis = builder.AddRedisCache();
 
 // Blazor UI service
 var ui = builder
