@@ -1,31 +1,39 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+<PropertyGroup>
+<TargetFramework>net10.0</TargetFramework>
+<ImplicitUsings>enable</ImplicitUsings>
+<Nullable>enable</Nullable>
+<IsPackable>false</IsPackable>
+<IsTestProject>true</IsTestProject>
+<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+<RootNamespace>AppHost.Tests</RootNamespace>
+<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+<TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+<OutputType>Exe</OutputType>
+<LangVersion>14.0</LangVersion>
+</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="FluentAssertions" />
-    <PackageReference Include="NSubstitute" />
-  </ItemGroup>
+<ItemGroup>
+<PackageReference Include="FluentAssertions" />
+<PackageReference Include="Microsoft.NET.Test.Sdk" />
+<PackageReference Include="xunit" />
+<PackageReference Include="xunit.runner.visualstudio">
+<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
+<PackageReference Include="coverlet.collector">
+<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
+<PackageReference Include="Aspire.Hosting" />
+<PackageReference Include="Aspire.Hosting.MongoDB" />
+<PackageReference Include="MongoDB.Driver" />
+</ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Xunit" />
-    <Using Include="FluentAssertions" />
-    <Using Include="Aspire.Hosting" />
-    <Using Include="IssueTracker.AppHost.Extensions" />
-    <Using Include="IssueTracker.AppHost.Helpers" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\AppHost\AppHost.csproj" />
-  </ItemGroup>
+<ItemGroup>
+<ProjectReference Include="..\..\src\AppHost\AppHost.csproj" />
+</ItemGroup>
 
 </Project>

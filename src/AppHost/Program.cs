@@ -8,14 +8,12 @@
 // =============================================
 
 using Aspire.Hosting;
-using IssueTracker.AppHost.Extensions;
+using AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// MongoDB container resource with Aspire API
-var mongodb = builder.AddMongoDB("mongodb")
-	.WithDataVolume()
-	.WithHealthCheck("mongodb");
+// MongoDB container resource with management commands
+var mongodb = builder.AddMongoDBWithManagement("mongodb");
 
 // Redis cache resource using extension method
 var redis = builder.AddRedisCache();

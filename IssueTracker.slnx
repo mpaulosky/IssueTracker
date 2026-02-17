@@ -23,7 +23,11 @@
   <Folder Name="/src/UI/">
     <Project Path="src/UI/IssueTracker.UI/IssueTracker.UI.csproj" />
   </Folder>
-  <Folder Name="/tests/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/AppHost.Tests/AppHost.Tests.csproj">
+      <BuildType Solution="Test|*" Project="Debug" />
+    </Project>
+  </Folder>
   <Folder Name="/tests/CoreBusiness Tests/">
     <Project Path="tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj" />
   </Folder>
