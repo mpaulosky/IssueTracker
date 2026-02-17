@@ -13,6 +13,7 @@ global using Aspire.Hosting;
 global using Aspire.Hosting.ApplicationModel;
 
 global using AppHost.Extensions;
+global using IssueTracker.AppHost.Helpers;
 
 global using FluentAssertions;
 
