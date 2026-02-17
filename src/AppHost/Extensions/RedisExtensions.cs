@@ -81,7 +81,7 @@ public static class RedisExtensions
 			executeCommand: async context =>
 			{
 				var connectionString = await redis.Resource.ConnectionStringExpression.GetValueAsync(context.CancellationToken);
-				
+
 				if (string.IsNullOrWhiteSpace(connectionString))
 				{
 					return CommandResults.Failure();
@@ -122,7 +122,7 @@ public static class RedisExtensions
 			executeCommand: async context =>
 			{
 				var connectionString = await redis.Resource.ConnectionStringExpression.GetValueAsync(context.CancellationToken);
-				
+
 				if (string.IsNullOrWhiteSpace(connectionString))
 				{
 					return CommandResults.Failure();

@@ -54,7 +54,7 @@ public static class MongoDBHostingExtensions
 			executeCommand: async context =>
 			{
 				var connectionString = await database.Resource.ConnectionStringExpression.GetValueAsync(context.CancellationToken);
-				
+
 				if (string.IsNullOrWhiteSpace(connectionString))
 				{
 					return CommandResults.Failure();
@@ -108,7 +108,7 @@ public static class MongoDBHostingExtensions
 			executeCommand: async context =>
 			{
 				var connectionString = await database.Resource.ConnectionStringExpression.GetValueAsync(context.CancellationToken);
-				
+
 				if (string.IsNullOrWhiteSpace(connectionString))
 				{
 					return CommandResults.Failure();
