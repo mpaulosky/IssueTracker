@@ -8,6 +8,7 @@
 // =============================================
 
 using Aspire.Hosting;
+using IssueTracker.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -16,10 +17,8 @@ var mongodb = builder.AddMongoDB("mongodb")
 	.WithDataVolume()
 	.WithHealthCheck("mongodb");
 
-// Redis container resource with Aspire API
-var redis = builder.AddRedis("redis")
-	.WithDataVolume()
-	.WithHealthCheck("redis");
+// Redis cache resource using extension method
+var redis = builder.AddRedisCache();
 
 // Blazor UI service
 var ui = builder
