@@ -43,4 +43,10 @@
   <Folder Name="/tests/Architecture Tests/">
     <Project Path="tests/Architecture.Tests/Architecture.Tests.csproj" />
   </Folder>
+  <Folder Name="/tests/Integration Tests/">
+    <Project Path="tests/Integration.Tests/Integration.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/ServiceDefaults Tests/">
+    <Project Path="tests/ServiceDefaults.Tests/ServiceDefaults.Tests.csproj" />
+  </Folder>
 </Solution>
