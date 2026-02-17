@@ -38,6 +38,12 @@ public sealed class RedisHealthCheck : IHealthCheck
 	{
 		try
 		{
+			// Handle test scenarios where Redis is not available
+			if (_connection == null)
+			{
+				return HealthCheckResult.Unhealthy("Redis connection is not configured");
+			}
+
 			using var timeoutCts = new CancellationTokenSource(Timeout);
 			using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
 

@@ -24,8 +24,12 @@ global using JetBrains.Annotations;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc.Testing;
 global using Microsoft.AspNetCore.TestHost;
+global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 global using MongoDB.Driver;
+
+global using StackExchange.Redis;
 
 global using Xunit;

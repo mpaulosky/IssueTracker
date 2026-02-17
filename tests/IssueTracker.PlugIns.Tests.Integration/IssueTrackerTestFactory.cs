@@ -62,6 +62,10 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
+		// Set Redis as disabled via environment variable BEFORE base.ConfigureWebHost()
+		// so ServiceDefaults reads it correctly when AddServiceDefaults() is called
+		Environment.SetEnvironmentVariable("Redis__Enabled", "false");
+
 		base.ConfigureWebHost(builder);
 
 		builder.ConfigureAppConfiguration((context, config) =>
