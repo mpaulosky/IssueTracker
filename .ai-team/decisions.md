@@ -461,3 +461,52 @@ AppHost
 **What:** When creating new projects, all package references must follow CPM patterns — no version specifications in project files. All versions managed centrally in `Directory.Packages.props`.
 
 **Why:** User preference for consistency and centralized version control across the solution.
+
+---
+
+## 2026-02-16: Skill Structure and Tool Naming Standardization
+
+**By:** Wong  
+**Context:** "tools: Tool names must be unique" error from Copilot CLI during skill configuration.
+
+### What Was Fixed
+
+1. **Skill Directory Structure:**
+   - Moved misplaced `auth0-integration.md` from `.ai-team/skills/` → `.ai-team/skills/auth0-integration/SKILL.md`
+   - Verified all skills follow the pattern: `{skill-name}/SKILL.md` (not loose `.md` files)
+
+2. **YAML Frontmatter Standardization:**
+   - Added YAML metadata header to `auth0-integration/SKILL.md` with unique name
+   - All three skills now have consistent frontmatter:
+     - `name:` — unique identifier (lowercase, hyphenated)
+     - `description:` — clear purpose statement
+     - `domain:` — functional category
+     - `confidence:` — observation maturity level
+     - `source:` — how skill was documented
+
+3. **Tool Name Audit:**
+   - Discovered skill names: `auth0-integration`, `post-build-validation`, `webapp-testing`
+   - Discovered MCP server names: `EXAMPLE-trello`
+   - **Result:** No duplicates or conflicts
+
+### Why This Matters
+
+- Copilot CLI requires unique tool/skill names across all configs
+- Inconsistent directory structure (loose `.md` files vs subdirectories) breaks tooling expectations
+- YAML frontmatter enables skill discovery and prevents collisions
+- This pattern is reusable across all future squad projects
+
+### Documentation
+
+**Pattern for Infrastructure Teams:**
+- Skills live in `.ai-team/skills/{skill-name}/SKILL.md`
+- Every `SKILL.md` must include YAML header with `name` field
+- Before onboarding new skills, audit against existing skill names and MCP server names
+- Use lowercase, hyphenated naming: `skill-name`, not `SkillName` or `skill_name`
+
+### Verification
+
+✓ Copilot CLI `--version` runs without "tools must be unique" error  
+✓ All skills have valid YAML frontmatter  
+✓ No tool name collisions between skills and MCP servers  
+✓ Directory structure is now consistent across `.ai-team/skills/`

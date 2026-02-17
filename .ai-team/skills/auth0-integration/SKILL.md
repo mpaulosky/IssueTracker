@@ -1,3 +1,11 @@
+---
+name: "auth0-integration"
+description: "Auth0 OAuth2/OpenID Connect integration for Blazor + ASP.NET Core with JWT validation, role-based authorization, and secure token management"
+domain: "authentication, authorization, security"
+confidence: "medium"
+source: "earned"
+---
+
 # Auth0 Integration Skill — IssueTracker Backend & Frontend
 
 ## Overview

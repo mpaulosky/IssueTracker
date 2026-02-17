@@ -18,6 +18,10 @@
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
 
+📌 **Skill Structure Standardization (2026-02-16):** All skills must follow the directory pattern `{skill-name}/SKILL.md`, not loose `.md` files at the skills directory level. Each SKILL.md file must include YAML frontmatter with `name`, `description`, `domain`, `confidence`, and `source` fields. This prevents tool name collisions and maintains consistency across the squad. — decided by Wong
+
+📌 **Tool Name Uniqueness:** Skill names (from YAML frontmatter `name` field) and MCP server names must not overlap. During infrastructure setup, audit all `.ai-team/skills/*/SKILL.md` files and `.copilot/mcp-config.json` for naming conflicts before deploying changes. — decided by Wong
+
 📌 Milestone release changelog template: Section headers (Features Delivered, Issues Resolved, Test Coverage, Breaking Changes), bulleted feature lists with issue references, test metrics summary — use this for future release documentation — decided by Wong
 
 📌 Team update (2026-02-10): NuGet packages blocked — no CI/CD pipeline exists, must be created — decided by Shuri
