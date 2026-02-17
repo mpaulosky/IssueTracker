@@ -21,17 +21,30 @@ public static class Extensions
 	/// <returns>The builder for chaining.</returns>
 	public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
 	{
-		// OpenTelemetry: Tracing, Metrics, Logging
-		Observability.OpenTelemetryExtensions.AddOpenTelemetryExporters(builder);
+	// OpenTelemetry: Tracing, Metrics, Logging
+	Observability.OpenTelemetryExtensions.AddOpenTelemetryExporters(builder);
 
-		// Health Checks: MongoDB connectivity + base health endpoints
-		builder.Services.AddHealthChecks()
-			.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb");
+	// Distributed Cache: Redis for session and distributed caching
+	builder.Services.AddStackExchangeRedisCache(options =>
+	{
+		options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
+		{
+			EndPoints = { "localhost:6379" },
+			AbortOnConnectFail = false,
+			ConnectTimeout = 2000,
+			SyncTimeout = 2000,
+		};
+	});
 
-		// Problem Details: RFC 7807 standardized error responses
-		builder.Services.AddProblemDetails();
+	// Health Checks: MongoDB connectivity, Redis connectivity, and base health endpoints
+	builder.Services.AddHealthChecks()
+		.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb")
+		.AddCheck<HealthChecks.RedisHealthCheck>("redis");
 
-		return builder;
+	// Problem Details: RFC 7807 standardized error responses
+	builder.Services.AddProblemDetails();
+
+	return builder;
 	}
 
 	/// <summary>
