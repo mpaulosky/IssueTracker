@@ -24,25 +24,48 @@ public static class Extensions
 	// OpenTelemetry: Tracing, Metrics, Logging
 	Observability.OpenTelemetryExtensions.AddOpenTelemetryExporters(builder);
 
-	// Distributed Cache: Redis for session and distributed caching
-	builder.Services.AddStackExchangeRedisCache(options =>
+	// Distributed Cache: Redis for session and distributed caching (optional in tests)
+	var redisEndpoint = builder.Configuration.GetValue<string>("Redis:Endpoint") ?? "localhost:6379";
+	var enableRedis = builder.Configuration.GetValue<bool>("Redis:Enabled", true);
+
+	if (enableRedis)
 	{
-		options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
+		builder.Services.AddStackExchangeRedisCache(options =>
 		{
-			EndPoints = { "localhost:6379" },
-			AbortOnConnectFail = false,
-			ConnectTimeout = 2000,
-			SyncTimeout = 2000,
-		};
-	});
+			options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
+			{
+				EndPoints = { redisEndpoint },
+				AbortOnConnectFail = false,
+				ConnectTimeout = 2000,
+				SyncTimeout = 2000,
+			};
+		});
+
+		// Redis Connection: Required by RedisHealthCheck
+		builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+		{
+			var config = new StackExchange.Redis.ConfigurationOptions
+			{
+				EndPoints = { redisEndpoint },
+				AbortOnConnectFail = false,
+				ConnectTimeout = 2000,
+				SyncTimeout = 2000,
+			};
+			return ConnectionMultiplexer.Connect(config);
+		});
+	}
 
 	// Cache Service: Wrapper around IDistributedCache with JSON serialization
 	builder.Services.AddScoped<ICacheService, CacheService>();
 
-	// Health Checks: MongoDB connectivity, Redis connectivity, and base health endpoints
-	builder.Services.AddHealthChecks()
-		.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb")
-		.AddCheck<HealthChecks.RedisHealthCheck>("redis");
+	// Health Checks: MongoDB connectivity and optional Redis connectivity
+	var healthChecks = builder.Services.AddHealthChecks()
+		.AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb");
+
+	if (enableRedis)
+	{
+		healthChecks.AddCheck<HealthChecks.RedisHealthCheck>("redis");
+	}
 
 	// Problem Details: RFC 7807 standardized error responses
 	builder.Services.AddProblemDetails();
