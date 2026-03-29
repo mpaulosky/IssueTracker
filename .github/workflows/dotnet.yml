@@ -133,20 +133,20 @@ jobs:
           fi
 
       - name: Upload Test Results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always() && (hashFiles('test-results/*') != '')
         with:
           name: Solution-Test-Results
           path: test-results
 
       - name: Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         if: always()
         with:
           fail_ci_if_error: false
 
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.22.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.23.0
         id: test-results
         if: always()
         with:
