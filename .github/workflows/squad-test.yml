@@ -1,0 +1,125 @@
+name: Squad Test Suite
+# Runs the repository's real test layout, with infrastructure-sensitive coverage isolated.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.squad/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  fast-tests:
+    name: Fast test suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Restore dependencies
+        run: dotnet restore IssueTracker.slnx
+
+      - name: Build solution
+        run: dotnet build IssueTracker.slnx --configuration Release --no-restore
+
+      - name: Run fast test projects
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/test-results/fast"
+
+          projects=(
+            tests/Architecture.Tests/Architecture.Tests.csproj
+            tests/AppHost.Tests/AppHost.Tests.csproj
+            tests/Integration.Tests/Integration.Tests.csproj
+            tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj
+            tests/IssueTracker.PlugIns.Tests.Unit/IssueTracker.PlugIns.Tests.Unit.csproj
+            tests/IssueTracker.Services.Tests.Unit/IssueTracker.Services.Tests.Unit.csproj
+            tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj
+            tests/ServiceDefaults.Tests/ServiceDefaults.Tests.csproj
+          )
+
+          for project in "${projects[@]}"; do
+            project_name=$(basename "$(dirname "$project")")
+            echo "=== Running ${project_name} ==="
+            dotnet test "$project" \
+              --configuration Release \
+              --no-build \
+              --no-restore \
+              --verbosity minimal \
+              --logger "trx;LogFileName=${project_name}.trx" \
+              --results-directory "$GITHUB_WORKSPACE/test-results/fast"
+          done
+
+      - name: Upload fast test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fast-test-results
+          path: test-results/fast
+
+  infrastructure-tests:
+    name: Infrastructure-sensitive tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Confirm Docker availability
+        run: docker info
+
+      - name: Pre-pull MongoDB image
+        run: docker pull mongo:8.0
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+
+      - name: Build infrastructure-sensitive test project
+        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj --configuration Release --no-restore
+
+      - name: Run infrastructure-sensitive tests
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/test-results/infrastructure"
+          dotnet test tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj \
+            --configuration Release \
+            --no-build \
+            --no-restore \
+            --verbosity normal \
+            --logger "trx;LogFileName=IssueTracker.PlugIns.Tests.Integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results/infrastructure"
+
+      - name: Dump Docker state on failure
+        if: failure()
+        run: docker ps -a
+
+      - name: Upload infrastructure test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: infrastructure-test-results
+          path: test-results/infrastructure
