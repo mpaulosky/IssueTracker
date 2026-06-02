@@ -29,7 +29,7 @@ env:
 
 jobs:
   build:
-    name: restore-build
+    name: Squad CI
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -46,3 +46,23 @@ jobs:
 
       - name: Build solution
         run: dotnet build IssueTracker.slnx --configuration Release --no-restore
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Restore dependencies
+        run: dotnet restore tests/Architecture.Tests/Architecture.Tests.csproj
+
+      - name: Run fast smoke tests
+        run: dotnet test tests/Architecture.Tests/Architecture.Tests.csproj --configuration Release --no-restore --verbosity minimal
