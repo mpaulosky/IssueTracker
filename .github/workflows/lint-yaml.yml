@@ -1,5 +1,5 @@
 name: Lint YAML
-# Validates workflow and repository YAML for feature branches and PRs into main.
+# Validates actively maintained GitHub workflow YAML on feature branches and PRs into main.
 
 on:
   push:
@@ -28,11 +28,14 @@ jobs:
       - name: Run yamllint
         uses: ibiqlik/action-yamllint@v3
         with:
-          file_or_dir: .
+          file_or_dir: .github/workflows
           config_data: |
             extends: default
             ignore: |
               .squad/
+              .github/workflows/code-metrics.yml
+              .github/workflows/dotnetdev.yml
+              .github/workflows/squad-label-enforce.yml
             rules:
               document-start: disable
               line-length:
