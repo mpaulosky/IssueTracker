@@ -1793,7 +1793,13 @@ The GitHub Copilot coding agent (`@copilot`) can join the Squad as an autonomous
    - Set `<!-- copilot-auto-assign: true/false -->` based on the answer
    - Announce: *"🤖 @copilot joined the team as Coding Agent. I'll route suitable issues to it based on the capability profile."*
 
-2. **Post-init via CLI** — `npx github:bradygaster/squad copilot` (or `copilot --auto-assign`)
+2. **Post-init via CLI** — `npx --yes @bradygaster/squad-cli@latest copilot`
+   (or `npx --yes @bradygaster/squad-cli@latest copilot --auto-assign`)
+
+Use the published npm package for upgrades and one-off runs (for example,
+`npx --yes @bradygaster/squad-cli@latest upgrade`). The older
+`npx github:bradygaster/squad ...` GitHub shorthand no longer resolves the
+CLI executable reliably.
 
 Once @copilot is on the roster, the coordinator includes it in triage and routing decisions.
 
@@ -1812,7 +1818,8 @@ Once @copilot is on the roster, the coordinator includes it in triage and routin
 
 ### @copilot Roster Format
 
-When `npx github:bradygaster/squad copilot` is run, the CLI adds this to `team.md`:
+When `npx --yes @bradygaster/squad-cli@latest copilot` is run, the CLI adds
+this to `team.md`:
 
 ```markdown
 <!-- copilot-auto-assign: true -->
