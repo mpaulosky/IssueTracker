@@ -479,7 +479,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 
 ## Next Steps
 
-1. **Implementation team (Wolinski, Shuri):** Continue Aspire + Redis integration per `.ai-team/decisions.md`
+1. **Implementation team (Wolinski, Shuri):** Continue Aspire + Redis integration per `.squad/decisions.md`
 2. **Vision:** Monitor implementation for documentation-specific questions, edge cases
 3. **After Phase 4:** Vision begins fleshing out sections 1-5 with real code examples, actual command outputs, real error scenarios
 4. **Coordination:** Milo coordinates review of ops sections with DevOps team before finalization

@@ -2,7 +2,7 @@
 
 > Authoritative decision ledger for the IssueTracker Squad.
 >
-> Agents write decisions to `.ai-team/decisions/inbox/{name}-{slug}.md`.
+> Agents write decisions to `.squad/decisions/inbox/{name}-{slug}.md`.
 > Scribe merges inbox entries here and deduplicates/consolidates overlaps.
 > All agents read this file at spawn time to respect team decisions.
 
@@ -472,7 +472,7 @@ AppHost
 ### What Was Fixed
 
 1. **Skill Directory Structure:**
-   - Moved misplaced `auth0-integration.md` from `.ai-team/skills/` → `.ai-team/skills/auth0-integration/SKILL.md`
+   - Moved misplaced `auth0-integration.md` from `.squad/skills/` → `.squad/skills/auth0-integration/SKILL.md`
    - Verified all skills follow the pattern: `{skill-name}/SKILL.md` (not loose `.md` files)
 
 2. **YAML Frontmatter Standardization:**
@@ -499,7 +499,7 @@ AppHost
 ### Documentation
 
 **Pattern for Infrastructure Teams:**
-- Skills live in `.ai-team/skills/{skill-name}/SKILL.md`
+- Skills live in `.squad/skills/{skill-name}/SKILL.md`
 - Every `SKILL.md` must include YAML header with `name` field
 - Before onboarding new skills, audit against existing skill names and MCP server names
 - Use lowercase, hyphenated naming: `skill-name`, not `SkillName` or `skill_name`
@@ -509,7 +509,7 @@ AppHost
 ✓ Copilot CLI `--version` runs without "tools must be unique" error  
 ✓ All skills have valid YAML frontmatter  
 ✓ No tool name collisions between skills and MCP servers  
-✓ Directory structure is now consistent across `.ai-team/skills/`
+✓ Directory structure is now consistent across `.squad/skills/`
 
 ---
 

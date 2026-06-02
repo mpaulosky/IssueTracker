@@ -41,8 +41,8 @@ jobs:
               .filter(f => f.status !== 'removed')
               .map(f => f.filename)
               .filter(f => {
-                // .ai-team/** — ALL team state files, zero exceptions
-                if (f === '.ai-team' || f.startsWith('.ai-team/')) return true;
+                // .squad/** — ALL team state files, zero exceptions
+                if (f === '.squad' || f.startsWith('.squad/')) return true;
                 // team-docs/** — ALL internal team docs, zero exceptions
                 if (f.startsWith('team-docs/')) return true;
                 return false;
@@ -58,7 +58,7 @@ jobs:
               '## 🚫 Forbidden files detected in PR to main',
               '',
               'The following files must NOT be merged into `main`.',
-              '`.ai-team/` is runtime team state — it belongs on dev branches only.',
+              '`.squad/` is runtime team state — it belongs on dev branches only.',
               '`team-docs/` is internal team content — it belongs on dev branches only.',
               '',
               '### Forbidden files found:',
@@ -68,8 +68,8 @@ jobs:
               '### How to fix:',
               '',
               '```bash',
-              '# Remove tracked .ai-team/ files (keeps local copies):',
-              'git rm --cached -r .ai-team/',
+              '# Remove tracked .squad/ files (keeps local copies):',
+              'git rm --cached -r .squad/',
               '',
               '# Remove tracked team-docs/ files:',
               'git rm --cached -r team-docs/',
@@ -79,7 +79,7 @@ jobs:
               'git push',
               '```',
               '',
-              '> ⚠️ `.ai-team/` is committed on `dev` and feature branches by design.',
+              '> ⚠️ `.squad/` is committed on `dev` and feature branches by design.',
               '> The guard workflow is the enforcement mechanism that keeps these files off `main` and `preview`.',
               '> `git rm --cached` untracks them from this PR without deleting your local copies.',
             ];
