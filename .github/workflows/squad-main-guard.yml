@@ -41,8 +41,13 @@ jobs:
               .filter(f => f.status !== 'removed')
               .map(f => f.filename)
               .filter(f => {
-                // .squad/** — ALL team state files, zero exceptions
-                if (f === '.squad' || f.startsWith('.squad/')) return true;
+                // .squad runtime state only (logs, inbox, volatile histories)
+                if (f.startsWith('.squad/log/')) return true;
+                if (f.startsWith('.squad/orchestration-log/')) return true;
+                if (f.startsWith('.squad/decisions/inbox/')) return true;
+                if (f === '.squad/decisions.md') return true;
+                if (f === '.squad/casting/history.json') return true;
+                if (/^\.squad\/agents\/[^/]+\/history\.md$/.test(f)) return true;
                 // team-docs/** — ALL internal team docs, zero exceptions
                 if (f.startsWith('team-docs/')) return true;
                 return false;
@@ -58,7 +63,7 @@ jobs:
               '## 🚫 Forbidden files detected in PR to main',
               '',
               'The following files must NOT be merged into `main`.',
-              '`.squad/` is runtime team state — it belongs on dev branches only.',
+              'Squad runtime state belongs on dev branches only (`.squad/log`, inbox files, volatile histories).',
               '`team-docs/` is internal team content — it belongs on dev branches only.',
               '',
               '### Forbidden files found:',
@@ -68,8 +73,10 @@ jobs:
               '### How to fix:',
               '',
               '```bash',
-              '# Remove tracked .squad/ files (keeps local copies):',
-              'git rm --cached -r .squad/',
+              '# Remove tracked .squad runtime files (examples):',
+              'git rm --cached -r .squad/log/ .squad/orchestration-log/ .squad/decisions/inbox/',
+              'git rm --cached .squad/decisions.md .squad/casting/history.json',
+              'git rm --cached .squad/agents/*/history.md',
               '',
               '# Remove tracked team-docs/ files:',
               'git rm --cached -r team-docs/',
@@ -79,7 +86,7 @@ jobs:
               'git push',
               '```',
               '',
-              '> ⚠️ `.squad/` is committed on `dev` and feature branches by design.',
+              '> ⚠️ `.squad` templates/config may be versioned; runtime state is not.',
               '> The guard workflow is the enforcement mechanism that keeps these files off `main` and `preview`.',
               '> `git rm --cached` untracks them from this PR without deleting your local copies.',
             ];
