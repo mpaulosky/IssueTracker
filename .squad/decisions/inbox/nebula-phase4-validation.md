@@ -13,6 +13,7 @@ phase: Phase 4 - Validation & Testing
 Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has been thoroughly validated. All acceptance criteria passed. The cache infrastructure is robust, performant, and production-ready.
 
 **Test Coverage:**
+
 - ✓ 11/11 integration tests passing
 - ✓ 12/12 CacheService unit tests passing  
 - ✓ 364 total tests passing (no regressions)
@@ -42,7 +43,8 @@ Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has be
 - `/health` endpoint correctly mapped in `Program.cs`
 
 **Test Coverage:**
-```
+
+```text
 ✓ MongoDbHealthCheck: Tests ping connectivity with 3s timeout
 ✓ RedisHealthCheck: Tests ping connectivity with 2s timeout, proper exception handling
 ```
@@ -61,15 +63,17 @@ Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has be
 
 **Status: ✓ VALIDATED - PASSING ALL TESTS**
 
-#### IDistributedCache Operations:
-```
+#### IDistributedCache Operations
+
+```text
 ✓ Write value → Read back: PASS
 ✓ Remove value: PASS
 ✓ 100+ concurrent operations: PASS (no race conditions)
 ```
 
-#### ICacheService (Shuri's Wrapper):
-```
+#### ICacheService (Shuri's Wrapper)
+
+```text
 ✓ Serialize/deserialize complex objects: PASS
 ✓ Handle JSON errors gracefully: PASS
 ✓ Null value handling: PASS
@@ -78,13 +82,15 @@ Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has be
 ```
 
 **Performance Baseline:**
+
 - Cache hit latency: **< 1ms** (target: < 5ms) ✓
 - Concurrent stress test (100 ops): **All succeed without exception** ✓
 
 ### 5. Failure Scenarios
 
 #### Scenario A: Corrupted Cache Entry
-```
+
+```text
 ✓ Status: HANDLED GRACEFULLY
 - Manual corrupt entry injected (invalid JSON)
 - GetAsync returns null (no exception thrown)
@@ -93,7 +99,8 @@ Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has be
 ```
 
 #### Scenario B: Redis Down / Connection Failure
-```
+
+```text
 ✓ Status: GRACEFUL DEGRADATION IMPLEMENTED
 - Configuration: AbortOnConnectFail = false
 - App continues if Redis unavailable
@@ -104,7 +111,8 @@ Shuri's Phase 2 & 3 Redis infrastructure and cache service implementation has be
 **Recommendation:** Test actual Redis failure in staging with real load to validate degradation.
 
 #### Scenario C: Out of Memory
-```
+
+```text
 Status: NOT TESTED IN UNIT TESTS
 Reason: Requires real Redis container with memory limits
 Mitigation: Manual testing recommended in staging
@@ -121,7 +129,8 @@ Expected Behavior: Redis eviction policy (LRU by default) should handle
 - Health checks properly instrumented with timeouts
 
 **Logs Captured:**
-```
+
+```text
 - Cache hit: "Cache hit for key: {CacheKey}"
 - Cache miss: "Cache miss for key: {CacheKey}"
 - Expiration: "Cached value for key: {CacheKey} with expiration: {Expiration}"
@@ -179,22 +188,27 @@ New `tests/Integration.Tests/CacheIntegrationTests.cs` validates:
 ## Edge Cases Discovered & Addressed
 
 ### Edge Case 1: Concurrent Writes to Same Key
+
 **Status: ✓ HANDLED**  
 All 100 concurrent operations complete successfully; Redis handles atomicity.
 
 ### Edge Case 2: Deserialization of Unknown Types
+
 **Status: ✓ HANDLED**  
 JSON deserialization errors caught and logged; null returned instead of crash.
 
 ### Edge Case 3: Very Large Objects
+
 **Status: ✓ TESTED**  
 Complex objects with multiple properties serialize/deserialize correctly.
 
 ### Edge Case 4: Null Values in Cache
+
 **Status: ✓ HANDLED**  
 Null values are properly serialized (as JSON `null`) and preserved on retrieval.
 
 ### Edge Case 5: Empty Cache Keys
+
 **Status: ✓ VALIDATED**  
 Null/empty keys throw `ArgumentException` as designed.
 
@@ -215,7 +229,8 @@ Null/empty keys throw `ArgumentException` as designed.
 ## What Passed - What Failed
 
 ### Passing Tests (11/11)
-```
+
+```text
 ✓ Cache_Service_Operations_Work_End_To_End
 ✓ Cache_TTL_Integration_Validated  
 ✓ Multiple_Concurrent_Cache_Operations_Succeed
@@ -230,7 +245,8 @@ Null/empty keys throw `ArgumentException` as designed.
 ```
 
 ### Pre-Existing Failures (1)
-```
+
+```text
 ✗ IssueTracker.PlugIns.Tests.Integration.MongoDbContextFactoryTests.Be_healthy_if_mongodb_is_available
   - Unrelated to Phase 4
   - MongoDB integration test failure
@@ -244,18 +260,21 @@ Null/empty keys throw `ArgumentException` as designed.
 ## Recommendations for Phase 5+
 
 ### Immediate (Before Production)
+
 1. **Test AppHost locally** - Verify `dotnet run --project AppHost` starts both services successfully
 2. **Load test with real Redis** - Validate performance under production-like load
 3. **Test Redis failure scenarios** - Manually stop Redis, verify graceful degradation
 4. **Review OpenTelemetry metrics** - Ensure all cache operations are properly instrumented in Aspire dashboard
 
 ### Short-term (Phase 5)
+
 1. **Add cache invalidation strategy** - Implement cache-busting for stale data
 2. **Implement circuit breaker pattern** - Use Polly to handle repeated Redis failures
 3. **Add metrics dashboards** - Grafana/Application Insights for cache hit/miss ratios
 4. **Document cache strategy** - Create team documentation on when/how to use ICacheService
 
 ### Medium-term (Phase 6+)
+
 1. **Redis clustering** - Add Redis Sentinel/Cluster for HA
 2. **Cache warming** - Pre-load frequently accessed data
 3. **Distributed tracing** - Enable Jaeger/OpenTelemetry for cache operation tracing
@@ -285,7 +304,7 @@ The Redis cache infrastructure is well-implemented, thoroughly tested, and produ
 
 ## Metrics Summary
 
-```
+```text
 Phase 4 Deliverables:
 ├─ Integration Test Suite: 11 tests (100% pass rate)
 ├─ Cache Operations: Fully validated

@@ -12,6 +12,7 @@
 The IssueTracker project is integrating .NET Aspire orchestration with Redis distributed caching. This document outlines the documentation structure needed to support developers and operators in understanding, configuring, and troubleshooting the new distributed system.
 
 The actual documentation will be written in Phase 5 (Post-Implementation). This outline ensures:
+
 - No documentation gaps after implementation
 - Consistent structure across all docs
 - Clear ownership of each topic
@@ -24,6 +25,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 **Purpose:** Help developers understand the system architecture, service relationships, and how components communicate.
 
 ### 1.1 System Architecture Overview
+
 - **What to document:**
   - ASCII diagram or prose description of the Aspire topology
   - Service components: AppHost (orchestrator), Blazor UI (host application), MongoDB (database), Redis (cache)
@@ -38,6 +40,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Developers onboarding to the project; ops teams understanding deployment
 
 ### 1.2 Service Endpoints and Resource Configuration
+
 - **What to document:**
   - Each resource definition in AppHost (MongoDB container, Redis container, Blazor UI project)
   - DNS names and how to reference them in code (`mongodb`, `redis`)
@@ -53,6 +56,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Backend developers; infrastructure engineers setting up environments
 
 ### 1.3 Local vs. Production Topology Differences
+
 - **What to document:**
   - Local topology: AppHost runs as dotnet process, containers managed by Docker Desktop
   - Production topology: AppHost published as container in orchestrator (AKS, Docker Compose, etc.)
@@ -68,6 +72,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 **Purpose:** Explain health monitoring system so developers and ops know when services are healthy and how to interpret failures.
 
 ### 2.1 Built-In Health Checks
+
 - **What to document:**
   - MongoDB health check: ping database, expected responses, failure modes
   - Redis health check: ping cache server, expected responses, failure modes
@@ -82,6 +87,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Ops teams monitoring production; developers debugging failed startups
 
 ### 2.2 Interpreting Health Check Results
+
 - **What to document:**
   - How to check health endpoint: `GET /health`
   - Reading Aspire dashboard health indicators (real-time status)
@@ -97,6 +103,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Operators monitoring dashboards; support teams troubleshooting
 
 ### 2.3 Troubleshooting Health Check Failures
+
 - **What to document:**
   - MongoDB health check fails:
     - Symptom: Dashboard shows red MongoDB indicator
@@ -131,6 +138,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 **Purpose:** Show developers where caching is used, how to use IDistributedCache, and patterns for cache invalidation.
 
 ### 3.1 Where Caching Is Used in IssueTracker
+
 - **What to document:**
   - Current cached operations:
     - Issue list queries (cache by filter combination)
@@ -145,6 +153,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Backend developers; architects reviewing caching strategy
 
 ### 3.2 How to Add New Cached Operations
+
 - **What to document:**
   - Step-by-step: Identify cacheable operation → Define cache key → Wrap in IDistributedCache.GetAsync/SetAsync → Set expiry → Handle cache misses
   - Code pattern examples:
@@ -184,6 +193,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Developers implementing features; code reviewers
 
 ### 3.3 Cache Invalidation Patterns
+
 - **What to document:**
   - Manual invalidation: `_cache.RemoveAsync(cacheKey)` when data changes
   - Tag-based invalidation: invalidate related caches together (e.g., removing an issue invalidates list cache)
@@ -213,6 +223,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 **Purpose:** Guide developers through starting the system, accessing dashboards, and diagnosing startup issues.
 
 ### 4.1 Prerequisites and Setup
+
 - **What to document:**
   - System requirements: .NET 10 SDK, Docker Desktop (enabled), 4GB+ RAM, 2GB free disk
   - Verify installation: `dotnet --version`, `docker version`
@@ -222,6 +233,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** New developers onboarding; ops setting up lab environments
 
 ### 4.2 Starting AppHost
+
 - **What to document:**
   - Command: `dotnet run --project src/AppHost`
   - Expected console output sequence:
@@ -239,6 +251,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Developers starting local dev environment; CI/CD engineers
 
 ### 4.3 Accessing Aspire Dashboard
+
 - **What to document:**
   - URL: `http://localhost:15000`
   - Dashboard tabs:
@@ -258,6 +271,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Developers; anyone unfamiliar with Aspire dashboard
 
 ### 4.4 Accessing the Application
+
 - **What to document:**
   - Blazor UI URL: `https://localhost:5001` (HTTPS) or `http://localhost:5000` (HTTP)
   - First request may be slow (app warming up, health checks running)
@@ -268,6 +282,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Developers running local setup
 
 ### 4.5 Troubleshooting Common Startup Issues
+
 - **What to document:**
 
   - **Port already in use (5000/5001/15000):**
@@ -325,6 +340,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 **Purpose:** Guide ops teams and architects in configuring and monitoring Aspire in production environments.
 
 ### 5.1 Health Check Expectations in Production
+
 - **What to document:**
   - Health check endpoints must be available on all services before load balancer directs traffic
   - Aspire orchestrator's readiness probes: Dependencies must all be healthy (MongoDB, Redis) before UI is marked ready
@@ -344,6 +360,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Ops/SRE teams; load balancer/orchestrator administrators
 
 ### 5.2 Redis Backup, Persistence, and High Availability
+
 - **What to document:**
   - Production Redis configuration:
     - Persistence: Enable RDB snapshots (save every 1 minute) or AOF (write-ahead log)
@@ -373,6 +390,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** DevOps engineers; database administrators; architects
 
 ### 5.3 Monitoring and Observability Setup
+
 - **What to document:**
   - Aspire metrics exposed:
     - Request count, latency (p50, p95, p99)
@@ -412,6 +430,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** Ops/SRE teams; on-call engineers; architects defining SLOs
 
 ### 5.4 Environment-Specific Configuration
+
 - **What to document:**
   - Configuration layers:
     - Development: Hardcoded safe defaults (admin/admin for MongoDB, no password for Redis)
@@ -437,6 +456,7 @@ The actual documentation will be written in Phase 5 (Post-Implementation). This 
 - **Audience:** DevOps engineers; platform teams; anyone deploying to prod
 
 ### 5.5 Deployment Checklist
+
 - **What to document:**
   - Pre-deployment validation:
     - ✓ Health checks green in staging
@@ -498,6 +518,7 @@ Files to create in `docs/`:
 - `README.md` — Update with Aspire + Redis overview (cross-link to detailed docs)
 
 All docs will follow markdown standards from `.github/instructions/markdown.instructions.md`:
+
 - Proper heading hierarchy (H2/H3)
 - Code blocks with language syntax highlighting
 - Tables for reference data

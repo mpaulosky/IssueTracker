@@ -4,6 +4,8 @@ author: Rhodey
 status: Decision
 ---
 
+<!-- markdownlint-disable MD013 -->
+
 # Aspire Architecture Review & Redis Integration Plan
 
 ## Current State Summary
@@ -13,6 +15,7 @@ status: Decision
 The Aspire foundation is **sound and intentional**. AppHost orchestrates MongoDB with health checks, ServiceDefaults centralizes infrastructure concerns (OTel, health checks, problem details), and the UI project correctly wires everything via `AddServiceDefaults()` and `MapDefaultEndpoints()`. The team followed conventions over configuration — MongoDB is a `ContainerResource` with SCRAM-SHA auth, connection strings are injected via Aspire binding, and port assignments are explicit (5000/5001 for UI, 27017 internal for MongoDB).
 
 Key strengths:
+
 - **AppHost is the single orchestration entry point.** MongoDB container, health checks, and UI service are cleanly separated.
 - **ServiceDefaults applies consistently.** UI project calls `AddServiceDefaults()` before other registrations, and `MapDefaultEndpoints()` is in the pipeline.
 - **OpenTelemetry is production-ready.** Sampling strategy is in place (AlwaysOn for dev, 10% ratio for prod), all three signals configured (metrics, tracing), and OTLP exporter points to Aspire dashboard.
@@ -39,6 +42,7 @@ Key strengths:
 ```
 
 **Rationale:**
+
 - Pins Redis hosting to the same Aspire minor version for consistency.
 - `Microsoft.Extensions.Caching.StackExchangeRedis` provides the `IDistributedCache` abstraction for .NET 10.
 
@@ -160,6 +164,7 @@ Use existing `Blazored.SessionStorage` for client-side, Redis for server-side se
 **Decision:** All infrastructure dependencies are **startup-required** (current approach is correct).
 
 **Rationale:**
+
 - MongoDB: Database unavailable = app cannot function.
 - Redis: Cache unavailable = app falls back to database (acceptable but degraded).
 
@@ -181,6 +186,7 @@ app.MapHealthChecks("/health/live", new() { IncludedTags = ["liveness"] });
 ```
 
 **Why:**
+
 - `/health` → readiness endpoint (Aspire startup gate).
 - `/health/live` → liveness endpoint (Kubernetes/container orchestrators use for restart decisions).
 
@@ -247,6 +253,7 @@ Register in Extensions.cs:
 | `Microsoft.Extensions.Caching.StackExchangeRedis` | — | 10.0.0 | **New**; aligned with .NET 10 |
 
 **Rationale:**
+
 - v13.0.0 aligns with existing Aspire v13.0.0; avoids version skew.
 - StackExchangeRedis v10.0.0 is the .NET 10-compatible release.
 - Centralized Package Management enforced: no version specs in project files.
@@ -267,15 +274,15 @@ Register in Extensions.cs:
 
 **Phase B: Cache Implementation (4-6 hours)**
 
-6. **Query Result Caching:** Identify top 3 hot queries (e.g., recent issues, user issues). Wrap in `IDistributedCache` with 5-minute TTL.
-7. **Output Caching:** Mark read-only endpoints (e.g., GET /issues, GET /dashboard) with `[OutputCache]` attribute; 10-minute TTL.
-8. **Session Caching:** If multi-instance deployment is planned, migrate Blazor session data to Redis (optional for Phase B; can defer to Phase C).
+1. **Query Result Caching:** Identify top 3 hot queries (e.g., recent issues, user issues). Wrap in `IDistributedCache` with 5-minute TTL.
+2. **Output Caching:** Mark read-only endpoints (e.g., GET /issues, GET /dashboard) with `[OutputCache]` attribute; 10-minute TTL.
+3. **Session Caching:** If multi-instance deployment is planned, migrate Blazor session data to Redis (optional for Phase B; can defer to Phase C).
 
 **Phase C: Observability & Testing (2-3 hours)**
 
-9. Add logging to cache hits/misses for monitoring.
-10. Write integration tests: Redis unavailable → fallback to database gracefully.
-11. Document cache invalidation strategy (cache keys, TTLs, event-driven cleanup).
+1. Add logging to cache hits/misses for monitoring.
+2. Write integration tests: Redis unavailable → fallback to database gracefully.
+3. Document cache invalidation strategy (cache keys, TTLs, event-driven cleanup).
 
 ### Acceptance Criteria
 
