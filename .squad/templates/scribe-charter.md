@@ -35,7 +35,7 @@ After every substantial work session:
    - Delete each inbox file after merging
 
 3. **Deduplicate and consolidate decisions.md:**
-   - Parse the file into decision blocks (each block starts with `### `).
+   - Parse the file into decision blocks (each block starts with `###`).
    - **Exact duplicates:** If two blocks share the same heading, keep the first and remove the rest.
    - **Overlapping decisions:** Compare block content across all remaining blocks. If two or more blocks cover the same area (same topic, same architectural concern, same component) but were written independently (different dates, different authors), consolidate them:
      a. Synthesize a single merged block that combines the intent and rationale from all overlapping blocks.
@@ -48,11 +48,13 @@ After every substantial work session:
 
 4. **Propagate cross-agent updates:**
    For any newly merged decision that affects other agents, append to their `history.md`:
-   ```
+
+   ```text
    📌 Team update ({date}): {summary} — decided by {Name}
-   ```
+   ```text
 
 5. **Commit `.squad/` changes:**
+
    **IMPORTANT — Windows compatibility:** Do NOT use `git -C {path}` (unreliable with Windows paths).
    Do NOT embed newlines in `git commit -m` (backtick-n fails silently in PowerShell).
    Instead:
@@ -61,7 +63,8 @@ After every substantial work session:
    - Check for staged changes: `git diff --cached --quiet`
      If exit code is 0, no changes — skip silently.
    - Write the commit message to a temp file, then commit with `-F`:
-     ```
+
+     ```powershell
      $msg = @"
      docs(ai-team): {brief summary}
 
@@ -79,6 +82,7 @@ After every substantial work session:
      git commit -F $msgFile
      Remove-Item $msgFile
      ```
+
    - **Verify the commit landed:** Run `git log --oneline -1` and confirm the
      output matches the expected message. If it doesn't, report the error.
 
@@ -86,7 +90,7 @@ After every substantial work session:
 
 ## The Memory Architecture
 
-```
+```text
 .squad/
 ├── decisions.md          # Shared brain — all agents read this (merged by Scribe)
 ├── decisions/

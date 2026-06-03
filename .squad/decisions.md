@@ -191,7 +191,7 @@ This is **Priority 1** work — blocks all other Aspire integration.
 
 **Structure:**
 
-```
+```text
 src/ServiceDefaults/
 ├── ServiceDefaults.csproj
 ├── GlobalUsings.cs
@@ -254,7 +254,7 @@ app.Run();
 
 **Resource Graph:**
 
-```
+```text
 AppHost
 ├── MongoDB (ContainerResource)
 │   ├── Image: mongo:latest
@@ -499,6 +499,7 @@ AppHost
 ### Documentation
 
 **Pattern for Infrastructure Teams:**
+
 - Skills live in `.squad/skills/{skill-name}/SKILL.md`
 - Every `SKILL.md` must include YAML header with `name` field
 - Before onboarding new skills, audit against existing skill names and MCP server names
@@ -525,6 +526,7 @@ AppHost
 **Solution:** Environment variable `Redis__Enabled=false` set in IssueTrackerTestFactory.ConfigureWebHost() BEFORE calling base.ConfigureWebHost(). This ensures ServiceDefaults reads the config when AddServiceDefaults() is called in Program.cs, before the test factory's in-memory configuration is applied.
 
 **Files Modified:**
+
 - `src/ServiceDefaults/Extensions.cs` — Added `Redis:Enabled` config check (defaults true), conditional IConnectionMultiplexer and RedisHealthCheck registration
 - `src/ServiceDefaults/HealthChecks/RedisHealthCheck.cs` — Added null check for `_connection` (defensive coding)
 - `src/ServiceDefaults/GlobalUsings.cs` — Added `Microsoft.Extensions.Configuration`
@@ -610,6 +612,7 @@ AppHost
 ✅ Structure: Hierarchical, scannable TOC-style layout
 
 **Integration Points:**
+
 - All documentation references real AppHost code (Program.cs)
 - Cache examples use actual CacheService implementation
 - Health checks match RedisHealthCheck.cs and MongoDbHealthCheck.cs
@@ -669,12 +672,14 @@ AppHost
 **Summary:** Successfully implemented the cache service layer for IssueTracker Phase 3. The ICacheService interface and CacheService implementation provide a clean abstraction over IDistributedCache with JSON serialization support.
 
 **Deliverables:**
+
 - ICacheService interface & CacheService implementation
 - Service registration in Extensions.cs
 - 12 comprehensive unit tests (all passing)
 - Code quality standards met (file-scoped namespaces, nullable types, XML docs)
 
 **Build & Test Results:**
+
 - Build: ✅ SUCCESS (0 errors, 12 NuGet warnings about OpenTelemetry.Api)
 - Tests: ✅ 12/12 PASSED in ServiceDefaults.Tests
 
@@ -689,18 +694,21 @@ AppHost
 **Current State Summary:**
 
 ✓ **What's Working Well**
+
 - Aspire foundation is sound and intentional
 - AppHost orchestrates MongoDB with health checks
 - ServiceDefaults centralizes infrastructure concerns
 - UI project correctly wires everything via `AddServiceDefaults()` and `MapDefaultEndpoints()`
 
 **⚠️ Gaps to Address**
+
 1. No Redis in Directory.Packages.props
 2. ServiceDefaults does not register a cache provider
 3. No cache invalidation strategy documented
 4. No explicit readiness/liveness health check distinction
 
 **Redis Integration Plan:**
+
 - Step 1: Add Redis Package to Directory.Packages.props (Aspire.Hosting.Redis v13.0.0)
 - Step 2: Add Redis to AppHost
 - Step 3: Register IDistributedCache in ServiceDefaults
@@ -708,11 +716,13 @@ AppHost
 - Step 5: Verify ServiceDefaults Project Reference in UI
 
 **Cache Strategy:**
+
 - Tier 1: Query Results (5-10 minute TTL)
 - Tier 2: Rendered Components (10-15 minute TTL)
 - Tier 3: Session Data (1 hour, multi-tab consistency)
 
 **Health Check Architecture:**
+
 - All infrastructure dependencies are startup-required
 - Distinguish checks via tags: startup vs. liveness
 - `/health` for readiness, `/health/live` for liveness
@@ -727,12 +737,14 @@ AppHost
 **Status:** ✅ READY FOR PRODUCTION
 
 **Test Coverage:**
+
 - ✓ 11/11 integration tests passing
 - ✓ 12/12 CacheService unit tests passing  
 - ✓ 364 total tests passing (no regressions)
 - ✓ 1 pre-existing failure (unrelated PlugIns integration test)
 
 **Acceptance Criteria Verification:**
+
 | Criterion | Status | Evidence |
 |-----------|--------|----------|
 | ✓ AppHost starts with Redis/MongoDB healthy | ⚠️ Local Only | Code review: AppHost resources correct; Health checks implemented |
@@ -767,6 +779,7 @@ AppHost
 **Why:** Quality gate enforcement — failing tests in committed code create confusion, block downstream work, and require rework. Ensuring tests pass before commit maintains repo health and saves debugging time.
 
 **Implementation:**
+
 - All agents must run full test suite (e.g., `dotnet test`) before committing
 - If tests fail, fix failures first or revert the code
 - Only commit when test suite is fully passing
