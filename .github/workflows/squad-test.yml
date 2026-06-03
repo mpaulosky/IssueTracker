@@ -61,7 +61,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -97,7 +97,7 @@ jobs:
           path: |
             **/bin/Release/
             **/obj/
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props', 'global.json') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props', 'Global.json') }}
           restore-keys: |
             ${{ runner.os }}-build-
 
@@ -141,7 +141,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -209,7 +209,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -288,7 +288,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -330,7 +330,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -390,7 +390,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -450,7 +450,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -510,7 +510,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -578,7 +578,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: global.json
+          global-json-file: Global.json
 
       - name: Download coverage reports
         uses: actions/download-artifact@v8
