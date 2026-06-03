@@ -4,7 +4,7 @@ Issue Tracker has comprehensive test coverage across multiple layers, including 
 
 ## Test Structure
 
-```
+```text
 tests/
 ├── IssueTracker.CoreBusiness.Tests.Unit/      # Domain & business logic tests
 ├── IssueTracker.PlugIns.Tests.Unit/           # Data access unit tests
@@ -57,6 +57,7 @@ dotnet watch test --project tests/IssueTracker.CoreBusiness.Tests.Unit
 **Purpose**: Test individual components in isolation
 
 **Characteristics**:
+
 - Fast execution
 - No external dependencies
 - Use mocking/fakes
@@ -93,6 +94,7 @@ public class IssueServiceTests
 **Purpose**: Test interactions with real external systems
 
 **Characteristics**:
+
 - Test database operations
 - Use Testcontainers for MongoDB
 - Slower execution
@@ -142,6 +144,7 @@ public class IssueRepositoryTests : IAsyncLifetime
 **Purpose**: Test Blazor components
 
 **Characteristics**:
+
 - Test component rendering
 - Test user interactions
 - Simulate events
@@ -304,11 +307,12 @@ public async Task MethodName_Scenario_ExpectedResult()
 
 ### 2. Test Naming Convention
 
-```
+```text
 MethodName_Scenario_ExpectedBehavior
 ```
 
 Examples:
+
 - `CreateIssue_ValidData_ReturnsCreatedIssue`
 - `DeleteIssue_NonExistentId_ThrowsNotFoundException`
 - `UpdateIssue_NullInput_ThrowsArgumentNullException`
@@ -389,6 +393,7 @@ Tests run automatically on:
 **Issue**: Integration tests can't connect to MongoDB
 
 **Solutions**:
+
 1. Ensure Docker is running
 2. Check Docker Desktop has enough resources
 3. Verify Testcontainers can pull images
@@ -399,6 +404,7 @@ Tests run automatically on:
 **Issue**: Tests take too long to run
 
 **Solutions**:
+
 1. Run unit tests separately: `dotnet test --filter Category!=Integration`
 2. Use parallel execution (enabled by default in xUnit)
 3. Run specific test projects instead of all tests
@@ -408,6 +414,7 @@ Tests run automatically on:
 **Issue**: Coverage reports not being created
 
 **Solutions**:
+
 1. Install coverlet: `dotnet tool install -g coverlet.console`
 2. Ensure test projects reference `coverlet.collector`
 3. Check output directory for coverage files

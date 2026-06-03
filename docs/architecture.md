@@ -4,7 +4,7 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 
 ## High-Level Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                     Presentation Layer                  │
 │                  (IssueTracker.UI)                      │
@@ -40,16 +40,19 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 **Purpose**: User interface and user interaction
 
 **Contains**:
+
 - Blazor components
 - Razor pages
 - UI state management
 - Client-side validation
 
 **Dependencies**:
+
 - Services layer for business operations
 - CoreBusiness for models
 
 **Key Principles**:
+
 - No direct database access
 - Minimal business logic (UI-specific only)
 - Dependency injection for services
@@ -59,16 +62,19 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 **Purpose**: Application business logic and orchestration
 
 **Contains**:
+
 - Service implementations
 - Use case orchestration
 - Application-level validation
 - DTOs and mapping logic
 
 **Dependencies**:
+
 - CoreBusiness for models and interfaces
 - PlugIns for data access (via dependency injection)
 
 **Key Principles**:
+
 - Implements business rules
 - Coordinates between UI and data access
 - Technology-agnostic
@@ -78,15 +84,18 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 **Purpose**: Core business models
 
 **Contains**:
+
 - Domain entities (Issue, User, Comment, Category, Status)
 - Business validation rules
 - Enums and value objects
 - Database settings interfaces
 
 **Dependencies**:
+
 - None (pure domain logic)
 
 **Key Principles**:
+
 - Framework-independent
 - No infrastructure concerns
 - Rich domain models
@@ -96,15 +105,18 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 **Purpose**: External concerns and data persistence
 
 **Contains**:
+
 - MongoDB repository implementations
 - Database context
 - External service integrations
 - Infrastructure-specific code
 
 **Dependencies**:
+
 - CoreBusiness for interfaces and models
 
 **Key Principles**:
+
 - Implements data access interfaces
 - Technology-specific implementations
 - Easily swappable (e.g., switch from MongoDB to SQL)
@@ -113,7 +125,7 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 
 ### Example: Creating a New Issue
 
-```
+```text
 User Input (UI)
     │
     ▼
@@ -198,20 +210,24 @@ public class IssueService : IIssueService
 ## Technology Stack
 
 ### Frontend
+
 - **Blazor Server**: Interactive UI with server-side rendering
 - **Bootstrap CSS**: Responsive design
 - **Razor Components**: Reusable UI components
 
 ### Backend
+
 - **.NET 7**: Modern framework
 - **C#**: Primary language
 - **ASP.NET Core**: Web framework
 
 ### Data Access
+
 - **MongoDB.Driver**: Official MongoDB client
 - **MongoDB**: Document database
 
 ### Testing
+
 - **xUnit**: Test framework
 - **bUnit**: Blazor component testing
 - **Bogus**: Test data generation
@@ -219,7 +235,7 @@ public class IssueService : IIssueService
 
 ## Project Organization
 
-```
+```text
 src/
 ├── CoreBusiness/
 │   └── IssueTracker.CoreBusiness/
@@ -254,24 +270,28 @@ src/
 ## Benefits of This Architecture
 
 ### 1. **Testability**
+
 - Each layer can be tested independently
 - Repository interfaces enable easy mocking
 - Business logic isolated from infrastructure
 - Comprehensive test coverage across unit and integration tests
 
 ### 2. **Maintainability**
+
 - Clear separation of concerns
 - Changes isolated to specific layers
 - Easy to understand and navigate
 - Well-organized service structure by domain entity
 
 ### 3. **Flexibility**
+
 - Easy to swap MongoDB for other database providers
 - Repository pattern abstracts data access
 - Support for multiple UI frameworks
 - MongoDB-specific features in separate PlugIns project
 
 ### 4. **Scalability**
+
 - Service-oriented architecture
 - Clear boundaries for future microservices migration
 - Easy to add new entities and services
@@ -281,7 +301,7 @@ src/
 
 The dependency flow is strictly enforced:
 
-```
+```text
 UI → Services → CoreBusiness
       ↓
     PlugIns → CoreBusiness

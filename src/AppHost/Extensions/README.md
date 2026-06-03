@@ -42,12 +42,14 @@ await app.RunAsync();
 ### Dashboard Commands
 
 #### Clear All Data
+
 - **Icon**: Delete (filled)
 - **Description**: Clears all collections in the database
 - **Use Case**: Quickly reset the database during development/testing
 - **Action**: Iterates through all collections and drops them
 
 #### Drop Database
+
 - **Icon**: DeleteForever (filled, highlighted)
 - **Description**: Drops the entire database
 - **Confirmation**: Prompts for confirmation before executing
@@ -64,6 +66,7 @@ await app.RunAsync();
 ### Exception Handling
 
 Both commands handle:
+
 - `MongoException`: MongoDB-specific errors (connection, authentication, etc.)
 - `OperationCanceledException`: User cancellation or timeout
 
@@ -74,6 +77,7 @@ Unexpected exceptions will propagate to allow proper debugging.
 Unit tests for these extensions are located in `tests/AppHost.Tests/MongoDBHostingExtensionsTests.cs`.
 
 Run tests with:
+
 ```bash
 dotnet test tests/AppHost.Tests/AppHost.Tests.csproj
 ```
@@ -88,6 +92,7 @@ dotnet test tests/AppHost.Tests/AppHost.Tests.csproj
 ### Security Considerations
 
 ⚠️ **Important**: These dashboard commands are intended for development and testing environments. In production:
+
 - Ensure proper authentication and authorization
 - Consider removing or disabling these commands
 - Use role-based access control for database operations
@@ -96,6 +101,7 @@ dotnet test tests/AppHost.Tests/AppHost.Tests.csproj
 ### Contributing
 
 When modifying these extensions:
+
 1. Ensure all tests pass
 2. Update documentation
 3. Follow the existing code style and patterns

@@ -143,7 +143,7 @@ dotnet user-secrets list
 export ConnectionStrings__AppConfig="Endpoint=https://your-config.azconfig.io;..."
 ```
 
-3. Update `Program.cs`:
+1. Update `Program.cs`:
 
 ```csharp
 builder.Configuration.AddAzureAppConfiguration(options =>
@@ -170,31 +170,31 @@ builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredent
 
 ### Local Development
 
-```
+```text
 mongodb://localhost:27017
 ```
 
 ### Docker Container
 
-```
+```text
 mongodb://mongo:27017
 ```
 
 ### MongoDB Atlas (Cloud)
 
-```
+```text
 mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
 ```
 
 ### Replica Set
 
-```
+```text
 mongodb://host1:27017,host2:27017,host3:27017/?replicaSet=rs0
 ```
 
 ### With Authentication
 
-```
+```text
 mongodb://username:password@localhost:27017/?authSource=admin
 ```
 

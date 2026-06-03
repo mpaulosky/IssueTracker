@@ -442,6 +442,7 @@ Application connects to any node; Redis handles sharding automatically.
 #### Symptom: Slow Response Times
 
 1. Check health endpoint:
+
    ```bash
    curl https://prod.example.com/health
    ```
@@ -451,6 +452,7 @@ Application connects to any node; Redis handles sharding automatically.
 3. Review cache hit rates (low hit rate = increasing database load)
 
 4. Check Redis and MongoDB resource usage:
+
    ```bash
    docker stats
    ```
@@ -458,6 +460,7 @@ Application connects to any node; Redis handles sharding automatically.
 #### Symptom: High Memory Usage
 
 1. Check Redis memory:
+
    ```bash
    redis-cli INFO memory
    ```
@@ -465,6 +468,7 @@ Application connects to any node; Redis handles sharding automatically.
 2. If near limit, keys are being evicted; consider increasing memory or adjusting TTL
 
 3. Check MongoDB memory:
+
    ```bash
    mongosh --eval "db.stats()"
    ```
@@ -476,6 +480,7 @@ Application connects to any node; Redis handles sharding automatically.
 2. Check network latency between containers
 
 3. Increase timeout values if infrastructure is slow:
+
    ```csharp
    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(5);  // Increased from 3
    ```

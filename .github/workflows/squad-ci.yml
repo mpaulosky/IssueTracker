@@ -3,14 +3,14 @@ name: Squad CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [dev, main]
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.squad/**'
   push:
-    branches-ignore: [main]
+    branches: [dev]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
@@ -50,7 +50,7 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
     needs: build
 
     steps:
@@ -62,7 +62,23 @@ jobs:
           global-json-file: Global.json
 
       - name: Restore dependencies
-        run: dotnet restore tests/Architecture.Tests/Architecture.Tests.csproj
+        run: dotnet restore IssueTracker.slnx
 
-      - name: Run fast smoke tests
-        run: dotnet test tests/Architecture.Tests/Architecture.Tests.csproj --configuration Release --no-restore --verbosity minimal
+      - name: Run fast test suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          projects=(
+            tests/Architecture.Tests/Architecture.Tests.csproj
+            tests/AppHost.Tests/AppHost.Tests.csproj
+            tests/Integration.Tests/Integration.Tests.csproj
+            tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj
+            tests/IssueTracker.PlugIns.Tests.Unit/IssueTracker.PlugIns.Tests.Unit.csproj
+            tests/IssueTracker.Services.Tests.Unit/IssueTracker.Services.Tests.Unit.csproj
+            tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj
+            tests/ServiceDefaults.Tests/ServiceDefaults.Tests.csproj
+          )
+
+          for project in "${projects[@]}"; do
+            dotnet test "$project" --configuration Release --no-restore --verbosity minimal
+          done
