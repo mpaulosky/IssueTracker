@@ -15,7 +15,7 @@ Before running Issue Tracker locally, ensure you have:
 ```bash
 git clone https://github.com/mpaulosky/IssueTracker.git
 cd IssueTracker
-```
+```text
 
 ### Step 2: Verify Prerequisites
 
@@ -27,7 +27,7 @@ dotnet --version
 # Check Docker is running
 docker ps
 # Should succeed without error
-```
+```text
 
 If Docker fails, start Docker Desktop and retry.
 
@@ -35,35 +35,38 @@ If Docker fails, start Docker Desktop and retry.
 
 ```bash
 dotnet restore
-```
+```text
 
 This downloads all NuGet packages specified in `Directory.Packages.props`.
 
 **Expected output**:
 
-```
+```text
 Determining projects to restore...
 Restore completed in 1.23 sec for E:\github\IssueTracker\IssueTracker.slnx
-```
+```text
 
 ### Step 4: Start AppHost
 
 ```bash
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 **Expected output**:
 
-```
+```text
 Aspire.Hosting[0]
       Running on: http://localhost:18888
-```
+```text
 
 This command starts:
 
 1. **Aspire Orchestrator** - Manages services and containers
+
 2. **MongoDB Container** - Document database (port 27017)
+
 3. **Redis Container** - In-memory cache (port 6379)
+
 4. **Blazor UI** - Web application (ports 5000/5001)
 
 Do **not** close this terminal window while developing.
@@ -98,7 +101,7 @@ docker ps
 # - issuetracker-mongodb or my-mongodb
 # - issuetracker-redis or redis
 # - issuetracker-ui or ui
-```
+```text
 
 #### Option C: Check Health Endpoint
 
@@ -108,7 +111,7 @@ curl http://localhost:5000/health
 
 # Using PowerShell
 Invoke-WebRequest http://localhost:5000/health | ConvertFrom-Json | ConvertTo-Json -Depth 5
-```
+```text
 
 **Expected response**:
 
@@ -126,7 +129,7 @@ Invoke-WebRequest http://localhost:5000/health | ConvertFrom-Json | ConvertTo-Js
     }
   }
 }
-```
+```text
 
 ### Step 6: Access the Application
 
@@ -160,7 +163,7 @@ AppHost:
 
 ```csharp
 var mongodb = builder.AddMongoDB("mongodb");
-```
+```text
 
 The UI service automatically receives the connection string from Aspire:
 
@@ -168,7 +171,7 @@ The UI service automatically receives the connection string from Aspire:
 var ui = builder
   .AddProject<Projects.IssueTracker_UI>("ui")
   .WithReference(mongodb);
-```
+```text
 
 **Manual Connection** (for debugging):
 
@@ -177,7 +180,7 @@ var ui = builder
 mongosh --host localhost --port 27017 -u course -p whatever
 
 # Or from MongoDB Compass: mongodb://course:whatever@localhost:27017
-```
+```text
 
 #### Redis Connection
 
@@ -185,7 +188,7 @@ Redis is similarly injected into the UI service:
 
 ```csharp
 var redis = builder.AddRedis("redis");
-```
+```text
 
 **Manual Connection** (for debugging):
 
@@ -196,7 +199,7 @@ redis-cli -h localhost -p 6379
 # Test connection
 redis-cli -h localhost -p 6379 PING
 # Should return: PONG
-```
+```text
 
 ### Stopping Services
 
@@ -204,16 +207,19 @@ redis-cli -h localhost -p 6379 PING
 
 Press `Ctrl+C` in the terminal running AppHost:
 
-```
+```text
 ^C
 Hosting stopped
-```
+```text
 
 This cleanly shuts down:
 
 1. Blazor UI
+
 2. Redis container
+
 3. MongoDB container
+
 4. Aspire orchestrator
 
 All data is persisted to Docker volumes and restored on next startup.
@@ -228,7 +234,7 @@ Get-Process -Name "dotnet" | Where-Object {$_.CommandLine -like "*AppHost*"} | S
 
 # Or manually stop Docker containers
 docker stop $(docker ps -q)
-```
+```text
 
 ### Clearing Data for Fresh Start
 
@@ -245,7 +251,7 @@ docker volume rm issuetracker-mongodb_data issuetracker-redis_data
 
 # Restart AppHost (will recreate empty volumes)
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 #### Option 2: Complete Docker Reset
 
@@ -261,7 +267,7 @@ docker volume rm $(docker volume ls | grep issuetracker | awk '{print $2}')
 
 # Restart AppHost
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 **Warning**: This removes all development data. Use only for testing.
 
@@ -274,7 +280,9 @@ dotnet run --project src/AppHost/AppHost.csproj
 **Solutions**:
 
 1. Check AppHost is still running (terminal should show active process)
+
 2. Verify port 18888 is not blocked by firewall
+
 3. Restart AppHost
 
 #### Issue: "MongoDB connection timeout"
@@ -292,7 +300,7 @@ docker restart <mongodb-container-id>
 
 # Or restart AppHost
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 #### Issue: "Redis connection refused"
 
@@ -312,7 +320,7 @@ redis-cli -h localhost -p 6379 PING
 
 # Restart Redis
 docker restart <redis-container-id>
-```
+```text
 
 #### Issue: "Port 5000 already in use"
 
@@ -329,14 +337,18 @@ tasklist /FI "PID eq <PID>"
 Stop-Process -Id <PID> -Force
 
 # Or find and stop on port 6379 or 27017 if those are conflicting
-```
+```text
 
 ### Performance Tips
 
 1. **Allocate sufficient Docker resources** (Settings → Resources: 4 GB RAM, 2 CPUs minimum)
+
 2. **Use HTTPS for production testing** (`https://localhost:5001`)
+
 3. **Monitor Aspire dashboard** for slow services
+
 4. **Check health endpoint** if services feel unresponsive
+
 5. **Clear volumes periodically** to prevent disk clutter
 
 ### Next Steps

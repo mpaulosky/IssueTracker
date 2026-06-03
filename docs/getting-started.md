@@ -18,13 +18,13 @@ Before you begin, ensure you have the following installed:
 ```bash
 git clone https://github.com/mpaulosky/IssueTracker.git
 cd IssueTracker
-```
+```text
 
 ### 2. Restore Dependencies
 
 ```bash
 dotnet restore
-```
+```text
 
 ### 3. Run the Application
 
@@ -32,13 +32,13 @@ The application uses **.NET Aspire** for local orchestration. Simply run the App
 
 ```bash
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 Or use the VS Code task:
 
 ```bash
 # In VS Code, press Ctrl+Shift+P and select "Tasks: Run Task" > "watch"
-```
+```text
 
 This single command:
 
@@ -52,23 +52,23 @@ This single command:
 
 Open your browser and navigate to:
 
-```
+```text
 https://localhost:5001
-```
+```text
 
 or
 
-```
+```text
 http://localhost:5000
-```
+```text
 
 ### 5. View Aspire Dashboard
 
 While the app is running, access the .NET Aspire dashboard at:
 
-```
+```text
 http://localhost:15000
-```
+```text
 
 This dashboard shows:
 
@@ -83,7 +83,7 @@ This dashboard shows:
 
 ```bash
 dotnet test
-```
+```text
 
 ### Run Specific Test Project
 
@@ -93,17 +93,17 @@ dotnet test tests/IssueTracker.CoreBusiness.Tests.Unit
 
 # Integration tests (requires Docker)
 dotnet test tests/IssueTracker.PlugIns.Tests.Integration
-```
+```text
 
 ### Run Tests with Coverage
 
 ```bash
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-```
+```text
 
 ## Project Structure
 
-```
+```text
 IssueTracker/
 ├── src/
 │   ├── CoreBusiness/          # Domain models and business logic
@@ -114,7 +114,7 @@ IssueTracker/
 │   ├── *.Tests.Unit/          # Unit tests
 │   └── *.Tests.Integration/   # Integration tests
 └── docs/                      # Documentation
-```
+```text
 
 For a detailed breakdown, see [Project Structure](project-structure.md).
 
@@ -132,8 +132,11 @@ For a detailed breakdown, see [Project Structure](project-structure.md).
 If the Aspire orchestrator fails to start:
 
 1. Ensure Docker Desktop is running: `docker ps`
+
 2. Check available disk space (Aspire containers require ~500MB)
+
 3. Review logs in the Aspire dashboard at `http://localhost:15000`
+
 4. If MongoDB health check times out, increase the timeout in `src/AppHost/Program.cs`
 
 ### MongoDB Connection Issues
@@ -141,8 +144,11 @@ If the Aspire orchestrator fails to start:
 If MongoDB container fails to initialize:
 
 1. Verify Docker is running and can create containers
+
 2. Check if port 27017 is already in use: `netstat -an | findstr 27017`
+
 3. View MongoDB logs: `docker logs <container-id>`
+
 4. Delete the MongoDB container and let Aspire recreate it: `docker container rm issuetracker-mongodb`
 
 ### Build Errors
@@ -150,8 +156,11 @@ If MongoDB container fails to initialize:
 If you encounter build errors:
 
 1. Ensure you have .NET 10 SDK installed: `dotnet --version`
+
 2. Clean the solution: `dotnet clean`
+
 3. Restore packages: `dotnet restore`
+
 4. Rebuild: `dotnet build`
 
 ### Port Already in Use
@@ -159,7 +168,9 @@ If you encounter build errors:
 If ports 5000/5001 are already in use:
 
 1. Stop the conflicting application
+
 2. Or modify the port configuration in `src/AppHost/Program.cs`
+
 3. Update your browser URL to match the new port
 
 ### Slow Startup

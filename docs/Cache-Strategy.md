@@ -48,7 +48,7 @@ if (issues is null)
 }
 
 return issues;
-```
+```text
 
 **Invalidation**: When issues are created, updated, or deleted
 
@@ -76,7 +76,7 @@ if (report is null)
 }
 
 return report;
-```
+```text
 
 **Invalidation**: When underlying data changes or on schedule
 
@@ -102,7 +102,7 @@ if (prefs is null)
 }
 
 return prefs;
-```
+```text
 
 **Invalidation**: When user updates preferences or session expires
 
@@ -129,7 +129,7 @@ public class IssueService
     _logger = logger;
   }
 }
-```
+```text
 
 #### Core Operations
 
@@ -156,7 +156,7 @@ public async Task<Issue?> GetIssueByIdAsync(string id)
 
   return issue;
 }
-```
+```text
 
 **Set in Cache**:
 
@@ -166,13 +166,13 @@ await _cacheService.SetAsync(
   value: myObject,
   expiration: TimeSpan.FromMinutes(5)
 );
-```
+```text
 
 **Remove from Cache**:
 
 ```csharp
 await _cacheService.RemoveAsync("issue:123");
-```
+```text
 
 ### Cache Key Naming Convention
 
@@ -182,7 +182,7 @@ Use hierarchical, dot-separated keys for clarity and organization.
 
 **Examples**:
 
-```
+```text
 issues:all                           # All issues (Tier 1)
 issues:all:active                    # Active issues only
 issues:list:page:1                   # Paginated list, page 1
@@ -192,7 +192,7 @@ issue:123:activity:full              # Full activity audit
 report:issue-summary                 # Issue summary report
 session:user:john-doe:preferences    # User preferences
 session:user:john-doe:recent-search  # Recent searches
-```
+```text
 
 **Benefits**:
 
@@ -218,7 +218,7 @@ public async Task UpdateIssueAsync(string id, UpdateIssueRequest request)
 
   return issue;
 }
-```
+```text
 
 **Pros**: Data consistency, no stale cache
 
@@ -235,7 +235,7 @@ await _cacheService.SetAsync(
   issues,
   TimeSpan.FromMinutes(5)
 );
-```
+```text
 
 **Pros**: Simple, less code
 
@@ -270,7 +270,7 @@ public async Task GetIssuesAsync()
 
   return issues;
 }
-```
+```text
 
 **Pros**: Balanced performance and consistency
 
@@ -298,7 +298,7 @@ public class CacheInvalidationHandler : INotificationHandler<IssueUpdatedEvent>
     await _cache.RemoveAsync("issues:all");
   }
 }
-```
+```text
 
 **Pros**: Decoupled, scales well with many cache keys
 
@@ -336,7 +336,7 @@ logger.LogInformation(
   cacheKey,
   hitOrMiss
 );
-```
+```text
 
 Check logs for patterns:
 
@@ -366,7 +366,7 @@ public class Issue
 
 // This will cache/deserialize correctly
 await _cache.SetAsync("issue:1", issue, TimeSpan.FromMinutes(5));
-```
+```text
 
 ### Error Handling
 
@@ -382,6 +382,6 @@ catch (JsonException ex)
   logger.LogWarning(ex, "Failed to deserialize cached value");
   // Entry is automatically removed; next request fetches fresh data
 }
-```
+```text
 
 Your code does not need explicit error handling for cache operations.

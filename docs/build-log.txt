@@ -1,1052 +1,159 @@
-===============================================================================
-.NET Solution Build & Error Resolution Log
-===============================================================================
-Date: February 8, 2026
+==========================================================================
+BUILD LOG - IssueTracker Solution
+==========================================================================
+Date: June 2, 2026
 Solution: IssueTracker.slnx
-Location: E:\github\IssueTracker
+Location: /home/mpaulosky/github/IssueTracker
+.NET Version: 10.0.300
+==========================================================================
 
-===============================================================================
-INITIAL STATE
-===============================================================================
-- Found IssueTracker.slnx in E:\github\IssueTracker
-- Previous build had failed (Exit Code: 1)
-- Multiple solution files exist (.sln and .slnx)
+STEP 1: SOLUTION LOCATION
+==========================================================================
+✓ Located solution file: IssueTracker.slnx
+  Path: /home/mpaulosky/github/IssueTracker/IssueTracker.slnx
+  Status: Found successfully
 
-===============================================================================
-STEP 1: RESTORE DEPENDENCIES
-===============================================================================
-Command: dotnet restore IssueTracker.slnx
-Result: SUCCESS
-- All NuGet packages restored successfully
-- Build completed in 2.1s
-
-Note: Had to specify the .slnx file explicitly because both .sln and .slnx
-files exist in the directory.
-
-===============================================================================
-STEP 2: BUILD SOLUTION
-===============================================================================
-Command: dotnet build IssueTracker.slnx --no-restore
-Result: SUCCESS
-- All 10 projects built successfully
-- Build succeeded in 2.6s
-- No build errors or warnings
-
-Projects built:
-1. IssueTracker.CoreBusiness
-2. IssueTracker.Services
-3. IssueTracker.Services.Tests.Unit
-4. IssueTracker.PlugIns
-5. TestingSupport.Library
-6. IssueTracker.PlugIns.Tests.Unit
-7. IssueTracker.CoreBusiness.Tests.Unit
-8. IssueTracker.UI
-9. IssueTracker.UI.Tests.Unit
-10. IssueTracker.PlugIns.Tests.Integration
-
-===============================================================================
-STEP 3: RUN UNIT TESTS (INITIAL)
-===============================================================================
-Command: dotnet test IssueTracker.slnx --no-build --verbosity normal
-Result: FAILED
-- 4 integration tests failed with MongoDB authentication errors
-- Unit tests all passed (333 tests)
-
-===============================================================================
-ERRORS IDENTIFIED
-===============================================================================
-
-Error 1: MongoDB Authentication Failures
---------
-Error Type: MongoDB.Driver.MongoAuthenticationException
-Message: "Unable to authenticate using sasl protocol mechanism SCRAM-SHA-1"
-Details: "Command saslContinue failed: bad auth : authentication failed"
-
-Failed Tests:
-1. UpVoteAsync_With_ValidComment_Should_AddUserToUpVoteField_Test
-2. UpVoteAsync_With_UserAlreadyVoted_Should_RemoveUsersVote_Test
-3. UpdateAsync_With_ValidData_Should_UpdateTheUser_Test
-4. UpdateAsync_With_ValidData_Should_UpdateTheStatus_Test
-
-Root Cause Analysis:
-- The IssueTrackerTestFactory was not properly registering IDatabaseSettings
-- MongoDbContextFactory creates its own MongoClient from IDatabaseSettings
-- Configuration was added as "ConnectionStrings:MongoDB" instead of
-  "MongoDbSettings:ConnectionStrings"
-- This caused the MongoDbContextFactory to fail when creating its MongoClient
-
-===============================================================================
-STEP 4: FIX MONGODB CONFIGURATION
-===============================================================================
-
-File Modified: tests/IssueTracker.PlugIns.Tests.Integration/IssueTrackerTestFactory.cs
-
-Change 1: Fixed Configuration Keys
-----------------------------------
-OLD:
-  ["ConnectionStrings:MongoDB"] = ...
-  ["DatabaseName"] = ...
-
-NEW:
-  ["MongoDbSettings:ConnectionStrings"] = ...
-  ["MongoDbSettings:DatabaseName"] = ...
-
-Change 2: Added IDatabaseSettings Registration
------------------------------------------------
-Added to ConfigureServices:
-  services.AddSingleton<IDatabaseSettings>(
-    new DatabaseSettings(connectionString, _databaseName));
-
-This ensures MongoDbContextFactory receives the correct settings.
-
-===============================================================================
-STEP 5: FIX CONTAINER DISPOSAL ISSUE
-===============================================================================
-
-File Modified: tests/IssueTracker.PlugIns.Tests.Integration/IssueTrackerTestFactory.cs
-
-Issue: The shared MongoDB container was being disposed during test execution,
-causing "MongoConnectionException: An exception occurred while receiving a
-message from the server."
-
-Solution: Modified DisposeAsync() method
-----------------------------------------
-- Removed premature disposal of shared container
-- Container now remains running for all tests in the collection
-- Properly cleanup individual test databases instead
-- Container will be cleaned up when test process exits
-
-OLD Logic:
-  - Disposed shared container in DisposeAsync
-  - This caused container shutdown during active tests
-
-NEW Logic:
-  - Clean up only the test-specific database
-  - Leave shared container running for other tests
-  - Container cleanup handled by test framework on exit
-
-===============================================================================
-STEP 6: REBUILD AND RETEST
-===============================================================================
-
-Build Command: dotnet build IssueTracker.slnx --no-restore
-Result: SUCCESS
-- Build succeeded in 4.6s
-
-Test Command: dotnet test IssueTracker.slnx --no-build --verbosity minimal
-Result: SUCCESS
-- Total tests: 391
-- Passed: 391
-- Failed: 0
-- Skipped: 0
-- Duration: 18.3s
-
-===============================================================================
-FINAL STATE
-===============================================================================
-✓ Solution builds successfully with no errors
-✓ Solution builds successfully with no warnings
-✓ All 391 unit and integration tests pass
-✓ MongoDB integration tests work correctly
-✓ Test infrastructure properly configured
-
-===============================================================================
-SUMMARY OF CHANGES
-===============================================================================
-
-Files Modified:
-1. tests/IssueTracker.PlugIns.Tests.Integration/IssueTrackerTestFactory.cs
-   - Fixed MongoDB configuration key structure
-   - Added proper IDatabaseSettings registration
-   - Fixed shared container disposal logic
-
-Technical Improvements:
-- Proper dependency injection configuration for test fixtures
-- Correct MongoDB authentication setup for integration tests
-- Improved test lifecycle management for shared resources
-
-===============================================================================
-VERIFICATION
-===============================================================================
-
-Build Verification:
-  dotnet build IssueTracker.slnx --no-restore
-  Status: ✓ SUCCESS (0 errors, 0 warnings)
-
-Test Verification:
-  dotnet test IssueTracker.slnx --no-build
-  Status: ✓ SUCCESS (391/391 tests passed)
-
-===============================================================================
-LESSONS LEARNED
-===============================================================================
-
-1. Configuration Structure Matters
-   - Integration test configuration must match application configuration
-   - MongoDbSettings section required for DatabaseSettings binding
-
-2. Test Fixture Lifecycle
-   - Shared resources (containers) must outlive individual tests
-   - xUnit ICollectionFixture provides proper sharing mechanism
-   - Disposal timing critical for resource cleanup
-
-3. MongoDB Testcontainers
-   - Shared container pattern improves test performance
-   - Container should persist across test collection
-   - Individual databases provide test isolation
-
-===============================================================================
-END OF BUILD LOG
-===============================================================================
-
-
-===============================================================================
-.NET Solution Build & Error Resolution Log - VERIFICATION BUILD
-===============================================================================
-Date: February 9, 2026
-Solution: IssueTracker.slnx
-Location: E:\github\IssueTracker
-Build Type: Verification Build (No Changes Required)
-
-===============================================================================
-INITIAL STATE
-===============================================================================
-- Solution file: IssueTracker.slnx
-- Location: e:\github\IssueTracker\
-- Previous build: SUCCESS (February 8, 2026)
-- Expected result: Clean build with all tests passing
-
-===============================================================================
-STEP 1: LOCATE SOLUTION FILE
-===============================================================================
-Command: file_search *.slnx
-Result: SUCCESS
-- Found: e:\github\IssueTracker\IssueTracker.slnx
-- Path confirmed and ready for build
-
-===============================================================================
-STEP 2: RESTORE DEPENDENCIES
-===============================================================================
+STEP 2: DEPENDENCY RESTORATION
+==========================================================================
 Command: dotnet restore
-Result: SUCCESS
-- Restore complete in 1.9s
-- Build succeeded in 2.1s
-- All NuGet packages up to date
+Status: Succeeded with 61 warnings
+Duration: 3.2 seconds
 
-===============================================================================
-STEP 3: BUILD SOLUTION
-===============================================================================
+Initial Warnings (Security Vulnerabilities):
+- OpenTelemetry.Api 1.11.1 (moderate severity)
+- OpenTelemetry.Exporter.OpenTelemetryProtocol 1.11.0 (moderate severity)
+- SharpCompress 0.30.1 (moderate severity)
+- Snappier 1.0.0 (high severity)
+- System.Security.Cryptography.Xml 9.0.0 (high severity)
+
+STEP 3: INITIAL BUILD
+==========================================================================
 Command: dotnet build --no-restore
-Result: SUCCESS
-- Build succeeded in 12.2s
-- All 10 projects built successfully
-- Zero errors
-- Zero warnings
-
-Projects Built (in order):
-1. IssueTracker.CoreBusiness (0.4s)
-   → src\CoreBusiness\IssueTracker.CoreBusiness\bin\Debug\net9.0\IssueTracker.CoreBusiness.dll
-2. IssueTracker.Services (0.1s)
-   → src\Services\IssueTracker.Services\bin\Debug\net9.0\IssueTracker.Services.dll
-3. IssueTracker.PlugIns (0.4s)
-   → src\PlugIns\IssueTracker.PlugIns\bin\Debug\net9.0\IssueTracker.PlugIns.dll
-4. IssueTracker.Services.Tests.Unit (0.4s)
-   → tests\IssueTracker.Services.Tests.Unit\bin\Debug\net9.0\IssueTracker.Services.Tests.Unit.dll
-5. TestingSupport.Library (0.3s)
-   → tests\TestingSupport.Library\bin\Debug\net9.0\TestingSupport.Library.dll
-6. IssueTracker.CoreBusiness.Tests.Unit (0.4s)
-   → tests\IssueTracker.CoreBusiness.Tests.Unit\bin\Debug\net9.0\IssueTracker.CoreBusiness.Tests.Unit.dll
-7. IssueTracker.PlugIns.Tests.Unit (0.4s)
-   → tests\IssueTracker.PlugIns.Tests.Unit\bin\Debug\net9.0\IssueTracker.PlugIns.Tests.Unit.dll
-8. IssueTracker.UI (1.2s)
-   → src\UI\IssueTracker.UI\bin\Debug\net9.0\IssueTracker.UI.dll
-9. IssueTracker.UI.Tests.Unit (0.6s)
-   → tests\IssueTracker.UI.Tests.Unit\bin\Debug\net9.0\IssueTracker.UI.Tests.Unit.dll
-10. IssueTracker.PlugIns.Tests.Integration (9.1s)
-    → tests\IssueTracker.PlugIns.Tests.Integration\bin\Debug\net9.0\IssueTracker.PlugIns.Tests.Integration.dll
-
-===============================================================================
-STEP 4: ERROR & WARNING RESOLUTION
-===============================================================================
-Errors Found: 0
-Warnings Found: 0
-Resolution Required: NONE
-
-Analysis:
-- Build completed successfully on first attempt
-- No compiler errors or warnings detected
-- All code conforms to coding standards
-- No fixes or modifications required
-
-===============================================================================
-STEP 5: RUN UNIT TESTS
-===============================================================================
-Command: dotnet test --no-build --verbosity normal
-Result: SUCCESS
-
-Test Framework: xUnit.net v3.1.4+50e68bbb8b (64-bit .NET 9.0.12)
-
-Test Execution Results:
-- IssueTracker.Services.Tests.Unit: PASSED (4.0s)
-- IssueTracker.PlugIns.Tests.Unit: PASSED (4.2s)
-- IssueTracker.CoreBusiness.Tests.Unit: PASSED (5.3s)
-- IssueTracker.UI.Tests.Unit: PASSED (8.1s)
-- IssueTracker.PlugIns.Tests.Integration: PASSED (18.3s)
-  * MongoDB container started successfully via Testcontainers
-  * Docker connection established (Docker Desktop, API v1.52)
-  * Test database created and cleaned up properly
-
-Test Summary:
-- Total Tests: 391
-- Passed: 391 (100%)
-- Failed: 0
-- Skipped: 0
-- Duration: 18.3s
-
-===============================================================================
-STEP 6: VERIFICATION
-===============================================================================
-
-Build Verification:
-✓ All projects compiled successfully
-✓ No build errors or warnings
-✓ Output assemblies generated correctly
-✓ Debug configuration built successfully
-
-Test Verification:
-✓ All unit tests passed
-✓ All integration tests passed
-✓ MongoDB integration working correctly
-✓ Docker/Testcontainers functioning properly
-
-Environment Verification:
-✓ .NET 9.0.309 runtime
-✓ Docker Desktop available and running
-✓ All dependencies resolved correctly
-
-===============================================================================
-FINAL STATE
-===============================================================================
-✓ Solution builds successfully with 0 errors
-✓ Solution builds successfully with 0 warnings
-✓ All 391 tests pass (100% success rate)
-✓ No code modifications required
-✓ Build is clean and production-ready
-
-Total Time: ~32.4s
-Build Status: ✓ SUCCESS
-
-===============================================================================
-SUMMARY OF CHANGES
-===============================================================================
-
-Files Modified: NONE
-
-Reason:
-- The solution was already in a clean, working state
-- All fixes from February 8, 2026 build were successfully implemented
-- No additional errors or warnings detected
-- This was a verification build to confirm system stability
-
-===============================================================================
-CONCLUSION
-===============================================================================
-
-This verification build confirms that:
-1. The solution is in excellent condition
-2. All previous fixes are working correctly
-3. The build process is stable and repeatable
-4. All tests pass consistently
-5. The codebase is ready for deployment or further development
-
-No action items or follow-up tasks required.
-
-===============================================================================
-END OF VERIFICATION BUILD LOG
-===============================================================================
-
-
-===============================================================================
-.NET Solution Build & Error Resolution Log - Package Dependency Resolution
-===============================================================================
-Date: February 14, 2026
-Solution: IssueTracker.slnx
-Location: E:\github\IssueTracker
-Build Type: Dependency Resolution and Full Test Suite Validation
-Target Framework: net10.0
-
-===============================================================================
-INITIAL STATE
-===============================================================================
-- Solution file: IssueTracker.slnx
-- Location: e:\github\IssueTracker\
-- Current framework: .NET 10.0.103
-- Expected result: Clean build with all tests passing
-
-===============================================================================
-STEP 1: LOCATE SOLUTION FILE
-===============================================================================
-Command: file_search *.slnx
-Result: SUCCESS
-- Found: e:\github\IssueTracker\IssueTracker.slnx
-- Path confirmed and ready for build
-
-===============================================================================
-STEP 2: RESTORE DEPENDENCIES
-===============================================================================
-Command: dotnet restore
-Result: SUCCESS
-- Restore complete in 3.7s
-- Build succeeded in 4.3s
-- All NuGet packages restored
-
-===============================================================================
-STEP 3: BUILD SOLUTION
-===============================================================================
-Command: dotnet build --no-restore
-Result: SUCCESS
-- Build succeeded in 20.6s
-- All 10 projects built successfully
-- Zero errors
-- Zero warnings
-
-Projects Built:
-1. IssueTracker.CoreBusiness → net10.0 (3.7s)
-2. IssueTracker.Services → net10.0 (0.8s)
-3. IssueTracker.PlugIns → net10.0 (1.3s)
-4. IssueTracker.Services.Tests.Unit → net10.0 (2.2s)
-5. TestingSupport.Library → net10.0 (1.2s)
-6. IssueTracker.CoreBusiness.Tests.Unit → net10.0 (1.6s)
-7. IssueTracker.PlugIns.Tests.Unit → net10.0 (1.8s)
-8. IssueTracker.UI → net10.0 (7.3s)
-9. IssueTracker.PlugIns.Tests.Integration → net10.0 (2.1s)
-10. IssueTracker.UI.Tests.Unit → net10.0 (4.6s)
-
-===============================================================================
-STEP 4: RUN INITIAL TEST SUITE
-===============================================================================
-Command: dotnet test --no-build --verbosity normal
-Result: PARTIAL FAILURE
-
-Error Detected:
-- TestingSupport.Library test execution failed
-- Assembly loading error for Bogus package
-
-===============================================================================
-ERROR IDENTIFIED
-===============================================================================
-
-Error 1: Bogus Package .NET 10 Compatibility Issue
----------------------------------------------------
-Error Type: Assembly Loading Exception
-Message: "An assembly specified in the application dependencies manifest
-(TestingSupport.Library.deps.json) was not found"
-
-Details:
-  package: 'Bogus', version: '35.6.3'
-  path: 'lib/net6.0/Bogus.dll'
-
-Root Cause Analysis:
-- Bogus 35.6.3 does not have a net10.0 target
-- Package only contains lib/net6.0/Bogus.dll
-- .NET 10 runtime cannot load net6.0 library at test runtime
-- TestingSupport.Library (net10.0) depends on Bogus transitively through
-  IssueTracker.CoreBusiness project
-
-Test Impact:
-- Initial run: 391 tests attempted
-- TestingSupport.Library: Failed to start (dependency issue)
-- Other test projects: 390 tests passed, 1 flaky integration test failure
-  (network timeout during cleanup, not related to Bogus issue)
-
-===============================================================================
-STEP 5: INVESTIGATE OUTDATED PACKAGES
-===============================================================================
-Command: dotnet list package --outdated
-Result: SUCCESS
-
-Key Findings:
-┌─────────────────────┬────────────┬──────────┬──────────┐
-│ Package             │ Requested  │ Resolved │ Latest   │
-├─────────────────────┼────────────┼──────────┼──────────┤
-│ Bogus               │ 35.6.3     │ 35.6.3   │ 35.6.5   │
-│ MongoDB.Bson        │ 3.4.3      │ 3.4.3    │ 3.6.0    │
-│ MongoDB.Driver      │ 3.4.3      │ 3.4.3    │ 3.6.0    │
-│ FluentAssertions    │ [7.2.0]    │ 7.2.0    │ 8.8.0    │
-│ bunit               │ 1.40.0     │ 1.40.0   │ 2.5.3    │
-│ Testcontainers      │ 4.7.0      │ 4.7.0    │ 4.10.0   │
-└─────────────────────┴────────────┴──────────┴──────────┘
-
-Analysis:
-- Bogus has a newer version (35.6.5) available
-- Newer version likely includes .NET 10 compatibility
-- Multiple other packages have updates available
-
-===============================================================================
-STEP 6: FIX BOGUS PACKAGE VERSION
-===============================================================================
-
-File Modified: Directory.Packages.props
-
-Change Details:
--------------
-Location: Line 8
-OLD: <PackageVersion Include="Bogus" Version="35.6.3" />
-NEW: <PackageVersion Include="Bogus" Version="35.6.5" />
-
-Rationale:
-- Update to latest stable version
-- Ensure .NET 10 compatibility
-- Resolve assembly loading issues
-
-===============================================================================
-STEP 7: CLEAN AND REBUILD
-===============================================================================
-
-Command 1: dotnet clean
-Result: SUCCESS
-- All bin and obj directories cleaned
-- Build succeeded in 3.4s
-
-Command 2: dotnet restore
-Result: SUCCESS
-- Restore complete in 3.6s
-- Bogus 35.6.5 downloaded and cached
-- All dependencies resolved
-
-Command 3: dotnet build --no-restore
-Result: SUCCESS
-- Build succeeded in 18.3s
-- All projects compiled successfully
-- Zero errors, zero warnings
-
-===============================================================================
-STEP 8: RUN COMPLETE TEST SUITE
-===============================================================================
-
-Test Run 1 (Full Suite):
-------------------------
-Command: dotnet test --no-build --verbosity minimal
-Result: PARTIAL SUCCESS
-
-Test Summary:
-- Total: 391 tests
-- Passed: 390 tests
-- Failed: 1 test
-- Skipped: 0 tests
-- Duration: 47.6s
-
-Failed Test:
-  UpVoteCommentTests - Socket connection issue during cleanup
-  (Transient network error, not code-related)
-
-Test Run 2 (Failed Test Only):
-------------------------------
-Command: dotnet test --no-build --filter "FullyQualifiedName~UpVoteCommentTests"
-Result: SUCCESS
-
-Test Summary:
-- Total: 2 tests (UpVoteCommentTests)
-- Passed: 2 tests
-- Failed: 0 tests
-- Duration: 30.1s
-
-Analysis: The previous failure was a flaky network/socket timeout during
-MongoDB container cleanup. Not a code defect.
-
-Test Run 3 (Full Suite - Final Verification):
----------------------------------------------
-Command: dotnet test --no-build --verbosity minimal
-Result: SUCCESS
-
-Test Summary:
-- Total: 391 tests
-- Passed: 391 tests (100%)
-- Failed: 0 tests
-- Skipped: 0 tests
-- Duration: 56.0s
-
-Test Framework: xUnit.net v3.1.4+50e68bbb8b (64-bit .NET 10.0.3)
-
-Test Projects Executed:
-✓ IssueTracker.Services.Tests.Unit (11.1s)
-✓ IssueTracker.CoreBusiness.Tests.Unit (11.6s)
-✓ IssueTracker.PlugIns.Tests.Unit (12.6s)
-✓ IssueTracker.UI.Tests.Unit (19.5s)
-✓ IssueTracker.PlugIns.Tests.Integration (56.0s)
-  - MongoDB Testcontainers: ✓ Started successfully
-  - Docker connection: ✓ Connected (API v1.52)
-  - Database operations: ✓ All CRUD operations successful
-  - Database cleanup: ✓ All test databases dropped successfully
-
-===============================================================================
-STEP 9: VERIFICATION
-===============================================================================
-
-Build Verification:
-✓ Solution builds successfully
-✓ All 10 projects compiled correctly
-✓ Zero build errors
-✓ Zero build warnings
-✓ Target framework: net10.0
-
-Test Verification:
-✓ All 391 tests passed
-✓ 100% test success rate
-✓ All unit tests passed
-✓ All integration tests passed
-✓ MongoDB integration working correctly
-✓ Testcontainers functioning properly
-
-Dependency Verification:
-✓ Bogus 35.6.5 installed and working
-✓ All NuGet packages resolved correctly
-✓ No dependency conflicts
-✓ .NET 10 compatibility confirmed
-
-===============================================================================
-FINAL STATE
-===============================================================================
-✓ Solution builds successfully with 0 errors
-✓ Solution builds successfully with 0 warnings
-✓ All 391 tests pass (100% success rate)
-✓ Bogus package updated to 35.6.5
-✓ .NET 10 compatibility issues resolved
-✓ Build is clean and production-ready
-
-Total Time: ~76s (build + tests)
-Build Status: ✓ SUCCESS
-
-===============================================================================
-SUMMARY OF CHANGES
-===============================================================================
-
-Files Modified: 1
-1. Directory.Packages.props
-   - Updated Bogus package version from 35.6.3 to 35.6.5
-   - Reason: .NET 10 compatibility and assembly loading fix
-
-Technical Improvements:
-- Resolved assembly loading issues with Bogus package
-- Ensured all dependencies support .NET 10 target framework
-- Confirmed all tests pass consistently on .NET 10
-
-===============================================================================
-LESSONS LEARNED
-===============================================================================
-
-1. Package Version Compatibility
-   - Not all package versions support the latest .NET framework
-   - Check for updated versions when targeting new frameworks
-   - Assembly loading errors often indicate framework compatibility issues
-
-2. NuGet Package Management
-   - Use 'dotnet list package --outdated' to identify update candidates
-   - Central package version management (Directory.Packages.props) simplifies updates
-   - Update packages incrementally and test thoroughly
-
-3. Test Reliability
-   - Flaky integration tests (network timeouts) should be investigated separately
-   - Re-run failed tests to distinguish between flakiness and real defects
-   - MongoDB Testcontainers can occasionally have cleanup timing issues
-
-4. Clean Build Practice
-   - Always clean before major dependency changes
-   - Restore packages explicitly after version updates
-   - Verify with full test suite after any dependency modifications
-
-===============================================================================
-CONCLUSION
-===============================================================================
-
-This build session successfully:
-1. Identified and resolved a .NET 10 compatibility issue with Bogus 35.6.3
-2. Updated Bogus to version 35.6.5 for full .NET 10 support
-3. Achieved 100% test success rate (391/391 tests passing)
-4. Confirmed the solution is stable and production-ready on .NET 10
-
-The codebase is now fully compatible with .NET 10 and all dependencies are
-up to date and working correctly. No further action items required.
-
-===============================================================================
-END OF BUILD LOG - February 14, 2026
-===============================================================================
-
-
-===============================================================================
-.NET Solution Build & Error Resolution Log - Build Fix Session
-===============================================================================
-Date: February 14, 2026 (Evening Build Session)
-Solution: IssueTracker.slnx
-Location: E:\github\IssueTracker
-Build Type: Error Resolution and Configuration Fix
-Target Framework: net10.0
-Initiated By: build-repair.prompt.md automated workflow
-
-===============================================================================
-INITIAL STATE
-===============================================================================
-- Solution file: IssueTracker.slnx
-- Location: e:\github\IssueTracker\
-- Current framework: .NET 10.0.103
-- Expected: Clean build with all 391 tests passing
-- Status: Build had compilation errors and package warnings
-
-===============================================================================
-STEP 1: LOCATE SOLUTION FILE
-===============================================================================
-Command: file_search *.slnx
-Result: SUCCESS
-- Found: e:\github\IssueTracker\IssueTracker.slnx
-- Path confirmed and ready for build
-
-===============================================================================
-STEP 2: RESTORE DEPENDENCIES
-===============================================================================
-Command: dotnet restore
-Result: SUCCESS
-- Restore completed successfully
-- All NuGet packages restored
-
-===============================================================================
-STEP 3: INITIAL BUILD ATTEMPT
-===============================================================================
-Command: dotnet build --no-restore
-Result: FAILED
-- Build time: 8.0s
-- Errors: 1
-- Warnings: 6
+Status: Succeeded with 61 warnings
+Duration: 11.0 seconds
 
 Build Output Summary:
-  ✓ IssueTracker.CoreBusiness (1.9s)
-  ✓ IssueTracker.Services (0.4s)
-  ✓ IssueTracker.PlugIns (0.2s)
-  ✓ IssueTracker.Services.Tests.Unit (0.4s)
-  ✗ TestingSupport.Library (FAILED - 0.8s)
-  ✓ IssueTracker.UI (1.7s, 2 warnings)
-  ✗ IssueTracker.UI.Tests.Unit (FAILED - 0.1s, 2 warnings)
-  ✓ IssueTracker.PlugIns.Tests.Integration (0.9s, 2 warnings)
+✓ IssueTracker.CoreBusiness - SUCCEEDED
+✓ ServiceDefaults - SUCCEEDED (with 5 warnings)
+✓ IssueTracker.Services - SUCCEEDED
+✓ Integration.Tests - SUCCEEDED (with 5 warnings)
+✓ ServiceDefaults.Tests - SUCCEEDED (with 5 warnings)
+✓ IssueTracker.PlugIns - SUCCEEDED (with 2 warnings)
+✓ IssueTracker.Services.Tests.Unit - SUCCEEDED
+✓ TestingSupport.Library - SUCCEEDED (with 2 warnings)
+✓ IssueTracker.CoreBusiness.Tests.Unit - SUCCEEDED (with 2 warnings)
+✓ IssueTracker.PlugIns.Tests.Unit - SUCCEEDED (with 2 warnings)
+✓ IssueTracker.UI - SUCCEEDED (with 5 warnings)
+✓ IssueTracker.PlugIns.Tests.Integration - SUCCEEDED (with 7 warnings)
+✓ AppHost - SUCCEEDED (with 5 warnings)
+✓ IssueTracker.UI.Tests.Unit - SUCCEEDED (with 7 warnings)
+✓ AppHost.Tests - SUCCEEDED (with 7 warnings)
+✓ Architecture.Tests - SUCCEEDED (with 7 warnings)
 
-===============================================================================
-ERRORS IDENTIFIED
-===============================================================================
+STEP 4: SECURITY VULNERABILITY RESOLUTION
+==========================================================================
 
-ERROR #1: TestingSupport.Library - CS5001
------------------------------------------
-Severity: Error
-Code: CS5001
-Message: "Program does not contain a static 'Main' method suitable for an entry point"
-Project: TestingSupport.Library
-Location: CSC (C# Compiler)
+4.1 Updated OpenTelemetry Packages:
+------------------------------------------
+File Modified: Directory.Packages.props
 
-Root Cause Analysis:
-- TestingSupport.Library.csproj configured with <OutputType>Exe</OutputType>
-- Project is marked as <IsTestProject>true</IsTestProject>
-- Has test platform settings (UseMicrosoftTestingPlatformRunner, etc.)
-- BUT: No test framework references (xUnit, NUnit, MSTest)
-- AND: No Main() method for executable
-- Purpose: Support library for other test projects, not a standalone executable
+Changes:
+  OpenTelemetry: 1.11.0 → 1.15.3
+  OpenTelemetry.Exporter.Console: 1.11.0 → 1.15.3
+  OpenTelemetry.Exporter.OpenTelemetryProtocol: 1.11.0 → 1.15.3
+  OpenTelemetry.Extensions.Hosting: 1.11.0 → 1.15.3
+  OpenTelemetry.Instrumentation.AspNetCore: 1.11.0 → 1.15.2
+  OpenTelemetry.Instrumentation.Http: 1.11.0 → 1.15.1
+  OpenTelemetry.Instrumentation.Runtime: 1.11.0 → 1.15.1
 
-Project Configuration Issues Found:
-  <OutputType>Exe</OutputType>                                     ← Incorrect
-  <IsTestProject>true</IsTestProject>                              ← Incorrect
-  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-  <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+Result: OpenTelemetry vulnerabilities resolved
+Warnings Reduced: 61 → 34
 
-Conclusion: This is a class library, not an executable or test project.
+4.2 Added Transitive Dependency Overrides:
+------------------------------------------
+File Modified: Directory.Packages.props
 
-===============================================================================
-WARNINGS IDENTIFIED
-===============================================================================
+Packages Added:
+  SharpCompress: 0.38.0 (override transitive dependency)
+  Snappier: 1.2.0 (override transitive dependency)
+  System.Security.Cryptography.Xml: 10.0.0 (override transitive dependency)
 
-WARNING #1-6: NuGet Package Version Resolution (NU1603)
--------------------------------------------------------
-Severity: Warning
-Code: NU1603
-Affected Projects:
-- IssueTracker.UI (2 warnings)
-- IssueTracker.UI.Tests.Unit (2 warnings)
-- IssueTracker.PlugIns.Tests.Integration (2 warnings)
+Note: These packages are the latest available versions. Vulnerabilities persist
+because package maintainers have not yet released patches. These are documented
+as known issues.
 
-Warnings:
-1. Microsoft.Identity.Web
-   - Requested: >= 3.15.0
-   - Not Found: 3.15.0
-   - Resolved: 4.0.0 instead
+4.3 Final Build After Security Updates:
+------------------------------------------
+Command: dotnet restore && dotnet build --no-restore
+Status: Succeeded with 34 warnings
+Duration: Restore (4.1s) + Build (4.5s) = 8.6 seconds
 
-2. Microsoft.Identity.Web.UI
-   - Requested: >= 3.15.0
-   - Not Found: 3.15.0
-   - Resolved: 4.0.0 instead
+Remaining Warnings (Latest Available Versions):
+- SharpCompress 0.38.0: GHSA-6c8g-7p36-r338 (moderate severity)
+- Snappier 1.2.0: GHSA-pggp-6c3x-2xmx (high severity)
+- System.Security.Cryptography.Xml 10.0.0: GHSA-37gx-xxp4-5rgx, GHSA-w3x6-4m5h-cxqf (high severity)
 
-Root Cause:
-- Directory.Packages.props specifies version 3.15.0
-- NuGet package feed doesn't have 3.15.0 available
-- NuGet automatically upgraded to 4.0.0
-- Version mismatch causes build warnings
+These are transitive dependencies from:
+- MongoDB.Driver
+- Testcontainers
+- Aspire packages
 
-Impact:
-- Not critical (build completes for these projects)
-- May cause issues with version-specific features
-- Best practice: Match specified version to resolved version
-
-===============================================================================
-STEP 4: RESOLVE ERROR #1 - TestingSupport.Library Configuration
-===============================================================================
-
-Fix Strategy: Remove executable and test project configuration
-
-File: tests\TestingSupport.Library\TestingSupport.Library.csproj
-
-Change #1: Remove OutputType
-----------------------------
-REMOVED: <OutputType>Exe</OutputType>
-Reason: This is a class library, not an executable
-
-Change #2: Remove Test Project Settings
----------------------------------------
-REMOVED:
-  <IsTestProject>true</IsTestProject>
-  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-  <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-
-Reason: This library provides support code for tests but is not itself a test project
-
-Final PropertyGroup:
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <RootNamespace>TestingSupport.Library</RootNamespace>
-    <LangVersion>14.0</LangVersion>
-  </PropertyGroup>
-
-Result: ERROR RESOLVED ✓
-
-===============================================================================
-STEP 5: RESOLVE WARNINGS #1-6 - Package Version Mismatch
-===============================================================================
-
-Fix Strategy: Update package versions to match NuGet resolution
-
-File: Directory.Packages.props
-
-Change: Update Microsoft.Identity.Web Packages
-----------------------------------------------
-Location: Lines for Microsoft.Identity.Web packages
-
-OLD:
-  <PackageVersion Include="Microsoft.Identity.Web" Version="3.15.0" />
-  <PackageVersion Include="Microsoft.Identity.Web.UI" Version="3.15.0" />
-
-NEW:
-  <PackageVersion Include="Microsoft.Identity.Web" Version="4.0.0" />
-  <PackageVersion Include="Microsoft.Identity.Web.UI" Version="4.0.0" />
-
-Reason:
-- Version 3.15.0 not available in NuGet feed
-- NuGet was auto-resolving to 4.0.0
-- Explicit version match eliminates warnings
-- 4.0.0 is the latest stable version
-
-Result: ALL WARNINGS RESOLVED ✓
-
-===============================================================================
-STEP 6: REBUILD SOLUTION
-===============================================================================
-
-Command: dotnet build --no-restore
-Result: SUCCESS
-- Build time: 33.3s
-- Errors: 0
-- Warnings: 0
-
-All Projects Built Successfully:
-  ✓ IssueTracker.CoreBusiness (net10.0)
-  ✓ IssueTracker.Services (net10.0)
-  ✓ IssueTracker.PlugIns (net10.0)
-  ✓ IssueTracker.Services.Tests.Unit (net10.0)
-  ✓ TestingSupport.Library (net10.0)            ← NOW BUILDS CORRECTLY
-  ✓ IssueTracker.PlugIns.Tests.Unit (net10.0)
-  ✓ IssueTracker.CoreBusiness.Tests.Unit (net10.0)
-  ✓ IssueTracker.UI (net10.0)                   ← NO WARNINGS
-  ✓ IssueTracker.PlugIns.Tests.Integration (net10.0) ← NO WARNINGS
-  ✓ IssueTracker.UI.Tests.Unit (net10.0)        ← NO WARNINGS
-
-Build Status: CLEAN BUILD ✓
-
-===============================================================================
-STEP 7: RUN COMPLETE TEST SUITE
-===============================================================================
-
+STEP 5: TEST EXECUTION
+==========================================================================
 Command: dotnet test --no-build --verbosity normal
-Result: SUCCESS
-- Test time: 49.4s
-- Total tests: 391
-- Passed: 391 (100%)
-- Failed: 0
-- Skipped: 0
+Status: All Tests Passed
 
-Test Framework: xUnit.net v3.1.4+50e68bbb8b (64-bit .NET 10.0.3)
+Test Summary:
+  Total Tests: 395
+  Passed: 395
+  Failed: 0
+  Skipped: 0
+  Duration: 3.9 seconds
 
-Test Project Results:
-  ✓ IssueTracker.Services.Tests.Unit (16.1s)
-  ✓ IssueTracker.PlugIns.Tests.Unit (17.7s)
-  ✓ IssueTracker.CoreBusiness.Tests.Unit (18.9s)
-  ✓ IssueTracker.UI.Tests.Unit (27.3s)
-  ✓ IssueTracker.PlugIns.Tests.Integration (45.6s)
+Test Projects Executed:
+✓ Integration.Tests (1.7s)
+✓ AppHost.Tests (1.8s)
+✓ Architecture.Tests (1.9s)
+✓ ServiceDefaults.Tests (2.5s)
+✓ IssueTracker.Services.Tests.Unit (2.5s)
+✓ IssueTracker.PlugIns.Tests.Unit (2.6s)
+✓ IssueTracker.CoreBusiness.Tests.Unit (3.1s)
+✓ IssueTracker.UI.Tests.Unit (3.8s)
+✓ IssueTracker.PlugIns.Tests.Integration (using Testcontainers with MongoDB)
 
-Integration Test Details:
-- MongoDB Testcontainers: Started successfully
-- Docker Connection: Connected successfully (API v1.52, Docker Desktop)
-- Docker Server: 29.1.3 (WSL2 kernel 6.6.87.2)
-- Test Databases: Created and cleaned up properly
-- All CRUD operations: Successful
+FINAL STATUS
+==========================================================================
+Build Status: ✓ SUCCEEDED
+Test Status: ✓ ALL PASSED (395/395)
+Warnings: 34 (security vulnerabilities in transitive dependencies)
 
-Test Status: ALL TESTS PASSING ✓
+RECOMMENDATIONS
+==========================================================================
+1. Monitor for security updates to:
+   - SharpCompress (>0.38.0)
+   - Snappier (>1.2.0)
+   - System.Security.Cryptography.Xml (>10.0.0)
 
-===============================================================================
-STEP 8: VERIFICATION
-===============================================================================
+2. Consider updating when available:
+   - Aspire packages: 13.0.0 → 13.4.0
+   - MongoDB.Driver: 3.5.0 → 3.9.0
+   - Various Microsoft.Extensions packages: 10.0.0 → 10.0.8
+   - bUnit: 1.40.0 → 2.7.2
 
-Build Verification:
-✓ Solution builds with 0 errors
-✓ Solution builds with 0 warnings
-✓ All 10 projects compiled successfully
-✓ Target framework: net10.0
-✓ All output assemblies generated correctly
+3. Review GitHub Security Advisories:
+   - GHSA-6c8g-7p36-r338 (SharpCompress)
+   - GHSA-pggp-6c3x-2xmx (Snappier)
+   - GHSA-37gx-xxp4-5rgx (System.Security.Cryptography.Xml)
+   - GHSA-w3x6-4m5h-cxqf (System.Security.Cryptography.Xml)
 
-Test Verification:
-✓ All 391 tests executed
-✓ 100% test success rate
-✓ All unit tests passed
-✓ All integration tests passed
-✓ MongoDB integration working correctly
-✓ Testcontainers functioning properly
-✓ No flaky tests detected
+NOTES
+==========================================================================
+- All OpenTelemetry security vulnerabilities were successfully resolved
+- Remaining vulnerabilities are in transitive dependencies with no current patches
+- Solution builds cleanly with no errors
+- All 395 unit and integration tests pass successfully
+- MongoDB integration tests use Testcontainers for isolated testing
 
-Code Quality Verification:
-✓ EnforceCodeStyleInBuild: True (all projects)
-✓ Nullable reference types: Enabled
-✓ LangVersion: 14.0 (C# 14)
-✓ ImplicitUsings: Enabled
-✓ No code style violations
-
-===============================================================================
-FINAL STATE
-===============================================================================
-✓ Solution builds successfully with 0 errors
-✓ Solution builds successfully with 0 warnings
-✓ All 391 tests pass (100% success rate)
-✓ TestingSupport.Library properly configured as class library
-✓ Microsoft.Identity.Web packages updated to 4.0.0
-✓ All projects targeting .NET 10.0
-✓ Build is clean and production-ready
-
-Total Session Time: Build + Test = 82.7s
-Build Status: ✓ SUCCESS
-Test Status: ✓ SUCCESS
-
-===============================================================================
-SUMMARY OF CHANGES
-===============================================================================
-
-Files Modified: 2
-
-1. tests\TestingSupport.Library\TestingSupport.Library.csproj
-   Changes:
-   - Removed <OutputType>Exe</OutputType>
-   - Removed <IsTestProject>true</IsTestProject>
-   - Removed <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-   - Removed <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-   - Removed <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-
-   Impact:
-   - Project now correctly builds as a class library
-   - No longer attempts to run as executable
-   - No longer treated as test project by test runner
-   - Provides proper support functionality for other test projects
-
-2. Directory.Packages.props
-   Changes:
-   - Updated Microsoft.Identity.Web: 3.15.0 → 4.0.0
-   - Updated Microsoft.Identity.Web.UI: 3.15.0 → 4.0.0
-
-   Impact:
-   - Eliminated all NU1603 package resolution warnings
-   - Matched explicit version to NuGet resolution
-   - Using latest stable version of Identity packages
-   - Consistent package versions across all projects
-
-===============================================================================
-TECHNICAL IMPROVEMENTS
-===============================================================================
-
-1. Project Configuration Accuracy
-   - TestingSupport.Library now correctly configured for its purpose
-   - Clear separation between test projects and support libraries
-   - Proper project type settings prevent build errors
-
-2. Dependency Management
-   - Package versions aligned with availability
-   - Central package management working correctly
-   - No version conflicts or mismatches
-
-3. Build Process Reliability
-   - Clean builds complete successfully
-   - No compiler warnings or errors
-   - Deterministic build outputs
-
-4. Test Infrastructure
-   - All test projects executing correctly
-   - Integration tests with MongoDB containers stable
-   - 100% test reliability
-
-===============================================================================
-LESSONS LEARNED
-===============================================================================
-
-1. Project Type Configuration
-   - Support libraries should not have test framework settings
-   - <IsTestProject> should only be on actual test projects
-   - <OutputType>Exe</OutputType> requires a Main() entry point
-   - Default output type (Library) is appropriate for most support projects
-
-2. Package Version Management
-   - Verify package versions exist in NuGet before specifying
-   - NU1603 warnings indicate version mismatches
-   - Update to available versions to eliminate warnings
-   - Central package management (Directory.Packages.props) simplifies updates
-
-3. Build Automation
-   - Following systematic build repair process catches all issues
-   - Test after every fix to verify resolution
-   - Document all changes for future reference
-
-===============================================================================
-CONCLUSION
-===============================================================================
-
-This build repair session successfully resolved all build errors and warnings:
-- Fixed CS5001 compilation error in TestingSupport.Library
-- Eliminated all 6 NU1603 package version warnings
-- Achieved clean build with zero errors and zero warnings
-- Verified all 391 tests pass successfully
-- Solution is production-ready and stable
-
-The automated build-repair workflow proved effective in:
-- Systematically identifying issues
-- Applying appropriate fixes
-- Verifying resolution
-- Documenting all changes
-
-No further action items required. Build is healthy and ready for deployment.
-
-===============================================================================
-END OF BUILD LOG - February 14, 2026 (Evening Session)
-===============================================================================
-
+==========================================================================
+END OF BUILD LOG
+==========================================================================

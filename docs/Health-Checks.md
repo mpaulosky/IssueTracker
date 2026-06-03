@@ -35,7 +35,7 @@ Indicates whether the application is **ready to accept traffic**.
     }
   }
 }
-```
+```text
 
 **Response Example (MongoDB Degraded)**:
 
@@ -53,7 +53,7 @@ Indicates whether the application is **ready to accept traffic**.
     }
   }
 }
-```
+```text
 
 #### `/health/live` - Liveness Probe
 
@@ -114,7 +114,7 @@ public class MongoDbHealthCheck : IHealthCheck
     return HealthCheckResult.Healthy("MongoDB connection is responsive");
   }
 }
-```
+```text
 
 **Troubleshooting**:
 
@@ -130,7 +130,7 @@ mongosh --host localhost --port 27017 -u course -p whatever
 
 # If failed, restart container
 docker restart <mongodb-container-id>
-```
+```text
 
 ### Redis Health Check
 
@@ -162,7 +162,7 @@ public class RedisHealthCheck : IHealthCheck
     return HealthCheckResult.Unhealthy("Redis ping returned zero response time");
   }
 }
-```
+```text
 
 **Troubleshooting**:
 
@@ -178,7 +178,7 @@ redis-cli -h localhost -p 6379 PING
 
 # If failed, restart container
 docker restart <redis-container-id>
-```
+```text
 
 ### Troubleshooting Unhealthy Services
 
@@ -194,29 +194,29 @@ docker restart <redis-container-id>
 1. Check if container is running:
    ```bash
    docker ps | grep mongodb
-   ```
+```text
 
 2. View container logs:
    ```bash
    docker logs <mongodb-container-id> --tail 50
-   ```
+```text
 
 3. If container is not running, restart AppHost:
    ```bash
    # Stop AppHost (Ctrl+C)
    # Then restart
    dotnet run --project src/AppHost/AppHost.csproj
-   ```
+```text
 
 4. If container is running but slow, check resource constraints:
    ```bash
    docker stats <mongodb-container-id>
-   ```
+```text
 
 5. If memory/CPU usage is high, restart the container:
    ```bash
    docker restart <mongodb-container-id>
-   ```
+```text
 
 #### Scenario 2: Redis Unreachable
 
@@ -230,22 +230,22 @@ docker restart <redis-container-id>
 1. Verify Redis is running:
    ```bash
    redis-cli -h localhost -p 6379 PING
-   ```
+```text
 
 2. If command fails, check if container exists:
    ```bash
    docker ps -a | grep redis
-   ```
+```text
 
 3. Restart Redis container:
    ```bash
    docker restart <redis-container-id>
-   ```
+```text
 
 4. Or restart entire AppHost:
    ```bash
    dotnet run --project src/AppHost/AppHost.csproj
-   ```
+```text
 
 #### Scenario 3: Intermittent Unhealthy Status
 
@@ -265,12 +265,12 @@ docker restart <redis-container-id>
 1. Monitor container resources:
    ```bash
    docker stats
-   ```
+```text
 
 2. Check network latency:
    ```bash
    ping localhost
-   ```
+```text
 
 3. Increase timeouts if acceptable for your use case (edit health check code)
 
@@ -312,7 +312,7 @@ spec:
       periodSeconds: 10
       timeoutSeconds: 5
       failureThreshold: 3
-```
+```text
 
 **Behavior**:
 
@@ -332,7 +332,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
-```
+```text
 
 ### Monitoring Health Metrics
 
@@ -344,7 +344,7 @@ curl http://localhost:5000/health | jq
 
 # Using PowerShell
 Invoke-WebRequest -Uri "http://localhost:5000/health" | ConvertFrom-Json | ConvertTo-Json -Depth 5
-```
+```text
 
 #### Parse Health Response
 
@@ -360,7 +360,7 @@ public class HealthCheckData
   public string Status { get; set; }
   public string Description { get; set; }
 }
-```
+```text
 
 #### Metrics to Track
 
@@ -374,8 +374,13 @@ monitoring systems.
 ### Health Check Best Practices
 
 1. **Run health checks frequently** (every 10 seconds) to detect failures quickly
+
 2. **Use appropriate timeouts** (MongoDB: 3s, Redis: 2s) to avoid cascading failures
+
 3. **Alert on degraded status**, not just unhealthy
+
 4. **Test health endpoints manually** during deployment
+
 5. **Log health check results** for debugging
+
 6. **Implement gradual restarts** (exponential backoff) to avoid thundering herd

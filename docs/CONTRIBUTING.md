@@ -5,16 +5,16 @@ Thank you for taking the time to consider contributing to our project.
 The following is a set of guidelines for contributing to the project. These are mostly guidelines, not rules, and can be
 changed in the future. Please submit your suggestions with a pull-request to this document.
 
-- [Contributing to this Project](#contributing-to-issue-tracker)
-	- [Code of Conduct](#code-of-conduct)
-		- [What should I know before I get started](#what-should-i-know-before-i-get-started)
-			- [Project Folder Structure](#project-folder-structure)
-			- [Design Decisions](#design-decisions)
-			- [How can I contribute](#how-can-i-contribute)
-			- [Create an Issue](#create-an-issue)
-			- [Respond to an Issue](#respond-to-an-issue)
-			- [Write code](#write-code)
-			- [Write documentation](#write-documentation)
+- [Contributing to this Project](#contributing-to-this-project)
+  - [Code of Conduct](#code-of-conduct)
+    - [What should I know before I get started](#what-should-i-know-before-i-get-started)
+      - [Project Folder Structure](#project-folder-structure)
+      - [Design Decisions](#design-decisions)
+      - [How can I contribute](#how-can-i-contribute)
+      - [Create an Issue](#create-an-issue)
+      - [Respond to an Issue](#respond-to-an-issue)
+      - [Write code](#write-code)
+      - [Write documentation](#write-documentation)
 
 ## Code of Conduct
 
@@ -55,8 +55,11 @@ lead, [Matthew Paulosky](mailto:matthew.paulosky@outlook.com). The following pro
 decisions:
 
 1. Use Blazor for the UI.
+
 1. Use DotNetCore API for managing data access.
+
 1. Use SQL for data and identity storage.
+
 1. Use EF Core to access the data.
 
 ### How can I contribute
@@ -65,8 +68,11 @@ We are always looking for help on this project. There are several ways that you 
 This means one of several types of contributions:
 
 1. [Create an Issue](#create-an-issue)
+
 1. [Respond to an Issue](#respond-to-an-issue)
+
 1. [Write code](#write-code)
+
 1. [Write documentation](#write-documentation)
 
 ### Create an Issue
@@ -74,6 +80,7 @@ This means one of several types of contributions:
 Create a [New Issue Here](https://github.com/mpaulosky/BlazorBlogApp/issues).
 
 1. If you are reporting a `Bug` that you have found. Be sure to add the `Bug` label so that we can triage and track it.
+
 1. If you are reporting an `Enhancement` that you think would improve the project. Be sure to add the `Enhancement`
    label so we can track it.
 
@@ -82,10 +89,14 @@ Create a [New Issue Here](https://github.com/mpaulosky/BlazorBlogApp/issues).
 [Fork the Repository to your GitHub account](https://github.com/mpaulosky/BlazorBlogApp/fork).
 
 1. Create a new Branch from the develop branch with a reference to the existing Issue number.
+
 1. Work on the issue.
+
 1. Create Unit, Integration tests for any code that require them. We use [xUnit](https://www.nuget.org/packages/xunit/)
    to test our code and [bUnit](https://www.nuget.org/packages/bunit/) to test our blazor components.
+
 1. When you are done Create a Pull Request from your branch to the develop branch.
+
 1. Submit the Pull Request.
 
 Any code that is written to support a blazor component or new functionality are required to be accompanied with unit

@@ -4,7 +4,7 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 
 ## High-Level Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                     Presentation Layer                  │
 │                  (IssueTracker.UI)                      │
@@ -31,7 +31,7 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 │                (IssueTracker.PlugIns)                   │
 │             Data Access & External Services              │
 └─────────────────────────────────────────────────────────┘
-```
+```text
 
 ## Layer Responsibilities
 
@@ -113,7 +113,7 @@ Issue Tracker follows Clean Architecture principles to ensure separation of conc
 
 ### Example: Creating a New Issue
 
-```
+```text
 User Input (UI)
     │
     ▼
@@ -136,7 +136,7 @@ Returns result up the chain
     │
     ▼
 UI updates and displays confirmation
-```
+```text
 
 ## Key Design Patterns
 
@@ -160,7 +160,7 @@ public class IssueRepository : IIssueRepository
     private readonly IMongoCollection<Issue> _collection;
     // Implementation details...
 }
-```
+```text
 
 ### 2. Dependency Injection
 
@@ -176,7 +176,7 @@ public class IssueService
         _repository = repository;
     }
 }
-```
+```text
 
 ### 3. Service Layer Pattern
 
@@ -193,7 +193,7 @@ public class IssueService : IIssueService
         // Return result
     }
 }
-```
+```text
 
 ## Technology Stack
 
@@ -219,7 +219,7 @@ public class IssueService : IIssueService
 
 ## Project Organization
 
-```
+```text
 src/
 ├── CoreBusiness/
 │   └── IssueTracker.CoreBusiness/
@@ -249,7 +249,7 @@ src/
         ├── Components/         # Reusable components
         ├── Pages/             # Routable pages
         └── Shared/            # Shared layouts
-```
+```text
 
 ## Benefits of This Architecture
 
@@ -281,11 +281,11 @@ src/
 
 The dependency flow is strictly enforced:
 
-```
+```text
 UI → Services → CoreBusiness
       ↓
     PlugIns → CoreBusiness
-```
+```text
 
 **Core Rule**: Dependencies point inward (toward the domain)
 
