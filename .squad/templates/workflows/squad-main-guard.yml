@@ -48,6 +48,15 @@ jobs:
                 return false;
               });
 
+            const baseBranch = context.payload.pull_request.base.ref;
+            const headBranch = context.payload.pull_request.head.ref;
+            const headRepo = context.payload.pull_request.head.repo.full_name;
+            const expectedRepo = `${context.repo.owner}/${context.repo.repo}`;
+            if (baseBranch === 'main' && (headBranch !== 'dev' || headRepo !== expectedRepo)) {
+              core.setFailed(`PRs to main must come from the repo's dev branch. Current source: ${headRepo}:${headBranch}`);
+              return;
+            }
+
             if (forbidden.length === 0) {
               core.info('✅ No forbidden paths found in PR — all clear.');
               return;
@@ -55,10 +64,10 @@ jobs:
 
             // Build a clear, actionable error message
             const lines = [
-              '## 🚫 Forbidden files detected in PR to main',
+              `## 🚫 Forbidden files detected in PR to ${baseBranch}`,
               '',
-              'The following files must NOT be merged into `main`.',
-              '`.squad/` is runtime team state — it belongs on dev branches only.',
+              `The following files must NOT be merged into \`${baseBranch}\`.`,
+              '`.squad/` runtime state belongs on dev branches only.',
               '`team-docs/` is internal team content — it belongs on dev branches only.',
               '',
               '### Forbidden files found:',
@@ -80,7 +89,7 @@ jobs:
               '```',
               '',
               '> ⚠️ `.squad/` is committed on `dev` and feature branches by design.',
-              '> The guard workflow is the enforcement mechanism that keeps these files off `main` and `preview`.',
+              '> The guard workflow is the enforcement mechanism that keeps runtime state off protected branches.',
               '> `git rm --cached` untracks them from this PR without deleting your local copies.',
             ];
 

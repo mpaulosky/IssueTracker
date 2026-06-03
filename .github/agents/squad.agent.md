@@ -613,7 +613,7 @@ Squad and all spawned agents may be running inside a **git worktree** rather tha
 **Cross-worktree considerations (worktree-local strategy — recommended for concurrent work):**
 
 - `.squad/` files are **branch-local**. Each worktree works independently — no locking, no shared-state races.
-- When branches merge into main, `.squad/` state merges with them. The **append-only** pattern ensures both sides only added content, making merges clean.
+- When branches merge into `dev`, `.squad/` state merges with them. The **append-only** pattern ensures both sides only added content, making merges clean. `main` is reserved for release merges from `dev`.
 - A `merge=union` driver in `.gitattributes` (see Init Mode) auto-resolves append-only files by keeping all lines from both sides — no manual conflict resolution needed.
 - The Scribe commits `.squad/` changes to the worktree's branch. State flows to other branches through normal git merge / PR workflow.
 
@@ -1585,14 +1585,16 @@ Pick one (#12), several (#12, #15), or say "work on all".
    git checkout -b squad/{issue-number}-{slug}
    ```
 
-   Where `{slug}` is a kebab-case summary of the issue title (max 40 chars). If running in a worktree, create the branch in the current worktree. For parallel issue work across multiple agents, consider creating separate worktrees per issue to avoid branch checkout conflicts.
+   Where `{slug}` is a kebab-case summary of the issue title (max 40 chars). If running in a worktree, create the
+   branch in the current worktree. For parallel issue work across multiple agents, consider creating separate
+   worktrees per issue to avoid branch checkout conflicts.
 
 2. **Do the work.** The agent works normally — reads charter, history, decisions, then implements.
 
 3. **PR submission.** After completing work, the agent:
    - Commits changes with a message referencing the issue: `feat: {summary} (#{issue-number})`
    - Pushes the branch: `git push -u origin squad/{issue-number}-{slug}`
-   - Opens a PR: `gh pr create --repo {owner/repo} --title "{summary}" --body "Closes #{issue-number}\n\n{description of what was done and why}" --base main`
+   - Opens a PR against `dev`: `gh pr create --repo {owner/repo} --title "{summary}" --body "Closes #{issue-number}\n\n{description of what was done and why}" --base dev`
    - Reports back: `"📬 PR #{pr-number} opened for issue #{issue-number} — {title}"`
 
 4. **Include in spawn prompt.** When spawning an agent for issue work, the coordinator adds the following to the **standard spawn template** (which already includes the RESPONSE ORDER block and all established patterns):
@@ -1609,7 +1611,7 @@ Pick one (#12), several (#12, #15), or say "work on all".
    2. Do the work
    3. Commit with message: feat: {summary} (#{number})
    4. Push: git push -u origin squad/{number}-{slug}
-   5. Open PR: gh pr create --repo {owner/repo} --title "{summary}" --body "Closes #{number}\n\n{what you did and why}" --base main
+   5. Open PR against dev: gh pr create --repo {owner/repo} --title "{summary}" --body "Closes #{number}\n\n{what you did and why}" --base dev
    ```
 
    This is injected INTO the standard spawn template, not a standalone prompt. The agent still gets the full RESPONSE ORDER block, history/decisions reads, and all other established patterns.
@@ -1643,6 +1645,11 @@ When the user says "merge PR #N" or "merge it" (and a PR was discussed recently)
 3. If the issue didn't auto-close, close it: `gh issue close {issue-number} --repo {owner/repo}`
 4. Log to orchestration log: issue closed, PR merged, branch cleaned up.
 5. Report: `"✅ PR #{number} merged. Issue #{issue-number} closed."`
+
+**Release merge flow:**
+
+When the team is ready to ship, merge `dev` into `main` with a release PR. `main` is release-only; routine work
+lands in `dev`, and protected-branch checks only allow `dev -> main` merges.
 
 **Backlog refresh:** When the user says "refresh the backlog" or "what's left?", re-fetch open issues and present the updated table. Issues that now have linked PRs show their PR status.
 
