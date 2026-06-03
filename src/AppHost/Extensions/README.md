@@ -37,7 +37,7 @@ var ui = builder
 
 var app = builder.Build();
 await app.RunAsync();
-```
+```text
 
 ### Dashboard Commands
 
@@ -76,7 +76,7 @@ Unit tests for these extensions are located in `tests/AppHost.Tests/MongoDBHosti
 Run tests with:
 ```bash
 dotnet test tests/AppHost.Tests/AppHost.Tests.csproj
-```
+```text
 
 ### Requirements
 
@@ -97,8 +97,11 @@ dotnet test tests/AppHost.Tests/AppHost.Tests.csproj
 
 When modifying these extensions:
 1. Ensure all tests pass
+
 2. Update documentation
+
 3. Follow the existing code style and patterns
+
 4. Add tests for new functionality
 
 ### See Also

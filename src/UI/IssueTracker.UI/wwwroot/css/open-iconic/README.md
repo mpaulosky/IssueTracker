@@ -1,5 +1,4 @@
-[Open Iconic v1.1.1](http://useiconic.com/open)
-===========
+# [Open Iconic v1.1.1](http://useiconic.com/open)
 
 Open Iconic is the open source sibling of [Iconic](http://useiconic.com). It is a hyper-legible collection of 223 icons
 with a tiny footprint&mdash;ready to use with Bootstrap and
@@ -7,12 +6,12 @@ Foundation. [View the collection](http://useiconic.com/open#icons)
 
 What's in Open Iconic?
 
-* 223 icons designed to be legible down to 8 pixels
-* Super-light SVG files - 61.8 for the entire set
-* SVG sprite&mdash;the modern replacement for icon fonts
-* Webfont (EOT, OTF, SVG, TTF, WOFF), PNG and WebP formats
-* Webfont stylesheets (including versions for Bootstrap and Foundation) in CSS, LESS, SCSS and Stylus formats
-* PNG and WebP raster images in 8px, 16px, 24px, 32px, 48px and 64px.
+- 223 icons designed to be legible down to 8 pixels
+- Super-light SVG files - 61.8 for the entire set
+- SVG sprite&mdash;the modern replacement for icon fonts
+- Webfont (EOT, OTF, SVG, TTF, WOFF), PNG and WebP formats
+- Webfont stylesheets (including versions for Bootstrap and Foundation) in CSS, LESS, SCSS and Stylus formats
+- PNG and WebP raster images in 8px, 16px, 24px, 32px, 48px and 64px.
 
 Getting Started
 
@@ -28,7 +27,7 @@ you display them like you would any other image (don't forget the `alt` attribut
 
 ``` html
 <img src="/open-iconic/svg/icon-name.svg" alt="icon name">
-```
+```text
 
 Using Open Iconic's SVG Sprite
 
@@ -43,7 +42,7 @@ each different icon in the* `<use>` *tag.*
 <svg class="icon">
   <use xlink:href="open-iconic.svg#account-login" class="icon-account-login"></use>
 </svg>
-```
+```text
 
 Sizing icons only needs basic CSS. All the icons are in a square format, so just set the `<svg>` tag with equal width
 and height dimensions.
@@ -53,7 +52,7 @@ and height dimensions.
   width: 16px;
   height: 16px;
 }
-```
+```text
 
 Coloring icons is even easier. All you need to do is set the `fill` rule on the `<use>` tag.
 
@@ -61,7 +60,7 @@ Coloring icons is even easier. All you need to do is set the `fill` rule on the 
 .icon-account-login {
   fill: #f00;
 }
-```
+```text
 
 To learn more about SVG Sprites, read [Chris Coyier's guide](http://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
@@ -73,11 +72,11 @@ You can find our Bootstrap stylesheets in `font/css/open-iconic-bootstrap.{css, 
 
 ``` html
 <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
-```
+```text
 
 ``` html
 <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
-```
+```text
 
 …with Foundation
 
@@ -85,11 +84,11 @@ You can find our Foundation stylesheets in `font/css/open-iconic-foundation.{css
 
 ``` html
 <link href="/open-iconic/font/css/open-iconic-foundation.css" rel="stylesheet">
-```
+```text
 
 ``` html
 <span class="fi-icon-name" title="icon name" aria-hidden="true"></span>
-```
+```text
 
 …on its own
 
@@ -97,11 +96,11 @@ You can find our default stylesheets in `font/css/open-iconic.{css, less, scss, 
 
 ``` html
 <link href="/open-iconic/font/css/open-iconic.css" rel="stylesheet">
-```
+```text
 
 ``` html
 <span class="oi" data-glyph="icon-name" title="icon name" aria-hidden="true"></span>
-```
+```text
 
 License
 
