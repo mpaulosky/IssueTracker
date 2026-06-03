@@ -45,7 +45,7 @@
 - **Documentation placement rationale**: Both files in docs/ root for high visibility. architecture-diagram.md is educational (helps contributors understand), minecraft-constraints.md is prescriptive (enforces consistency). Together they form complete reference for world-building features.
  Team update (2026-02-11): All sprints must include README and user documentation updates to be considered complete  decided by Jeffrey T. Fritz
  Team update (2026-02-11): All plans must be tracked as GitHub issues and milestones; each sprint is a milestone  decided by Jeffrey T. Fritz
-� Team update (2026-02-11): CI pipelines now skip docs-only changes (docs/**, user-docs/**, *.md, .squad/**)  decided by Wong
+� Team update (2026-02-11): CI pipelines now skip docs-only changes (docs/**, user-docs/**, *.md, .ai-team/**)  decided by Wong
  Team update (2026-02-11): 14 user-facing docs now live in user-docs/ with consistent structure (What  How  What You'll See  Use Cases  Code Example)  decided by Vision
 
 ### 2026-02-11: Sprint 4 Planning Analysis
@@ -60,7 +60,7 @@
 ### 2026-02-12: Sprint 4 Brainstorming — Aspire Observability Visualization Ideas
 
 - **Jeff's request:** "What would be fun to browse and wander around in Minecraft? Some way to visualize traces?" — Jeff is looking to go beyond resource health into OpenTelemetry observability data (traces, metrics, logs).
-- **10 ideas brainstormed**, ranging from Easy to Hard feasibility. Full write-up in `.squad/decisions/inbox/rhodey-sprint4-visualization-ideas.md`.
+- **10 ideas brainstormed**, ranging from Easy to Hard feasibility. Full write-up in `.ai-team/decisions/inbox/rhodey-sprint4-visualization-ideas.md`.
 - **Top 3 for Sprint 4 (no new data source needed):** Dragon Health Egg (SLO visualization with Ender Dragon theming), Redstone Clock Dashboard (time-series health display), Sculk Error Network (cascading failure visualization using Deep Dark blocks).
 - **Jeff's trace interest → Trace River is the headline feature for Sprint 5.** Water channels between buildings with boats representing requests, lava for errors. Requires OTLP trace ingestion — a new architectural capability the worker doesn't have today.
 - **Critical architectural decision identified:** All OTLP-dependent features (7 of 10 ideas) require the worker to consume trace/metric/log data. Today it only polls health endpoints. Must design the OTLP ingestion architecture before committing to any individual feature. Three options documented: secondary OTLP receiver, Aspire dashboard API polling, or shared collector.
@@ -75,8 +75,8 @@
 - **Sprint 4 scoped to 14 issues:** 4 dashboard, 3 enhanced buildings, 1 Dragon Egg, 3 DX polish (WithAllFeatures, env var tightening, welcome teleport), 3 documentation (README, user-docs, tests). Cut line: welcome teleport drops first, then Dragon Egg.
 - **Key design principle:** Azure detection is a visual signal (banner), not an architectural integration. String matching on resource types keeps the main package free of Azure SDK dependencies, consistent with the separate-package decision from Sprint 2.
 - **Cylinder RCON cost is ~88 commands** (4× a watchtower) due to circular geometry. Acceptable as one-time build; databases are typically <30% of resources.
-- **Decisions logged** in `.squad/decisions/inbox/rhodey-sprint4-design.md` (7 decisions).
-- **Decisions logged** in `.squad/decisions/inbox/rhodey-sprint4-design.md` (7 decisions).
+- **Decisions logged** in `.ai-team/decisions/inbox/rhodey-sprint4-design.md` (7 decisions).
+- **Decisions logged** in `.ai-team/decisions/inbox/rhodey-sprint4-design.md` (7 decisions).
 
 ### 2026-02-12: BlueMap Integration Testing Strategy Design
 
@@ -100,7 +100,7 @@
 - **Rails coexist with redstone, not replace.** `WithMinecartRails()` runs alongside `WithRedstoneDependencyGraph()` with 1-block X offset. Both visual systems provide different information: redstone shows health reactivity, rails show physical connection.
 - **Grand Village is opt-in** via `WithGrandVillage()`. Standard 7×7 layout remains the default. No breaking changes for existing consumers.
 - **15 GitHub issues created** (#76-90) covering: layout foundation, extension methods, 6 building redesigns, rail service, burst mode, fence/paths/forceload, service adaptation, tests, documentation, and release prep.
-- **7 architectural decisions logged** in `.squad/decisions/inbox/rhodey-sprint5-grand-village.md`.
+- **7 architectural decisions logged** in `.ai-team/decisions/inbox/rhodey-sprint5-grand-village.md`.
 - **Key risk: Grand Silo (radius 7 cylinder) at ~130 commands** is the most expensive building due to circular geometry not being `/fill`-friendly. Octagonal approximation may reduce by ~30%.
 - **Phased plan:** Phase 1 Layout (Shuri), Phase 2 Buildings (Rocket, 3 parallel tracks), Phase 3 Rails (Rocket), Phase 4 Tests/Docs (Nebula/Rhodey), Phase 5 Polish (Rhodey). ~2 weeks total with parallel execution.
 
@@ -119,7 +119,7 @@
 - **Building models are pure C#, one file per building.** Located in `src/Aspire.Hosting.Minecraft.Worker/Services/FamousBuildingModels/`. Implements `IFamousBuildingModel` interface with `Width`, `Depth`, `Height`, and `BuildAsync()`. Shared geometry helpers in `BuildingHelpers.cs`.
 - **FamousBuilding enum has 15 members** spanning 6 continents. All constrained to 15×15 footprint, 200 RCON command cap. Requires `WithGrandVillage()` — falls back to auto-detection on 7×7 grid.
 - **Two-sprint phasing:** Sprint A = API + infrastructure + 3 starter models (Pyramid, Castle, Lighthouse). Sprint B = remaining 12 models. Depends on Sprint 5 Grand Village layout landing first.
-- **Design document:** `docs/designs/famous-buildings-design.md`. Decision log: `.squad/decisions/inbox/rhodey-famous-buildings-design.md`.
+- **Design document:** `docs/designs/famous-buildings-design.md`. Decision log: `.ai-team/decisions/inbox/rhodey-famous-buildings-design.md`.
 - **Key files:** `FamousBuilding.cs` (enum), `FamousBuildingAnnotation.cs` (annotation), `FamousBuildingExtensions.cs` (extension method) — all in `src/Aspire.Hosting.Minecraft/`.
 
 ### 2026-02-12: MonitorAllResources Convenience API — Architecture Design
@@ -129,7 +129,7 @@
 - **ExcludeFromMonitoring ships alongside.** Annotation-based opt-out via `ExcludeFromMonitoringAnnotation` — trivial to implement (1 annotation class + 1 extension method + 1 line in exclusion check) and completes the user story.
 - **Naming: `MonitorAllResources()` not `WithAllMonitoredResources()`.** Breaks the `With*` convention intentionally — it's a convenience aggregate, not a feature toggle. The verb phrase reads naturally and distinguishes it from the per-resource method.
 - **Duplicate prevention is bidirectional.** `MonitoredResourceNames.Contains()` check prevents duplicates when manual calls precede `MonitorAllResources()`. Calls after are additive and safe (env vars are idempotent).
-- **Design document:** `docs/designs/monitor-all-resources-design.md`. Decision: `.squad/decisions/inbox/rhodey-monitor-all-resources.md`.
+- **Design document:** `docs/designs/monitor-all-resources-design.md`. Decision: `.ai-team/decisions/inbox/rhodey-monitor-all-resources.md`.
  Team update (2026-02-12): Sprint 5 Grand Village architecture designed  VillageLayout constants become mutable properties, structure size increases to 1515 (1313 usable interior), spacing becomes 24 blocks (15 + 9 gap for rails/paths), MAX_WORLD_SIZE increases to 512, RCON burst mode (1040 cmd/s during build), minecart rails coexist with redstone wires, opt-in via WithGrandVillage()  decided by Rhodey
  Team update (2026-02-12): Famous Buildings API designed  AsMinecraftFamousBuilding(FamousBuilding enum), 15 iconic buildings (geographic diversity), pure C# build models, annotation-based with env var flow, requires WithGrandVillage(), 200 RCON command max per building, two-sprint phasing (3 buildings in Sprint A, 12 remaining in Sprint B)  decided by Rhodey
  Team update (2026-02-12): MonitorAllResources convenience API design approved  .MonitorAllResources() extension auto-discovers all non-Minecraft resources, ExcludeFromMonitoring() opt-out, eliminates manual WithMonitoredResource() calls, eager discovery, Famous Building annotations pass through  decided by Rhodey
@@ -149,7 +149,7 @@
 - **5 integration test failures are expected** — they require a running Minecraft Docker container. The `--filter "Category!=Integration"` doesn't exclude them because integration tests are missing `[Trait("Category", "Integration")]` — they use `[Collection("Minecraft")]` instead. Non-blocking, filed as observation.
 - **NuGet package created:** `Fritz.Aspire.Hosting.Minecraft.0.1.0-dev.nupkg` (~39.6 MB). Package validation passed. Version set to `0.5.0` at release time via CI pipeline `-p:Version` override.
 - **Three non-blocking observations for future work:** (1) Add `[Trait("Category", "Integration")]` to integration tests. (2) Fix CS8604 nullable warning. (3) Confirm CI sets correct version from git tag.
-- **Release decision:** APPROVED — written to `.squad/decisions/inbox/rhodey-v050-release-ready.md`.
+- **Release decision:** APPROVED — written to `.ai-team/decisions/inbox/rhodey-v050-release-ready.md`.
 
 📌 Team update (2026-02-13): v0.5.0 release readiness APPROVED — 35 public methods, 434 tests pass, build clean, package verified, 3 non-blocking observations documented — decided by Rhodey
 
@@ -157,7 +157,7 @@
 
 ### 2026-02-15: MCA Inspector Milestone Planned
 
-- **Milestone document created** at `.squad/decisions/inbox/rhodey-mca-inspector-milestone.md` — comprehensive plan for reading Minecraft Anvil region files directly to verify block state.
+- **Milestone document created** at `.ai-team/decisions/inbox/rhodey-mca-inspector-milestone.md` — comprehensive plan for reading Minecraft Anvil region files directly to verify block state.
 - **Goal:** Bypass RCON for bulk structure verification. Today's tests make 225+ RCON calls to verify one 15×15 watchtower; MCA inspector will query all blocks from disk in <1 second.
 - **Architecture:** New optional NuGet package `Aspire.Hosting.Minecraft.Anvil` (separate from main, keeps main free of NBT dependencies). AnvilRegionReader class provides `GetBlockAt(x, y, z)` API.
 - **Four phases planned:** (1) Library + NBT selection (~4 days), (2) Test fixture integration (~2 days), (3) Bulk verification tests (~3 days), (4) Polish + docs (~1 day). Total ~1.5 weeks with 1 FTE.
