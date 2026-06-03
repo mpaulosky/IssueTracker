@@ -21,29 +21,33 @@ Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.
 ## Workflow
 
 1. **Determine action**: Create, update, or query?
+
 2. **Gather context**: Get repo info, existing labels, milestones if needed
+
 3. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
+
 4. **Execute**: Call the appropriate MCP tool
+
 5. **Confirm**: Report the issue URL to user
 
 ## Creating Issues
 
 ### Required Parameters
 
-```
+```text
 owner: repository owner (org or user)
 repo: repository name  
 title: clear, actionable title
 body: structured markdown content
-```
+```text
 
 ### Optional Parameters
 
-```
+```json
 labels: ["bug", "enhancement", "documentation", ...]
 assignees: ["username1", "username2"]
 milestone: milestone number (integer)
-```
+```text
 
 ### Title Guidelines
 
@@ -69,10 +73,10 @@ Always use the templates in [references/templates.md](references/templates.md). 
 
 Use `mcp__github__update_issue` with:
 
-```
+```text
 owner, repo, issue_number (required)
 title, body, state, labels, assignees, milestone (optional - only changed fields)
-```
+```text
 
 State values: `open`, `closed`
 
@@ -91,7 +95,7 @@ State values: `open`, `closed`
   "body": "## Description\nThe login page crashes when users attempt to authenticate using SSO.\n\n## Steps to Reproduce\n1. Navigate to login page\n2. Click 'Sign in with SSO'\n3. Page crashes\n\n## Expected Behavior\nSSO authentication should complete and redirect to dashboard.\n\n## Actual Behavior\nPage becomes unresponsive and displays error.\n\n## Environment\n- Browser: [To be filled]\n- OS: [To be filled]\n\n## Additional Context\nReported by user.",
   "labels": ["bug"]
 }
-```
+```text
 
 ### Example 2: Feature Request
 
@@ -106,7 +110,7 @@ State values: `open`, `closed`
   "body": "## Summary\nAdd dark mode theme option for improved user experience and accessibility.\n\n## Motivation\n- Reduces eye strain in low-light environments\n- Increasingly expected by users\n- Improves accessibility\n\n## Proposed Solution\nImplement theme toggle with system preference detection.\n\n## Acceptance Criteria\n- [ ] Toggle switch in settings\n- [ ] Persists user preference\n- [ ] Respects system preference by default\n- [ ] All UI components support both themes\n\n## Alternatives Considered\nNone specified.\n\n## Additional Context\nHigh priority request.",
   "labels": ["enhancement", "high-priority"]
 }
-```
+```text
 
 ## Common Labels
 

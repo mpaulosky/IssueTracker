@@ -31,10 +31,14 @@ Analyze the user's request and break it down into commits:
 ## Step 3: Plan Generation
 
 1. Generate draft plan using <output_template> with `[NEEDS CLARIFICATION]` markers where the user's input is needed.
+
 2. Save the plan to "plans/{feature-name}/plan.md"
-4. Ask clarifying questions for any `[NEEDS CLARIFICATION]` sections
-5. MANDATORY: Pause for feedback
-6. If feedback received, revise plan and go back to Step 1 for any research needed
+
+3. Ask clarifying questions for any `[NEEDS CLARIFICATION]` sections
+
+4. MANDATORY: Pause for feedback
+
+5. If feedback received, revise plan and go back to Step 1 for any research needed
 
 </workflow>
 
@@ -64,7 +68,7 @@ Analyze the user's request and break it down into commits:
 
 ### Step 3: {Step Name}
 ...
-```
+```text
 </output_template>
 
 <research_guide>
@@ -72,8 +76,11 @@ Analyze the user's request and break it down into commits:
 Research the user's feature request comprehensively:
 
 1. **Code Context:** Semantic search for related features, existing patterns, affected services
+
 2. **Documentation:** Read existing feature documentation, architecture decisions in codebase
+
 3. **Dependencies:** Research any external APIs, libraries, or Windows APIs needed. Use #context7 if available to read relevant documentation. ALWAYS READ THE DOCUMENTATION FIRST.
+
 4. **Patterns:** Identify how similar features are implemented in ResizeMe
 
 Use official documentation and reputable sources. If uncertain about patterns, research before proposing.

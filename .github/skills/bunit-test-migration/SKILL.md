@@ -10,6 +10,7 @@ This skill provides guidance for migrating test files from the deprecated bUnit 
 ## When to Apply
 
 Apply this skill when a `.razor` test file contains any of these patterns:
+
 - `@inherits TestComponentBase`
 - `<Fixture Test="...">`
 - `<ComponentUnderTest>`
@@ -21,40 +22,46 @@ Apply this skill when a `.razor` test file contains any of these patterns:
 ### 1. Change Inheritance
 
 ```diff
+
 - @inherits TestComponentBase
 + @inherits BunitContext
-```
+```text
 
 ### 2. Remove Wrapper Elements
 
 Remove these XML elements entirely (keep only the component inside):
 
 ```diff
+
 - <Fixture Test="TestName">
 -     <ComponentUnderTest>
           <MyComponent Parameter="value" />
+
 -     </ComponentUnderTest>
 - </Fixture>
-```
+```text
 
 ### 3. Convert Test Methods
 
 ```diff
+
 - void TestMethodName(Fixture fixture)
 + [Fact]
 + public void ComponentName_Scenario_ExpectedResult()
-```
+```text
 
 ### 4. Replace Component Access
 
 ```diff
+
 - var cut = fixture.GetComponentUnderTest();
 + var cut = Render(@<MyComponent Parameter="value" />);
-```
+```text
 
 ### 5. Convert Snapshot Tests
 
 ```diff
+
 - <SnapshotTest Description="renders correctly">
 -     <TestInput>
 -         <MyComponent />
@@ -69,7 +76,7 @@ Remove these XML elements entirely (keep only the component inside):
 +     var cut = Render(@<MyComponent />);
 +     cut.MarkupMatches(@<div>expected html</div>);
 + }
-```
+```text
 
 ## Complete Example
 
@@ -98,7 +105,7 @@ Remove these XML elements entirely (keep only the component inside):
 
     void OnClick() => ClickCount++;
 }
-```
+```text
 
 ### After
 
@@ -120,7 +127,7 @@ Remove these XML elements entirely (keep only the component inside):
 
     void OnClick() => ClickCount++;
 }
-```
+```text
 
 ## Test Naming Convention
 
@@ -148,7 +155,7 @@ Each `<Fixture>` block becomes a separate `[Fact]` method:
     [Fact]
     public void Component_SecondScenario_ExpectedResult() { ... }
 }
-```
+```text
 
 ### Tests with Services
 
@@ -162,7 +169,7 @@ Each `<Fixture>` block becomes a separate `[Fact]` method:
         var cut = Render(@<MyComponent />);
     }
 }
-```
+```text
 
 ### Authentication Tests
 
@@ -178,7 +185,7 @@ Each `<Fixture>` block becomes a separate `[Fact]` method:
         var cut = Render(@<SecureComponent />);
     }
 }
-```
+```text
 
 ### Tests Requiring New TestContext
 
@@ -198,7 +205,7 @@ For tests that need isolated context (e.g., multiple renders):
         cut2.Find("span").TextContent.ShouldBe("2");
     }
 }
-```
+```text
 
 ### Tests with xUnit Logger (Optional)
 
@@ -227,7 +234,7 @@ For debugging complex tests, you can optionally enable xUnit logging:
         // Test assertions...
     }
 }
-```
+```text
 
 **Note:** Only add logging when diagnostic output is helpful. Most tests should remain simple without logging.
 
@@ -256,7 +263,7 @@ dotnet test src/BlazorWebFormsComponents.Test --list-tests --filter "FullyQualif
 
 # Run tests
 dotnet test src/BlazorWebFormsComponents.Test --filter "FullyQualifiedName~ComponentName"
-```
+```text
 
 ## Common Errors
 

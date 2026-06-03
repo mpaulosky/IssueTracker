@@ -28,8 +28,10 @@ NSubstitute or Moq.
 
 - **Use `GlobalUsings.cs` for common references** (e.g., `using Xunit;`, `using FluentAssertions;`,
   `using NSubstitute;`). This keeps your test files clean and consistent.
+
 - **Test data management:** Use fakes, builders, or factories for generating test data. Prefer deterministic data for
   repeatable tests.
+
 - **Test discovery/filtering:** Use XUnit v3's improved test discovery and filtering (e.g.,
   `dotnet test --filter FullyQualifiedName~MyTest` or by trait/category).
 
@@ -56,21 +58,21 @@ public class ArticleTests
     // Arrange & Act
     article = new Article();
 
-    	// Assert
-    	article.Title.Should().Be("");
-    	article.Introduction.Should().Be("");
-    	article.Content.Should().Be("");
-    	article.CoverImageUrl.Should().Be("");
-    	article.UrlSlug.Should().Be("");
-    	article.Author.Should().Be(ApplicationUserDto.Empty);
-    	article.Category.Should().Be(CategoryDto.Empty);
-    	article.IsPublished.Should().BeFalse();
-    	article.PublishedOn.Should().BeNull();
-    	article.IsArchived.Should().BeFalse();
-    	article.Tags.Should().BeEmpty();
+      // Assert
+      article.Title.Should().Be("");
+      article.Introduction.Should().Be("");
+      article.Content.Should().Be("");
+      article.CoverImageUrl.Should().Be("");
+      article.UrlSlug.Should().Be("");
+      article.Author.Should().Be(ApplicationUserDto.Empty);
+      article.Category.Should().Be(CategoryDto.Empty);
+      article.IsPublished.Should().BeFalse();
+      article.PublishedOn.Should().BeNull();
+      article.IsArchived.Should().BeFalse();
+      article.Tags.Should().BeEmpty();
 
   }
-```
+```text
 
 ## Project Setup
 
@@ -99,7 +101,7 @@ public class ArticleTests
     <PackageReference Include="xunit.v3.runner.visualstudio" />
   </ItemGroup>
 
-```
+```text
 
 # Blazor Component and Page Testing with bUnit
 
@@ -117,7 +119,7 @@ bUnit is the recommended library for unit testing Blazor components and pages. I
   JSInterop.Setup<SomeJsCall>().SetResult("result");
   Services.AddSingleton(MockedService);
 
-```
+```text
 
 - Use FluentAssertions for expressive assertions.
 
@@ -147,7 +149,7 @@ public class MyComponentTests : BunitContext
   }
 }
 
-```
+```text
 
 For more advanced scenarios, see the [bUnit documentation](https://bunit.dev/docs/getting-started/index.html).
 
@@ -171,7 +173,7 @@ For more advanced scenarios, see the [bUnit documentation](https://bunit.dev/doc
     result.Should().Be("data");
   }
 
-```
+```text
 
 - Test exceptions with FluentAssertions:
 
@@ -190,7 +192,7 @@ For more advanced scenarios, see the [bUnit documentation](https://bunit.dev/doc
     act.Should().Throw<ArgumentException>().WithMessage("*null*");
   }
 
-```
+```text
 
 For async:
 
@@ -209,7 +211,7 @@ public async Task MethodAsync_ShouldThrowInvalidOperationException()
   await act.Should().ThrowAsync<InvalidOperationException>();
 }
 
-```
+```text
 
 ## Test Structure
 
@@ -369,7 +371,7 @@ public void Add_WithLogging_ReturnsCorrectSum()
   TestOutput.WriteLine($"Result was {result} as expected");
 }
 
-```
+```text
 
 - Use async test methods for code that returns `Task`:
 
@@ -389,4 +391,4 @@ public void Add_WithLogging_ReturnsCorrectSum()
     result.Should().Be("data");
   }
 
-```
+```text

@@ -10,7 +10,9 @@ Copy and customize these templates for issue bodies.
 
 ## Steps to Reproduce
 1. [First step]
+
 2. [Second step]
+
 3. [And so on...]
 
 ## Expected Behavior
@@ -29,7 +31,7 @@ Copy and customize these templates for issue bodies.
 
 ## Additional Context
 [Any other relevant information]
-```
+```text
 
 ## Feature Request Template
 
@@ -53,7 +55,7 @@ Copy and customize these templates for issue bodies.
 
 ## Additional Context
 [Mockups, examples, or related issues]
-```
+```text
 
 ## Task Template
 
@@ -74,7 +76,7 @@ Copy and customize these templates for issue bodies.
 
 ## Notes
 [Additional context or considerations]
-```
+```text
 
 ## Minimal Template
 
@@ -87,4 +89,4 @@ For simple issues:
 ## Tasks
 - [ ] [Task 1]
 - [ ] [Task 2]
-```
+```text
