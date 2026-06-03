@@ -1,4 +1,5 @@
-# [Open Iconic v1.1.1](http://useiconic.com/open)
+[Open Iconic v1.1.1](http://useiconic.com/open)
+===========
 
 Open Iconic is the open source sibling of [Iconic](http://useiconic.com). It is a hyper-legible collection of 223 icons
 with a tiny footprint&mdash;ready to use with Bootstrap and
@@ -6,12 +7,12 @@ Foundation. [View the collection](http://useiconic.com/open#icons)
 
 What's in Open Iconic?
 
-- 223 icons designed to be legible down to 8 pixels
-- Super-light SVG files - 61.8 for the entire set
-- SVG sprite&mdash;the modern replacement for icon fonts
-- Webfont (EOT, OTF, SVG, TTF, WOFF), PNG and WebP formats
-- Webfont stylesheets (including versions for Bootstrap and Foundation) in CSS, LESS, SCSS and Stylus formats
-- PNG and WebP raster images in 8px, 16px, 24px, 32px, 48px and 64px.
+* 223 icons designed to be legible down to 8 pixels
+* Super-light SVG files - 61.8 for the entire set
+* SVG sprite&mdash;the modern replacement for icon fonts
+* Webfont (EOT, OTF, SVG, TTF, WOFF), PNG and WebP formats
+* Webfont stylesheets (including versions for Bootstrap and Foundation) in CSS, LESS, SCSS and Stylus formats
+* PNG and WebP raster images in 8px, 16px, 24px, 32px, 48px and 64px.
 
 Getting Started
 

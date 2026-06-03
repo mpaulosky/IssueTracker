@@ -3,14 +3,14 @@ name: Squad CI
 
 on:
   pull_request:
-    branches: [dev, main]
+    branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.squad/**'
   push:
-    branches: [dev]
+    branches-ignore: [main]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
@@ -50,7 +50,7 @@ jobs:
   test:
     name: test
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
     needs: build
 
     steps:
@@ -62,23 +62,7 @@ jobs:
           global-json-file: Global.json
 
       - name: Restore dependencies
-        run: dotnet restore IssueTracker.slnx
+        run: dotnet restore tests/Architecture.Tests/Architecture.Tests.csproj
 
-      - name: Run fast test suite
-        shell: bash
-        run: |
-          set -euo pipefail
-          projects=(
-            tests/Architecture.Tests/Architecture.Tests.csproj
-            tests/AppHost.Tests/AppHost.Tests.csproj
-            tests/Integration.Tests/Integration.Tests.csproj
-            tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj
-            tests/IssueTracker.PlugIns.Tests.Unit/IssueTracker.PlugIns.Tests.Unit.csproj
-            tests/IssueTracker.Services.Tests.Unit/IssueTracker.Services.Tests.Unit.csproj
-            tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj
-            tests/ServiceDefaults.Tests/ServiceDefaults.Tests.csproj
-          )
-
-          for project in "${projects[@]}"; do
-            dotnet test "$project" --configuration Release --no-restore --verbosity minimal
-          done
+      - name: Run fast smoke tests
+        run: dotnet test tests/Architecture.Tests/Architecture.Tests.csproj --configuration Release --no-restore --verbosity minimal

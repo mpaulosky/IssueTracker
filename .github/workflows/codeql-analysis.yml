@@ -3,14 +3,14 @@ name: CodeQL
 
 on:
   push:
-    branches: [dev, main]
+    branches: [main]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.squad/**'
 
   pull_request:
-    branches: [dev, main]
+    branches: [main]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'

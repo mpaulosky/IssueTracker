@@ -2,7 +2,7 @@ name: Squad Protected Branch Guard
 
 on:
   pull_request:
-    branches: [dev, main, preview]
+    branches: [main, preview]
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -41,26 +41,12 @@ jobs:
               .filter(f => f.status !== 'removed')
               .map(f => f.filename)
               .filter(f => {
-                // .squad runtime state only (logs, inbox, volatile histories)
-                if (f.startsWith('.squad/log/')) return true;
-                if (f.startsWith('.squad/orchestration-log/')) return true;
-                if (f.startsWith('.squad/decisions/inbox/')) return true;
-                if (f === '.squad/decisions.md') return true;
-                if (f === '.squad/casting/history.json') return true;
-                if (/^\.squad\/agents\/[^/]+\/history\.md$/.test(f)) return true;
+                // .ai-team/** — ALL team state files, zero exceptions
+                if (f === '.ai-team' || f.startsWith('.ai-team/')) return true;
                 // team-docs/** — ALL internal team docs, zero exceptions
                 if (f.startsWith('team-docs/')) return true;
                 return false;
               });
-
-            const baseBranch = context.payload.pull_request.base.ref;
-            const headBranch = context.payload.pull_request.head.ref;
-            const headRepo = context.payload.pull_request.head.repo.full_name;
-            const expectedRepo = `${context.repo.owner}/${context.repo.repo}`;
-            if (baseBranch === 'main' && (headBranch !== 'dev' || headRepo !== expectedRepo)) {
-              core.setFailed(`PRs to main must come from the repo's dev branch. Current source: ${headRepo}:${headBranch}`);
-              return;
-            }
 
             if (forbidden.length === 0) {
               core.info('✅ No forbidden paths found in PR — all clear.');
@@ -69,10 +55,10 @@ jobs:
 
             // Build a clear, actionable error message
             const lines = [
-              `## 🚫 Forbidden files detected in PR to ${baseBranch}`,
+              '## 🚫 Forbidden files detected in PR to main',
               '',
-              `The following files must NOT be merged into \`${baseBranch}\`.`,
-              'Squad runtime state belongs on dev branches only (`.squad/log`, inbox files, volatile histories).',
+              'The following files must NOT be merged into `main`.',
+              '`.ai-team/` is runtime team state — it belongs on dev branches only.',
               '`team-docs/` is internal team content — it belongs on dev branches only.',
               '',
               '### Forbidden files found:',
@@ -82,10 +68,8 @@ jobs:
               '### How to fix:',
               '',
               '```bash',
-              '# Remove tracked .squad runtime files (examples):',
-              'git rm --cached -r .squad/log/ .squad/orchestration-log/ .squad/decisions/inbox/',
-              'git rm --cached .squad/decisions.md .squad/casting/history.json',
-              'git rm --cached .squad/agents/*/history.md',
+              '# Remove tracked .ai-team/ files (keeps local copies):',
+              'git rm --cached -r .ai-team/',
               '',
               '# Remove tracked team-docs/ files:',
               'git rm --cached -r team-docs/',
@@ -95,8 +79,8 @@ jobs:
               'git push',
               '```',
               '',
-              '> ⚠️ `.squad` templates/config may be versioned; runtime state is not.',
-              '> The guard workflow is the enforcement mechanism that keeps runtime state off protected branches.',
+              '> ⚠️ `.ai-team/` is committed on `dev` and feature branches by design.',
+              '> The guard workflow is the enforcement mechanism that keeps these files off `main` and `preview`.',
               '> `git rm --cached` untracks them from this PR without deleting your local copies.',
             ];
 

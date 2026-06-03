@@ -192,19 +192,16 @@ docker restart <redis-container-id>
 **Steps**:
 
 1. Check if container is running:
-
    ```bash
    docker ps | grep mongodb
    ```
 
 2. View container logs:
-
    ```bash
    docker logs <mongodb-container-id> --tail 50
    ```
 
 3. If container is not running, restart AppHost:
-
    ```bash
    # Stop AppHost (Ctrl+C)
    # Then restart
@@ -212,13 +209,11 @@ docker restart <redis-container-id>
    ```
 
 4. If container is running but slow, check resource constraints:
-
    ```bash
    docker stats <mongodb-container-id>
    ```
 
 5. If memory/CPU usage is high, restart the container:
-
    ```bash
    docker restart <mongodb-container-id>
    ```
@@ -233,25 +228,21 @@ docker restart <redis-container-id>
 **Steps**:
 
 1. Verify Redis is running:
-
    ```bash
    redis-cli -h localhost -p 6379 PING
    ```
 
 2. If command fails, check if container exists:
-
    ```bash
    docker ps -a | grep redis
    ```
 
 3. Restart Redis container:
-
    ```bash
    docker restart <redis-container-id>
    ```
 
 4. Or restart entire AppHost:
-
    ```bash
    dotnet run --project src/AppHost/AppHost.csproj
    ```
@@ -272,13 +263,11 @@ docker restart <redis-container-id>
 **Steps**:
 
 1. Monitor container resources:
-
    ```bash
    docker stats
    ```
 
 2. Check network latency:
-
    ```bash
    ping localhost
    ```

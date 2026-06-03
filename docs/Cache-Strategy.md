@@ -182,7 +182,7 @@ Use hierarchical, dot-separated keys for clarity and organization.
 
 **Examples**:
 
-```text
+```
 issues:all                           # All issues (Tier 1)
 issues:all:active                    # Active issues only
 issues:list:page:1                   # Paginated list, page 1

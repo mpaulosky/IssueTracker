@@ -41,7 +41,7 @@ This downloads all NuGet packages specified in `Directory.Packages.props`.
 
 **Expected output**:
 
-```text
+```
 Determining projects to restore...
 Restore completed in 1.23 sec for E:\github\IssueTracker\IssueTracker.slnx
 ```
@@ -54,7 +54,7 @@ dotnet run --project src/AppHost/AppHost.csproj
 
 **Expected output**:
 
-```text
+```
 Aspire.Hosting[0]
       Running on: http://localhost:18888
 ```
@@ -204,7 +204,7 @@ redis-cli -h localhost -p 6379 PING
 
 Press `Ctrl+C` in the terminal running AppHost:
 
-```text
+```
 ^C
 Hosting stopped
 ```

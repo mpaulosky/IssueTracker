@@ -411,7 +411,7 @@ mongorestore --uri="mongodb://localhost:27017" /backups/20240209
 
 Deploy multiple instances behind a load balancer:
 
-```text
+```
 Load Balancer
     ├── Instance 1
     ├── Instance 2
@@ -423,7 +423,7 @@ Load Balancer
 
 Use MongoDB replica sets for high availability:
 
-```text
+```
 Primary MongoDB ← Read/Write
     ├── Secondary 1 ← Read
     └── Secondary 2 ← Read

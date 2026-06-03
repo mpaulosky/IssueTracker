@@ -36,11 +36,9 @@ These instructions define the required coding, architecture, and project rules f
 - **Use .editorconfig:** `true`
 - **Preferred Modifier Order:** `public`, `private`, `protected`, `internal`, `static`, `readonly`, `const`
   - _Example:_
-
     ```csharp
     public static readonly int MY_CONST = 42;
     ```
-
 - **Use Explicit Type:** `true` (except where `var` improves clarity)
 - **Use Var:** `true` (when the type is obvious)
 - **Prefer Null Check:**

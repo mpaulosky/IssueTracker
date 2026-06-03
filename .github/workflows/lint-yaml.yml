@@ -8,7 +8,7 @@ on:
       - '**/*.yml'
       - '**/*.yaml'
   pull_request:
-    branches: [dev, main]
+    branches: [main]
     paths:
       - '**/*.yml'
       - '**/*.yaml'
