@@ -19,5 +19,5 @@
   "MD040": true,
   "MD041": false,
   "MD056": false,
-  "MD060": { "style": "consistent" }
+  "MD060": { "style": "aligned" }
 }
