@@ -11,7 +11,7 @@
 - Version 0.1.0, packed via `dotnet pack -o nupkgs`
 - GitHub repo: csharpfritz/Aspire-Minecraft
 - No CI/CD pipeline exists yet (no .github/workflows/ found)
-- .gitattributes configured for merge=union on .ai-team/ files
+- .gitattributes configured for merge=union on .squad/ files
 - MIT licensed
 
 ## Learnings
@@ -20,7 +20,7 @@
 
 📌 **Skill Structure Standardization (2026-02-16):** All skills must follow the directory pattern `{skill-name}/SKILL.md`, not loose `.md` files at the skills directory level. Each SKILL.md file must include YAML frontmatter with `name`, `description`, `domain`, `confidence`, and `source` fields. This prevents tool name collisions and maintains consistency across the squad. — decided by Wong
 
-📌 **Tool Name Uniqueness:** Skill names (from YAML frontmatter `name` field) and MCP server names must not overlap. During infrastructure setup, audit all `.ai-team/skills/*/SKILL.md` files and `.copilot/mcp-config.json` for naming conflicts before deploying changes. — decided by Wong
+📌 **Tool Name Uniqueness:** Skill names (from YAML frontmatter `name` field) and MCP server names must not overlap. During infrastructure setup, audit all `.squad/skills/*/SKILL.md` files and `.copilot/mcp-config.json` for naming conflicts before deploying changes. — decided by Wong
 
 📌 Milestone release changelog template: Section headers (Features Delivered, Issues Resolved, Test Coverage, Breaking Changes), bulleted feature lists with issue references, test metrics summary — use this for future release documentation — decided by Wong
 
@@ -118,13 +118,13 @@
 **Changes:**
 
 - Added `paths-ignore` filters to all three GitHub Actions workflows (build.yml, release.yml, codeql.yml) to skip builds/tests/analysis when only documentation changes.
-- Ignored paths: `docs/**`, `user-docs/**`, `*.md` (root-level markdown), `.ai-team/**` (squad state).
+- Ignored paths: `docs/**`, `user-docs/**`, `*.md` (root-level markdown), `.squad/**` (squad state).
 - Applied to both `push` and `pull_request` triggers for build.yml and codeql.yml. Applied to `push.tags` in release.yml for completeness (unlikely scenario but prevents accidental doc-only tag releases).
 
 **Key decisions:**
 
 - Documentation updates (README, CONTRIBUTING, docs/, user-docs/) don't require CI build/test/pack cycles — they don't affect code correctness or package output.
-- The `.ai-team/**` folder contains squad-internal state and decisions, also irrelevant to builds.
+- The `.squad/**` folder contains squad-internal state and decisions, also irrelevant to builds.
 - Root-level `*.md` pattern catches README.md, CONTRIBUTING.md, etc. but not markdown files in subdirectories (those would be caught by `docs/**` or `user-docs/**` as appropriate).
 - The scheduled CodeQL run (Monday 06:25 UTC) is unaffected by path filters — it always runs on schedule regardless of recent commits.
  Team update (2026-02-11): All sprints must include README and user documentation updates to be considered complete  decided by Jeffrey T. Fritz

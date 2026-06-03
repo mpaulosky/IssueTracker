@@ -67,7 +67,7 @@ cd $teamRoot
 git add .squad/
 if ($LASTEXITCODE -eq 0) {
   $msg = @"
-docs(ai-team): session log
+docs(squad): session log
 
 Changes:
 - Added decisions

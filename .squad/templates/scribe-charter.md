@@ -92,7 +92,7 @@ After every substantial work session:
    - Write the commit message to a temp file, then commit with `-F`:
 ```bash
      $msg = @"
-     docs(ai-team): {brief summary}
+     docs(squad): {brief summary}
 
      Session: {timestamp}-{topic}
      Requested by: {user name}
