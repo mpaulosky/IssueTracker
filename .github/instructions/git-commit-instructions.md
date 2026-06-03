@@ -6,11 +6,11 @@ This document defines the required conventions and best practices for writing Gi
 
 All commit messages **must** follow this structure:
 
-```
+```text
 <type>(<scope>): <short summary>
 
 <body>
-```
+```text
 
 ### Types
 
@@ -46,25 +46,25 @@ The scope should be the name of the affected project, folder, or feature (e.g., 
 
 ## Examples
 
-```
+```text
 feat(Web): add user authentication with Auth0
 
 Implements login and logout functionality using Auth0.
 Updates navigation bar to show user info when authenticated.
 Fixes #42
-```
+```text
 
-```
+```text
 fix(Mongo): handle null reference in BlogRepository
 
 Adds null checks to prevent exceptions when querying missing documents.
-```
+```text
 
-```
+```text
 docs(CONTRIBUTING): update testing section for Playwright
 
 Adds Playwright usage instructions and links to documentation.
-```
+```text
 
 ## Additional ObjectIdelines
 

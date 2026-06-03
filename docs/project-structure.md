@@ -4,14 +4,14 @@ This document provides a detailed overview of the Issue Tracker project organiza
 
 ## Solution Structure
 
-```
+```text
 IssueTracker/
 ├── src/                    # Source code
 ├── tests/                  # Test projects
 ├── docs/                   # Documentation
 ├── TestResults/           # Test coverage reports
 └── [Configuration Files]  # Solution-level configs
-```
+```text
 
 ## Source Code (`src/`)
 
@@ -19,7 +19,7 @@ IssueTracker/
 
 The heart of the domain logic, containing entities and business rules.
 
-```
+```text
 CoreBusiness/
 └── IssueTracker.CoreBusiness/
     ├── Models/                    # Domain entities
@@ -48,7 +48,7 @@ CoreBusiness/
     │   └── [Faker implementations]
     │
     └── GlobalUsings.cs           # Global namespace imports
-```
+```text
 
 **Key Points**:
 - Pure C# - no framework dependencies
@@ -60,7 +60,7 @@ CoreBusiness/
 
 Infrastructure layer containing data access and external integrations.
 
-```
+```text
 PlugIns/
 ├── IssueTracker.PlugIns/
 │   ├── DataAccess/               # MongoDB implementations
@@ -78,7 +78,7 @@ PlugIns/
 │
 └── IssueTracker.PlugIns.Mongo/   # Future: MongoDB-specific features
     └── [Additional MongoDB implementations]
-```
+```text
 
 **Key Points**:
 - Implements repository interfaces from CoreBusiness
@@ -90,7 +90,7 @@ PlugIns/
 
 Application services that orchestrate business logic and define repository interfaces.
 
-```
+```text
 Services/
 └── IssueTracker.Services/
     ├── Issue/                         # Issue-related services
@@ -116,7 +116,7 @@ Services/
         ├── ICommentRepository.cs
         ├── ICategoryRepository.cs
         └── IStatusRepository.cs
-```
+```text
 
 **Key Points**:
 - Implements business use cases
@@ -129,7 +129,7 @@ Services/
 
 Blazor Server-based user interface with component-driven architecture.
 
-```
+```text
 UI/
 └── IssueTracker.UI/
     ├── Components/               # Reusable Razor components
@@ -180,7 +180,7 @@ UI/
     ├── appsettings.Development.json
     ├── _Imports.razor            # Global Razor imports
     └── Dockerfile                # Docker configuration
-```
+```text
 
 **Key Points**:
 - Blazor Server components with code-behind pattern
@@ -195,7 +195,7 @@ UI/
 
 Comprehensive test suite covering all layers.
 
-```
+```text
 tests/
 ├── IssueTracker.CoreBusiness.Tests.Unit/
 │   ├── Models/                   # Entity tests
@@ -224,7 +224,7 @@ tests/
 │
 └── TestingSupport.Library/
     └── Fixtures/                # Shared test fixtures
-```
+```text
 
 **Key Points**:
 - Separate unit and integration tests
@@ -236,7 +236,7 @@ tests/
 
 Comprehensive project documentation.
 
-```
+```text
 docs/
 ├── index.md                     # Documentation home
 ├── getting-started.md           # Setup guide
@@ -248,13 +248,13 @@ docs/
 ├── CODE_METRICS.md             # Code quality metrics
 ├── SECURITY.md                 # Security policy
 └── REFERENCES.md               # API references
-```
+```text
 
 ## Configuration Files
 
 ### Root Level
 
-```
+```text
 IssueTracker/
 ├── IssueTracker.slnx           # Solution file
 ├── Directory.Packages.props    # Central package management
@@ -267,23 +267,23 @@ IssueTracker/
 ├── testEnvironments.json      # Test environment config
 ├── IssueTracker.lutconfig     # LUT configuration
 └── LICENSE                     # MIT License
-```
+```text
 
 ### Project-Level
 
 Each project contains:
 
-```
+```text
 [Project]/
 ├── [Project].csproj            # Project file
 ├── GlobalUsings.cs             # Global using directives
 ├── bin/                        # Build output (not in source control)
 └── obj/                        # Build intermediates (not in source control)
-```
+```text
 
 ## Dependency Flow
 
-```
+```text
     IssueTracker.UI
          │
          ├─→ IssueTracker.Services
@@ -295,7 +295,7 @@ Each project contains:
                     IssueTracker.PlugIns  │
                                           │
                               (implements interfaces)
-```
+```text
 
 **Rules**:
 - UI depends on Services and CoreBusiness
@@ -305,12 +305,12 @@ Each project contains:
 
 ## Build Output
 
-```
+```text
 TestResults/
 ├── [guid]/                     # Test run results
 │   └── coverage.opencover.xml  # Coverage data
 └── ...
-```
+```text
 
 ## Key Design Decisions
 
@@ -342,7 +342,7 @@ global using System;
 global using System.Collections.Generic;
 global using System.Threading.Tasks;
 global using Microsoft.Extensions.DependencyInjection;
-```
+```text
 
 ### 4. Central Package Management
 
@@ -351,7 +351,7 @@ global using Microsoft.Extensions.DependencyInjection;
 ```xml
 <PackageVersion Include="MongoDB.Driver" Version="2.19.0" />
 <PackageVersion Include="xunit" Version="2.4.2" />
-```
+```text
 
 All projects reference the same versions, ensuring consistency.
 
@@ -360,9 +360,13 @@ All projects reference the same versions, ensuring consistency.
 ### Finding Code
 
 1. **Domain Models**: `src/CoreBusiness/IssueTracker.CoreBusiness/Models/`
+
 2. **Data Access**: `src/PlugIns/IssueTracker.PlugIns/DataAccess/`
+
 3. **Business Logic**: `src/Services/IssueTracker.Services/[Entity]/`
+
 4. **UI Components**: `src/UI/IssueTracker.UI/Components/`
+
 5. **Tests**: `tests/[Layer].Tests.Unit/` or `.Tests.Integration/`
 
 ### Common Tasks

@@ -26,7 +26,7 @@ compatibility: Requires Microsoft Learn MCP Server (https://learn.microsoft.com/
 
 Good queries are specific:
 
-```
+```text
 # ❌ Too broad
 "Azure Functions"
 
@@ -34,7 +34,7 @@ Good queries are specific:
 "Azure Functions Python v2 programming model"
 "Cosmos DB partition key design best practices"
 "Container Apps scaling rules KEDA"
-```
+```text
 
 Include context:
 - **Version** when relevant (`.NET 8`, `EF Core 8`)

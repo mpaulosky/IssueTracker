@@ -4,7 +4,7 @@ Issue Tracker has comprehensive test coverage across multiple layers, including 
 
 ## Test Structure
 
-```
+```text
 tests/
 ├── IssueTracker.CoreBusiness.Tests.Unit/      # Domain & business logic tests
 ├── IssueTracker.PlugIns.Tests.Unit/           # Data access unit tests
@@ -12,7 +12,7 @@ tests/
 ├── IssueTracker.Services.Tests.Unit/          # Service layer tests
 ├── IssueTracker.UI.Tests.Unit/                # UI component tests
 └── TestingSupport.Library/                    # Shared test utilities
-```
+```text
 
 ## Running Tests
 
@@ -20,7 +20,7 @@ tests/
 
 ```bash
 dotnet test
-```
+```text
 
 ### Run Specific Test Project
 
@@ -36,19 +36,19 @@ dotnet test tests/IssueTracker.PlugIns.Tests.Integration
 
 # UI component tests
 dotnet test tests/IssueTracker.UI.Tests.Unit
-```
+```text
 
 ### Run Tests with Coverage
 
 ```bash
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-```
+```text
 
 ### Run Tests in Watch Mode
 
 ```bash
 dotnet watch test --project tests/IssueTracker.CoreBusiness.Tests.Unit
-```
+```text
 
 ## Test Types
 
@@ -86,7 +86,7 @@ public class IssueServiceTests
         Assert.Equal("Test Issue", result.Title);
     }
 }
-```
+```text
 
 ### 2. Integration Tests
 
@@ -135,7 +135,7 @@ public class IssueRepositoryTests : IAsyncLifetime
     
     public Task DisposeAsync() => Task.CompletedTask;
 }
-```
+```text
 
 ### 3. UI Component Tests (bUnit)
 
@@ -175,7 +175,7 @@ public class IssueListComponentTests : TestContext
         Assert.Contains("Issue 2", cut.Markup);
     }
 }
-```
+```text
 
 ## Testing Technologies
 
@@ -212,7 +212,7 @@ public class IssueGenerator
     
     public List<Issue> Generate(int count) => _faker.Generate(count);
 }
-```
+```text
 
 ## Integration Test Setup
 
@@ -243,7 +243,7 @@ public class DatabaseFixture : IAsyncLifetime
         await _mongoContainer.DisposeAsync();
     }
 }
-```
+```text
 
 ### Test Collections
 
@@ -256,7 +256,7 @@ public class DatabaseCollection : ICollectionFixture<IssueTrackerTestFactory>
     // This class has no code, and is never created.
     // Its purpose is simply to be the place to apply [CollectionDefinition]
 }
-```
+```text
 
 ## Code Coverage
 
@@ -270,7 +270,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 # View in browser (requires reportgenerator)
 reportgenerator -reports:coverage.opencover.xml -targetdir:coverage-report
-```
+```text
 
 ### Coverage Goals
 
@@ -300,13 +300,13 @@ public async Task MethodName_Scenario_ExpectedResult()
     // Assert: Verify the expected outcome
     Assert.NotNull(result);
 }
-```
+```text
 
 ### 2. Test Naming Convention
 
-```
+```text
 MethodName_Scenario_ExpectedBehavior
-```
+```text
 
 Examples:
 - `CreateIssue_ValidData_ReturnsCreatedIssue`
@@ -333,7 +333,7 @@ public void Calculator_VariousOperations_WorkCorrectly()
     Assert.Equal(6, Calculator.Multiply(2, 3));
     Assert.Equal(1, Calculator.Subtract(3, 2));
 }
-```
+```text
 
 ### 4. Use Theory for Parameterized Tests
 
@@ -346,7 +346,7 @@ public void Add_VariousInputs_ReturnsCorrectSum(int a, int b, int expected)
 {
     Assert.Equal(expected, Calculator.Add(a, b));
 }
-```
+```text
 
 ### 5. Isolate External Dependencies
 
@@ -360,7 +360,7 @@ var service = new IssueService(
     mockEmailService.Object,
     mockLogger.Object
 );
-```
+```text
 
 ## CI/CD Integration
 
@@ -373,6 +373,7 @@ Tests run automatically on:
 ### GitHub Actions Workflow
 
 ```yaml
+
 - name: Test
   run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true
 
@@ -380,7 +381,7 @@ Tests run automatically on:
   uses: codecov/codecov-action@v3
   with:
     files: coverage.opencover.xml
-```
+```text
 
 ## Troubleshooting
 
@@ -390,8 +391,11 @@ Tests run automatically on:
 
 **Solutions**:
 1. Ensure Docker is running
+
 2. Check Docker Desktop has enough resources
+
 3. Verify Testcontainers can pull images
+
 4. Check firewall settings
 
 ### Slow Test Execution
@@ -400,7 +404,9 @@ Tests run automatically on:
 
 **Solutions**:
 1. Run unit tests separately: `dotnet test --filter Category!=Integration`
+
 2. Use parallel execution (enabled by default in xUnit)
+
 3. Run specific test projects instead of all tests
 
 ### Coverage Not Generated
@@ -409,7 +415,9 @@ Tests run automatically on:
 
 **Solutions**:
 1. Install coverlet: `dotnet tool install -g coverlet.console`
+
 2. Ensure test projects reference `coverlet.collector`
+
 3. Check output directory for coverage files
 
 ## Related Documentation

@@ -20,7 +20,7 @@ dotnet restore
 
 # Run the application
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 ## 📖 Documentation
 

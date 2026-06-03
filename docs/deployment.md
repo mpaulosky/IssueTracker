@@ -22,13 +22,13 @@ The easiest way to deploy Issue Tracker is using Docker.
 ```bash
 # From the repository root
 docker build -t issuetracker:latest -f src/IssueTracker.UI/Dockerfile .
-```
+```text
 
 #### Run with Docker Compose
 
 ```bash
 docker-compose up -d
-```
+```text
 
 This starts both the application and MongoDB.
 
@@ -63,7 +63,7 @@ services:
 
 volumes:
   mongo-data:
-```
+```text
 
 ### 2. Azure App Service
 
@@ -102,15 +102,20 @@ az webapp deployment source config-zip \
   --name issuetracker-app \
   --resource-group IssueTrackerRG \
   --src publish.zip
-```
+```text
 
 #### Using Visual Studio
 
 1. Right-click the `IssueTracker.UI` project
+
 2. Select **Publish**
+
 3. Choose **Azure**
+
 4. Select **Azure App Service (Linux)**
+
 5. Create new or select existing App Service
+
 6. Click **Publish**
 
 ### 3. Linux Server (Ubuntu/Debian)
@@ -126,7 +131,7 @@ rm packages-microsoft-prod.deb
 # Install .NET runtime
 sudo apt-get update
 sudo apt-get install -y aspnetcore-runtime-7.0
-```
+```text
 
 #### Deploy Application
 
@@ -138,7 +143,7 @@ dotnet publish src/IssueTracker.UI/IssueTracker.UI.csproj \
 
 # Set permissions
 sudo chown -R www-data:www-data /var/www/issuetracker
-```
+```text
 
 #### Configure Systemd Service
 
@@ -163,7 +168,7 @@ Environment=ConnectionStrings__DatabaseName=IssueTrackerDb
 
 [Install]
 WantedBy=multi-user.target
-```
+```text
 
 #### Start Service
 
@@ -171,7 +176,7 @@ WantedBy=multi-user.target
 sudo systemctl enable issuetracker
 sudo systemctl start issuetracker
 sudo systemctl status issuetracker
-```
+```text
 
 #### Configure Nginx Reverse Proxy
 
@@ -193,7 +198,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-```
+```text
 
 Enable and restart Nginx:
 
@@ -201,7 +206,7 @@ Enable and restart Nginx:
 sudo ln -s /etc/nginx/sites-available/issuetracker /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-```
+```text
 
 ### 4. Windows Server (IIS)
 
@@ -215,11 +220,12 @@ Download and install the [.NET Hosting Bundle](https://dotnet.microsoft.com/down
 dotnet publish src/IssueTracker.UI/IssueTracker.UI.csproj `
   -c Release `
   -o C:\inetpub\wwwroot\issuetracker
-```
+```text
 
 #### Configure IIS
 
 1. Open IIS Manager
+
 2. Create new Application Pool:
    - Name: `IssueTrackerPool`
    - .NET CLR version: `No Managed Code`
@@ -235,10 +241,15 @@ dotnet publish src/IssueTracker.UI/IssueTracker.UI.csproj `
 ### MongoDB Atlas (Cloud)
 
 1. Create account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+
 2. Create a cluster
+
 3. Create database user
+
 4. Whitelist IP addresses
+
 5. Get connection string
+
 6. Update application configuration
 
 ### Self-Hosted MongoDB
@@ -252,7 +263,7 @@ docker run -d \
   -v mongo-data:/data/db \
   --restart unless-stopped \
   mongo:latest
-```
+```text
 
 #### Linux Installation
 
@@ -271,7 +282,7 @@ sudo apt-get install -y mongodb-org
 # Start MongoDB
 sudo systemctl start mongod
 sudo systemctl enable mongod
-```
+```text
 
 ## SSL/TLS Configuration
 
@@ -285,15 +296,18 @@ sudo apt-get install certbot python3-certbot-nginx
 sudo certbot --nginx -d yourdomain.com
 
 # Auto-renewal is configured automatically
-```
+```text
 
 ### Using Azure App Service
 
 Azure App Service provides free SSL certificates:
 
 1. Go to App Service > TLS/SSL settings
+
 2. Click **Private Key Certificates (.pfx)** > **Create App Service Managed Certificate**
+
 3. Select your custom domain
+
 4. Add binding in **Bindings** section
 
 ## Environment Variables
@@ -318,13 +332,13 @@ builder.Services.AddHealthChecks()
         name: "mongodb");
 
 app.MapHealthChecks("/health");
-```
+```text
 
 Test the endpoint:
 
 ```bash
 curl http://yourdomain.com/health
-```
+```text
 
 ## Monitoring & Logging
 
@@ -332,20 +346,20 @@ curl http://yourdomain.com/health
 
 ```csharp
 builder.Services.AddApplicationInsightsTelemetry();
-```
+```text
 
 ### Serilog
 
 ```bash
 dotnet add package Serilog.AspNetCore
-```
+```text
 
 Configure in `Program.cs`:
 
 ```csharp
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
-```
+```text
 
 ## Performance Optimization
 
@@ -356,14 +370,14 @@ builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
 });
-```
+```text
 
 ### 2. Enable Response Caching
 
 ```csharp
 builder.Services.AddResponseCaching();
 app.UseResponseCaching();
-```
+```text
 
 ### 3. Configure MongoDB Connection Pool
 
@@ -371,7 +385,7 @@ app.UseResponseCaching();
 var settings = MongoClientSettings.FromConnectionString(connectionString);
 settings.MaxConnectionPoolSize = 100;
 settings.MinConnectionPoolSize = 10;
-```
+```text
 
 ## Security Checklist
 
@@ -396,14 +410,14 @@ mongodump --uri="mongodb://localhost:27017" --out=/backups/$(date +%Y%m%d)
 
 # Restore backup
 mongorestore --uri="mongodb://localhost:27017" /backups/20240209
-```
+```text
 
 ### Automated Backups (Cron)
 
 ```bash
 # Add to crontab
 0 2 * * * mongodump --uri="mongodb://localhost:27017" --out=/backups/$(date +\%Y\%m\%d)
-```
+```text
 
 ## Scaling
 
@@ -411,45 +425,54 @@ mongorestore --uri="mongodb://localhost:27017" /backups/20240209
 
 Deploy multiple instances behind a load balancer:
 
-```
+```text
 Load Balancer
     ├── Instance 1
     ├── Instance 2
     └── Instance 3
          └── Shared MongoDB
-```
+```text
 
 ### Database Scaling
 
 Use MongoDB replica sets for high availability:
 
-```
+```text
 Primary MongoDB ← Read/Write
     ├── Secondary 1 ← Read
     └── Secondary 2 ← Read
-```
+```text
 
 ## Troubleshooting
 
 ### Application Won't Start
 
 1. Check logs: `journalctl -u issuetracker -n 50`
+
 2. Verify .NET runtime: `dotnet --list-runtimes`
+
 3. Check permissions on application directory
+
 4. Verify MongoDB connection
 
 ### High Memory Usage
 
 1. Enable garbage collection logging
+
 2. Use profiling tools
+
 3. Check for memory leaks
+
 4. Configure connection pool sizes
 
 ### Slow Performance
 
 1. Enable response caching
+
 2. Optimize database queries
+
 3. Add database indexes
+
 4. Use CDN for static files
 
 ## Related Documentation

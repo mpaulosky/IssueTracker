@@ -10,7 +10,7 @@ services, and their dependencies through code-first configuration.
 
 The application consists of three main components orchestrated by Aspire:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         Aspire AppHost                      │
 │  (Local Orchestration & Container Manager)  │
@@ -31,7 +31,7 @@ The application consists of three main components orchestrated by Aspire:
     │  Blazor UI       │
     │  :5000 / :5001   │
     └──────────────────┘
-```
+```text
 
 ### Resource Configuration
 
@@ -47,7 +47,7 @@ The application consists of three main components orchestrated by Aspire:
 var mongodb = builder.AddMongoDB("mongodb")
   .WithDataVolume()
   .WithHealthCheck("mongodb");
-```
+```text
 
 #### Redis
 
@@ -61,7 +61,7 @@ var mongodb = builder.AddMongoDB("mongodb")
 var redis = builder.AddRedis("redis")
   .WithDataVolume()
   .WithHealthCheck("redis");
-```
+```text
 
 #### Blazor UI (IssueTracker.UI)
 
@@ -74,7 +74,7 @@ var ui = builder
   .AddProject<Projects.IssueTracker_UI>("ui")
   .WithReference(mongodb)
   .WithReference(redis);
-```
+```text
 
 ### Running AppHost Locally
 
@@ -88,26 +88,31 @@ var ui = builder
 
 ```bash
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 This command:
 
 1. Starts the Aspire orchestrator
+
 2. Provisions MongoDB container with development credentials
+
 3. Provisions Redis container
+
 4. Launches the Blazor UI
+
 5. Applies health checks before marking services ready
+
 6. Provides a dashboard at `http://localhost:18888`
 
 Expected console output:
 
-```
+```text
 ...
 Building...
 info: Aspire.Hosting[0]
       Running on: http://localhost:18888
 ...
-```
+```text
 
 #### Accessing the Application
 
@@ -142,7 +147,7 @@ tasklist /FI "PID eq <PID>"
 
 # Or stop all Docker containers
 docker stop $(docker ps -q)
-```
+```text
 
 #### Issue: "Docker Daemon Not Running"
 
@@ -167,7 +172,7 @@ docker logs <container-name>
 docker restart <container-name>
 
 # Or restart AppHost (Aspire will recreate containers)
-```
+```text
 
 #### Issue: "Cannot Resolve Service References"
 
@@ -181,7 +186,7 @@ docker restart <container-name>
 
 ```csharp
 builder.AddServiceDefaults();
-```
+```text
 
 ### Health Checks Integration
 
@@ -191,7 +196,7 @@ AppHost registers health checks for MongoDB and Redis:
 builder.Services.AddHealthChecks()
   .AddCheck<HealthChecks.MongoDbHealthCheck>("mongodb")
   .AddCheck<HealthChecks.RedisHealthCheck>("redis");
-```
+```text
 
 These checks run continuously. If a service fails its health check:
 
@@ -206,7 +211,9 @@ See [Health-Checks.md](Health-Checks.md) for detailed health check behavior.
 Press `Ctrl+C` in the terminal running AppHost. This gracefully shuts down:
 
 1. All containers (MongoDB, Redis)
+
 2. The Blazor UI
+
 3. The Aspire orchestrator
 
 Data persists in Docker volumes and is restored on next startup.
@@ -227,6 +234,6 @@ docker volume rm $(docker volume ls -q)
 
 # Restart AppHost
 dotnet run --project src/AppHost/AppHost.csproj
-```
+```text
 
 **Warning**: This removes all development data. Use only for testing/cleanup.

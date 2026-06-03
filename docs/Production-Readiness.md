@@ -32,7 +32,7 @@ services:
 volumes:
   redis-data:
     driver: local
-```
+```text
 
 **Options**:
 
@@ -58,7 +58,7 @@ services:
       - redis-data:/data
     ports:
       - "6379:6379"
-```
+```text
 
 **Options**:
 
@@ -87,7 +87,7 @@ services:
       - redis-data:/data
     ports:
       - "6379:6379"
-```
+```text
 
 On recovery, Redis uses AOF first (more recent), then RDB if AOF unavailable.
 
@@ -119,7 +119,7 @@ services:
 volumes:
   redis-primary:
   redis-replica:
-```
+```text
 
 **Application Configuration**:
 
@@ -133,7 +133,7 @@ var options = new StackExchange.Redis.ConfigurationOptions
 };
 
 var connection = await StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(options);
-```
+```text
 
 ### Cache Behavior: Local vs. Production
 
@@ -184,7 +184,7 @@ var healthChecks = builder.Services.AddHealthChecks()
     HealthStatus.Unhealthy,  // Fail on any error
     tags: new[] { "startup" }
   );
-```
+```text
 
 Kubernetes probe:
 
@@ -196,7 +196,7 @@ readinessProbe:
   initialDelaySeconds: 30  # Wait for startup
   periodSeconds: 10
   failureThreshold: 3
-```
+```text
 
 #### Ongoing Phase (Graceful Degradation)
 
@@ -215,7 +215,7 @@ var healthChecks = builder.Services.AddHealthChecks()
     HealthStatus.Degraded,   // Cache is optional, not critical
     tags: new[] { "liveness" }
   );
-```
+```text
 
 ### Monitoring & Observability
 
@@ -234,7 +234,7 @@ builder.Services.AddOpenTelemetry()
       options.Endpoint = new Uri("http://otel-collector:4317");
     })
   );
-```
+```text
 
 **Metrics to Export**:
 
@@ -257,7 +257,7 @@ scrape_configs:
     static_configs:
       - targets: ['issuetracker-ui:5000']
     metrics_path: '/metrics'
-```
+```text
 
 #### Application Insights (Azure)
 
@@ -269,7 +269,7 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.ConfigureOpenTelemetryMeterProvider(metrics =>
   metrics.AddAzureMonitorMetricExporter()
 );
-```
+```text
 
 ### Performance Tuning
 
@@ -294,7 +294,7 @@ const int ReportTTL = 60;
 
 // Session data: Keep user prefs for 24 hours
 const int SessionTTL = 24 * 60;
-```
+```text
 
 #### Redis Memory Management
 
@@ -310,7 +310,7 @@ services:
         --maxmemory-policy allkeys-lru
     ports:
       - "6379:6379"
-```
+```text
 
 **Policies**:
 
@@ -327,7 +327,7 @@ redis-cli INFO memory
 # Expected output:
 # used_memory_human:125.42M
 # maxmemory:512000000
-```
+```text
 
 #### Database Query Optimization
 
@@ -340,7 +340,7 @@ var indexModel = new CreateIndexModel<Issue>(
   Builders<Issue>.IndexKeys.Ascending(x => x.CreatedBy)
 );
 await collection.Indexes.CreateOneAsync(indexModel);
-```
+```text
 
 **Verify indexes**:
 
@@ -348,7 +348,7 @@ await collection.Indexes.CreateOneAsync(indexModel);
 mongosh --host localhost --port 27017
 use devissuetracker
 db.issues.getIndexes()
-```
+```text
 
 ### Backup & Disaster Recovery
 
@@ -363,7 +363,7 @@ mongodump \
   --host mongodb-prod:27017 \
   -u admin -p $MONGO_PASSWORD \
   --out /backups/mongo-$(date +%Y%m%d)
-```
+```text
 
 #### Redis Backups
 
@@ -374,7 +374,7 @@ Copy RDB/AOF files to persistent storage:
 # backup-redis.sh
 docker exec redis-prod redis-cli BGSAVE
 docker cp redis-prod:/data/dump.rdb /backups/dump-$(date +%Y%m%d).rdb
-```
+```text
 
 #### Recovery Procedures
 
@@ -385,14 +385,14 @@ mongorestore \
   --host mongodb-prod:27017 \
   -u admin -p $MONGO_PASSWORD \
   /backups/mongo-20240101
-```
+```text
 
 **Redis Recovery**:
 
 ```bash
 docker cp /backups/dump-20240101.rdb redis-prod:/data/dump.rdb
 docker restart redis-prod
-```
+```text
 
 ### Scaling Strategies
 
@@ -420,7 +420,7 @@ services:
     depends_on:
       - mongodb
       - redis
-```
+```text
 
 #### Redis Cluster (Horizontal Cache)
 
@@ -433,7 +433,7 @@ services:
     command: redis-server --cluster-enabled yes
     environment:
       - REDIS_CLUSTER_NODES=6
-```
+```text
 
 Application connects to any node; Redis handles sharding automatically.
 
@@ -444,7 +444,7 @@ Application connects to any node; Redis handles sharding automatically.
 1. Check health endpoint:
    ```bash
    curl https://prod.example.com/health
-   ```
+```text
 
 2. Inspect OpenTelemetry traces for slow queries/services
 
@@ -453,21 +453,21 @@ Application connects to any node; Redis handles sharding automatically.
 4. Check Redis and MongoDB resource usage:
    ```bash
    docker stats
-   ```
+```text
 
 #### Symptom: High Memory Usage
 
 1. Check Redis memory:
    ```bash
    redis-cli INFO memory
-   ```
+```text
 
 2. If near limit, keys are being evicted; consider increasing memory or adjusting TTL
 
 3. Check MongoDB memory:
    ```bash
    mongosh --eval "db.stats()"
-   ```
+```text
 
 #### Symptom: Frequent Health Check Failures
 
@@ -478,7 +478,7 @@ Application connects to any node; Redis handles sharding automatically.
 3. Increase timeout values if infrastructure is slow:
    ```csharp
    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(5);  // Increased from 3
-   ```
+```text
 
 ### Security Considerations
 
@@ -495,7 +495,7 @@ services:
   redis:
     ports:
       - "127.0.0.1:6379:6379"    # Localhost only
-```
+```text
 
 #### Authentication
 
@@ -507,13 +507,13 @@ Enable authentication for both services:
 environment:
   - MONGO_INITDB_ROOT_USERNAME=admin
   - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-```
+```text
 
 **Redis**:
 
 ```yaml
 command: redis-server --requirepass ${REDIS_PASSWORD}
-```
+```text
 
 #### Encryption
 
@@ -526,7 +526,7 @@ var settings = MongoClientSettings.FromConnectionString(
   "mongodb+srv://admin:pass@mongodb.example.com/?ssl=true"
 );
 var client = new MongoClient(settings);
-```
+```text
 
 **Redis TLS**:
 
@@ -535,7 +535,7 @@ var options = ConfigurationOptions.Parse(
   "redis-prod.example.com:6380,ssl=true,sslProtocols=Tls12"
 );
 var connection = await ConnectionMultiplexer.ConnectAsync(options);
-```
+```text
 
 ### Pre-Deployment Checklist
 
@@ -557,7 +557,11 @@ var connection = await ConnectionMultiplexer.ConnectAsync(options);
 After deployment:
 
 1. Monitor health check endpoint every 5 minutes
+
 2. Track cache hit/miss rates daily
+
 3. Review performance metrics weekly
+
 4. Test backup/recovery procedures monthly
+
 5. Rotate credentials quarterly

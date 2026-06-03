@@ -27,19 +27,24 @@ Use this skill when:
 ### The Golden Rules
 
 1. **Behavior is preserved** - Refactoring doesn't change what the code does, only how
+
 2. **Small steps** - Make tiny changes, test after each
+
 3. **Version control is your friend** - Commit before and after each safe state
+
 4. **Tests are essential** - Without tests, you're not refactoring, you're editing
+
 5. **One thing at a time** - Don't mix refactoring with feature changes
 
 ### When NOT to Refactor
 
-```
+```text
+
 - Code that works and won't change again (if it ain't broke...)
 - Critical production code without tests (add tests first)
 - When you're under a tight deadline
 - "Just because" - need a clear purpose
-```
+```text
 
 ---
 
@@ -68,7 +73,7 @@ Use this skill when:
 +   await sendNotifications(order, pricing, shipment);
 +   return { order, pricing, shipment };
 + }
-```
+```text
 
 ### 2. Duplicated Code
 
@@ -99,7 +104,7 @@ Use this skill when:
 + function calculateOrderDiscount(order) {
 +   return order.total * getMembershipDiscountRate(order.user.membership);
 + }
-```
+```text
 
 ### 3. Large Class/Module
 
@@ -134,7 +139,7 @@ Use this skill when:
 + class PaymentService {
 +   process(amount, method) { /* ... */ }
 + }
-```
+```text
 
 ### 4. Long Parameter List
 
@@ -165,7 +170,7 @@ Use this skill when:
 +   .name('Test User')
 +   .address(address)
 +   .build();
-```
+```text
 
 ### 5. Feature Envy
 
@@ -197,7 +202,7 @@ Use this skill when:
 +     return this.total * user.getDiscountRate(this.total);
 +   }
 + }
-```
+```text
 
 ### 6. Primitive Obsession
 
@@ -233,7 +238,7 @@ Use this skill when:
 + // Usage
 + const email = Email.create('user@example.com');
 + const phone = new PhoneNumber('1', '555-1234');
-```
+```text
 
 ### 7. Magic Numbers/Strings
 
@@ -261,7 +266,7 @@ Use this skill when:
 + if (user.status === UserStatus.INACTIVE) { /* ... */ }
 + const discount = total * DISCOUNT_RATES.PREMIUM;
 + setTimeout(callback, ONE_DAY_MS);
-```
+```text
 
 ### 8. Nested Conditionals
 
@@ -305,7 +310,7 @@ Use this skill when:
 +     validateOrderTotal(order)
 +   ]).flatMap(() => processOrder(order));
 + }
-```
+```text
 
 ### 9. Dead Code
 
@@ -320,7 +325,7 @@ Use this skill when:
 # GOOD: Remove it
 + // Delete unused functions, imports, and commented code
 + // If you need it again, git history has it
-```
+```text
 
 ### 10. Inappropriate Intimacy
 
@@ -340,7 +345,7 @@ Use this skill when:
 +     order.save();  // Order knows how to save itself
 +   }
 + }
-```
+```text
 
 ---
 
@@ -398,7 +403,7 @@ Use this skill when:
 +   console.log(`${title.split(' ')[0]}: ${users.length}`);
 +   console.log('');
 + }
-```
+```text
 
 ---
 
@@ -458,7 +463,7 @@ Use this skill when:
 +     rate
 +   };
 + }
-```
+```text
 
 ---
 
@@ -504,7 +509,7 @@ Use this skill when:
 + function calculateShipping(order: Order, strategy: ShippingStrategy) {
 +   return strategy.calculate(order);
 + }
-```
+```text
 
 ### Chain of Responsibility
 
@@ -552,7 +557,7 @@ Use this skill when:
 +   .setNext(new NameRequiredValidator())
 +   .setNext(new AgeValidator())
 +   .setNext(new CountryValidator());
-```
+```text
 
 ---
 
@@ -560,33 +565,39 @@ Use this skill when:
 
 ### Safe Refactoring Process
 
-```
+```text
+
 1. PREPARE
+
    - Ensure tests exist (write them if missing)
    - Commit current state
    - Create feature branch
 
 2. IDENTIFY
+
    - Find the code smell to address
    - Understand what the code does
    - Plan the refactoring
 
 3. REFACTOR (small steps)
+
    - Make one small change
    - Run tests
    - Commit if tests pass
    - Repeat
 
 4. VERIFY
+
    - All tests pass
    - Manual testing if needed
    - Performance unchanged or improved
 
 5. CLEAN UP
+
    - Update comments
    - Update documentation
    - Final commit
-```
+```text
 
 ---
 

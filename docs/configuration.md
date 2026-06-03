@@ -20,7 +20,7 @@ This guide describes how to configure Issue Tracker for different environments.
   },
   "AllowedHosts": "*"
 }
-```
+```text
 
 ### Production: `appsettings.Production.json`
 
@@ -38,7 +38,7 @@ This guide describes how to configure Issue Tracker for different environments.
   },
   "AllowedHosts": "yourdomain.com"
 }
-```
+```text
 
 ## Environment Variables
 
@@ -58,7 +58,7 @@ $env:ConnectionStrings__DatabaseName="IssueTrackerDb"
 # Windows (CMD)
 set ConnectionStrings__MongoDB=mongodb://localhost:27017
 set ConnectionStrings__DatabaseName=IssueTrackerDb
-```
+```text
 
 ### Using Docker Compose
 
@@ -82,7 +82,7 @@ services:
 
 volumes:
   mongo-data:
-```
+```text
 
 ## Configuration Options
 
@@ -117,31 +117,32 @@ For sensitive data in development, use .NET User Secrets:
 ```bash
 cd src/IssueTracker.UI
 dotnet user-secrets init
-```
+```text
 
 ### Set Secrets
 
 ```bash
 dotnet user-secrets set "ConnectionStrings:MongoDB" "mongodb://localhost:27017"
 dotnet user-secrets set "ConnectionStrings:DatabaseName" "IssueTrackerDb"
-```
+```text
 
 ### List Secrets
 
 ```bash
 dotnet user-secrets list
-```
+```text
 
 ## Azure Configuration
 
 ### Using Azure App Configuration
 
 1. Create an Azure App Configuration resource
+
 2. Add connection string to environment:
 
 ```bash
 export ConnectionStrings__AppConfig="Endpoint=https://your-config.azconfig.io;..."
-```
+```text
 
 3. Update `Program.cs`:
 
@@ -154,49 +155,50 @@ builder.Configuration.AddAzureAppConfiguration(options =>
                refresh.Register("Settings:Sentinel", refreshAll: true);
            });
 });
-```
+```text
 
 ### Using Azure Key Vault
 
 1. Create an Azure Key Vault
+
 2. Update `Program.cs`:
 
 ```csharp
 var keyVaultEndpoint = new Uri(builder.Configuration["KeyVaultEndpoint"]);
 builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
-```
+```text
 
 ## MongoDB Connection Strings
 
 ### Local Development
 
-```
+```text
 mongodb://localhost:27017
-```
+```text
 
 ### Docker Container
 
-```
+```text
 mongodb://mongo:27017
-```
+```text
 
 ### MongoDB Atlas (Cloud)
 
-```
+```text
 mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-```
+```text
 
 ### Replica Set
 
-```
+```text
 mongodb://host1:27017,host2:27017,host3:27017/?replicaSet=rs0
-```
+```text
 
 ### With Authentication
 
-```
+```text
 mongodb://username:password@localhost:27017/?authSource=admin
-```
+```text
 
 ## Configuration Best Practices
 
@@ -216,7 +218,7 @@ mongodb://username:password@localhost:27017/?authSource=admin
     // "IssueTracker_Production"                // Production
   }
 }
-```
+```text
 
 ### 3. Validate Configuration on Startup
 
@@ -228,7 +230,7 @@ if (string.IsNullOrEmpty(mongoConnection))
 {
     throw new InvalidOperationException("MongoDB connection string is not configured");
 }
-```
+```text
 
 ### 4. Use Dependency Injection
 
@@ -237,7 +239,7 @@ Register configuration objects:
 ```csharp
 builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("ConnectionStrings"));
-```
+```text
 
 Access in services:
 
@@ -251,22 +253,28 @@ public class MyService
         _settings = settings.Value;
     }
 }
-```
+```text
 
 ## Troubleshooting
 
 ### Can't Connect to MongoDB
 
 1. Check connection string format
+
 2. Verify MongoDB is running: `docker ps` or `mongod --version`
+
 3. Check network connectivity
+
 4. Verify authentication credentials
 
 ### Configuration Not Loading
 
 1. Check file name matches environment: `appsettings.{Environment}.json`
+
 2. Verify `ASPNETCORE_ENVIRONMENT` is set correctly
+
 3. Check file is set to "Copy if newer" in project properties
+
 4. Ensure JSON is valid (use a JSON validator)
 
 ## Related Documentation
