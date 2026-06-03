@@ -8,6 +8,7 @@ tools:
   - name: "github-mcp-server-pull_request_read"
     description: "Read PR review threads and comments"
     when: "Step 1 — fetching review comments to understand what needs fixing"
+
   - name: "gh api (REST)"
     description: "Reply to review comment threads and resolve threads via GraphQL"
     when: "Step 3 — posting reply to each comment thread after fixing"
@@ -18,6 +19,7 @@ tools:
 When an agent fixes code in response to PR review comments (from Copilot, a human reviewer, or any GitHub reviewer), the fix alone is not enough. The reviewer needs to see — on the PR thread itself — which comments were addressed and how. Without replies, comments stay visually unresolved, reviewers must re-read the entire diff to verify fixes, and there's no traceable link between feedback and resolution.
 
 Use this skill whenever:
+
 - You are fixing code based on PR review feedback
 - You are addressing Copilot review suggestions
 - You are responding to reviewer-requested changes on a PR
@@ -26,11 +28,13 @@ Use this skill whenever:
 ## SCOPE
 
 ✅ THIS SKILL PRODUCES:
+
 - Reply comments on each review thread explaining the fix
 - Optionally resolved threads (via GraphQL when appropriate)
 - Commit messages that reference the PR and review context
 
 ❌ THIS SKILL DOES NOT PRODUCE:
+
 - The code fixes themselves (that's the agent's domain work)
 - New review comments or reviews
 - PR descriptions or summaries
@@ -41,13 +45,13 @@ Use this skill whenever:
 
 **Using MCP tools (preferred when available):**
 
-```
+```text
 github-mcp-server-pull_request_read
   method: "get_review_comments"
   owner: "{owner}"
   repo: "{repo}"
   pullNumber: {pr_number}
-```
+```text
 
 This returns review threads with metadata: `isResolved`, `isOutdated`, `isCollapsed`, and their associated comments. Each comment has an `id` you'll need for replies.
 
@@ -55,7 +59,7 @@ This returns review threads with metadata: `isResolved`, `isOutdated`, `isCollap
 
 ```bash
 gh api repos/{owner}/{repo}/pulls/{pr_number}/comments --paginate
-```
+```text
 
 Each comment object contains `id`, `body`, `path`, `line`, and `in_reply_to_id`. Top-level comments have no `in_reply_to_id` — those are the ones you reply to.
 
@@ -78,7 +82,7 @@ After fixing and committing, reply to **each** review comment thread individuall
 ```bash
 gh api repos/{owner}/{repo}/pulls/{pr_number}/comments/{comment_id}/replies \
   -f body="Fixed in {sha_short} — {brief description of what was changed}"
-```
+```text
 
 **Important:** `{comment_id}` must be the ID of the **top-level** comment in the thread. You cannot reply to a reply — only to the original review comment.
 
@@ -96,7 +100,7 @@ gh api repos/bradygaster/squad/pulls/42/comments/18235/replies \
 # When pushing back on a suggestion
 gh api repos/bradygaster/squad/pulls/42/comments/18236/replies \
   -f body="Considered but not applied — this path needs to stay absolute because worktree resolution depends on it. See detectSquadDir() in detect-squad-dir.ts."
-```
+```text
 
 ### Step 4: Resolve threads (optional, GraphQL only)
 
@@ -122,7 +126,7 @@ gh api graphql -f query='
     }
   }
 '
-```
+```text
 
 Match thread IDs to comment IDs using `databaseId`, then resolve:
 
@@ -134,7 +138,7 @@ gh api graphql -f query='
     }
   }
 '
-```
+```text
 
 **When to resolve vs. leave open:**
 - ✅ Resolve: You fixed exactly what was requested, no ambiguity
@@ -147,30 +151,35 @@ gh api graphql -f query='
 
 Commit messages should reference the PR context:
 
-```
+```json
 fix: address review feedback on PR #{pr_number}
 
 - Switched to path.dirname() for worktree path resolution (comment #18234)
 - Updated error message to include file path (comment #18235)
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
-```
+```text
 
 For single-comment fixes, a shorter format works:
 
-```
+```json
 fix: use path.dirname() for worktree consistency (PR #{pr_number} review)
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
-```
+```text
 
 ## AGENT WORKFLOW (Summary)
 
 1. **READ** — Fetch review threads using MCP tool or `gh api`
+
 2. **FIX** — Make code changes, tracking comment ID → change mapping
+
 3. **COMMIT** — Push with traceable commit message referencing PR and comments
+
 4. **REPLY** — Post individual reply to each thread via `gh api .../replies`
+
 5. **RESOLVE** — (Optional) Resolve agent-to-agent threads via GraphQL
+
 6. **STOP** — Do not batch-reply, do not skip threads, do not resolve human threads
 
 ## Examples
@@ -182,13 +191,17 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 
 **Agent workflow:**
 1. Read the comment via `get_review_comments`
+
 2. Add the null check in `src/cli/core/detect-squad-dir.ts`
+
 3. Commit: `fix: add null check for squadDir (PR #99 review)`
+
 4. Reply:
    ```bash
    gh api repos/bradygaster/squad/pulls/99/comments/55123/replies \
      -f body="Fixed in f4e5d6c — added early return when squadDir is undefined, matching the pattern in loadConfig()"
-   ```
+```text
+
 5. Resolve the thread (Copilot → agent, safe to resolve)
 
 ### Example: Multiple review comments on one PR
@@ -219,7 +232,7 @@ gh api repos/bradygaster/squad/pulls/99/comments/55124/replies \
 
 gh api repos/bradygaster/squad/pulls/99/comments/55125/replies \
   -f body="Fixed — changed from console.log to debug() so it only shows with --verbose flag"
-```
+```text
 
 ### Example: Handling Copilot suggestion blocks
 
@@ -227,23 +240,26 @@ Copilot sometimes provides `suggestion` blocks with exact code to apply:
 
 **Review comment (id: 55130):**
 ````
+
 Consider using optional chaining:
+
 ```suggestion
 const name = config?.agent?.name ?? 'default';
-```
+```text
 ````
 
 **Reply format when applying:**
+
 ```bash
 gh api repos/bradygaster/squad/pulls/99/comments/55130/replies \
   -f body="Applied suggestion — using optional chaining with nullish coalescing"
-```
+```text
 
 **Reply format when not applying:**
 ```bash
 gh api repos/bradygaster/squad/pulls/99/comments/55130/replies \
   -f body="Not applied — config is guaranteed non-null at this point (validated on line 12). Optional chaining would mask errors."
-```
+```text
 
 ### Example: Pushing back on a review comment
 
@@ -252,7 +268,7 @@ Not every review comment should be accepted. When a suggestion is incorrect or d
 ```bash
 gh api repos/bradygaster/squad/pulls/99/comments/55140/replies \
   -f body="Considered but not applied — this file is in the zero-dependency bootstrap set (see copilot-instructions.md § Protected Files). Adding path.join() would require importing from the SDK, which breaks the bootstrap constraint."
-```
+```text
 
 Do NOT resolve the thread when pushing back. Leave it open for the reviewer to confirm.
 

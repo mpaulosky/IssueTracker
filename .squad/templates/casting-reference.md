@@ -28,9 +28,9 @@ On-demand reference for Squad's casting system. Loaded during Init Mode or when 
 
 Universe selection is deterministic. Score each universe and pick the highest:
 
-```
+```text
 score = size_fit + shape_fit + resonance_fit + LRU
-```
+```text
 
 | Factor | Description |
 |---|---|
@@ -56,7 +56,7 @@ Runtime location: `.squad/casting/policy.json`
     "Universe Name": 10
   }
 }
-```
+```text
 
 ### registry.json
 
@@ -75,7 +75,7 @@ Runtime location: `.squad/casting/registry.json`
     }
   }
 }
-```
+```text
 
 ### history.json
 
@@ -101,4 +101,4 @@ Runtime location: `.squad/casting/history.json`
     }
   }
 }
-```
+```text

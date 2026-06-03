@@ -46,11 +46,12 @@ Describe a key convention or practice used in this codebase. Be specific about w
 
 ## Examples
 
-```
+```text
 // Add code examples that demonstrate your conventions
-```
+```text
 
 ## Anti-Patterns
 
 <!-- List things to avoid in this codebase -->
+
 - **[Anti-pattern]** — Explanation of what not to do and why.

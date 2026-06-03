@@ -16,6 +16,7 @@ The fix is **topic-based routing**: agents tag notifications with a channel type
 sends them to the appropriate destination.
 
 **Trigger symptoms:**
+
 - Important alerts missed because they're buried in routine notifications
 - Team members turning off notifications entirely (signal overwhelm)
 - Onboarding friction: "where do I look for X?"
@@ -37,7 +38,7 @@ Define a `.squad/teams-channels.json` (or equivalent) mapping notification types
     "daily-digest":  "daily-digest"
   }
 }
-```
+```text
 
 Place this in `.squad/` (git-tracked, shared across the team). For platforms that use channel IDs instead of
 names (Teams, Slack), store the resolved ID alongside the name to avoid name-collision bugs:
@@ -48,16 +49,16 @@ names (Teams, Slack), store the resolved ID alongside the name to avoid name-col
     "notifications": { "name": "squad-alerts", "id": "channel-id-opaque-string" }
   }
 }
-```
+```text
 
 ### CHANNEL: Tag Convention
 
 Agents prefix their output with `CHANNEL:<type>` to signal where the notification should go:
 
-```
+```text
 CHANNEL:security
 Worf found 3 new CVEs in dependency scan: lodash@4.17.15, minimist@1.2.5
-```
+```text
 
 ### Routing Dispatcher (shell pseudocode)
 
@@ -73,29 +74,29 @@ dispatch_notification() {
 
   send_notification --channel "$channel" --message "$raw_output"
 }
-```
+```text
 
 ### Provider-Agnostic Adapter
 
 The routing layer is provider-agnostic. Plug in your platform adapter:
 
-```
+```text
 .squad/notify-adapter.sh   # Teams / Slack / Discord / webhook -- swappable
-```
+```text
 
 The routing config and CHANNEL: tags never change. Only the adapter changes per deployment.
 
 ## Anti-Patterns
 
 **Never send all notification types to one channel:**
-```
+```json
 send_notification --channel "general" --message "$anything"
-```
+```text
 
 **Never use display names as identifiers (name collision risk):**
-```
+```json
 send_to_team --name "Squad" --channel "notifications"
-```
+```text
 
 Resolve channel IDs once at setup. Use IDs at runtime.
 

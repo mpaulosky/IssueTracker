@@ -15,19 +15,22 @@ The coordinator's spawn prompt already instructs agents to read decisions.md and
 ## Patterns
 
 ### Worktree Awareness
+
 Use the `TEAM ROOT` path provided in your spawn prompt. All `.squad/` paths are relative to this root. If TEAM ROOT is not provided (rare), run `git rev-parse --show-toplevel` as fallback. Never assume CWD is the repo root.
 
 ### Decision Recording
+
 After making a decision that affects other team members, write it to:
 `.squad/decisions/inbox/{your-name}-{brief-slug}.md`
 
 Format:
-```
+
+```json
 ### {date}: {decision title}
 **By:** {Your Name}
 **What:** {the decision}
 **Why:** {rationale}
-```
+```text
 
 ### Cross-Agent Communication
 If you need another team member's input, say so in your response. The coordinator will bring them in. Don't try to do work outside your domain.

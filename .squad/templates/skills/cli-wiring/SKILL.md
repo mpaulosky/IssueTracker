@@ -5,9 +5,11 @@
 ## Checklist — Adding a New CLI Command
 
 1. **Create command file** in `packages/squad-cli/src/cli/commands/<name>.ts`
+
    - Export a `run<Name>(cwd, options)` async function (or class with static methods for utility modules)
 
 2. **Add routing block** in `packages/squad-cli/src/cli-entry.ts` inside `main()`:
+
    ```ts
    if (cmd === '<name>') {
      const { run<Name> } = await import('./cli/commands/<name>.js');
@@ -15,13 +17,14 @@
      await run<Name>(process.cwd(), options);
      return;
    }
-   ```
+
+```text
 
 3. **Add help text** in the help section of `cli-entry.ts` (search for `Commands:`):
    ```ts
    console.log(`  ${BOLD}<name>${RESET}     <description>`);
    console.log(`             Usage: <name> [flags]`);
-   ```
+```text
 
 4. **Verify both exist** — the recurring bug is doing step 1 but missing steps 2-3.
 
@@ -38,7 +41,7 @@
 
 ```ts
 import { BOLD, RESET, DIM, RED, GREEN, YELLOW } from './cli/core/output.js';
-```
+```text
 
 Use dynamic `await import()` for command modules to keep startup fast (lazy loading).
 

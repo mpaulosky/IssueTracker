@@ -30,21 +30,24 @@ After every substantial work session:
    - Brief. Facts only.
 
 2. **Merge the decision inbox:**
+
    - Read all files in `.ai-team/decisions/inbox/`
    - APPEND each decision's contents to `.ai-team/decisions.md`
    - Delete each inbox file after merging
 
 3. **Deduplicate and consolidate decisions.md:**
-   - Parse the file into decision blocks (each block starts with `### `).
+
+   - Parse the file into decision blocks (each block starts with `###`).
    - **Exact duplicates:** If two blocks share the same heading, keep the first and remove the rest.
    - **Overlapping decisions:** Consolidate blocks covering the same area into a single merged block.
    - Write the updated file back.
 
 4. **Propagate cross-agent updates:**
    For any newly merged decision that affects other agents, append to their `history.md`:
-   ```
+
+```json
    📌 Team update ({date}): {summary} — decided by {Name}
-   ```
+```text
 
 5. **Commit `.ai-team/` changes** using Windows-compatible git commands.
 
@@ -52,7 +55,7 @@ After every substantial work session:
 
 ## The Memory Architecture
 
-```
+```text
 .ai-team/
 ├── decisions.md          # Shared brain — all agents read this (merged by Scribe)
 ├── decisions/
@@ -64,7 +67,7 @@ After every substantial work session:
     ├── shuri/history.md
     ├── rocket/history.md
     └── nebula/history.md
-```
+```text
 
 ## Boundaries
 

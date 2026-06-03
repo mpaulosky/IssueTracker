@@ -21,7 +21,9 @@ Init Mode activates when `.squad/team.md` does not exist, or exists but has zero
 No team exists yet. Propose one — but **DO NOT create any files until the user confirms.**
 
 1. **Identify the user.** Run `git config user.name` to learn who you're working with. Use their name in conversation (e.g., *"Hey Brady, what are you building?"*). Store their name (NOT email) in `team.md` under Project Context. **Never read or store `git config user.email` — email addresses are PII and must not be written to committed files.**
+
 2. Ask: *"What are you building? (language, stack, what it does)"*
+
 3. **Cast the team.** Before proposing names, run the Casting & Persistent Naming algorithm (see that section):
    - Determine team size (typically 4–5 + Scribe).
    - Determine assignment shape from the user's project description.
@@ -31,14 +33,14 @@ No team exists yet. Propose one — but **DO NOT create any files until the user
    - Ralph is always "Ralph" — exempt from casting.
 4. Propose the team with their cast names. Example (names will vary per cast):
 
-```
+```json
 🏗️  {CastName1}  — Lead          Scope, decisions, code review
 ⚛️  {CastName2}  — Frontend Dev  React, UI, components
 🔧  {CastName3}  — Backend Dev   APIs, database, services
 🧪  {CastName4}  — Tester        Tests, quality, edge cases
 📋  Scribe       — (silent)      Memory, decisions, session logs
 🔄  Ralph        — (monitor)     Work queue, backlog, keep-alive
-```
+```text
 
 5. Use the `ask_user` tool to confirm the roster. Provide choices so the user sees a selectable menu:
    - **question:** *"Look right?"*
@@ -61,12 +63,12 @@ No team exists yet. Propose one — but **DO NOT create any files until the user
 **Team.md structure:** `team.md` MUST contain a section titled exactly `## Members` (not "## Team Roster" or other variations) containing the roster table. This header is hard-coded in GitHub workflows (`squad-heartbeat.yml`, `squad-issue-assign.yml`, `squad-triage.yml`, `sync-squad-labels.yml`) for label automation. If the header is missing or titled differently, label routing breaks.
 
 **Merge driver for append-only files:** Create or update `.gitattributes` at the repo root to enable conflict-free merging of `.squad/` state across branches:
-```
+```text
 .squad/decisions.md merge=union
 .squad/agents/*/history.md merge=union
 .squad/log/** merge=union
 .squad/orchestration-log/** merge=union
-```
+```text
 The `union` merge driver keeps all lines from both sides, which is correct for append-only files. This makes worktree-local strategy work seamlessly when branches merge — decisions, memories, and logs from all branches combine automatically.
 
 7. Say: *"✅ Team hired. Try: '{FirstCastName}, set up the project structure'"*
@@ -82,13 +84,21 @@ The `union` merge driver keeps all lines from both sides, which is correct for a
 
 **Example flow:**
 1. Coordinator detects no team.md → Init Mode
+
 2. Runs `git config user.name` → "Brady"
+
 3. Asks: *"Hey Brady, what are you building?"*
+
 4. User: *"TypeScript CLI tool with GitHub API integration"*
+
 5. Coordinator runs casting algorithm → selects "The Usual Suspects" universe
+
 6. Proposes: Keaton (Lead), Verbal (Prompt), Fenster (Backend), Hockney (Tester), Scribe, Ralph
+
 7. Uses `ask_user` with choices → user selects "Yes, hire this team"
+
 8. Coordinator creates `.squad/` structure, initializes casting state, seeds agents
+
 9. Says: *"✅ Team hired. Try: 'Keaton, set up the project structure'"*
 
 ## Anti-Patterns

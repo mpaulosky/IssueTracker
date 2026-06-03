@@ -15,6 +15,7 @@ This is a periodic maintenance activity. Run whenever charter/history bloat is s
 ## Process
 
 ### Step 1: Audit
+
 Read all agent charters and histories. Measure byte sizes. Identify:
 
 - **Boilerplate** — sections repeated across ≥3 charters with <10% variation (collaboration, model, boundaries template)
@@ -22,13 +23,19 @@ Read all agent charters and histories. Measure byte sizes. Identify:
 - **Mature learnings** — history entries appearing 3+ times across agents that should be promoted to skills
 
 ### Step 2: Extract
+
 For each identified pattern:
+
 1. Create or update a skill at `.squad/skills/{skill-name}/SKILL.md`
+
 2. Follow the skill template format (frontmatter + Context + Patterns + Examples + Anti-Patterns)
+
 3. Set confidence: low (first observation), medium (2+ agents), high (team-wide)
 
 ### Step 3: Trim
+
 **Charters** — target ≤1.5KB per agent:
+
 - Remove Collaboration section entirely (spawn prompt + agent-collaboration skill covers it)
 - Remove Voice section (tagline blockquote at top of charter already captures it)
 - Trim Model section to single line: `Preferred: {model}`
@@ -37,12 +44,14 @@ For each identified pattern:
 - Keep: Identity, What I Own, unique How I Work patterns, Boundaries (domain list only)
 
 **Histories** — target ≤8KB per agent:
+
 - Apply history-hygiene skill to any history >12KB
 - Promote recurring patterns (3+ occurrences across agents) to skills
 - Summarize old entries into `## Core Context` section
 - Remove session-specific metadata (dates, branch names, requester names)
 
 ### Step 4: Report
+
 Output a savings table:
 
 | Agent | Charter Before | Charter After | History Before | History After | Saved |
@@ -54,7 +63,7 @@ Include totals and percentage reduction.
 
 ### Minimal Charter Template (target format after reskill)
 
-```
+```json
 # {Name} — {Role}
 
 > {Tagline — one sentence capturing voice and philosophy}
@@ -76,7 +85,7 @@ Include totals and percentage reduction.
 
 ## Model
 Preferred: {model}
-```
+```text
 
 ### Skill Extraction Threshold
 - **1 charter** → leave in charter (unique to that agent)

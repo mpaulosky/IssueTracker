@@ -13,27 +13,33 @@ Squad runs on Windows, macOS, and Linux. Several bugs have been traced to platfo
 ## Patterns
 
 ### Filenames & Timestamps
+
 - **Never use colons in filenames:** ISO 8601 format `2026-03-15T05:30:00Z` is illegal on Windows
 - **Use `safeTimestamp()` utility:** Replaces colons with hyphens → `2026-03-15T05-30-00Z`
 - **Centralize formatting:** Don't inline `.toISOString().replace(/:/g, '-')` — use the utility
 
 ### Git Commands
+
 - **Never use `git -C {path}`:** Unreliable with Windows paths (backslashes, spaces, drive letters)
 - **Always `cd` first:** Change directory, then run git commands
 - **Check for changes before commit:** `git diff --cached --quiet` (exit 0 = no changes)
 
 ### Commit Messages
+
 - **Never embed newlines in `-m` flag:** Backtick-n (`\n`) fails silently in PowerShell
 - **Use temp file + `-F` flag:** Write message to file, commit with `git commit -F $msgFile`
 
 ### Paths
+
 - **Never assume CWD is repo root:** Always use `TEAM ROOT` from spawn prompt or run `git rev-parse --show-toplevel`
 - **Use path.join() or path.resolve():** Don't manually concatenate with `/` or `\`
 
 ### Path Comparison (Case Sensitivity)
+
 - **Never use case-sensitive `startsWith` or `===` for path comparison on Windows or macOS:** These filesystems are case-insensitive — `C:\Users\` and `c:\users\` refer to the same location
 - **Use platform-aware comparison:** Check `process.platform === 'win32' || process.platform === 'darwin'` and lowercase both sides before comparing
 - **Pattern:**
+
   ```typescript
   const CASE_INSENSITIVE = process.platform === 'win32' || process.platform === 'darwin';
   
@@ -43,7 +49,9 @@ Squad runs on Windows, macOS, and Linux. Several bugs have been traced to platfo
     }
     return fullPath.startsWith(prefix);
   }
-  ```
+
+```text
+
 - **Where it matters:** Security checks (path traversal prevention), rootDir confinement, any path-contains-path validation
 - **Linux is case-sensitive:** Do NOT lowercase on Linux — `/Home/` and `/home/` are different directories
 
@@ -69,7 +77,7 @@ Changes:
   git commit -F $msgFile
   Remove-Item $msgFile
 }
-```
+```text
 
 ✗ **Incorrect:**
 ```javascript
@@ -81,7 +89,7 @@ exec('git -C C:\\src\\squad add .squad/'); // UNRELIABLE
 
 // Inline newlines in commit message
 exec('git commit -m "First line\nSecond line"'); // FAILS silently in PowerShell
-```
+```text
 
 ## Anti-Patterns
 
@@ -95,4 +103,4 @@ exec('git commit -m "First line\nSecond line"'); // FAILS silently in PowerShell
     throw new Error('Path traversal blocked');
   }
   // Fails: 'c:\\Users\\temp\\file'.startsWith('C:\\Users\\temp\\') → false
-  ```
+```text

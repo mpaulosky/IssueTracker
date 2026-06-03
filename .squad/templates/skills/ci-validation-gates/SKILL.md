@@ -13,9 +13,11 @@ CI workflows must be defensive. These patterns were learned from the v0.8.22 rel
 ## Patterns
 
 ### Semver Validation Gate
+
 Every publish workflow MUST validate version format before `npm publish`. 4-part versions (e.g., 0.8.21.4) are NOT valid semver — npm mangles them.
 
 ```yaml
+
 - name: Validate semver
   run: |
     VERSION="${{ github.event.release.tag_name }}"
@@ -26,7 +28,7 @@ Every publish workflow MUST validate version format before `npm publish`. 4-part
       exit 1
     fi
     echo "✅ Valid semver: $VERSION"
-```
+```text
 
 ### NPM Token Type Verification
 NPM_TOKEN MUST be an Automation token, not a User token with 2FA:
@@ -36,12 +38,14 @@ NPM_TOKEN MUST be an Automation token, not a User token with 2FA:
 
 ### Retry Logic for npm Registry Propagation
 npm registry uses eventual consistency. After `npm publish` succeeds, the package may not be immediately queryable.
+
 - Propagation: typically 5-30s, up to 2min in rare cases
 - All verify steps: 5 attempts, 15-second intervals
 - Log each attempt: "Attempt 1/5: Checking package..."
 - Exit loop on success, fail after max attempts
 
 ```yaml
+
 - name: Verify package (with retry)
   run: |
     MAX_ATTEMPTS=5
@@ -56,7 +60,7 @@ npm registry uses eventual consistency. After `npm publish` succeeds, the packag
     done
     echo "❌ Failed to verify after $MAX_ATTEMPTS attempts"
     exit 1
-```
+```text
 
 ### Draft Release Detection
 Draft releases don't emit `release: published` event. Workflows MUST:

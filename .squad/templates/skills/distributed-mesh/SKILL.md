@@ -11,8 +11,11 @@ source: "multi-model-consensus (Opus 4.6, Sonnet 4.5, GPT-5.4)"
 **✅ THIS SKILL PRODUCES (exactly these, nothing more):**
 
 1. **`mesh.json`** — Generated from user answers about zones and squads (which squads participate, what zone each is in, paths/URLs for each), using `mesh.json.example` in this skill's directory as the schema template
+
 2. **`sync-mesh.sh` and `sync-mesh.ps1`** — Copied from this skill's directory into the project root (these are bundled resources, NOT generated code)
+
 3. **Zone 2 state repo initialization** (if applicable) — If the user specified a Zone 2 shared state repo, run `sync-mesh.sh --init` to scaffold the state repo structure
+
 4. **A decision entry** in `.squad/decisions/inbox/` documenting the mesh configuration for team awareness
 
 **❌ THIS SKILL DOES NOT PRODUCE:**
@@ -30,11 +33,13 @@ source: "multi-model-consensus (Opus 4.6, Sonnet 4.5, GPT-5.4)"
 When squads are on different machines (developer laptops, CI runners, cloud VMs, partner orgs), the local file-reading convention still works — but remote files need to arrive on your disk first. This skill teaches the pattern for distributed squad communication.
 
 **When this applies:**
+
 - Squads span multiple machines, VMs, or CI runners
 - Squads span organizations or companies
 - An agent needs context from a squad whose files aren't on the local filesystem
 
 **When this does NOT apply:**
+
 - All squads are on the same machine (just read the files directly)
 
 ## Patterns
@@ -55,13 +60,18 @@ The agent interface never changes. Agents always read local files. The distribut
 
 ### Agent Lifecycle (Distributed)
 
-```
+```text
+
 1. SYNC:    git pull (Zone 2) + curl (Zone 3) — materialize remote state
+
 2. READ:    cat .mesh/**/state.md — all files are local now
+
 3. WORK:    do their assigned work (the agent's normal task, NOT mesh-building)
+
 4. WRITE:   update own billboard, log, drops
+
 5. PUBLISH: git add + commit + push — share state with remote peers
-```
+```text
 
 Steps 2–4 are identical to local-only. Steps 1 and 5 are the entire distributed extension. **Note:** "WORK" means the agent performs its normal squad duties — it does NOT mean "build mesh infrastructure."
 
@@ -85,7 +95,7 @@ Steps 2–4 are identical to local-only. Steps 1 and 5 are the entire distribute
     }
   }
 }
-```
+```text
 
 Three zone types, one file. Local squads need only a path. Remote-trusted need a git URL. Remote-opaque need an HTTP URL.
 
@@ -145,11 +155,14 @@ When a user invokes this skill to set up a distributed mesh, follow these steps 
 Ask these questions (adapt phrasing naturally, but get these answers):
 
 1. **Which squads are participating?** (List of squad names)
+
 2. **For each squad, which zone is it in?**
+
    - `local` — same filesystem (just need a path)
    - `remote-trusted` — different machine, same org, shared git access (need git URL + ref)
    - `remote-opaque` — different org, no shared auth (need HTTPS URL to published contract)
 3. **For each squad, what's the connection info?**
+
    - Local: relative or absolute path to their `.mesh/` directory
    - Remote-trusted: git URL (SSH or HTTPS), ref (branch/tag), and where to sync it to locally
    - Remote-opaque: HTTPS URL to their SUMMARY.md, where to sync it, and auth type (none/bearer)
@@ -179,7 +192,7 @@ Structure:
     }
   }
 }
-```
+```text
 
 Write this file to the project root. Do NOT write any other code.
 
@@ -202,12 +215,12 @@ If the user specified a Zone 2 shared state repo in Step 1, run the initializati
 **On Unix/Linux/macOS:**
 ```bash
 bash sync-mesh.sh --init
-```
+```text
 
 **On Windows:**
 ```powershell
 .\sync-mesh.ps1 -Init
-```
+```text
 
 This scaffolds the state repo structure (squad directories, placeholder SUMMARY.md files, root README).
 
@@ -234,7 +247,7 @@ Create a decision file at `.squad/decisions/inbox/<your-agent-name>-mesh-setup.m
 **State repo:** <git-url-if-zone-2-used, or "N/A (local/opaque only)">
 
 **Why:** <user's stated reason for setting up the mesh, or "Enable cross-machine squad coordination">
-```
+```text
 
 Write this file. The Scribe will merge it into the main decisions file later.
 
@@ -250,14 +263,14 @@ Write this file. The Scribe will merge it into the main decisions file later.
 
 Output a simple completion message:
 
-```
+```text
 ✅ Mesh configured. Created:
 - mesh.json (<N> squads)
 - sync-mesh.sh and sync-mesh.ps1 (copied from skill bundle)
 - Decision entry: .squad/decisions/inbox/<filename>
 
 Run `bash sync-mesh.sh` (or `.\sync-mesh.ps1` on Windows) before agents start to materialize remote state.
-```
+```text
 
 ---
 

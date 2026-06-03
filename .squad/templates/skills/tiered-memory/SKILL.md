@@ -17,6 +17,7 @@ Squad agents currently load their full context history on every spawn, resulting
 ## Memory Tiers
 
 ### 🔥 Hot Tier — Current Session Context
+
 - **Size target:** ~2–4KB
 - **Load policy:** Always loaded. Every spawn includes hot memory by default.
 - **Contents:** Current task description, active decisions made this session, immediate blockers, last 3–5 actions taken, who you are talking to right now.
@@ -24,6 +25,7 @@ Squad agents currently load their full context history on every spawn, resulting
 - **Purpose:** Provide immediate task context without any latency or load decision.
 
 ### ❄️ Cold Tier — Summarized Cross-Session History
+
 - **Size target:** ~8–12KB
 - **Load policy:** Load on demand. Include only when the task explicitly needs history.
 - **Contents:** Summarized past sessions (compressed by Scribe), cross-session decisions, recurring patterns, unresolved issues from prior work.
@@ -32,6 +34,7 @@ Squad agents currently load their full context history on every spawn, resulting
 - **How to include:** Pass `--include-cold` in spawn template or add `## Cold Memory` section.
 
 ### 📚 Wiki Tier — Durable Structured Knowledge
+
 - **Size target:** variable, structured reference docs
 - **Load policy:** Async write, selective read. Load only when task requires domain knowledge.
 - **Contents:** Architecture decisions (ADRs), agent charters, routing rules, stable conventions, external API contracts, known platform constraints.
@@ -58,15 +61,15 @@ Squad agents currently load their full context history on every spawn, resulting
 
 The default spawn prompt should include **Hot tier only**:
 
-```
+```text
 ## Memory Context
 
 ### Hot (current session)
 {hot_context}
-```
+```text
 
 Add `--include-cold` when the task needs history:
-```
+```text
 ## Memory Context
 
 ### Hot (current session)
@@ -74,10 +77,10 @@ Add `--include-cold` when the task needs history:
 
 ### Cold (summarized history — load on demand)
 See: .squad/memory/cold/{agent-name}.md
-```
+```text
 
 Add `--include-wiki` when the task needs domain knowledge:
-```
+```text
 ## Memory Context
 
 ### Hot (current session)
@@ -85,7 +88,7 @@ Add `--include-wiki` when the task needs domain knowledge:
 
 ### Wiki (durable reference)
 See: .squad/memory/wiki/{topic}.md
-```
+```text
 
 ---
 
@@ -110,7 +113,9 @@ Baseline measurements from tamirdresher/tamresearch1 production runs (June 2025)
 Scribe is the memory coordinator for this system. It automates tier promotion:
 
 1. **End of session:** Scribe compresses Hot → Cold summary (keeps ~10% of session verbosity)
+
 2. **After 30 days:** Scribe promotes Cold → Wiki for decisions/facts that aged into stable knowledge
+
 3. **On-demand wiki writes:** Any agent can request Scribe to write a wiki entry mid-session using `scribe:wiki-write`
 
 See Scribe charter: `.squad/agents/scribe/charter.md`
@@ -164,13 +169,13 @@ Use this template when spawning any Squad agent. By default it loads **Hot tier 
 
 > Paste current session context here (2–4KB max):
 
-```
+```json
 Current task: {task_description}
 Active decisions: {decisions_this_session}
 Last actions: {last_3_to_5_actions}
 Blockers: {current_blockers_or_none}
 Talking to: {current_interlocutor}
-```
+```text
 
 ---
 
@@ -188,10 +193,10 @@ Include when:
 
 **To load cold memory, add this section and fetch the file before spawning:**
 
-```
+```text
 ## Cold Memory Summary
 {contents_of_.squad/memory/cold/{agent-name}.md}
-```
+```text
 
 ---
 
@@ -208,10 +213,10 @@ Include when:
 
 **To load wiki, add this section and reference the specific doc:**
 
-```
+```text
 ## Wiki Reference
 {contents_of_.squad/memory/wiki/{topic}.md}
-```
+```text
 
 ---
 

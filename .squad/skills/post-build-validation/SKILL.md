@@ -13,17 +13,20 @@ When build or deployment operations rely on external systems (APIs, remote comma
 ## Patterns
 
 **Validate After Build, Not During:**
+
 - Separate validation logic from build logic
 - Call validation methods after primary build operations complete
 - Keeps build methods focused on construction, validation methods on verification
 
 **Graceful Degradation:**
+
 - Log warnings instead of throwing exceptions
 - Return boolean success/failure instead of throwing
 - Catch and handle exceptions in validation code to prevent cascading failures
 - Use `LogWarning()` with structured logging (include coordinates, expected values)
 
 **Verification Helper Pattern:**
+
 ```csharp
 private async Task<bool> VerifyBlockAsync(int x, int y, int z, string expectedBlock, CancellationToken ct)
 {
@@ -37,7 +40,7 @@ private async Task<bool> VerifyBlockAsync(int x, int y, int z, string expectedBl
         return false; // Fail gracefully on exceptions
     }
 }
-```
+```text
 
 **Structure-Specific Validation:**
 ```csharp
@@ -52,7 +55,7 @@ private async Task ValidateWatchtowerAsync(int x, int y, int z, CancellationToke
     if (!await VerifyBlockAsync(x + 3, y + 4, z + 1, "minecraft:glass_pane", ct))
         logger.LogWarning("Validation failed at ({X},{Y},{Z})", x + 3, y + 4, z + 1);
 }
-```
+```text
 
 ## Examples
 

@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD013 -->
+
 # Project Context
 
 - **Owner:** Jeffrey T. Fritz (csharpfritz@users.noreply.github.com)

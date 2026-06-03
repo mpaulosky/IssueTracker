@@ -17,8 +17,11 @@
 **Agenda:**
 
 1. Review the task and requirements
+
 2. Agree on interfaces and contracts between components
+
 3. Identify risks and edge cases
+
 4. Assign action items
 
 ---
@@ -38,6 +41,9 @@
 **Agenda:**
 
 1. What happened? (facts only)
+
 2. Root cause analysis
+
 3. What should change?
+
 4. Action items for next iteration

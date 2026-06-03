@@ -8,15 +8,18 @@ tools:
   - name: "squad-discover"
     description: "List known squads and their capabilities"
     when: "When you need to find which squad can handle a task"
+
   - name: "squad-delegate"
     description: "Create work in another squad's repository"
     when: "When a task belongs to another squad's domain"
 ---
 
 ## Context
+
 When an organization runs multiple Squad instances (e.g., platform-squad, frontend-squad, data-squad), those squads need to discover each other, share context, and hand off work across repository boundaries. This skill teaches agents how to coordinate across squads without creating tight coupling.
 
 Cross-squad orchestration applies when:
+
 - A task requires capabilities owned by another squad
 - An architectural decision affects multiple squads
 - A feature spans multiple repositories with different squads
@@ -25,9 +28,13 @@ Cross-squad orchestration applies when:
 ## Patterns
 
 ### Discovery via Manifest
+
 Each squad publishes a `.squad/manifest.json` declaring its name, capabilities, and contact information. Squads discover each other through:
+
 1. **Well-known paths**: Check `.squad/manifest.json` in known org repos
+
 2. **Upstream config**: Squads already listed in `.squad/upstream.json` are checked for manifests
+
 3. **Explicit registry**: A central `squad-registry.json` can list all squads in an org
 
 ```json
@@ -43,7 +50,7 @@ Each squad publishes a `.squad/manifest.json` declaring its name, capabilities, 
   "accepts": ["issues", "prs"],
   "skills": ["helm-developer", "operator-developer", "pipeline-engineer"]
 }
-```
+```text
 
 ### Context Sharing
 When delegating work, share only what the target squad needs:
@@ -58,11 +65,13 @@ Do NOT share:
 
 ### Work Handoff Protocol
 1. **Check manifest**: Verify the target squad accepts the work type (issues, PRs)
+
 2. **Create issue**: Use `gh issue create` in the target repo with:
    - Title: `[cross-squad] <description>`
    - Label: `squad:cross-squad` (or the squad's configured label)
    - Body: Context, acceptance criteria, and link back to originating issue
 3. **Track**: Record the cross-squad issue URL in the originating squad's orchestration log
+
 4. **Poll**: Periodically check if the delegated issue is closed/completed
 
 ### Feedback Loop
@@ -82,7 +91,7 @@ squad discover
 #   platform-squad  →  org/platform  (kubernetes, helm, monitoring)
 #   frontend-squad  →  org/frontend  (react, nextjs, storybook)
 #   data-squad      →  org/data      (spark, airflow, dbt)
-```
+```text
 
 ### Delegating work
 ```bash
@@ -90,7 +99,7 @@ squad discover
 squad delegate platform-squad "Add Prometheus metrics endpoint for the auth service"
 
 # Creates issue in org/platform with cross-squad label and context
-```
+```text
 
 ### Manifest in squad.config.ts
 ```typescript
@@ -103,7 +112,7 @@ export default defineSquad({
     skills: ['helm-developer', 'operator-developer'],
   },
 });
-```
+```text
 
 ## Anti-Patterns
 - **Direct file writes across repos** — Never modify another squad's `.squad/` directory. Use issues and PRs as the communication protocol.

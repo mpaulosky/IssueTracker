@@ -20,10 +20,13 @@ Analyze conversations and propose improvements to squad knowledge based on what 
 **Reflect complements existing Squad knowledge systems:**
 
 1. **`.squad/agents/{agent}/history.md`** — Permanent learnings from completed work (append-only; each agent updates their own file; Scribe propagates cross-agent updates)
+
 2. **`.squad/decisions.md`** — Team-wide decisions that all agents respect
+
 3. **`reflect` skill** — Captures in-flight learnings from conversations that may graduate to history.md or decisions.md
 
 **Workflow:**
+
 - Use `reflect` during work to capture learnings
 - At session end, review captured learnings
 - Promote HIGH confidence patterns → lead agent for decision.md review
@@ -65,7 +68,9 @@ Analyze conversations and propose improvements to squad knowledge based on what 
 Determine what knowledge system should be updated:
 
 1. **Agent-specific learning** → `.squad/agents/{agent}/history.md`
+
 2. **Team-wide decision** → `.squad/decisions/inbox/{agent}-{topic}.md`
+
 3. **Skill-specific improvement** → Document in session, recommend to skill owner
 
 ### Phase 2: Analyze Conversation
@@ -77,15 +82,17 @@ Scan for learning signals with confidence levels:
 User actively steered or corrected output.
 
 **Detection patterns:**
+
 - Explicit rejection: "no", "not like that", "that's wrong"
 - Strong directives: "never do", "always do", "don't ever"
 - User provided alternative implementation
 
 **Example:**
+
 ```text
 User: "No, use the azure-devops MCP tool instead of raw API calls"
 → [HIGH] + Add constraint: "Prefer azure-devops MCP tools over REST API"
-```
+```text
 
 #### MEDIUM Confidence: Success Patterns
 
@@ -100,7 +107,7 @@ Output was accepted or praised.
 ```text
 User: "Perfect, that's exactly what I needed"
 → [MED] + Add preference: "Include usage examples in documentation"
-```
+```text
 
 #### MEDIUM Confidence: Edge Cases
 
@@ -141,7 +148,7 @@ Present findings:
 ├─────────────────────────────────────────────────────────────┤
 │ Apply changes? [Y/n/edit]                                   │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 **Confidence Threshold:**
 
@@ -159,14 +166,17 @@ Present findings:
 After user approval:
 
 1. **For Agent History:**
+
    - Append to `.squad/agents/{agent}/history.md` under `## Learnings` section
    - Format: Date, assignment context, key learning
 
 2. **For Team Decisions:**
+
    - Create `.squad/decisions/inbox/{agent}-{topic}.md`
    - Lead agent reviews and merges to `decisions.md` if appropriate
 
 3. **For Skills:**
+
    - Document recommendation in session notes
    - Squad lead reviews and routes to skill owner
 
@@ -177,38 +187,39 @@ After user approval:
 ### Example 1: User Correction
 
 **Conversation:**
-```
+```json
 Agent: "I'll use grep to search the repository"
 User: "No, use the code search tools first, grep is too slow"
-```
+```text
 
 **Reflection Output:**
-```
+```json
 [HIGH] + Add constraint: "Use code intelligence tools before grep"
   Source: "No, use the code search tools first, grep is too slow"
   Target: .squad/agents/{agent}/history.md
-```
+```text
 
 ### Example 2: Success Pattern
 
 **Conversation:**
-```
+```text
 Agent: [Creates PR with detailed description and test plan]
 User: "Perfect! This is exactly the format I want for all PRs"
-```
+```text
 
 **Reflection Output:**
-```
+```json
 [MED] + Add preference: "Include test plan in PR descriptions"
   Source: User praised detailed PR format
   Target: .squad/decisions/inbox/pr-format.md (for team adoption)
-```
+```text
 
 ---
 
 ## When to Use
 
 ✅ **Use reflect when:**
+
 - User says "no", "wrong", "not like that" (HIGH priority)
 - User says "perfect", "exactly", "great" (MED priority)
 - You discover edge cases or gaps
@@ -216,6 +227,7 @@ User: "Perfect! This is exactly the format I want for all PRs"
 - At end of sprint/milestone to consolidate patterns
 
 ❌ **Don't use reflect when:**
+
 - Simple one-off questions with no pattern
 - User is just exploring ideas (no concrete decisions)
 - Learning is already captured in history.md/decisions.md

@@ -23,7 +23,7 @@ function Test-RetroOverdue {
 
     return ($retroLogs.Count -eq 0)
 }
-```
+```text
 
 ### Returns
 - `$true` — No retro log found within the window. **Retro is overdue. Block other work.**
@@ -55,16 +55,20 @@ if (Test-RetroOverdue -LogDir ".squad/log" -WindowDays 7) {
 
 # Proceed with normal work queue
 $workQueue = Get-PendingIssues | Sort-Object -Property Priority
-```
+```text
 
 ### Blocking Semantics
 
 When `Test-RetroOverdue` returns `$true`:
 
 1. **Do not start any other work** until the retro completes
+
 2. **Spawn the facilitator agent** (Scribe or designated) with retro mode
+
 3. **Wait for the log file** to be written to `.squad/log/`
+
 4. **Verify action items** were created as GitHub Issues (not markdown)
+
 5. **Resume normal round** after retro log confirmed
 
 ## Action Item Enforcement
@@ -92,7 +96,7 @@ function Test-RetroActionItemsCreated {
 
     return ($issueRefs.Count -gt 0)
 }
-```
+```text
 
 ### Why Not Markdown Checklists
 
@@ -134,7 +138,7 @@ function Invoke-RoundStart {
         Invoke-WorkItem -Issue $issue
     }
 }
-```
+```text
 
 ## Skill Metadata
 

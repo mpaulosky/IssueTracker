@@ -56,12 +56,13 @@ The `sql` tool is **CLI-only**. It does not exist on VS Code, JetBrains, or GitH
 ## Examples
 
 **Example 1: CLI parallel spawn**
+
 ```typescript
 // Coordinator detects task tool available → CLI mode
 task({ agent_type: "general-purpose", mode: "background", model: "claude-sonnet-4.5", ... })
 task({ agent_type: "general-purpose", mode: "background", model: "claude-haiku-4.5", ... })
 // Later: read_agent for both
-```
+```text
 
 **Example 2: VS Code parallel spawn**
 ```typescript
@@ -70,13 +71,13 @@ runSubagent({ prompt: "...Fenster charter + task..." })
 runSubagent({ prompt: "...Hockney charter + task..." })
 runSubagent({ prompt: "...Scribe charter + task..." }) // Last in group
 // Results return automatically, no read_agent
-```
+```text
 
 **Example 3: Fallback mode**
 ```typescript
 // Neither task nor runSubagent available → work inline
 // Coordinator executes the task directly without spawning
-```
+```text
 
 ## Anti-Patterns
 

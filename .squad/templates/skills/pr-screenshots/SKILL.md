@@ -13,6 +13,7 @@ need to see what the PR delivers without checking out the branch. Screenshots be
 the **PR description body**, not as committed files and not as text descriptions.
 
 Use this skill whenever:
+
 - A PR touches docs site pages (Astro, Starlight, etc.)
 - A PR adds or changes UI components
 - A PR generates visual artifacts (TypeDoc, Storybook, diagrams)
@@ -43,7 +44,7 @@ for (const { url, name } of screenshots) {
 }
 
 await browser.close();
-```
+```text
 
 ### 2. Host screenshots on a temporary branch
 
@@ -67,7 +68,7 @@ $base = "https://raw.githubusercontent.com/{owner}/{repo}/screenshots-temp/scree
 
 # Return to working branch
 git checkout -f $currentBranch
-```
+```text
 
 ### 3. Embed in PR description
 
@@ -97,9 +98,9 @@ gh pr edit {PR_NUMBER} --repo {owner}/{repo} --body @"
 ### To verify locally
 ```bash
 {commands to run locally}
-```
+```json
 "@
-```
+```text
 
 ### 4. Cleanup after merge
 
@@ -107,7 +108,7 @@ After the PR is merged, delete the temporary branch:
 
 ```bash
 git push origin --delete screenshots-temp
-```
+```text
 
 ### 5. Gitignore screenshots locally
 
@@ -117,16 +118,20 @@ Screenshots are build artifacts — never commit them to feature branches:
 # PR screenshots (hosted on temp branch, not committed to features)
 screenshots/
 docs/tests/screenshots/
-```
+```text
 
 ## Examples
 
 ### Example: Docs site PR with 3 pages
 
 1. Start dev server: `cd docs && npm run dev`
+
 2. Run Playwright tests (they capture screenshots as a side effect)
+
 3. Push screenshots to `screenshots-temp` branch
+
 4. Update PR body with embedded `![...]()` image references
+
 5. Reviewer sees the pages inline without checking out the branch
 
 ### Example: Reusing existing Playwright test screenshots
@@ -137,7 +142,7 @@ If tests at `docs/tests/*.spec.mjs` already save to `docs/tests/screenshots/`:
 cd docs && npx playwright test tests/api-reference.spec.mjs
 # Screenshots now at docs/tests/screenshots/*.png
 # Push those to screenshots-temp and embed in PR
-```
+```text
 
 ## Anti-Patterns
 

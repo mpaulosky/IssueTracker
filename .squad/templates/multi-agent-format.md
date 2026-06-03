@@ -11,7 +11,7 @@ When multiple agents contribute to a final artifact (document, analysis, design)
 
 The assembled result goes at the top. Below it, include:
 
-```
+```text
 ## APPENDIX: RAW AGENT OUTPUTS
 
 ### {Name} ({Role}) — Raw Output
@@ -19,7 +19,7 @@ The assembled result goes at the top. Below it, include:
 
 ### {Name} ({Role}) — Raw Output
 {Paste agent's verbatim response here, unedited}
-```
+```text
 
 ## Appendix Rules
 

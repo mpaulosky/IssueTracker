@@ -84,7 +84,7 @@ Configured .NET Aspire orchestration for IssueTracker by creating the AppHost pr
 
 ```bash
 dotnet run --project src/IssueTracker.AppHost
-```
+```text
 
 - Aspire dashboard: <http://localhost:17000>
 - Blazor UI: <http://localhost:5000> (HTTP/5001 HTTPS)
@@ -158,7 +158,9 @@ Single entry point: `dotnet run --project AppHost` handles everything:
 IssueTracker has AppHost scaffolding from Wolinski's initial implementation. We need to establish the complete Aspire foundation:
 
 1. **Simplified project naming** — align Aspire projects with existing conventions
+
 2. **ServiceDefaults project** — centralized infrastructure concerns
+
 3. **Complete AppHost design** — production-ready orchestration
 
 This is **Priority 1** work — blocks all other Aspire integration.
@@ -191,7 +193,7 @@ This is **Priority 1** work — blocks all other Aspire integration.
 
 **Structure:**
 
-```
+```text
 src/ServiceDefaults/
 ├── ServiceDefaults.csproj
 ├── GlobalUsings.cs
@@ -202,14 +204,18 @@ src/ServiceDefaults/
 │   └── OpenTelemetryExtensions.cs
 └── Middleware/
     └── ErrorHandlingMiddleware.cs (optional, Phase 2)
-```
+```text
 
 **What Goes In:**
 
 1. **OpenTelemetry** — Tracing, Metrics, Logging (Aspire dashboard integration)
+
 2. **Health Checks** — MongoDB connectivity, API readiness
+
 3. **Problem Details** — Standardized error responses (RFC 7807)
+
 4. **Service Discovery** — Aspire-aware HTTP client configuration
+
 5. **Resilience** — Polly retry/circuit breaker policies (Phase 2)
 
 **What Stays Out:**
@@ -235,7 +241,7 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();  // <-- Health checks, liveness
 app.Run();
-```
+```text
 
 **Why Not NuGet Package?**
 
@@ -254,7 +260,7 @@ app.Run();
 
 **Resource Graph:**
 
-```
+```text
 AppHost
 ├── MongoDB (ContainerResource)
 │   ├── Image: mongo:latest
@@ -266,7 +272,7 @@ AppHost
     ├── References: MongoDB connection string
     ├── WaitFor: MongoDB health check
     └── Project references: CoreBusiness, Services, PlugIns (in .csproj)
-```
+```text
 
 **MongoDB Configuration:**
 
@@ -320,7 +326,7 @@ AppHost
            return builder;
        }
    }
-   ```
+```text
 
 2. **HealthChecks/MongoDbHealthCheck.cs** — Ping MongoDB:
 
@@ -350,7 +356,7 @@ AppHost
            }
        }
    }
-   ```
+```text
 
 3. **Observability/OpenTelemetryExtensions.cs** — Aspire dashboard integration:
 
@@ -366,7 +372,7 @@ AppHost
            return builder;
        }
    }
-   ```
+```text
 
 4. **PackageReferences** (add to Directory.Packages.props):
    - `Aspire.Hosting` (already present)
@@ -407,28 +413,35 @@ AppHost
 ### Success Criteria
 
 1. **Developer workflow:**
+
    - `dotnet run --project src/AppHost` starts entire application
    - Aspire dashboard (`:15000`) shows MongoDB + UI with health checks green
    - Breakpoint debugging works through AppHost orchestration
 
 2. **Code quality:**
+
    - All ServiceDefaults code follows standards (file-scoped namespaces, nullable, 120-char lines)
    - XML docs on public APIs
    - Architecture tests validate `.AddServiceDefaults()` called in all projects
 
 3. **Documentation:**
+
    - `docs/getting-started.md` reflects new project names
    - `README.md` updated with Aspire dashboard link
 
 4. **No regressions:**
+
    - All existing unit tests pass
    - Integration tests (TestContainers) unaffected
 
 ### Next Steps
 
 1. **Wolinski:** Implement Phases 1-3 (6-7 hours total)
+
 2. **Hooper:** Write architecture test validating ServiceDefaults usage
+
 3. **Stansfield:** Review UI/Program.cs integration after Wolinski completes
+
 4. **Milo:** Code review PR before merge
 
 **Blockers:** None. All dependencies present.
@@ -472,10 +485,12 @@ AppHost
 ### What Was Fixed
 
 1. **Skill Directory Structure:**
+
    - Moved misplaced `auth0-integration.md` from `.squad/skills/` → `.squad/skills/auth0-integration/SKILL.md`
    - Verified all skills follow the pattern: `{skill-name}/SKILL.md` (not loose `.md` files)
 
 2. **YAML Frontmatter Standardization:**
+
    - Added YAML metadata header to `auth0-integration/SKILL.md` with unique name
    - All three skills now have consistent frontmatter:
      - `name:` — unique identifier (lowercase, hyphenated)
@@ -485,6 +500,7 @@ AppHost
      - `source:` — how skill was documented
 
 3. **Tool Name Audit:**
+
    - Discovered skill names: `auth0-integration`, `post-build-validation`, `webapp-testing`
    - Discovered MCP server names: `EXAMPLE-trello`
    - **Result:** No duplicates or conflicts
@@ -547,6 +563,7 @@ AppHost
 **Deliverables:**
 
 1. **docs/Aspire.md** (6.3 KB)
+
    - System topology and architecture diagram
    - Resource configuration (MongoDB, Redis, Blazor UI ports/volumes)
    - AppHost local startup instructions
@@ -556,6 +573,7 @@ AppHost
    - Stopping and resetting volumes
 
 2. **docs/Cache-Strategy.md** (9.1 KB)
+
    - Three-tier caching strategy (Query results 5min, Output 10min, Session 1hr)
    - What to cache and what NOT to cache
    - ICacheService usage patterns with code examples
@@ -565,6 +583,7 @@ AppHost
    - Performance monitoring guidance
 
 3. **docs/Health-Checks.md** (9.3 KB)
+
    - Health check endpoints (`/health` readiness, `/health/live` liveness)
    - HTTP status codes and response interpretation
    - MongoDB health check (3s timeout, admin database ping)
@@ -575,6 +594,7 @@ AppHost
    - Health check best practices
 
 4. **docs/Running-Aspire-Locally.md** (8.1 KB)
+
    - Prerequisites (NET 10, Docker Desktop, port availability)
    - Step-by-step setup (clone → restore → start AppHost)
    - Service verification methods (dashboard, CLI, health endpoint)
@@ -585,6 +605,7 @@ AppHost
    - Common issues and solutions matrix
 
 5. **docs/Production-Readiness.md** (12.8 KB)
+
    - Redis persistence strategies (RDB, AOF, Hybrid recommended)
    - Redis replication for high availability
    - Local vs. Production cache behavior differences
@@ -689,6 +710,7 @@ AppHost
 **Current State Summary:**
 
 ✓ **What's Working Well**
+
 - Aspire foundation is sound and intentional
 - AppHost orchestrates MongoDB with health checks
 - ServiceDefaults centralizes infrastructure concerns
@@ -696,8 +718,11 @@ AppHost
 
 **⚠️ Gaps to Address**
 1. No Redis in Directory.Packages.props
+
 2. ServiceDefaults does not register a cache provider
+
 3. No cache invalidation strategy documented
+
 4. No explicit readiness/liveness health check distinction
 
 **Redis Integration Plan:**

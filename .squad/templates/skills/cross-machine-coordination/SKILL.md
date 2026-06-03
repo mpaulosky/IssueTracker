@@ -43,13 +43,17 @@ EOF
 git add .squad/cross-machine/tasks/
 git commit -m "Cross-machine task: GPU voice cloning [squad:machine-devbox]"
 git push origin main
-```
+```text
 
 Ralph on DevBox will:
 1. Pull the task on next cycle (5-10 min)
+
 2. Validate schema & command whitelist
+
 3. Execute the GPU workload
+
 4. Write result to `.squad/cross-machine/results/gpu-voice-clone-001.yaml`
+
 5. Commit & push the result
 
 ---
@@ -63,15 +67,18 @@ Ralph automatically watches `.squad/cross-machine/tasks/` for work targeted at t
 ```python
 # Pseudo-code (Ralph implementation)
 1. git pull origin main
+
 2. Load all .yaml files in .squad/cross-machine/tasks/
+
 3. Filter for status=pending AND target_machine=HOSTNAME
+
 4. For each task:
    a. Validate schema (must have: id, source_machine, target_machine, payload)
    b. Validate command against whitelist
    c. Execute task (with timeout)
    d. Write result to .squad/cross-machine/results/{id}.yaml
    e. Commit & push result
-```
+```text
 
 ---
 
@@ -86,13 +93,17 @@ gh issue create \
   --body "Execute voice cloning on DevBox. Input: /path/to/voice-input.wav" \
   --label "squad:machine-devbox" \
   --label "urgent"
-```
+```text
 
 Ralph on DevBox will:
 1. Detect issue with `squad:machine-devbox` label
+
 2. Parse task from issue body
+
 3. Execute task
+
 4. Comment with result
+
 5. Close issue
 
 ---
@@ -119,14 +130,14 @@ payload:
     memory_gb: 8
     cpu_cores: 4
 status: pending|executing|completed|failed
-```
+```text
 
 **Optional Fields:**
 ```yaml
 description: "Human-readable task description"
 timeout_override_min: 120          # Override default timeout
 retry_count: 3                     # Retry failed tasks
-```
+```text
 
 ### Result File (YAML)
 
@@ -145,7 +156,7 @@ artifacts:
   - path: "/path/to/artifacts/..."   # Location of results
     type: audio|text|model|...
     size_mb: 2.5
-```
+```text
 
 ---
 
@@ -156,28 +167,33 @@ artifacts:
 All tasks go through:
 
 1. **Schema Validation**
+
    - YAML structure matches spec
    - Required fields present
    - No unexpected fields (reject)
 
 2. **Command Whitelist**
+
    - Only approved commands allowed
    - Path validation (no `../../` escapes)
    - Environment variable sanitization
    - No inline shell operators (`&&`, `|`, `>`)
 
 3. **Resource Limits**
+
    - Timeout enforced (default: 60 min)
    - Memory cap: 16GB (adjustable)
    - CPU threads: 4 (adjustable)
    - Disk write: 100GB (adjustable)
 
 4. **Execution Isolation**
+
    - Runs as unprivileged user
    - Temp directory cleaned after execution
    - Network access: read-only (no outbound writes)
 
 5. **Audit Trail**
+
    - All executions logged to git
    - Commit signed with Ralph's key
    - Result stored immutably
@@ -214,7 +230,7 @@ Ralph reads config from `.squad/config.json`:
     "result_ttl_days": 30
   }
 }
-```
+```text
 
 ---
 
@@ -239,7 +255,7 @@ payload:
     gpu: true
     memory_gb: 8
 status: pending
-```
+```text
 
 **2. Laptop commits & pushes:**
 
@@ -247,12 +263,13 @@ status: pending
 git add .squad/cross-machine/tasks/
 git commit -m "Task: GPU voice cloning [squad:machine-devbox]"
 git push origin main
-```
+```text
 
 **3. DevBox Ralph (5 min later):**
 
-```
+```text
 [Ralph Watch Cycle]
+
 - Pulled origin/main
 - Detected: gpu-voice-clone-001 (status: pending, target: devbox)
 - Validation: ✅ Schema OK, command whitelisted
@@ -261,7 +278,7 @@ git push origin main
 - Completed: exit code 0
 - Writing result...
 - Committing & pushing...
-```
+```text
 
 **4. Laptop Ralph (next cycle) sees result:**
 
@@ -279,7 +296,7 @@ artifacts:
   - path: "/path/to/artifacts/voice-clone-001/output.wav"
     type: audio
     size_mb: 2.5
-```
+```text
 
 ---
 
@@ -293,11 +310,11 @@ gh issue create \
   --body "Error: Model failed to load on last run. Please check /tmp/model.log and report findings." \
   --label "squad:machine-devbox" \
   --label "urgent"
-```
+```text
 
 **DevBox Ralph detects → executes → comments:**
 
-```
+```text
 ✅ Executed on devbox at 2026-03-14 15:47:00
 Command: python scripts/debug-model.py
 
@@ -308,12 +325,13 @@ Checksum: a1b2c3d4e5f6 (matches expected)
 Memory available: 12 GB (sufficient)
 
 ERROR FOUND: Config file permission issue
+
   - File: ~/.config/voice/model.yaml
   - Permissions: -rw------- (owner-only)
   - Expected: -rw-r--r-- (world-readable for service)
 
 FIX: Run: chmod 644 ~/.config/voice/model.yaml
-```
+```text
 
 ---
 
@@ -324,8 +342,11 @@ FIX: Run: chmod 644 ~/.config/voice/model.yaml
 If a task fails (exit code != 0):
 
 1. Result written with `status: failed` + exit code
+
 2. stderr captured in result
+
 3. Committed to git for audit
+
 4. Source machine can retry by re-pushing task with `status: pending`
 
 ### Stalled Tasks
@@ -333,8 +354,11 @@ If a task fails (exit code != 0):
 If a task doesn't complete within timeout:
 
 1. Process killed
+
 2. Result written with `status: timeout`
+
 3. stderr: "Execution exceeded X minutes"
+
 4. Source can investigate or retry
 
 ### Network Failures
@@ -354,26 +378,26 @@ If git push/pull fails:
 ```bash
 ls -la .squad/cross-machine/tasks/
 cat .squad/cross-machine/tasks/*.yaml | grep -E "^(id|status|target_machine):"
-```
+```text
 
 ### Check Results
 
 ```bash
 ls -la .squad/cross-machine/results/
 cat .squad/cross-machine/results/{task-id}.yaml
-```
+```text
 
 ### View Execution History
 
 ```bash
 git log --oneline .squad/cross-machine/ | head -20
-```
+```text
 
 ### Monitor Ralph Cycles
 
 ```bash
 tail -f .squad/log/ralph-watch.log | grep "cross-machine"
-```
+```text
 
 ---
 
@@ -381,18 +405,21 @@ tail -f .squad/log/ralph-watch.log | grep "cross-machine"
 
 Ralph automatically includes this pattern in its watch loop:
 
-```
+```text
 Ralph Watch Cycle (every 5-10 min):
 1. Fetch GitHub issues with squad:machine-* labels
+
 2. Poll .squad/cross-machine/tasks/
+
 3. For each matching task:
    - Validate
    - Execute
    - Write result
    - Commit & push
 4. Update status in issue (if applicable)
+
 5. Sleep until next cycle
-```
+```text
 
 No manual Ralph configuration needed — just create task files or issues with the right labels.
 
@@ -419,10 +446,15 @@ No manual Ralph configuration needed — just create task files or issues with t
 Potential expansions (Phase 2+):
 
 1. **Task Priorities:** Execution order based on priority field
+
 2. **Serial Pipelines:** Machine A → B → C task chains
+
 3. **GPU Availability Polling:** Query DevBox before submitting work
+
 4. **Cost Tracking:** Log resource usage per task
+
 5. **Notification Webhooks:** Alert on task completion
+
 6. **Web Dashboard:** Real-time task status visualization
 
 ---

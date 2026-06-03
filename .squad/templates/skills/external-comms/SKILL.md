@@ -8,12 +8,15 @@ tools:
   - name: "github-mcp-server-list_issues"
     description: "List open issues for scan candidates and lightweight triage"
     when: "Use for recent open issue scans before thread-level review"
+
   - name: "github-mcp-server-issue_read"
     description: "Read the full issue, comments, and labels before drafting"
     when: "Use after selecting a candidate so PAO has complete thread context"
+
   - name: "github-mcp-server-search_issues"
     description: "Search for candidate issues or prior squad responses"
     when: "Use when filtering by keywords, labels, or duplicate response checks"
+
   - name: "gh CLI"
     description: "Fallback for GitHub issue comments and discussions workflows"
     when: "Use gh issue list/comment and gh api or gh api graphql when MCP coverage is incomplete"
@@ -89,6 +92,7 @@ Use exactly one template as the base draft. Replace placeholders with issue-spec
 | 🔴 Needs Review | Technical uncertainty, policy/roadmap question, potential reputational risk, author is frustrated/angry, question about unreleased features | "When will Squad support Claude?" |
 
 **Auto-escalation rules:**
+
 - Any mention of competitors → 🔴
 - Any mention of pricing/licensing → 🔴
 - Author has >3 follow-up comments without resolution → 🔴
@@ -110,9 +114,13 @@ Use the humanizer skill for every draft.
 Before drafting, PAO MUST verify complete thread coverage:
 
 1. **Count verification:** Compare API comment count with actually-read comments. If mismatch, abort draft.
+
 2. **Deleted comment check:** Use `gh api` timeline to detect deleted comments. If found, flag as ⚠️ in review table.
+
 3. **Thread summary:** Include in every draft: "Thread: {N} comments, last activity {date}, {summary of key points}"
+
 4. **Long thread flag:** If >10 comments, add ⚠️ to review table and include condensed thread summary
+
 5. **Evidence line in review table:** Each draft row includes "Read: {N}/{total} comments" column
 
 ### 4. Present
@@ -130,7 +138,7 @@ Show drafts for review in this exact format:
 Confidence: 🟢 High | 🟡 Medium | 🔴 Needs review
 
 Full drafts below ▼
-```
+```text
 
 Each full draft must begin with the thread summary line:
 `Thread: {N} comments, last activity {date}, {summary of key points}`
@@ -149,10 +157,13 @@ Wait for explicit human direction before anything is posted.
 If a posted response turns out to be wrong, inappropriate, or needs correction:
 
 1. **Delete the comment:**
+
    - Issues: `gh api -X DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}`
    - Discussions: `gh api graphql -f query='mutation { deleteDiscussionComment(input: {id: "{node_id}"}) { comment { id } } }'`
 2. **Log the deletion:** Write audit entry with action `delete`, include reason and original content
+
 3. **Draft replacement** (if needed): PAO drafts a corrected response, goes through normal review cycle
+
 4. **Postmortem:** If the error reveals a pattern gap, update humanizer anti-patterns or add a new test case
 
 **Safe word — `banana`:**
@@ -185,7 +196,7 @@ These are reusable templates. Keep the structure, replace placeholders, and adju
 
 ```bash
 gh issue list --state open --json number,title,author,labels,comments --limit 20
-```
+```text
 
 ### Example review table
 
@@ -202,7 +213,7 @@ gh issue list --state open --json number,title,author,labels,comments --limit 20
 Confidence: 🟢 High | 🟡 Medium | 🔴 Needs review
 
 Full drafts below ▼
-```
+```text
 
 ### Example audit entry (post action)
 
@@ -230,7 +241,7 @@ Let us know if you can share the command you ran right before the failure.
 
 ## Post Result (post, delete actions)
 https://github.com/bradygaster/squad/issues/426#issuecomment-123456
-```
+```text
 
 ### T1 — Welcome
 
@@ -238,7 +249,7 @@ https://github.com/bradygaster/squad/issues/426#issuecomment-123456
 Hey {author}! Welcome to Squad 👋 Thanks for opening this.
 {specific acknowledgment or first answer}
 Let us know if you have questions — happy to help!
-```
+```text
 
 ### T2 — Troubleshooting
 
@@ -247,7 +258,7 @@ Thanks for the detailed report, {author}!
 Here's what we think is happening: {explanation}
 {steps or workaround}
 Let us know if that helps, or if you're seeing something different.
-```
+```text
 
 ### T3 — Feature Guidance
 
@@ -255,7 +266,7 @@ Let us know if that helps, or if you're seeing something different.
 Great question! {context on current state}
 {guidance or workaround}
 We've noted this as a potential improvement — {tracking info if applicable}.
-```
+```text
 
 ### T4 — Redirect
 
@@ -263,7 +274,7 @@ We've noted this as a potential improvement — {tracking info if applicable}.
 Thanks for reaching out! This one is actually better suited for {correct location}.
 {brief explanation of why}
 Feel free to open it there — they'll be able to help!
-```
+```text
 
 ### T5 — Acknowledgment
 
@@ -271,7 +282,7 @@ Feel free to open it there — they'll be able to help!
 Good catch, {author}. We've confirmed this is a real issue.
 {what we know so far}
 We'll update this thread when we have a fix. Thanks for flagging it!
-```
+```text
 
 ### T6 — Closing
 
@@ -279,7 +290,7 @@ We'll update this thread when we have a fix. Thanks for flagging it!
 This should be resolved in {version/PR}! 🎉
 {brief summary of what changed}
 Thanks for reporting this, {author} — it made Squad better.
-```
+```text
 
 ### T7 — Technical Uncertainty
 
@@ -288,7 +299,7 @@ Interesting find, {author}. We're not 100% sure what's causing this yet.
 Here's what we've ruled out: {list}
 We'd love more context if you have it — {specific ask}.
 We'll dig deeper and update this thread.
-```
+```text
 
 ### T8 — Empathetic Disagreement
 
@@ -300,7 +311,7 @@ The current design choice was driven by {reason}. We know it's not ideal for eve
 {what alternatives exist or what trade-off was made}
 
 If you have ideas for how to make this work better for your scenario, we'd love to hear them — open a discussion or drop your thoughts here!
-```
+```text
 
 ### T9 — Information Request
 
@@ -313,7 +324,7 @@ To help us dig into this, could you share:
 - {specific ask 3, if applicable}
 
 That context will help us narrow down what's happening. Appreciate it!
-```
+```text
 
 ## Anti-Patterns
 

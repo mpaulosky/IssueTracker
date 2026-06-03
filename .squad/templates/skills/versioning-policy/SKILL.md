@@ -26,6 +26,7 @@ No prerelease suffixes on `dev` or `main` branches — ever.
 The `scripts/bump-build.mjs` script creates `-build.N` versions (e.g., `0.9.1-build.4`) for **local development testing only**.
 
 Rules:
+
 - `-build.N` versions are created automatically during local `npm run build`
 - They are **never committed** to `dev` or `main`
 - The script skips itself in CI (`CI=true` or `SKIP_BUILD_BUMP=1`)
@@ -45,7 +46,7 @@ The CLI depends on the SDK via a workspace dependency with a semver range:
 
 ```json
 "@bradygaster/squad-sdk": ">=0.9.0"
-```
+```text
 
 **Critical:** Per the semver specification, `>=0.9.0` does **NOT** match `0.9.1-build.4`.
 
@@ -68,7 +69,7 @@ If you discover a prerelease version committed to `dev` or `main`, you may fix i
 
 ## 6. Version Bump Lifecycle
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │  Development phase                                      │
 │  Versions stay at current release: 0.9.1                │
@@ -86,7 +87,7 @@ If you discover a prerelease version committed to `dev` or `main`, you may fix i
 │  Versions stay at the new release version (e.g., 0.9.2) │
 │  Development continues on clean version                 │
 └─────────────────────────────────────────────────────────┘
-```
+```text
 
 ## 7. CI Enforcement
 

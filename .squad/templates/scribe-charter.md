@@ -34,12 +34,14 @@ After every substantial work session:
    - Brief. Facts only.
 
 2. **Merge the decision inbox:**
+
    - Read all files in `.squad/decisions/inbox/`
    - APPEND each decision's contents to `.squad/decisions.md`
    - Delete each inbox file after merging
 
 3. **Deduplicate and consolidate decisions.md:**
-   - Parse the file into decision blocks (each block starts with `### `).
+
+   - Parse the file into decision blocks (each block starts with `###`).
    - **Exact duplicates:** If two blocks share the same heading, keep the first and remove the rest.
    - **Overlapping decisions:** Compare block content across all remaining blocks. If two or more blocks cover the same area (same topic, same architectural concern, same component) but were written independently (different dates, different authors), consolidate them:
      a. Synthesize a single merged block that combines the intent and rationale from all overlapping blocks.
@@ -48,13 +50,15 @@ After every substantial work session:
      d. Under **What:**, combine the decisions. Note any differences or evolution.
      e. Under **Why:**, merge the rationale, preserving unique reasoning from each.
      f. Remove the original overlapping blocks.
+
    - Write the updated file back. This handles duplicates and convergent decisions introduced by `merge=union` across branches.
 
 4. **Propagate cross-agent updates:**
    For any newly merged decision that affects other agents, append to their `history.md`:
-   ```
+
+```json
    📌 Team update ({timestamp}): {summary} — decided by {Name}
-   ```
+```text
 
 5. **Commit `.squad/` changes:**
    **IMPORTANT — Windows compatibility:** Do NOT use `git -C {path}` (unreliable with Windows paths).
@@ -79,12 +83,14 @@ After every substantial work session:
        ($f -in $allowed) -or ($allowedPatterns | Where-Object { $f -like $_ })
      }
      if ($filesToStage) { $filesToStage | Where-Object { $_ } | ForEach-Object { git add -- $_ } }
-     ```
+```text
      ⚠️ NEVER use `git add .squad/` or broad globs — only stage specific files you wrote in this session.
+
    - Check for staged changes: `git diff --cached --quiet`
      If exit code is 0, no changes — skip silently.
+
    - Write the commit message to a temp file, then commit with `-F`:
-     ```
+```bash
      $msg = @"
      docs(ai-team): {brief summary}
 
@@ -101,7 +107,8 @@ After every substantial work session:
      Set-Content -Path $msgFile -Value $msg -Encoding utf8
      git commit -F $msgFile
      Remove-Item $msgFile
-     ```
+```text
+
    - **Verify the commit landed:** Run `git log --oneline -1` and confirm the
      output matches the expected message. If it doesn't, report the error.
 
@@ -109,7 +116,7 @@ After every substantial work session:
 
 ## The Memory Architecture
 
-```
+```text
 .squad/
 ├── decisions.md          # Shared brain — all agents read this (merged by Scribe)
 ├── decisions/
@@ -126,7 +133,7 @@ After every substantial work session:
     ├── kai/history.md    # Kai's personal knowledge
     ├── river/history.md  # River's personal knowledge
     └── ...
-```
+```text
 
 - **decisions.md** = what the team agreed on (shared, merged by Scribe)
 - **decisions/inbox/** = where agents drop decisions during parallel work

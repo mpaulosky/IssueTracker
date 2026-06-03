@@ -9,11 +9,13 @@ source: "manual"
 ## SCOPE
 
 ✅ THIS SKILL PRODUCES:
+
 - A modified Layer 3 model selection table applied when economy mode is active
 - `economyMode: true` written to `.squad/config.json` when activated persistently
 - Spawn acknowledgments with `💰` indicator when economy mode is active
 
 ❌ THIS SKILL DOES NOT PRODUCE:
+
 - Code, tests, or documentation
 - Cost reports or billing artifacts
 - Changes to Layer 0, Layer 1, or Layer 2 resolution (user intent always wins)
@@ -53,7 +55,9 @@ When economy mode is **active**, Layer 3 auto-selection uses this table instead 
 ### On Session Start
 
 1. READ `.squad/config.json`
+
 2. CHECK for `economyMode: true` — if present, activate economy mode for the session
+
 3. STORE economy mode state in session context
 
 ### On User Phrase Trigger
@@ -61,19 +65,25 @@ When economy mode is **active**, Layer 3 auto-selection uses this table instead 
 **Session-only (no config change):** "use economy mode", "save costs", "go cheap"
 
 1. SET economy mode active for this session
+
 2. ACKNOWLEDGE: `✅ Economy mode active — using cost-optimized models this session. (Layer 0 and Layer 2 preferences still apply)`
 
 **Persistent:** "always use economy mode", "save economy mode"
 
 1. WRITE `economyMode: true` to `.squad/config.json` (merge, don't overwrite other fields)
+
 2. ACKNOWLEDGE: `✅ Economy mode saved — cost-optimized models will be used until disabled.`
 
 ### On Every Agent Spawn (Economy Mode Active)
 
 1. CHECK Layer 0a/0b first (agentModelOverrides, defaultModel) — if set, use that. Economy mode does NOT override Layer 0.
+
 2. CHECK Layer 1 (session directive for a specific model) — if set, use that. Economy mode does NOT override explicit session directives.
+
 3. CHECK Layer 2 (charter preference) — if set, use that. Economy mode does NOT override charter preferences.
+
 4. APPLY economy table at Layer 3 instead of normal table.
+
 5. INCLUDE `💰` in spawn acknowledgment: `🔧 {Name} ({model} · 💰 economy) — {task}`
 
 ### On Deactivation
@@ -81,12 +91,15 @@ When economy mode is **active**, Layer 3 auto-selection uses this table instead 
 **Trigger phrases:** "turn off economy mode", "disable economy mode", "use normal models"
 
 1. REMOVE `economyMode` from `.squad/config.json` (if it was persisted)
+
 2. CLEAR session economy mode state
+
 3. ACKNOWLEDGE: `✅ Economy mode disabled — returning to standard model selection.`
 
 ### STOP
 
 After updating economy mode state and including the `💰` indicator in spawn acknowledgments, this skill is done. Do NOT:
+
 - Change Layer 0, Layer 1, or Layer 2 model choices
 - Override charter-specified models
 - Generate cost reports or comparisons
@@ -101,7 +114,7 @@ After updating economy mode state and including the `💰` indicator in spawn ac
   "version": 1,
   "economyMode": true
 }
-```
+```text
 
 - `economyMode` — when `true`, Layer 3 uses the economy table. Optional; absent = economy mode off.
 - Combines with `defaultModel` and `agentModelOverrides` — Layer 0 always wins.

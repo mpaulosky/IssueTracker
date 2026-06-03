@@ -19,7 +19,7 @@ requires the coordinator to validate agent output before closing an issue.
 
 Every agent spawn must include the following four sections. Copy and fill in the template:
 
-```
+```text
 ## Task
 {What you need done — concrete and bounded}
 
@@ -39,7 +39,7 @@ Example:
 - If requirements are ambiguous → stop, comment on the issue, set label status:needs-decision
 - If blocked by a dependency → label status:blocked, explain in a comment
 - If 3 cycles exhausted without resolution → write a summary to inbox and surface to coordinator
-```
+```text
 
 ---
 
@@ -55,8 +55,10 @@ Example:
 
 1. **After each cycle**, the coordinator evaluates the output against the success criteria
    before accepting it or spawning the next cycle.
+
 2. **Objective context forward**: each subsequent spawn includes a summary of what was tried
    and what is still missing — not just a repeat of the original task.
+
 3. **Cycle 3 exhausted** → escalate: write a summary to `.squad/decisions/inbox/`, label the
    issue `status:needs-decision`, and notify the user.
 
@@ -100,7 +102,7 @@ duplicates.
 ```bash
 # Check for existing open issues before creating a new one
 gh issue list --search "<keywords from your issue title>" --state open
-```
+```text
 
 - If an open issue already covers the same problem → **comment on it** instead of creating a new one.
 - If no duplicate → proceed to create the issue.
@@ -138,7 +140,7 @@ If no action is warranted, the agent must explicitly state why and get coordinat
 ## Examples
 
 ### Good spawn prompt
-```
+```text
 ## Task
 Add an "Iterative Retrieval Protocol" section to `.squad/agents/coordinator/charter.md` explaining
 the 3-cycle rule, WHY format, and validation checklist.
@@ -157,9 +159,9 @@ cycles and outputs go unvalidated — leading to stale issues and silent failure
 ## Escalation path
 If the charter.md format is unclear, check another agent charter as a reference.
 If uncertain about content, stop and surface to coordinator.
-```
+```text
 
 ### Bad spawn prompt (don't do this)
-```
+```text
 Update the coordinator charter with the iterative retrieval stuff.
-```
+```text

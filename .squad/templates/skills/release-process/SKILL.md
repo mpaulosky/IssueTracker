@@ -5,12 +5,14 @@
 ## SCOPE
 
 ✅ THIS SKILL PRODUCES:
+
 - Pre-release validation checks that prevent broken publishes
 - Correct npm publish commands (never workspace-scoped)
 - Fallback procedures when CI workflows fail
 - Post-publish verification steps
 
 ❌ THIS SKILL DOES NOT PRODUCE:
+
 - Feature implementation or test code
 - Architecture decisions
 - Documentation content
@@ -32,15 +34,17 @@ The coordinator routes work and manages agents. It does NOT run `npm publish`, t
 ### 2. Pre-Publish Dependency Validation
 
 Before ANY release is tagged, scan every `packages/*/package.json` for:
+
 - `file:` references (workspace leak — the v0.9.0 root cause)
 - `link:` references
 - Absolute paths in dependency values
 - Non-semver version strings
 
 **Command:**
+
 ```bash
 grep -r '"file:\|"link:\|"/' packages/*/package.json
-```
+```text
 If anything matches, STOP. Do not proceed. Fix the reference first.
 
 ### 3. Never Use `npm -w` for Publishing
@@ -50,14 +54,17 @@ If anything matches, STOP. Do not proceed. Fix the reference first.
 ```bash
 cd packages/squad-sdk && npm publish --access public
 cd packages/squad-cli && npm publish --access public
-```
+```text
 
 ### 4. Fallback Protocol
 
 If `workflow_dispatch` or the publish workflow fails:
 1. Try once more (ONE retry, not four)
+
 2. If it fails again → local publish immediately
+
 3. Do NOT attempt GitHub UI file operations to fix workflow indexing
+
 4. GitHub has a ~15min workflow cache TTL after file renames/deletes — waiting helps, retrying doesn't
 
 ### 5. Post-Publish Smoke Test
@@ -67,7 +74,7 @@ After every publish, verify in a clean shell:
 npm install -g @bradygaster/squad-cli@latest
 squad --version    # should match published version
 squad doctor       # should pass in a test repo
-```
+```text
 
 If the smoke test fails, rollback immediately.
 
@@ -89,7 +96,7 @@ Set this environment variable in all CI build steps to prevent the build script 
 
 ## Release Checklist (Quick Reference)
 
-```
+```text
 □ All tests passing on dev
 □ No file:/link: references in packages/*/package.json
 □ CHANGELOG.md updated
@@ -105,7 +112,7 @@ Set this environment variable in all CI build steps to prevent the build script 
 □ squad-npm-publish auto-triggers
 □ Monitor publish workflow
 □ Post-publish smoke test
-```
+```text
 
 ## Known Gotchas
 

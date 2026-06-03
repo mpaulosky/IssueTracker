@@ -10,6 +10,8 @@ tools:
     when: "When accessing GitHub resources requiring authentication"
 ---
 
+<!-- markdownlint-disable MD013 -->
+
 ## Context
 
 Many developers use GitHub through an Enterprise Managed User (EMU) account at work while maintaining a personal GitHub account for open-source contributions. AI agents spawned by Squad inherit the shell's default `gh` authentication — which is usually the EMU account. This causes failures when agents try to push to personal repos, create PRs on forks, or interact with resources outside the enterprise org.
@@ -24,7 +26,7 @@ Before any GitHub operation, check which account is active:
 
 ```bash
 gh auth status
-```
+```text
 
 Look for:
 - `Logged in to github.com as USERNAME` — the active account
@@ -41,7 +43,7 @@ gh auth token --user personaluser
 
 # Get the EMU account token
 gh auth token --user corpalias_enterprise
-```
+```text
 
 **Use case:** Push to a personal fork while the default `gh` auth is the EMU account.
 
@@ -55,7 +57,7 @@ $token = gh auth token --user personaluser
 
 # 2. Push using token-authenticated HTTPS
 git push https://personaluser:$token@github.com/personaluser/repo.git branch-name
-```
+```text
 
 **Why this works:** `gh auth token --user` reads from `gh`'s credential store without switching the active account. The token is used inline for a single operation and never persisted.
 
@@ -71,7 +73,7 @@ gh pr create --repo upstream/repo --head personaluser:branch --title "..." --bod
 $env:GH_TOKEN = $(gh auth token --user personaluser)
 gh pr create --repo upstream/repo --head personaluser:branch --title "..."
 Remove-Item Env:\GH_TOKEN
-```
+```text
 
 ### Config Directory Isolation (Advanced)
 
@@ -86,7 +88,7 @@ gh repo clone personaluser/repo
 # EMU account operations (default)
 Remove-Item Env:\GH_CONFIG_DIR
 gh auth status  # Back to EMU account
-```
+```text
 
 **Setup (one-time):**
 ```bash
@@ -94,7 +96,7 @@ gh auth status  # Back to EMU account
 mkdir ~/.config/gh-public
 $env:GH_CONFIG_DIR = "$HOME/.config/gh-public"
 gh auth login --web --git-protocol https
-```
+```text
 
 ### Shell Aliases for Quick Switching
 
@@ -108,7 +110,7 @@ function ghe { gh @args }  # Default EMU
 # Usage:
 # ghp repo clone personaluser/repo   # Uses personal account
 # ghe issue list                       # Uses EMU account
-```
+```text
 
 ```bash
 # Bash/Zsh profile
@@ -118,7 +120,7 @@ alias ghe='gh'
 # Usage:
 # ghp repo clone personaluser/repo
 # ghe issue list
-```
+```text
 
 ## Examples
 
@@ -134,7 +136,7 @@ git push origin main
 
 # Clean up — don't leave token in remote URL
 git remote set-url origin https://github.com/personaluser/personaluser.github.io.git
-```
+```text
 
 ### ✓ Correct: Agent creates a PR from personal fork to upstream
 
@@ -148,7 +150,7 @@ git push origin contrib/fix-docs  # Pushes to fork (may need token auth)
 gh pr create --repo bradygaster/squad --head personaluser:contrib/fix-docs `
   --title "docs: fix installation guide" `
   --body "Fixes #123"
-```
+```text
 
 ### ✗ Incorrect: Blindly pushing with wrong account
 
@@ -160,7 +162,7 @@ git push origin main
 # BAD: Hardcoding tokens in scripts
 git push https://personaluser:ghp_xxxxxxxxxxxx@github.com/personaluser/repo.git main
 # SECURITY RISK: Token exposed in command history and process list
-```
+```text
 
 ### ✓ Correct: Check before you push
 
@@ -170,7 +172,7 @@ gh auth status
 # If wrong account, use token extraction:
 $token = gh auth token --user personaluser
 git push https://personaluser:$token@github.com/personaluser/repo.git main
-```
+```text
 
 ## Anti-Patterns
 
