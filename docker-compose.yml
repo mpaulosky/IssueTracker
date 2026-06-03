@@ -7,7 +7,7 @@ networks:
 services:
   db:
     image: mongodb/mongodb-community-server:latest
-    
+
     container_name: my-mongodb
 
     restart: always

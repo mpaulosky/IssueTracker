@@ -6,7 +6,7 @@
 
 version: 2
 updates:
-  
+
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -41,7 +41,7 @@ updates:
       all-actions:
         patterns: [ "*" ]
 
-  #Maintain DotNet Sdk
+  # Maintain DotNet Sdk
   - package-ecosystem: "dotnet-sdk"
     directory: "/nuget/helpers/lib/NuGetUpdater"
     schedule:
