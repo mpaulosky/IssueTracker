@@ -1,5 +1,7 @@
 # Vision — Technical Writer
 
+<!-- markdownlint-disable MD013 -->
+
 ## Project Context
 
 **Project:** Aspire-Minecraft — .NET Aspire integration for Minecraft servers  

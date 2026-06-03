@@ -1,5 +1,7 @@
 # Project Context
 
+<!-- markdownlint-disable MD013 -->
+
 - **Owner:** Jeffrey T. Fritz (csharpfritz@users.noreply.github.com)
 - **Project:** Aspire.Hosting.Minecraft — .NET Aspire integration for Minecraft servers
 - **Stack:** C#, .NET 10, Docker, Aspire, OpenTelemetry, Minecraft Paper Server, RCON
@@ -143,6 +145,7 @@
 📌 Team update (2026-02-15): Structural validation requirements — all acceptance tests must verify door accessibility, staircase connectivity, and wall-mounted items. Session milestone plan created, GitHub issues #93, #94, #95 generated. — decided by Jeff (Jeffrey T. Fritz)
 
 📌 Team update (2026-02-15): MCA Inspector milestone launched — read-only Minecraft Anvil format (NBT) library for bulk structural verification without RCON latency. Complements RCON testing. 4 phases: (1) Library foundation (3-4 days), (2) Test infrastructure (2 days), (3) Watchtower bulk verification (3 days), (4) Polish & release (1 day). Timeline: ~1.5 weeks. Success: AnvilRegionReader reads block state from real .mca files, 20+ unit tests (>90% coverage), integration tests verify 200+ block coordinates per building. — decided by Rhodey
+
 - **5 integration test failures are expected** — they require a running Minecraft Docker container. The `--filter "Category!=Integration"` doesn't exclude them because integration tests are missing `[Trait("Category", "Integration")]` — they use `[Collection("Minecraft")]` instead. Non-blocking, filed as observation.
 - **NuGet package created:** `Fritz.Aspire.Hosting.Minecraft.0.1.0-dev.nupkg` (~39.6 MB). Package validation passed. Version set to `0.5.0` at release time via CI pipeline `-p:Version` override.
 - **Three non-blocking observations for future work:** (1) Add `[Trait("Category", "Integration")]` to integration tests. (2) Fix CS8604 nullable warning. (3) Confirm CI sets correct version from git tag.

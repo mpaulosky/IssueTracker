@@ -1,5 +1,7 @@
 # Project Context
 
+<!-- markdownlint-disable MD013 -->
+
 - **Owner:** Jeffrey T. Fritz (csharpfritz@users.noreply.github.com)
 - **Project:** Aspire.Hosting.Minecraft — .NET Aspire integration for Minecraft servers
 - **Stack:** C#, .NET 10, Docker, Aspire, OpenTelemetry, Minecraft Paper Server, RCON
@@ -20,12 +22,14 @@
 ### Consolidated Summary: Sprints 1-3 (2026-02-10)
 
 **Sprint 1 — NuGet hardening:**
+
 - Pinned 6 floating deps to exact versions. Added GenerateDocumentationFile, EnablePackageValidation, Deterministic, ContinuousIntegrationBuild, EmbedUntrackedSources, Microsoft.SourceLink.GitHub to Directory.Build.props.
 - Single package consolidation: Rcon embedded via PrivateAssets="All" + BuildOutputInPackage. Worker is IsPackable=false.
 - PackageId renamed from Aspire.Hosting.Minecraft to Fritz.Aspire.Hosting.Minecraft (reserved namespace).
 - Public API audit (#12): MinecraftHealthCheck -> internal. All Worker types -> internal. Public: MinecraftServerBuilderExtensions, MinecraftServerResource, 5 RCON types.
 
 **Sprint 2 — XML docs, RCON throttle, config APIs:**
+
 - XML doc comments on all public types/methods across both projects.
 - RCON throttle: optional `minCommandInterval` param (default disabled). 250ms in production. Per-command-string deduplication.
 - Configuration builder review: existing `With*()` fluent pattern is sufficient — no formal options class needed.
@@ -35,12 +39,14 @@
 - NuGet version changed to 0.1.0-dev with CI override via -p:Version.
 
 **Sprint 3 — World border, dependency placement, rate limiting:**
+
 - WorldBorderService (#28): Shrinks 200->100 blocks over 10s when >50% unhealthy. Restores over 5s. Red warning tint at 5 blocks. Opt-in via ASPIRE_FEATURE_WORLDBORDER.
 - Ephemeral world by default: Removed named Docker volume from AddMinecraftServer(). Added WithPersistentWorld() for opt-in persistence.
 - RCON rate-limiting (#29): CommandPriority enum (Low/Normal/High). Token bucket at 10 cmd/s. High bypasses limits. Low queued in bounded Channel<T> (100, DropOldest).
 - Dependency placement (#29): ResourceInfo.Dependencies from ASPIRE_RESOURCE_{NAME}_DEPENDS_ON env vars. VillageLayout.ReorderByDependency() uses BFS topological sort. WithMonitoredResource() accepts params string[] dependsOn + auto-detects IResourceWithParent.
 
 **Azure SDK Research:**
+
 - Separate NuGet package recommended: Fritz.Aspire.Hosting.Minecraft.Azure (~5 MB Azure SDK deps).
 - Packages: Azure.ResourceManager, Azure.Identity, Azure.ResourceManager.ResourceHealth, Azure.Monitor.Query.Metrics.
 - Azure.Monitor.Query is deprecated — use Azure.Monitor.Query.Metrics instead.

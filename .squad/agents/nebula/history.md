@@ -1,5 +1,7 @@
 # Project Context
 
+<!-- markdownlint-disable MD013 -->
+
 - **Owner:** Jeffrey T. Fritz (csharpfritz@users.noreply.github.com)
 - **Project:** Aspire.Hosting.Minecraft — .NET Aspire integration for Minecraft servers
 - **Stack:** C#, .NET 10, Docker, Aspire, OpenTelemetry, Minecraft Paper Server, RCON
@@ -107,4 +109,3 @@
 📌 Architectural layering is the standard Minecraft build technique — large structural fills first, then decorative details on top. Fill-overlap tests must whitelist these patterns: same-block redundant fills, smaller-volume detail over larger-volume structure, interior furnishing within wall volumes, material family upgrades (cracked→polished stone), and gate/window replacements.
 
 📌 Team update (2026-02-17): Issue #84 - Health check test failing due to Redis dependency in integration tests — RESOLVED. Root cause: ServiceDefaults unconditionally registered RedisHealthCheck which requires IConnectionMultiplexer. Integration tests only have MongoDB (via TestContainers), no Redis. Fixed by making Redis optional in ServiceDefaults (Redis:Enabled config, defaults true), registering IConnectionMultiplexer singleton when enabled, and conditionally registering RedisHealthCheck. Test factory sets Redis__Enabled environment variable BEFORE base.ConfigureWebHost() so ServiceDefaults reads correct config during Program.cs initialization. All 364 tests now passing. Key learning: Environment variables work for WebApplicationFactory config timing; in-memory config from ConfigureAppConfiguration runs too late. — decided by Nebula
-

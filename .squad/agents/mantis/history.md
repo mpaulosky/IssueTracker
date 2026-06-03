@@ -1,5 +1,7 @@
 # Project Context
 
+<!-- markdownlint-disable MD013 -->
+
 - **Owner:** Jeffrey T. Fritz (csharpfritz@users.noreply.github.com)
 - **Project:** Aspire.Hosting.Minecraft — .NET Aspire integration for Minecraft servers
 - **Stack:** C#, .NET 10, Docker, Aspire, OpenTelemetry, Minecraft Paper Server, RCON
