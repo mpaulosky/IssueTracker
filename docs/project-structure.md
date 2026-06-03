@@ -4,7 +4,7 @@ This document provides a detailed overview of the Issue Tracker project organiza
 
 ## Solution Structure
 
-```
+```text
 IssueTracker/
 ├── src/                    # Source code
 ├── tests/                  # Test projects
@@ -19,7 +19,7 @@ IssueTracker/
 
 The heart of the domain logic, containing entities and business rules.
 
-```
+```text
 CoreBusiness/
 └── IssueTracker.CoreBusiness/
     ├── Models/                    # Domain entities
@@ -51,6 +51,7 @@ CoreBusiness/
 ```
 
 **Key Points**:
+
 - Pure C# - no framework dependencies
 - Contains no implementation details
 - Domain models with validation
@@ -60,7 +61,7 @@ CoreBusiness/
 
 Infrastructure layer containing data access and external integrations.
 
-```
+```text
 PlugIns/
 ├── IssueTracker.PlugIns/
 │   ├── DataAccess/               # MongoDB implementations
@@ -81,6 +82,7 @@ PlugIns/
 ```
 
 **Key Points**:
+
 - Implements repository interfaces from CoreBusiness
 - MongoDB-specific code
 - Easily swappable for other databases
@@ -90,7 +92,7 @@ PlugIns/
 
 Application services that orchestrate business logic and define repository interfaces.
 
-```
+```text
 Services/
 └── IssueTracker.Services/
     ├── Issue/                         # Issue-related services
@@ -119,6 +121,7 @@ Services/
 ```
 
 **Key Points**:
+
 - Implements business use cases
 - Coordinates between UI and data access
 - Validates business rules
@@ -129,7 +132,7 @@ Services/
 
 Blazor Server-based user interface with component-driven architecture.
 
-```
+```text
 UI/
 └── IssueTracker.UI/
     ├── Components/               # Reusable Razor components
@@ -183,6 +186,7 @@ UI/
 ```
 
 **Key Points**:
+
 - Blazor Server components with code-behind pattern
 - Component-based architecture for reusability
 - Dependency injection for services
@@ -195,7 +199,7 @@ UI/
 
 Comprehensive test suite covering all layers.
 
-```
+```text
 tests/
 ├── IssueTracker.CoreBusiness.Tests.Unit/
 │   ├── Models/                   # Entity tests
@@ -227,6 +231,7 @@ tests/
 ```
 
 **Key Points**:
+
 - Separate unit and integration tests
 - xUnit test framework
 - bUnit for Blazor testing
@@ -236,7 +241,7 @@ tests/
 
 Comprehensive project documentation.
 
-```
+```text
 docs/
 ├── index.md                     # Documentation home
 ├── getting-started.md           # Setup guide
@@ -254,7 +259,7 @@ docs/
 
 ### Root Level
 
-```
+```text
 IssueTracker/
 ├── IssueTracker.slnx           # Solution file
 ├── Directory.Packages.props    # Central package management
@@ -273,7 +278,7 @@ IssueTracker/
 
 Each project contains:
 
-```
+```text
 [Project]/
 ├── [Project].csproj            # Project file
 ├── GlobalUsings.cs             # Global using directives
@@ -283,7 +288,7 @@ Each project contains:
 
 ## Dependency Flow
 
-```
+```text
     IssueTracker.UI
          │
          ├─→ IssueTracker.Services
@@ -298,6 +303,7 @@ Each project contains:
 ```
 
 **Rules**:
+
 - UI depends on Services and CoreBusiness
 - Services depend on CoreBusiness
 - PlugIns depend on CoreBusiness (implements interfaces)
@@ -305,7 +311,7 @@ Each project contains:
 
 ## Build Output
 
-```
+```text
 TestResults/
 ├── [guid]/                     # Test run results
 │   └── coverage.opencover.xml  # Coverage data
@@ -317,6 +323,7 @@ TestResults/
 ### 1. Clean Architecture
 
 Projects are organized by architectural layer, not by feature. This enforces:
+
 - Clear separation of concerns
 - Testability
 - Maintainability
@@ -324,6 +331,7 @@ Projects are organized by architectural layer, not by feature. This enforces:
 ### 2. Vertical Slice by Entity
 
 Within Services and tests, code is organized by entity/domain concept:
+
 - Issue
 - User
 - Comment

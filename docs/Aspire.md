@@ -10,7 +10,7 @@ services, and their dependencies through code-first configuration.
 
 The application consists of three main components orchestrated by Aspire:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         Aspire AppHost                      │
 │  (Local Orchestration & Container Manager)  │
@@ -101,7 +101,7 @@ This command:
 
 Expected console output:
 
-```
+```text
 ...
 Building...
 info: Aspire.Hosting[0]

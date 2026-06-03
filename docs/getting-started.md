@@ -52,13 +52,13 @@ This single command:
 
 Open your browser and navigate to:
 
-```
+```text
 https://localhost:5001
 ```
 
 or
 
-```
+```text
 http://localhost:5000
 ```
 
@@ -66,7 +66,7 @@ http://localhost:5000
 
 While the app is running, access the .NET Aspire dashboard at:
 
-```
+```text
 http://localhost:15000
 ```
 
@@ -103,7 +103,7 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
 ## Project Structure
 
-```
+```text
 IssueTracker/
 ├── src/
 │   ├── CoreBusiness/          # Domain models and business logic

@@ -60,17 +60,20 @@ Issue Tracker is a modern, scalable issue tracking system built with clean archi
 ## 🚀 Quick Navigation
 
 ### For New Users
+
 1. Start with the [Getting Started Guide](getting-started.md)
 2. Review the [Architecture Overview](architecture.md)
 3. Explore the [Project Structure](project-structure.md)
 
 ### For Contributors
+
 1. Read the [Contributing Guide](CONTRIBUTING.md)
 2. Review the [Code of Conduct](CODE_OF_CONDUCT.md)
 3. Set up your [Development Environment](development-setup.md)
 4. Check the [Testing Guide](testing.md)
 
 ### For Deployers
+
 1. Review the [Deployment Guide](deployment.md)
 2. Configure [Environment Variables](environment-variables.md)
 3. Set up [Docker](docker.md)

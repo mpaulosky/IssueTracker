@@ -5,16 +5,16 @@ Thank you for taking the time to consider contributing to our project.
 The following is a set of guidelines for contributing to the project. These are mostly guidelines, not rules, and can be
 changed in the future. Please submit your suggestions with a pull-request to this document.
 
-- [Contributing to this Project](#contributing-to-issue-tracker)
-	- [Code of Conduct](#code-of-conduct)
-		- [What should I know before I get started](#what-should-i-know-before-i-get-started)
-			- [Project Folder Structure](#project-folder-structure)
-			- [Design Decisions](#design-decisions)
-			- [How can I contribute](#how-can-i-contribute)
-			- [Create an Issue](#create-an-issue)
-			- [Respond to an Issue](#respond-to-an-issue)
-			- [Write code](#write-code)
-			- [Write documentation](#write-documentation)
+- [Contributing to this Project](#contributing-to-this-project)
+  - [Code of Conduct](#code-of-conduct)
+  - [What should I know before I get started](#what-should-i-know-before-i-get-started)
+    - [Project Folder Structure](#project-folder-structure)
+    - [Design Decisions](#design-decisions)
+    - [How can I contribute](#how-can-i-contribute)
+    - [Create an Issue](#create-an-issue)
+    - [Respond to an Issue](#respond-to-an-issue)
+    - [Write code](#write-code)
+    - [Write documentation](#write-documentation)
 
 ## Code of Conduct
 
