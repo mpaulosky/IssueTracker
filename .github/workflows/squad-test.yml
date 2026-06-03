@@ -236,9 +236,6 @@ jobs:
           wait
           echo "Docker images pre-pulled successfully"
 
-      - name: Install Playwright browsers
-        run: pwsh tests/AppHost.Tests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium
-
       - name: Run AppHost.Tests
         id: apphost-tests
         run: |
