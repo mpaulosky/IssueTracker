@@ -35,7 +35,7 @@ SELECT
 FROM sessions s
 WHERE s.updated_at >= datetime('now', '-24 hours')
 ORDER BY s.updated_at DESC;
-```
+```text
 
 ### 2. Filter Out Automated Sessions
 
@@ -55,7 +55,7 @@ WHERE s.updated_at >= datetime('now', '-24 hours')
            OR LOWER(t.user_message) LIKE '%heartbeat%')
   )
 ORDER BY s.updated_at DESC;
-```
+```text
 
 ### 3. Search by Topic (FTS5)
 
@@ -69,7 +69,7 @@ WHERE search_index MATCH 'auth OR login OR token OR JWT'
   AND s.updated_at >= datetime('now', '-48 hours')
 ORDER BY s.updated_at DESC
 LIMIT 10;
-```
+```text
 
 ### 4. Search by Working Directory
 
@@ -82,7 +82,7 @@ FROM sessions s
 WHERE s.cwd LIKE '%my-project%'
   AND s.updated_at >= datetime('now', '-48 hours')
 ORDER BY s.updated_at DESC;
-```
+```text
 
 ### 5. Get Full Session Context Before Resuming
 
@@ -104,7 +104,7 @@ FROM session_files WHERE session_id = 'SESSION_ID';
 -- Linked PRs/issues/commits
 SELECT ref_type, ref_value
 FROM session_refs WHERE session_id = 'SESSION_ID';
-```
+```text
 
 ### 6. Detect Orphaned Issue Work
 
@@ -118,7 +118,7 @@ JOIN session_refs sr ON s.id = sr.session_id
 WHERE sr.ref_type = 'issue'
   AND s.updated_at >= datetime('now', '-48 hours')
 ORDER BY s.updated_at DESC;
-```
+```text
 
 Cross-reference with `gh issue list --label "status:in-progress"` to find issues that are marked in-progress but have no active session.
 
@@ -129,20 +129,26 @@ Once you have the session ID:
 ```bash
 # Resume directly
 copilot --resume SESSION_ID
-```
+```text
 
 ## Examples
 
 **Recovering from a crash during PR creation:**
 1. Query recent sessions filtered by branch name
+
 2. Find the session that was working on the PR
+
 3. Check its last checkpoint — was the code committed? Was the PR created?
+
 4. Resume or manually complete the remaining steps
 
 **Finding yesterday's work on a feature:**
 1. Use FTS5 search with feature keywords
+
 2. Filter to the relevant working directory
+
 3. Review checkpoint progress to see how far the session got
+
 4. Resume if work remains, or start fresh with the context
 
 ## Anti-Patterns
