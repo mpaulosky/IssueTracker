@@ -737,3 +737,47 @@ jobs:
           else
             echo "✅ **Overall Status:** PASSED" >> $GITHUB_STEP_SUMMARY
           fi
+
+  suite-gate:
+    name: Squad Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - build
+      - test-ui
+      - test-architecture
+      - test-servicedefaults
+      - test-corebusiness
+      - test-service
+      - test-integration
+      - test-plugins-integration
+      - test-apphost
+      - coverage
+      - report
+    if: always()
+
+    steps:
+      - name: Enforce overall suite result
+        run: |
+          results=(
+            "${{ needs.build.result }}"
+            "${{ needs.test-ui.result }}"
+            "${{ needs.test-architecture.result }}"
+            "${{ needs.test-servicedefaults.result }}"
+            "${{ needs.test-corebusiness.result }}"
+            "${{ needs.test-service.result }}"
+            "${{ needs.test-integration.result }}"
+            "${{ needs.test-plugins-integration.result }}"
+            "${{ needs.test-apphost.result }}"
+            "${{ needs.coverage.result }}"
+            "${{ needs.report.result }}"
+          )
+
+          for result in "${results[@]}"; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              echo "::error::Suite gate failed because one or more required jobs failed or were cancelled."
+              exit 1
+            fi
+          done
+
+          echo "Suite gate passed."
