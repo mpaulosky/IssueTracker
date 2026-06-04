@@ -1,94 +1,197 @@
 name: Squad Test Suite
-# Runs the repository's real test layout, with infrastructure-sensitive coverage isolated.
+
+# NOTE: All test projects now use 'dotnet test' consistently.
+# This was updated to fix issues with direct executable execution that was
+# causing "No such file or directory" errors in CI.
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
 
 on:
-  workflow_dispatch:
+  workflow_call:
   push:
-    branches: [main]
+    branches:
+      - dev
+      - main
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
       - '.squad/**'
-
-permissions:
-  contents: read
+  pull_request:
+    branches:
+      - "**"
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.squad/**'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: "Manual test run"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  Auth0__Domain: ${{ secrets.AUTH0_DOMAIN }}
+  Auth0__ClientId: ${{ secrets.AUTH0_CLIENT_ID }}
+  Auth0__ClientSecret: ${{ secrets.AUTH0_CLIENT_SECRET }}
+  Auth0Management__ClientId: ${{ secrets.AUTH0_MANAGEMENT_CLIENT_ID }}
+  Auth0Management__ClientSecret: ${{ secrets.AUTH0_MANAGEMENT_CLIENT_SECRET }}
+  Auth0Management__Domain: ${{ secrets.AUTH0_DOMAIN }}
+  Auth0Management__Audience: https://${{ secrets.AUTH0_DOMAIN }}/api/v2/
+  MongoDB__ConnectionString: ${{ secrets.MONGODB_CONNECTION_STRING }}
+  # Aspire parameter bindings for AppHost.Tests (Parameters:auth0MgmtClientId/Secret)
+  Parameters__auth0MgmtClientId: ${{ secrets.AUTH0_MANAGEMENT_CLIENT_ID }}
+  Parameters__auth0MgmtClientSecret: ${{ secrets.AUTH0_MANAGEMENT_CLIENT_SECRET }}
 
 jobs:
-  fast-tests:
-    name: Fast test suite
+  build:
+    name: Build Solution
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Discover solution file
+        run: |
+          mapfile -t matches < <(find . -maxdepth 1 -name '*.slnx')
+          count=${#matches[@]}
+          if [[ $count -eq 0 ]]; then
+            echo "::error::No *.slnx file found at the repository root."
+            exit 1
+          elif [[ $count -gt 1 ]]; then
+            echo "::error::Multiple *.slnx files found at the repository root: ${matches[*]}"
+            exit 1
+          fi
+          echo "SOLUTION_FILE=${matches[0]}" >> "$GITHUB_ENV"
+          echo "Discovered solution: ${matches[0]}"
 
       - name: Restore dependencies
-        run: dotnet restore IssueTracker.slnx
+        run: dotnet restore "$SOLUTION_FILE"
 
       - name: Build solution
-        run: dotnet build IssueTracker.slnx --configuration Release --no-restore
+        run: dotnet build "$SOLUTION_FILE" --configuration Release --no-restore
 
-      - name: Run fast test projects
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$GITHUB_WORKSPACE/test-results/fast"
-
-          projects=(
-            tests/Architecture.Tests/Architecture.Tests.csproj
-            tests/AppHost.Tests/AppHost.Tests.csproj
-            tests/Integration.Tests/Integration.Tests.csproj
-            tests/IssueTracker.CoreBusiness.Tests.Unit/IssueTracker.CoreBusiness.Tests.Unit.csproj
-            tests/IssueTracker.PlugIns.Tests.Unit/IssueTracker.PlugIns.Tests.Unit.csproj
-            tests/IssueTracker.Services.Tests.Unit/IssueTracker.Services.Tests.Unit.csproj
-            tests/IssueTracker.UI.Tests.Unit/IssueTracker.UI.Tests.Unit.csproj
-            tests/ServiceDefaults.Tests/ServiceDefaults.Tests.csproj
-          )
-
-          for project in "${projects[@]}"; do
-            project_name=$(basename "$(dirname "$project")")
-            echo "=== Running ${project_name} ==="
-            dotnet test "$project" \
-              --configuration Release \
-              --no-build \
-              --no-restore \
-              --verbosity minimal \
-              --logger "trx;LogFileName=${project_name}.trx" \
-              --results-directory "$GITHUB_WORKSPACE/test-results/fast"
-          done
-
-      - name: Upload fast test results
-        uses: actions/upload-artifact@v4
-        if: always()
+      - name: Cache build artifacts
+        uses: actions/cache@v5
         with:
-          name: fast-test-results
-          path: test-results/fast
+          path: |
+            **/bin/Release/
+            **/obj/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props', 'Global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
 
-  infrastructure-tests:
-    name: Infrastructure-sensitive tests
+  test-integration:
+    name: "Integration.Tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
+    needs: build
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
           global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/Integration.Tests
+
+      - name: Build Integration Tests
+        run: dotnet build tests/Integration.Tests --configuration Release --no-restore
+
+      - name: Run Integration Tests
+        id: integration-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/Integration.Tests" ]; then
+            echo "::notice::Integration test project not found at tests/Integration.Tests - skipping"
+            exit 0
+          fi
+
+          # Run tests using dotnet test
+          dotnet test tests/Integration.Tests \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "console;verbosity=detailed" \
+            --logger "trx;LogFileName=integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::Integration tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload Integration Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: integration-test-results
+          path: test-results
+
+  test-plugins-integration:
+    name: "IssueTracker.PlugIns.Tests.Integration"
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Confirm Docker availability
         run: docker info
@@ -97,29 +200,584 @@ jobs:
         run: docker pull mongo:8.0
 
       - name: Restore dependencies
-        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj
+        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration
 
-      - name: Build infrastructure-sensitive test project
-        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj --configuration Release --no-restore
+      - name: Build PlugIns Integration Tests
+        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration --configuration Release --no-restore
 
-      - name: Run infrastructure-sensitive tests
+      - name: Run PlugIns Integration Tests
         run: |
-          mkdir -p "$GITHUB_WORKSPACE/test-results/infrastructure"
-          dotnet test tests/IssueTracker.PlugIns.Tests.Integration/IssueTracker.PlugIns.Tests.Integration.csproj \
+          mkdir -p test-results
+          dotnet test tests/IssueTracker.PlugIns.Tests.Integration \
             --configuration Release \
             --no-build \
-            --no-restore \
             --verbosity normal \
-            --logger "trx;LogFileName=IssueTracker.PlugIns.Tests.Integration.trx" \
-            --results-directory "$GITHUB_WORKSPACE/test-results/infrastructure"
+            --logger "trx;LogFileName=plugins-integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
       - name: Dump Docker state on failure
         if: failure()
         run: docker ps -a
 
-      - name: Upload infrastructure test results
-        uses: actions/upload-artifact@v4
+      - name: Upload PlugIns Integration Test Results
+        uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: infrastructure-test-results
-          path: test-results/infrastructure
+          name: plugins-integration-test-results
+          path: test-results
+
+  test-apphost:
+    name: "AppHost.Tests (Aspire + Playwright E2E)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: build
+
+    env:
+      ASPIRE_ALLOW_UNSECURED_TRANSPORT: "true"
+      # Required by AppHost builder.AddConnectionString("mongodb") even though
+      # the web app ignores it in Testing mode (no real DB connection is made).
+      ConnectionStrings__mongodb: "mongodb://localhost:27017"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/AppHost.Tests
+
+      - name: Build AppHost.Tests
+        run: dotnet build tests/AppHost.Tests --configuration Release --no-restore
+
+      - name: Publish Web project to generate Blazor static assets
+        run: dotnet publish src/UI/IssueTracker.UI/IssueTracker.UI.csproj --configuration Release --no-restore
+
+      - name: Pre-pull Docker images for Aspire
+        run: |
+          echo "Pre-pulling Docker images for Aspire..."
+          docker pull mongo:8.2 &
+          docker pull redis:8.6 &
+          wait
+          echo "Docker images pre-pulled successfully"
+
+      - name: Run AppHost.Tests
+        id: apphost-tests
+        run: |
+          mkdir -p test-results
+          echo "Starting AppHost.Tests..."
+          echo "Playwright CLI version:"
+          playwright --version || echo "playwright not found"
+          echo "Checking Playwright browsers:"
+          ls -la ~/.cache/ms-playwright/ 2>/dev/null || echo "No playwright cache found"
+          echo "dotnet version:"
+          dotnet --version
+
+          dotnet test tests/AppHost.Tests \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=apphost.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage"
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::AppHost.Tests failed with exit code $exit_code"
+          fi
+          exit $exit_code
+
+      - name: Upload AppHost Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: apphost-test-results
+          path: test-results
+
+  test-ui:
+    name: "IssueTracker.UI.Tests.Unit"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.UI.Tests.Unit
+
+      - name: Run UI Tests
+        run: |
+          dotnet test tests/IssueTracker.UI.Tests.Unit \
+            --configuration Release \
+            --collect:"XPlat Code Coverage" \
+            --logger "trx;LogFileName=ui.trx" \
+            --results-directory test-results \
+            --verbosity minimal
+
+      - name: Upload UI Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: ui-test-results
+          path: test-results
+
+  test-architecture:
+    name: "Architecture.Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/Architecture.Tests
+
+      - name: Build Architecture Tests
+        run: dotnet build tests/Architecture.Tests --configuration Release --no-restore
+
+      - name: Run Architecture Tests
+        id: arch-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/Architecture.Tests" ]; then
+            echo "::notice::Architecture test project not found at tests/Architecture.Tests - skipping"
+            exit 0
+          fi
+
+          # Run tests using dotnet test
+          dotnet test tests/Architecture.Tests \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=architecture.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::Architecture tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload Architecture Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: architecture-test-results
+          path: test-results
+
+  test-servicedefaults:
+    name: "ServiceDefaults.Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/ServiceDefaults.Tests
+
+      - name: Build ServiceDefaults Tests
+        run: dotnet build tests/ServiceDefaults.Tests --configuration Release --no-restore
+
+      - name: Run ServiceDefaults Tests
+        id: servicedefaults-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/ServiceDefaults.Tests" ]; then
+            echo "::notice::ServiceDefaults test project not found at tests/ServiceDefaults.Tests - skipping"
+            exit 0
+          fi
+
+          # Run tests using dotnet test
+          dotnet test tests/ServiceDefaults.Tests \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=servicedefaults.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::ServiceDefaults tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload ServiceDefaults Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: servicedefaults-test-results
+          path: test-results
+
+  test-corebusiness:
+    name: "IssueTracker.CoreBusiness.Tests.Unit (xUnit v3 pilot)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.CoreBusiness.Tests.Unit
+
+      - name: Build CoreBusiness Tests
+        run: dotnet build tests/IssueTracker.CoreBusiness.Tests.Unit --configuration Release --no-restore
+
+      - name: Run CoreBusiness Tests
+        id: corebusiness-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/IssueTracker.CoreBusiness.Tests.Unit" ]; then
+            echo "::notice::CoreBusiness test project not found at tests/IssueTracker.CoreBusiness.Tests.Unit - skipping"
+            exit 0
+          fi
+
+          # xUnit v3 is fully compatible with dotnet test + XPlat Code Coverage + TRX logger
+          dotnet test tests/IssueTracker.CoreBusiness.Tests.Unit \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=corebusiness.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::CoreBusiness tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload CoreBusiness Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: corebusiness-test-results
+          path: test-results
+
+  test-service:
+    name: "IssueTracker.Services.Tests.Unit"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.Services.Tests.Unit
+
+      - name: Build Service Tests
+        run: dotnet build tests/IssueTracker.Services.Tests.Unit --configuration Release --no-restore
+
+      - name: Run Service Tests
+        id: service-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/IssueTracker.Services.Tests.Unit" ]; then
+            echo "::notice::Service test project not found at tests/IssueTracker.Services.Tests.Unit - skipping"
+            exit 0
+          fi
+
+          # Run tests using dotnet test
+          dotnet test tests/IssueTracker.Services.Tests.Unit \
+            --configuration Release \
+            --no-build \
+            --logger "trx;LogFileName=service.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::Service tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload Service Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: service-test-results
+          path: test-results
+
+  coverage:
+    name: Coverage Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - test-ui
+      - test-architecture
+      - test-servicedefaults
+      - test-corebusiness
+      - test-service
+      - test-integration
+      - test-plugins-integration
+      - test-apphost
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Download coverage reports
+        uses: actions/download-artifact@v8
+        with:
+          path: coverage-reports
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+            -reports:"coverage-reports/**/**/coverage.cobertura.xml" \
+            -targetdir:"./coverage-output" \
+            -reporttypes:"Html;Cobertura;JsonSummary" \
+            -filefilters:"-**/obj/**/*.cs;-**/*.generated.cs" \
+            -verbosity:verbose || echo "::warning::No coverage files found"
+
+      - name: Check coverage threshold
+        run: |
+          minimum_coverage=60
+          if [ -f "./coverage-output/Summary.json" ]; then
+            echo "=== Summary.json raw ===" && cat ./coverage-output/Summary.json | jq . || true
+            coverage=$(jq -r '.summary.linecoverage // .lineCoverage // 0' ./coverage-output/Summary.json 2>/dev/null || echo "0")
+            echo "Line Coverage: $coverage%"
+            if (( $(echo "$coverage < $minimum_coverage" | bc -l) )); then
+              echo "::error::Code coverage is below ${minimum_coverage}% threshold: $coverage% (required: ${minimum_coverage}%)"
+              exit 1
+            else
+              echo "::notice::Coverage gate passed: $coverage% >= ${minimum_coverage}%"
+            fi
+          else
+            echo "::warning::Coverage report not available — skipping threshold check"
+          fi
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: coverage-reports
+          path: coverage-output
+
+      - name: Publish to Codecov
+        uses: codecov/codecov-action@v6
+        if: always()
+        with:
+          fail_ci_if_error: false
+          files: ./coverage-output/Cobertura.xml
+          verbose: false
+
+  report:
+    name: Test Report Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - build
+      - test-ui
+      - test-architecture
+      - test-servicedefaults
+      - test-corebusiness
+      - test-service
+      - test-integration
+      - test-plugins-integration
+      - test-apphost
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Download all test results
+        uses: actions/download-artifact@v8
+        with:
+          path: all-test-results
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2.23.0
+        if: always()
+        with:
+          files: |
+            all-test-results/**/*.trx
+            all-test-results/**/*-nunit.xml
+          check_name: Test Results Summary
+          compare_to_earlier_commit: true
+
+      - name: Generate job summary
+        if: always()
+        run: |
+          echo "## Test Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Job Status" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build:** ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **UI.Tests:** ${{ needs.test-ui.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Architecture.Tests:** ${{ needs.test-architecture.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **ServiceDefaults.Tests:** ${{ needs.test-servicedefaults.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Domain.Tests (xUnit v3 pilot):** ${{ needs.test-corebusiness.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **IssueTracker.Services.Tests.Unit:** ${{ needs.test-service.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Integration.Tests:** ${{ needs.test-integration.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **IssueTracker.PlugIns.Tests.Integration:** ${{ needs.test-plugins-integration.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **AppHost.Tests (Aspire + Playwright E2E):** ${{ needs.test-apphost.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- Test results and coverage reports available in Actions artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- Coverage report: \`coverage-reports\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Set overall status
+          build_status="${{ needs.build.result }}"
+          web_status="${{ needs.test-ui.result }}"
+          arch_status="${{ needs.test-architecture.result }}"
+          servicedefaults_status="${{ needs.test-servicedefaults.result }}"
+          domain_status="${{ needs.test-corebusiness.result }}"
+          service_status="${{ needs.test-service.result }}"
+          integration_status="${{ needs.test-integration.result }}"
+              plugins_integration_status="${{ needs.test-plugins-integration.result }}"
+          apphost_status="${{ needs.test-apphost.result }}"
+
+          if [[ "$build_status" == "failure" || "$web_status" == "failure" || \
+                "$arch_status" == "failure" || "$domain_status" == "failure" || \
+                "$servicedefaults_status" == "failure" || "$service_status" == "failure" || \
+                "$plugins_integration_status" == "failure" || \
+                "$integration_status" == "failure" || "$apphost_status" == "failure" ]]; then
+            echo "❌ **Overall Status:** FAILED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Overall Status:** PASSED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  suite-gate:
+    name: Squad Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - build
+      - test-ui
+      - test-architecture
+      - test-servicedefaults
+      - test-corebusiness
+      - test-service
+      - test-integration
+      - test-plugins-integration
+      - test-apphost
+      - coverage
+      - report
+    if: always()
+
+    steps:
+      - name: Enforce overall suite result
+        run: |
+          results=(
+            "${{ needs.build.result }}"
+            "${{ needs.test-ui.result }}"
+            "${{ needs.test-architecture.result }}"
+            "${{ needs.test-servicedefaults.result }}"
+            "${{ needs.test-corebusiness.result }}"
+            "${{ needs.test-service.result }}"
+            "${{ needs.test-integration.result }}"
+            "${{ needs.test-plugins-integration.result }}"
+            "${{ needs.test-apphost.result }}"
+            "${{ needs.coverage.result }}"
+            "${{ needs.report.result }}"
+          )
+
+          for result in "${results[@]}"; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              echo "::error::Suite gate failed because one or more required jobs failed or were cancelled."
+              exit 1
+            fi
+          done
+
+          echo "Suite gate passed."
