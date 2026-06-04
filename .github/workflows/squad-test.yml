@@ -5,7 +5,6 @@ name: Squad Test Suite
 # causing "No such file or directory" errors in CI.
 
 permissions:
-  issues: write
   checks: write
   contents: read
   pull-requests: write
@@ -160,7 +159,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/Integration.Tests
 
       - name: Build Integration Tests
         run: dotnet build tests/Integration.Tests --configuration Release --no-restore
@@ -286,7 +285,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/AppHost.Tests
 
       - name: Build AppHost.Tests
         run: dotnet build tests/AppHost.Tests --configuration Release --no-restore
@@ -358,7 +357,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/IssueTracker.UI.Tests.Unit
 
       - name: Run UI Tests
         run: |
@@ -400,7 +399,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/Architecture.Tests
 
       - name: Build Architecture Tests
         run: dotnet build tests/Architecture.Tests --configuration Release --no-restore
@@ -460,7 +459,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/ServiceDefaults.Tests
 
       - name: Build ServiceDefaults Tests
         run: dotnet build tests/ServiceDefaults.Tests --configuration Release --no-restore
@@ -520,7 +519,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/IssueTracker.CoreBusiness.Tests.Unit
 
       - name: Build CoreBusiness Tests
         run: dotnet build tests/IssueTracker.CoreBusiness.Tests.Unit --configuration Release --no-restore
@@ -580,7 +579,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore tests/IssueTracker.Services.Tests.Unit
 
       - name: Build Service Tests
         run: dotnet build tests/IssueTracker.Services.Tests.Unit --configuration Release --no-restore
