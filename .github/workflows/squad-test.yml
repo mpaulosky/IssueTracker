@@ -16,9 +16,17 @@ on:
     branches:
       - dev
       - main
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.squad/**'
   pull_request:
     branches:
       - "**"
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.squad/**'
   workflow_dispatch:
     inputs:
       reason:
@@ -188,6 +196,64 @@ jobs:
         if: always()
         with:
           name: integration-test-results
+          path: test-results
+
+  test-plugins-integration:
+    name: "IssueTracker.PlugIns.Tests.Integration"
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Confirm Docker availability
+        run: docker info
+
+      - name: Pre-pull MongoDB image
+        run: docker pull mongo:8.0
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration
+
+      - name: Build PlugIns Integration Tests
+        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration --configuration Release --no-restore
+
+      - name: Run PlugIns Integration Tests
+        run: |
+          mkdir -p test-results
+          dotnet test tests/IssueTracker.PlugIns.Tests.Integration \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=plugins-integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Dump Docker state on failure
+        if: failure()
+        run: docker ps -a
+
+      - name: Upload PlugIns Integration Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: plugins-integration-test-results
           path: test-results
 
   test-apphost:
@@ -561,6 +627,7 @@ jobs:
       - test-corebusiness
       - test-service
       - test-integration
+      - test-plugins-integration
       - test-apphost
     if: always()
 
@@ -634,6 +701,7 @@ jobs:
       - test-corebusiness
       - test-service
       - test-integration
+      - test-plugins-integration
       - test-apphost
     if: always()
 
@@ -667,8 +735,9 @@ jobs:
           echo "- **Architecture.Tests:** ${{ needs.test-architecture.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **ServiceDefaults.Tests:** ${{ needs.test-servicedefaults.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Domain.Tests (xUnit v3 pilot):** ${{ needs.test-corebusiness.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Web.Tests.Bunit:** ${{ needs.test-service.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Web.Tests.Integration:** ${{ needs.test-integration.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **IssueTracker.Services.Tests.Unit:** ${{ needs.test-service.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Integration.Tests:** ${{ needs.test-integration.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **IssueTracker.PlugIns.Tests.Integration:** ${{ needs.test-plugins-integration.result }}" >> $GITHUB_STEP_SUMMARY
           echo "- **AppHost.Tests (Aspire + Playwright E2E):** ${{ needs.test-apphost.result }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Artifacts" >> $GITHUB_STEP_SUMMARY
@@ -684,11 +753,13 @@ jobs:
           domain_status="${{ needs.test-corebusiness.result }}"
           service_status="${{ needs.test-service.result }}"
           integration_status="${{ needs.test-integration.result }}"
+              plugins_integration_status="${{ needs.test-plugins-integration.result }}"
           apphost_status="${{ needs.test-apphost.result }}"
 
           if [[ "$build_status" == "failure" || "$web_status" == "failure" || \
                 "$arch_status" == "failure" || "$domain_status" == "failure" || \
-                "$bunit_status" == "failure" || \
+                "$servicedefaults_status" == "failure" || "$service_status" == "failure" || \
+                "$plugins_integration_status" == "failure" || \
                 "$integration_status" == "failure" || "$apphost_status" == "failure" ]]; then
             echo "❌ **Overall Status:** FAILED" >> $GITHUB_STEP_SUMMARY
           else
