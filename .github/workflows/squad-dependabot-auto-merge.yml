@@ -1,7 +1,6 @@
----
 name: Dependabot Auto-Merge
 
-'on':
+on:
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review]
     branches: [dev]
@@ -28,12 +27,7 @@ jobs:
             try {
               await github.graphql(
                 `mutation EnableAutoMerge($pullRequestId: ID!) {
-                   enablePullRequestAutoMerge(
-                     input: {
-                       pullRequestId: $pullRequestId,
-                       mergeMethod: SQUASH
-                     }
-                   ) {
+                   enablePullRequestAutoMerge(input: { pullRequestId: $pullRequestId, mergeMethod: SQUASH }) {
                      pullRequest { number }
                    }
                  }`,
@@ -43,10 +37,9 @@ jobs:
             } catch (error) {
               const message = error.message ?? String(error);
               if (message.includes("already enabled")) {
-                core.info(
-                  `Auto-merge already enabled for PR #${pullNumber}.`
-                );
+                core.info(`Auto-merge already enabled for PR #${pullNumber}.`);
                 return;
               }
               throw error;
             }
+

@@ -1,7 +1,6 @@
----
 name: lint-markdown
 
-'on':
+on:
   pull_request:
     branches: [dev, main]
   workflow_dispatch:
@@ -22,3 +21,4 @@ jobs:
             exit 0
           fi
           npx --yes markdownlint-cli $files
+

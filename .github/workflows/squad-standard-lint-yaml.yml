@@ -1,7 +1,6 @@
----
 name: lint-yaml
 
-'on':
+on:
   pull_request:
     branches: [dev, main]
   workflow_dispatch:
@@ -23,3 +22,4 @@ jobs:
             exit 0
           fi
           yamllint -s $files
+
