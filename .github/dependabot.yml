@@ -3,10 +3,8 @@
 # Please see the documentation for all configuration options:
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 ---
-
 version: 2
 updates:
-  
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -18,11 +16,11 @@ updates:
     labels:
       - "github-actions"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
-        patterns: [ "*" ]
+        patterns: ["*"]
 
   # Maintain dependencies for nuget
   - package-ecosystem: "nuget"
@@ -35,13 +33,13 @@ updates:
     labels:
       - "nuget"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
-        patterns: [ "*" ]
+        patterns: ["*"]
 
-  #Maintain DotNet Sdk
+  # Maintain DotNet Sdk
   - package-ecosystem: "dotnet-sdk"
     directory: "/nuget/helpers/lib/NuGetUpdater"
     schedule:
@@ -52,8 +50,8 @@ updates:
     labels:
       - "dotnet-sdk"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
-        patterns: [ "*" ]
+        patterns: ["*"]

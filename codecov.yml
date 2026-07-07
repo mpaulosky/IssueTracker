@@ -1,5 +1,5 @@
+---
 codecov:
-
   notify:
     wait_for_ci: true
   require_ci_to_pass: true
@@ -11,9 +11,7 @@ comment:
 
 coverage:
   precision: 2
-  range:
-    - 60.0
-    - 80.0
+  range: "60..80"
   round: down
 
 status:

@@ -1,0 +1,28 @@
+  IssueTracker.CoreBusiness -> /home/teqs/github/IssueTracker/src/CoreBusiness/IssueTracker.CoreBusiness/bin/Debug/net10.0/IssueTracker.CoreBusiness.dll
+  ServiceDefaults -> /home/teqs/github/IssueTracker/src/ServiceDefaults/bin/Debug/net10.0/ServiceDefaults.dll
+  IssueTracker.Services -> /home/teqs/github/IssueTracker/src/Services/IssueTracker.Services/bin/Debug/net10.0/IssueTracker.Services.dll
+  ServiceDefaults.Tests -> /home/teqs/github/IssueTracker/tests/ServiceDefaults.Tests/bin/Debug/net10.0/ServiceDefaults.Tests.dll
+  Integration.Tests -> /home/teqs/github/IssueTracker/tests/Integration.Tests/bin/Debug/net10.0/Integration.Tests.dll
+  IssueTracker.PlugIns -> /home/teqs/github/IssueTracker/src/PlugIns/IssueTracker.PlugIns/bin/Debug/net10.0/IssueTracker.PlugIns.dll
+  IssueTracker.Services.Tests.Unit -> /home/teqs/github/IssueTracker/tests/IssueTracker.Services.Tests.Unit/bin/Debug/net10.0/IssueTracker.Services.Tests.Unit.dll
+  TestingSupport.Library -> /home/teqs/github/IssueTracker/tests/TestingSupport.Library/bin/Debug/net10.0/TestingSupport.Library.dll
+  IssueTracker.CoreBusiness.Tests.Unit -> /home/teqs/github/IssueTracker/tests/IssueTracker.CoreBusiness.Tests.Unit/bin/Debug/net10.0/IssueTracker.CoreBusiness.Tests.Unit.dll
+  IssueTracker.PlugIns.Tests.Unit -> /home/teqs/github/IssueTracker/tests/IssueTracker.PlugIns.Tests.Unit/bin/Debug/net10.0/IssueTracker.PlugIns.Tests.Unit.dll
+  IssueTracker.UI -> /home/teqs/github/IssueTracker/src/UI/IssueTracker.UI/bin/Debug/net10.0/IssueTracker.UI.dll
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../Services/IssueTracker.Services/IssueTracker.Services.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../CoreBusiness/IssueTracker.CoreBusiness/IssueTracker.CoreBusiness.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../PlugIns/IssueTracker.PlugIns/IssueTracker.PlugIns.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/github/IssueTracker/src/AppHost/Program.cs(13,1): error CS8805: Program using top-level statements must be an executable. [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+  IssueTracker.PlugIns.Tests.Integration -> /home/teqs/github/IssueTracker/tests/IssueTracker.PlugIns.Tests.Integration/bin/Debug/net10.0/IssueTracker.PlugIns.Tests.Integration.dll
+  IssueTracker.UI.Tests.Unit -> /home/teqs/github/IssueTracker/tests/IssueTracker.UI.Tests.Unit/bin/Debug/net10.0/IssueTracker.UI.Tests.Unit.dll
+
+Build FAILED.
+
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../Services/IssueTracker.Services/IssueTracker.Services.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../CoreBusiness/IssueTracker.CoreBusiness/IssueTracker.CoreBusiness.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/.nuget/packages/aspire.hosting.apphost/13.4.6/build/Aspire.Hosting.AppHost.targets(174,5): warning ASPIRE004: '../PlugIns/IssueTracker.PlugIns/IssueTracker.PlugIns.csproj' is referenced by an Aspire Host project, but it is not an executable. Did you mean to set IsAspireProjectResource="false"? [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+/home/teqs/github/IssueTracker/src/AppHost/Program.cs(13,1): error CS8805: Program using top-level statements must be an executable. [/home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj]
+    3 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:09.45

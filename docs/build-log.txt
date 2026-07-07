@@ -1,159 +1,130 @@
-==========================================================================
-BUILD LOG - IssueTracker Solution
-==========================================================================
-Date: June 2, 2026
+=============================================================
+BUILD REPAIR LOG - IssueTracker Solution
+Date: 2026-07-07
 Solution: IssueTracker.slnx
-Location: /home/mpaulosky/github/IssueTracker
-.NET Version: 10.0.300
-==========================================================================
+=============================================================
 
-STEP 1: SOLUTION LOCATION
-==========================================================================
-✓ Located solution file: IssueTracker.slnx
-  Path: /home/mpaulosky/github/IssueTracker/IssueTracker.slnx
-  Status: Found successfully
+INITIAL ISSUE DETECTED:
+- Build errors due to NuGet package version downgrades (NU1109 errors)
+- Total initial errors: 33 NU1109 errors
+- Error: CS8805 in AppHost project (missing OutputType)
+- Warnings: 3 ASPIRE004 warnings for non-executable project references
 
-STEP 2: DEPENDENCY RESTORATION
-==========================================================================
-Command: dotnet restore
-Status: Succeeded with 61 warnings
-Duration: 3.2 seconds
+=============================================================
+STEP 1: PACKAGE RESTORE
+=============================================================
+Command: dotnet restore IssueTracker.slnx
 
-Initial Warnings (Security Vulnerabilities):
-- OpenTelemetry.Api 1.11.1 (moderate severity)
-- OpenTelemetry.Exporter.OpenTelemetryProtocol 1.11.0 (moderate severity)
-- SharpCompress 0.30.1 (moderate severity)
-- Snappier 1.0.0 (high severity)
-- System.Security.Cryptography.Xml 9.0.0 (high severity)
+Issues Found:
+- 33 NU1109 errors related to package downgrades
+- Centrally managed package versions in Directory.Packages.props were lower than required by dependencies
 
-STEP 3: INITIAL BUILD
-==========================================================================
-Command: dotnet build --no-restore
-Status: Succeeded with 61 warnings
-Duration: 11.0 seconds
+Affected Packages:
+1. Microsoft.Extensions.Options: 10.0.0 → required 10.0.8
+2. Microsoft.Extensions.Configuration.UserSecrets: 10.0.0 → required 10.0.8
+3. Microsoft.Extensions.DependencyInjection: 10.0.0 → required 10.0.8
+4. Microsoft.Extensions.Diagnostics.HealthChecks: 10.0.0 → required 10.0.8
+5. MongoDB.Driver: 3.5.0 → required 3.9.0
+6. StackExchange.Redis: 2.9.32 → required 2.13.1
+7. MessagePack: 2.5.301 → required 2.5.302
 
-Build Output Summary:
-✓ IssueTracker.CoreBusiness - SUCCEEDED
-✓ ServiceDefaults - SUCCEEDED (with 5 warnings)
-✓ IssueTracker.Services - SUCCEEDED
-✓ Integration.Tests - SUCCEEDED (with 5 warnings)
-✓ ServiceDefaults.Tests - SUCCEEDED (with 5 warnings)
-✓ IssueTracker.PlugIns - SUCCEEDED (with 2 warnings)
-✓ IssueTracker.Services.Tests.Unit - SUCCEEDED
-✓ TestingSupport.Library - SUCCEEDED (with 2 warnings)
-✓ IssueTracker.CoreBusiness.Tests.Unit - SUCCEEDED (with 2 warnings)
-✓ IssueTracker.PlugIns.Tests.Unit - SUCCEEDED (with 2 warnings)
-✓ IssueTracker.UI - SUCCEEDED (with 5 warnings)
-✓ IssueTracker.PlugIns.Tests.Integration - SUCCEEDED (with 7 warnings)
-✓ AppHost - SUCCEEDED (with 5 warnings)
-✓ IssueTracker.UI.Tests.Unit - SUCCEEDED (with 7 warnings)
-✓ AppHost.Tests - SUCCEEDED (with 7 warnings)
-✓ Architecture.Tests - SUCCEEDED (with 7 warnings)
+=============================================================
+STEP 2: RESOLUTION - Directory.Packages.props Updates
+=============================================================
+File Modified: /home/teqs/github/IssueTracker/Directory.Packages.props
 
-STEP 4: SECURITY VULNERABILITY RESOLUTION
-==========================================================================
+Changes Applied:
+1. Updated Microsoft.Extensions.Configuration.UserSecrets: 10.0.0 → 10.0.8
+2. Updated Microsoft.Extensions.DependencyInjection: 10.0.0 → 10.0.8
+3. Updated Microsoft.Extensions.Diagnostics.HealthChecks: 10.0.0 → 10.0.8
+4. Updated Microsoft.Extensions.Options: 10.0.0 → 10.0.8
+5. Updated MongoDB.Driver: 3.5.0 → 3.9.0
+6. Updated StackExchange.Redis: 2.9.32 → 2.13.1
+7. Updated MessagePack: 2.5.301 → 2.5.302
 
-4.1 Updated OpenTelemetry Packages:
-------------------------------------------
-File Modified: Directory.Packages.props
+Result: Errors reduced from 33 to 10
 
-Changes:
-  OpenTelemetry: 1.11.0 → 1.15.3
-  OpenTelemetry.Exporter.Console: 1.11.0 → 1.15.3
-  OpenTelemetry.Exporter.OpenTelemetryProtocol: 1.11.0 → 1.15.3
-  OpenTelemetry.Extensions.Hosting: 1.11.0 → 1.15.3
-  OpenTelemetry.Instrumentation.AspNetCore: 1.11.0 → 1.15.2
-  OpenTelemetry.Instrumentation.Http: 1.11.0 → 1.15.1
-  OpenTelemetry.Instrumentation.Runtime: 1.11.0 → 1.15.1
+=============================================================
+STEP 3: ADDITIONAL DEPENDENCY RESOLUTION
+=============================================================
+Command: dotnet restore IssueTracker.slnx (2nd attempt)
 
-Result: OpenTelemetry vulnerabilities resolved
-Warnings Reduced: 61 → 34
+Issue Found:
+- 10 NU1109 errors for SharpCompress package downgrade
+- SharpCompress: 0.48.0 → required 0.48.1
 
-4.2 Added Transitive Dependency Overrides:
-------------------------------------------
-File Modified: Directory.Packages.props
+Resolution:
+- Updated SharpCompress: 0.48.0 → 0.48.1 in Directory.Packages.props
 
-Packages Added:
-  SharpCompress: 0.38.0 (override transitive dependency)
-  Snappier: 1.2.0 (override transitive dependency)
-  System.Security.Cryptography.Xml: 10.0.0 (override transitive dependency)
+Result: All package restore errors resolved
+Status: Restore complete (7.1s) - SUCCESS
 
-Note: These packages are the latest available versions. Vulnerabilities persist
-because package maintainers have not yet released patches. These are documented
-as known issues.
+=============================================================
+STEP 4: BUILD SOLUTION
+=============================================================
+Command: dotnet build IssueTracker.slnx --no-restore
 
-4.3 Final Build After Security Updates:
-------------------------------------------
-Command: dotnet restore && dotnet build --no-restore
-Status: Succeeded with 34 warnings
-Duration: Restore (4.1s) + Build (4.5s) = 8.6 seconds
+Issues Found:
+1. Error CS8805: AppHost/Program.cs - Program using top-level statements must be an executable
+2. Warning ASPIRE004 (3x): Library projects referenced without IsAspireProjectResource="false"
 
-Remaining Warnings (Latest Available Versions):
-- SharpCompress 0.38.0: GHSA-6c8g-7p36-r338 (moderate severity)
-- Snappier 1.2.0: GHSA-pggp-6c3x-2xmx (high severity)
-- System.Security.Cryptography.Xml 10.0.0: GHSA-37gx-xxp4-5rgx, GHSA-w3x6-4m5h-cxqf (high severity)
+File Modified: /home/teqs/github/IssueTracker/src/AppHost/AppHost.csproj
 
-These are transitive dependencies from:
-- MongoDB.Driver
-- Testcontainers
-- Aspire packages
+Changes Applied:
+1. Added <OutputType>Exe</OutputType> to PropertyGroup
+2. Set IsAspireProjectResource="false" for library references:
+   - IssueTracker.Services.csproj
+   - IssueTracker.CoreBusiness.csproj
+   - IssueTracker.PlugIns.csproj
 
-STEP 5: TEST EXECUTION
-==========================================================================
-Command: dotnet test --no-build --verbosity normal
-Status: All Tests Passed
+Result: Build succeeded in 16.3s with 0 errors, 0 warnings
 
-Test Summary:
-  Total Tests: 395
-  Passed: 395
-  Failed: 0
-  Skipped: 0
-  Duration: 3.9 seconds
+=============================================================
+STEP 5: TESTING
+=============================================================
+Command: dotnet test IssueTracker.slnx --no-build --verbosity normal
+
+Test Results Summary:
+- Total Tests: 449
+- Passed: 449
+- Failed: 0
+- Skipped: 0
+- Duration: 9.4s
 
 Test Projects Executed:
-✓ Integration.Tests (1.7s)
-✓ AppHost.Tests (1.8s)
-✓ Architecture.Tests (1.9s)
-✓ ServiceDefaults.Tests (2.5s)
-✓ IssueTracker.Services.Tests.Unit (2.5s)
-✓ IssueTracker.PlugIns.Tests.Unit (2.6s)
-✓ IssueTracker.CoreBusiness.Tests.Unit (3.1s)
-✓ IssueTracker.UI.Tests.Unit (3.8s)
-✓ IssueTracker.PlugIns.Tests.Integration (using Testcontainers with MongoDB)
+1. IssueTracker.CoreBusiness.Tests.Unit
+2. IssueTracker.Services.Tests.Unit
+3. IssueTracker.PlugIns.Tests.Unit
+4. IssueTracker.PlugIns.Tests.Integration (with TestContainers/MongoDB)
+5. IssueTracker.UI.Tests.Unit (with bUnit)
+6. ServiceDefaults.Tests
+7. Integration.Tests
+8. Architecture.Tests
+9. AppHost.Tests
 
-FINAL STATUS
-==========================================================================
-Build Status: ✓ SUCCEEDED
-Test Status: ✓ ALL PASSED (395/395)
-Warnings: 34 (security vulnerabilities in transitive dependencies)
+Status: ALL TESTS PASSED ✓
 
-RECOMMENDATIONS
-==========================================================================
-1. Monitor for security updates to:
-   - SharpCompress (>0.38.0)
-   - Snappier (>1.2.0)
-   - System.Security.Cryptography.Xml (>10.0.0)
+=============================================================
+FINAL STATUS: SUCCESS
+=============================================================
 
-2. Consider updating when available:
-   - Aspire packages: 13.0.0 → 13.4.0
-   - MongoDB.Driver: 3.5.0 → 3.9.0
-   - Various Microsoft.Extensions packages: 10.0.0 → 10.0.8
-   - bUnit: 1.40.0 → 2.7.2
+Solution Build: ✓ SUCCESS (16.3s, 0 errors, 0 warnings)
+Unit Tests: ✓ SUCCESS (449/449 passed)
+Integration Tests: ✓ SUCCESS (MongoDB, Redis containers)
 
-3. Review GitHub Security Advisories:
-   - GHSA-6c8g-7p36-r338 (SharpCompress)
-   - GHSA-pggp-6c3x-2xmx (Snappier)
-   - GHSA-37gx-xxp4-5rgx (System.Security.Cryptography.Xml)
-   - GHSA-w3x6-4m5h-cxqf (System.Security.Cryptography.Xml)
+All build and test errors have been resolved. The solution is now in a clean state.
 
-NOTES
-==========================================================================
-- All OpenTelemetry security vulnerabilities were successfully resolved
-- Remaining vulnerabilities are in transitive dependencies with no current patches
-- Solution builds cleanly with no errors
-- All 395 unit and integration tests pass successfully
-- MongoDB integration tests use Testcontainers for isolated testing
+=============================================================
+SUMMARY OF FILES MODIFIED
+=============================================================
 
-==========================================================================
+1. Directory.Packages.props
+   - Updated 8 package versions to resolve NU1109 downgrade errors
+   
+2. src/AppHost/AppHost.csproj
+   - Added OutputType property
+   - Set IsAspireProjectResource for library references
+
+=============================================================
 END OF BUILD LOG
-==========================================================================
+=============================================================

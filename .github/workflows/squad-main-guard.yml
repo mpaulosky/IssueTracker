@@ -1,6 +1,8 @@
+# yamllint disable rule:line-length
+---
 name: Squad Protected Branch Guard
 
-on:
+'on':
   pull_request:
     branches: [main, preview]
     types: [opened, synchronize, reopened]
