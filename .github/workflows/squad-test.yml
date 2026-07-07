@@ -5,6 +5,7 @@ name: Squad Test Suite
 # causing "No such file or directory" errors in CI.
 
 permissions:
+  issues: write
   checks: write
   contents: read
   pull-requests: write
@@ -16,16 +17,16 @@ on:
       - dev
       - main
     paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
-      - '.squad/**'
+      - "docs/**"
+      - "**/*.md"
+      - ".squad/**"
   pull_request:
     branches:
       - "**"
     paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
-      - '.squad/**'
+      - "docs/**"
+      - "**/*.md"
+      - ".squad/**"
   workflow_dispatch:
     inputs:
       reason:

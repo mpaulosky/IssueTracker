@@ -1,10 +1,10 @@
 name: Squad Docs — Build & Deploy
-# Builds the docs/ Jekyll site from protected main and deploys it to GitHub Pages.
+# dotnet project — configure documentation build commands below
 
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [preview]
     paths:
       - 'docs/**'
       - '.github/workflows/squad-docs.yml'
@@ -14,42 +14,14 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build docs site with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./_site
-        env:
-          JEKYLL_ENV: production
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: ./_site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Build docs
+        run: |
+          # TODO: Add your documentation build commands here
+          # This workflow is optional — remove or customize it for your project
+          echo "No docs build commands configured — update or remove squad-docs.yml"

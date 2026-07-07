@@ -13,16 +13,15 @@ jobs:
     if: github.event.label.name == 'squad'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Triage issue via Lead agent
-        uses: actions/github-script@v9
+        uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const issue = context.payload.issue;
 
-            // Read team roster to find the Lead and all members
             const teamFile = '.squad/team.md';
             if (!fs.existsSync(teamFile)) {
               core.warning('No .squad/team.md found — cannot triage');
@@ -67,7 +66,7 @@ jobs:
             const members = [];
             let inMembersTable = false;
             for (const line of lines) {
-              if (line.startsWith('## Members')) {
+              if (line.match(/^##\s+(Members|Team Roster)/i)) {
                 inMembersTable = true;
                 continue;
               }
@@ -85,7 +84,6 @@ jobs:
               }
             }
 
-            // Read routing rules
             const routingFile = '.squad/routing.md';
             let routingContent = '';
             if (fs.existsSync(routingFile)) {
@@ -104,9 +102,11 @@ jobs:
               return;
             }
 
+            function slugify(t) { return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
             // Build triage context
             const memberList = members.map(m =>
-              `- **${m.name}** (${m.role}) → label: \`squad:${m.name.toLowerCase()}\``
+              `- **${m.name}** (${m.role}) → label: \`squad:${slugify(m.name)}\``
             ).join('\n');
 
             // Determine best assignee based on issue content and routing
@@ -183,7 +183,7 @@ jobs:
             }
 
             const isCopilot = assignedMember.name === '@copilot';
-            const assignLabel = isCopilot ? 'squad:copilot' : `squad:${assignedMember.name.toLowerCase()}`;
+            const assignLabel = isCopilot ? 'squad:copilot' : `squad:${slugify(assignedMember.name)}`;
 
             // Add the member-specific label
             await github.rest.issues.addLabels({
