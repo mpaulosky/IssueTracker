@@ -4,9 +4,9 @@ When the user or system imposes constraints (question limits, revision limits, t
 
 ## Format
 
-```
+```text
 📊 Clarifying questions used: 2 / 3
-```
+```text
 
 ## Rules
 
@@ -17,7 +17,7 @@ When the user or system imposes constraints (question limits, revision limits, t
 
 ## Example Session
 
-```
+```text
 Coordinator: Spawning agents to analyze requirements...
 📊 Clarifying questions used: 0 / 3
 
@@ -35,4 +35,4 @@ Coordinator: Checking with user...
 
 Agent asks clarification: "Should we cache responses?"
 Coordinator: 📊 Question budget exhausted (3/3). Proceeding without clarification.
-```
+```text

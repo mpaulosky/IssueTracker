@@ -7,14 +7,19 @@
 When running Squad on Kubernetes, agent pods sit idle when no work exists. [KEDA](https://keda.sh) (Kubernetes Event-Driven Autoscaler) solves this for queue-based workloads, but GitHub Issues isn't a native KEDA trigger.
 
 The `keda-copilot-scaler` is a KEDA External Scaler (gRPC) that bridges this gap:
+
 1. Polls GitHub API for issues matching specific labels (e.g., `squad:copilot`)
+
 2. Reports queue depth as a KEDA metric
+
 3. Handles rate limits gracefully (Retry-After, exponential backoff)
+
 4. Supports composite scaling decisions
 
 ## Quick Start
 
 ### Prerequisites
+
 - Kubernetes cluster with KEDA v2.x installed
 - GitHub personal access token (PAT) with `repo` scope
 - Helm 3.x
@@ -27,12 +32,12 @@ helm install keda-copilot-scaler oci://ghcr.io/tamirdresher/keda-copilot-scaler 
   --set github.owner=YOUR_ORG \
   --set github.repo=YOUR_REPO \
   --set github.token=YOUR_TOKEN
-```
+```text
 
 Or with Kustomize:
 ```bash
 kubectl apply -k https://github.com/tamirdresher/keda-copilot-scaler/deploy/kustomize
-```
+```text
 
 ### 2. Create a ScaledObject
 
@@ -57,7 +62,7 @@ spec:
       repo: your-repo
       labels: squad:copilot    # Only count issues with this label
       threshold: "1"           # Scale up when >= 1 issue exists
-```
+```text
 
 ### 3. Verify
 
@@ -70,7 +75,7 @@ kubectl get scaledobject picard-scaler -n squad
 
 # Watch scaling events
 kubectl get events -n squad --watch
-```
+```text
 
 ## Scaling Behavior
 
@@ -108,7 +113,7 @@ spec:
   - type: external
     metadata:
       labels: squad:copilot,needs:gpu
-```
+```text
 
 ### Cooperative Rate Limiting (#515)
 
@@ -119,7 +124,7 @@ The scaler exposes rate limit metrics that feed into the cooperative rate limiti
 
 ## Architecture
 
-```
+```text
 GitHub API                    KEDA                    Kubernetes
 ┌──────────┐              ┌──────────┐           ┌──────────────┐
 │  Issues   │◄── poll ──►│  Scaler   │──metrics─►│ HPA / KEDA   │
@@ -132,7 +137,7 @@ GitHub API                    KEDA                    Kubernetes
                                                  │ Agent Pods    │
                                                  │ (0–N replicas)│
                                                  └──────────────┘
-```
+```text
 
 ## Configuration Reference
 

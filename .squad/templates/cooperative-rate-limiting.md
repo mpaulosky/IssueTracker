@@ -40,7 +40,7 @@ function shouldProceed(light: TrafficLight, agentPriority: number): boolean {
   if (light === 'amber') return agentPriority === 0; // P0 only
   return false; // RED — block all
 }
-```
+```text
 
 ### Pattern 2: Cooperative Token Pool (CMARP)
 
@@ -56,7 +56,7 @@ A shared JSON file (`~/.squad/rate-pool.json`) distributes API quota:
     "ralph": { "priority": 2, "allocated": 1250, "used": 100, "leaseExpiry": "2026-03-22T19:55:00Z" }
   }
 }
-```
+```text
 
 **Rules:**
 - P0 agents (Lead) get 40% of quota
@@ -93,7 +93,7 @@ function canUseQuota(pool: RatePool, agentName: string): boolean {
   
   return alloc.used < alloc.allocated;
 }
-```
+```text
 
 ### Pattern 3: Predictive Circuit Breaker (PCB)
 
@@ -141,7 +141,7 @@ class PredictiveCircuitBreaker {
     return eta < this.warningThresholdSeconds;
   }
 }
-```
+```text
 
 ### Pattern 4: Priority Retry Windows (PWJG)
 
@@ -166,7 +166,7 @@ function getRetryDelay(priority: number, attempt: number): number {
   const jitter = Math.random() * base * 0.5;
   return base + jitter;
 }
-```
+```text
 
 ### Pattern 5: Resource Epoch Tracker (RET)
 
@@ -183,16 +183,16 @@ interface ResourceLease {
 
 // Each agent renews its lease every 2 minutes
 // If lease expires (agent crashed), allocation is reclaimed
-```
+```text
 
 ### Pattern 6: Cascade Dependency Detector (CDD)
 
 Track downstream failures and apply backpressure:
 
-```
+```text
 Agent A (rate limited) → Agent B (waiting for A) → Agent C (waiting for B)
                          ↑ Backpressure signal: "don't start new work"
-```
+```text
 
 When a dependency is rate-limited, upstream agents should pause new work rather than queuing requests that will fail.
 
@@ -211,15 +211,18 @@ spec:
     metadata:
       scalerAddress: keda-copilot-scaler:6000
       # Scaler returns 0 when rate limited → pods scale to zero
-```
+```text
 
 See [keda-copilot-scaler](https://github.com/tamirdresher/keda-copilot-scaler) for a complete implementation.
 
 ## Quick Start
 
 1. **Minimum viable:** Adopt Pattern 1 (Traffic Light) — read `X-RateLimit-Remaining` from API responses
+
 2. **Multi-machine:** Add Pattern 2 (Cooperative Pool) — shared `rate-pool.json`
+
 3. **Production:** Add Pattern 3 (Predictive CB) — prevent 429s entirely
+
 4. **Kubernetes:** Add KEDA scaler for automatic pod scaling
 
 ## References

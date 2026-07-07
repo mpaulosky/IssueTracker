@@ -19,7 +19,7 @@ Create `~/.squad/machine-capabilities.json` (user-wide) or `.squad/machine-capab
   "missing": ["gpu", "docker", "azure-speech"],
   "lastUpdated": "2026-03-22T00:00:00Z"
 }
-```
+```text
 
 ### 2. Label Issues with Requirements
 
@@ -42,19 +42,22 @@ Custom capabilities are supported — any `needs:X` label works if `X` is in the
 
 ```bash
 squad watch --interval 5
-```
+```text
 
 Ralph will log skipped issues:
-```
+```json
 ⏭️ Skipping #42 "Train ML model" — missing: gpu
 ✓ Triaged #43 "Fix CSS layout" → Picard (routing-rule)
-```
+```text
 
 ## How It Works
 
 1. Ralph loads `machine-capabilities.json` at startup
+
 2. For each open issue, Ralph extracts `needs:*` labels
+
 3. If any required capability is missing, the issue is skipped
+
 4. Issues without `needs:*` labels are always processed (opt-in system)
 
 ## Kubernetes Integration
@@ -70,6 +73,6 @@ node.squad.dev/browser: "true"
 spec:
   nodeSelector:
     node.squad.dev/gpu: "true"
-```
+```text
 
 A DaemonSet can run capability discovery on each node and maintain labels automatically. See the [squad-on-aks](https://github.com/tamirdresher/squad-on-aks) project for a complete Kubernetes deployment example.

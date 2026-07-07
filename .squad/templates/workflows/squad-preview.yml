@@ -1,8 +1,6 @@
-# yamllint disable rule:line-length
----
 name: Squad Preview Validation
 
-'on':
+on:
   push:
     branches: [preview]
 

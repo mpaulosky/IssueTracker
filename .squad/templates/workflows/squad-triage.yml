@@ -1,8 +1,6 @@
-# yamllint disable rule:line-length
----
 name: Squad Triage
 
-'on':
+on:
   issues:
     types: [labeled]
 

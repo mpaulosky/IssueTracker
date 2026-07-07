@@ -1,7 +1,6 @@
----
 name: Squad Docs — Build & Deploy
 
-'on':
+on:
   workflow_dispatch:
   push:
     branches: [preview]
