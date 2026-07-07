@@ -1,7 +1,8 @@
+---
 name: Squad CI
 # dotnet project — configure build/test commands below
 
-on:
+'on':
   pull_request:
     branches: [dev, preview, main, insider]
     types: [opened, synchronize, reopened]

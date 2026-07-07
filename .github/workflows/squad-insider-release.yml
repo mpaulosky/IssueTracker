@@ -1,7 +1,9 @@
+# yamllint disable rule:line-length
+---
 name: Squad Insider Release
 # dotnet project — configure build, test, and insider release commands below
 
-on:
+'on':
   push:
     branches: [insider]
 
