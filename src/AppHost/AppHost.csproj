@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
