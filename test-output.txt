@@ -1,0 +1,517 @@
+Build started 7/7/2026 9:39:36 AM.
+     1>Project "/home/teqs/github/IssueTracker/IssueTracker.slnx" on node 1 (VSTest target(s)).
+     1>ValidateSolutionConfiguration:
+         Building solution configuration "Debug|Any CPU".
+Test run for /home/teqs/github/IssueTracker/tests/IssueTracker.PlugIns.Tests.Unit/bin/Debug/net10.0/IssueTracker.PlugIns.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/IssueTracker.CoreBusiness.Tests.Unit/bin/Debug/net10.0/IssueTracker.CoreBusiness.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/ServiceDefaults.Tests/bin/Debug/net10.0/ServiceDefaults.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/Integration.Tests/bin/Debug/net10.0/Integration.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/IssueTracker.PlugIns.Tests.Integration/bin/Debug/net10.0/IssueTracker.PlugIns.Tests.Integration.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/IssueTracker.Services.Tests.Unit/bin/Debug/net10.0/IssueTracker.Services.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/AppHost.Tests/bin/Debug/net10.0/AppHost.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/Architecture.Tests/bin/Debug/net10.0/Architecture.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /home/teqs/github/IssueTracker/tests/IssueTracker.UI.Tests.Unit/bin/Debug/net10.0/IssueTracker.UI.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.20]   Discovering: IssueTracker.CoreBusiness.Tests.Unit
+[xUnit.net 00:00:00.20]   Discovering: IssueTracker.PlugIns.Tests.Integration
+[xUnit.net 00:00:00.21]   Discovering: Integration.Tests
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.40]   Discovered:  IssueTracker.CoreBusiness.Tests.Unit
+[xUnit.net 00:00:00.32]   Discovered:  Integration.Tests
+[xUnit.net 00:00:00.37]   Discovered:  IssueTracker.PlugIns.Tests.Integration
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.38]   Starting:    Integration.Tests
+[xUnit.net 00:00:00.17]   Discovering: ServiceDefaults.Tests
+[xUnit.net 00:00:00.15]   Discovering: Architecture.Tests
+[xUnit.net 00:00:00.42]   Starting:    IssueTracker.PlugIns.Tests.Integration
+[xUnit.net 00:00:00.52]   Starting:    IssueTracker.CoreBusiness.Tests.Unit
+[xUnit.net 00:00:00.22]   Discovering: IssueTracker.Services.Tests.Unit
+[xUnit.net 00:00:00.26]   Discovered:  ServiceDefaults.Tests
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.32]   Starting:    ServiceDefaults.Tests
+[xUnit.net 00:00:00.27]   Discovered:  Architecture.Tests
+[xUnit.net 00:00:00.18]   Discovering: IssueTracker.PlugIns.Tests.Unit
+[xUnit.net 00:00:00.32]   Starting:    Architecture.Tests
+[xUnit.net 00:00:00.37]   Discovered:  IssueTracker.Services.Tests.Unit
+[xUnit.net 00:00:00.19]   Discovering: AppHost.Tests
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.9)
+[xUnit.net 00:00:00.43]   Starting:    IssueTracker.Services.Tests.Unit
+[xUnit.net 00:00:00.32]   Discovered:  IssueTracker.PlugIns.Tests.Unit
+[xUnit.net 00:00:00.39]   Starting:    IssueTracker.PlugIns.Tests.Unit
+[xUnit.net 00:00:00.32]   Discovered:  AppHost.Tests
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Service_Handles_Null_Values [79 ms]
+  Passed Integration.Tests.CacheIntegrationTests.ServiceDefaults_Registers_ICacheService [44 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_TTL_Integration_Validated [13 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Service_Operations_Work_End_To_End [19 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Service_Throws_On_Invalid_Keys [9 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Service_Handles_Corrupted_Entries_Gracefully [7 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Multiple_Concurrent_Cache_Operations_Succeed [5 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Performance_Meets_Baseline [4 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Maintains_Multiple_Values [2 ms]
+[xUnit.net 00:00:00.68]   Finished:    Integration.Tests
+[xUnit.net 00:00:00.17]   Discovering: IssueTracker.UI.Tests.Unit
+[xUnit.net 00:00:00.37]   Starting:    AppHost.Tests
+  Passed GetDatabaseSettings [23 ms]
+  Passed GetCollectionName Tests(entityName: "CommentModel", expected: "comments") [23 ms]
+  Passed GetCollectionName Tests(entityName: "StatusModel", expected: "statuses") [< 1 ms]
+  Passed GetCollectionName Tests(entityName: "CategoryModel", expected: "categories") [< 1 ms]
+  Passed GetCollectionName Tests(entityName: "IssueModel", expected: "issues") [< 1 ms]
+  Passed GetCollectionName Tests(entityName: "UserModel", expected: "users") [< 1 ms]
+  Passed CreateDatabaseSettings [< 1 ms]
+  Passed BasicStatusModel with StatusName and StatusDescription should make a valid [258 ms]
+[xUnit.net 00:00:00.62]   Finished:    Architecture.Tests
+  Passed Integration.Tests.CacheIntegrationTests.Cache_Serializes_And_Deserializes_Complex_Objects [3 ms]
+  Passed Integration.Tests.CacheIntegrationTests.Redis_And_MongoDB_Container_Integration [1 ms]
+info: IssueTracker.PlugIns.IssueTrackerTestFactory[0]
+      Starting MongoDB container...
+
+Test Run Successful.
+Total tests: 11
+     Passed: 11
+ Total time: 2.1032 Seconds
+[xUnit.net 00:00:00.30]   Discovered:  IssueTracker.UI.Tests.Unit
+  Passed ServiceDefaults.Tests.CacheServiceTests.GetAsync_ThrowsArgumentException_WhenKeyIsNull [13 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.GetAsync_ThrowsArgumentException_WhenKeyIsEmpty [1 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.RemoveAsync_DeletesCachedValue [49 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.SetAsync_ThrowsArgumentException_WhenKeyIsNull [1 ms]
+  Passed ServiceDefaults.Tests.ServiceDefaultsExtensionsTests.AddServiceDefaults_RegistersICacheService [116 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.ICacheService_IsRegistered_InServiceDefaults [46 ms]
+  Passed ServiceDefaults.Tests.ServiceDefaultsExtensionsTests.AddServiceDefaults_RegistersHealthChecks [15 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.SetAsync_StoresComplexObject_AndGetAsync_RetrievesObject [32 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.SetAsync_StoresValue_AndGetAsync_RetrievesValue [1 ms]
+  Passed IssueTracker.CoreBusiness.Models.BasicCategoryModelTests.BasicCategoryModel_With_Values_Test [262 ms]
+  Passed FakeCategory GetCategories Existing Test [265 ms]
+  Passed BasicStatusModel with a StatusModel should make a vaLid BasicStatusModel [28 ms]
+  Passed IssueTracker.CoreBusiness.Models.BasicCategoryModelTests.BasicCategoryModel_With_CategoryModel_Test [26 ms]
+  Passed FakeStatus GetNewStatus Tests(expected: False) [294 ms]
+  Passed FakeCategory GetNewCategory Test(expected: False) [30 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetUserVotes_ReturnsHashSetString [298 ms]
+  Passed FakeUser GetBasicUsers Test(expectedCount: 1) [299 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetIsAnswer_ReturnsBoolean(expected: True) [95 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetIsAnswer_ReturnsBoolean(expected: False) [1 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetTitle_ReturnsString [1 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetArchived_ReturnsBoolean(expected: False) [1 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetArchived_ReturnsBoolean(expected: True) [< 1 ms]
+  Passed FakeStatus GetNewStatus Tests(expected: True) [125 ms]
+[xUnit.net 00:00:00.43]   Starting:    IssueTracker.UI.Tests.Unit
+  Passed BasicCommentModel With Comment Test [429 ms]
+  Passed FakeCategory GetNewCategory Test(expected: True) [134 ms]
+  Passed IssueTracker.CoreBusiness.BogusFakes.FakeCategoryTests.GenerateFake_Should_ReturnFakerInstance_Test [6 ms]
+  Passed FakeUser GetBasicUsers Test(expectedCount: 5) [189 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetIssue_ReturnsIssueModel [95 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetAnswerSelectedBy_ReturnsBasicUserModel [21 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetId_ReturnsString [< 1 ms]
+[testcontainers.org 00:00:00.25] Connected to Docker:
+  Host: unix:///var/run/docker.sock
+  Server Version: 29.6.1
+  Kernel Version: 7.1.3-1-cachyos
+  API Version: 1.55
+  Operating System: CachyOS
+  Total Memory: 62.49 GB
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.GetRedisInfoAsync_WithNullConnectionString_ThrowsArgumentException [47 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.ClearAllRedisDatabasesAsync_WithNullConnectionString_ThrowsArgumentException [4 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.GetRedisInfoAsync_WithEmptyConnectionString_ThrowsArgumentException [3 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.ClearRedisDatabaseAsync_WithNullConnectionString_ThrowsArgumentException [5 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.ClearRedisDatabaseAsync_WithNegativeDatabase_ThrowsArgumentException [2 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.ClearAllRedisDatabasesAsync_WithEmptyConnectionString_ThrowsArgumentException [2 ms]
+  Passed IssueTracker.AppHost.Tests.Helpers.CacheAdminHelperTests.ClearRedisDatabaseAsync_WithEmptyConnectionString_ThrowsArgumentException [1 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenDatabaseNameIsNullOrWhitespace(databaseName: "") [110 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenDatabaseNameIsNullOrWhitespace(databaseName: "   ") [16 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenDatabaseNameIsNullOrWhitespace(databaseName: null) [8 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithoutDatabase_UsesDefaultDatabase [150 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_CreatesMongoDBResource_WithCustomDatabaseName [16 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithNullBuilder_ThrowsArgumentNullException [2 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenNameIsNullOrWhitespace(name: "") [7 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenNameIsNullOrWhitespace(name: "   ") [7 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentException_WhenNameIsNullOrWhitespace(name: null) [6 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_AddsCommandAnnotations [27 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_AddsHealthCheckAnnotation [5 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithValidBuilder_ReturnsResourceBuilder [4 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_AddsDataVolumeAnnotation [3 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithNullName_ThrowsArgumentException [4 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithCustomDatabase_ReturnsResourceBuilder [3 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithNegativeDatabase_ThrowsArgumentException [15 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithoutName_UsesDefaultName [6 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithEmptyName_ThrowsArgumentException [66 ms]
+  Passed IssueTracker.Architecture.ArchitectureTests.UI_ShouldNotDependOnAppHost [180 ms]
+  Passed IssueTracker.Architecture.ArchitectureTests.AppHost_MustNotBeReferencedByOtherProjects [16 ms]
+  Passed IssueTracker.Architecture.ArchitectureTests.CoreBusiness_ShouldNotDependOnUIOrAppHost [16 ms]
+  Passed IssueTracker.Architecture.ArchitectureTests.ServiceDefaults_MustHaveNoCircularDependencies [6 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetDescription_ReturnsString [< 1 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetArchivedBy_ReturnsBasicUserModel [4 ms]
+  Passed FakeIssue GetIssues Test(expectedCount: 1) [529 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetAuthor_ReturnsBasicUserModel [6 ms]
+  Passed IssueTracker.CoreBusiness.Models.CommentModelTests.Test_GetDateCreated_ReturnsDateTime [< 1 ms]
+  Passed FakeComment GetBasicComments With New Seed Test(expectedCount: 1) [637 ms]
+  Passed FakeUser GetBasicUsers With New Seed Test(expectedCount: 1) [148 ms]
+
+[xUnit.net 00:00:00.76]   Finished:    AppHost.Tests
+Test Run Successful.
+Total tests: 4
+     Passed: 4
+ Total time: 2.2653 Seconds
+  Passed FakeCategory GetCategories Test with use new seed(countRequested: 1) [149 ms]
+  Passed FakeStatus GetBasicStatuses With New Seed Test(expectedCount: 5) [222 ms]
+  Passed FakeIssue GetIssues Test(expectedCount: 5) [115 ms]
+  Passed FakeStatus GetBasicStatuses With New Seed Test(expectedCount: 1) [35 ms]
+  Passed FakeUser GetBasicUsers With New Seed Test(expectedCount: 5) [51 ms]
+  Passed FakeStatus GetStatuses With Number Needed With New Seed Test(expectedCount: 1) [59 ms]
+  Passed Archive Status With Invalid Status Throws Exception [217 ms]
+  Passed Get Issue With Invalid Id(value: "", expectedParamName: "issueId", expectedMessage: "The value cannot be an empty string.?*") [215 ms]
+  Passed Get Issue With Invalid Id(value: null, expectedParamName: "issueId", expectedMessage: "Value cannot be null.?*") [5 ms]
+  Passed Get Statuses [156 ms]
+  Passed Archive Category With Valid Values [382 ms]
+  Passed Delete Status With InValid Status Throws Exception [3 ms]
+  Passed Archive User With Valid Values [395 ms]
+  Passed Update Category With Valid Category [17 ms]
+  Passed Update Status With Valid Status [18 ms]
+  Passed Archive Category With Invalid Category Throws Exception [3 ms]
+  Passed Create Status With Invalid Status Throws Exception [4 ms]
+  Passed Create User With Valid Values [8 ms]
+  Passed Create User With Invalid User Throws Exception [2 ms]
+  Passed Get Statuses with cache [10 ms]
+  Passed Get Categories with cache [17 ms]
+  Passed Archive Issue With Valid Values [198 ms]
+  Passed Delete Status [45 ms]
+  Passed Get Category With Valid Id [45 ms]
+  Passed Get Category With Invalid Id(value: "", expectedParamName: "categoryId", expectedMessage: "The value cannot be an empty string.?*") [2 ms]
+  Passed Update With Invalid Status [4 ms]
+  Passed Get Users [60 ms]
+  Passed Get Category With Invalid Id(value: null, expectedParamName: "categoryId", expectedMessage: "Value cannot be null.?*") [1 ms]
+  Passed Update Comment With Valid Comment [476 ms]
+  Passed Get User From Authentication With Invalid Data(value: null, expectedParamName: "userObjectIdentifierId", expectedMessage: "Value cannot be null.?*") [4 ms]
+  Passed Get User From Authentication With Invalid Data(value: "", expectedParamName: "userObjectIdentifierId", expectedMessage: "The value cannot be an empty string.?*") [8 ms]
+  Passed Create Category With Valid Values [14 ms]
+  Passed Get Status With Valid Id [16 ms]
+  Passed Archive User With Invalid User Throws Exception [5 ms]
+  Passed Update With Invalid Category [3 ms]
+  Passed Create Category With Invalid Category Throws Exception [1 ms]
+  Passed Get User With Invalid Id(value: null, expectedParamName: "userId", expectedMessage: "Value cannot be null.?*") [2 ms]
+  Passed Get User With Invalid Id(value: "", expectedParamName: "userId", expectedMessage: "The value cannot be an empty string.?*") [< 1 ms]
+  Passed Create Status With Valid Values [7 ms]
+  Passed Update With Invalid User [1 ms]
+  Passed Get Status With Invalid Id(value: null, expectedParamName: "statusId", expectedMessage: "Value cannot be null.?*") [1 ms]
+  Passed Get Categories [77 ms]
+  Passed Get Status With Invalid Id(value: "", expectedParamName: "statusId", expectedMessage: "The value cannot be an empty string.?*") [75 ms]
+  Passed Create Comment With Valid Values [105 ms]
+  Passed FakeUser GetNewUser With New Seed Tests(expected: False) [56 ms]
+  Passed FakeStatus GetStatuses With Number Needed With New Seed Test(expectedCount: 5) [12 ms]
+  Passed FakeUser GetNewUser With New Seed Tests(expected: True) [30 ms]
+  Passed FakeIssue GetBasicIssues With New Seed Test(expectedCount: 5) [135 ms]
+  Passed FakeCategory GetCategories Test with use new seed(countRequested: 5) [179 ms]
+  Passed FakeStatus GetStatuses List Test [71 ms]
+  Passed IssueTracker.UI.Pages.ErrorTests.ShowRequestId_Should_ReturnFalse [9 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_CreatesMongoDBResource_WithDefaultDatabase [123 ms]
+  Passed AppHost.Tests.RedisExtensionsTests.AddRedisCache_WithCustomName_ReturnsResourceBuilderWithCustomName [7 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_AddsHealthCheckAnnotation [7 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_CreatesMongoDBResource_WithCorrectName [6 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_ThrowsArgumentNullException_WhenBuilderIsNull [2 ms]
+  Passed AppHost.Tests.MongoDBHostingExtensionsTests.AddMongoDBWithManagement_AddsDataVolumeAnnotation [9 ms]
+  Passed Get User From Authentication [85 ms]
+  Passed Get Issues with cache [157 ms]
+  Passed Archive Comment With Invalid Comment Throws Exception [3 ms]
+  Passed Archive Status With Valid Values [15 ms]
+  Passed Get iIssues By User With Invalid Id(value: null, expectedParamName: "userId", expectedMessage: "Value cannot be null.?*") [3 ms]
+  Passed Get iIssues By User With Invalid Id(value: "", expectedParamName: "userId", expectedMessage: "The value cannot be an empty string.?*") [1 ms]
+  Passed Get User With Valid Id [7 ms]
+
+Test Run Successful.
+Total tests: 31
+     Passed: 31
+ Total time: 2.5423 Seconds
+  Passed FakeUser GetNewUser Tests(expected: True) [53 ms]
+  Passed FakeCategory GetNewCategory With New Seed Test(expected: True) [15 ms]
+  Passed FakeStatus GetNewStatus With New Seed Tests(expected: False) [39 ms]
+  Passed FakeUser GetNewUser Tests(expected: False) [34 ms]
+  Passed FakeCategory GetNewCategory With New Seed Test(expected: False) [33 ms]
+  Passed FakeStatus GetNewStatus With New Seed Tests(expected: True) [43 ms]
+  Passed FakeIssue GetBasicIssues With New Seed Test(expectedCount: 1) [137 ms]
+  Passed Update User With Valid User [7 ms]
+  Passed Get Users Comments with memory cache [77 ms]
+  Passed GetApprovedIssues [73 ms]
+  Passed Get Users Issues With Valid Id [31 ms]
+  Passed Get Comments [42 ms]
+  Passed Get Comments By User With Invalid Id(value: null, expectedParamName: "userId", expectedMessage: "Value cannot be null.?*") [4 ms]
+  Passed Get Comments By User With Invalid Id(value: "", expectedParamName: "userId", expectedMessage: "The value cannot be an empty string.?*") [2 ms]
+  Passed Update With Invalid Comment [3 ms]
+  Passed Get Issue With Valid Id [34 ms]
+  Passed Create Issue With Invalid Issue Throws Exception [3 ms]
+  Passed Archive Issue With Invalid Issue Throws Exception [4 ms]
+  Passed Get Users Comments With Valid Id [47 ms]
+  Passed UpVote Comment With Invalid inputs(commentId: null, userId: "1", expectedParamName: "commentId", expectedMessage: "Value cannot be null.?*") [15 ms]
+  Passed UpVote Comment With Invalid inputs(commentId: "1", userId: null, expectedParamName: "userId", expectedMessage: "Value cannot be null.?*") [2 ms]
+  Passed Update Issue With Valid Issue [44 ms]
+  Passed Up Vote Comment [43 ms]
+  Passed FakeCategory GetCategories Test(countRequested: 1) [53 ms]
+  Passed FakeUser GetUsers Test(expectedCount: 5) [113 ms]
+  Passed FakeComment GetBasicComments With New Seed Test(expectedCount: 5) [343 ms]
+  Passed FakeCategory GetCategories Test(countRequested: 5) [138 ms]
+  Passed FakeStatus GetStatuses With Number Needed Test(expectedCount: 5) [158 ms]
+  Passed IssueTracker.PlugIns.DataAccess.MongoDbContextTests.GetCollection_With_ValidName_Should_ReturnACollection_Test [552 ms]
+  Passed IssueTracker.PlugIns.DataAccess.MongoDbContextTests.GetCollection_With_Invalid_Name_Should_Fail_Test(value: "", expectedMessage: "The value cannot be an empty string. (Parameter 'n"···) [33 ms]
+  Passed IssueTracker.PlugIns.DataAccess.MongoDbContextTests.GetCollection_With_Invalid_Name_Should_Fail_Test(value: null, expectedMessage: "Value cannot be null. (Parameter 'name')") [5 ms]
+  Passed IssueTracker.PlugIns.DataAccess.MongoDbContextTests.MongoDbContext_With_Valid_Data_Should_Return_A_Context_Test [3 ms]
+  Passed CreateUser with a valid user [677 ms]
+  Passed Update Category [718 ms]
+  Passed Create Category [21 ms]
+  Passed GetIssues Waiting For Approval [745 ms]
+  Passed GetUser With a Valid Id [91 ms]
+  Passed Archive Category [31 ms]
+  Passed Create Status [784 ms]
+[testcontainers.org 00:00:00.87] Docker container 21b32a636c26 created
+  Passed Get Comments [884 ms]
+  Passed Update User with a valid Id and User [112 ms]
+  Passed Get Category With a Valid Id [110 ms]
+  Passed Get Approved Issues [148 ms]
+  Passed Get Categories [18 ms]
+  Passed GetUser From Authentication [21 ms]
+  Passed Archive Status [127 ms]
+  Passed Get Comment With Invalid Id(value: "", expectedParamName: "commentId", expectedMessage: "The value cannot be an empty string.?*") [4 ms]
+  Passed Get Issues [48 ms]
+  Passed Get Comment With Invalid Id(value: null, expectedParamName: "commentId", expectedMessage: "Value cannot be null.?*") [3 ms]
+  Passed Update With Invalid Issue [3 ms]
+  Passed Create Comment With Invalid Comment Throws Exception [3 ms]
+  Passed Create Issue With Valid Values [48 ms]
+  Passed Get Comments with cache [60 ms]
+  Passed GetIssuesWaitingForApproval [72 ms]
+  Passed FakeUser GetUsers Test(expectedCount: 1) [94 ms]
+  Passed FakeCategory GetBasicCategory Test With Use New Seed [15 ms]
+  Passed FakeIssue GetNewIssue With New Seed Tests(expected: True) [158 ms]
+  Passed FakeCategory GetBasicCategory Test [32 ms]
+  Passed FakeUser GetUsers With New Seed Test(expectedCount: 1) [35 ms]
+  Passed FakeStatus GetStatuses With Number Needed Test(expectedCount: 1) [48 ms]
+  Passed FakeStatus GetBasicStatuses Test(expectedCount: 5) [57 ms]
+[xUnit.net 00:00:01.51]   Finished:    IssueTracker.Services.Tests.Unit
+[xUnit.net 00:00:01.57]   Finished:    ServiceDefaults.Tests
+  Passed Archive User [19 ms]
+  Passed Get Status With a Valid Id [44 ms]
+  Passed Update Issue with valid Issue [65 ms]
+  Passed Get Users [47 ms]
+  Passed Create Comment With Valid Comment [93 ms]
+  Passed Update Status [22 ms]
+  Passed Get Statuses [12 ms]
+  Passed Get Issue With a Valid Id [46 ms]
+[testcontainers.org 00:00:01.00] Start Docker container 21b32a636c26
+  Passed Archive Comment With Valid Values [68 ms]
+  Passed Get Users Issues with cache [35 ms]
+  Passed Get Comment With Valid Id [29 ms]
+
+  Passed ServiceDefaults.Tests.CacheServiceTests.SetAsync_WithExpiration_ExpiresAfterTimespan [1 s]
+  Passed ServiceDefaults.Tests.CacheServiceTests.GetAsync_ReturnsNull_WhenKeyNotSet [< 1 ms]
+  Passed ServiceDefaults.Tests.CacheServiceTests.RemoveAsync_ThrowsArgumentException_WhenKeyIsNull [< 1 ms]
+Test Run Successful.
+Total tests: 72
+     Passed: 72
+ Total time: 3.0542 Seconds
+
+Test Run Successful.
+Total tests: 12
+     Passed: 12
+ Total time: 3.0954 Seconds
+  Passed FakeComments GetNewComment Test(expected: False) [200 ms]
+  Passed FakeIssue GetNewIssue With New Seed Tests(expected: False) [110 ms]
+  Passed FakeStatus GetBasicStatuses Test(expectedCount: 1) [30 ms]
+  Passed FakeUser GetUsers With New Seed Test(expectedCount: 5) [104 ms]
+  Passed FakeComments GetNewComment Test(expected: True) [90 ms]
+  Passed FakeIssue GetIssues With New Seed Test(expectedCount: 1) [85 ms]
+  Passed FakeComment GetComments Test(expectedCount: 5) [97 ms]
+  Passed FakeIssue GetIssues With New Seed Test(expectedCount: 5) [141 ms]
+  Passed IssueTracker.UI.Pages.ErrorModelTests.ShowRequestIdShouldNotReturnRequestId [6 ms]
+  Passed IssueTracker.UI.Pages.ErrorTests.RequestId_Should_ReturnNull [< 1 ms]
+  Passed IssueTracker.UI.Pages.ErrorModelTests.ShowRequestIdShouldReturnRequestId [1 ms]
+  Passed IssueTracker.UI.Helpers.MongoHealthCheckTests.CheckHealthAsync_WithOut_Mock_Database_Returns_UnHealthy_Status_TestAsync [619 ms]
+  Passed IssueTracker.UI.Helpers.MongoHealthCheckTests.CheckHealthAsync_With_Mock_Database_Returns_Healthy_Status_TestAsync [7 ms]
+  Passed IssueTracker.UI.Helpers.AuthenticationStateProviderHelpersTests.GetUserFromAuth_Should_Call_GetAuthenticationStateAsync [655 ms]
+  Passed IssueTracker.UI.Helpers.AuthenticationStateProviderHelpersTests.IsUserAuthorizedAsync_Should_Return_True_For_Admin_JobTitle [45 ms]
+  Passed IssueTracker.UI.Helpers.AuthenticationStateProviderHelpersTests.IsUserAuthorizedAsync_Should_Call_GetAuthenticationStateAsync [15 ms]
+  Passed IssueTracker.UI.Helpers.AuthenticationStateProviderHelpersTests.IsUserAuthorizedAsync_Should_Return_False_For_Normal_User_JobTitle [5 ms]
+  Passed IssueTracker.UI.Shared.RedirectToLoginTests.RedirectToLogin_NavigatesToSignIn [946 ms]
+  Passed Get Comments By Issue [49 ms]
+  Passed Archive Issue [29 ms]
+  Passed Get Issues [33 ms]
+  Passed Update Comment [81 ms]
+  Passed Create Issue with valid Issue [35 ms]
+  Passed Get Users Issues [25 ms]
+  Passed Up vote Comment With Valid Comment and User [49 ms]
+  Passed Up vote Comment With User Already Voted [51 ms]
+  Passed Archive Comment [54 ms]
+[xUnit.net 00:00:01.79]   Finished:    IssueTracker.PlugIns.Tests.Unit
+  Passed IssueTracker.UI.Pages.CommentTests.Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test [951 ms]
+  Passed Validate Status Styles(index: 2, expected: "issue-entry-status-inwork") [1 s]
+  Passed IssueTracker.UI.Pages.ProfileTests.Profile_With_ValidIssuesAndComments_Should_DisplayTheIssuesAndComments_Test [1 s]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(expectedStatus: "InWork", expectedCss: "issue-entry-status issue-entry-status-inwork") [1 s]
+  Passed IssueTracker.UI.Shared.MainLayoutTests.MainLayout_Should_DisplayMainLayout_Test [1 s]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditTitleSpanClick_Should_ShowIssueTitleEditTextBox_Test [1 s]
+[testcontainers.org 00:00:01.38] Wait for Docker container 21b32a636c26 to complete readiness checks
+[testcontainers.org 00:00:01.39] Docker container 21b32a636c26 ready
+  Passed IssueTracker.UI.Shared.NotAuthorizedTests.NotAuthorized_Should_DisplayMarkup_Test [1 s]
+  Passed IssueTracker.UI.Shared.LoginDisplayTests.LoginDisplay_With_AuthenticationAndAuthorization_Should_DisplayProfileAndLogoutLinks_Test [1 s]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_ClickingOnIssue_Should_NavigateToDetailsPage_Test [1 s]
+  Passed Comment With Valid User Should Display Markup [183 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.CommentComponent_ArchiveComment_Should_ArchiveTheComment_Test [1 s]
+  Passed Get Comment With a Valid Id [33 ms]
+  Passed Get Users Comments with valid Id [44 ms]
+
+Test Run Successful.
+Total tests: 37
+     Passed: 37
+ Total time: 3.5028 Seconds
+  Passed FakeComment GetComments Test(expectedCount: 1) [75 ms]
+  Passed FakeIssue GetBasicIssues Test(expectedCount: 5) [51 ms]
+  Passed FakeIssue GetBasicIssues Test(expectedCount: 1) [58 ms]
+  Passed FakeComment GetBasicComments Test(expectedCount: 1) [90 ms]
+  Passed FakeIssue GetNewIssue Tests(expected: False) [57 ms]
+  Passed FakeComment GetBasicComments Test(expectedCount: 5) [81 ms]
+  Passed FakeIssue GetNewIssue Tests(expected: True) [48 ms]
+  Passed FakeComments GetNewComment With New Seed Test(expected: False) [72 ms]
+  Passed FakeComments GetNewComment With New Seed Test(expected: True) [58 ms]
+  Passed SetStatusComponent work setting the statuses(value: "#inwork", expectedStatusName: "InWork") [1 s]
+  Passed IssueTracker.UI.Shared.NotAuthorizedTests.NotAuthorized_ClosePageButtonClick_Should_NavigateToIndexPage_Test [29 ms]
+  Passed IssueTracker.UI.Shared.LoginDisplayTests.LoginDisplay_With_AuthenticationAndAuthorizationAndPolicy_Should_DisplayAdminAndProfileAndLogoutLinks_Test [29 ms]
+  Passed Validate Status Styles(index: 3, expected: "issue-entry-status-dismissed") [161 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(expectedStatus: "Answered", expectedCss: "issue-entry-status issue-entry-status-answered") [98 ms]
+  Passed IssueTracker.UI.Shared.LoginDisplayTests.LoginDisplay_WithOut_Authorization_Should_DisplayLoginLink_Test [87 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_ApprovedButtonClick_Should_SetApprovedToTrue_Test [137 ms]
+  Passed IssueTracker.UI.Pages.ProfileTests.Profile_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test [222 ms]
+  Passed SetStatusComponent work setting the statuses(value: "#answered", expectedStatusName: "Answered") [119 ms]
+  Passed IssueTracker.UI.Pages.CreateTests.Create_With_ValidInput_Should_SaveNewIssue_Test [1 s]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetUpVoteBottomText_ReturnsUpVoteForSingleUpVote_TestAsync [145 ms]
+[xUnit.net 00:00:02.52]   Finished:    IssueTracker.CoreBusiness.Tests.Unit
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(expectedStatus: "Watching", expectedCss: "issue-entry-status issue-entry-status-watching") [55 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_DataNotAsAdmin_Should_DisplayIssuesWithOutArchiveButton_Test [171 ms]
+  Passed IssueTracker.UI.Pages.CreateTests.Create_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test [53 ms]
+  Passed IssueTracker.UI.Pages.CommentTests.Comment_With_ValidComment_Should_SaveTheComment_Test [219 ms]
+  Passed Validate Status Styles(index: 4, expected: "issue-entry-status-none") [141 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(expectedStatus: "", expectedCss: "issue-entry-status issue-entry-status-none") [88 ms]
+  Passed IssueTracker.UI.Pages.CreateTests.Create_With_AuthorizedUser_Should_DisplayPage_Test [61 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditIssueTitleSubmit_Should_SaveChanges_Test [125 ms]
+  Passed SetStatusComponent work setting the statuses(value: "#watching", expectedStatusName: "Watching") [118 ms]
+  Passed CommentComponent Admin Select Comment as Answer [135 ms]
+[testcontainers.org 00:00:01.69] Docker container d8d8fb92b99a created
+[testcontainers.org 00:00:01.69] Start Docker container d8d8fb92b99a
+  Passed FakeComment GetComments With New Seed Test(expectedCount: 1) [56 ms]
+  Passed FakeComment GetComments With New Seed Test(expectedCount: 5) [97 ms]
+
+Test Run Successful.
+Total tests: 86
+     Passed: 86
+ Total time: 3.8005 Seconds
+  Passed IssueTracker.UI.Pages.IndexTests.Index_OnInitialize_Should_SaveSessionValues_Test(key: "_selectedStatus", expectedValue: "All") [134 ms]
+  Passed IssueTracker.UI.Pages.CreateTests.Create_ClosePageClick_Should_NavigateToIndexPage_Test [65 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueStatusCssClass_Should_Return_ValidCss_Test(expectedStatus: "Dismissed", expectedCss: "issue-entry-status issue-entry-status-dismissed") [67 ms]
+  Passed IssueTracker.UI.Pages.CommentTests.Comment_CloseButton_Should_WhenClickedNavigateToIndexPage_Test [106 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.VoteUp_ReturnsIfAuthorEqualsLoggedInUser_TestAsync [67 ms]
+  Passed IssueTracker.UI.Pages.ProfileTests.Profile_With_ClosePageClick_Should_NavigateToTheIndexPage_Test [230 ms]
+  Passed SetStatusComponent work setting the statuses(value: "#dismissed", expectedStatusName: "Dismissed") [112 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditIssueDescriptionSubmit_Should_SaveChanges_Test [112 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "Miscellaneous", expectedCss: "issue-entry-category issue-entry-category-miscella"···) [49 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_OnInitialize_Should_SaveSessionValues_Test(key: "_searchText", expectedValue: "") [71 ms]
+  Passed Validate Status Styles(index: 0, expected: "issue-entry-status-answered") [169 ms]
+  Passed IssueTracker.UI.Pages.CommentTests.Comment_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialize_Test [68 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.VoteUp_AddsUserVoteIfNotAlreadyUpVoted_TestAsync [45 ms]
+  Passed SetStatusComponent not Admin [45 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "Implementation", expectedCss: "issue-entry-category issue-entry-category-implemen"···) [43 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditIssueTitleReject_Should_RevertTheChanges_Test [65 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_OnInitialize_Should_SaveSessionValues_Test(key: "_selectedCategory", expectedValue: "All") [67 ms]
+  Passed CommentComponent not Admin [80 ms]
+  Passed SetStatusComponent is Admin [78 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "Documentation", expectedCss: "issue-entry-category issue-entry-category-document"···) [80 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditIssueDescriptionReject_Should_RevertTheChanges_Test [80 ms]
+  Passed Validate Status Styles(index: 1, expected: "issue-entry-status-watching") [128 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_OnInitialize_Should_SaveSessionValues_Test(key: "_isSortedByNew", expectedValue: "false") [78 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_AddNewCategoryButton_Should_CancelInsertOnCancel_Test [1 s]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "", expectedCss: "issue-entry-category issue-entry-category-none") [49 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_AddNewCategoryButton_Should_CreateNewCategory_Test [1 s]
+  Passed CommentComponent is Admin [79 ms]
+[testcontainers.org 00:00:02.00] Wait for Docker container d8d8fb92b99a to complete readiness checks
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_UnApprovedIssues_Should_DisplayTheIssueAndIssueCountOfOne_Test [79 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "Clarification", expectedCss: "issue-entry-category issue-entry-category-clarific"···) [52 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_When_CommentVotedOnNonAuthor_Should_SaveUpdatedComment_Test [106 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(index: 3, expected: "InWork") [115 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_GetIssueCategoryCssClass_Should_Return_ValidCss_Test(expectedCategory: "Design", expectedCss: "issue-entry-category issue-entry-category-design") [35 ms]
+  Passed CommentComponent is Not Admin and is Not Owner Display nothing [63 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_OnClickEditButton_Should_CancelEditOnCancelClick_Test [95 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_EditDescriptionSpanClick_Should_ShowIssueDescriptionEditTextBox_Test [67 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_AddNewCategoryButton_Should_CancelInsertOnCancel_Test [91 ms]
+  Passed IssueComponent not Admin [83 ms]
+  Passed Update Status(statusId: "watching") [118 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetVoteCssClass_ReturnsCommentDetailVotedIfCurrentUserHasNotVoted_TestAsync [107 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(index: 1, expected: "Answered") [136 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_RejectButtonClick_Should_SetRejectToTrue_Test [123 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_AddNewStatusButton_Should_CreateNewStatus_Test [149 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_OnClickEditButton_Should_CancelEditOnCancelClick_Test [124 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_OpenDetailsPage2_Should_NavigateToDetailsPage_Test [92 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.VoteUp_RemovesUserVoteIfAlreadyUpVoted_TestAsync [90 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(index: 0, expected: "All") [66 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_Should_DisplayMarkup_Test [49 ms]
+  Passed IssueComponent is Admin [29 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_With_No_Issues_Should_DisplayHeaderAndIssueCountOfZero_Test [64 ms]
+  Passed Update Status(statusId: "dismissed") [109 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_CloseButton_Should_WhenClickedNavigateToIndexPage_Test [52 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_ArchiveIssue_Should_ArchiveTheIssue_Test [50 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_AddNewCategoryButton_Should_InsertNewInputRow_Test [104 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetUpVoteBottomText_ReturnsUpVotesForMultipleUpVotes [74 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(index: 4, expected: "Dismissed") [96 ms]
+  Passed IssueTracker.UI.Pages.AdminTests.Admin_ClosePageButtonClick_Should_NavigateToIndexPage_Test [90 ms]
+  Passed IssueTracker.UI.Components.IssueComponentTests.IssueComponent_OpenDetailsPage_Should_NavigateToDetailsPage_Test [55 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_CloseButton_Should_WhenClickedNavigateToIndexPage_Test [58 ms]
+  Passed Update Status(statusId: "inwork") [100 ms]
+  Passed CommentComponent is Not Admin and is Not Owner is Answered Display Answered [54 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_OnClickEditButton_Should_UpdateStatusOnSubmit_Test [87 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(index: 2, expected: "Watching") [39 ms]
+  Passed CommentComponent is Admin Display Set Answer Owner [18 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_OnClickDeleteButton_Should_DeleteCategory_Test [46 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_OnClickDeleteButton_Should_Archive_The_Status_Test [20 ms]
+  Passed Update Status(statusId: "answered") [46 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetUpVoteTopText_ReturnsUserVoteCountAsStringWithPadding_TestAsync [29 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_NotAuthenticatedAnClickCreateIssue_Should_NavigateToLoginPage_Test [34 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_Should_DisplayMarkup_Test [53 ms]
+  Passed IssueTracker.UI.Pages.StatusesTests.Statuses_AddNewStatusButton_Should_InsertNewInputRow_Test [54 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetUpVoteTopText_ReturnsClickToIfUserHasNotYetVoted_TestAsync [41 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_With_AttemptOfCommentAuthorToVote_Should_Fail_Test [61 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 1, expected: "Design") [54 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetVoteCssClass_ReturnsCommentDetailNoVotesIfNoVotes_TestAsync [20 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 0, expected: "All") [22 ms]
+  Passed IssueTracker.UI.Pages.CategoriesTests.Categories_OnClickEditButton_Should_UpdateCategoryOnSubmit_Test [57 ms]
+  Passed CommentComponent is Admin Display Set Answer Admin [38 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_WhenCommentHasVoteByUser_Should_RemoveVote_Test [53 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 3, expected: "Implementation") [23 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetUpVoteTopText_ReturnsAwaitingIfCurrentUserIsAuthor_TestAsync [27 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 4, expected: "Clarification") [32 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Comment_With_NullLoggedInUser_Should_ThrowArgumentNullException_Test [35 ms]
+  Passed IssueTracker.UI.Components.CommentComponentTests.GetVoteCssClass_ReturnsCommentDetailNotVotedIfCurrentUserHasVoted_TestAsync [22 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 5, expected: "Miscellaneous") [33 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_ClosePageClick_Should_NavigateToIndexPage_Test [34 ms]
+  Passed CommentComponent Owner Select Comment as Answer [20 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingACategory_Should_FilterIssues_Test(index: 2, expected: "Documentation") [34 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_With_AddCommentClick_Should_NavigateToCommentPage_Test [35 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_LoggedOnUserInfoIsDifferent_Should_UpdateUser_Test [19 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_With_NonAdminUser_Should_ShowDetailsNotSetStatus_Test [28 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingSortByNewest_Should_OrderIssuesNewestFirst_TestAsync [19 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_With_AdminUser_Should_BeAbleToSetStatus_Test [24 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_ClickOfNewIssueButton_Should_NavigateToTheCreatePage_Test [20 ms]
+[xUnit.net 00:00:02.99]   Finished:    IssueTracker.UI.Tests.Unit
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_DataAndAsAdmin_Should_DisplayIssuesWithArchiveButton_Test [18 ms]
+  Passed IssueTracker.UI.Pages.DetailsTests.Details_WithOut_IssueId_Should_ThrowArgumentNullExceptionOnInitialization_Test [21 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_SelectingSortByPopular_Should_OrderIssuesByPopularity_TestAsync [22 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_ArchiveButtonClick_Should_UpdateIssueToArchived_Test [17 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_EnterSearchText_Should_FilterByText_TestAsync [18 ms]
+  Passed IssueTracker.UI.Pages.IndexTests.Index_With_NewUser_Should_SaveToDatabase_Test [14 ms]
+
+Test Run Successful.
+Total tests: 142
+     Passed: 142
+ Total time: 4.3461 Seconds
