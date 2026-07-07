@@ -1,6 +1,7 @@
+---
 name: Squad CI
 
-on:
+'on':
   pull_request:
     branches: [dev, preview, main, insider]
     types: [opened, synchronize, reopened]

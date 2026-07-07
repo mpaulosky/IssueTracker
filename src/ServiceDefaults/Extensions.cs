@@ -26,13 +26,13 @@ public static class Extensions
 
 	// Distributed Cache: Redis for session and distributed caching (optional in tests)
 	var redisEndpoint = builder.Configuration.GetValue<string>("Redis:Endpoint") ?? "localhost:6379";
-	var enableRedis = builder.Configuration.GetValue<bool>("Redis:Enabled", true);
+	var enableRedis = builder.Configuration.GetValue("Redis:Enabled", true);
 
 	if (enableRedis)
 	{
 		builder.Services.AddStackExchangeRedisCache(options =>
 		{
-			options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
+			options.ConfigurationOptions = new ConfigurationOptions
 			{
 				EndPoints = { redisEndpoint },
 				AbortOnConnectFail = false,
@@ -42,9 +42,9 @@ public static class Extensions
 		});
 
 		// Redis Connection: Required by RedisHealthCheck
-		builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+		builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
 		{
-			var config = new StackExchange.Redis.ConfigurationOptions
+			var config = new ConfigurationOptions
 			{
 				EndPoints = { redisEndpoint },
 				AbortOnConnectFail = false,

@@ -1,6 +1,7 @@
+---
 name: guard-main-source
 
-on:
+'on':
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -18,6 +19,7 @@ jobs:
             }
             const source = context.payload.pull_request.head.ref;
             if (source !== "dev") {
-              core.setFailed(`PRs to main must come from dev. Current source: ${source}`);
+              core.setFailed(
+                `PRs to main must come from dev. Current source: ${source}`
+              );
             }
-

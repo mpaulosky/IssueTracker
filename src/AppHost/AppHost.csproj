@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
+		<OutputType>Exe</OutputType>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
@@ -15,15 +16,19 @@
 		<PackageReference Include="Aspire.Hosting.AppHost" />
 		<PackageReference Include="Aspire.Hosting.MongoDB" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
+		<PackageReference Include="MessagePack" />
 		<PackageReference Include="MongoDB.Driver" />
+		<PackageReference Include="SharpCompress" />
+		<PackageReference Include="Snappier" />
 		<PackageReference Include="StackExchange.Redis" />
+		<PackageReference Include="ZstdSharp.Port" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\UI\IssueTracker.UI\IssueTracker.UI.csproj" IsAspireProjectResource="true" />
-		<ProjectReference Include="..\Services\IssueTracker.Services\IssueTracker.Services.csproj" />
-		<ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
-		<ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" />
+		<ProjectReference Include="..\Services\IssueTracker.Services\IssueTracker.Services.csproj" IsAspireProjectResource="false" />
+		<ProjectReference Include="..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" IsAspireProjectResource="false" />
+		<ProjectReference Include="..\PlugIns\IssueTracker.PlugIns\IssueTracker.PlugIns.csproj" IsAspireProjectResource="false" />
 	</ItemGroup>
 
 </Project>

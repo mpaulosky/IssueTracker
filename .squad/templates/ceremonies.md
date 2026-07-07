@@ -15,13 +15,9 @@
 | **Enabled** | ✅ yes |
 
 **Agenda:**
-
 1. Review the task and requirements
-
 2. Agree on interfaces and contracts between components
-
 3. Identify risks and edge cases
-
 4. Assign action items
 
 ---
@@ -39,14 +35,11 @@
 | **Enabled** | ✅ yes |
 
 **Agenda:**
-
 1. What happened? (facts only)
-
 2. Root cause analysis
-
 3. What should change?
-
 4. Action items for next iteration
+
 
 ---
 
@@ -64,13 +57,9 @@
 | **Enforcement skill** | retro-enforcement |
 
 **Agenda:**
-
 1. What shipped this week? (closed issues, merged PRs)
-
 2. What did not ship? (open issues, blockers)
-
 3. Root cause on any failures
-
 4. Action items -- each MUST become a GitHub Issue labeled retro-action
 
 **Coordinator integration:**

@@ -1,6 +1,7 @@
+---
 name: Squad Label Enforce
 
-on:
+'on':
   issues:
     types: [labeled]
 
@@ -12,21 +13,28 @@ jobs:
   enforce:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Enforce mutual exclusivity
-        uses: actions/github-script@v9
+        uses: actions/github-script@v7
         with:
           script: |
             const issue = context.payload.issue;
             const appliedLabel = context.payload.label.name;
 
             // Namespaces with mutual exclusivity rules
-            const EXCLUSIVE_PREFIXES = ['go:', 'release:', 'type:', 'priority:'];
+            const EXCLUSIVE_PREFIXES = [
+              'go:',
+              'release:',
+              'type:',
+              'priority:'
+            ];
 
             // Skip if not a managed namespace label
             if (!EXCLUSIVE_PREFIXES.some(p => appliedLabel.startsWith(p))) {
-              core.info(`Label ${appliedLabel} is not in a managed namespace — skipping`);
+              core.info(
+                `Label ${appliedLabel} is not in a managed namespace — skipping`
+              );
               return;
             }
 
@@ -34,7 +42,7 @@ jobs:
 
             // Handle go: namespace (mutual exclusivity)
             if (appliedLabel.startsWith('go:')) {
-              const otherGoLabels = allLabels.filter(l => 
+              const otherGoLabels = allLabels.filter(l =>
                 l.startsWith('go:') && l !== appliedLabel
               );
 
@@ -61,7 +69,9 @@ jobs:
 
               // Auto-apply release:backlog if go:yes and no release target
               if (appliedLabel === 'go:yes') {
-                const hasReleaseLabel = allLabels.some(l => l.startsWith('release:'));
+                const hasReleaseLabel = allLabels.some(
+                  l => l.startsWith('release:')
+                );
                 if (!hasReleaseLabel) {
                   await github.rest.issues.addLabels({
                     owner: context.repo.owner,
@@ -74,7 +84,9 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: issue.number,
-                    body: `📋 Marked as \`release:backlog\` — assign a release target when ready.`
+                    body:
+                      `📋 Marked as \`release:backlog\` ` +
+                      `— assign a release target when ready.`
                   });
 
                   core.info('Applied release:backlog for go:yes issue');
@@ -83,7 +95,9 @@ jobs:
 
               // Remove release: labels if go:no
               if (appliedLabel === 'go:no') {
-                const releaseLabels = allLabels.filter(l => l.startsWith('release:'));
+                const releaseLabels = allLabels.filter(
+                  l => l.startsWith('release:')
+                );
                 if (releaseLabels.length > 0) {
                   for (const label of releaseLabels) {
                     await github.rest.issues.removeLabel({
@@ -92,7 +106,9 @@ jobs:
                       issue_number: issue.number,
                       name: label
                     });
-                    core.info(`Removed release label from go:no issue: ${label}`);
+                    core.info(
+                      `Removed release label from go:no issue: ${label}`
+                    );
                   }
                 }
               }
@@ -100,7 +116,7 @@ jobs:
 
             // Handle release: namespace (mutual exclusivity)
             if (appliedLabel.startsWith('release:')) {
-              const otherReleaseLabels = allLabels.filter(l => 
+              const otherReleaseLabels = allLabels.filter(l =>
                 l.startsWith('release:') && l !== appliedLabel
               );
 
@@ -128,7 +144,7 @@ jobs:
 
             // Handle type: namespace (mutual exclusivity)
             if (appliedLabel.startsWith('type:')) {
-              const otherTypeLabels = allLabels.filter(l => 
+              const otherTypeLabels = allLabels.filter(l =>
                 l.startsWith('type:') && l !== appliedLabel
               );
 
@@ -154,7 +170,7 @@ jobs:
 
             // Handle priority: namespace (mutual exclusivity)
             if (appliedLabel.startsWith('priority:')) {
-              const otherPriorityLabels = allLabels.filter(l => 
+              const otherPriorityLabels = allLabels.filter(l =>
                 l.startsWith('priority:') && l !== appliedLabel
               );
 

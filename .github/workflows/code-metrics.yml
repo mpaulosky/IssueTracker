@@ -2,17 +2,17 @@
 
 name: '.NET code metrics'
 
-on:
+'on':
   push:
     branches:
       - main
-    paths:
-      - '!./CODE_METRICS.md' # ignore this file
+    paths-ignore:
+      - 'CODE_METRICS.md'
   pull_request:
     branches:
       - main
-    paths:
-      - '!./CODE_METRICS.md' # ignore this file
+    paths-ignore:
+      - 'CODE_METRICS.md'
 
   workflow_dispatch:
     inputs:
@@ -25,9 +25,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: 'Print manual run reason'
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -35,18 +38,18 @@ jobs:
           echo 'Reason: ${{ github.event.inputs.reason }}'
       - name: .NET code metrics
         id: dotnet-code-metrics
-        uses: dotnet/samples/github-actions/DotNet.GitHubAction@main
+        uses: dotnet/samples/github-actions/DotNet.GitHubAction@19e8c4e6ee276a5a8caff42ef3b508045d751b7b
         env:
-          GREETINGS: 'Hello, .NET developers!' # ${{ secrets.GITHUB_TOKEN }}
+          GREETINGS: 'Hello, .NET developers!'  # ${{ secrets.GITHUB_TOKEN }}
         with:
           owner: ${{ github.repository_owner }}
-          name: ${{ github.repository }}
+          name: ${{ github.event.repository.name }}
           branch: ${{ github.ref }}
-          dir: ${{ './' }}
+          dir: './'
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8.1.1
-        if: ${{ steps.dotnet-code-metrics.outputs.updated-metrics }} == 'true'
+        if: ${{ steps.dotnet-code-metrics.outputs.updated-metrics == 'true' }}
         with:
           title: '${{ steps.dotnet-code-metrics.outputs.summary-title }}'
           body: '${{ steps.dotnet-code-metrics.outputs.summary-details }}'
