@@ -9,7 +9,6 @@ When running multiple Ralph instances across repos, Copilot model rate limits ca
 All Ralphs fail simultaneously when the preferred model (e.g., `claude-sonnet-4.6`) hits quota.
 
 Premium models burn quota fast:
-
 | Model | Multiplier | Risk |
 |-------|-----------|------|
 | `claude-sonnet-4.6` | 1x | Moderate with many Ralphs |
@@ -21,7 +20,7 @@ Premium models burn quota fast:
 
 ## Circuit Breaker States
 
-```text
+```
 ┌─────────┐   rate limit error    ┌────────┐
 │ CLOSED  │ ───────────────────►  │  OPEN  │
 │ (normal)│                       │(fallback)│
@@ -33,7 +32,7 @@ Premium models burn quota fast:
      └───── success ◄────────  │HALF-OPEN │
              (close)            │ (testing) │
                                 └──────────┘
-```text
+```
 
 ### CLOSED (normal operation)
 - Use preferred model from config
@@ -43,11 +42,8 @@ Premium models burn quota fast:
 ### OPEN (rate limited — fallback active)
 - Fall back through the free-tier model chain:
   1. `gpt-5.4-mini`
-
   2. `gpt-5-mini`
-
   3. `gpt-4.1`
-
 - Start cooldown timer (default: 10 minutes)
 - When cooldown expires → transition to HALF-OPEN
 
@@ -75,7 +71,7 @@ Premium models burn quota fast:
     "lastRecoveryAt": null
   }
 }
-```text
+```
 
 ## PowerShell Functions
 
@@ -110,7 +106,7 @@ function Get-CircuitBreakerState {
 
     return (Get-Content $StateFile -Raw | ConvertFrom-Json)
 }
-```text
+```
 
 ### `Save-CircuitBreakerState`
 
@@ -123,7 +119,7 @@ function Save-CircuitBreakerState {
 
     $State | ConvertTo-Json -Depth 3 | Set-Content $StateFile
 }
-```text
+```
 
 ### `Get-CurrentModel`
 
@@ -165,7 +161,7 @@ function Get-CurrentModel {
         }
     }
 }
-```text
+```
 
 ### `Update-CircuitBreakerOnSuccess`
 
@@ -199,7 +195,7 @@ function Update-CircuitBreakerOnSuccess {
 
     # closed state — nothing to do
 }
-```text
+```
 
 ### `Update-CircuitBreakerOnRateLimit`
 
@@ -239,7 +235,7 @@ function Update-CircuitBreakerOnRateLimit {
         Save-CircuitBreakerState -State $cb -StateFile $StateFile
     }
 }
-```text
+```
 
 ## Integration with ralph-watch.ps1
 
@@ -258,7 +254,7 @@ if ($result -match "rate.?limit" -or $LASTEXITCODE -eq 429) {
 } else {
     Update-CircuitBreakerOnSuccess
 }
-```text
+```
 
 ### Full integration example
 
@@ -289,7 +285,7 @@ while ($true) {
 
     Start-Sleep -Seconds $pollInterval
 }
-```text
+```
 
 ## Configuration
 
@@ -314,4 +310,4 @@ Query metrics with:
 ```powershell
 $cb = Get-Content .squad/ralph-circuit-breaker.json | ConvertFrom-Json
 Write-Host "Fallbacks: $($cb.metrics.totalFallbacks) | Recoveries: $($cb.metrics.totalRecoveries)"
-```text
+```
