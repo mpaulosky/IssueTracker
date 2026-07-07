@@ -9,8 +9,12 @@
     <LangVersion>14.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MessagePack" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
     <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="SharpCompress" />
+    <PackageReference Include="Snappier" />
+    <PackageReference Include="ZstdSharp.Port" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CoreBusiness\IssueTracker.CoreBusiness\IssueTracker.CoreBusiness.csproj" />
