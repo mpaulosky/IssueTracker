@@ -1,6 +1,8 @@
+# yamllint disable rule:line-length
+---
 name: Squad Promote
 
-on:
+'on':
   workflow_dispatch:
     inputs:
       dry_run:

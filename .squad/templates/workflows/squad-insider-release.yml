@@ -1,6 +1,8 @@
+# yamllint disable rule:line-length
+---
 name: Squad Insider Release
 
-on:
+'on':
   push:
     branches: [insider]
 
