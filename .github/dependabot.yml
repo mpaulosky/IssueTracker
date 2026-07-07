@@ -16,7 +16,7 @@ updates:
     labels:
       - "github-actions"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
@@ -33,7 +33,7 @@ updates:
     labels:
       - "nuget"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
@@ -50,7 +50,7 @@ updates:
     labels:
       - "dotnet-sdk"
       - "dependencies"
-    reviewers:
+    assignees:
       - "mpaulosky"
     groups:
       all-actions:
