@@ -36,6 +36,19 @@
 				"${workspaceFolder}/src/UI/IssueTracker.UI/IssueTracker.UI.csproj"
 			],
 			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "validate-solution-build",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"/home/teqs/github/IssueTracker/IssueTracker.slnx",
+				"--nologo",
+				"-v",
+				"minimal"
+			],
+			"isBackground": false
 		}
 	]
 }
