@@ -20,11 +20,105 @@ jobs:
       github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
+      - id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
       - uses: actions/github-script@v9
         with:
           script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
             const pullRequestId = context.payload.pull_request.node_id;
             const pullNumber = context.payload.pull_request.number;
+            const headSha = context.payload.pull_request.head.sha;
+            const labels = (context.payload.pull_request.labels ?? [])
+              .map((label) => label.name);
+            const laneRequiredChecks = {
+              "github-actions": ["yamllint"],
+              "nuget": ["Squad CI"],
+              "dotnet-sdk": ["Squad CI", "Integration.Tests"]
+            };
+
+            const lanes = Object.keys(laneRequiredChecks)
+              .filter((lane) => labels.includes(lane));
+            if (lanes.length !== 1) {
+              core.info(
+                `Not enabling auto-merge for PR #${pullNumber}: expected exactly one lane label ` +
+                  `(github-actions, nuget, dotnet-sdk), found [${lanes.join(", ")}].`
+              );
+              return;
+            }
+
+            const lane = lanes[0];
+            const requiredChecks = laneRequiredChecks[lane];
+            const updateType = `${{ steps.dependabot-metadata.outputs.update-type }}`.trim();
+            if (!updateType) {
+              core.info(
+                `Not enabling auto-merge for PR #${pullNumber}: Dependabot metadata unavailable.`
+              );
+              return;
+            }
+
+            if (updateType === "version-update:semver-major") {
+              core.info(
+                `Not enabling auto-merge for PR #${pullNumber}: major update (${updateType}).`
+              );
+              return;
+            }
+
+            const allowedAutoMergeTypes = new Set([
+              "version-update:semver-minor",
+              "version-update:semver-patch"
+            ]);
+            if (!allowedAutoMergeTypes.has(updateType)) {
+              core.info(
+                `Not enabling auto-merge for PR #${pullNumber}: unsupported update type ` +
+                  `(${updateType}) for auto-merge policy.`
+              );
+              return;
+            }
+
+            const [checksResponse, statusesResponse] = await Promise.all([
+              github.rest.checks.listForRef({
+                owner,
+                repo,
+                ref: headSha,
+                per_page: 100
+              }),
+              github.rest.repos.listCommitStatusesForRef({
+                owner,
+                repo,
+                ref: headSha,
+                per_page: 100
+              })
+            ]);
+
+            const successfulChecks = new Set();
+            for (const checkRun of checksResponse.data.check_runs) {
+              if (checkRun.status === "completed" && checkRun.conclusion === "success") {
+                successfulChecks.add(checkRun.name);
+              }
+            }
+
+            for (const status of statusesResponse.data) {
+              if (status.state === "success") {
+                successfulChecks.add(status.context);
+              }
+            }
+
+            const missingChecks = requiredChecks.filter(
+              (requiredCheck) => !successfulChecks.has(requiredCheck)
+            );
+            if (missingChecks.length > 0) {
+              core.info(
+                `Not enabling auto-merge for PR #${pullNumber}: lane '${lane}' requires successful checks ` +
+                  `[${requiredChecks.join(", ")}]; missing or not successful: [${missingChecks.join(", ")}].`
+              );
+              return;
+            }
+
             try {
               await github.graphql(
                 `mutation EnableAutoMerge($pullRequestId: ID!) {
@@ -39,13 +133,13 @@ jobs:
                  }`,
                 { pullRequestId }
               );
-              core.info(`Enabled auto-merge for PR #${pullNumber}.`);
+              core.info(
+                `Enabled auto-merge for PR #${pullNumber} (lane: ${lane}, update type: ${updateType}).`
+              );
             } catch (error) {
               const message = error.message ?? String(error);
               if (message.includes("already enabled")) {
-                core.info(
-                  `Auto-merge already enabled for PR #${pullNumber}.`
-                );
+                core.info(`Auto-merge already enabled for PR #${pullNumber}.`);
                 return;
               }
               throw error;

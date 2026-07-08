@@ -4,7 +4,7 @@ name: Squad Protected Branch Guard
 
 'on':
   pull_request:
-    branches: [main, preview]
+    branches: [main]
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -12,7 +12,8 @@ permissions:
   pull-requests: read
 
 jobs:
-  guard:
+  guard-main-paths:
+    name: guard-main-paths
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -82,7 +83,7 @@ jobs:
               '```',
               '',
               '> ⚠️ `.squad/` is committed on `dev` and feature branches by design.',
-              '> The guard workflow is the enforcement mechanism that keeps these files off `main` and `preview`.',
+              '> The guard workflow is the enforcement mechanism that keeps these files off `main`.',
               '> `git rm --cached` untracks them from this PR without deleting your local copies.',
             ];
 
