@@ -18,11 +18,6 @@ jobs:
               return;
             }
             const source = context.payload.pull_request.head.ref;
-<<<<<<< Updated upstream
-            if (source !== "dev") {
-              core.setFailed(
-                `PRs to main must come from dev. Current source: ${source}`
-=======
             const actor = context.payload.pull_request.user.login;
             const isDependabotBranch = actor === "dependabot[bot]" && source.startsWith("dependabot/");
             if (isDependabotBranch) {
@@ -38,6 +33,5 @@ jobs:
                   "All other source branches are blocked.",
                   `Current source: ${source}`,
                 ].join(" ")
->>>>>>> Stashed changes
               );
             }
