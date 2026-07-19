@@ -1,15 +1,13 @@
 ---
-name: Squad Main Source Guard
+name: guard-main-source
 
 'on':
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, edited, ready_for_review]
   workflow_dispatch:
 
 jobs:
   guard-main-source:
-    name: guard-main-source
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v9
@@ -20,10 +18,8 @@ jobs:
               return;
             }
             const source = context.payload.pull_request.head.ref;
-            const isReleaseBranch = source.startsWith("rel/");
-            const isHotfixBranch = source.startsWith("hotfix/");
-            if (!isReleaseBranch && !isHotfixBranch) {
+            if (source !== "dev") {
               core.setFailed(
-                `PRs to main must come from rel/* or hotfix/*. All other source branches are blocked. Current source: ${source}`
+                `PRs to main must come from dev. Current source: ${source}`
               );
             }
