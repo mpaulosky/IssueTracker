@@ -41,7 +41,7 @@ public class SetStatusComponentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<SetStatusComponent> component = RenderComponent<SetStatusComponent>(parameter =>
+		IRenderedComponent<SetStatusComponent> component = Render<SetStatusComponent>(parameter =>
 		{
 			parameter.Add(p => p.Issue, _expectedIssue);
 		});
@@ -137,7 +137,7 @@ public class SetStatusComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

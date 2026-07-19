@@ -52,7 +52,7 @@ Issue Tracker is a modern, scalable issue tracking system built with clean archi
 | Layer        | Technology                          |
 | ------------ | ----------------------------------- |
 | **Frontend** | Blazor Server, HTML, Bootstrap CSS  |
-| **Backend**  | ASP.NET Core, .NET 9, C#            |
+| **Backend**  | ASP.NET Core, .NET 10, C#           |
 | **Database** | MongoDB                             |
 | **Testing**  | xUnit, bUnit, Bogus, Testcontainers |
 | **DevOps**   | Docker, GitHub Actions              |

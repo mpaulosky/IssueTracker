@@ -26,7 +26,7 @@ public class MainLayoutTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<MainLayout> cut = RenderComponent<MainLayout>();
+		IRenderedComponent<MainLayout> cut = Render<MainLayout>();
 
 		// Assert
 		cut.MarkupMatches
@@ -49,7 +49,7 @@ public class MainLayoutTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

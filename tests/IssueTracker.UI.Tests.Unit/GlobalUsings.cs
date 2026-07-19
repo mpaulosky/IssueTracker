@@ -14,6 +14,8 @@ global using System.Linq;
 global using System.Security.Claims;
 global using System.Threading.Tasks;
 
+global using IssueTracker.UI.Helpers;
+
 global using Blazored.SessionStorage;
 
 global using Bunit;
@@ -35,6 +37,7 @@ global using IssueTracker.Services.Status.Interface;
 global using IssueTracker.Services.User;
 global using IssueTracker.Services.User.Interface;
 
+global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Extensions.Caching.Memory;
 

@@ -45,7 +45,7 @@ public class DetailsTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Details> component = RenderComponent<Details>(parameter =>
+		IRenderedComponent<Details> component = Render<Details>(parameter =>
 		{
 			parameter.Add(p => p.Id, issueId);
 		});
@@ -105,7 +105,7 @@ public class DetailsTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -195,7 +195,7 @@ public class DetailsTests : TestContext
 		cut.Find("#create-comment").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -217,7 +217,7 @@ public class DetailsTests : TestContext
 		// Act
 		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
 
-		IRefreshableElementCollection<IElement> results = cut.FindAll("div");
+		var results = cut.FindAll("div");
 
 		List<string?> items = results.Select(x => x.ClassName).Where(z => z != null && z.Contains(expected)).ToList();
 
@@ -390,7 +390,7 @@ public class DetailsTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

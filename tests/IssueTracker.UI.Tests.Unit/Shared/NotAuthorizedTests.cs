@@ -20,7 +20,7 @@ public class NotAuthorizedTests : TestContext
 		// Arrange
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = RenderComponent<NotAuthorized>();
+		IRenderedComponent<NotAuthorized> cut = Render<NotAuthorized>();
 
 		// Assert
 		cut.MarkupMatches
@@ -48,10 +48,10 @@ public class NotAuthorizedTests : TestContext
 	{
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 
 		// Act
-		IRenderedComponent<NotAuthorized> cut = RenderComponent<NotAuthorized>();
+		IRenderedComponent<NotAuthorized> cut = Render<NotAuthorized>();
 
 		IElement buttonElement = cut.Find("button");
 		buttonElement.Click();

@@ -37,7 +37,7 @@ public class AdminTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Admin> component = RenderComponent<Admin>();
+		IRenderedComponent<Admin> component = Render<Admin>();
 
 		return component;
 	}
@@ -286,7 +286,7 @@ public class AdminTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -307,7 +307,7 @@ public class AdminTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

@@ -27,7 +27,7 @@ public class IndexTests : TestContext
 	private readonly Mock<ICacheEntry> _mockCacheEntry;
 	private readonly Mock<IStatusRepository> _statusRepositoryMock;
 	private readonly Mock<IUserRepository> _userRepositoryMock;
-	private ISessionStorageService _sessionStorageService;
+	private ISessionStorageService? _sessionStorageService;
 
 	public IndexTests()
 	{
@@ -38,7 +38,6 @@ public class IndexTests : TestContext
 
 		_memoryCacheMock = new Mock<IMemoryCache>();
 		_mockCacheEntry = new Mock<ICacheEntry>();
-		_sessionStorageService = this.AddBlazoredSessionStorage();
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssues = FakeIssue.GetIssues(5).ToList();
@@ -56,10 +55,10 @@ public class IndexTests : TestContext
 		// Arrange
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		RenderComponent<Index>();
+		Render<Index>();
 
 		// Assert
 		switch (key)
@@ -81,11 +80,11 @@ public class IndexTests : TestContext
 		// Arrange
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		IRenderedComponent<Index> cut = Render<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
 		buttons.Count.Should().BeGreaterThan(0);
@@ -97,11 +96,11 @@ public class IndexTests : TestContext
 		// Arrange
 		SetUpTests(true, false, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		IRenderedComponent<Index> cut = Render<Index>();
+		var buttons = cut.FindAll("#archive");
 
 		// Assert
 		buttons.Count.Should().Be(0);
@@ -115,15 +114,15 @@ public class IndexTests : TestContext
 
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.FindAll("div.issue-text-title")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
 	}
@@ -136,14 +135,14 @@ public class IndexTests : TestContext
 
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -156,15 +155,15 @@ public class IndexTests : TestContext
 
 		SetUpTests(false, false, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -175,10 +174,10 @@ public class IndexTests : TestContext
 		// Arrange
 		SetUpTests(true, false, true);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		RenderComponent<Index>();
+		Render<Index>();
 
 		// Assert
 		_userRepositoryMock
@@ -192,12 +191,12 @@ public class IndexTests : TestContext
 		// Arrange
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
-		IRefreshableElementCollection<IElement> buttons = cut.FindAll("#archive");
+		var buttons = cut.FindAll("#archive");
 		buttons[0].Click();
 		cut.Find("#confirm").Click();
 
@@ -220,10 +219,10 @@ public class IndexTests : TestContext
 		const string sessionName = "_selectedCategory";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.FindAll("div.categories > div")[index].Click();
 
@@ -244,10 +243,10 @@ public class IndexTests : TestContext
 		const string sessionName = "_selectedStatus";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.FindAll("div.statuses > div")[index].Click();
 
@@ -263,10 +262,10 @@ public class IndexTests : TestContext
 		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.Find("#sort-by-new").Click();
 
@@ -282,10 +281,10 @@ public class IndexTests : TestContext
 		const string sessionName = "_isSortedByNew";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.Find("#sort-by-popular").Click();
 
@@ -302,10 +301,10 @@ public class IndexTests : TestContext
 		const string expected = "test";
 		SetUpTests(true, true, false);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		IRenderedComponent<Index> cut = RenderComponent<Index>();
+		IRenderedComponent<Index> cut = Render<Index>();
 
 		cut.Find("input").Input("test");
 
@@ -319,10 +318,10 @@ public class IndexTests : TestContext
 	{
 		SetUpTests(true, false, false, true);
 
-		_sessionStorageService = this.AddBlazoredSessionStorage();
+		_sessionStorageService = Services.GetRequiredService<ISessionStorageService>();
 
 		// Act
-		RenderComponent<Index>();
+		Render<Index>();
 
 		// Assert
 		_userRepositoryMock
@@ -368,11 +367,11 @@ public class IndexTests : TestContext
 	{
 		if (!isAuth)
 		{
-			this.AddTestAuthorization();
+			AddAuthorization();
 			return;
 		}
 
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		if (!difUser)
@@ -414,6 +413,8 @@ public class IndexTests : TestContext
 
 	private void RegisterServices()
 	{
+		JSInterop.Mode = JSRuntimeMode.Loose;
+
 		Services.AddSingleton<IIssueService>(new IssueService(_issueRepositoryMock.Object,
 			_memoryCacheMock.Object));
 
@@ -425,7 +426,8 @@ public class IndexTests : TestContext
 
 		Services.AddSingleton<IUserService>(new UserService(_userRepositoryMock.Object));
 
-		Services.AddBlazoredSessionStorage();
+		_sessionStorageService = new InMemorySessionStorageService();
+		Services.AddSingleton<ISessionStorageService>(_sessionStorageService);
 	}
 
 	private void SetMemoryCache()

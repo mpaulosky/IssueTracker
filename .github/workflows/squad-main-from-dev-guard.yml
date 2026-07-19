@@ -18,8 +18,9 @@ jobs:
               return;
             }
             const source = context.payload.pull_request.head.ref;
-            if (source !== "dev") {
+            const isValid = source === "dev" || source.startsWith("rel/");
+            if (!isValid) {
               core.setFailed(
-                `PRs to main must come from dev. Current source: ${source}`
+                `PRs to main must come from dev or rel/* branches. Current source: ${source}`
               );
             }

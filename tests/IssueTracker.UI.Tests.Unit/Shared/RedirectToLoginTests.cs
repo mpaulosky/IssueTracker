@@ -13,8 +13,8 @@ public class RedirectToLoginTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		RenderComponent<RedirectToLogin>();
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		Render<RedirectToLogin>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 
 		// Assert
 		navMan!.Uri.Should().NotBeNull();
@@ -23,7 +23,7 @@ public class RedirectToLoginTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		switch (isAuth)
 		{

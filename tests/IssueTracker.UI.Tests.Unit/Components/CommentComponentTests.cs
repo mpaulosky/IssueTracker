@@ -37,7 +37,7 @@ public class CommentComponentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<CommentComponent> component = RenderComponent<CommentComponent>(parameter =>
+		IRenderedComponent<CommentComponent> component = Render<CommentComponent>(parameter =>
 		{
 			parameter.Add(p => p.Item, _expectedComment);
 			parameter.Add(p => p.LoggedInUser, _expectedUser);
@@ -475,7 +475,7 @@ public class CommentComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

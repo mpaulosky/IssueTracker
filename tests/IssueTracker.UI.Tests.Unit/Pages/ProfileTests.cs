@@ -43,7 +43,7 @@ public class ProfileTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Profile> component = RenderComponent<Profile>();
+		IRenderedComponent<Profile> component = Render<Profile>();
 
 		return component;
 	}
@@ -81,7 +81,7 @@ public class ProfileTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -136,7 +136,7 @@ public class ProfileTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

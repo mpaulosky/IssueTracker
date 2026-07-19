@@ -38,7 +38,7 @@ public class CommentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Comment> component = RenderComponent<Comment>(parameter =>
+		IRenderedComponent<Comment> component = Render<Comment>(parameter =>
 		{
 			parameter.Add(p => p.Id, issueId);
 		});
@@ -163,7 +163,7 @@ public class CommentTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -195,7 +195,7 @@ public class CommentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

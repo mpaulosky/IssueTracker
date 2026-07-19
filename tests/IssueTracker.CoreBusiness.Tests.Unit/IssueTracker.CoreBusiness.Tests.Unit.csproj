@@ -16,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" />
     <PackageReference Include="Blazored.SessionStorage.TestExtensions" />
-    <PackageReference Include="bunit.core" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" />
     <PackageReference Include="Microsoft.AspNetCore.Components" />

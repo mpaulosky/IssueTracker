@@ -41,7 +41,7 @@ public class StatusesTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Statuses> component = RenderComponent<Statuses>();
+		IRenderedComponent<Statuses> component = Render<Statuses>();
 
 		return component;
 	}
@@ -60,7 +60,7 @@ public class StatusesTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -646,11 +646,11 @@ public class StatusesTests : TestContext
 
 		cut.FindAll("button")[1].Click(); // Add New Status Button
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -670,11 +670,11 @@ public class StatusesTests : TestContext
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -892,7 +892,7 @@ public class StatusesTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{
