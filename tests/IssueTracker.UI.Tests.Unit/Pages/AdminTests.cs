@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class AdminTests : TestContext
+public class AdminTests : BunitContext
 {
 	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
@@ -37,7 +37,7 @@ public class AdminTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Admin> component = RenderComponent<Admin>();
+		IRenderedComponent<Admin> component = Render<Admin>();
 
 		return component;
 	}
@@ -286,7 +286,7 @@ public class AdminTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -307,7 +307,7 @@ public class AdminTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

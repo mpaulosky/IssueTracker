@@ -1,7 +1,7 @@
 namespace IssueTracker.UI.Helpers;
 
 [ExcludeFromCodeCoverage]
-public class AuthenticationStateProviderHelpersTests : TestContext
+public class AuthenticationStateProviderHelpersTests : BunitContext
 {
 	private readonly UserModel _expectedUser;
 	private readonly Mock<AuthenticationStateProvider> _mockProvider;

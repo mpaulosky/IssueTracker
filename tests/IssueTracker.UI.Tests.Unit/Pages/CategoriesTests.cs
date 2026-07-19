@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CategoriesTests : TestContext
+public class CategoriesTests : BunitContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly IEnumerable<CategoryModel> _expectedCategories;
@@ -40,7 +40,7 @@ public class CategoriesTests : TestContext
 		RegisterServices();
 		SetAuthenticationAndAuthorization(true, true);
 
-		IRenderedComponent<Categories> component = RenderComponent<Categories>();
+		IRenderedComponent<Categories> component = Render<Categories>();
 
 		return component;
 	}
@@ -58,7 +58,7 @@ public class CategoriesTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -403,11 +403,11 @@ public class CategoriesTests : TestContext
 
 		cut.FindAll("button")[1].Click(); // Add New Category Button
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -426,11 +426,11 @@ public class CategoriesTests : TestContext
 
 		cut.FindAll("button")[2].Click(); // Edit Button
 
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[0].Change("Test Name");
 		inputs[1].Change("Test Description");
 
-		IRefreshableElementCollection<IElement> btns = cut.FindAll("button");
+		var btns = cut.FindAll("button");
 		btns[2].Click(); // Click Submit Button
 
 		// Assert
@@ -567,7 +567,7 @@ public class CategoriesTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class CommentComponentTests : TestContext
+public class CommentComponentTests : BunitContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<ICommentService> _commentServiceMock;
@@ -37,7 +37,7 @@ public class CommentComponentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<CommentComponent> component = RenderComponent<CommentComponent>(parameter =>
+		IRenderedComponent<CommentComponent> component = Render<CommentComponent>(parameter =>
 		{
 			parameter.Add(p => p.Item, _expectedComment);
 			parameter.Add(p => p.LoggedInUser, _expectedUser);
@@ -475,7 +475,7 @@ public class CommentComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

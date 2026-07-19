@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class ProfileTests : TestContext
+public class ProfileTests : BunitContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly List<CommentModel>? _expectedComments;
@@ -43,7 +43,7 @@ public class ProfileTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Profile> component = RenderComponent<Profile>();
+		IRenderedComponent<Profile> component = Render<Profile>();
 
 		return component;
 	}
@@ -81,7 +81,7 @@ public class ProfileTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -136,7 +136,7 @@ public class ProfileTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

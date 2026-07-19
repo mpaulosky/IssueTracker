@@ -13,6 +13,7 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Linq;
 global using System.Security.Claims;
 global using System.Threading.Tasks;
+global using IssueTracker.UI.Helpers;
 
 global using Blazored.SessionStorage;
 
