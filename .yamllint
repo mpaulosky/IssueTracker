@@ -1,0 +1,13 @@
+extends: default
+
+ignore: |
+  .squad/
+  team-docs/
+
+rules:
+  document-start: disable
+  line-length:
+    max: 200
+    allow-non-breakable-inline-mappings: true
+  truthy:
+    allowed-values: ['true', 'false', 'on']
