@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class IndexTests : BunitContext
+public class IndexTests : TestContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 
@@ -122,7 +122,7 @@ public class IndexTests : BunitContext
 		cut.FindAll("div.issue-text-title")[0].Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().StartWith(expectedUri);
 	}
@@ -142,7 +142,7 @@ public class IndexTests : BunitContext
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -163,7 +163,7 @@ public class IndexTests : BunitContext
 		cut.FindAll("button")[0].Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -371,7 +371,7 @@ public class IndexTests : BunitContext
 			return;
 		}
 
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 		authContext.SetAuthorized(_expectedUser!.DisplayName);
 
 		if (!difUser)

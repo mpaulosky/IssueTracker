@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class MainLayoutTests : BunitContext
+public class MainLayoutTests : TestContext
 {
 	private readonly UserModel _expectedUser;
 
@@ -49,7 +49,7 @@ public class MainLayoutTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

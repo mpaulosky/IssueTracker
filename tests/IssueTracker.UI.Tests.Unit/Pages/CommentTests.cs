@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CommentTests : BunitContext
+public class CommentTests : TestContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly IssueModel _expectedIssue;
@@ -163,7 +163,7 @@ public class CommentTests : BunitContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -195,7 +195,7 @@ public class CommentTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

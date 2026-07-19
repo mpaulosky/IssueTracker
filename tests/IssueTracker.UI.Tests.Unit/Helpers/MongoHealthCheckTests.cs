@@ -12,7 +12,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 namespace IssueTracker.UI.Helpers;
 
 [ExcludeFromCodeCoverage]
-public class MongoHealthCheckTests : BunitContext
+public class MongoHealthCheckTests : TestContext
 {
 	private readonly Mock<IMongoDbContextFactory> _mockContext;
 	private readonly Mock<IMongoDbContextFactory> _mockContextWithoutDatabase;

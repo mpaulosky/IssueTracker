@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class CommentComponentTests : BunitContext
+public class CommentComponentTests : TestContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly Mock<ICommentService> _commentServiceMock;
@@ -475,7 +475,7 @@ public class CommentComponentTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

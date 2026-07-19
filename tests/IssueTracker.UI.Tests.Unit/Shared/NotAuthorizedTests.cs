@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class NotAuthorizedTests : BunitContext
+public class NotAuthorizedTests : TestContext
 {
 	[Fact]
 	public void NotAuthorized_Should_DisplayMarkup_Test()
@@ -48,7 +48,7 @@ public class NotAuthorizedTests : BunitContext
 	{
 		// Arrange
 		const string expectedUri = "http://localhost/";
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 
 		// Act
 		IRenderedComponent<NotAuthorized> cut = Render<NotAuthorized>();

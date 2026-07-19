@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CategoriesTests : BunitContext
+public class CategoriesTests : TestContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly IEnumerable<CategoryModel> _expectedCategories;
@@ -58,7 +58,7 @@ public class CategoriesTests : BunitContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -567,7 +567,7 @@ public class CategoriesTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{
