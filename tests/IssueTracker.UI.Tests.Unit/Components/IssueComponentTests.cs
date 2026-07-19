@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class IssueComponentTests : BunitContext
+public class IssueComponentTests : TestContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
@@ -164,7 +164,7 @@ public class IssueComponentTests : BunitContext
 		cut.Find("div.issue-entry-category-text").Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -183,7 +183,7 @@ public class IssueComponentTests : BunitContext
 		cut.Find("div.issue-text-title").Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -213,7 +213,7 @@ public class IssueComponentTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

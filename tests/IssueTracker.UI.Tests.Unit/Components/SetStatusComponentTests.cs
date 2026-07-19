@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class SetStatusComponentTests : BunitContext
+public class SetStatusComponentTests : TestContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
@@ -137,7 +137,7 @@ public class SetStatusComponentTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{

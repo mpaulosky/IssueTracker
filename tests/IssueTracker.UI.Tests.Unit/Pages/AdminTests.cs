@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class AdminTests : BunitContext
+public class AdminTests : TestContext
 {
 	private readonly UserModel _expectedUser;
 	private readonly Mock<IIssueRepository> _issueRepositoryMock;
@@ -286,7 +286,7 @@ public class AdminTests : BunitContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
+		NavigationManager navMan = Services.GetRequiredService<NavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -307,7 +307,7 @@ public class AdminTests : BunitContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		BunitAuthorizationContext authContext = AddAuthorization();
+		var authContext = AddAuthorization();
 
 		if (isAuth)
 		{
