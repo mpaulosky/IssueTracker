@@ -14,6 +14,8 @@ global using System.Linq;
 global using System.Security.Claims;
 global using System.Threading.Tasks;
 
+global using IssueTracker.UI.Helpers;
+
 global using Blazored.SessionStorage;
 
 global using Bunit;

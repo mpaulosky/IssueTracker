@@ -2,8 +2,8 @@
 ---
 name: Squad Protected Branch Guard
 
-'on':
-  pull_request:
+"on":
+  pull_request_target:
     branches: [main]
     types: [opened, synchronize, reopened]
 
@@ -16,8 +16,6 @@ jobs:
     name: guard-main-paths
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-
       - name: Check for forbidden paths
         uses: actions/github-script@v9
         with:

@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CommentTests : TestContext
+public class CommentTests : BunitContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly IssueModel _expectedIssue;
@@ -38,7 +38,7 @@ public class CommentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Comment> component = RenderComponent<Comment>(parameter =>
+		IRenderedComponent<Comment> component = Render<Comment>(parameter =>
 		{
 			parameter.Add(p => p.Id, issueId);
 		});
@@ -163,7 +163,7 @@ public class CommentTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -195,7 +195,7 @@ public class CommentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

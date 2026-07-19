@@ -1,8 +1,8 @@
 ---
 name: guard-main-source
 
-'on':
-  pull_request:
+"on":
+  pull_request_target:
     branches: [main]
   workflow_dispatch:
 
@@ -13,13 +13,25 @@ jobs:
       - uses: actions/github-script@v9
         with:
           script: |
-            if (context.eventName !== "pull_request") {
-              core.info("Not a pull_request event.");
+            if (context.eventName !== "pull_request_target") {
+              core.info("Not a pull_request_target event.");
               return;
             }
             const source = context.payload.pull_request.head.ref;
-            if (source !== "dev") {
+            const actor = context.payload.pull_request.user.login;
+            const isDependabotBranch = actor === "dependabot[bot]" && source.startsWith("dependabot/");
+            if (isDependabotBranch) {
+              core.info(`Dependabot PR detected from ${source}; allowing.`);
+              return;
+            }
+            const isReleaseBranch = source.startsWith("rel/");
+            const isHotfixBranch = source.startsWith("hotfix/");
+            if (!isReleaseBranch && !isHotfixBranch) {
               core.setFailed(
-                `PRs to main must come from dev. Current source: ${source}`
+                [
+                  "PRs to main must come from rel/* or hotfix/*.",
+                  "All other source branches are blocked.",
+                  `Current source: ${source}`,
+                ].join(" ")
               );
             }

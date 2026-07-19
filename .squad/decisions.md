@@ -529,6 +529,32 @@ AppHost
 
 ---
 
+## 2026-07-08: Ralph Work-Monitor Round on PR #110
+
+**By:** Scribe  
+**Requested by:** mpaulosky  
+**Round Type:** Ralph work-monitor
+
+### Key Facts
+
+1. Ralph was activated by user request for a work-monitor round.
+
+2. GitHub board scan found no open squad issues and no draft PRs.
+
+3. Open PR #110, "chore: replace ai-team paths with squad," was classified.
+
+4. Wong investigated PR #110 and found two required checks pending because the guard workflows used `pull_request`, which does not run for merge-conflicted PRs.
+
+5. PR #110 is substantively blocked because it targets `main` from `dev`, main policy only allows `rel/*` or `hotfix/*`, and the PR is merge-conflicted.
+
+6. Wong updated `.github/workflows/squad-main-guard.yml` and `.github/workflows/squad-main-from-dev-guard.yml` to use `pull_request_target` and validated them with `yamllint` and local diagnostics.
+
+### Decision
+
+Blocked item requires operator action, not more agent work in this round.
+
+---
+
 ### 2026-02-17: Redis Health Check Optional in ServiceDefaults — RESOLVED
 
 **By:** Nebula  

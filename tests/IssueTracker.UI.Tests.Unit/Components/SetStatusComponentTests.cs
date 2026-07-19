@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class SetStatusComponentTests : TestContext
+public class SetStatusComponentTests : BunitContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
@@ -41,7 +41,7 @@ public class SetStatusComponentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<SetStatusComponent> component = RenderComponent<SetStatusComponent>(parameter =>
+		IRenderedComponent<SetStatusComponent> component = Render<SetStatusComponent>(parameter =>
 		{
 			parameter.Add(p => p.Issue, _expectedIssue);
 		});
@@ -137,7 +137,7 @@ public class SetStatusComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

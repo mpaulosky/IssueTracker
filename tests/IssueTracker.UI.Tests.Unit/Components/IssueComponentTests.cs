@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class IssueComponentTests : TestContext
+public class IssueComponentTests : BunitContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
@@ -40,7 +40,7 @@ public class IssueComponentTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<IssueComponent> component = RenderComponent<IssueComponent>(parameter =>
+		IRenderedComponent<IssueComponent> component = Render<IssueComponent>(parameter =>
 		{
 			parameter.Add(p => p.Item, _expectedIssue);
 			parameter.Add(p => p.LoggedInUser, _expectedUser);
@@ -164,7 +164,7 @@ public class IssueComponentTests : TestContext
 		cut.Find("div.issue-entry-category-text").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -183,7 +183,7 @@ public class IssueComponentTests : TestContext
 		cut.Find("div.issue-text-title").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -213,7 +213,7 @@ public class IssueComponentTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

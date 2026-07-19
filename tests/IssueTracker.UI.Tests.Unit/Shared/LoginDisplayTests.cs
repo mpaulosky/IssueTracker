@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class LoginDisplayTests : TestContext
+public class LoginDisplayTests : BunitContext
 {
 	private readonly UserModel _expectedUser;
 
@@ -26,7 +26,7 @@ public class LoginDisplayTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		IRenderedComponent<LoginDisplay> cut = RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = Render<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches("<a class='login-link' href='MicrosoftIdentity/Account/SignIn'>Login</a>");
@@ -39,7 +39,7 @@ public class LoginDisplayTests : TestContext
 		SetAuthenticationAndAuthorization(false, true);
 
 		// Act
-		IRenderedComponent<LoginDisplay> cut = RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = Render<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches
@@ -56,7 +56,7 @@ public class LoginDisplayTests : TestContext
 		SetAuthenticationAndAuthorization(true, true);
 
 		// Act
-		IRenderedComponent<LoginDisplay> cut = RenderComponent<LoginDisplay>();
+		IRenderedComponent<LoginDisplay> cut = Render<LoginDisplay>();
 
 		// Assert
 		cut.MarkupMatches
@@ -69,7 +69,7 @@ public class LoginDisplayTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

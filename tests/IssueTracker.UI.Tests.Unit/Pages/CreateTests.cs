@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CreateTests : TestContext
+public class CreateTests : BunitContext
 {
 	private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
 	private readonly List<CategoryModel> _expectedCategories;
@@ -44,7 +44,7 @@ public class CreateTests : TestContext
 		SetMemoryCache();
 		RegisterServices();
 
-		IRenderedComponent<Create> component = RenderComponent<Create>();
+		IRenderedComponent<Create> component = Render<Create>();
 
 		return component;
 	}
@@ -81,7 +81,7 @@ public class CreateTests : TestContext
 		cut.Find("#close-page").Click();
 
 		// Assert
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 		navMan.Uri.Should().NotBeNull();
 		navMan.Uri.Should().Be(expectedUri);
 	}
@@ -165,7 +165,7 @@ public class CreateTests : TestContext
 
 		cut.Find("#issue-title").Change("Test Issue");
 		cut.Find("#description").Change("Test Description");
-		IRefreshableElementCollection<IElement> inputs = cut.FindAll("input");
+		var inputs = cut.FindAll("input");
 		inputs[1].Change(category.Id);
 		cut.Find("#submit").Click();
 
@@ -186,7 +186,7 @@ public class CreateTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		if (isAuth)
 		{

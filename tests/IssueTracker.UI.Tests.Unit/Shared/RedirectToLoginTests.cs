@@ -1,7 +1,7 @@
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class RedirectToLoginTests : TestContext
+public class RedirectToLoginTests : BunitContext
 {
 	private readonly UserModel _expectedUser = FakeUser.GetNewUser(true);
 
@@ -13,8 +13,8 @@ public class RedirectToLoginTests : TestContext
 		SetAuthenticationAndAuthorization(false, false);
 
 		// Act
-		RenderComponent<RedirectToLogin>();
-		FakeNavigationManager navMan = Services.GetRequiredService<FakeNavigationManager>();
+		Render<RedirectToLogin>();
+		BunitNavigationManager navMan = Services.GetRequiredService<BunitNavigationManager>();
 
 		// Assert
 		navMan!.Uri.Should().NotBeNull();
@@ -23,7 +23,7 @@ public class RedirectToLoginTests : TestContext
 
 	private void SetAuthenticationAndAuthorization(bool isAdmin, bool isAuth)
 	{
-		TestAuthorizationContext authContext = this.AddTestAuthorization();
+		BunitAuthorizationContext authContext = AddAuthorization();
 
 		switch (isAuth)
 		{
