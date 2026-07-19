@@ -1,7 +1,7 @@
 ---
 name: lint-markdown
 
-'on':
+"on":
   pull_request:
     branches: [dev, main]
   workflow_dispatch:
@@ -11,14 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: "20"
       - name: Run markdownlint
         run: |
-          files=$(git ls-files '*.md')
-          if [ -z "$files" ]; then
-            echo "No markdown files found."
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            mapfile -t files < <(
+              git diff --diff-filter=ACMRT --name-only \
+                "${{ github.event.pull_request.base.sha }}" \
+                "${{ github.event.pull_request.head.sha }}" -- '*.md' \
+              | grep -Ev '^(\.squad/|team-docs/)' || true
+            )
+          else
+            mapfile -t files < <(git ls-files '*.md' | grep -Ev '^(\.squad/|team-docs/)' || true)
+          fi
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No markdown files to lint."
             exit 0
           fi
-          npx --yes markdownlint-cli $files
+          npx --yes markdownlint-cli "${files[@]}"
