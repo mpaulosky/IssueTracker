@@ -7,7 +7,7 @@
 // Project Name :  AppHost
 // =============================================
 
-using IssueTracker.AppHost.Helpers;
+using AppHost.Helpers;
 
 namespace AppHost.Extensions;
 

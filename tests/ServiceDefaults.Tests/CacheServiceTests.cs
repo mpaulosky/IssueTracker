@@ -261,7 +261,8 @@ public class CacheServiceTests
 		var host = builder.Build();
 
 		// Act
-		var cacheService = host.Services.GetService<ICacheService>();
+		using var scope = host.Services.CreateScope();
+		var cacheService = scope.ServiceProvider.GetService<ICacheService>();
 
 		// Assert
 		cacheService.Should().NotBeNull();
