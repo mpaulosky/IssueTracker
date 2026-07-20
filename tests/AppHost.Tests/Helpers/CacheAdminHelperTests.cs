@@ -7,6 +7,8 @@
 // Project Name :  AppHost
 // =============================================
 
+using AppHost.Helpers;
+
 namespace IssueTracker.AppHost.Tests.Helpers;
 
 /// <summary>
