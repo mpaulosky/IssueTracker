@@ -109,204 +109,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
-  test-integration:
-    name: "Integration.Tests"
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v6
-        with:
-          global-json-file: Global.json
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v6
-        with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Restore dependencies
-        run: dotnet restore tests/Integration.Tests
-
-      - name: Build Integration Tests
-        run: dotnet build tests/Integration.Tests --configuration Release --no-restore
-
-      - name: Run Integration Tests
-        id: integration-tests
-        run: |
-          mkdir -p test-results
-          if [ ! -d "tests/Integration.Tests" ]; then
-            echo "::notice::Integration test project not found at tests/Integration.Tests - skipping"
-            exit 0
-          fi
-
-          # Run tests using dotnet test
-          dotnet test tests/Integration.Tests \
-            --configuration Release \
-            --no-build \
-            --verbosity normal \
-            --logger "console;verbosity=detailed" \
-            --logger "trx;LogFileName=integration.trx" \
-            --results-directory "$GITHUB_WORKSPACE/test-results" \
-            --collect:"XPlat Code Coverage" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-          exit_code=$?
-
-          if [ $exit_code -ne 0 ]; then
-            echo "::error::Integration tests failed"
-          fi
-          exit $exit_code
-
-      - name: Upload Integration Test Results
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: integration-test-results
-          path: test-results
-
-  test-plugins-integration:
-    name: "IssueTracker.PlugIns.Tests.Integration"
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v6
-        with:
-          global-json-file: Global.json
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v6
-        with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Confirm Docker availability
-        run: docker info
-
-      - name: Pre-pull MongoDB image
-        run: docker pull mongo:8.0
-
-      - name: Restore dependencies
-        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration
-
-      - name: Build PlugIns Integration Tests
-        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration --configuration Release --no-restore
-
-      - name: Run PlugIns Integration Tests
-        run: |
-          mkdir -p test-results
-          dotnet test tests/IssueTracker.PlugIns.Tests.Integration \
-            --configuration Release \
-            --no-build \
-            --verbosity normal \
-            --logger "trx;LogFileName=plugins-integration.trx" \
-            --results-directory "$GITHUB_WORKSPACE/test-results" \
-            --collect:"XPlat Code Coverage" \
-            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-
-      - name: Dump Docker state on failure
-        if: failure()
-        run: docker ps -a
-
-      - name: Upload PlugIns Integration Test Results
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: plugins-integration-test-results
-          path: test-results
-
-  test-apphost:
-    name: "AppHost.Tests (Aspire + Playwright E2E)"
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    needs: build
-
-    env:
-      ASPIRE_ALLOW_UNSECURED_TRANSPORT: "true"
-      # Required by AppHost builder.AddConnectionString("mongodb") even though
-      # the web app ignores it in Testing mode (no real DB connection is made).
-      ConnectionStrings__mongodb: "mongodb://localhost:27017"
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v6
-        with:
-          global-json-file: Global.json
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v6
-        with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Restore dependencies
-        run: dotnet restore tests/AppHost.Tests
-
-      - name: Build AppHost.Tests
-        run: dotnet build tests/AppHost.Tests --configuration Release --no-restore
-
-      - name: Publish Web project to generate Blazor static assets
-        run: dotnet publish src/UI/IssueTracker.UI/IssueTracker.UI.csproj --configuration Release --no-restore
-
-      - name: Pre-pull Docker images for Aspire
-        run: |
-          echo "Pre-pulling Docker images for Aspire..."
-          docker pull mongo:8.2 &
-          docker pull redis:8.6 &
-          wait
-          echo "Docker images pre-pulled successfully"
-
-      - name: Run AppHost.Tests
-        id: apphost-tests
-        run: |
-          mkdir -p test-results
-          echo "Starting AppHost.Tests..."
-          echo "Playwright CLI version:"
-          playwright --version || echo "playwright not found"
-          echo "Checking Playwright browsers:"
-          ls -la ~/.cache/ms-playwright/ 2>/dev/null || echo "No playwright cache found"
-          echo "dotnet version:"
-          dotnet --version
-
-          dotnet test tests/AppHost.Tests \
-            --configuration Release \
-            --no-build \
-            --verbosity normal \
-            --logger "trx;LogFileName=apphost.trx" \
-            --results-directory "$GITHUB_WORKSPACE/test-results" \
-            --collect:"XPlat Code Coverage"
-          exit_code=$?
-          if [ $exit_code -ne 0 ]; then
-            echo "::error::AppHost.Tests failed with exit code $exit_code"
-          fi
-          exit $exit_code
-
-      - name: Upload AppHost Test Results
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: apphost-test-results
-          path: test-results
-
   test-ui:
     name: "IssueTracker.UI.Tests.Unit"
     runs-on: ubuntu-latest
@@ -587,6 +389,204 @@ jobs:
         if: always()
         with:
           name: service-test-results
+          path: test-results
+
+  test-integration:
+    name: "Integration.Tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/Integration.Tests
+
+      - name: Build Integration Tests
+        run: dotnet build tests/Integration.Tests --configuration Release --no-restore
+
+      - name: Run Integration Tests
+        id: integration-tests
+        run: |
+          mkdir -p test-results
+          if [ ! -d "tests/Integration.Tests" ]; then
+            echo "::notice::Integration test project not found at tests/Integration.Tests - skipping"
+            exit 0
+          fi
+
+          # Run tests using dotnet test
+          dotnet test tests/Integration.Tests \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "console;verbosity=detailed" \
+            --logger "trx;LogFileName=integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          exit_code=$?
+
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::Integration tests failed"
+          fi
+          exit $exit_code
+
+      - name: Upload Integration Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: integration-test-results
+          path: test-results
+
+  test-plugins-integration:
+    name: "IssueTracker.PlugIns.Tests.Integration"
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Confirm Docker availability
+        run: docker info
+
+      - name: Pre-pull MongoDB image
+        run: docker pull mongo:8.0
+
+      - name: Restore dependencies
+        run: dotnet restore tests/IssueTracker.PlugIns.Tests.Integration
+
+      - name: Build PlugIns Integration Tests
+        run: dotnet build tests/IssueTracker.PlugIns.Tests.Integration --configuration Release --no-restore
+
+      - name: Run PlugIns Integration Tests
+        run: |
+          mkdir -p test-results
+          dotnet test tests/IssueTracker.PlugIns.Tests.Integration \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=plugins-integration.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage" \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+
+      - name: Dump Docker state on failure
+        if: failure()
+        run: docker ps -a
+
+      - name: Upload PlugIns Integration Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: plugins-integration-test-results
+          path: test-results
+
+  test-apphost:
+    name: "AppHost.Tests (Aspire + Playwright E2E)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: build
+
+    env:
+      ASPIRE_ALLOW_UNSECURED_TRANSPORT: "true"
+      # Required by AppHost builder.AddConnectionString("mongodb") even though
+      # the web app ignores it in Testing mode (no real DB connection is made).
+      ConnectionStrings__mongodb: "mongodb://localhost:27017"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: Global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/Directory.Packages.props') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore tests/AppHost.Tests
+
+      - name: Build AppHost.Tests
+        run: dotnet build tests/AppHost.Tests --configuration Release --no-restore
+
+      - name: Publish Web project to generate Blazor static assets
+        run: dotnet publish src/UI/IssueTracker.UI/IssueTracker.UI.csproj --configuration Release --no-restore
+
+      - name: Pre-pull Docker images for Aspire
+        run: |
+          echo "Pre-pulling Docker images for Aspire..."
+          docker pull mongo:8.2 &
+          docker pull redis:8.6 &
+          wait
+          echo "Docker images pre-pulled successfully"
+
+      - name: Run AppHost.Tests
+        id: apphost-tests
+        run: |
+          mkdir -p test-results
+          echo "Starting AppHost.Tests..."
+          echo "Playwright CLI version:"
+          playwright --version || echo "playwright not found"
+          echo "Checking Playwright browsers:"
+          ls -la ~/.cache/ms-playwright/ 2>/dev/null || echo "No playwright cache found"
+          echo "dotnet version:"
+          dotnet --version
+
+          dotnet test tests/AppHost.Tests \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=apphost.trx" \
+            --results-directory "$GITHUB_WORKSPACE/test-results" \
+            --collect:"XPlat Code Coverage"
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "::error::AppHost.Tests failed with exit code $exit_code"
+          fi
+          exit $exit_code
+
+      - name: Upload AppHost Test Results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: apphost-test-results
           path: test-results
 
   coverage:
