@@ -4,6 +4,7 @@ name: guard-main-source
 'on':
   pull_request:
     branches: [main]
+    types: [ opened, synchronize, reopened, ready_for_review ]
   workflow_dispatch:
 
 jobs:
@@ -17,10 +18,11 @@ jobs:
               core.info("Not a pull_request event.");
               return;
             }
+
             const source = context.payload.pull_request.head.ref;
-            const isValid = source === "dev" || source.startsWith("hotfix/*");
+            const isValid = source === "dev" || source.startsWith("hotfix/");
             if (!isValid) {
               core.setFailed(
-                `PRs to main must come from dev or rel/* branches. Current source: ${source}`
+                `PRs to main must come from dev or hotfix/* branches. Current source: ${source}`
               );
             }
