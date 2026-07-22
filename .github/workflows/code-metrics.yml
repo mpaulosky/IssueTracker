@@ -2,6 +2,9 @@
 
 name: '.NET code metrics'
 
+permissions:
+  contents: read
+
 'on':
   push:
     branches:
@@ -26,8 +29,7 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
 
     steps:
       - uses: actions/checkout@v7
@@ -49,7 +51,7 @@ jobs:
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8.1.1
-        if: ${{ steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && github.event_name != 'pull_request' }}
+        if: ${{ steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && github.event_name != 'pull_request' && github.ref != 'refs/heads/main' }}
         with:
           title: '${{ steps.dotnet-code-metrics.outputs.summary-title }}'
           body: '${{ steps.dotnet-code-metrics.outputs.summary-details }}'
