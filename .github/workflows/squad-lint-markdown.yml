@@ -2,11 +2,13 @@ name: Lint Markdown
 # Runs markdownlint-cli2 using the repo's .markdownlint.json config
 
 on:
-  workflow_dispatch:
   push:
-    branches: [dev, preview, main, insider, "squad/**"]
+    branches-ignore: [ main ]
   pull_request:
-    branches: [dev, preview, main, insider]
+    branches: [ dev, hotfix, "squad/**" ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,7 +31,11 @@ jobs:
             git fetch origin "${{ github.base_ref }}" --depth=1
             files=$(git diff --name-only "origin/${{ github.base_ref }}..HEAD" -- '*.md')
           elif [[ "${{ github.event_name }}" == "push" ]]; then
-            files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.md')
+            if [[ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ]]; then
+              files=$(git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" -- '*.md')
+            else
+              files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.md')
+            fi
           else
             git fetch origin main --depth=1
             files=$(git diff --name-only "origin/main..HEAD" -- '*.md')
@@ -43,4 +49,4 @@ jobs:
           fi
 
           echo "$files"
-          npx --yes markdownlint-cli2 $files
+          npx --yes markdownlint-cli2 --config .markdownlint.json $files
