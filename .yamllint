@@ -1,7 +1,6 @@
 extends: default
 
 ignore: |
-  .squad/
   team-docs/
 
 rules:

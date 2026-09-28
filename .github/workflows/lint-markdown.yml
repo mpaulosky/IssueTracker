@@ -5,7 +5,7 @@ on:
   push:
     branches-ignore: [ main ]
   pull_request:
-    branches: [ dev, hotfix, "squad/**" ]
+    branches: [ main ]
     types: [ opened, synchronize, reopened, ready_for_review ]
 
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
             files=$(git diff --name-only "origin/main..HEAD" -- '*.md')
           fi
 
-          files=$(echo "$files" | grep -Ev '^(\.squad/|\.copilot/|\.github/agents/|\.github/skills/|\.github/copilot-instructions\.md$)' || true)
+          files=$(echo "$files" | grep -Ev '^(\.copilot/|\.github/agents/|\.github/skills/|\.github/copilot-instructions\.md$)' || true)
 
           if [[ -z "$files" ]]; then
             echo "No markdown files to lint."

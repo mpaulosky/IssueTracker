@@ -1,4 +1,4 @@
-name: Squad Main Validation
+name: Main Validation
 # Validates the protected main branch after merge.
 
 on:
@@ -62,11 +62,3 @@ jobs:
               --no-restore \
               --verbosity minimal
           done
-
-      - name: Check no .squad/ files are tracked
-        run: |
-          if git ls-files --error-unmatch .squad/ 2>/dev/null; then
-            echo "::error::❌ .squad/ files are tracked on main — this must not ship."
-            exit 1
-          fi
-          echo "✅ No .squad/ files tracked — main is clean for release."

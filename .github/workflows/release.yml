@@ -1,4 +1,4 @@
-name: Squad Release
+name: Release
 # Keeps the current main-push release flow, but validates the real solution first.
 
 on:
@@ -7,7 +7,6 @@ on:
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
-      - '.squad/**'
 
 permissions:
   contents: write
