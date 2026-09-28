@@ -7,14 +7,12 @@ name: CodeQL
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
-      - '.squad/**'
 
   pull_request:
     branches: [main]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
-      - '.squad/**'
 
   workflow_dispatch:
 

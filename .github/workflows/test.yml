@@ -1,4 +1,4 @@
-name: Squad Test Suite
+name: Test Suite
 
 # NOTE: All test projects now use 'dotnet test' consistently.
 # This was updated to fix issues with direct executable execution that was
@@ -19,14 +19,12 @@ on:
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
-      - '.squad/**'
   pull_request:
     branches:
       - "**"
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
-      - '.squad/**'
   workflow_dispatch:
     inputs:
       reason:
@@ -740,7 +738,7 @@ jobs:
           fi
 
   suite-gate:
-    name: Squad Test Suite
+    name: Test Suite
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs:
