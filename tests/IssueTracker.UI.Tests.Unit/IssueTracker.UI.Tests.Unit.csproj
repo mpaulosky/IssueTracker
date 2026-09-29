@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <!-- CI builds with -warnaserror. CS0618: bUnit's obsolete TestContext; CS0067: unused events in test fakes.
-         Both go away with the bUnit migration (.github/skills/bunit-test-migration); remove this line then. -->
+         Both go away with the migration to BunitContext; remove this line then. -->
     <NoWarn>$(NoWarn);CS0618;CS0067</NoWarn>
     <IsTestProject>true</IsTestProject>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
