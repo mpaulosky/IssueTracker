@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.7](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.7) | 2026-09-29 | test(UI): Move bUnit tests to BunitContext on bUnit 2.11.3 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-159-test-ui-move-bunit-tests-to-bunitcontext-on-bunit-2-11-3.md) |
 | [v0.0.6](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.6) | 2026-09-29 | ci(release): Drop featured_image from release blog posts | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-157-ci-release-drop-featured-image-from-release-blog-posts.md) |
 | [v0.0.5](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.5) | 2026-09-29 | docs: Add a CONTEXT.md glossary of the domain language | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-153-docs-add-a-context-md-glossary-of-the-domain-language.md) |
 | [v0.0.4](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.4) | 2026-09-29 | ci: Run code metrics by hand and drop unused Auth0 settings | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-148-ci-run-code-metrics-by-hand-and-drop-unused-auth0-settings.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.1-1169](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1169) | 2026-09-29 | v0.0.1-1169 | — |
 | [v0.0.1-1168](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1168) | 2026-09-29 | v0.0.1-1168 | — |
 | [v0.0.1-1167](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1167) | 2026-09-29 | v0.0.1-1167 | — |
-| [v0.0.1-1166](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1166) | 2026-09-29 | v0.0.1-1166 | — |
 
 <!-- RELEASES_END -->
 
