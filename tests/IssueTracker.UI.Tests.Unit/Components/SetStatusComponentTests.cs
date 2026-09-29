@@ -73,11 +73,11 @@ public class SetStatusComponentTests : BunitContext
 			<div class="issue-container">
 				<div class="status-layout flex-container">
 					<button class="btn btn-status btn-status-status fw-bold">Set Status</button>
-					<button id="answered" class="btn btn-status btn-status-answered">
-						answered
+					<button id="accepted" class="btn btn-status btn-status-accepted">
+						accepted
 					</button>
-					<button id="inwork" class="btn btn-status btn-status-inwork">
-						in work
+					<button id="upcoming" class="btn btn-status btn-status-upcoming">
+						upcoming
 					</button>
 					<button id="watching" class="btn btn-status btn-status-watching">
 						watching
@@ -99,8 +99,8 @@ public class SetStatusComponentTests : BunitContext
 	}
 
 	[Theory(DisplayName = "SetStatusComponent work setting the statuses")]
-	[InlineData("#answered", "Answered")]
-	[InlineData("#inwork", "InWork")]
+	[InlineData("#accepted", "Accepted")]
+	[InlineData("#upcoming", "Upcoming")]
 	[InlineData("#watching", "Watching")]
 	[InlineData("#dismissed", "Dismissed")]
 	public void SetupStatusComponent_With_Statuses_Should_AllowSettingEachStatus_TestAsync(

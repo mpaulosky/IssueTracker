@@ -94,7 +94,7 @@
 	letter-spacing: 1.2px;
 }
 
-.issue-entry-status-answered {
+.issue-entry-status-accepted {
 	background-color: #b5d43a;
 	border: 1px #b5d43a solid;
 }
@@ -104,7 +104,7 @@
 	border: 1px solid #e9354c;
 }
 
-.issue-entry-status-inwork {
+.issue-entry-status-upcoming {
 	background-color: #fd7e14;
 	border: 1px solid #fd7e14;
 }

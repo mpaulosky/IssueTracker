@@ -112,8 +112,8 @@ public partial class SampleData
 
 		StatusModel item = new()
 		{
-			StatusName = "Answered",
-			StatusDescription = "The suggestion was accepted and the corresponding item was created."
+			StatusName = "Accepted",
+			StatusDescription = "The issue was accepted and the corresponding item was created."
 		};
 		await StatusService.CreateStatus(item);
 
@@ -121,19 +121,19 @@ public partial class SampleData
 		{
 			StatusName = "Watching",
 			StatusDescription =
-				"The suggestion is interesting. We are watching to see how much interest there is in it."
+				"The issue is interesting. We are watching to see how much interest there is in it."
 		};
 		await StatusService.CreateStatus(item);
 
 		item = new StatusModel
 		{
-			StatusName = "Upcoming", StatusDescription = "The suggestion was accepted and it will be released soon."
+			StatusName = "Upcoming", StatusDescription = "The issue was accepted and it will be released soon."
 		};
 		await StatusService.CreateStatus(item);
 
 		item = new StatusModel
 		{
-			StatusName = "Dismissed", StatusDescription = "The suggestion was not something that we are going to undertake."
+			StatusName = "Dismissed", StatusDescription = "The issue was not something that we are going to undertake."
 		};
 		await StatusService.CreateStatus(item);
 

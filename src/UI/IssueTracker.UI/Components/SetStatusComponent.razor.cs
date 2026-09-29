@@ -33,9 +33,9 @@ public partial class SetStatusComponent : ComponentBase
 	{
 		Issue.IssueStatus = _settingStatus switch
 		{
-			"answered" => new BasicStatusModel(_statuses.First(s =>
+			"accepted" => new BasicStatusModel(_statuses.First(s =>
 				string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase))),
-			"inwork" => new BasicStatusModel(_statuses.First(s =>
+			"upcoming" => new BasicStatusModel(_statuses.First(s =>
 				string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase))),
 			"watching" => new BasicStatusModel(_statuses.First(s =>
 				string.Equals(s.StatusName, _settingStatus, StringComparison.CurrentCultureIgnoreCase))),

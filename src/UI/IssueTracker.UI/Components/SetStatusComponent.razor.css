@@ -30,11 +30,11 @@
 	color: black;
 }
 
-.btn-status-answered:hover {
+.btn-status-accepted:hover {
 	color: #b5d43a;
 }
 
-.btn-status-inwork:hover {
+.btn-status-upcoming:hover {
 	color: #fd7e14;
 }
 

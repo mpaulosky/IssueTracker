@@ -46,8 +46,8 @@ public partial class IssueComponent
 	{
 		string output = issue.IssueStatus.StatusName switch
 		{
-			"Answered" => "issue-entry-status-answered",
-			"InWork" => "issue-entry-status-inwork",
+			"Accepted" => "issue-entry-status-accepted",
+			"Upcoming" => "issue-entry-status-upcoming",
 			"Watching" => "issue-entry-status-watching",
 			"Dismissed" => "issue-entry-status-dismissed",
 			_ => "issue-entry-status-none"
