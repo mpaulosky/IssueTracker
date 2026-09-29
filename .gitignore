@@ -397,3 +397,5 @@ FodyWeavers.xsd
 /.vscode/
 /test.html
 /test1.html
+build-output.txt
+test-output.txt

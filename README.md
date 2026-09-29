@@ -2,11 +2,26 @@
 
 A modern issue tracking application built with Blazor and MongoDB, featuring comprehensive unit and integration testing with Docker-based test isolation.
 
-[![Issues Open](https://img.shields.io/github/issues/mpaulosky/IssueTracker.svg?style=flatsquare&logo=github&label=Open%20Issues)](https://github.com/mpaulosky/IssueTracker/issues)
-![GitHub closed issues](https://img.shields.io/github/issues-closed/mpaulosky/IssueTracker?logo=github)
-![GitHub](https://img.shields.io/github/license/mpaulosky/IssueTracker?logo=github)
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/mpaulosky/IssueTracker/dotnet.yml?branch=main&label=Build%20%26%20Test%20main&logo=github)
-[![codecov](https://codecov.io/gh/mpaulosky/IssueTracker/branch/main/graph/badge.svg)](https://codecov.io/gh/mpaulosky/IssueTracker)
+## Statuses
+
+[![.NET 10](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/mpaulosky/IssueTracker/blob/main/LICENSE)
+[![xUnit Tests](https://img.shields.io/badge/Tests-xUnit-blueviolet?logo=github)](https://github.com/mpaulosky/IssueTracker/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/releases/latest)
+[![Codecov](https://img.shields.io/codecov/c/github/mpaulosky/IssueTracker?logo=codecov)](https://codecov.io/gh/mpaulosky/IssueTracker)
+[![Stars](https://img.shields.io/github/stars/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/stargazers)
+
+[![Build and Test Suite](https://github.com/mpaulosky/IssueTracker/actions/workflows/ci.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/codeql-analysis.yml)
+[![.NET code metrics](https://github.com/mpaulosky/IssueTracker/actions/workflows/code-metrics.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/code-metrics.yml)
+
+[![Lint Markdown](https://github.com/mpaulosky/IssueTracker/actions/workflows/lint-markdown.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/lint-markdown.yml)
+[![Lint YAML](https://github.com/mpaulosky/IssueTracker/actions/workflows/lint-yaml.yml/badge.svg)](https://github.com/mpaulosky/IssueTracker/actions/workflows/lint-yaml.yml)
+
+[![Open issues](https://img.shields.io/github/issues/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/issues)
+[![Closed issues](https://img.shields.io/github/issues-closed/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/issues?q=is%3Aissue+is%3Aclosed)
+[![Open PRs](https://img.shields.io/github/issues-pr/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/pulls)
+[![Closed PRs](https://img.shields.io/github/issues-pr-closed/mpaulosky/IssueTracker)](https://github.com/mpaulosky/IssueTracker/pulls?q=is%3Apr+is%3Aclosed)
 
 ## 🚀 Quick Start
 
