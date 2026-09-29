@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.3](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.3) | 2026-09-29 | docs: Write agent guidance for IssueTracker | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-146-docs-write-agent-guidance-for-issuetracker.md) |
 | [v0.0.2](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.2) | 2026-09-29 | ci: Gate Test Suite on coverage and let fork PRs pass it | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-145-ci-gate-test-suite-on-coverage-and-let-fork-prs-pass-it.md) |
 | [v0.0.1-1170](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1170) | 2026-09-29 | v0.0.1-1170 | — |
 | [v0.0.1-1169](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1169) | 2026-09-29 | v0.0.1-1169 | — |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.1-1165](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1165) | 2026-09-29 | v0.0.1-1165 | — |
 | [v0.0.1-1164](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1164) | 2026-09-29 | v0.0.1-1164 | — |
 | [v0.0.1](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1) | 2026-09-29 | ci: Adopt atelier-store's CI, release and lint setup | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-140-ci-adopt-atelier-store-s-ci-release-and-lint-setup.md) |
-| [v0.0.1-1163](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1163) | 2026-09-28 | v0.0.1-1163 | — |
 
 <!-- RELEASES_END -->
 
