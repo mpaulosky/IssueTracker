@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class NotAuthorizedTests : TestContext
+public class NotAuthorizedTests : BunitContext
 {
 	[Fact]
 	public void NotAuthorized_Should_DisplayMarkup_Test()

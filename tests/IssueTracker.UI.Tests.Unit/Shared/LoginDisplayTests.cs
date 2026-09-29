@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class LoginDisplayTests : TestContext
+public class LoginDisplayTests : BunitContext
 {
 	private readonly UserModel _expectedUser;
 

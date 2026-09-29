@@ -56,8 +56,7 @@ scripts/gate.sh                                           # everything the pre-p
 ## Tests
 
 - xUnit v2 on VSTest, with FluentAssertions, NSubstitute or Moq, and Bogus fakes from CoreBusiness.
-- Components are tested with bUnit. The existing tests still use bUnit's obsolete `TestContext`, pending a migration;
-  new tests use its replacement, `BunitContext`.
+- Components are tested with bUnit: test classes derive from `BunitContext`, not the obsolete `TestContext`.
 - Every test has `// Arrange`, `// Act` and `// Assert` markers. Test names read as
   `Method_With_Condition_Should_Result_Test`, as in `CreateCategory_With_Valid_Values_Should_Return_Test`.
 - Write the failing test first for new behaviour and bug fixes.

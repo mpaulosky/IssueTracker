@@ -150,7 +150,7 @@ public class IssueRepositoryTests : IAsyncLifetime
 **Example**: Testing a Blazor component
 
 ```csharp
-public class IssueListComponentTests : TestContext
+public class IssueListComponentTests : BunitContext
 {
     [Fact]
     public void IssueList_RendersCorrectly()
@@ -167,7 +167,7 @@ public class IssueListComponentTests : TestContext
         );
         
         // Act
-        var cut = RenderComponent<IssueListComponent>();
+        var cut = Render<IssueListComponent>();
         
         // Assert
         cut.MarkupMatches("<div>...</div>"); // Match expected markup

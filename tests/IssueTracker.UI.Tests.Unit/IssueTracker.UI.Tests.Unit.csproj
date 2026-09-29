@@ -4,10 +4,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <!-- CI builds with -warnaserror. CS0618: bUnit's obsolete TestContext, gone once the tests move to BunitContext.
-         CS0067: the unused Changing/Changed events in Helpers/InMemorySessionStorageService.cs, gone once they're
-         raised or explicitly implemented. Remove each code from this line when its cause is fixed. -->
-    <NoWarn>$(NoWarn);CS0618;CS0067</NoWarn>
+    <!-- CI builds with -warnaserror. CS0067: the unused Changing/Changed events in
+         Helpers/InMemorySessionStorageService.cs, gone once they're raised or explicitly implemented. -->
+    <NoWarn>$(NoWarn);CS0067</NoWarn>
     <IsTestProject>true</IsTestProject>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <RootNamespace>IssueTracker.UI</RootNamespace>

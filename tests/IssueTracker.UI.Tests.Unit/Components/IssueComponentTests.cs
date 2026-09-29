@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class IssueComponentTests : TestContext
+public class IssueComponentTests : BunitContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;
