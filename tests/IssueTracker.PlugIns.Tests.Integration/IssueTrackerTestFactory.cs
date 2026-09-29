@@ -53,7 +53,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 					.WithImage("mongo:7.0")
 					.WithUsername("admin")
 					.WithPassword("password")
-					.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
+					.WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(27017))
 					.Build();
 			}
 		}
