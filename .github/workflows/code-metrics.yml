@@ -13,9 +13,9 @@ name: ".NET code metrics"
         required: true
         default: "Manual run"
 
-# Read-only on purpose: pull_request runs execute the unpinned metrics action
-# and must not get a write-capable token. The main-only PR step below pushes
-# and opens the PR with RELEASE_PR_PAT instead.
+# Read-only on purpose: the job runs a third-party action and needs no write
+# access itself. The main-only PR step below pushes and opens the PR with
+# RELEASE_PR_PAT instead.
 permissions:
   contents: read
 
@@ -39,8 +39,8 @@ jobs:
           echo "Reason: $REASON"
       - name: .NET code metrics
         id: dotnet-code-metrics
-        # Pinned to an audited commit: pull request runs execute this external
-        # action, so an upstream change mustn't reach them unreviewed.
+        # Pinned to an audited commit, so an upstream change to this external
+        # action can't run here unreviewed.
         uses: dotnet/samples/github-actions/DotNet.GitHubAction@acb39ceb13f910ae0f8f6298059c59102b749c41  # main as of 2026-09-26
         env:
           GREETINGS: "Hello, .NET developers!"  # ${{ secrets.GITHUB_TOKEN }}
@@ -50,9 +50,8 @@ jobs:
           branch: ${{ github.ref }}
           dir: ${{ './' }}
 
-      # Only open a metrics PR from main. Pull request runs check out a detached
-      # merge commit (refs/pull/N/merge), which create-pull-request can't use as a
-      # base, and a manual run from another branch must not publish metrics either.
+      # Only open a metrics PR from main: a manual run from another branch must
+      # not publish metrics.
       - name: Create pull request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         if: ${{ github.ref == 'refs/heads/main' && steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && env.HAS_RELEASE_PR_PAT == 'true' }}
