@@ -30,6 +30,8 @@ public class CommentTests : BunitContext
 		_mockCacheEntry = new Mock<ICacheEntry>();
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
+		_expectedIssue.ApprovedForRelease = true;
+		_expectedIssue.Rejected = false;
 	}
 
 	private IRenderedComponent<Comment> ComponentUnderTest(string? issueId)
@@ -147,6 +149,45 @@ public class CommentTests : BunitContext
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
+	}
+
+	[Theory]
+	[InlineData(false)]
+	[InlineData(true)]
+	public void Comment_With_Pending_Or_Rejected_Issue_And_Other_User_Should_Show_Not_Found_Test(bool rejected)
+	{
+		// Arrange
+		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Rejected = rejected;
+		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
+
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Comment> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		// Assert
+		cut.Find("#issue-not-found").TextContent.Should().Be("Sorry, there's nothing at this address.");
+		cut.FindAll("#create-comment").Should().BeEmpty();
+		cut.FindAll("#submit-comment").Should().BeEmpty();
+	}
+
+	[Fact]
+	public void Comment_With_Pending_Issue_And_Author_Should_Show_Comment_Form_Test()
+	{
+		// Arrange
+		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Rejected = false;
+		_expectedIssue.Author = new BasicUserModel(_expectedUser);
+
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Comment> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		// Assert
+		cut.FindAll("#issue-not-found").Should().BeEmpty();
+		cut.FindAll("#submit-comment").Should().ContainSingle();
 	}
 
 	[Fact]

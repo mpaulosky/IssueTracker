@@ -7,6 +7,8 @@
 // Project Name :  IssueTracker.UI
 // =============================================
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace IssueTracker.UI.Pages;
 
 /// <summary>
@@ -22,6 +24,8 @@ public partial class Details
 
 	private UserModel? _loggedInUser = new();
 
+	private bool _notFound;
+
 	[Parameter] public string? Id { get; set; }
 
 	/// <summary>
@@ -33,7 +37,17 @@ public partial class Details
 
 		ArgumentNullException.ThrowIfNull(Id);
 
-		_issue = await IssueService.GetIssue(Id);
+		AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+		bool isAdmin = (await AuthorizationService.AuthorizeAsync(authState.User, "Admin")).Succeeded;
+
+		_issue = await IssueService.GetIssue(Id, _loggedInUser.Id, isAdmin);
+
+		if (_issue is null)
+		{
+			_notFound = true;
+			return;
+		}
+
 		BasicIssueModel issue = new(_issue);
 		_comments = await CommentService.GetCommentsByIssue(issue);
 		await StatusService.GetStatuses();

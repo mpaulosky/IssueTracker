@@ -36,6 +36,8 @@ public class DetailsTests : BunitContext
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
+		_expectedIssue.ApprovedForRelease = true;
+		_expectedIssue.Rejected = false;
 		_expectedStatuses = FakeStatus.GetStatuses().ToList();
 	}
 
@@ -89,6 +91,47 @@ public class DetailsTests : BunitContext
 			.Throw<ArgumentNullException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
+	}
+
+	[Theory]
+	[InlineData(false)]
+	[InlineData(true)]
+	public void Details_With_Pending_Or_Rejected_Issue_And_Other_User_Should_Show_Not_Found_Test(bool rejected)
+	{
+		// Arrange
+		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Rejected = rejected;
+		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
+
+		SetAuthenticationAndAuthorization(false, true);
+
+		// Act
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		// Assert
+		cut.Find("#issue-not-found").TextContent.Should().Be("Sorry, there's nothing at this address.");
+		cut.FindAll("#create-comment").Should().BeEmpty();
+		_commentRepositoryMock
+			.Verify(x =>
+				x.GetByIssueAsync(It.IsAny<BasicIssueModel>()), Times.Never);
+	}
+
+	[Fact]
+	public void Details_With_Pending_Issue_And_Admin_Should_Show_Issue_Test()
+	{
+		// Arrange
+		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Rejected = false;
+		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
+
+		SetAuthenticationAndAuthorization(true, true);
+
+		// Act
+		IRenderedComponent<Details> cut = ComponentUnderTest(_expectedIssue.Id);
+
+		// Assert
+		cut.FindAll("#issue-not-found").Should().BeEmpty();
+		cut.FindAll("#create-comment").Should().ContainSingle();
 	}
 
 	[Fact]

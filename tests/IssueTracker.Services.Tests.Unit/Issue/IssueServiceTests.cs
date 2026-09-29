@@ -112,11 +112,11 @@ public class IssueServiceTests
 		_issueRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(expected);
 
 		//Act
-		IssueModel result = await sut.GetIssue(expected.Id);
+		IssueModel? result = await sut.GetIssue(expected.Id, expected.Author.Id, false);
 
 		//Assert
 		result.Should().NotBeNull();
-		result.Id.Should().Be(expected.Id);
+		result!.Id.Should().Be(expected.Id);
 		result.Title.Should().Be(expected.Title);
 		result.Description.Should().Be(expected.Description);
 	}
@@ -131,13 +131,111 @@ public class IssueServiceTests
 		IssueService sut = UnitUnderTest();
 
 		// Act
-		Func<Task> act = async () => { await sut.GetIssue(value); };
+		Func<Task> act = async () => { await sut.GetIssue(value, "viewer-id", false); };
 
 		// Assert
 		await act.Should()
 			.ThrowAsync<ArgumentException>()
 			.WithParameterName(expectedParamName)
 			.WithMessage(expectedMessage);
+	}
+
+	[Theory(DisplayName = "Get Issue Hides Pending And Rejected Issues From Other Users")]
+	[InlineData(false, false)]
+	[InlineData(false, true)]
+	[InlineData(true, true)]
+	public async Task GetIssue_With_Pending_Or_Rejected_Issue_And_Other_User_Should_Return_Null_Test(bool approved,
+		bool rejected)
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+		issue.ApprovedForRelease = approved;
+		issue.Rejected = rejected;
+
+		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
+
+		// Act
+		IssueModel? result = await sut.GetIssue(issue.Id, "another-user-id", false);
+
+		// Assert
+		result.Should().BeNull();
+	}
+
+	[Theory(DisplayName = "Get Issue Shows Pending And Rejected Issues To Their Author And Admins")]
+	[InlineData(false, false, true, false)]
+	[InlineData(false, true, true, false)]
+	[InlineData(false, false, false, true)]
+	[InlineData(false, true, false, true)]
+	public async Task GetIssue_With_Pending_Or_Rejected_Issue_And_Author_Or_Admin_Should_Return_Issue_Test(
+		bool approved, bool rejected, bool viewerIsAuthor, bool viewerIsAdmin)
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+		issue.ApprovedForRelease = approved;
+		issue.Rejected = rejected;
+		string viewerId = viewerIsAuthor ? issue.Author.Id : "another-user-id";
+
+		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
+
+		// Act
+		IssueModel? result = await sut.GetIssue(issue.Id, viewerId, viewerIsAdmin);
+
+		// Assert
+		result.Should().BeSameAs(issue);
+	}
+
+	[Fact(DisplayName = "Get Issue Shows Approved Issues To Every User")]
+	public async Task GetIssue_With_Approved_Issue_And_Other_User_Should_Return_Issue_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+		issue.ApprovedForRelease = true;
+		issue.Rejected = false;
+
+		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
+
+		// Act
+		IssueModel? result = await sut.GetIssue(issue.Id, "another-user-id", false);
+
+		// Assert
+		result.Should().BeSameAs(issue);
+	}
+
+	[Fact(DisplayName = "Get Issue Does Not Match An Empty Viewer To An Empty Author")]
+	public async Task GetIssue_With_Pending_Issue_And_Empty_Viewer_Id_Should_Return_Null_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+		issue.ApprovedForRelease = false;
+		issue.Rejected = false;
+		issue.Author = new BasicUserModel();
+
+		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
+
+		// Act
+		IssueModel? result = await sut.GetIssue(issue.Id, string.Empty, false);
+
+		// Assert
+		result.Should().BeNull();
+	}
+
+	[Fact(DisplayName = "Get Issue With Unknown Id")]
+	public async Task GetIssue_With_Unknown_Id_Should_Return_Null_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+
+		_issueRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync((IssueModel)null!);
+
+		// Act
+		IssueModel? result = await sut.GetIssue("5dc1039a1521eaa36835e541", "viewer-id", true);
+
+		// Assert
+		result.Should().BeNull();
 	}
 
 	[Fact(DisplayName = "Get Issues")]

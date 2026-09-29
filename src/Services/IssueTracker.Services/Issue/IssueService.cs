@@ -47,15 +47,35 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 	///   GetIssue method
 	/// </summary>
 	/// <param name="issueId">string</param>
-	/// <returns>Task of IssueModel</returns>
+	/// <param name="viewerId">The Id of the User asking for the Issue</param>
+	/// <param name="viewerIsAdmin">Whether that User is an Admin</param>
+	/// <returns>Task of IssueModel, or null when the Issue doesn't exist or the viewer may not see it</returns>
 	/// <exception cref="ArgumentException"></exception>
-	public async Task<IssueModel> GetIssue(string? issueId)
+	public async Task<IssueModel?> GetIssue(string? issueId, string? viewerId, bool viewerIsAdmin)
 	{
 		ArgumentException.ThrowIfNullOrEmpty(issueId);
 
-		IssueModel results = await repository.GetAsync(issueId);
+		IssueModel? result = await repository.GetAsync(issueId);
 
-		return results;
+		if (result is null || !IsVisibleTo(result, viewerId, viewerIsAdmin))
+		{
+			return null;
+		}
+
+		return result;
+	}
+
+	/// <summary>
+	///   Every User sees an approved Issue; a Pending or Rejected one is shown only to its Author and the Admins.
+	/// </summary>
+	private static bool IsVisibleTo(IssueModel issue, string? viewerId, bool viewerIsAdmin)
+	{
+		if (issue.ApprovedForRelease && !issue.Rejected)
+		{
+			return true;
+		}
+
+		return viewerIsAdmin || (!string.IsNullOrEmpty(viewerId) && issue.Author.Id == viewerId);
 	}
 
 	/// <summary>
