@@ -270,4 +270,60 @@ public class StatusServiceTests
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
+	[Fact(DisplayName = "Create Status Clears The Status Cache")]
+	public async Task CreateStatus_With_Valid_Status_Should_Remove_Cached_Statuses_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel status = FakeStatus.GetNewStatus(true);
+
+		// Act
+		await sut.CreateStatus(status);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("StatusData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Update Status Clears The Status Cache")]
+	public async Task UpdateStatus_With_Valid_Status_Should_Remove_Cached_Statuses_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel status = FakeStatus.GetNewStatus(true);
+
+		// Act
+		await sut.UpdateStatus(status);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("StatusData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Delete Status Clears The Status Cache")]
+	public async Task DeleteStatus_With_Valid_Status_Should_Remove_Cached_Statuses_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel status = FakeStatus.GetNewStatus(true);
+
+		// Act
+		await sut.DeleteStatus(status);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("StatusData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Status Clears The Status Cache")]
+	public async Task ArchiveStatus_With_Valid_Status_Should_Remove_Cached_Statuses_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel status = FakeStatus.GetNewStatus(true);
+
+		// Act
+		await sut.ArchiveStatus(status);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("StatusData"), Times.Once);
+	}
 }

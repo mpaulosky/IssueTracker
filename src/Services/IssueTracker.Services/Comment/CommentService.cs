@@ -41,6 +41,8 @@ public class CommentService(ICommentRepository repository, IMemoryCache cache) :
 		ArgumentNullException.ThrowIfNull(comment);
 
 		await repository.CreateAsync(comment);
+
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>

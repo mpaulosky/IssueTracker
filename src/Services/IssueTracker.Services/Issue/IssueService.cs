@@ -26,7 +26,7 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 	{
 		ArgumentNullException.ThrowIfNull(issue);
 
-		cache.Remove(CacheName);
+		RemoveCachedIssues(issue);
 
 		return repository.ArchiveAsync(issue);
 	}
@@ -41,6 +41,8 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 		ArgumentNullException.ThrowIfNull(issue);
 
 		await repository.CreateAsync(issue);
+
+		RemoveCachedIssues(issue);
 	}
 
 	/// <summary>
@@ -159,6 +161,20 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 
 		await repository.UpdateAsync(issue.Id, issue);
 
+		RemoveCachedIssues(issue);
+	}
+
+	/// <summary>
+	///   Removes the cached list of all Issues and the cached list of the Issue's Author, which
+	///   <see cref="GetIssuesByUser" /> keys by the Author's Id.
+	/// </summary>
+	private void RemoveCachedIssues(IssueModel issue)
+	{
 		cache.Remove(CacheName);
+
+		if (!string.IsNullOrEmpty(issue.Author.Id))
+		{
+			cache.Remove(issue.Author.Id);
+		}
 	}
 }
