@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.6](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.6) | 2026-09-29 | ci(release): Drop featured_image from release blog posts | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-157-ci-release-drop-featured-image-from-release-blog-posts.md) |
 | [v0.0.5](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.5) | 2026-09-29 | docs: Add a CONTEXT.md glossary of the domain language | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-153-docs-add-a-context-md-glossary-of-the-domain-language.md) |
 | [v0.0.4](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.4) | 2026-09-29 | ci: Run code metrics by hand and drop unused Auth0 settings | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-148-ci-run-code-metrics-by-hand-and-drop-unused-auth0-settings.md) |
 | [v0.0.3](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.3) | 2026-09-29 | docs: Write agent guidance for IssueTracker | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-146-docs-write-agent-guidance-for-issuetracker.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.1-1168](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1168) | 2026-09-29 | v0.0.1-1168 | — |
 | [v0.0.1-1167](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1167) | 2026-09-29 | v0.0.1-1167 | — |
 | [v0.0.1-1166](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1166) | 2026-09-29 | v0.0.1-1166 | — |
-| [v0.0.1-1165](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1165) | 2026-09-29 | v0.0.1-1165 | — |
 
 <!-- RELEASES_END -->
 
