@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class StatusesTests : TestContext
+public class StatusesTests : BunitContext
 {
 	private readonly IEnumerable<StatusModel> _expectedStatuses;
 	private readonly UserModel _expectedUser;

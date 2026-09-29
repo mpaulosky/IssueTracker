@@ -12,7 +12,7 @@ using AngleSharp.Dom;
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class ProfileTests : TestContext
+public class ProfileTests : BunitContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly List<CommentModel>? _expectedComments;

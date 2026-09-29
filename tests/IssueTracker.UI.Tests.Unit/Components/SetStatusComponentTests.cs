@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Components;
 
 [ExcludeFromCodeCoverage]
-public class SetStatusComponentTests : TestContext
+public class SetStatusComponentTests : BunitContext
 {
 	private readonly IssueModel _expectedIssue;
 	private readonly UserModel _expectedUser;

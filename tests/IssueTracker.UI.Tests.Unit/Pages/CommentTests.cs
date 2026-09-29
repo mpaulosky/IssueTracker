@@ -10,7 +10,7 @@
 namespace IssueTracker.UI.Pages;
 
 [ExcludeFromCodeCoverage]
-public class CommentTests : TestContext
+public class CommentTests : BunitContext
 {
 	private readonly Mock<ICommentRepository> _commentRepositoryMock;
 	private readonly IssueModel _expectedIssue;

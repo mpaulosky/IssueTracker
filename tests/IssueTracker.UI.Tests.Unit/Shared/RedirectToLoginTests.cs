@@ -1,7 +1,7 @@
 namespace IssueTracker.UI.Shared;
 
 [ExcludeFromCodeCoverage]
-public class RedirectToLoginTests : TestContext
+public class RedirectToLoginTests : BunitContext
 {
 	private readonly UserModel _expectedUser = FakeUser.GetNewUser(true);
 

@@ -56,4 +56,4 @@ IssueTracker's UI is a Blazor Server app (`src/UI/IssueTracker.UI`) on .NET 10 a
 ## Testing
 
 - Test components with bUnit in `tests/IssueTracker.UI.Tests.Unit`, following the Tests section of `CLAUDE.md`.
-- New tests use `BunitContext`, not the obsolete `TestContext` that the existing tests still use.
+- Test classes derive from `BunitContext`, not bUnit's obsolete `TestContext`.

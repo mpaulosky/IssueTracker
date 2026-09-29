@@ -40,7 +40,7 @@ matching `Basic*Model`, the Bogus fakes in `BogusFakes/`, and the repositories t
 environment variables.
 
 **Tests.** Every new or changed behaviour has a test in the matching project, with `// Arrange`, `// Act` and
-`// Assert` markers. New component tests use bUnit's `BunitContext`, not the obsolete `TestContext`. Repository changes
+`// Assert` markers. Component tests derive from bUnit's `BunitContext`, not the obsolete `TestContext`. Repository changes
 need an integration test in `IssueTracker.PlugIns.Tests.Integration`.
 
 **Build.** Builds run with `-warnaserror`. Flag a new `NoWarn` or `#pragma warning disable` without a comment saying why
