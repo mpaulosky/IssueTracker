@@ -22,13 +22,13 @@ public class StatusService(IStatusRepository repository, IMemoryCache cache) : I
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task ArchiveStatus(StatusModel status)
+	public async Task ArchiveStatus(StatusModel status)
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		cache.Remove(CacheName);
+		await repository.ArchiveAsync(status);
 
-		return repository.ArchiveAsync(status);
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>

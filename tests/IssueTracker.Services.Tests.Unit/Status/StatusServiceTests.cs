@@ -326,4 +326,27 @@ public class StatusServiceTests
 		// Assert
 		_memoryCacheMock.Verify(x => x.Remove("StatusData"), Times.Once);
 	}
+
+	[Fact(DisplayName = "Archive Status Evicts After The Write")]
+	public async Task ArchiveStatus_With_Valid_Status_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		StatusService sut = UnitUnderTest();
+		StatusModel item = FakeStatus.GetNewStatus(true);
+		List<string> calls = [];
+
+		_statusRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<StatusModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveStatus(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
 }

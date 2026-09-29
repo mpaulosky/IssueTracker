@@ -414,4 +414,27 @@ public class CommentServiceTests
 		// Assert
 		_memoryCacheMock.Verify(x => x.Remove("CommentData"), Times.Once);
 	}
+
+	[Fact(DisplayName = "Archive Comment Evicts After The Write")]
+	public async Task ArchiveComment_With_Valid_Comment_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel item = FakeComment.GetNewComment(true);
+		List<string> calls = [];
+
+		_commentRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<CommentModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveComment(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
 }

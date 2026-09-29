@@ -22,13 +22,13 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 	/// <param name="issue">IssueModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task ArchiveIssue(IssueModel issue)
+	public async Task ArchiveIssue(IssueModel issue)
 	{
 		ArgumentNullException.ThrowIfNull(issue);
 
-		RemoveCachedIssues(issue);
+		await repository.ArchiveAsync(issue);
 
-		return repository.ArchiveAsync(issue);
+		RemoveCachedIssues(issue);
 	}
 
 	/// <summary>

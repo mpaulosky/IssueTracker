@@ -532,4 +532,27 @@ public class IssueServiceTests
 		_memoryCacheMock.Verify(x => x.Remove("IssueData"), Times.Once);
 		_memoryCacheMock.Verify(x => x.Remove(issue.Author.Id), Times.Once);
 	}
+
+	[Fact(DisplayName = "Archive Issue Evicts After The Write")]
+	public async Task ArchiveIssue_With_Valid_Issue_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel item = FakeIssue.GetNewIssue(true);
+		List<string> calls = [];
+
+		_issueRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<IssueModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveIssue(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict", "evict");
+	}
 }

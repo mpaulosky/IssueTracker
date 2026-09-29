@@ -226,4 +226,73 @@ public class CategoryServiceTests
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
+	[Fact(DisplayName = "Create Category Evicts After The Write")]
+	public async Task CreateCategory_With_Valid_Category_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		CategoryService sut = UnitUnderTest();
+		CategoryModel item = FakeCategory.GetNewCategory(true);
+		List<string> calls = [];
+
+		_categoryRepositoryMock
+			.Setup(x => x.CreateAsync(It.IsAny<CategoryModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.CreateCategory(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
+
+	[Fact(DisplayName = "Update Category Evicts After The Write")]
+	public async Task UpdateCategory_With_Valid_Category_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		CategoryService sut = UnitUnderTest();
+		CategoryModel item = FakeCategory.GetNewCategory(true);
+		List<string> calls = [];
+
+		_categoryRepositoryMock
+			.Setup(x => x.UpdateAsync(It.IsAny<string?>(), It.IsAny<CategoryModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.UpdateCategory(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
+
+	[Fact(DisplayName = "Archive Category Evicts After The Write")]
+	public async Task ArchiveCategory_With_Valid_Category_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		CategoryService sut = UnitUnderTest();
+		CategoryModel item = FakeCategory.GetNewCategory(true);
+		List<string> calls = [];
+
+		_categoryRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<CategoryModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveCategory(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
 }
