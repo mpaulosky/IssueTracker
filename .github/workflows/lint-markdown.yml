@@ -32,8 +32,9 @@ jobs:
             files=$(git diff --name-only "origin/${{ github.base_ref }}..HEAD" -- '*.md')
           elif [[ "${{ github.event_name }}" == "push" ]]; then
             # A new branch has no "before" commit, and a force-push leaves an unreachable one.
+            # Lint everything the branch changes since it left main, not just the tip commit.
             if ! git cat-file -e "${{ github.event.before }}^{commit}" 2>/dev/null; then
-              files=$(git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" -- '*.md')
+              files=$(git diff --name-only "origin/main...${{ github.sha }}" -- '*.md')
             else
               files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.md')
             fi
