@@ -1,18 +1,18 @@
-## Production Readiness Guide
+# Production Readiness Guide
 
-### Overview
+## Overview
 
 This guide outlines best practices and configurations for deploying Issue Tracker to production
 environments. It covers Redis persistence, cache behavior, health checks, monitoring, and
 performance tuning.
 
-### Redis Persistence & Data Safety
+## Redis Persistence & Data Safety
 
 In production, Redis must persist data to survive restarts and failures.
 
-#### Persistence Strategies
+### Persistence Strategies
 
-##### RDB (Snapshot) - Default
+#### RDB (Snapshot) - Default
 
 **How it works**: Periodically saves entire dataset to disk
 
@@ -43,7 +43,7 @@ volumes:
 
 **Cons**: Can lose data between snapshots
 
-##### AOF (Append-Only File) - Safer
+#### AOF (Append-Only File) - Safer
 
 **How it works**: Logs every write command, replays on recovery
 
@@ -70,7 +70,7 @@ services:
 
 **Cons**: Slower writes, larger disk footprint
 
-##### Hybrid (RDB + AOF) - Recommended
+#### Hybrid (RDB + AOF) - Recommended
 
 **Configuration**:
 
@@ -91,7 +91,7 @@ services:
 
 On recovery, Redis uses AOF first (more recent), then RDB if AOF unavailable.
 
-### Redis Replication (High Availability)
+## Redis Replication (High Availability)
 
 For production with downtime requirements, deploy Redis in a replicated setup:
 
@@ -135,9 +135,9 @@ var options = new StackExchange.Redis.ConfigurationOptions
 var connection = await StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(options);
 ```text
 
-### Cache Behavior: Local vs. Production
+## Cache Behavior: Local vs. Production
 
-#### Local Development (AppHost)
+### Local Development (AppHost)
 
 - **Scope**: Single developer machine
 - **Persistence**: Volumes created/destroyed with AppHost
@@ -145,7 +145,7 @@ var connection = await StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(op
 - **Invalidation**: Manual (restart AppHost to clear all cache)
 - **Monitoring**: Aspire dashboard provides visibility
 
-#### Production
+### Production
 
 - **Scope**: Multiple servers, distributed load
 - **Persistence**: Persistent volumes (RDB/AOF)
@@ -153,7 +153,7 @@ var connection = await StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(op
 - **Invalidation**: Careful coordination (invalidate only what changed)
 - **Monitoring**: OpenTelemetry metrics, alerting on cache misses
 
-#### Key Differences
+### Key Differences
 
 | Aspect | Local | Production |
 |--------|-------|------------|
@@ -163,11 +163,11 @@ var connection = await StackExchange.Redis.ConnectionMultiplexer.ConnectAsync(op
 | **TTL Strategy** | Aggressive (fast iteration) | Conservative (cost/consistency) |
 | **Invalidation** | Full cache wipes OK | Surgical, event-driven |
 
-### Health Check Configuration for Production
+## Health Check Configuration for Production
 
 Health checks must be configured differently for startup vs. ongoing operation:
 
-#### Startup Phase (High Confidence Required)
+### Startup Phase (High Confidence Required)
 
 During container startup, services must be "ready" before accepting traffic:
 
@@ -198,7 +198,7 @@ readinessProbe:
   failureThreshold: 3
 ```text
 
-#### Ongoing Phase (Graceful Degradation)
+### Ongoing Phase (Graceful Degradation)
 
 Once running, services should degrade rather than fail:
 
@@ -217,9 +217,9 @@ var healthChecks = builder.Services.AddHealthChecks()
   );
 ```text
 
-### Monitoring & Observability
+## Monitoring & Observability
 
-#### OpenTelemetry Metrics Collection
+### OpenTelemetry Metrics Collection
 
 Issue Tracker exports metrics via OpenTelemetry. Configure exporters in production:
 
@@ -244,7 +244,7 @@ builder.Services.AddOpenTelemetry()
 - HTTP request latency
 - Error rates per service
 
-#### Prometheus Scraping
+### Prometheus Scraping
 
 Configure Prometheus to scrape metrics endpoint:
 
@@ -259,7 +259,7 @@ scrape_configs:
     metrics_path: '/metrics'
 ```text
 
-#### Application Insights (Azure)
+### Application Insights (Azure)
 
 For Azure deployments, configure Application Insights:
 
@@ -271,9 +271,9 @@ builder.Services.ConfigureOpenTelemetryMeterProvider(metrics =>
 );
 ```text
 
-### Performance Tuning
+## Performance Tuning
 
-#### Cache TTL Optimization
+### Cache TTL Optimization
 
 Analyze cache hit/miss rates and adjust TTLs:
 
@@ -296,7 +296,7 @@ const int ReportTTL = 60;
 const int SessionTTL = 24 * 60;
 ```text
 
-#### Redis Memory Management
+### Redis Memory Management
 
 Configure Redis memory limits and eviction policy:
 
@@ -329,7 +329,7 @@ redis-cli INFO memory
 # maxmemory:512000000
 ```text
 
-#### Database Query Optimization
+### Database Query Optimization
 
 Ensure MongoDB indexes are created for frequently-queried fields:
 
@@ -350,9 +350,9 @@ use devissuetracker
 db.issues.getIndexes()
 ```text
 
-### Backup & Disaster Recovery
+## Backup & Disaster Recovery
 
-#### MongoDB Backups
+### MongoDB Backups
 
 Schedule daily backups using `mongodump`:
 
@@ -365,7 +365,7 @@ mongodump \
   --out /backups/mongo-$(date +%Y%m%d)
 ```text
 
-#### Redis Backups
+### Redis Backups
 
 Copy RDB/AOF files to persistent storage:
 
@@ -376,7 +376,7 @@ docker exec redis-prod redis-cli BGSAVE
 docker cp redis-prod:/data/dump.rdb /backups/dump-$(date +%Y%m%d).rdb
 ```text
 
-#### Recovery Procedures
+### Recovery Procedures
 
 **MongoDB Recovery**:
 
@@ -394,9 +394,9 @@ docker cp /backups/dump-20240101.rdb redis-prod:/data/dump.rdb
 docker restart redis-prod
 ```text
 
-### Scaling Strategies
+## Scaling Strategies
 
-#### Horizontal Scaling (Multiple UI Instances)
+### Horizontal Scaling (Multiple UI Instances)
 
 Use load balancer in front of multiple UI instances:
 
@@ -422,7 +422,7 @@ services:
       - redis
 ```text
 
-#### Redis Cluster (Horizontal Cache)
+### Redis Cluster (Horizontal Cache)
 
 For massive cache volumes, use Redis Cluster:
 
@@ -437,9 +437,9 @@ services:
 
 Application connects to any node; Redis handles sharding automatically.
 
-### Troubleshooting Production Issues
+## Troubleshooting Production Issues
 
-#### Symptom: Slow Response Times
+### Symptom: Slow Response Times
 
 1. Check health endpoint:
    ```bash
@@ -455,7 +455,7 @@ Application connects to any node; Redis handles sharding automatically.
    docker stats
 ```text
 
-#### Symptom: High Memory Usage
+### Symptom: High Memory Usage
 
 1. Check Redis memory:
    ```bash
@@ -469,7 +469,7 @@ Application connects to any node; Redis handles sharding automatically.
    mongosh --eval "db.stats()"
 ```text
 
-#### Symptom: Frequent Health Check Failures
+### Symptom: Frequent Health Check Failures
 
 1. Review health check timeout thresholds (may be too strict)
 
@@ -480,9 +480,9 @@ Application connects to any node; Redis handles sharding automatically.
    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(5);  // Increased from 3
 ```text
 
-### Security Considerations
+## Security Considerations
 
-#### Network Isolation
+### Network Isolation
 
 Ensure MongoDB and Redis are not exposed to the internet:
 
@@ -497,7 +497,7 @@ services:
       - "127.0.0.1:6379:6379"    # Localhost only
 ```text
 
-#### Authentication
+### Authentication
 
 Enable authentication for both services:
 
@@ -515,7 +515,7 @@ environment:
 command: redis-server --requirepass ${REDIS_PASSWORD}
 ```text
 
-#### Encryption
+### Encryption
 
 Enable TLS for production connections:
 
@@ -537,7 +537,7 @@ var options = ConfigurationOptions.Parse(
 var connection = await ConnectionMultiplexer.ConnectAsync(options);
 ```text
 
-### Pre-Deployment Checklist
+## Pre-Deployment Checklist
 
 - [ ] Redis persistence enabled (RDB or AOF)
 - [ ] MongoDB backups configured and tested
@@ -552,7 +552,7 @@ var connection = await ConnectionMultiplexer.ConnectAsync(options);
 - [ ] Disaster recovery procedures documented
 - [ ] Load balancer configured (if scaling horizontally)
 
-### Post-Deployment Monitoring
+## Post-Deployment Monitoring
 
 After deployment:
 

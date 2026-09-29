@@ -19,8 +19,6 @@ updates:
     # one is usually caught upstream before it reaches a PR here.
     cooldown:
       default-days: 7
-    assignees:
-      - "mpaulosky"
     labels:
       - "github-actions"
       - "dependencies"
@@ -42,8 +40,6 @@ updates:
     # one is usually caught upstream before it reaches a PR here.
     cooldown:
       default-days: 7
-    assignees:
-      - "mpaulosky"
     labels:
       - "nuget"
       - "dependencies"
@@ -64,5 +60,26 @@ updates:
         patterns:
           - "Testcontainers*"
       all-nuget:
+        patterns:
+          - "*"
+
+  # Maintain DotNet Sdk
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "16:00"
+    open-pull-requests-limit: 10
+    # Wait a week before proposing a new release, so a compromised or broken
+    # one is usually caught upstream before it reaches a PR here.
+    cooldown:
+      default-days: 7
+    labels:
+      - "dotnet-sdk"
+      - "dependencies"
+    groups:
+      dotnet-sdk:
         patterns:
           - "*"

@@ -1,14 +1,14 @@
-## Health Checks & Service Monitoring
+# Health Checks & Service Monitoring
 
-### Overview
+## Overview
 
 Health checks are automated probes that verify the availability and responsiveness of external
 dependencies (MongoDB, Redis). Issue Tracker exposes two standardized health check endpoints that
 return the aggregate health status and detailed per-service information.
 
-### Health Check Endpoints
+## Health Check Endpoints
 
-#### `/health` - Readiness Probe
+### `/health` - Readiness Probe
 
 Indicates whether the application is **ready to accept traffic**.
 
@@ -55,7 +55,7 @@ Indicates whether the application is **ready to accept traffic**.
 }
 ```text
 
-#### `/health/live` - Liveness Probe
+### `/health/live` - Liveness Probe
 
 Indicates whether the application **process is alive** (not applicable to Issue Tracker currently,
 but reserved for future implementation).
@@ -67,9 +67,9 @@ but reserved for future implementation).
 - `200 OK` - Process is running
 - `503 Service Unavailable` - Process is deadlocked or hung
 
-### Interpreting Health Responses
+## Interpreting Health Responses
 
-#### Status Levels
+### Status Levels
 
 | Status | Meaning | Action |
 |--------|---------|--------|
@@ -77,7 +77,7 @@ but reserved for future implementation).
 | **Degraded** | Service responds but with issues (slow, partial failure) | Investigate logs, consider restart |
 | **Unhealthy** | Service unresponsive, timed out, or failed | Restart service, check container logs |
 
-#### Common Issues and Meanings
+### Common Issues and Meanings
 
 | Response | Cause | Solution |
 |----------|-------|----------|
@@ -87,7 +87,7 @@ but reserved for future implementation).
 | `"Redis connection timed out after 2s"` | Redis slow or offline | Check `docker logs`, restart container |
 | `"MongoDB ping returned zero response time"` | Unexpected response | Restart MongoDB, check network |
 
-### MongoDB Health Check
+## MongoDB Health Check
 
 **Service**: `mongodb`
 
@@ -132,7 +132,7 @@ mongosh --host localhost --port 27017 -u course -p whatever
 docker restart <mongodb-container-id>
 ```text
 
-### Redis Health Check
+## Redis Health Check
 
 **Service**: `redis`
 
@@ -180,9 +180,9 @@ redis-cli -h localhost -p 6379 PING
 docker restart <redis-container-id>
 ```text
 
-### Troubleshooting Unhealthy Services
+## Troubleshooting Unhealthy Services
 
-#### Scenario 1: MongoDB Timeout
+### Scenario 1: MongoDB Timeout
 
 **Symptoms**:
 
@@ -218,7 +218,7 @@ docker restart <redis-container-id>
    docker restart <mongodb-container-id>
 ```text
 
-#### Scenario 2: Redis Unreachable
+### Scenario 2: Redis Unreachable
 
 **Symptoms**:
 
@@ -247,7 +247,7 @@ docker restart <redis-container-id>
    dotnet run --project src/AppHost/AppHost.csproj
 ```text
 
-#### Scenario 3: Intermittent Unhealthy Status
+### Scenario 3: Intermittent Unhealthy Status
 
 **Symptoms**:
 
@@ -276,12 +276,12 @@ docker restart <redis-container-id>
 
 4. Scale or optimize database queries
 
-### Integration with Kubernetes/Container Orchestrators
+## Integration with Kubernetes/Container Orchestrators
 
 Health check endpoints integrate with container orchestrators (Kubernetes, Docker Swarm, etc.)
 for automated service recovery.
 
-#### Kubernetes Probe Configuration
+### Kubernetes Probe Configuration
 
 ```yaml
 apiVersion: v1
@@ -320,7 +320,7 @@ spec:
 - **periodSeconds**: Check every 10 seconds
 - **failureThreshold**: Restart container after 3 consecutive failures
 
-#### Docker Compose Health Check
+### Docker Compose Health Check
 
 ```yaml
 services:
@@ -334,9 +334,9 @@ services:
       start_period: 30s
 ```text
 
-### Monitoring Health Metrics
+## Monitoring Health Metrics
 
-#### Check Health Endpoint from CLI
+### Check Health Endpoint from CLI
 
 ```bash
 # Using curl
@@ -346,7 +346,7 @@ curl http://localhost:5000/health | jq
 Invoke-WebRequest -Uri "http://localhost:5000/health" | ConvertFrom-Json | ConvertTo-Json -Depth 5
 ```text
 
-#### Parse Health Response
+### Parse Health Response
 
 ```csharp
 public class HealthResponse
@@ -362,7 +362,7 @@ public class HealthCheckData
 }
 ```text
 
-#### Metrics to Track
+### Metrics to Track
 
 - **Health Check Latency**: Time to complete health check probe
 - **Failure Rate**: Percentage of failed health checks
@@ -371,7 +371,7 @@ public class HealthCheckData
 Use OpenTelemetry metrics collection (see Production-Readiness.md) to export these metrics to
 monitoring systems.
 
-### Health Check Best Practices
+## Health Check Best Practices
 
 1. **Run health checks frequently** (every 10 seconds) to detect failures quickly
 

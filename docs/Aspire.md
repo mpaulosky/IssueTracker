@@ -1,12 +1,12 @@
-## Aspire Architecture & Orchestration
+# Aspire Architecture & Orchestration
 
-### Overview
+## Overview
 
 Issue Tracker uses **.NET Aspire** for local development orchestration. Aspire is a .NET distributed
 application framework that simplifies building cloud-native applications. It manages containers,
 services, and their dependencies through code-first configuration.
 
-### System Topology
+## System Topology
 
 The application consists of three main components orchestrated by Aspire:
 
@@ -33,9 +33,9 @@ The application consists of three main components orchestrated by Aspire:
     └──────────────────┘
 ```text
 
-### Resource Configuration
+## Resource Configuration
 
-#### MongoDB
+### MongoDB
 
 - **Image**: `mongodb/mongodb-community-server:latest`
 - **Port**: `27017` (standard MongoDB port)
@@ -49,7 +49,7 @@ var mongodb = builder.AddMongoDB("mongodb")
   .WithHealthCheck("mongodb");
 ```text
 
-#### Redis
+### Redis
 
 - **Image**: `redis:latest`
 - **Port**: `6379` (standard Redis port)
@@ -63,7 +63,7 @@ var redis = builder.AddRedis("redis")
   .WithHealthCheck("redis");
 ```text
 
-#### Blazor UI (IssueTracker.UI)
+### Blazor UI (IssueTracker.UI)
 
 - **Port**: `5000` (HTTP) / `5001` (HTTPS)
 - **References**: Both MongoDB and Redis (injected as connection strings)
@@ -76,15 +76,15 @@ var ui = builder
   .WithReference(redis);
 ```text
 
-### Running AppHost Locally
+## Running AppHost Locally
 
-#### Prerequisites
+### Prerequisites
 
 - **.NET 10 SDK** installed (check with `dotnet --version`)
 - **Docker Desktop** running (required for container provisioning)
 - **Port availability**: Ensure ports 5000, 5001, 6379, 27017, and 18888 are available
 
-#### Start AppHost
+### Start AppHost
 
 ```bash
 dotnet run --project src/AppHost/AppHost.csproj
@@ -114,14 +114,14 @@ info: Aspire.Hosting[0]
 ...
 ```text
 
-#### Accessing the Application
+### Accessing the Application
 
 - **Blazor UI**: `http://localhost:5000` or `https://localhost:5001`
 - **Aspire Dashboard**: `http://localhost:18888`
 - **MongoDB**: `mongodb://localhost:27017` (internal to Aspire)
 - **Redis**: `redis://localhost:6379` (internal to Aspire)
 
-### Aspire Dashboard
+## Aspire Dashboard
 
 The dashboard provides real-time visibility into:
 
@@ -132,9 +132,9 @@ The dashboard provides real-time visibility into:
 
 Access it at `http://localhost:18888` while AppHost is running.
 
-### Troubleshooting AppHost Startup Failures
+## Troubleshooting AppHost Startup Failures
 
-#### Issue: "Port Already in Use"
+### Issue: "Port Already in Use"
 
 **Symptoms**: Error mentioning port 5000, 6379, 27017, or 18888
 
@@ -149,7 +149,7 @@ tasklist /FI "PID eq <PID>"
 docker stop $(docker ps -q)
 ```text
 
-#### Issue: "Docker Daemon Not Running"
+### Issue: "Docker Daemon Not Running"
 
 **Symptoms**: Error: `Cannot connect to Docker daemon`
 
@@ -158,7 +158,7 @@ docker stop $(docker ps -q)
 - Ensure Docker Desktop is running
 - Verify with: `docker ps`
 
-#### Issue: "MongoDB/Redis Health Check Timeout"
+### Issue: "MongoDB/Redis Health Check Timeout"
 
 **Symptoms**: Services stuck in "Degraded" state in dashboard
 
@@ -174,7 +174,7 @@ docker restart <container-name>
 # Or restart AppHost (Aspire will recreate containers)
 ```text
 
-#### Issue: "Cannot Resolve Service References"
+### Issue: "Cannot Resolve Service References"
 
 **Symptoms**: Blazor UI cannot connect to MongoDB or Redis
 
@@ -188,7 +188,7 @@ docker restart <container-name>
 builder.AddServiceDefaults();
 ```text
 
-### Health Checks Integration
+## Health Checks Integration
 
 AppHost registers health checks for MongoDB and Redis:
 
@@ -206,7 +206,7 @@ These checks run continuously. If a service fails its health check:
 
 See [Health-Checks.md](Health-Checks.md) for detailed health check behavior.
 
-### Stopping AppHost
+## Stopping AppHost
 
 Press `Ctrl+C` in the terminal running AppHost. This gracefully shuts down:
 
@@ -218,7 +218,7 @@ Press `Ctrl+C` in the terminal running AppHost. This gracefully shuts down:
 
 Data persists in Docker volumes and is restored on next startup.
 
-### Clearing Volumes for Fresh Start
+## Clearing Volumes for Fresh Start
 
 To reset all data and start fresh:
 

@@ -9,6 +9,8 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<Configurations>Debug;Release;Test</Configurations>
 		<LangVersion>14.0</LangVersion>
+		<!-- CI builds with -warnaserror. ASPIRE010 flags AspireUseCliBundle=false; remove once that's resolved. -->
+		<NoWarn>$(NoWarn);ASPIRE010</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

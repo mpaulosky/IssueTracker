@@ -1,63 +1,90 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
 ---
-name: CodeQL
+name: "CodeQL"
 
-'on':
+"on":
   push:
-    branches: [main]
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
+    branches:
+      - main
+    paths:
+      - "**.cs"
+      - "**.csproj"
+      - ".github/workflows/**"
 
   pull_request:
-    branches: [main]
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
+    branches:
+      - "**"
 
   workflow_dispatch:
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: "Manual run"
 
   schedule:
-    - cron: '31 0 * * 5'
+    - cron: "31 0 * * 5"
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    timeout-minutes: 45
     permissions:
       actions: read
       contents: read
       security-events: write
 
-    env:
-      CI: true
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-      DOTNET_CLI_TELEMETRY_OPTOUT: true
-
     strategy:
       fail-fast: false
       matrix:
-        language: ['csharp']
+        # actions: CodeQL's GitHub Actions queries (script injection,
+        # over-broad permissions, untrusted checkouts) over .github/workflows.
+        language: ["csharp", "actions"]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          global-json-file: Global.json
+          persist-credentials: false
 
+      # Skip a language that has nothing to analyze yet (C# autobuild fails
+      # with "Could not auto-detect a suitable build method").
+      - name: Detect sources
+        id: detect
+        env:
+          LANGUAGE: ${{ matrix.language }}
+        run: |
+          case "$LANGUAGE" in
+            csharp) patterns=('*.csproj') ;;
+            actions) patterns=('.github/workflows/*.yml' '.github/workflows/*.yaml') ;;
+          esac
+          if [ -n "$(git ls-files "${patterns[@]}")" ]; then
+            echo "has_code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_code=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No ${LANGUAGE} sources found — skipping CodeQL analysis."
+          fi
+
+      # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        if: steps.detect.outputs.has_code == 'true'
+        uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4.38.1
         with:
           languages: ${{ matrix.language }}
-
-      - name: Restore dependencies
-        run: dotnet restore IssueTracker.slnx
-
-      - name: Build solution
-        run: dotnet build IssueTracker.slnx --configuration Release --no-restore
+          # Buildless extraction: no .NET SDK setup or restore needed, and
+          # the actions language only supports none.
+          build-mode: none
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+        if: steps.detect.outputs.has_code == 'true'
+        uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4.38.1

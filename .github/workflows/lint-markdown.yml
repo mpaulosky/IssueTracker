@@ -1,13 +1,15 @@
+---
 name: Lint Markdown
-# Runs markdownlint-cli2 using the repo's .markdownlint.json config
+# Runs markdownlint-cli2 with the rules and ignores in .markdownlint-cli2.jsonc,
+# the same config the pre-commit and pre-push hooks use
 
-on:
+"on":
   push:
-    branches: ['**']
+    branches:
+      - "main"
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
-
+    branches:
+      - "main"
   workflow_dispatch:
 
 permissions:
@@ -18,42 +20,11 @@ jobs:
     name: markdownlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v7
+          persist-credentials: false
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
         with:
-          node-version: "20"
-
-      - name: Run markdownlint on changed Markdown files
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            git fetch origin "${{ github.base_ref }}" --depth=1
-            files=$(git diff --name-only "origin/${{ github.base_ref }}..HEAD" -- '*.md')
-          elif [[ "${{ github.event_name }}" == "push" ]]; then
-            # A new branch has no "before" commit, and a force-push leaves an unreachable one.
-            # Lint everything the branch changes since it left main, not just the tip commit.
-            # main itself has no base to compare against, so lint every tracked file there.
-            if ! git cat-file -e "${{ github.event.before }}^{commit}" 2>/dev/null; then
-              if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-                files=$(git ls-files '*.md')
-              else
-                files=$(git diff --name-only "origin/main...${{ github.sha }}" -- '*.md')
-              fi
-            else
-              files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.md')
-            fi
-          else
-            git fetch origin main --depth=1
-            files=$(git diff --name-only "origin/main..HEAD" -- '*.md')
-          fi
-
-          files=$(echo "$files" | grep -Ev '^(\.copilot/|\.github/agents/|\.github/skills/|\.github/copilot-instructions\.md$)' || true)
-
-          if [[ -z "$files" ]]; then
-            echo "No markdown files to lint."
-            exit 0
-          fi
-
-          echo "$files"
-          npx --yes markdownlint-cli2 --config .markdownlint.json $files
+          globs: "**/*.md"
