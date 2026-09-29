@@ -3,7 +3,6 @@ post_title: "ci: Adopt atelier-store's CI, release and lint setup"
 author1: mpaulosky
 post_slug: "v0.0.1-pr-140"
 microsoft_alias: n/a
-featured_image: ""
 categories:
   - engineering
 tags:

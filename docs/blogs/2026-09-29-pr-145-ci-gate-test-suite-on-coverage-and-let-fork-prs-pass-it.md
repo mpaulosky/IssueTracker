@@ -3,7 +3,6 @@ post_title: "ci: Gate Test Suite on coverage and let fork PRs pass it"
 author1: mpaulosky
 post_slug: "v0.0.2-pr-145"
 microsoft_alias: n/a
-featured_image: ""
 categories:
   - engineering
 tags:

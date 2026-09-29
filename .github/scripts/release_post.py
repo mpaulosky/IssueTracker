@@ -463,7 +463,6 @@ def render_post(pr, title_line, tag, merged_date, commits, files, summary, model
             "author1: mpaulosky",
             f'post_slug: "{tag.lower()}-pr-{number}"',
             "microsoft_alias: n/a",
-            'featured_image: ""',
             "categories:",
             "  - engineering",
             "tags:",

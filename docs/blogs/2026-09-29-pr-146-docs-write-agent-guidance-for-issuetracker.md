@@ -3,7 +3,6 @@ post_title: "docs: Write agent guidance for IssueTracker"
 author1: mpaulosky
 post_slug: "v0.0.3-pr-146"
 microsoft_alias: n/a
-featured_image: ""
 categories:
   - engineering
 tags:

@@ -3,7 +3,6 @@ post_title: "docs: Add a CONTEXT.md glossary of the domain language"
 author1: mpaulosky
 post_slug: "v0.0.5-pr-153"
 microsoft_alias: n/a
-featured_image: ""
 categories:
   - engineering
 tags:
