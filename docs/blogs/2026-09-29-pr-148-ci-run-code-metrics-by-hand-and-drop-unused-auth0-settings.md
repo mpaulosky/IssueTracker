@@ -3,7 +3,6 @@ post_title: "ci: Run code metrics by hand and drop unused Auth0 settings"
 author1: mpaulosky
 post_slug: "v0.0.4-pr-148"
 microsoft_alias: n/a
-featured_image: ""
 categories:
   - engineering
 tags:

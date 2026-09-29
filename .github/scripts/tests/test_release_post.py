@@ -678,12 +678,13 @@ def test_no_key_writes_post_without_summary(tmp_path, capsys):
         "author1: mpaulosky",
         'post_slug: "v0.0.3-pr-42"',
         "microsoft_alias: n/a",
-        'featured_image: ""',
         "  - release:v0.0.3",
         'summary: "Release notes seed for v0.0.3 from PR #42."',
         'post_date: "2026-09-24"',
     ]:
         assert line in post
+    # Nothing renders a featured image, so the post doesn't carry one.
+    assert "featured_image" not in post
     assert post.index("## PR description") < post.index("## Commits") < post.index("## Files changed")
     assert "Adds a theme." in post
 
