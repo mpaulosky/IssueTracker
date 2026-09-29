@@ -31,8 +31,15 @@ jobs:
             git fetch origin "${{ github.base_ref }}" --depth=1
             files=$(git diff --name-only "origin/${{ github.base_ref }}..HEAD" -- '*.md')
           elif [[ "${{ github.event_name }}" == "push" ]]; then
-            if [[ "${{ github.event.before }}" == "0000000000000000000000000000000000000000" ]]; then
-              files=$(git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" -- '*.md')
+            # A new branch has no "before" commit, and a force-push leaves an unreachable one.
+            # Lint everything the branch changes since it left main, not just the tip commit.
+            # main itself has no base to compare against, so lint every tracked file there.
+            if ! git cat-file -e "${{ github.event.before }}^{commit}" 2>/dev/null; then
+              if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+                files=$(git ls-files '*.md')
+              else
+                files=$(git diff --name-only "origin/main...${{ github.sha }}" -- '*.md')
+              fi
             else
               files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- '*.md')
             fi
