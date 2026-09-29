@@ -358,4 +358,83 @@ public class CommentServiceTests
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
+	[Fact(DisplayName = "Create Comment Clears The Comment Cache")]
+	public async Task CreateComment_With_Valid_Comment_Should_Remove_Cached_Comments_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel comment = FakeComment.GetNewComment(true);
+
+		// Act
+		await sut.CreateComment(comment);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("CommentData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Update Comment Clears The Comment Cache")]
+	public async Task UpdateComment_With_Valid_Comment_Should_Remove_Cached_Comments_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel comment = FakeComment.GetNewComment(true);
+
+		// Act
+		await sut.UpdateComment(comment);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("CommentData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Comment Clears The Comment Cache")]
+	public async Task ArchiveComment_With_Valid_Comment_Should_Remove_Cached_Comments_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel comment = FakeComment.GetNewComment(true);
+
+		// Act
+		await sut.ArchiveComment(comment);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("CommentData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "UpVote Comment Clears The Comment Cache")]
+	public async Task UpVoteComment_With_Valid_Ids_Should_Remove_Cached_Comments_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel comment = FakeComment.GetNewComment(true);
+
+		// Act
+		await sut.UpVoteComment(comment.Id, "voter-id");
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("CommentData"), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Comment Evicts After The Write")]
+	public async Task ArchiveComment_With_Valid_Comment_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		CommentService sut = UnitUnderTest();
+		CommentModel item = FakeComment.GetNewComment(true);
+		List<string> calls = [];
+
+		_commentRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<CommentModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveComment(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict");
+	}
 }

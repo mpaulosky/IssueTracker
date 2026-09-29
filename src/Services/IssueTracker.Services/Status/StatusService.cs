@@ -22,13 +22,13 @@ public class StatusService(IStatusRepository repository, IMemoryCache cache) : I
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task ArchiveStatus(StatusModel status)
+	public async Task ArchiveStatus(StatusModel status)
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		cache.Remove(CacheName);
+		await repository.ArchiveAsync(status);
 
-		return repository.ArchiveAsync(status);
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -37,11 +37,13 @@ public class StatusService(IStatusRepository repository, IMemoryCache cache) : I
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task CreateStatus(StatusModel status)
+	public async Task CreateStatus(StatusModel status)
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return repository.CreateAsync(status);
+		await repository.CreateAsync(status);
+
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -88,11 +90,13 @@ public class StatusService(IStatusRepository repository, IMemoryCache cache) : I
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task UpdateStatus(StatusModel status)
+	public async Task UpdateStatus(StatusModel status)
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return repository.UpdateAsync(status.Id, status);
+		await repository.UpdateAsync(status.Id, status);
+
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -101,10 +105,12 @@ public class StatusService(IStatusRepository repository, IMemoryCache cache) : I
 	/// <param name="status">StatusModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task DeleteStatus(StatusModel status)
+	public async Task DeleteStatus(StatusModel status)
 	{
 		ArgumentNullException.ThrowIfNull(status);
 
-		return repository.ArchiveAsync(status);
+		await repository.ArchiveAsync(status);
+
+		cache.Remove(CacheName);
 	}
 }

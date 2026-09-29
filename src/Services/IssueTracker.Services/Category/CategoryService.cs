@@ -22,13 +22,13 @@ public class CategoryService(ICategoryRepository repository, IMemoryCache cache)
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task CreateCategory(CategoryModel category)
+	public async Task CreateCategory(CategoryModel category)
 	{
 		ArgumentNullException.ThrowIfNull(category);
 
-		cache.Remove(CacheName);
+		await repository.CreateAsync(category);
 
-		return repository.CreateAsync(category);
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -37,13 +37,13 @@ public class CategoryService(ICategoryRepository repository, IMemoryCache cache)
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task ArchiveCategory(CategoryModel category)
+	public async Task ArchiveCategory(CategoryModel category)
 	{
 		ArgumentNullException.ThrowIfNull(category);
 
-		cache.Remove(CacheName);
+		await repository.ArchiveAsync(category);
 
-		return repository.ArchiveAsync(category);
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -89,12 +89,12 @@ public class CategoryService(ICategoryRepository repository, IMemoryCache cache)
 	/// <param name="category">CategoryModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task UpdateCategory(CategoryModel category)
+	public async Task UpdateCategory(CategoryModel category)
 	{
 		ArgumentNullException.ThrowIfNull(category);
 
-		cache.Remove(CacheName);
+		await repository.UpdateAsync(category.Id, category);
 
-		return repository.UpdateAsync(category.Id, category);
+		cache.Remove(CacheName);
 	}
 }

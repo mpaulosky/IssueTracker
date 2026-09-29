@@ -22,13 +22,13 @@ public class CommentService(ICommentRepository repository, IMemoryCache cache) :
 	/// <param name="comment">CommentModel</param>
 	/// <returns>Task</returns>
 	/// <exception cref="ArgumentNullException"></exception>
-	public Task ArchiveComment(CommentModel comment)
+	public async Task ArchiveComment(CommentModel comment)
 	{
 		ArgumentNullException.ThrowIfNull(comment);
 
-		cache.Remove(CacheName);
+		await repository.ArchiveAsync(comment);
 
-		return repository.ArchiveAsync(comment);
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>
@@ -41,6 +41,8 @@ public class CommentService(ICommentRepository repository, IMemoryCache cache) :
 		ArgumentNullException.ThrowIfNull(comment);
 
 		await repository.CreateAsync(comment);
+
+		cache.Remove(CacheName);
 	}
 
 	/// <summary>

@@ -487,4 +487,72 @@ public class IssueServiceTests
 	}
 
 	private delegate void OutDelegate<in TIn, TOut>(TIn input, out TOut output);
+
+	[Fact(DisplayName = "Create Issue Clears The Issue Caches")]
+	public async Task CreateIssue_With_Valid_Issue_Should_Remove_Cached_Issues_And_Authors_Issues_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+
+		// Act
+		await sut.CreateIssue(issue);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("IssueData"), Times.Once);
+		_memoryCacheMock.Verify(x => x.Remove(issue.Author.Id), Times.Once);
+	}
+
+	[Fact(DisplayName = "Update Issue Clears The Issue Caches")]
+	public async Task UpdateIssue_With_Valid_Issue_Should_Remove_Cached_Issues_And_Authors_Issues_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+
+		// Act
+		await sut.UpdateIssue(issue);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("IssueData"), Times.Once);
+		_memoryCacheMock.Verify(x => x.Remove(issue.Author.Id), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Issue Clears The Issue Caches")]
+	public async Task ArchiveIssue_With_Valid_Issue_Should_Remove_Cached_Issues_And_Authors_Issues_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel issue = FakeIssue.GetNewIssue(true);
+
+		// Act
+		await sut.ArchiveIssue(issue);
+
+		// Assert
+		_memoryCacheMock.Verify(x => x.Remove("IssueData"), Times.Once);
+		_memoryCacheMock.Verify(x => x.Remove(issue.Author.Id), Times.Once);
+	}
+
+	[Fact(DisplayName = "Archive Issue Evicts After The Write")]
+	public async Task ArchiveIssue_With_Valid_Issue_Should_Evict_After_The_Write_Test()
+	{
+		// Arrange
+		IssueService sut = UnitUnderTest();
+		IssueModel item = FakeIssue.GetNewIssue(true);
+		List<string> calls = [];
+
+		_issueRepositoryMock
+			.Setup(x => x.ArchiveAsync(It.IsAny<IssueModel>()))
+			.Callback(() => calls.Add("write"))
+			.Returns(Task.CompletedTask);
+		_memoryCacheMock
+			.Setup(x => x.Remove(It.IsAny<object>()))
+			.Callback(() => calls.Add("evict"));
+
+		// Act
+		await sut.ArchiveIssue(item);
+
+		// Assert
+		calls.Should().Equal("write", "evict", "evict");
+	}
 }

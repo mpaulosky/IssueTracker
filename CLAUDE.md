@@ -27,8 +27,8 @@ nothing references AppHost, and ServiceDefaults has no cycles. The rest of the l
   components never touch MongoDB or a repository.
 - Services depend on the repository interfaces in `PlugInRepositoryInterfaces/`; `IssueTracker.PlugIns` implements them.
   Services cache reads in `IMemoryCache` (one minute for issues and comments, a day for categories and statuses).
-  New write paths must remove every cache entry they affect. Several existing ones don't yet, so reads can be stale
-  until the entry expires; #149 tracks fixing them. Redis backs the distributed cache that
+  Every write path removes each cache entry it affects, including `IssueService`'s per-Author list, which is keyed by
+  the Author's Id; keep it that way in new ones. Redis backs the distributed cache that
   `ServiceDefaults` registers (`CacheService`).
 - Authentication is Azure AD B2C through Microsoft.Identity.Web (`AzureAdB2C` configuration section), wired up in
   `Extensions/AuthenticationService.cs`.
