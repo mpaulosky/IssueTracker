@@ -12,6 +12,13 @@ name: ".NET code metrics"
         description: "The reason for running the workflow"
         required: true
         default: "Manual run"
+      # Off by default: the reports undercount primary-constructor classes, so
+      # a run only shows them in the log unless publishing is asked for.
+      publish:
+        description: "Open a pull request with the updated CODE_METRICS.md"
+        required: false
+        type: boolean
+        default: false
 
 # Read-only on purpose: the job runs a third-party action and needs no write
 # access itself. The main-only PR step below pushes and opens the PR with
@@ -50,11 +57,11 @@ jobs:
           branch: ${{ github.ref }}
           dir: ${{ './' }}
 
-      # Only open a metrics PR from main: a manual run from another branch must
-      # not publish metrics.
+      # Only open a metrics PR when asked to, and only from main: a run from
+      # another branch must not publish metrics.
       - name: Create pull request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        if: ${{ github.ref == 'refs/heads/main' && steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && env.HAS_RELEASE_PR_PAT == 'true' }}
+        if: ${{ inputs.publish && github.ref == 'refs/heads/main' && steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && env.HAS_RELEASE_PR_PAT == 'true' }}
         with:
           # [skip-release]: a metrics refresh isn't a release.
           title: "${{ steps.dotnet-code-metrics.outputs.summary-title }} [skip-release]"
@@ -67,5 +74,5 @@ jobs:
           token: ${{ secrets.RELEASE_PR_PAT }}
 
       - name: Report skipped metrics pull request
-        if: ${{ github.ref == 'refs/heads/main' && steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && env.HAS_RELEASE_PR_PAT != 'true' }}
+        if: ${{ inputs.publish && github.ref == 'refs/heads/main' && steps.dotnet-code-metrics.outputs.updated-metrics == 'true' && env.HAS_RELEASE_PR_PAT != 'true' }}
         run: echo "::notice::RELEASE_PR_PAT is not set, so the updated CODE_METRICS.md wasn't opened as a pull request."
