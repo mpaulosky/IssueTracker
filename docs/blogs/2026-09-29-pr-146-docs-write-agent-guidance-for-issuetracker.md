@@ -49,7 +49,7 @@ markdownlint now covers `.github/` too; the temporary ignores from #140 are gone
 While writing this I checked each claim against the code, and corrected these:
 - Services cache in `IMemoryCache`, not Redis.
 - `Architecture.Tests` only enforces part of the layering; the rest is convention.
-- The UI project references PlugIns, but only for DI registration.
+- The UI project references PlugIns for two things: DI registration in `Extensions/`, and the MongoDB health probe in `Helpers/MongoHealthCheck.cs`.
 
 ### Validation
 
