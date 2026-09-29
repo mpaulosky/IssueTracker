@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-29 | [docs: Add a CONTEXT.md glossary of the domain language](2026-09-29-pr-153-docs-add-a-context-md-glossary-of-the-domain-language.md) | release,automation |
 | 2026-09-29 | [ci: Run code metrics by hand and drop unused Auth0 settings](2026-09-29-pr-148-ci-run-code-metrics-by-hand-and-drop-unused-auth0-settings.md) | release,automation |
 | 2026-09-29 | [docs: Write agent guidance for IssueTracker](2026-09-29-pr-146-docs-write-agent-guidance-for-issuetracker.md) | release,automation |
 | 2026-09-29 | [ci: Gate Test Suite on coverage and let fork PRs pass it](2026-09-29-pr-145-ci-gate-test-suite-on-coverage-and-let-fork-prs-pass-it.md) | release,automation |
