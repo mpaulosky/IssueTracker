@@ -26,9 +26,10 @@ Read the sections that govern the changed code before commenting on it:
 or a MongoDB type, and a service that depends on a concrete repository instead of an interface from
 `PlugInRepositoryInterfaces/`. `Architecture.Tests` only covers part of this, so the review is the check.
 
-**Data access and caching.** Repositories in `IssueTracker.PlugIns/DataAccess` own every MongoDB query. A service that
-caches reads in `IMemoryCache` must remove the cached entry on every write path, or pages show stale data. Flag a new
-query that loads a whole collection where a filter would do.
+**Data access and caching.** Repositories in `IssueTracker.PlugIns/DataAccess` own every application-data query; the
+one other MongoDB call is the ping in `Helpers/MongoHealthCheck.cs`. A write path added or changed in a service must
+remove every `IMemoryCache` entry it affects, including per-user keys such as `GetIssuesByUser`'s; several existing
+write paths don't yet (#149). Flag a new query that loads a whole collection where a filter would do.
 
 **Models.** A change to a CoreBusiness model (`IssueModel`, `CommentModel`, ...) changes stored documents. Check that the
 matching `Basic*Model`, the Bogus fakes in `BogusFakes/`, and the repositories that project it still agree.
@@ -49,7 +50,8 @@ and when it goes away, and a `Version` on a `PackageReference` (Central Package 
 enforces this and the other rules in `.markdownlint-cli2.jsonc`, except in the paths it ignores, such as the generated
 posts in `docs/blogs/`.
 
-**Workflows and hooks.** Actions are pinned to a commit SHA with the version in a comment. Steps that publish anything
+**Workflows and hooks.** Actions are pinned immutably: a commit SHA with the version in a comment, a Docker image
+digest, or, for an action with no releases, a commit SHA with its source ref and date. Steps that publish anything
 (open a PR, push, tag, release) run only for `main`: a `github.ref == 'refs/heads/main'` check, or a merged-into-`main`
 condition as in `release.yml`. Pull request runs check out a detached merge commit, and fork PRs get a read-only token.
 `Build Solution` and `Test Suite` in `ci.yml` are required status checks on `main`, so they must run on every pull request.

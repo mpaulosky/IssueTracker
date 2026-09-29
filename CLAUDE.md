@@ -26,8 +26,9 @@ nothing references AppHost, and ServiceDefaults has no cycles. The rest of the l
   registers the repositories, and `Helpers/MongoHealthCheck.cs` pings MongoDB for the health endpoint. Pages and
   components never touch MongoDB or a repository.
 - Services depend on the repository interfaces in `PlugInRepositoryInterfaces/`; `IssueTracker.PlugIns` implements them.
-  Services cache reads in `IMemoryCache`. Every write must remove the cached entry, or pages show stale data for up to
-  a day; `StatusService`'s create, update and delete don't yet. Redis backs the distributed cache that
+  Services cache reads in `IMemoryCache` (one minute for issues and comments, a day for categories and statuses).
+  New write paths must remove every cache entry they affect. Several existing ones don't yet, so reads can be stale
+  until the entry expires; #149 tracks fixing them. Redis backs the distributed cache that
   `ServiceDefaults` registers (`CacheService`).
 - Authentication is Azure AD B2C through Microsoft.Identity.Web (`AzureAdB2C` configuration section), wired up in
   `Extensions/AuthenticationService.cs`.
