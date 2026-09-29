@@ -22,10 +22,12 @@ nothing references AppHost, and ServiceDefaults has no cycles. The rest of the l
 
 ## How the pieces fit
 
-- The UI calls services only. It references `IssueTracker.PlugIns` solely so `Extensions/` (the composition root) can
-  register the repositories; pages and components never touch MongoDB or a repository.
+- The UI calls services only. It references `IssueTracker.PlugIns` for two things: `Extensions/` (the composition root)
+  registers the repositories, and `Helpers/MongoHealthCheck.cs` pings MongoDB for the health endpoint. Pages and
+  components never touch MongoDB or a repository.
 - Services depend on the repository interfaces in `PlugInRepositoryInterfaces/`; `IssueTracker.PlugIns` implements them.
-  Services cache reads in `IMemoryCache` and remove the cached entry on writes. Redis backs the distributed cache that
+  Services cache reads in `IMemoryCache`. Every write must remove the cached entry, or pages show stale data for up to
+  a day; `StatusService`'s create, update and delete don't yet. Redis backs the distributed cache that
   `ServiceDefaults` registers (`CacheService`).
 - Authentication is Azure AD B2C through Microsoft.Identity.Web (`AzureAdB2C` configuration section), wired up in
   `Extensions/AuthenticationService.cs`.
@@ -74,5 +76,6 @@ first. Every `.cs` file starts with the repository's copyright header block, and
 - Commit messages follow `.github/instructions/git-commit-instructions.md`.
 - `Build Solution` and `Test Suite` are required checks. `pr-automerge.yml` squash-merges a PR once they pass, Copilot has
   reviewed it and every thread is resolved; open a draft PR to hold one back.
-- Each merged PR gets a release (patch by default; label `semver:minor` or `semver:major` to bump more) and a follow-up
-  `[skip-release]` PR with its blog post under `docs/blogs/`.
+- Each PR merged to `main` gets a release (patch by default; label `semver:minor` or `semver:major` to bump more) and
+  a follow-up PR with its blog post under `docs/blogs/`. PRs with `[skip-release]` in the title, such as those blog
+  PRs and metrics refreshes, don't release.

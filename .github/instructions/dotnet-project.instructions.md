@@ -41,8 +41,9 @@ applyTo: "**"
   saying why and when it goes away.
 - **No empty catch blocks.** At minimum, log and rethrow.
 - **No `Thread.Sleep`** in production code.
-- **Layering:** CoreBusiness references no other project. In the UI, only `Extensions/` (the composition root) uses
-  `IssueTracker.PlugIns`; pages and components go through services. `Architecture.Tests` only checks part of this.
+- **Layering:** CoreBusiness references no other project. In the UI, only `Extensions/` (the composition root) and
+  `Helpers/MongoHealthCheck.cs` (the MongoDB health probe) use `IssueTracker.PlugIns`; pages and components go through
+  services. `Architecture.Tests` only checks part of this.
 
 ## Before handing off
 

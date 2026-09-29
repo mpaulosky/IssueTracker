@@ -21,7 +21,9 @@ IssueTracker's UI is a Blazor Server app (`src/UI/IssueTracker.UI`) on .NET 10 a
 
 - `Pages/_Host.cshtml` hosts the app and `MapBlazorHub` serves it, so every component is interactive over the SignalR circuit.
 - Load data in `OnInitializedAsync` or `OnParametersSetAsync`, not in constructors.
-- Call JavaScript interop only from `OnAfterRenderAsync`. Guard one-time setup with `if (firstRender)`.
+- Don't call JavaScript interop during initialization or prerendering: do first-load interop in `OnAfterRenderAsync`,
+  guarding one-time setup with `if (firstRender)`. Event handlers can call it freely, as `Index.razor.cs` does when it
+  saves the filters to session storage.
 - Implement `IDisposable` or `IAsyncDisposable` to release event subscriptions, timers, and `CancellationTokenSource`s.
 
 ## Data

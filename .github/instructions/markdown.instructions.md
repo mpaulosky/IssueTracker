@@ -26,5 +26,5 @@ Its `ignores` list skips build output and the release blog posts in `docs/blogs/
   Prefer one sentence or clause per line in long paragraphs.
 
 Blog posts under `docs/blogs/` have extra front-matter rules in `blog.instructions.md`.
-The Jekyll pages under `docs/` may carry front matter for the site; other Markdown files have none, apart from the
-`applyTo` header that instruction files need.
+The Jekyll pages under `docs/` may carry front matter for the site, instruction files need their `applyTo` header,
+and skill files need their `name` and `description`. Other Markdown files have no front matter.
