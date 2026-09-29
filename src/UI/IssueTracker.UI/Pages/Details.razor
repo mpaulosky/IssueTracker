@@ -3,6 +3,7 @@
 @attribute [Authorize]
 
 @inject AuthenticationStateProvider AuthProvider
+@inject IAuthorizationService AuthorizationService
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
 @inject IUserService UserService
@@ -12,6 +13,12 @@
 <PageTitle>Details Page</PageTitle>
 
 <h1 class="page-heading text-light text-uppercase mb-4">Issue Details</h1>
+
+@if (_notFound)
+{
+	<div id="issue-not-found" class="main">Sorry, there's nothing at this address.</div>
+	return;
+}
 
 <div class="issue-container">
 	<button id="create-comment" @onclick="() => OpenCommentForm(_issue!)"

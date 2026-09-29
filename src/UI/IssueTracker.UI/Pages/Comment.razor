@@ -3,12 +3,20 @@
 @attribute [Authorize]
 
 @inject AuthenticationStateProvider AuthProvider
+@inject IAuthorizationService AuthorizationService
 @inject NavigationManager NavManager
 @inject IIssueService IssueService
 @inject ICommentService CommentService
 @inject IUserService UserService
 
 <h1 class="page-heading text-light text-uppercase mb-4">Comment on an Issue</h1>
+
+@if (_notFound)
+{
+	<div id="issue-not-found" class="main">Sorry, there's nothing at this address.</div>
+	return;
+}
+
 <div class="issue-container">
 	<button id="create-comment" @onclick="() => OpenCommentForm(_issue!)"
 					class="suggest-btn btn btn-outline-light btn-lg text-uppercase">

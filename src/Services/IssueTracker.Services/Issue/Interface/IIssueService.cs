@@ -31,15 +31,22 @@ public interface IIssueService
 	Task CreateIssue(IssueModel issue);
 
 	/// <summary>
-	/// Retrieves a specific issue by its unique identifier.
+	/// Retrieves a specific issue by its unique identifier, if the viewer may see it.
 	/// </summary>
+	/// <remarks>
+	/// Every User may see an approved Issue. A Pending or Rejected Issue is visible only to its Author and to Admins;
+	/// anyone else gets <see langword="null"/>, the same as for an Issue that doesn't exist.
+	/// </remarks>
 	/// <param name="issueId">The unique identifier of the issue.</param>
+	/// <param name="viewerId">The Id of the User asking for the issue.</param>
+	/// <param name="viewerIsAdmin">Whether that User is an Admin.</param>
 	/// <returns>
 	/// A task that represents the asynchronous operation.
-	/// The task result contains the requested <see cref="IssueModel"/>.
+	/// The task result contains the requested <see cref="IssueModel"/>, or <see langword="null"/> when it doesn't exist
+	/// or the viewer may not see it.
 	/// </returns>
 	/// <exception cref="ArgumentException">Thrown when <paramref name="issueId"/> is null or empty.</exception>
-	Task<IssueModel> GetIssue(string? issueId);
+	Task<IssueModel?> GetIssue(string? issueId, string? viewerId, bool viewerIsAdmin);
 
 	/// <summary>
 	/// Retrieves all issues from the system with caching support.

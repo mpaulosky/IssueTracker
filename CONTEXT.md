@@ -35,7 +35,7 @@ taken on; that says nothing about whether any Comment is its Answer.
 _Avoid_: State, stage, resolution, "Answered" (for the Accepted Status)
 
 **Pending Issue**:
-An Issue no Admin has approved or rejected yet. It appears only in its Author's and the Admins' lists.
+An Issue no Admin has approved or rejected yet. Only its Author and the Admins can see it.
 _Avoid_: Draft, unapproved, waiting
 
 **Approval**:
