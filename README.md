@@ -73,3 +73,24 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🔒 Security
 
 For security concerns, please review our [Security Policy](docs/SECURITY.md).
+
+## Releases
+
+<!-- RELEASES_START -->
+
+| Version | Date | Title | Blog post |
+| ------- | ---- | ----- | --------- |
+| [v0.0.1](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1) | 2026-09-29 | ci: Adopt atelier-store's CI, release and lint setup | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-140-ci-adopt-atelier-store-s-ci-release-and-lint-setup.md) |
+| [v0.0.1-1170](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1170) | 2026-09-29 | v0.0.1-1170 | — |
+| [v0.0.1-1169](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1169) | 2026-09-29 | v0.0.1-1169 | — |
+| [v0.0.1-1168](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1168) | 2026-09-29 | v0.0.1-1168 | — |
+| [v0.0.1-1167](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1167) | 2026-09-29 | v0.0.1-1167 | — |
+| [v0.0.1-1166](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1166) | 2026-09-29 | v0.0.1-1166 | — |
+| [v0.0.1-1165](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1165) | 2026-09-29 | v0.0.1-1165 | — |
+| [v0.0.1-1164](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1164) | 2026-09-29 | v0.0.1-1164 | — |
+| [v0.0.1-1163](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1163) | 2026-09-28 | v0.0.1-1163 | — |
+| [v0.0.1-1162](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1162) | 2026-09-28 | v0.0.1-1162 | — |
+
+<!-- RELEASES_END -->
+
+[All releases →](https://github.com/mpaulosky/IssueTracker/releases)
