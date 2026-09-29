@@ -103,4 +103,4 @@ If you need help or have questions:
 
 ---
 
-*Last updated: February 2026*
+Last updated: February 2026

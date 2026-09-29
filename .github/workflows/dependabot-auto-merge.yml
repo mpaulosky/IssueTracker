@@ -1,7 +1,10 @@
 ---
+# yamllint disable rule:line-length
 name: Dependabot Auto-Merge
 
-'on':
+# pull_request_target (flagged by zizmor) is safe here: the job never checks
+# out PR code, it only calls the API to enable auto-merge on Dependabot's PRs.
+"on":  # zizmor: ignore[dangerous-triggers]
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review]
     branches: [main]
@@ -20,7 +23,7 @@ jobs:
       github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v9
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             const pullRequestId = context.payload.pull_request.node_id;
@@ -28,12 +31,7 @@ jobs:
             try {
               await github.graphql(
                 `mutation EnableAutoMerge($pullRequestId: ID!) {
-                   enablePullRequestAutoMerge(
-                     input: {
-                       pullRequestId: $pullRequestId,
-                       mergeMethod: SQUASH
-                     }
-                   ) {
+                   enablePullRequestAutoMerge(input: { pullRequestId: $pullRequestId, mergeMethod: SQUASH }) {
                      pullRequest { number }
                    }
                  }`,
@@ -43,9 +41,7 @@ jobs:
             } catch (error) {
               const message = error.message ?? String(error);
               if (message.includes("already enabled")) {
-                core.info(
-                  `Auto-merge already enabled for PR #${pullNumber}.`
-                );
+                core.info(`Auto-merge already enabled for PR #${pullNumber}.`);
                 return;
               }
               throw error;

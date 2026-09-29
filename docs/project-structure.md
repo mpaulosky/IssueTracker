@@ -258,7 +258,7 @@ docs/
 IssueTracker/
 ├── IssueTracker.slnx           # Solution file
 ├── Directory.Packages.props    # Central package management
-├── Global.json                 # .NET SDK version
+├── global.json                 # .NET SDK version
 ├── docker-compose.yml          # Docker orchestration
 ├── dotnet.config              # NuGet configuration
 ├── codecov.yml                # Code coverage config

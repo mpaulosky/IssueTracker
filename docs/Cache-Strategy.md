@@ -1,12 +1,12 @@
-## Cache Strategy & Implementation
+# Cache Strategy & Implementation
 
-### Overview
+## Overview
 
 Issue Tracker implements a three-tier caching strategy using **Redis** as the distributed cache
 backend. Caching improves application performance by storing frequently accessed data, reducing
 database load and latency.
 
-### What Is Cached and Why
+## What Is Cached and Why
 
 Caching is applied to operations where:
 
@@ -22,9 +22,9 @@ Caching is applied to operations where:
 - Frequently-changing metrics (real-time dashboards)
 - Transient error states
 
-### Three-Tier Caching Strategy
+## Three-Tier Caching Strategy
 
-#### Tier 1: Query Results (5-Minute TTL)
+### Tier 1: Query Results (5-Minute TTL)
 
 Stores the results of expensive database queries.
 
@@ -52,7 +52,7 @@ return issues;
 
 **Invalidation**: When issues are created, updated, or deleted
 
-#### Tier 2: Output (10-Minute TTL)
+### Tier 2: Output (10-Minute TTL)
 
 Stores rendered or processed output, such as formatted reports or aggregated data.
 
@@ -80,7 +80,7 @@ return report;
 
 **Invalidation**: When underlying data changes or on schedule
 
-#### Tier 3: Session (1-Hour TTL)
+### Tier 3: Session (1-Hour TTL)
 
 Stores user-specific state and preferences.
 
@@ -106,9 +106,9 @@ return prefs;
 
 **Invalidation**: When user updates preferences or session expires
 
-### Using ICacheService
+## Using ICacheService
 
-#### Injection
+### Injection
 
 Register `ICacheService` in your service class via constructor injection:
 
@@ -131,7 +131,7 @@ public class IssueService
 }
 ```text
 
-#### Core Operations
+### Core Operations
 
 **Get from Cache**:
 
@@ -174,7 +174,7 @@ await _cacheService.SetAsync(
 await _cacheService.RemoveAsync("issue:123");
 ```text
 
-### Cache Key Naming Convention
+## Cache Key Naming Convention
 
 Use hierarchical, dot-separated keys for clarity and organization.
 
@@ -200,9 +200,9 @@ session:user:john-doe:recent-search  # Recent searches
 - Clear pattern for debugging
 - Simplifies bulk invalidation (use prefix matching)
 
-### Cache Invalidation Patterns
+## Cache Invalidation Patterns
 
-#### Pattern 1: Immediate Invalidation (On Write)
+### Pattern 1: Immediate Invalidation (On Write)
 
 Invalidate cache immediately when data changes.
 
@@ -224,7 +224,7 @@ public async Task UpdateIssueAsync(string id, UpdateIssueRequest request)
 
 **Cons**: Cache may become empty frequently, reducing hit rates
 
-#### Pattern 2: Time-Based Expiration (TTL)
+### Pattern 2: Time-Based Expiration (TTL)
 
 Let cache expire naturally after TTL.
 
@@ -241,7 +241,7 @@ await _cacheService.SetAsync(
 
 **Cons**: Stale data for up to TTL duration
 
-#### Pattern 3: Lazy Invalidation
+### Pattern 3: Lazy Invalidation
 
 Combine both: invalidate on critical updates, let others expire naturally.
 
@@ -276,7 +276,7 @@ public async Task GetIssuesAsync()
 
 **Cons**: Requires careful key management
 
-#### Pattern 4: Event-Driven Invalidation
+### Pattern 4: Event-Driven Invalidation
 
 Publish events when data changes; subscribe to invalidate caches.
 
@@ -304,7 +304,7 @@ public class CacheInvalidationHandler : INotificationHandler<IssueUpdatedEvent>
 
 **Cons**: Requires event infrastructure (MediatR, etc.)
 
-### When NOT to Cache
+## When NOT to Cache
 
 **Security Data**:
 
@@ -326,7 +326,7 @@ public class CacheInvalidationHandler : INotificationHandler<IssueUpdatedEvent>
 
 - Financial transactions, critical operations
 
-### Monitoring Cache Performance
+## Monitoring Cache Performance
 
 Monitor cache hit/miss rates to optimize TTLs:
 
@@ -344,7 +344,7 @@ Check logs for patterns:
 - Low hit rate = TTL too short or keys not reused
 - Stale data complaints = TTL too long
 
-### Cache Serialization
+## Cache Serialization
 
 `ICacheService` uses `System.Text.Json` for serialization. Ensure cached objects are JSON-serializable:
 
@@ -368,7 +368,7 @@ public class Issue
 await _cache.SetAsync("issue:1", issue, TimeSpan.FromMinutes(5));
 ```text
 
-### Error Handling
+## Error Handling
 
 `ICacheService` logs serialization errors and removes corrupted entries:
 

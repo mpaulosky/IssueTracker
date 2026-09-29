@@ -1,6 +1,6 @@
-## Running Aspire Locally - Quick Start
+# Running Aspire Locally - Quick Start
 
-### Prerequisites
+## Prerequisites
 
 Before running Issue Tracker locally, ensure you have:
 
@@ -10,14 +10,14 @@ Before running Issue Tracker locally, ensure you have:
 - **At least 4 GB RAM** available for Docker containers
 - **Open ports**: 5000, 5001, 6379, 27017, 18888
 
-### Step 1: Clone the Repository
+## Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/mpaulosky/IssueTracker.git
 cd IssueTracker
 ```text
 
-### Step 2: Verify Prerequisites
+## Step 2: Verify Prerequisites
 
 ```bash
 # Check .NET version
@@ -31,7 +31,7 @@ docker ps
 
 If Docker fails, start Docker Desktop and retry.
 
-### Step 3: Restore Dependencies
+## Step 3: Restore Dependencies
 
 ```bash
 dotnet restore
@@ -46,7 +46,7 @@ Determining projects to restore...
 Restore completed in 1.23 sec for E:\github\IssueTracker\IssueTracker.slnx
 ```text
 
-### Step 4: Start AppHost
+## Step 4: Start AppHost
 
 ```bash
 dotnet run --project src/AppHost/AppHost.csproj
@@ -71,9 +71,9 @@ This command starts:
 
 Do **not** close this terminal window while developing.
 
-### Step 5: Verify Services Are Running
+## Step 5: Verify Services Are Running
 
-#### Option A: Using Aspire Dashboard
+### Option A: Using Aspire Dashboard
 
 Open your browser and navigate to: `http://localhost:18888`
 
@@ -91,7 +91,7 @@ Open your browser and navigate to: `http://localhost:18888`
 - `redis` - Status: Healthy (or Degraded/Unhealthy if not ready)
 - `ui` - Status: Healthy (UI service running)
 
-#### Option B: Using Command Line
+### Option B: Using Command Line
 
 ```bash
 # Check containers are running
@@ -103,7 +103,7 @@ docker ps
 # - issuetracker-ui or ui
 ```text
 
-#### Option C: Check Health Endpoint
+### Option C: Check Health Endpoint
 
 ```bash
 # Using curl
@@ -131,21 +131,21 @@ Invoke-WebRequest http://localhost:5000/health | ConvertFrom-Json | ConvertTo-Js
 }
 ```text
 
-### Step 6: Access the Application
+## Step 6: Access the Application
 
-#### Web Application
+### Web Application
 
 - **HTTP**: `http://localhost:5000`
 - **HTTPS**: `https://localhost:5001`
 
 Both URLs serve the Blazor UI. Accept any SSL warnings in your browser (development certificate).
 
-#### Aspire Dashboard
+### Aspire Dashboard
 
 - **URL**: `http://localhost:18888`
 - **Features**: Real-time logs, traces, metrics for all services
 
-### Services Reference
+## Services Reference
 
 | Service | Port | URL | Purpose |
 |---------|------|-----|---------|
@@ -154,9 +154,9 @@ Both URLs serve the Blazor UI. Accept any SSL warnings in your browser (developm
 | Redis | 6379 | `redis://localhost:6379` | Distributed cache |
 | Aspire Dashboard | 18888 | `http://localhost:18888` | Monitoring & diagnostics |
 
-### Accessing Services During Development
+## Accessing Services During Development
 
-#### MongoDB Connection
+### MongoDB Connection
 
 From within the Blazor application, MongoDB is accessed via the connection string configured in
 AppHost:
@@ -182,7 +182,7 @@ mongosh --host localhost --port 27017 -u course -p whatever
 # Or from MongoDB Compass: mongodb://course:whatever@localhost:27017
 ```text
 
-#### Redis Connection
+### Redis Connection
 
 Redis is similarly injected into the UI service:
 
@@ -201,9 +201,9 @@ redis-cli -h localhost -p 6379 PING
 # Should return: PONG
 ```text
 
-### Stopping Services
+## Stopping Services
 
-#### Graceful Shutdown
+### Graceful Shutdown
 
 Press `Ctrl+C` in the terminal running AppHost:
 
@@ -224,7 +224,7 @@ This cleanly shuts down:
 
 All data is persisted to Docker volumes and restored on next startup.
 
-#### Force Shutdown
+### Force Shutdown
 
 If Ctrl+C does not work:
 
@@ -236,11 +236,11 @@ Get-Process -Name "dotnet" | Where-Object {$_.CommandLine -like "*AppHost*"} | S
 docker stop $(docker ps -q)
 ```text
 
-### Clearing Data for Fresh Start
+## Clearing Data for Fresh Start
 
 To reset all development data and start clean:
 
-#### Option 1: Just Clear Data Volumes
+### Option 1: Just Clear Data Volumes
 
 ```bash
 # Identify Docker volumes
@@ -253,7 +253,7 @@ docker volume rm issuetracker-mongodb_data issuetracker-redis_data
 dotnet run --project src/AppHost/AppHost.csproj
 ```text
 
-#### Option 2: Complete Docker Reset
+### Option 2: Complete Docker Reset
 
 ```bash
 # Stop all containers
@@ -271,9 +271,9 @@ dotnet run --project src/AppHost/AppHost.csproj
 
 **Warning**: This removes all development data. Use only for testing.
 
-### Common Issues
+## Common Issues
 
-#### Issue: "Aspire dashboard not accessible (Connection refused)"
+### Issue: "Aspire dashboard not accessible (Connection refused)"
 
 **Symptoms**: Cannot reach `http://localhost:18888`
 
@@ -285,7 +285,7 @@ dotnet run --project src/AppHost/AppHost.csproj
 
 3. Restart AppHost
 
-#### Issue: "MongoDB connection timeout"
+### Issue: "MongoDB connection timeout"
 
 **Symptoms**: Health check shows MongoDB unhealthy
 
@@ -302,7 +302,7 @@ docker restart <mongodb-container-id>
 dotnet run --project src/AppHost/AppHost.csproj
 ```text
 
-#### Issue: "Redis connection refused"
+### Issue: "Redis connection refused"
 
 **Symptoms**: Cache operations fail, `/health` shows Redis unhealthy
 
@@ -322,7 +322,7 @@ redis-cli -h localhost -p 6379 PING
 docker restart <redis-container-id>
 ```text
 
-#### Issue: "Port 5000 already in use"
+### Issue: "Port 5000 already in use"
 
 **Symptoms**: AppHost fails to start, error: `Address already in use`
 
@@ -339,7 +339,7 @@ Stop-Process -Id <PID> -Force
 # Or find and stop on port 6379 or 27017 if those are conflicting
 ```text
 
-### Performance Tips
+## Performance Tips
 
 1. **Allocate sufficient Docker resources** (Settings → Resources: 4 GB RAM, 2 CPUs minimum)
 
@@ -351,7 +351,7 @@ Stop-Process -Id <PID> -Force
 
 5. **Clear volumes periodically** to prevent disk clutter
 
-### Next Steps
+## Next Steps
 
 After AppHost is running:
 

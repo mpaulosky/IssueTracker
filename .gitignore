@@ -400,3 +400,8 @@ FodyWeavers.xsd
 build-output.txt
 build-log.txt
 test-output.txt
+
+# Local Claude Code settings and worktrees, and Python test caches
+.claude/settings.local.json
+.claude/worktrees/
+.pytest_cache/
