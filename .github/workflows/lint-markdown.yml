@@ -3,10 +3,10 @@ name: Lint Markdown
 
 on:
   push:
-    branches-ignore: [ main ]
+    branches: ['**']
   pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
 
   workflow_dispatch:
 
