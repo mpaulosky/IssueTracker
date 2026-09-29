@@ -8,7 +8,7 @@ answers, while Admins decide which Issues everyone gets to see.
 ### People
 
 **User**:
-A person who has signed in. Every Issue, Comment, vote and moderation action is attributed to one.
+A person who has signed in. Every Issue, Comment and Upvote belongs to one.
 _Avoid_: Account, member, customer
 
 **Author**:
@@ -35,7 +35,7 @@ taken on; that says nothing about whether any Comment is its Answer.
 _Avoid_: State, stage, resolution, "Answered" (for the Accepted Status)
 
 **Pending Issue**:
-An Issue no Admin has approved or rejected yet. Only its Author and the Admins see it.
+An Issue no Admin has approved or rejected yet. It appears only in its Author's and the Admins' lists.
 _Avoid_: Draft, unapproved, waiting
 
 **Approval**:
@@ -53,7 +53,8 @@ A User's reply on an Issue.
 _Avoid_: Reply, post, response
 
 **Upvote**:
-A User's endorsement of a Comment. Each User can upvote a Comment once and withdraw it.
+A User's endorsement of someone else's Comment. A User can upvote a Comment once and withdraw it; an Author can't
+upvote their own.
 _Avoid_: Like, vote, thumbs-up
 
 **Answer**:
