@@ -36,7 +36,7 @@ public class DetailsTests : BunitContext
 
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
-		_expectedIssue.ApprovedForRelease = true;
+		_expectedIssue.Approved = true;
 		_expectedIssue.Rejected = false;
 		_expectedStatuses = FakeStatus.GetStatuses().ToList();
 	}
@@ -99,7 +99,7 @@ public class DetailsTests : BunitContext
 	public void Details_With_Pending_Or_Rejected_Issue_And_Other_User_Should_Show_Not_Found_Test(bool rejected)
 	{
 		// Arrange
-		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Approved = false;
 		_expectedIssue.Rejected = rejected;
 		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
 
@@ -120,7 +120,7 @@ public class DetailsTests : BunitContext
 	public void Details_With_Pending_Issue_And_Admin_Should_Show_Issue_Test()
 	{
 		// Arrange
-		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Approved = false;
 		_expectedIssue.Rejected = false;
 		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
 

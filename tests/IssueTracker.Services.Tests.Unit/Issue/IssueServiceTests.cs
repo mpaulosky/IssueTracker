@@ -150,7 +150,7 @@ public class IssueServiceTests
 		// Arrange
 		IssueService sut = UnitUnderTest();
 		IssueModel issue = FakeIssue.GetNewIssue(true);
-		issue.ApprovedForRelease = approved;
+		issue.Approved = approved;
 		issue.Rejected = rejected;
 
 		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
@@ -173,7 +173,7 @@ public class IssueServiceTests
 		// Arrange
 		IssueService sut = UnitUnderTest();
 		IssueModel issue = FakeIssue.GetNewIssue(true);
-		issue.ApprovedForRelease = approved;
+		issue.Approved = approved;
 		issue.Rejected = rejected;
 		string viewerId = viewerIsAuthor ? issue.Author.Id : "another-user-id";
 
@@ -192,7 +192,7 @@ public class IssueServiceTests
 		// Arrange
 		IssueService sut = UnitUnderTest();
 		IssueModel issue = FakeIssue.GetNewIssue(true);
-		issue.ApprovedForRelease = true;
+		issue.Approved = true;
 		issue.Rejected = false;
 
 		_issueRepositoryMock.Setup(x => x.GetAsync(issue.Id)).ReturnsAsync(issue);
@@ -210,7 +210,7 @@ public class IssueServiceTests
 		// Arrange
 		IssueService sut = UnitUnderTest();
 		IssueModel issue = FakeIssue.GetNewIssue(true);
-		issue.ApprovedForRelease = false;
+		issue.Approved = false;
 		issue.Rejected = false;
 		issue.Author = new BasicUserModel();
 
@@ -398,7 +398,7 @@ public class IssueServiceTests
 
 		foreach (IssueModel? issue in expected)
 		{
-			issue.ApprovedForRelease = false;
+			issue.Approved = false;
 			issue.Archived = false;
 			issue.Rejected = false;
 		}
@@ -429,7 +429,7 @@ public class IssueServiceTests
 		List<IssueModel> expected = FakeIssue.GetIssues(expectedCount).ToList();
 		foreach (IssueModel? issue in expected)
 		{
-			issue.ApprovedForRelease = true;
+			issue.Approved = true;
 			issue.Archived = false;
 			issue.Rejected = false;
 		}

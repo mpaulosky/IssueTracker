@@ -41,7 +41,7 @@ public class GetApprovedIssuesTests : IAsyncLifetime
 		// Arrange
 		IssueModel expected = FakeIssue.GetNewIssue();
 		expected.Rejected = false;
-		expected.ApprovedForRelease = true;
+		expected.Approved = true;
 		expected.Archived = false;
 
 		await _sut.CreateAsync(expected);

@@ -72,7 +72,7 @@ public class IssueService(IIssueRepository repository, IMemoryCache cache) : IIs
 	/// </summary>
 	private static bool IsVisibleTo(IssueModel issue, string? viewerId, bool viewerIsAdmin)
 	{
-		if (issue.ApprovedForRelease && !issue.Rejected)
+		if (issue.Approved && !issue.Rejected)
 		{
 			return true;
 		}

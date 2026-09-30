@@ -98,14 +98,18 @@ public class IssueModel
 	public BasicUserModel ArchivedBy { get; set; } = new();
 
 	/// <summary>
-	///   Gets or sets a value indicating whether [approved for release].
+	///   Gets or sets a value indicating whether an Admin has approved the Issue, so every User can see it.
 	/// </summary>
 	/// <value>
-	///   <c>true</c> if [approved for release]; otherwise, <c>false</c>.
+	///   <c>true</c> if approved; otherwise, <c>false</c>.
 	/// </value>
+	/// <remarks>
+	///   Stored as <c>approved_for_release</c>, the field's name before it was renamed, so existing data needs no
+	///   migration.
+	/// </remarks>
 	[BsonElement("approved_for_release")]
 	[BsonRepresentation(BsonType.Boolean)]
-	public bool ApprovedForRelease { get; set; }
+	public bool Approved { get; set; }
 
 	/// <summary>
 	///   Gets or sets a value indicating whether this <see cref="IssueModel" /> is rejected.

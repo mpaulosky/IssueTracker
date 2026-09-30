@@ -295,7 +295,7 @@ public class AdminTests : BunitContext
 	{
 		foreach (IssueModel? issue in _expectedIssues)
 		{
-			issue.ApprovedForRelease = false;
+			issue.Approved = false;
 			issue.Rejected = false;
 			issue.Archived = false;
 		}

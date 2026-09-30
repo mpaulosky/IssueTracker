@@ -93,7 +93,7 @@ public class ProfileTests : BunitContext
 		foreach (IssueModel? issue in _expectedIssues!)
 		{
 			issue.Author = new BasicUserModel(_expectedUser!);
-			issue.ApprovedForRelease = true;
+			issue.Approved = true;
 			issue.Archived = false;
 			issue.Rejected = false;
 		}
