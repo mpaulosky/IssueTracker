@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-30 | [fix(release): Wait for a just-published Release to be listed](2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) | release,automation |
 | 2026-09-30 | [ci: Classify a PR's changed files in a tested script](2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) | release,automation |
 | 2026-09-30 | [test(hooks): Test uppercase slugs apart from the chore/ digit rule](2026-09-30-pr-186-test-hooks-test-uppercase-slugs-apart-from-the-chore-digit-rule.md) | release,automation |
 | 2026-09-30 | [fix(release): Skip a named PR merged elsewhere; mark a published draft](2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) | release,automation |
