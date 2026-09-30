@@ -25,6 +25,12 @@ def test_a_draft_naming_this_pr_on_its_own_line_is_published_unchanged():
     assert dr.publish_body(body, 15, NOTES) == body
 
 
+def test_a_draft_with_crlf_endings_naming_this_pr_is_published_unchanged():
+    body = "Notes.\r\nSource PR: #15\r\nMerge commit: abc\r\n"
+
+    assert dr.publish_body(body, 15, NOTES) == body
+
+
 def test_a_draft_naming_this_pr_only_inside_a_longer_line_gets_its_own_line():
     body = "- Source PR: #15"
 

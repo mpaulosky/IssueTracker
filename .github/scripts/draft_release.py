@@ -46,7 +46,7 @@ def publish_body(body, pr_number, notes):
     others = [number for number in named_prs(body) if number != pr_number]
     if others:
         raise OtherPrError(f"names PR #{others[0]}, not #{pr_number}")
-    own_line = re.compile(rf"^[ \t]*Source PR: #{pr_number}[ \t]*$", re.MULTILINE)
+    own_line = re.compile(rf"^[ \t]*Source PR: #{pr_number}[ \t]*\r?$", re.MULTILINE)
     if own_line.search(body):
         return body
     return f"{body}\n\n{notes}\n" if body else f"{notes}\n"
