@@ -88,7 +88,9 @@ jobs:
           # HEAD is the PR merged into its base. Diffing against the base the
           # event names can also pick up commits that reached main since,
           # which only ever adds paths, so it errs toward running the suite.
-          mapfile -t files < <(git diff --name-only "$BASE_SHA" HEAD)
+          # --no-renames lists a renamed file under both paths, so moving code
+          # into docs/ or to a .md name still counts as a code change.
+          mapfile -t files < <(git diff --name-only --no-renames "$BASE_SHA" HEAD)
           code=false
           for file in "${files[@]}"; do
             case "$file" in
