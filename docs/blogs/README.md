@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-30 | [ci: Drop the unused build-artifact cache](2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) | release,automation |
 | 2026-09-30 | [ci: Skip the build and tests on docs-only PRs](2026-09-30-pr-175-ci-skip-the-build-and-tests-on-docs-only-prs.md) | release,automation |
 | 2026-09-30 | [ci(release): Release merged PRs one at a time, in merge order](2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) | release,automation |
 | 2026-09-30 | [ci(hooks): Lint the staged Markdown, not the working copy](2026-09-30-pr-170-ci-hooks-lint-the-staged-markdown-not-the-working-copy.md) | release,automation |
