@@ -24,12 +24,13 @@ post_date: "2026-09-30"
 Item 2 of #144. `.github/hooks/pre-commit` ran markdownlint on the working-tree paths, so with a partly staged Markdown file the working copy could pass while the staged version (the one committed) failed, and only CI caught it.
 
 - The hook now writes each staged `.md` file's **staged content**, plus the staged `.markdownlint-cli2.jsonc`, into a temporary tree with the same layout (`git checkout-index --prefix`), and lints that tree. The config's ignores (e.g. `docs/blogs/**`) still apply.
-- Staged paths are read NUL-separated, so paths with spaces work.
+- Staged paths are read NUL-separated, so paths with spaces work, and renamed files (`R`) are linted under their new name.
+- Only the staged config is used: a config that exists only in the working copy isn't in the commit, so it isn't applied.
 - New `.github/hooks/tests/pre-commit.test.sh` (same style as the pre-push tests, with a stub linter), run by the CI **Hook tests** job.
 
 ### Testing
 
-- `pre-commit.test.sh`: 7 cases pass, including "violation staged but fixed only in the working copy → refused" and "violation only in the unstaged working copy → allowed"; those two failed against the old hook.
+- `pre-commit.test.sh`: 12 cases pass, including "violation staged but fixed only in the working copy → refused", "violation only in the unstaged working copy → allowed", a renamed file, and a staged config that differs from the working copy's. The stub linter applies the config it finds (a forbidden word and an ignored path), so the suite fails if the hook lints under the working-copy config.
 - Checked with the real `markdownlint-cli2` in a scratch repo using this repo's config: a staged violation is caught even when the working copy is fixed, and `docs/blogs/` stays ignored.
 - `shellcheck`, `yamllint`, `actionlint` clean; `scripts/gate.sh` passed.
 
