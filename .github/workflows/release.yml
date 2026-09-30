@@ -392,7 +392,7 @@ jobs:
         run: |
           # The release list can lag a Release published seconds ago, so name
           # the PRs this run released: the script lists again until each has
-          # one, for up to a minute.
+          # one, for up to half a minute.
           python3 .github/scripts/backfill_blog_posts.py --wait-for-prs "$(jq -r 'join(",")' <<< "${QUEUE:-[]}")"
 
           # git status (not git diff) so brand-new, still-untracked files count.
