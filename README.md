@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.10](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.10) | 2026-09-30 | fix(UI): Name the Statuses as CONTEXT.md does | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) |
 | [v0.0.9](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.9) | 2026-09-29 | fix(Services): Clear cached reads on every write | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-164-fix-services-clear-cached-reads-on-every-write.md) |
 | [v0.0.8](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.8) | 2026-09-29 | fix(Services): Hide Pending and Rejected Issues from other Users | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-162-fix-services-hide-pending-and-rejected-issues-from-other-users.md) |
 | [v0.0.7](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.7) | 2026-09-29 | test(UI): Move bUnit tests to BunitContext on bUnit 2.11.3 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-159-test-ui-move-bunit-tests-to-bunitcontext-on-bunit-2-11-3.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.3](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.3) | 2026-09-29 | docs: Write agent guidance for IssueTracker | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-146-docs-write-agent-guidance-for-issuetracker.md) |
 | [v0.0.2](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.2) | 2026-09-29 | ci: Gate Test Suite on coverage and let fork PRs pass it | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-145-ci-gate-test-suite-on-coverage-and-let-fork-prs-pass-it.md) |
 | [v0.0.1-1170](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1170) | 2026-09-29 | v0.0.1-1170 | — |
-| [v0.0.1-1169](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.1-1169) | 2026-09-29 | v0.0.1-1169 | — |
 
 <!-- RELEASES_END -->
 
