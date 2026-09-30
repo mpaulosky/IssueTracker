@@ -51,7 +51,7 @@ public interface IIssueRepository
 	Task<IEnumerable<IssueModel>> GetAllAsync();
 
 	/// <summary>
-	/// Retrieves all issues that have been approved for release.
+	/// Retrieves all issues that have been approved, and so are visible to every User.
 	/// </summary>
 	/// <returns>
 	/// A task that represents the asynchronous operation.

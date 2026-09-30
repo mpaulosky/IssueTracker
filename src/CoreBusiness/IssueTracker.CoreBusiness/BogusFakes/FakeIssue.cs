@@ -87,7 +87,7 @@ public static class FakeIssue
 			.RuleFor(f => f.Title, f => f.Lorem.Sentence())
 			.RuleFor(f => f.Description, f => f.Lorem.Paragraph())
 			.RuleFor(f => f.DateCreated, f => f.Date.Past())
-			.RuleFor(f => f.ApprovedForRelease, f => f.Random.Bool())
+			.RuleFor(f => f.Approved, f => f.Random.Bool())
 			.RuleFor(f => f.Rejected, f => f.Random.Bool())
 			.RuleFor(f => f.Author, FakeUser.GetBasicUser(1).First())
 			.RuleFor(f => f.Category, FakeCategory.GetBasicCategories(1).First())

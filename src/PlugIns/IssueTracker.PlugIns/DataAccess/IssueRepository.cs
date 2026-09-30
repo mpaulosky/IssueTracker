@@ -77,7 +77,7 @@ public class IssueRepository(IMongoDbContextFactory context) : IIssueRepository
 	{
 		IEnumerable<IssueModel> output = await GetAllAsync();
 
-		List<IssueModel> results = output.Where(x => !(x is { ApprovedForRelease: true }) && !x.Rejected).ToList();
+		List<IssueModel> results = output.Where(x => !(x is { Approved: true }) && !x.Rejected).ToList();
 
 		return results;
 	}
@@ -90,7 +90,7 @@ public class IssueRepository(IMongoDbContextFactory context) : IIssueRepository
 	{
 		IEnumerable<IssueModel> output = await GetAllAsync();
 
-		List<IssueModel> results = output.Where(x => x is { ApprovedForRelease: true, Rejected: false }).ToList();
+		List<IssueModel> results = output.Where(x => x is { Approved: true, Rejected: false }).ToList();
 
 		return results;
 	}

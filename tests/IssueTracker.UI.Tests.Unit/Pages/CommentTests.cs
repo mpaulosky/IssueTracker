@@ -30,7 +30,7 @@ public class CommentTests : BunitContext
 		_mockCacheEntry = new Mock<ICacheEntry>();
 		_expectedUser = FakeUser.GetNewUser(true);
 		_expectedIssue = FakeIssue.GetNewIssue(true);
-		_expectedIssue.ApprovedForRelease = true;
+		_expectedIssue.Approved = true;
 		_expectedIssue.Rejected = false;
 	}
 
@@ -157,7 +157,7 @@ public class CommentTests : BunitContext
 	public void Comment_With_Pending_Or_Rejected_Issue_And_Other_User_Should_Show_Not_Found_Test(bool rejected)
 	{
 		// Arrange
-		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Approved = false;
 		_expectedIssue.Rejected = rejected;
 		_expectedIssue.Author = new BasicUserModel(FakeUser.GetNewUser(true, true));
 
@@ -176,7 +176,7 @@ public class CommentTests : BunitContext
 	public void Comment_With_Pending_Issue_And_Author_Should_Show_Comment_Form_Test()
 	{
 		// Arrange
-		_expectedIssue.ApprovedForRelease = false;
+		_expectedIssue.Approved = false;
 		_expectedIssue.Rejected = false;
 		_expectedIssue.Author = new BasicUserModel(_expectedUser);
 

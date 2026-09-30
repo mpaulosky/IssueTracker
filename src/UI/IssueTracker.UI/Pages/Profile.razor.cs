@@ -41,7 +41,7 @@ public partial class Profile
 			_issues = results.OrderByDescending(s => s.DateCreated).ToList();
 
 			_approved = _issues
-				.Where(s => s is { ApprovedForRelease: true, Archived: false, Rejected: false })
+				.Where(s => s is { Approved: true, Archived: false, Rejected: false })
 				.ToList();
 
 			_archived = _issues
@@ -49,7 +49,7 @@ public partial class Profile
 				.ToList();
 
 			_pending = _issues
-				.Where(s => s is { ApprovedForRelease: false, Rejected: false })
+				.Where(s => s is { Approved: false, Rejected: false })
 				.ToList();
 
 			_rejected = _issues.Where(s => s.Rejected).ToList();

@@ -189,7 +189,7 @@ public class IssueRepositoryTests
 
 		foreach (IssueModel? item in _list)
 		{
-			item.ApprovedForRelease = false;
+			item.Approved = false;
 			item.Archived = false;
 			item.Rejected = false;
 		}
@@ -223,7 +223,7 @@ public class IssueRepositoryTests
 
 		foreach (IssueModel? item in _list)
 		{
-			item.ApprovedForRelease = true;
+			item.Approved = true;
 			item.Archived = false;
 			item.Rejected = false;
 		}
