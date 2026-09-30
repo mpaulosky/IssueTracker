@@ -140,7 +140,8 @@ jobs:
       - name: Run pytest
         run: python -m pytest .github/scripts/tests
 
-  # Tests for .github/hooks/pre-push and scripts/gate.sh, with stubbed tools.
+  # Tests for .github/hooks/pre-commit, .github/hooks/pre-push and scripts/gate.sh,
+  # with stubbed tools.
   # Also not a required status check.
   hook-tests:
     name: Hook tests

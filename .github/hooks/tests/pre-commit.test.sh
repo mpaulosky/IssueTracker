@@ -128,6 +128,27 @@ run_hook
 expect "deleting a Markdown file skips the lint" allowed not-linted
 reset_repo
 
+# Enough unchanged lines that git reports a rename (R), not an add.
+printf '# Notes\n\n%s\n' line1 line2 line3 line4 line5 line6 line7 line8 > "$REPO/NOTES.md"
+git -C "$REPO" add NOTES.md
+git -C "$REPO" -c core.hooksPath=/dev/null commit -q -m notes
+git -C "$REPO" mv NOTES.md GUIDE.md
+echo 'BAD text.' >> "$REPO/GUIDE.md"
+git -C "$REPO" add GUIDE.md
+[[ "$(git -C "$REPO" diff --cached --name-status)" == R* ]] || echo "setup: expected a staged rename"
+run_hook
+expect "a violation in a renamed Markdown file refuses the commit" refused linted
+git -C "$REPO" reset -q --hard HEAD~1
+
+# The stub linter fails without a config, so an unstaged config shows up here.
+git -C "$REPO" rm -q --cached .markdownlint-cli2.jsonc
+echo 'Some text.' >> "$REPO/README.md"
+git -C "$REPO" add README.md
+run_hook
+expect "a config that isn't staged isn't used" refused linted
+git -C "$REPO" add .markdownlint-cli2.jsonc
+reset_repo
+
 echo
 echo "$PASSED passed, $FAILED failed"
 [[ $FAILED -eq 0 ]]
