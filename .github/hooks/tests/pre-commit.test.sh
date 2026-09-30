@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Tests for .github/hooks/pre-commit.
 # Each case stages Markdown in a throwaway repo and runs the hook. A stub
-# `markdownlint-cli2` logs the files it is given and fails when any of them
-# contains the word BAD, so a case can tell whether the hook linted the staged
-# content or the working copy, without needing the real linter.
+# `markdownlint-cli2` logs the files it is given and applies two rules from the
+# .markdownlint-cli2.jsonc it finds in its working directory: "forbid" names a
+# word that fails a file, and "ignores" lists "prefix/**" paths it skips. So a
+# case can tell whether the hook linted the staged content or the working
+# copy, and under which config, without needing the real linter.
 # Usage: .github/hooks/tests/pre-commit.test.sh
 set -uo pipefail
 
@@ -21,10 +23,15 @@ cat > "$STUBS/markdownlint-cli2" <<EOF
 #!/usr/bin/env bash
 echo "markdownlint-cli2 \$*" >> "$LOG"
 [[ -f .markdownlint-cli2.jsonc ]] || { echo "no config in \$PWD"; exit 2; }
+word=\$(sed -n 's/.*"forbid": *"\\([^"]*\\)".*/\\1/p' .markdownlint-cli2.jsonc)
+ignored=\$(sed -n 's/.*"ignores": *\\[ *"\\([^"]*\\)\\*\\*".*/\\1/p' .markdownlint-cli2.jsonc)
 status=0
 for file in "\$@"; do
-  if grep -q BAD "\$file"; then
-    echo "\$file: BAD found"
+  if [[ -n "\$ignored" && "\$file" == "\$ignored"* ]]; then
+    continue
+  fi
+  if grep -q "\$word" "\$file"; then
+    echo "\$file: \$word found"
     status=1
   fi
 done
@@ -37,7 +44,7 @@ export GIT_AUTHOR_NAME=test GIT_AUTHOR_EMAIL=test@example.com
 export GIT_COMMITTER_NAME=test GIT_COMMITTER_EMAIL=test@example.com
 
 git init -q -b main "$REPO"
-echo '{ "config": { "default": true } }' > "$REPO/.markdownlint-cli2.jsonc"
+echo '{ "forbid": "BAD", "ignores": ["docs/blogs/**"] }' > "$REPO/.markdownlint-cli2.jsonc"
 echo '# Readme' > "$REPO/README.md"
 git -C "$REPO" add .
 # No hooks here: this is setup, and a global hooksPath would otherwise run.
@@ -147,6 +154,32 @@ git -C "$REPO" add README.md
 run_hook
 expect "a config that isn't staged isn't used" refused linted
 git -C "$REPO" add .markdownlint-cli2.jsonc
+reset_repo
+
+# The staged config forbids STAGED; the working copy's forbids WORKING instead.
+echo '{ "forbid": "STAGED", "ignores": ["docs/blogs/**"] }' > "$REPO/.markdownlint-cli2.jsonc"
+git -C "$REPO" add .markdownlint-cli2.jsonc
+echo '{ "forbid": "WORKING", "ignores": ["docs/blogs/**"] }' > "$REPO/.markdownlint-cli2.jsonc"
+echo 'STAGED text.' >> "$REPO/README.md"
+git -C "$REPO" add README.md
+run_hook
+expect "the staged config's rules apply" refused linted
+reset_repo
+
+echo '{ "forbid": "STAGED", "ignores": ["docs/blogs/**"] }' > "$REPO/.markdownlint-cli2.jsonc"
+git -C "$REPO" add .markdownlint-cli2.jsonc
+echo '{ "forbid": "WORKING", "ignores": ["docs/blogs/**"] }' > "$REPO/.markdownlint-cli2.jsonc"
+echo 'WORKING text.' >> "$REPO/README.md"
+git -C "$REPO" add README.md
+run_hook
+expect "the working copy's config rules don't apply" allowed linted
+reset_repo
+
+mkdir -p "$REPO/docs/blogs"
+echo 'BAD text.' > "$REPO/docs/blogs/post.md"
+git -C "$REPO" add docs/blogs/post.md
+run_hook
+expect "a staged file under an ignored path passes" allowed linted
 reset_repo
 
 echo
