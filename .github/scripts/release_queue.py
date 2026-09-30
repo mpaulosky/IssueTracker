@@ -82,10 +82,18 @@ def cutoff_release(releases):
     return max(candidates, key=lambda candidate: rp.version_key(candidate[0]))
 
 
+class UnknownMergeOrder(Exception):
+    """A listed PR's merge commit isn't on the fetched main, so its place in the order is unknown."""
+
+
 def main_history_order():
-    """{merge commit sha: position} along main's first-parent history, oldest first."""
+    """{merge commit sha: position} along main's first-parent history, oldest first.
+
+    Fetches main first, so every PR already listed as merged has its commit here.
+    """
+    subprocess.run(["git", "fetch", "--quiet", "origin", "main"], check=True)
     output = subprocess.run(
-        ["git", "rev-list", "--first-parent", "--reverse", "HEAD"], check=True, capture_output=True, text=True
+        ["git", "rev-list", "--first-parent", "--reverse", "FETCH_HEAD"], check=True, capture_output=True, text=True
     ).stdout
     return {sha: position for position, sha in enumerate(output.split())}
 
@@ -108,9 +116,10 @@ def owed(pr, released, in_cutoff):
 def queue(pulls, released, in_cutoff, has_cutoff, trigger=None, trigger_pull=None, main_order=None):
     """The PR numbers owed a release, oldest merge first.
 
-    Order comes from each merge commit's position on main: merged_at has one-second
-    resolution, so two merges in the same second would otherwise tie. A merge newer
-    than the checked-out main isn't in main_order; those follow, by merge time.
+    Order comes from each merge commit's position on main (main_order), never from
+    merged_at: that has one-second resolution, so two merges in the same second would
+    tie. main is fetched after the PRs are listed, so every one of them should be
+    there; if one isn't, raise rather than guess its place.
     """
     main_order = main_order or {}
     by_number = {pr["number"]: pr for pr in pulls}
@@ -120,11 +129,11 @@ def queue(pulls, released, in_cutoff, has_cutoff, trigger=None, trigger_pull=Non
         # A first release: don't sweep up history, just release what triggered the run.
         by_number = {trigger: by_number[trigger]} if trigger in by_number else {}
     pending = [pr for pr in by_number.values() if owed(pr, released, in_cutoff)]
-    def merge_position(pr):
-        position = main_order.get(pr.get("merge_commit_sha"))
-        return (0, position, "") if position is not None else (1, 0, pr["merged_at"])
-
-    return [pr["number"] for pr in sorted(pending, key=merge_position)]
+    missing = [pr["number"] for pr in pending if pr.get("merge_commit_sha") not in main_order]
+    if missing:
+        numbers = ", ".join(f"#{n}" for n in missing)
+        raise UnknownMergeOrder(f"merge commits of {numbers} aren't on the fetched main; retry the run")
+    return [pr["number"] for pr in sorted(pending, key=lambda pr: main_order[pr["merge_commit_sha"]])]
 
 
 def main(argv=None, gh=None, contains=tag_contains, main_order=None):
@@ -150,6 +159,7 @@ def main(argv=None, gh=None, contains=tag_contains, main_order=None):
         has_cutoff=bool(cutoff_tag),
         trigger=args.pr,
         trigger_pull=trigger_pull,
+        # Fetched only now, after the PRs are listed, so each listed merge is on it.
         main_order=main_history_order() if main_order is None else main_order,
     )
     # stdout carries only the JSON the workflow reads; the explanation goes to stderr.

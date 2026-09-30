@@ -53,12 +53,12 @@ jobs:
       prs: ${{ steps.queue.outputs.prs }}
     steps:
       - name: Checkout main
+        # zizmor: ignore[artipacked] release_queue.py fetches main again with this read-only credential.
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: main
           # Tags and history, to tell which merges the newest release holds.
           fetch-depth: 0
-          persist-credentials: false
 
       - name: List the PRs to release
         id: queue
