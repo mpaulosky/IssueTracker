@@ -69,8 +69,8 @@ first. Every `.cs` file starts with the repository's copyright header block, and
 
 ## Workflow
 
-- Branches: `squad/{issue}-{slug}`, `sprint/{n}-{slug}`, `feature/{issue}-{slug}`, `hotfix/{issue}-{slug}` or
-  `chore/{slug}`, each in its own worktree under `../IssueTracker-worktrees/`. PRs target `main`.
+- Branches: `feature/{issue}-{slug}`, `fix/{issue}-{slug}`, `hotfix/{issue}-{slug}` or `chore/{slug}`, each in its own
+  worktree under `../IssueTracker-worktrees/`. PRs target `main`.
 - Turn on the hooks once per clone: `git config core.hooksPath .github/hooks`. Pre-commit lints staged Markdown;
   pre-push checks the branch name and runs `scripts/gate.sh`.
 - Commit messages follow `.github/instructions/git-commit-instructions.md`.
