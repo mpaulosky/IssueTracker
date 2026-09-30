@@ -426,3 +426,5 @@ Tests run automatically on:
 - [Project Structure](project-structure.md)
 - [Code Metrics](CODE_METRICS.md)
 - [Contributing Guide](CONTRIBUTING.md)
+
+<!-- Probe for #173: docs-only CI path. Not for merging. -->
