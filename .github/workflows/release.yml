@@ -88,6 +88,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # "Resolve PR metadata" reads the PR.
+      pull-requests: read
     # One PR at a time, oldest merge first. Not fail-fast, so one PR's failure
     # is reported without cancelling the rest; the ordering check in "Reserve
     # release tag" still stops any PR from overtaking one that wasn't
@@ -182,10 +184,12 @@ jobs:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
           # Match the whole "Source PR: #n" line, so PR #1 doesn't match a
-          # release for #10.
+          # release for #10. Drafts don't count: the planner and the ordering
+          # guard ignore them too, so a PR named only by a draft is still owed
+          # a published Release (and "Create release" publishes the draft).
           EXISTING_TAG=$(gh api "repos/${REPOSITORY}/releases?per_page=100" --paginate \
             | jq -rs --arg n "$PR_NUMBER" \
-              '[.[][] | select((.body // "") | test("(^|\\n)\\s*Source PR: #" + $n + "\\s*(\\r?\\n|$)")) | .tag_name] | first // empty')
+              '[.[][] | select(.draft | not) | select((.body // "") | test("(^|\\n)\\s*Source PR: #" + $n + "\\s*(\\r?\\n|$)")) | .tag_name] | first // empty')
 
           if [ -n "$EXISTING_TAG" ]; then
             echo "already_released=true" >> "$GITHUB_OUTPUT"
@@ -307,7 +311,13 @@ jobs:
           EOF
           )
 
-          if gh release view "$TAG" >/dev/null 2>&1; then
+          IS_DRAFT=$(gh release view "$TAG" --json isDraft --jq '.isDraft' 2>/dev/null || echo "none")
+          if [ "$IS_DRAFT" = "true" ]; then
+            # A draft doesn't count as released anywhere in this workflow, so
+            # publish it rather than leave the PR owed forever.
+            gh release edit "$TAG" --draft=false
+            echo "Published the draft Release ${TAG}."
+          elif [ "$IS_DRAFT" = "false" ]; then
             echo "Release ${TAG} already exists."
           else
             gh release create "$TAG" \
