@@ -92,6 +92,32 @@ def test_unmerged_prs_are_left_out():
     assert rq.queue(pulls, released=set(), in_cutoff=never_contained, has_cutoff=True) == [11]
 
 
+
+def test_prs_merged_in_the_same_second_follow_their_order_on_main():
+    # merged_at has one-second resolution; main's history decides a tie.
+    pulls = [
+        pull(21, "2026-09-29T10:00:00Z", sha="b"),
+        pull(20, "2026-09-29T10:00:00Z", sha="a"),
+    ]
+    order = {"b": 0, "a": 1}  # b merged first
+
+    queued = rq.queue(pulls, released=set(), in_cutoff=never_contained, has_cutoff=True, main_order=order)
+
+    assert queued == [21, 20]
+
+
+def test_merges_newer_than_the_checkout_follow_those_on_main_by_merge_time():
+    pulls = [
+        pull(32, "2026-09-29T10:02:00Z", sha="late2"),
+        pull(30, "2026-09-29T10:00:00Z", sha="known"),
+        pull(31, "2026-09-29T10:01:00Z", sha="late1"),
+    ]
+
+    queued = rq.queue(pulls, released=set(), in_cutoff=never_contained, has_cutoff=True, main_order={"known": 0})
+
+    assert queued == [30, 31, 32]
+
+
 # cutoff_release()
 
 
@@ -175,7 +201,7 @@ def test_main_prints_the_queue_as_json_and_lists_merges_since_the_cutoff_pr(caps
         releases=[release("v0.0.9", 9)],
     )
 
-    rq.main(["--repo", "octo/demo", "--pr", "11"], gh=gh, contains=lambda tag, sha: sha == "sha9")
+    rq.main(["--repo", "octo/demo", "--pr", "11"], gh=gh, contains=lambda tag, sha: sha == "sha9", main_order={})
 
     assert json.loads(capsys.readouterr().out) == [10, 11]
     assert gh.since == "2026-09-29T09:00:00Z"
@@ -194,7 +220,7 @@ def test_main_ignores_a_tag_whose_release_was_never_published(capsys):
         checked.append(tag)
         return sha == "sha9"
 
-    rq.main(["--repo", "octo/demo"], gh=gh, contains=contains)
+    rq.main(["--repo", "octo/demo"], gh=gh, contains=contains, main_order={})
 
     assert json.loads(capsys.readouterr().out) == [10]
     assert set(checked) == {"v0.0.9"}

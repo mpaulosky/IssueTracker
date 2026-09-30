@@ -21,19 +21,26 @@ env:
   # ANTHROPIC_API_KEY secret is set).
   ANTHROPIC_MODEL: claude-sonnet-5
 
-# One group for every run, so releases never overlap and versions follow
-# merge order. GitHub keeps only the newest pending run in a group and cancels
-# the one it replaces, so each run releases every merged PR still owed a
-# release (see the plan job), not just the PR that started it: a cancelled
-# run's PR goes out with the next one.
+# One group for every run that can release, so releases never overlap and
+# versions follow merge order. GitHub keeps only the newest pending run in a
+# group and cancels the one it replaces, so each run releases every merged PR
+# still owed a release (see the plan job), not just the PR that started it: a
+# cancelled run's PR goes out with the next one. A run that can't release (an
+# unmerged PR closing, a PR into another branch, a dispatch from a branch) gets
+# a group of its own, so it can't replace a pending release run and then do
+# nothing. The condition is the plan job's `if`; keep the two in step.
 concurrency:
-  group: release-main
+  group: >-
+    ${{ ((github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+    (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'))
+    && 'release-main' || format('release-ignored-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
   plan:
     # Publishes tags, releases and a docs PR, so a manual run must come from
-    # main, never from a branch's copy of this file.
+    # main, never from a branch's copy of this file. The concurrency group at
+    # the top uses the same condition.
     if: >-
       (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
       (github.event.pull_request.merged == true &&

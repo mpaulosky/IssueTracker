@@ -82,6 +82,14 @@ def cutoff_release(releases):
     return max(candidates, key=lambda candidate: rp.version_key(candidate[0]))
 
 
+def main_history_order():
+    """{merge commit sha: position} along main's first-parent history, oldest first."""
+    output = subprocess.run(
+        ["git", "rev-list", "--first-parent", "--reverse", "HEAD"], check=True, capture_output=True, text=True
+    ).stdout
+    return {sha: position for position, sha in enumerate(output.split())}
+
+
 def tag_contains(tag, sha):
     """Whether the commit is the tag's commit or one of its ancestors."""
     result = subprocess.run(["git", "merge-base", "--is-ancestor", sha, tag], capture_output=True)
@@ -97,8 +105,14 @@ def owed(pr, released, in_cutoff):
     )
 
 
-def queue(pulls, released, in_cutoff, has_cutoff, trigger=None, trigger_pull=None):
-    """The PR numbers owed a release, oldest merge first."""
+def queue(pulls, released, in_cutoff, has_cutoff, trigger=None, trigger_pull=None, main_order=None):
+    """The PR numbers owed a release, oldest merge first.
+
+    Order comes from each merge commit's position on main: merged_at has one-second
+    resolution, so two merges in the same second would otherwise tie. A merge newer
+    than the checked-out main isn't in main_order; those follow, by merge time.
+    """
+    main_order = main_order or {}
     by_number = {pr["number"]: pr for pr in pulls}
     if trigger is not None and trigger not in by_number and trigger_pull is not None:
         by_number[trigger] = trigger_pull
@@ -106,10 +120,14 @@ def queue(pulls, released, in_cutoff, has_cutoff, trigger=None, trigger_pull=Non
         # A first release: don't sweep up history, just release what triggered the run.
         by_number = {trigger: by_number[trigger]} if trigger in by_number else {}
     pending = [pr for pr in by_number.values() if owed(pr, released, in_cutoff)]
-    return [pr["number"] for pr in sorted(pending, key=lambda pr: pr["merged_at"])]
+    def merge_position(pr):
+        position = main_order.get(pr.get("merge_commit_sha"))
+        return (0, position, "") if position is not None else (1, 0, pr["merged_at"])
+
+    return [pr["number"] for pr in sorted(pending, key=merge_position)]
 
 
-def main(argv=None, gh=None, contains=tag_contains):
+def main(argv=None, gh=None, contains=tag_contains, main_order=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--repo", required=True, help="owner/name")
     parser.add_argument("--pr", type=int, help="the PR that triggered this run")
@@ -132,6 +150,7 @@ def main(argv=None, gh=None, contains=tag_contains):
         has_cutoff=bool(cutoff_tag),
         trigger=args.pr,
         trigger_pull=trigger_pull,
+        main_order=main_history_order() if main_order is None else main_order,
     )
     # stdout carries only the JSON the workflow reads; the explanation goes to stderr.
     cutoff = f"{cutoff_tag} (PR #{cutoff_pr})" if cutoff_tag else "none"
