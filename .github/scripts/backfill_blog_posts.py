@@ -19,8 +19,9 @@ are rebuilt once at the end. When none was, no file changes.
 
 GitHub's release list can lag a just-published Release by several seconds,
 so with --wait-for-prs it lists again until every named PR has a Release,
-for up to a minute. A PR whose release failed never appears; after the last
-attempt the run writes what is listed, and the next run picks up the rest.
+every 2s for up to half a minute. A PR whose release failed never appears;
+after the last attempt the run writes what is listed, and the next run
+picks up the rest.
 """
 
 import argparse
@@ -42,8 +43,8 @@ def parse_pr_numbers(text):
     return {int(n) for n in numbers}
 
 
-WAIT_ATTEMPTS = 12
-WAIT_DELAY = 5
+WAIT_ATTEMPTS = 15
+WAIT_DELAY = 2
 
 
 def listed_releases(gh, wait_for=None, attempts=WAIT_ATTEMPTS, delay=WAIT_DELAY, sleep=time.sleep):
