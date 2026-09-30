@@ -45,7 +45,7 @@ public static class FakeStatus
 			new StatusModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
-				StatusName = "Answered",
+				StatusName = "Accepted",
 				StatusDescription = "The issue was accepted and the corresponding item was created.",
 				Archived = false
 			},
@@ -60,8 +60,8 @@ public static class FakeStatus
 			new StatusModel
 			{
 				Id = new BsonObjectId(ObjectId.GenerateNewId()).ToString(),
-				StatusName = "InWork",
-				StatusDescription = "The issue was accepted and it is in work.",
+				StatusName = "Upcoming",
+				StatusDescription = "The issue was accepted and it will be released soon.",
 				Archived = false
 			},
 			new StatusModel

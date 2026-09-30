@@ -197,11 +197,11 @@ public class DetailsTests : BunitContext
 				<div class="issue-container">
 					<div class="status-layout flex-container">
 						<button class="btn btn-status btn-status-status fw-bold">Set Status</button>
-						<button id="answered" class="btn btn-status btn-status-answered">
-							answered
+						<button id="accepted" class="btn btn-status btn-status-accepted">
+							accepted
 						</button>
-						<button id="inwork" class="btn btn-status btn-status-inwork">
-							in work
+						<button id="upcoming" class="btn btn-status btn-status-upcoming">
+							upcoming
 						</button>
 						<button id="watching" class="btn btn-status btn-status-watching">
 							watching
@@ -244,9 +244,9 @@ public class DetailsTests : BunitContext
 	}
 
 	[Theory(DisplayName = "Validate Status Styles")]
-	[InlineData(0, "issue-entry-status-answered")]
+	[InlineData(0, "issue-entry-status-accepted")]
 	[InlineData(1, "issue-entry-status-watching")]
-	[InlineData(2, "issue-entry-status-inwork")]
+	[InlineData(2, "issue-entry-status-upcoming")]
 	[InlineData(3, "issue-entry-status-dismissed")]
 	[InlineData(4, "issue-entry-status-none")]
 	public void Details_With_ValidIssue_Should_ShowStatusStyle_Test(int index, string expected)
@@ -368,8 +368,8 @@ public class DetailsTests : BunitContext
 
 	[Theory(DisplayName = "Update Status")]
 	[InlineData("watching")]
-	[InlineData("answered")]
-	[InlineData("inwork")]
+	[InlineData("accepted")]
+	[InlineData("upcoming")]
 	[InlineData("dismissed")]
 	public void Details_With_WhenStatusIsClicked_Should_ShouldSaveNewStatus_Test(string statusId)
 	{
@@ -381,8 +381,8 @@ public class DetailsTests : BunitContext
 
 		switch (statusId)
 		{
-			case "answered":
-				cut.Find("#answered").Click();
+			case "accepted":
+				cut.Find("#accepted").Click();
 				cut.Find("#confirm-status-change").Click();
 				break;
 			case "watching":
@@ -393,8 +393,8 @@ public class DetailsTests : BunitContext
 				cut.Find("#dismissed").Click();
 				cut.Find("#confirm-status-change").Click();
 				break;
-			case "inwork":
-				cut.Find("#inwork").Click();
+			case "upcoming":
+				cut.Find("#upcoming").Click();
 				cut.Find("#confirm-status-change").Click();
 				break;
 		}

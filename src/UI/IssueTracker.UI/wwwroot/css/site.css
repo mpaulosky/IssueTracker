@@ -296,7 +296,7 @@ a:hover,
 	letter-spacing: 1.2px;
 }
 
-.issue-profile-status-answered {
+.issue-profile-status-accepted {
 	background-color: #b5d43a;
 	border: 1px #b5d43a solid;
 }
@@ -306,7 +306,7 @@ a:hover,
 	border: 1px solid #e9354c;
 }
 
-.issue-profile-status-inwork {
+.issue-profile-status-upcoming {
 	background-color: #fd7e14;
 	border: 1px solid #fd7e14;
 }
@@ -483,7 +483,7 @@ a:hover,
 	margin-top: 20px;
 }
 
-.issue-detail-status-answered {
+.issue-detail-status-accepted {
 	background-color: #b5d43a;
 	border-top-left-radius: 15px;
 	border-bottom-left-radius: 15px;
@@ -495,7 +495,7 @@ a:hover,
 	border-bottom-left-radius: 15px;
 }
 
-.issue-detail-status-inwork {
+.issue-detail-status-upcoming {
 	background-color: #fd7e14;
 	border-top-left-radius: 15px;
 	border-bottom-left-radius: 15px;

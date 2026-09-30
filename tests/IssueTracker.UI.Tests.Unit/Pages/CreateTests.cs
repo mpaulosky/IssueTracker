@@ -106,7 +106,7 @@ public class CreateTests : BunitContext
 						</div>
 						<div class="input-section">
 							<label class="form-label fw-bold text-uppercase" for="description">Issue Description</label>
-							<div class="input-description">Briefly describe your suggestion.</div>
+							<div class="input-description">Briefly describe your issue.</div>
 							<textarea id="description" name="_issue.Description" class="form-control valid"></textarea>
 						</div>
 						<div class="input-section">

@@ -67,8 +67,8 @@ public class IssueComponentTests : BunitContext
 						<div diff:ignore></div>
 					</div>
 				</div>
-				<div class="issue-entry-status issue-entry-status-inwork">
-					<div class="issue-text-status">InWork</div>
+				<div class="issue-entry-status issue-entry-status-upcoming">
+					<div class="issue-text-status">Upcoming</div>
 				</div>
 			</div>
 			""";
@@ -125,8 +125,8 @@ public class IssueComponentTests : BunitContext
 	}
 
 	[Theory]
-	[InlineData("Answered", "issue-entry-status issue-entry-status-answered")]
-	[InlineData("InWork", "issue-entry-status issue-entry-status-inwork")]
+	[InlineData("Accepted", "issue-entry-status issue-entry-status-accepted")]
+	[InlineData("Upcoming", "issue-entry-status issue-entry-status-upcoming")]
 	[InlineData("Watching", "issue-entry-status issue-entry-status-watching")]
 	[InlineData("Dismissed", "issue-entry-status issue-entry-status-dismissed")]
 	[InlineData("", "issue-entry-status issue-entry-status-none")]

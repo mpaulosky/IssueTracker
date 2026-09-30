@@ -123,7 +123,7 @@ public class StatusesTests : BunitContext
 										<tr class="rz-data-row">
 											<td style="width:120px">
 												<span class="rz-cell-data rz-text-truncate">
-													<span class="rz-cell-data">Answered</span>
+													<span class="rz-cell-data">Accepted</span>
 												</span>
 											</td>
 											<td style="width:200px">
@@ -175,12 +175,12 @@ public class StatusesTests : BunitContext
 										<tr class="rz-data-row">
 											<td style="width:120px">
 												<span class="rz-cell-data rz-text-truncate">
-													<span class="rz-cell-data">InWork</span>
+													<span class="rz-cell-data">Upcoming</span>
 												</span>
 											</td>
 											<td style="width:200px">
 												<span class="rz-cell-data rz-text-truncate">
-													<span class="rz-cell-data">The issue was accepted and it is in work.</span>
+													<span class="rz-cell-data">The issue was accepted and it will be released soon.</span>
 												</span>
 											</td>
 											<td style="width:156px;text-align:right;">
@@ -331,7 +331,7 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">Answered</span>
+			                    <span class="rz-cell-data">Accepted</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
@@ -383,12 +383,12 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">InWork</span>
+			                    <span class="rz-cell-data">Upcoming</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">The issue was accepted and it is in work.</span>
+			                    <span class="rz-cell-data">The issue was accepted and it will be released soon.</span>
 			                  </span>
 			                </td>
 			                <td style="width:156px;text-align:right;" >
@@ -510,7 +510,7 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">Answered</span>
+			                    <span class="rz-cell-data">Accepted</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
@@ -562,12 +562,12 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">InWork</span>
+			                    <span class="rz-cell-data">Upcoming</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">The issue was accepted and it is in work.</span>
+			                    <span class="rz-cell-data">The issue was accepted and it will be released soon.</span>
 			                  </span>
 			                </td>
 			                <td style="width:156px;text-align:right;" >
@@ -758,7 +758,7 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">Answered</span>
+			                    <span class="rz-cell-data">Accepted</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
@@ -810,12 +810,12 @@ public class StatusesTests : BunitContext
 			              <tr class="rz-data-row  ">
 			                <td style="width:120px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">InWork</span>
+			                    <span class="rz-cell-data">Upcoming</span>
 			                  </span>
 			                </td>
 			                <td style="width:200px" >
 			                  <span class="rz-cell-data rz-text-truncate">
-			                    <span class="rz-cell-data">The issue was accepted and it is in work.</span>
+			                    <span class="rz-cell-data">The issue was accepted and it will be released soon.</span>
 			                  </span>
 			                </td>
 			                <td style="width:156px;text-align:right;" >

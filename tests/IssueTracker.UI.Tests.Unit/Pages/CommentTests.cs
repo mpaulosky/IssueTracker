@@ -102,8 +102,8 @@ public class CommentTests : BunitContext
 									<div diff:ignore></div>
 								</div>
 							</div>
-							<div class="issue-entry-status issue-entry-status-inwork">
-								<div class="issue-text-status">InWork</div>
+							<div class="issue-entry-status issue-entry-status-upcoming">
+								<div class="issue-text-status">Upcoming</div>
 							</div>
 						</div>
 						<div class="comment-item-container">

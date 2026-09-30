@@ -233,9 +233,9 @@ public class IndexTests : BunitContext
 
 	[Theory]
 	[InlineData(0, "All")]
-	[InlineData(1, "Answered")]
+	[InlineData(1, "Accepted")]
 	[InlineData(2, "Watching")]
-	[InlineData(3, "InWork")]
+	[InlineData(3, "Upcoming")]
 	[InlineData(4, "Dismissed")]
 	public async Task Index_With_SelectingAStatus_Should_FilterTheIssues_TestAsync(int index, string expected)
 	{

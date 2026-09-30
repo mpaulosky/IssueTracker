@@ -24,13 +24,13 @@ public class Enums
 	}
 
 	/// <summary>
-	///   Status enum
+	///   Status enum: the Status names an Admin can give an approved Issue, as named in CONTEXT.md
 	/// </summary>
 	internal enum Status
 	{
-		Answered,
+		Accepted,
 		Watching,
 		Dismissed,
-		InWork
+		Upcoming
 	}
 }
