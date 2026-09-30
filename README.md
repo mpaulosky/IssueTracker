@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.20](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.20) | 2026-09-30 | ci: Classify a PR's changed files in a tested script | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) |
 | [v0.0.19](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.19) | 2026-09-30 | test(hooks): Test uppercase slugs apart from the chore/ digit rule | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-186-test-hooks-test-uppercase-slugs-apart-from-the-chore-digit-rule.md) |
 | [v0.0.18](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.18) | 2026-09-30 | fix(release): Skip a named PR merged elsewhere; mark a published draft | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) |
 | [v0.0.17](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.17) | 2026-09-30 | ci(hooks): Adopt the shared branch-name standard | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-182-ci-hooks-adopt-the-shared-branch-name-standard.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.13](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.13) | 2026-09-30 | ci(release): Release merged PRs one at a time, in merge order | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) |
 | [v0.0.12](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.12) | 2026-09-30 | ci(hooks): Lint the staged Markdown, not the working copy | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-170-ci-hooks-lint-the-staged-markdown-not-the-working-copy.md) |
 | [v0.0.11](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.11) | 2026-09-30 | refactor(CoreBusiness): Rename ApprovedForRelease to Approved | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-168-refactor-corebusiness-rename-approvedforrelease-to-approved.md) |
-| [v0.0.10](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.10) | 2026-09-30 | fix(UI): Name the Statuses as CONTEXT.md does | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) |
 
 <!-- RELEASES_END -->
 
