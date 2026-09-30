@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.18](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.18) | 2026-09-30 | fix(release): Skip a named PR merged elsewhere; mark a published draft | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) |
 | [v0.0.17](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.17) | 2026-09-30 | ci(hooks): Adopt the shared branch-name standard | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-182-ci-hooks-adopt-the-shared-branch-name-standard.md) |
 | [v0.0.16](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.16) | 2026-09-30 | test(hooks): Fail the rename case when git reports no rename | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-180-test-hooks-fail-the-rename-case-when-git-reports-no-rename.md) |
 | [v0.0.15](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.15) | 2026-09-30 | ci: Drop the unused build-artifact cache | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.11](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.11) | 2026-09-30 | refactor(CoreBusiness): Rename ApprovedForRelease to Approved | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-168-refactor-corebusiness-rename-approvedforrelease-to-approved.md) |
 | [v0.0.10](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.10) | 2026-09-30 | fix(UI): Name the Statuses as CONTEXT.md does | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) |
 | [v0.0.9](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.9) | 2026-09-29 | fix(Services): Clear cached reads on every write | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-164-fix-services-clear-cached-reads-on-every-write.md) |
-| [v0.0.8](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.8) | 2026-09-29 | fix(Services): Hide Pending and Rejected Issues from other Users | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-162-fix-services-hide-pending-and-rejected-issues-from-other-users.md) |
 
 <!-- RELEASES_END -->
 
