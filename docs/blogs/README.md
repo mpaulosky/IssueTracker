@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-30 | [fix(UI): Name the Statuses as CONTEXT.md does](2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) | release,automation |
 | 2026-09-29 | [fix(Services): Clear cached reads on every write](2026-09-29-pr-164-fix-services-clear-cached-reads-on-every-write.md) | release,automation |
 | 2026-09-29 | [fix(Services): Hide Pending and Rejected Issues from other Users](2026-09-29-pr-162-fix-services-hide-pending-and-rejected-issues-from-other-users.md) | release,automation |
 | 2026-09-29 | [test(UI): Move bUnit tests to BunitContext on bUnit 2.11.3](2026-09-29-pr-159-test-ui-move-bunit-tests-to-bunitcontext-on-bunit-2-11-3.md) | release,automation |
