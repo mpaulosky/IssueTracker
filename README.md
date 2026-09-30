@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.16](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.16) | 2026-09-30 | test(hooks): Fail the rename case when git reports no rename | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-180-test-hooks-fail-the-rename-case-when-git-reports-no-rename.md) |
 | [v0.0.15](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.15) | 2026-09-30 | ci: Drop the unused build-artifact cache | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) |
 | [v0.0.14](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.14) | 2026-09-30 | ci: Skip the build and tests on docs-only PRs | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-175-ci-skip-the-build-and-tests-on-docs-only-prs.md) |
 | [v0.0.13](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.13) | 2026-09-30 | ci(release): Release merged PRs one at a time, in merge order | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.9](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.9) | 2026-09-29 | fix(Services): Clear cached reads on every write | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-164-fix-services-clear-cached-reads-on-every-write.md) |
 | [v0.0.8](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.8) | 2026-09-29 | fix(Services): Hide Pending and Rejected Issues from other Users | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-162-fix-services-hide-pending-and-rejected-issues-from-other-users.md) |
 | [v0.0.7](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.7) | 2026-09-29 | test(UI): Move bUnit tests to BunitContext on bUnit 2.11.3 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-159-test-ui-move-bunit-tests-to-bunitcontext-on-bunit-2-11-3.md) |
-| [v0.0.6](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.6) | 2026-09-29 | ci(release): Drop featured_image from release blog posts | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-157-ci-release-drop-featured-image-from-release-blog-posts.md) |
 
 <!-- RELEASES_END -->
 
