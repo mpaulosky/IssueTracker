@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-30 | [ci(hooks): Lint the staged Markdown, not the working copy](2026-09-30-pr-170-ci-hooks-lint-the-staged-markdown-not-the-working-copy.md) | release,automation |
 | 2026-09-30 | [refactor(CoreBusiness): Rename ApprovedForRelease to Approved](2026-09-30-pr-168-refactor-corebusiness-rename-approvedforrelease-to-approved.md) | release,automation |
 | 2026-09-30 | [fix(UI): Name the Statuses as CONTEXT.md does](2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) | release,automation |
 | 2026-09-29 | [fix(Services): Clear cached reads on every write](2026-09-29-pr-164-fix-services-clear-cached-reads-on-every-write.md) | release,automation |
