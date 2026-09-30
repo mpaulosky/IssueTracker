@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.14](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.14) | 2026-09-30 | ci: Skip the build and tests on docs-only PRs | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-175-ci-skip-the-build-and-tests-on-docs-only-prs.md) |
 | [v0.0.13](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.13) | 2026-09-30 | ci(release): Release merged PRs one at a time, in merge order | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) |
 | [v0.0.12](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.12) | 2026-09-30 | ci(hooks): Lint the staged Markdown, not the working copy | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-170-ci-hooks-lint-the-staged-markdown-not-the-working-copy.md) |
 | [v0.0.11](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.11) | 2026-09-30 | refactor(CoreBusiness): Rename ApprovedForRelease to Approved | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-168-refactor-corebusiness-rename-approvedforrelease-to-approved.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.7](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.7) | 2026-09-29 | test(UI): Move bUnit tests to BunitContext on bUnit 2.11.3 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-159-test-ui-move-bunit-tests-to-bunitcontext-on-bunit-2-11-3.md) |
 | [v0.0.6](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.6) | 2026-09-29 | ci(release): Drop featured_image from release blog posts | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-157-ci-release-drop-featured-image-from-release-blog-posts.md) |
 | [v0.0.5](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.5) | 2026-09-29 | docs: Add a CONTEXT.md glossary of the domain language | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-153-docs-add-a-context-md-glossary-of-the-domain-language.md) |
-| [v0.0.4](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.4) | 2026-09-29 | ci: Run code metrics by hand and drop unused Auth0 settings | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-148-ci-run-code-metrics-by-hand-and-drop-unused-auth0-settings.md) |
 
 <!-- RELEASES_END -->
 
