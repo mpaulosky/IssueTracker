@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-09-30 | [fix(release): Skip a named PR merged elsewhere; mark a published draft](2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) | release,automation |
 | 2026-09-30 | [ci(hooks): Adopt the shared branch-name standard](2026-09-30-pr-182-ci-hooks-adopt-the-shared-branch-name-standard.md) | release,automation |
 | 2026-09-30 | [test(hooks): Fail the rename case when git reports no rename](2026-09-30-pr-180-test-hooks-fail-the-rename-case-when-git-reports-no-rename.md) | release,automation |
 | 2026-09-30 | [ci: Drop the unused build-artifact cache](2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) | release,automation |
