@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.13](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.13) | 2026-09-30 | ci(release): Release merged PRs one at a time, in merge order | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) |
 | [v0.0.12](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.12) | 2026-09-30 | ci(hooks): Lint the staged Markdown, not the working copy | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-170-ci-hooks-lint-the-staged-markdown-not-the-working-copy.md) |
 | [v0.0.11](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.11) | 2026-09-30 | refactor(CoreBusiness): Rename ApprovedForRelease to Approved | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-168-refactor-corebusiness-rename-approvedforrelease-to-approved.md) |
 | [v0.0.10](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.10) | 2026-09-30 | fix(UI): Name the Statuses as CONTEXT.md does | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-166-fix-ui-name-the-statuses-as-context-md-does.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.6](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.6) | 2026-09-29 | ci(release): Drop featured_image from release blog posts | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-157-ci-release-drop-featured-image-from-release-blog-posts.md) |
 | [v0.0.5](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.5) | 2026-09-29 | docs: Add a CONTEXT.md glossary of the domain language | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-153-docs-add-a-context-md-glossary-of-the-domain-language.md) |
 | [v0.0.4](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.4) | 2026-09-29 | ci: Run code metrics by hand and drop unused Auth0 settings | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-148-ci-run-code-metrics-by-hand-and-drop-unused-auth0-settings.md) |
-| [v0.0.3](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.3) | 2026-09-29 | docs: Write agent guidance for IssueTracker | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-29-pr-146-docs-write-agent-guidance-for-issuetracker.md) |
 
 <!-- RELEASES_END -->
 
