@@ -321,8 +321,9 @@ jobs:
             BODY=$(gh release view "$TAG" --json body --jq '.body')
             # A draft for this tag that names a different PR is inconsistent:
             # publishing it would give the Release two sources. Stop for a
-            # person to sort it out.
-            OTHER_PRS=$(sed -n 's/^[[:space:]]*Source PR: #\([0-9]*\)[[:space:]]*$/\1/p' <<< "$BODY" | grep -vx "$PR_NUMBER" || true)
+            # person to sort it out. Match markers anywhere in a line, as
+            # release_post.source_pr_of() does, so "- Source PR: #5" counts.
+            OTHER_PRS=$(grep -oE 'Source PR: #[0-9]+' <<< "$BODY" | grep -oE '[0-9]+$' | grep -vx "$PR_NUMBER" || true)
             if [ -n "$OTHER_PRS" ]; then
               echo "::error::The draft Release ${TAG} names PR #$(head -n1 <<< "$OTHER_PRS"), not #${PR_NUMBER}. Fix or delete the draft, then re-run."
               exit 1
