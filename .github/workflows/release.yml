@@ -319,6 +319,14 @@ jobs:
             # add these notes first unless the draft already names the PR,
             # keeping whatever the draft says.
             BODY=$(gh release view "$TAG" --json body --jq '.body')
+            # A draft for this tag that names a different PR is inconsistent:
+            # publishing it would give the Release two sources. Stop for a
+            # person to sort it out.
+            OTHER_PRS=$(sed -n 's/^[[:space:]]*Source PR: #\([0-9]*\)[[:space:]]*$/\1/p' <<< "$BODY" | grep -vx "$PR_NUMBER" || true)
+            if [ -n "$OTHER_PRS" ]; then
+              echo "::error::The draft Release ${TAG} names PR #$(head -n1 <<< "$OTHER_PRS"), not #${PR_NUMBER}. Fix or delete the draft, then re-run."
+              exit 1
+            fi
             if ! grep -qE "^[[:space:]]*Source PR: #${PR_NUMBER}[[:space:]]*$" <<< "$BODY"; then
               BODY=$(printf '%s\n\n%s\n' "$BODY" "$EXTRA_NOTES")
             fi
