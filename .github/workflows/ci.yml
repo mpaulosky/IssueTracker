@@ -156,6 +156,9 @@ jobs:
       - name: Run pre-push hook tests
         run: bash .github/hooks/tests/pre-push.test.sh
 
+      - name: Run pre-commit hook tests
+        run: bash .github/hooks/tests/pre-commit.test.sh
+
   # Dependabot PRs run the full test suite: a dependency bump is exactly the
   # change the tests must vet, and none of these jobs needs a secret.
   discover-tests:
