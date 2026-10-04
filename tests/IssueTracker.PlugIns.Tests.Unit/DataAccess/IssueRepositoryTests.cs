@@ -37,7 +37,7 @@ public class IssueRepositoryTests
 		// Arrange
 		IssueModel expected = FakeIssue.GetNewIssue(true);
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		IssueModel updatedIssue = FakeIssue.GetNewIssue(true);
 		updatedIssue.Archived = true;

@@ -184,7 +184,7 @@ public class CacheServiceTests
 		var resultBefore = await cacheService.GetAsync<string>(key);
 
 		// Wait for expiration
-		await Task.Delay(1000);
+		await Task.Delay(1000, TestContext.Current.CancellationToken);
 		var resultAfter = await cacheService.GetAsync<string>(key);
 
 		// Assert

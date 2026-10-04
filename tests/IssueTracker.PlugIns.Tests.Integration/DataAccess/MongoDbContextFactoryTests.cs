@@ -57,10 +57,10 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 		IMongoClient client = _dbContext.Client;
 
 		// When
-		using IAsyncCursor<BsonDocument>? databases = client.ListDatabases();
+		using IAsyncCursor<BsonDocument>? databases = client.ListDatabases(TestContext.Current.CancellationToken);
 
 		// Then
-		Assert.Contains(databases.ToEnumerable(),
+		Assert.Contains(databases.ToEnumerable(TestContext.Current.CancellationToken),
 			database => database.TryGetValue("name", out BsonValue? name) && "admin".Equals(name.AsString));
 	}
 

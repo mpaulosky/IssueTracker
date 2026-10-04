@@ -62,7 +62,7 @@ public class StatusRepositoryTests
 		StatusModel updatedStatus = FakeStatus.GetNewStatus(true);
 		updatedStatus.Archived = true;
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		_list = new List<StatusModel> { updatedStatus };
 
@@ -154,7 +154,7 @@ public class StatusRepositoryTests
 		updatedStatus.StatusName = "Updated Status";
 		updatedStatus.Id = expected.Id;
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		_list = new List<StatusModel> { updatedStatus };
 
