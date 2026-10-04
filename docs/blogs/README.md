@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-10-04 | [chore: standardize on the repo-ci-baseline Template](2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) | release,automation |
 | 2026-09-30 | [ci(release): List again every 2s, for up to 30s](2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) | release,automation |
 | 2026-09-30 | [fix(release): Wait for a just-published Release to be listed](2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) | release,automation |
 | 2026-09-30 | [ci: Classify a PR's changed files in a tested script](2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) | release,automation |

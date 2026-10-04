@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.23](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.23) | 2026-10-04 | chore: standardize on the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) |
 | [v0.0.22](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.22) | 2026-09-30 | ci(release): List again every 2s, for up to 30s | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) |
 | [v0.0.21](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.21) | 2026-09-30 | fix(release): Wait for a just-published Release to be listed | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) |
 | [v0.0.20](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.20) | 2026-09-30 | ci: Classify a PR's changed files in a tested script | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.16](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.16) | 2026-09-30 | test(hooks): Fail the rename case when git reports no rename | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-180-test-hooks-fail-the-rename-case-when-git-reports-no-rename.md) |
 | [v0.0.15](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.15) | 2026-09-30 | ci: Drop the unused build-artifact cache | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) |
 | [v0.0.14](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.14) | 2026-09-30 | ci: Skip the build and tests on docs-only PRs | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-175-ci-skip-the-build-and-tests-on-docs-only-prs.md) |
-| [v0.0.13](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.13) | 2026-09-30 | ci(release): Release merged PRs one at a time, in merge order | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-172-ci-release-release-merged-prs-one-at-a-time-in-merge-order.md) |
 
 <!-- RELEASES_END -->
 
