@@ -144,9 +144,9 @@ mongodb.Resource.Annotations.Should().Contain(a => a.GetType().Name.Contains("He
 public void AddMongoDBWithManagement_With_Default_Name_Should_Register_Every_Required_Health_Check_Test()
 {
 // Arrange
-var builder = DistributedApplication.CreateBuilder();
+IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder();
 builder.AddMongoDBWithManagement("mongodb");
-using var provider = builder.Services.BuildServiceProvider();
+using ServiceProvider provider = builder.Services.BuildServiceProvider();
 
 // Act
 Func<HealthCheckServiceOptions> act = () => provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>().Value;

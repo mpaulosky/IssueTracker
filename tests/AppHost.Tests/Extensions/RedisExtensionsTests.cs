@@ -184,9 +184,9 @@ public class RedisExtensionsTests
 	public void AddRedisCache_With_Default_Name_Should_Register_Every_Required_Health_Check_Test()
 	{
 		// Arrange
-		var builder = DistributedApplication.CreateBuilder();
+		IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder();
 		builder.AddRedisCache();
-		using var provider = builder.Services.BuildServiceProvider();
+		using ServiceProvider provider = builder.Services.BuildServiceProvider();
 
 		// Act
 		Func<HealthCheckServiceOptions> act = () => provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>().Value;
