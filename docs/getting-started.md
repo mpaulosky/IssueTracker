@@ -98,7 +98,7 @@ dotnet test tests/IssueTracker.PlugIns.Tests.Integration
 ### Run Tests with Coverage
 
 ```bash
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+dotnet test tests/IssueTracker.Services.Tests.Unit --coverage --coverage-output-format cobertura --results-directory TestResults
 ```text
 
 ## Project Structure

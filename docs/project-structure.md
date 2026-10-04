@@ -305,8 +305,7 @@ Each project contains:
 
 ```text
 TestResults/
-├── [guid]/                     # Test run results
-│   └── coverage.opencover.xml  # Coverage data
+├── [guid].cobertura.xml        # Coverage data (dotnet test --coverage --coverage-output-format cobertura)
 └── ...
 ```text
 
