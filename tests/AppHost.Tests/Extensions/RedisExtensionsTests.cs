@@ -178,6 +178,24 @@ public class RedisExtensionsTests
 	}
 
 	/// <summary>
+	/// Test that every health check the Redis resource requires is registered, so the AppHost can start.
+	/// </summary>
+	[Fact]
+	public void AddRedisCache_With_Default_Name_Should_Register_Every_Required_Health_Check_Test()
+	{
+		// Arrange
+		IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder();
+		builder.AddRedisCache();
+		using ServiceProvider provider = builder.Services.BuildServiceProvider();
+
+		// Act
+		Func<HealthCheckServiceOptions> act = () => provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>().Value;
+
+		// Assert
+		act.Should().NotThrow<OptionsValidationException>();
+	}
+
+	/// <summary>
 	/// Test that the Redis resource has data volume annotation.
 	/// </summary>
 	[Fact]

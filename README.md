@@ -80,6 +80,9 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.26](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.26) | 2026-10-04 | ci(automerge): Re-check a PR when a review is submitted | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-201-ci-automerge-re-check-a-pr-when-a-review-is-submitted.md) |
+| [v0.0.25](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.25) | 2026-10-04 | fix(AppHost): Start the AppHost again on Aspire 13.5 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-197-fix-apphost-start-the-apphost-again-on-aspire-13-5.md) |
+| [v0.0.24](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.24) | 2026-10-04 | chore(deps): bump the all-actions group with 2 updates | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-198-chore-deps-bump-the-all-actions-group-with-2-updates.md) |
 | [v0.0.23](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.23) | 2026-10-04 | chore: standardize on the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) |
 | [v0.0.22](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.22) | 2026-09-30 | ci(release): List again every 2s, for up to 30s | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) |
 | [v0.0.21](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.21) | 2026-09-30 | fix(release): Wait for a just-published Release to be listed | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) |
@@ -87,9 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.19](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.19) | 2026-09-30 | test(hooks): Test uppercase slugs apart from the chore/ digit rule | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-186-test-hooks-test-uppercase-slugs-apart-from-the-chore-digit-rule.md) |
 | [v0.0.18](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.18) | 2026-09-30 | fix(release): Skip a named PR merged elsewhere; mark a published draft | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) |
 | [v0.0.17](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.17) | 2026-09-30 | ci(hooks): Adopt the shared branch-name standard | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-182-ci-hooks-adopt-the-shared-branch-name-standard.md) |
-| [v0.0.16](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.16) | 2026-09-30 | test(hooks): Fail the rename case when git reports no rename | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-180-test-hooks-fail-the-rename-case-when-git-reports-no-rename.md) |
-| [v0.0.15](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.15) | 2026-09-30 | ci: Drop the unused build-artifact cache | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-178-ci-drop-the-unused-build-artifact-cache.md) |
-| [v0.0.14](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.14) | 2026-09-30 | ci: Skip the build and tests on docs-only PRs | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-175-ci-skip-the-build-and-tests-on-docs-only-prs.md) |
 
 <!-- RELEASES_END -->
 
