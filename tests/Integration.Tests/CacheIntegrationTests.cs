@@ -204,7 +204,7 @@ public class CacheIntegrationTests
 		var options = new DistributedCacheEntryOptions();
 
 		// Act: Manually insert corrupted data
-		await distributedCache.SetAsync(key, corruptedData, options);
+		await distributedCache.SetAsync(key, corruptedData, options, TestContext.Current.CancellationToken);
 
 		// Act: Try to get with cache service (should handle exception)
 		var result = await cacheService.GetAsync<TestCacheObject>(key);

@@ -25,12 +25,12 @@ public class GetStatusesTests : IAsyncLifetime
 		_sut = new StatusRepository(context);
 	}
 
-	public Task InitializeAsync()
+	public ValueTask InitializeAsync()
 	{
-		return Task.CompletedTask;
+		return ValueTask.CompletedTask;
 	}
 
-	public async Task DisposeAsync()
+	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetDatabaseAsync();
 	}

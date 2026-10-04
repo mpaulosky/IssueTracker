@@ -64,11 +64,11 @@ public class IndexTests : BunitContext
 		switch (key)
 		{
 			case "_isSortedByNew":
-				bool value = await _sessionStorageService.GetItemAsync<bool>(key);
+				bool value = await _sessionStorageService.GetItemAsync<bool>(key, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 				value.Should().Be((bool)Convert.ChangeType(expectedValue, typeof(bool)));
 				break;
 			default:
-				string? result = await _sessionStorageService.GetItemAsync<string>(key);
+				string? result = await _sessionStorageService.GetItemAsync<string>(key, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 				result.Should().Be(expectedValue);
 				break;
 		}
@@ -227,7 +227,7 @@ public class IndexTests : BunitContext
 		cut.FindAll("div.categories > div")[index].Click();
 
 		// Assert
-		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -251,7 +251,7 @@ public class IndexTests : BunitContext
 		cut.FindAll("div.statuses > div")[index].Click();
 
 		// Assert
-		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -270,7 +270,7 @@ public class IndexTests : BunitContext
 		cut.Find("#sort-by-new").Click();
 
 		// Assert
-		bool result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		bool result = await _sessionStorageService.GetItemAsync<bool>(sessionName, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 		result.Should().BeTrue();
 	}
 
@@ -289,7 +289,7 @@ public class IndexTests : BunitContext
 		cut.Find("#sort-by-popular").Click();
 
 		// Assert
-		bool result = await _sessionStorageService.GetItemAsync<bool>(sessionName);
+		bool result = await _sessionStorageService.GetItemAsync<bool>(sessionName, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 		result.Should().BeFalse();
 	}
 
@@ -309,7 +309,7 @@ public class IndexTests : BunitContext
 		cut.Find("input").Input("test");
 
 		// Assert
-		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName);
+		string? result = await _sessionStorageService.GetItemAsync<string>(sessionName, cancellationToken: Xunit.TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 

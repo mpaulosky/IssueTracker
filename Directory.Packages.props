@@ -10,7 +10,6 @@
     <PackageVersion Include="Blazored.SessionStorage.TestExtensions" Version="2.4.0" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="bunit" Version="2.11.3" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="FluentAssertions" Version="[8.11.0]" />
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="10.0.12" />
@@ -25,7 +24,6 @@
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Identity.Web" Version="4.15.0" />
     <PackageVersion Include="Microsoft.Identity.Web.UI" Version="4.15.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageVersion Include="MongoDB.Bson" Version="3.12.0" />
     <PackageVersion Include="MongoDB.Driver" Version="3.12.0" />
@@ -45,8 +43,8 @@
     <PackageVersion Include="Testcontainers" Version="4.15.0" />
     <PackageVersion Include="Testcontainers.MongoDb" Version="4.15.0" />
     <PackageVersion Include="Testcontainers.Redis" Version="4.15.0" />
-    <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.1" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.2" />
     <PackageVersion Include="Ardalis.GuardClauses" Version="4.0.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis" Version="4.6.0" />
     <PackageVersion Include="Aspire.Hosting" Version="13.5.4" />

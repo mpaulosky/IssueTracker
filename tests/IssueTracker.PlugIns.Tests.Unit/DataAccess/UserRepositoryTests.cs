@@ -179,7 +179,7 @@ public class UserRepositoryTests
 		// Arrange
 		UserModel expected = FakeUser.GetNewUser(true);
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		UserModel updatedUser = FakeUser.GetNewUser(true);
 		updatedUser.Archived = true;

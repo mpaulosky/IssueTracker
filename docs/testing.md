@@ -40,8 +40,10 @@ dotnet test tests/IssueTracker.UI.Tests.Unit
 
 ### Run Tests with Coverage
 
+Tests run on Microsoft Testing Platform (set in `global.json`), so coverage comes from its `--coverage` switch:
+
 ```bash
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+dotnet test tests/IssueTracker.Services.Tests.Unit --coverage --coverage-output-format cobertura --results-directory TestResults
 ```text
 
 ### Run Tests in Watch Mode
@@ -266,10 +268,10 @@ After running tests with coverage:
 
 ```bash
 # Generate coverage report
-dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+dotnet test tests/IssueTracker.Services.Tests.Unit --coverage --coverage-output-format cobertura --results-directory TestResults
 
 # View in browser (requires reportgenerator)
-reportgenerator -reports:coverage.opencover.xml -targetdir:coverage-report
+reportgenerator -reports:"TestResults/*.cobertura.xml" -targetdir:coverage-report
 ```text
 
 ### Coverage Goals
@@ -375,12 +377,14 @@ Tests run automatically on:
 ```yaml
 
 - name: Test
-  run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true
+  run: >-
+    dotnet test "$PROJECT_PATH" --results-directory TestResults --report-xunit-trx
+    --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
 - name: Upload Coverage
   uses: codecov/codecov-action@v3
   with:
-    files: coverage.opencover.xml
+    files: TestResults/coverage.cobertura.xml
 ```text
 
 ## Troubleshooting
@@ -403,7 +407,7 @@ Tests run automatically on:
 **Issue**: Tests take too long to run
 
 **Solutions**:
-1. Run unit tests separately: `dotnet test --filter Category!=Integration`
+1. Run the unit test projects on their own (the `*.Tests.Unit` projects need no Docker)
 
 2. Use parallel execution (enabled by default in xUnit)
 
@@ -414,9 +418,9 @@ Tests run automatically on:
 **Issue**: Coverage reports not being created
 
 **Solutions**:
-1. Install coverlet: `dotnet tool install -g coverlet.console`
+1. Pass `--coverage` (Microsoft Testing Platform), not VSTest's `--collect` or coverlet's `/p:CollectCoverage`
 
-2. Ensure test projects reference `coverlet.collector`
+2. Ensure the test project references `Microsoft.Testing.Extensions.CodeCoverage`
 
 3. Check output directory for coverage files
 

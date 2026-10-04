@@ -26,12 +26,12 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 		_dbContext = (IMongoDbContextFactory)_factory.Services.GetRequiredService(typeof(IMongoDbContextFactory));
 	}
 
-	public Task InitializeAsync()
+	public ValueTask InitializeAsync()
 	{
-		return Task.CompletedTask;
+		return ValueTask.CompletedTask;
 	}
 
-	public async Task DisposeAsync()
+	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetDatabaseAsync();
 	}
@@ -57,10 +57,10 @@ public class MongoDbContextFactoryTests : IAsyncLifetime
 		IMongoClient client = _dbContext.Client;
 
 		// When
-		using IAsyncCursor<BsonDocument>? databases = client.ListDatabases();
+		using IAsyncCursor<BsonDocument>? databases = client.ListDatabases(TestContext.Current.CancellationToken);
 
 		// Then
-		Assert.Contains(databases.ToEnumerable(),
+		Assert.Contains(databases.ToEnumerable(TestContext.Current.CancellationToken),
 			database => database.TryGetValue("name", out BsonValue? name) && "admin".Equals(name.AsString));
 	}
 

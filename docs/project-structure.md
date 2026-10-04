@@ -258,12 +258,10 @@ docs/
 IssueTracker/
 ├── IssueTracker.slnx           # Solution file
 ├── Directory.Packages.props    # Central package management
-├── global.json                 # .NET SDK version
+├── global.json                 # .NET SDK version and test runner (Microsoft Testing Platform)
 ├── docker-compose.yml          # Docker orchestration
-├── dotnet.config              # NuGet configuration
 ├── codecov.yml                # Code coverage config
 ├── dependabot.yml             # Dependency updates
-├── runsettings.xml            # Test settings
 ├── testEnvironments.json      # Test environment config
 ├── IssueTracker.lutconfig     # LUT configuration
 └── LICENSE                     # MIT License
@@ -307,8 +305,7 @@ Each project contains:
 
 ```text
 TestResults/
-├── [guid]/                     # Test run results
-│   └── coverage.opencover.xml  # Coverage data
+├── [guid].cobertura.xml        # Coverage data (dotnet test --coverage --coverage-output-format cobertura)
 └── ...
 ```text
 

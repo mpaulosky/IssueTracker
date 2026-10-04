@@ -26,12 +26,12 @@ public class UpVoteCommentTests : IAsyncLifetime
 		_sut = new CommentRepository(context);
 	}
 
-	public Task InitializeAsync()
+	public ValueTask InitializeAsync()
 	{
-		return Task.CompletedTask;
+		return ValueTask.CompletedTask;
 	}
 
-	public async Task DisposeAsync()
+	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetDatabaseAsync();
 	}

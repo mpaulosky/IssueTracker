@@ -45,8 +45,10 @@ dotnet test tests/<Project> -c Release                    # one test project
 scripts/gate.sh                                           # everything the pre-push hook checks
 ```
 
-- The SDK is pinned in `global.json` to the 10.0.3xx band (`rollForward: latestPatch`). SDK 10.0.4xx doesn't compile the
-  Razor pages yet.
+- `global.json` comes from the repo-ci-baseline Template: it pins the SDK (10.0.401, `rollForward: latestMinor`) and runs
+  `dotnet test` on Microsoft Testing Platform. Change it in the Template, not here; the next Apply overwrites it.
+- Bogus Razor errors (RZ1021 in pages the branch never touched) come from a build server another SDK started, not from
+  the code: run `dotnet build-server shutdown` and build again.
 - Package versions live in `Directory.Packages.props` (Central Package Management). A `PackageReference` has no `Version`.
 - Builds treat warnings as errors. A `NoWarn` needs a comment saying why and when it goes away.
 - Run test projects one at a time. At the `.slnx` level the test runner can report `Zero tests ran`.
@@ -55,7 +57,8 @@ scripts/gate.sh                                           # everything the pre-p
 
 ## Tests
 
-- xUnit v2 on VSTest, with FluentAssertions, NSubstitute or Moq, and Bogus fakes from CoreBusiness.
+- xUnit v3 on Microsoft Testing Platform, with FluentAssertions, NSubstitute or Moq, and Bogus fakes from CoreBusiness.
+  `IAsyncLifetime` returns `ValueTask`.
 - Components are tested with bUnit: test classes derive from `BunitContext`, not the obsolete `TestContext`.
 - Every test has `// Arrange`, `// Act` and `// Assert` markers. Test names read as
   `Method_With_Condition_Should_Result_Test`, as in `CreateCategory_With_Valid_Values_Should_Return_Test`.

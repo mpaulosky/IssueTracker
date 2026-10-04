@@ -100,7 +100,7 @@ public class CommentRepositoryTests
 		const int expectedCount = 5;
 		List<CommentModel> expected = FakeComment.GetComments(expectedCount).ToList();
 
-		await _mockCollection.Object.InsertManyAsync(expected);
+		await _mockCollection.Object.InsertManyAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		_mockContext.Setup(c => c.GetCollection<CommentModel>(It.IsAny<string>())).Returns(_mockCollection.Object);
 
@@ -162,7 +162,7 @@ public class CommentRepositoryTests
 		// Arrange
 		CommentModel expected = FakeComment.GetNewComment(true);
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		CommentModel updatedComment = FakeComment.GetNewComment(true);
 		updatedComment.Id = expected.Id;
@@ -195,7 +195,7 @@ public class CommentRepositoryTests
 		// Arrange
 		CommentModel expected = FakeComment.GetNewComment(true);
 
-		await _mockCollection.Object.InsertOneAsync(expected);
+		await _mockCollection.Object.InsertOneAsync(expected, cancellationToken: TestContext.Current.CancellationToken);
 
 		CommentModel updatedComment = FakeComment.GetNewComment(true);
 		updatedComment.Id = expected.Id;
