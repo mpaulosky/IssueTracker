@@ -138,6 +138,24 @@ mongodb.Resource.Annotations.Should().Contain(a => a.GetType().Name.Contains("He
 }
 
 /// <summary>
+/// Tests that every health check the MongoDB resource requires is registered, so the AppHost can start.
+/// </summary>
+[Fact]
+public void AddMongoDBWithManagement_With_Default_Name_Should_Register_Every_Required_Health_Check_Test()
+{
+// Arrange
+var builder = DistributedApplication.CreateBuilder();
+builder.AddMongoDBWithManagement("mongodb");
+using var provider = builder.Services.BuildServiceProvider();
+
+// Act
+Func<HealthCheckServiceOptions> act = () => provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>().Value;
+
+// Assert
+act.Should().NotThrow<OptionsValidationException>();
+}
+
+/// <summary>
 /// Tests that the MongoDB resource has data volume annotation.
 /// </summary>
 [Fact]

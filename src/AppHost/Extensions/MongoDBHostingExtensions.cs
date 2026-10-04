@@ -30,10 +30,9 @@ public static class MongoDBHostingExtensions
 		ArgumentException.ThrowIfNullOrWhiteSpace(name);
 		ArgumentException.ThrowIfNullOrWhiteSpace(databaseName);
 
-		// Add MongoDB container resource with Aspire API
+		// AddMongoDB registers and attaches its own health check
 		var mongodb = builder.AddMongoDB(name)
-			.WithDataVolume()
-			.WithHealthCheck(name);
+			.WithDataVolume();
 
 		// Add the default database
 		var database = mongodb.AddDatabase(databaseName);
