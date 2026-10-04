@@ -4,6 +4,8 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-10-04 | [fix(AppHost): Start the AppHost again on Aspire 13.5](2026-10-04-pr-197-fix-apphost-start-the-apphost-again-on-aspire-13-5.md) | release,automation |
+| 2026-10-04 | [chore(deps): bump the all-actions group with 2 updates](2026-10-04-pr-198-chore-deps-bump-the-all-actions-group-with-2-updates.md) | release,automation |
 | 2026-10-04 | [chore: standardize on the repo-ci-baseline Template](2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) | release,automation |
 | 2026-09-30 | [ci(release): List again every 2s, for up to 30s](2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) | release,automation |
 | 2026-09-30 | [fix(release): Wait for a just-published Release to be listed](2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) | release,automation |
