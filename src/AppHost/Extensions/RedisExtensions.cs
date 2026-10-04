@@ -60,10 +60,10 @@ public static class RedisExtensions
 			throw new ArgumentException("Database number cannot be negative.", nameof(database));
 		}
 
+		// AddRedis registers and attaches its own health check
 		var redis = builder
 			.AddRedis(name)
-			.WithDataVolume()
-			.WithHealthCheck(name);
+			.WithDataVolume();
 
 		// Add dashboard command to clear the specified Redis database
 		var clearCacheOptions = new CommandOptions
