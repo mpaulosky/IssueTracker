@@ -428,3 +428,5 @@ Tests run automatically on:
 - [Project Structure](project-structure.md)
 - [Code Metrics](CODE_METRICS.md)
 - [Contributing Guide](CONTRIBUTING.md)
+
+<!-- docs-only CI probe; this PR is closed without merging. -->
