@@ -47,6 +47,8 @@ scripts/gate.sh                                           # everything the pre-p
 
 - `global.json` comes from the repo-ci-baseline Template: it pins the SDK (10.0.401, `rollForward: latestMinor`) and runs
   `dotnet test` on Microsoft Testing Platform. Change it in the Template, not here; the next Apply overwrites it.
+- Bogus Razor errors (RZ1021 in pages the branch never touched) come from a build server another SDK started, not from
+  the code: run `dotnet build-server shutdown` and build again.
 - Package versions live in `Directory.Packages.props` (Central Package Management). A `PackageReference` has no `Version`.
 - Builds treat warnings as errors. A `NoWarn` needs a comment saying why and when it goes away.
 - Run test projects one at a time. At the `.slnx` level the test runner can report `Zero tests ran`.
