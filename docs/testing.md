@@ -377,12 +377,14 @@ Tests run automatically on:
 ```yaml
 
 - name: Test
-  run: dotnet test "$PROJECT_PATH" --report-xunit-trx --coverage --coverage-output-format cobertura
+  run: >-
+    dotnet test "$PROJECT_PATH" --results-directory TestResults --report-xunit-trx
+    --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
 - name: Upload Coverage
   uses: codecov/codecov-action@v3
   with:
-    files: coverage.opencover.xml
+    files: TestResults/coverage.cobertura.xml
 ```text
 
 ## Troubleshooting
