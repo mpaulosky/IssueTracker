@@ -26,13 +26,13 @@ public class ArchiveUserTests : IAsyncLifetime
 	}
 
 	[Fact]
-	public Task InitializeAsync()
+	public ValueTask InitializeAsync()
 	{
-		return Task.CompletedTask;
+		return ValueTask.CompletedTask;
 	}
 
 	[Fact]
-	public async Task DisposeAsync()
+	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetDatabaseAsync();
 	}

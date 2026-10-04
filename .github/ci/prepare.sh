@@ -20,6 +20,21 @@ test_name="${2:-}"
 
 case "$job" in
   build) ;;
-  test) : "$test_name" ;;
+  test)
+    # Required by AppHost's AddConnectionString("mongodb") even though the
+    # web app ignores it in Testing mode. ci.yml used to set it on every test
+    # job, so it still applies to every test project.
+    echo "ConnectionStrings__mongodb=mongodb://localhost:27017" >> "${GITHUB_ENV:-/dev/null}"
+
+    # AppHost.Tests starts the whole Aspire app, which serves the UI's Blazor
+    # static assets and pulls the Mongo and Redis containers.
+    if [[ "$test_name" == "AppHost.Tests" ]]; then
+      dotnet publish src/UI/IssueTracker.UI/IssueTracker.UI.csproj \
+        --configuration Release --no-restore
+      docker pull mongo:8.2 &
+      docker pull redis:8.6 &
+      wait
+    fi
+    ;;
   *) echo "prepare.sh: unknown job '$job'" >&2; exit 2 ;;
 esac

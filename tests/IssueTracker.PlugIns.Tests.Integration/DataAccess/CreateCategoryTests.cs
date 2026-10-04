@@ -25,12 +25,12 @@ public class CreateCategoryTests : IAsyncLifetime
 		_sut = new CategoryRepository(context);
 	}
 
-	public Task InitializeAsync()
+	public ValueTask InitializeAsync()
 	{
-		return Task.CompletedTask;
+		return ValueTask.CompletedTask;
 	}
 
-	public async Task DisposeAsync()
+	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetCollectionAsync(CleanupValue);
 	}

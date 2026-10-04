@@ -100,7 +100,7 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		});
 	}
 
-	public async Task InitializeAsync()
+	public async ValueTask InitializeAsync()
 	{
 		var lockAcquired = false;
 		try
@@ -241,10 +241,5 @@ public class IssueTrackerTestFactory : WebApplicationFactory<IAppMarker>, IAsync
 		{
 			DbLock.Release();
 		}
-	}
-
-	Task IAsyncLifetime.DisposeAsync()
-	{
-		return DisposeAsync().AsTask();
 	}
 }
