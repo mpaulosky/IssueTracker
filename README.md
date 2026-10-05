@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.30](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.30) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template for the release-post fixes | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-209-chore-re-apply-the-repo-ci-baseline-template-for-the-release-post-fixes.md) |
 | [v0.0.29](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.29) | 2026-10-05 | chore: Use pnpm instead of npx in the gate and hooks | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-206-chore-use-pnpm-instead-of-npx-in-the-gate-and-hooks.md) |
 | [v0.0.28](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.28) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-205-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.27](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.27) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-203-chore-re-apply-the-repo-ci-baseline-template.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.23](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.23) | 2026-10-04 | chore: standardize on the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) |
 | [v0.0.22](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.22) | 2026-09-30 | ci(release): List again every 2s, for up to 30s | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) |
 | [v0.0.21](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.21) | 2026-09-30 | fix(release): Wait for a just-published Release to be listed | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-190-fix-release-wait-for-a-just-published-release-to-be-listed.md) |
-| [v0.0.20](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.20) | 2026-09-30 | ci: Classify a PR's changed files in a tested script | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) |
 
 <!-- RELEASES_END -->
 
