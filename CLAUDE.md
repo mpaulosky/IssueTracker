@@ -72,13 +72,5 @@ first. Every `.cs` file starts with the repository's copyright header block, and
 
 ## Workflow
 
-- Branches: `feature/{issue}-{slug}`, `fix/{issue}-{slug}`, `hotfix/{issue}-{slug}` or `chore/{slug}`, each in its own
-  worktree under `../IssueTracker-worktrees/`. PRs target `main`.
-- Turn on the hooks once per clone: `git config core.hooksPath .github/hooks`. Pre-commit lints staged Markdown;
-  pre-push checks the branch name and runs `scripts/gate.sh`.
-- Commit messages follow `.github/instructions/git-commit-instructions.md`.
-- `Build Solution` and `Test Suite` are required checks. `pr-automerge.yml` squash-merges a PR once they pass, Copilot has
-  reviewed it and every thread is resolved; open a draft PR to hold one back.
-- Each PR merged to `main` gets a release (patch by default; label `semver:minor` or `semver:major` to bump more) and
-  a follow-up PR with its blog post under `docs/blogs/`. PRs with `[skip-release]` in the title, such as those blog
-  PRs and metrics refreshes, don't release.
+Branches, worktrees, commits, PR titles and descriptions, checks, review, merging and releases follow
+[docs/PROCESS.md](docs/PROCESS.md). Worktrees go under `../IssueTracker-worktrees/`.
