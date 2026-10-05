@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.27](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.27) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-203-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.26](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.26) | 2026-10-04 | ci(automerge): Re-check a PR when a review is submitted | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-201-ci-automerge-re-check-a-pr-when-a-review-is-submitted.md) |
 | [v0.0.25](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.25) | 2026-10-04 | fix(AppHost): Start the AppHost again on Aspire 13.5 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-197-fix-apphost-start-the-apphost-again-on-aspire-13-5.md) |
 | [v0.0.24](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.24) | 2026-10-04 | chore(deps): bump the all-actions group with 2 updates | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-198-chore-deps-bump-the-all-actions-group-with-2-updates.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.20](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.20) | 2026-09-30 | ci: Classify a PR's changed files in a tested script | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-188-ci-classify-a-pr-s-changed-files-in-a-tested-script.md) |
 | [v0.0.19](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.19) | 2026-09-30 | test(hooks): Test uppercase slugs apart from the chore/ digit rule | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-186-test-hooks-test-uppercase-slugs-apart-from-the-chore-digit-rule.md) |
 | [v0.0.18](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.18) | 2026-09-30 | fix(release): Skip a named PR merged elsewhere; mark a published draft | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-184-fix-release-skip-a-named-pr-merged-elsewhere-mark-a-published-draft.md) |
-| [v0.0.17](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.17) | 2026-09-30 | ci(hooks): Adopt the shared branch-name standard | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-182-ci-hooks-adopt-the-shared-branch-name-standard.md) |
 
 <!-- RELEASES_END -->
 
