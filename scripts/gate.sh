@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 # Local quality gate, run by .github/hooks/pre-push and safe to run by hand.
 # Lints the Markdown, YAML, workflow and shell files changed since origin/main
-# (every unpushed commit, with the same configs as CI), builds the solution,
-# then runs each test project under tests/. Exits non-zero on the first
+# (every unpushed commit, with the same configs as CI), runs the repo's own
+# checks in .github/ci/gate-checks.sh, builds the solution, then runs each test
+# project CI's discover_tests.py finds under tests/. Exits non-zero on the first
 # failing gate.
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
+# Under a hook git sets GIT_DIR (and GIT_INDEX_FILE in a linked worktree); a
+# test that runs git in a temp folder would inherit them and read this repo.
+# From the root, git finds the repo without them.
+# shellcheck disable=SC2046 # one variable name per word, on purpose
+unset $(git rev-parse --local-env-vars)
 
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; RESET='\033[0m'
 
@@ -18,11 +24,13 @@ step() { echo -e "\n${CYAN}▶ $1${RESET}"; }
 if BASE="$(git merge-base HEAD origin/main 2>/dev/null)"; then
   CHANGED="$(git diff --name-only --diff-filter=ACMR "$BASE" HEAD)"
 else
+  BASE=""
   CHANGED="$(git ls-files)"
 fi
 
 mapfile -t MD_FILES < <(grep -E '\.md$' <<< "$CHANGED" | grep -Ev '^docs/blogs/' || true)
-mapfile -t YAML_FILES < <(grep -E '\.ya?ml$' <<< "$CHANGED" || true)
+# pnpm writes its lockfile in its own YAML style; it isn't hand-edited.
+mapfile -t YAML_FILES < <(grep -E '\.ya?ml$' <<< "$CHANGED" | grep -Ev '(^|/)pnpm-lock\.yaml$' || true)
 mapfile -t WORKFLOW_FILES < <(grep -E '^\.github/(workflows/[^/]+\.ya?ml|dependabot\.ya?ml|actionlint\.ya?ml|zizmor\.ya?ml)$' <<< "$CHANGED" || true)
 # Shell scripts, plus extensionless scripts and git hooks.
 mapfile -t SHELL_FILES < <(grep -E '\.sh$|^scripts/[^/.]+$|^\.github/hooks/((pre|post)-[a-z-]+|(prepare-)?commit-msg)$' <<< "$CHANGED" || true)
@@ -70,6 +78,12 @@ if [[ ${#MD_FILES[@]} -gt 0 ]]; then
     "$ROOT/node_modules/.bin/markdownlint-cli2" "${MD_FILES[@]}"
   elif command -v markdownlint-cli2 &>/dev/null; then
     markdownlint-cli2 "${MD_FILES[@]}"
+  elif command -v pnpm &>/dev/null; then
+    pnpm dlx "markdownlint-cli2@${MARKDOWNLINT_CLI2_VERSION}" "${MD_FILES[@]}"
+  elif [[ -n "$(git ls-files '*pnpm-lock.yaml' 'pnpm-lock.yaml')" ]]; then
+    # A repo whose Node project uses pnpm forbids npm and npx.
+    echo "Markdown lint needs pnpm in this repo: corepack enable, or pnpm add -g markdownlint-cli2." >&2
+    exit 1
   else
     npx --yes "markdownlint-cli2@${MARKDOWNLINT_CLI2_VERSION}" "${MD_FILES[@]}"
   fi
@@ -110,17 +124,24 @@ if [[ ${#SHELL_FILES[@]} -gt 0 ]]; then
     -- "${SHELL_FILES[@]}"
 fi
 
+# Checks only this repo needs (Seed, so Apply never overwrites them). It gets
+# the merge base, empty without an origin/main, to find its own changed files.
+if [[ -f .github/ci/gate-checks.sh ]]; then
+  step "Repo checks (.github/ci/gate-checks.sh)"
+  bash .github/ci/gate-checks.sh "$BASE"
+fi
+
 step "Build"
 mapfile -t SOLUTIONS < <(find . -maxdepth 1 -name '*.slnx')
 dotnet build "${SOLUTIONS[@]}" --configuration Release -warnaserror
 
 step "Tests"
-# The rule ci.yml's discover-tests job uses: a project is a test project when
-# its .csproj says <IsTestProject>true</IsTestProject>. Helper libraries such as
-# TestingSupport.Library don't, and dotnet test on Microsoft Testing Platform
-# fails on them ("No test projects were found").
-mapfile -t TEST_PROJECTS < <(find tests -mindepth 2 -maxdepth 2 -name '*.csproj' -print0 2>/dev/null \
-  | xargs -0 -r grep -l '<IsTestProject>true</IsTestProject>' | sort)
+# CI's discovery (ci.yml's discover-tests job): a project is a test project when
+# IsTestProject resolves to true for it, at any depth under tests/. Helper
+# libraries such as TestingSupport.Library don't set it, and dotnet test on
+# Microsoft Testing Platform fails on them ("No test projects were found").
+TEST_LIST="$(python3 .github/scripts/discover_tests.py --list)"
+mapfile -t TEST_PROJECTS < <(grep . <<< "$TEST_LIST" || true)
 if [[ ${#TEST_PROJECTS[@]} -eq 0 ]]; then
   echo -e "${YELLOW}No test projects under tests/ — skipping.${RESET}"
 fi

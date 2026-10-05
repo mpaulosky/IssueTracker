@@ -28,7 +28,7 @@ All commit messages **must** follow this structure:
 
 ### Scope
 
-The scope should be the name of the affected project, folder, or feature (e.g., `UI`, `Services`, `PlugIns`, `AppHost`, `ci`,
+The scope should be the name of the affected project, folder, or feature (e.g., `Web`, `Data`, `Tests`, `ci`,
 `docs`).
 
 ### Short Summary
@@ -44,21 +44,27 @@ The scope should be the name of the affected project, folder, or feature (e.g., 
 - Wrap lines at 72 characters.
 - Reference issues using `Fixes #123` or `Refs #456`.
 
+## PR Titles
+
+A pull request's title follows the same format as a commit's short summary: `<type>(<scope>): <Summary>`, with a capital
+and no closing period. The title becomes the squash commit's subject on `main` and the Release's name, and the required
+**PR title** check (`.github/workflows/pr-title.yml`) enforces it. Dependabot's PRs are exempt.
+
 ## Examples
 
 ```text
-feat(UI): Let admins archive a category from the grid
+feat(Web): Let users sort the list by date
 
-Adds an Archive button to each row on the Categories page. Archived
-categories drop out of the Create form's category list.
+Adds a Sort by date option above the list. The choice is kept in the
+query string, so a shared link keeps the order.
 Fixes #42
 ```
 
 ```text
-fix(PlugIns): Return an empty list when an issue has no comments
+fix(Data): Return an empty list when a record has no children
 
-The comment query returned null for issues without comments, which
-the details page then dereferenced.
+The query returned null for records without children, which the
+details page then dereferenced.
 ```
 
 ```text
