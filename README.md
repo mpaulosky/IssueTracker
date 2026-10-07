@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.32](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.32) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-213-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.31](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.31) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-211-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.30](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.30) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template for the release-post fixes | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-209-chore-re-apply-the-repo-ci-baseline-template-for-the-release-post-fixes.md) |
 | [v0.0.29](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.29) | 2026-10-05 | chore: Use pnpm instead of npx in the gate and hooks | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-206-chore-use-pnpm-instead-of-npx-in-the-gate-and-hooks.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.25](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.25) | 2026-10-04 | fix(AppHost): Start the AppHost again on Aspire 13.5 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-197-fix-apphost-start-the-apphost-again-on-aspire-13-5.md) |
 | [v0.0.24](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.24) | 2026-10-04 | chore(deps): bump the all-actions group with 2 updates | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-198-chore-deps-bump-the-all-actions-group-with-2-updates.md) |
 | [v0.0.23](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.23) | 2026-10-04 | chore: standardize on the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) |
-| [v0.0.22](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.22) | 2026-09-30 | ci(release): List again every 2s, for up to 30s | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-09-30-pr-192-ci-release-list-again-every-2s-for-up-to-30s.md) |
 
 <!-- RELEASES_END -->
 
