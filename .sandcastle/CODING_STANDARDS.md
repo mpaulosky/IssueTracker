@@ -26,8 +26,9 @@ The host doesn't run it itself, so a reviewer runs it rather than trusting the i
 
 The sandbox has no Docker, on purpose: the host's Docker socket would give the agents root on the host, and they read
 public issue content. `check.sh` skips each test project that uses Testcontainers, `Aspire.Hosting.Testing` or
-Playwright, directly or through a `tests/` project it references. The host's pre-push gate (`scripts/gate.sh`) runs
-those suites when the branch is pushed, and CI runs everything.
+Playwright, directly or through a `tests/` project it references, or that sets `<RequiresDocker>true</RequiresDocker>`.
+The host's pre-push gate (`scripts/gate.sh`) runs those suites when the branch is pushed, and CI runs everything. A test
+that fails only because the sandbox has no Docker is reported, never deleted, skipped or weakened to pass.
 
 ## What reviews most often catch
 

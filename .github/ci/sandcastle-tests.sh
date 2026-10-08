@@ -9,9 +9,13 @@ set -euo pipefail
 
 base="${1-}"
 
-# .sandcastle/ itself, the root package files, and the scripts its tests run:
-# branches.test.mts checks every branch name against check-branch-name.sh.
-paths=(.sandcastle package.json pnpm-lock.yaml scripts/check-branch-name.sh)
+# .sandcastle/ itself, the root package files, the scripts its tests run
+# (branches.test.mts checks every branch name against check-branch-name.sh),
+# and this script and its callers, so a change to how the tests run runs them.
+paths=(
+  .sandcastle package.json pnpm-lock.yaml scripts/check-branch-name.sh
+  .github/ci/sandcastle-tests.sh .github/ci/gate-checks.sh .github/ci/prepare.sh
+)
 
 if [[ -n "$base" ]] && git diff --quiet --no-renames "$base" HEAD -- "${paths[@]}"; then
   echo "No changes the Sandcastle tests cover."

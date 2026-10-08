@@ -14,25 +14,30 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-# A test project needs Docker when it, or a project under tests/ it
-# references, uses one of these packages: Testcontainers starts containers,
+# A test project needs Docker when it, or a project under tests/ it references
+# at any depth, uses one of these packages: Testcontainers starts containers,
 # Aspire.Hosting.Testing starts the AppHost's, and Playwright drives a browser
 # against a running app. A new project that uses one of them is skipped here
-# without anyone editing a list.
-DOCKER_PACKAGES='<PackageReference[^>]+Include="(Testcontainers[^"]*|Aspire\.Hosting\.Testing|Microsoft\.Playwright[^"]*)"'
+# without anyone editing a list. A project that needs Docker some other way
+# (say, Aspire.Hosting's own StartAsync) sets <RequiresDocker>true</RequiresDocker>
+# in its .csproj to be skipped too.
+DOCKER_MARKERS='<PackageReference[^>]+Include="(Testcontainers[^"]*|Aspire\.Hosting\.Testing|Microsoft\.Playwright[^"]*)"|<RequiresDocker>[[:space:]]*true[[:space:]]*</RequiresDocker>'
 
-# needs_docker <csproj>: true when the project or a tests/ project it references
-# uses a package in DOCKER_PACKAGES.
+# needs_docker <csproj> [visited...]: true when the project, or a tests/
+# project it references directly or indirectly, matches DOCKER_MARKERS.
+# Newlines are folded first, so an element split across lines still matches.
 needs_docker() {
-  local csproj="$1" dir reference path
-  grep -qE "$DOCKER_PACKAGES" "$csproj" && return 0
+  local csproj="$1" text dir reference path
+  shift
+  text="$(tr '\n\r' '  ' < "$csproj")"
+  grep -qiE "$DOCKER_MARKERS" <<< "$text" && return 0
   dir="$(dirname "$csproj")"
   while read -r reference; do
     path="$(realpath -m --relative-to=. "$dir/${reference//\\//}")"
-    if [[ "$path" == tests/* && -f "$path" ]] && grep -qE "$DOCKER_PACKAGES" "$path"; then
-      return 0
-    fi
-  done < <(grep -oE '<ProjectReference[^>]+Include="[^"]+"' "$csproj" | sed -E 's/.*Include="([^"]+)"/\1/')
+    [[ "$path" == tests/* && -f "$path" ]] || continue
+    [[ " $* " == *" $path "* ]] && continue
+    needs_docker "$path" "$csproj" "$@" && return 0
+  done < <(grep -oE '<ProjectReference[^>]+Include="[^"]+"' <<< "$text" | sed -E 's/.*Include="([^"]+)"/\1/')
   return 1
 }
 

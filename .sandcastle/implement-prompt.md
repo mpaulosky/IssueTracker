@@ -41,8 +41,10 @@ Docker, then the Sandcastle tests. While you work, run the test projects that co
 `dotnet test tests/<Project> -c Release`.
 
 The sandbox has no Docker, on purpose. `check.sh` skips the test projects that need it (those using Testcontainers,
-`Aspire.Hosting.Testing` or Playwright); the host's pre-push gate and CI run them. Don't try to start Docker or
-containers.
+`Aspire.Hosting.Testing` or Playwright, or marked `<RequiresDocker>true</RequiresDocker>`); the host's pre-push gate and
+CI run them. Don't try to start Docker or containers. If a test fails because Docker is missing, don't delete, skip or
+weaken it: say so in your commit body, and mark its project `<RequiresDocker>true</RequiresDocker>` only if it really
+starts containers.
 
 # COMMIT
 
