@@ -18,6 +18,20 @@ would drift from them; it names where they live. Read each source that applies t
 
 Where an instructions file disagrees with `CLAUDE.md`, `CLAUDE.md` wins.
 
+## The check
+
+`.sandcastle/check.sh` is the check in the sandbox: the YAML and shell lints, the Release build with warnings as
+errors, every test project that doesn't need Docker, and the Sandcastle tests. A branch isn't done until it exits 0.
+The host runs it in the sandbox after the implementer, and again if the reviewer changes the branch, and publishes
+only a commit it passed on: its exit code decides, never what an agent says.
+
+The sandbox has no Docker, on purpose: the host's Docker socket would give the agents root on the host, and they read
+public issue content. `check.sh` skips each test project that uses Testcontainers, `Aspire.Hosting.Testing` or
+Playwright, directly or through a `tests/` project it references, or that sets `<RequiresDocker>true</RequiresDocker>`.
+The host pushes Sandcastle's branches without the pre-push hook, which is a file in the worktree the agents edit, so
+CI is what runs those suites. A test
+that fails only because the sandbox has no Docker is reported, never deleted, skipped or weakened to pass.
+
 ## What reviews most often catch
 
 These are in the sources above; they are listed here because they are the easiest to miss.

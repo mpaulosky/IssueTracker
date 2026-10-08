@@ -24,8 +24,29 @@ public class CacheIntegrationTests
 	{
 		private readonly Dictionary<string, (byte[] value, DateTime? expiration)> _cache = new();
 
+		private int _readCount;
+		private int _writeCount;
+		private int _removeCount;
+
+		/// <summary>
+		/// Gets the number of reads made against this cache.
+		/// </summary>
+		public int ReadCount => Volatile.Read(ref _readCount);
+
+		/// <summary>
+		/// Gets the number of writes made against this cache.
+		/// </summary>
+		public int WriteCount => Volatile.Read(ref _writeCount);
+
+		/// <summary>
+		/// Gets the number of removals made against this cache.
+		/// </summary>
+		public int RemoveCount => Volatile.Read(ref _removeCount);
+
 		public byte[]? Get(string key)
 		{
+			Interlocked.Increment(ref _readCount);
+
 			if (_cache.TryGetValue(key, out var entry))
 			{
 				if (entry.expiration.HasValue && entry.expiration.Value < DateTime.UtcNow)
@@ -45,6 +66,8 @@ public class CacheIntegrationTests
 
 		public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
 		{
+			Interlocked.Increment(ref _writeCount);
+
 			var expiration = options.AbsoluteExpirationRelativeToNow.HasValue
 				? DateTime.UtcNow.Add(options.AbsoluteExpirationRelativeToNow.Value)
 				: (DateTime?)null;
@@ -58,7 +81,11 @@ public class CacheIntegrationTests
 			return Task.CompletedTask;
 		}
 
-		public void Remove(string key) => _cache.Remove(key);
+		public void Remove(string key)
+		{
+			Interlocked.Increment(ref _removeCount);
+			_cache.Remove(key);
+		}
 
 		public Task RemoveAsync(string key, CancellationToken token = default)
 		{
@@ -214,25 +241,32 @@ public class CacheIntegrationTests
 	}
 
 	/// <summary>
-	/// Tests: Cache performance — measure hit latency.
+	/// Tests: A cache hit is served by a single read of the distributed cache.
+	/// Checks behaviour rather than wall-clock time, which made the old timing test fail under machine load.
 	/// </summary>
 	[Fact]
-	public async Task Cache_Performance_Meets_Baseline()
+	public async Task GetAsync_With_Cached_Key_Should_Read_Distributed_Cache_Once_Test()
 	{
 		// Arrange
-		var cacheService = CreateCacheService();
-		var key = "perf-test-key";
-		var value = new TestCacheObject { Id = 1, Name = "Performance Test", CreatedAt = DateTime.UtcNow };
+		var logger = new TestLogger<CacheService>();
+		var distributedCache = new InMemoryDistributedCacheForTest();
+		var cacheService = new CacheService(distributedCache, logger);
+		var key = "cache-hit-key";
+		var value = new TestCacheObject { Id = 1, Name = "Cache Hit Test", CreatedAt = DateTime.UtcNow };
 		await cacheService.SetAsync(key, value);
+		var readsBefore = distributedCache.ReadCount;
+		var writesBefore = distributedCache.WriteCount;
+		var removesBefore = distributedCache.RemoveCount;
 
-		// Act: Measure cache hit latency
-		var stopwatch = Stopwatch.StartNew();
+		// Act
 		var retrieved = await cacheService.GetAsync<TestCacheObject>(key);
-		stopwatch.Stop();
 
-		// Assert: Cache hit should be < 5ms (local cache)
-		retrieved.Should().NotBeNull();
-		stopwatch.ElapsedMilliseconds.Should().BeLessThan(5);
+		// Assert
+		retrieved.Should().BeEquivalentTo(value);
+		distributedCache.ReadCount.Should().Be(readsBefore + 1, "a hit costs exactly one read of the distributed cache");
+		distributedCache.WriteCount.Should().Be(writesBefore, "a hit doesn't write the entry back");
+		distributedCache.RemoveCount.Should().Be(removesBefore, "a hit doesn't remove the entry");
+		logger.Logs.Should().ContainSingle(log => log.Item1 == LogLevel.Debug && log.Item2 == $"Cache hit for key: {key}");
 	}
 
 	/// <summary>

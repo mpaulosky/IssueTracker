@@ -19,7 +19,6 @@
 		<!-- Enables the MTP coverage switch that CI passes to dotnet test. -->
 		<PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-		<PackageReference Include="Testcontainers" />
 	</ItemGroup>
 
 	<ItemGroup>

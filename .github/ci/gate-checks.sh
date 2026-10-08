@@ -17,4 +17,6 @@
 set -euo pipefail
 
 base="${1-}"
-: "$base"
+
+# Sandcastle's orchestration code: its tests, when anything they cover changed.
+bash .github/ci/sandcastle-tests.sh "$base"

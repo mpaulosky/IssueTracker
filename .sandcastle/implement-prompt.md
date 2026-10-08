@@ -60,8 +60,10 @@ shell files, builds `IssueTracker.slnx` in Release with warnings as errors, runs
 Docker, then the Sandcastle tests. While you work, run the test projects that cover your change one at a time with
 `dotnet test tests/<Project> -c Release`.
 
-The sandbox has no Docker, on purpose. `check.sh` skips the test projects that need it; CI runs them. Don't try to
-start Docker or containers.
+The sandbox has no Docker, on purpose. `check.sh` skips the test projects that need it (those using Testcontainers,
+`Aspire.Hosting.Testing` or Playwright, or marked `<RequiresDocker>true</RequiresDocker>`); CI runs them. Don't try to
+start Docker or containers. If a test fails because Docker is missing, don't delete, skip or weaken it: say so in your
+commit body, and mark its project `<RequiresDocker>true</RequiresDocker>` only if it really starts containers.
 
 The host merges `origin/main` into the branch and runs `check.sh` itself before it publishes the branch, so the branch
 is only published when it passes.
