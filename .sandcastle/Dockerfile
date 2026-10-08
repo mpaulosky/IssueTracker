@@ -5,6 +5,10 @@ RUN apt-get update && apt-get install -y \
   git \
   curl \
   jq \
+  libicu72 \
+  python3 \
+  shellcheck \
+  yamllint \
   && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub CLI
@@ -23,13 +27,27 @@ ARG AGENT_GID=1000
 
 # Rename the base image's "node" user to "agent" and align UID/GID.
 RUN groupmod -o -g $AGENT_GID node && usermod -o -u $AGENT_UID -g $AGENT_GID -d /home/agent -m -l agent node
+
+# pnpm through corepack, at the version package.json's "packageManager" pins.
+RUN corepack enable pnpm
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 USER ${AGENT_UID}:${AGENT_GID}
 
 # Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
-# Add Claude to PATH
-ENV PATH="/home/agent/.local/bin:$PATH"
+# Install the .NET SDK. global.json pins 10.0.401 with rollForward latestMinor,
+# so the latest 10.0 SDK satisfies it.
+RUN curl -fsSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh \
+  && bash /tmp/dotnet-install.sh --channel 10.0 --install-dir /home/agent/.dotnet \
+  && rm /tmp/dotnet-install.sh
+
+ENV DOTNET_ROOT="/home/agent/.dotnet" \
+  DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+  DOTNET_NOLOGO=1
+
+# Add Claude and .NET to PATH
+ENV PATH="/home/agent/.local/bin:/home/agent/.dotnet:/home/agent/.dotnet/tools:$PATH"
 
 WORKDIR /home/agent
 
