@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.40](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.40) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-227-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.39](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.39) | 2026-10-08 | chore: Commit the Sandcastle setup | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-228-chore-commit-the-sandcastle-setup.md) |
 | [v0.0.38](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.38) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-225-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.37](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.37) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-223-chore-re-apply-the-repo-ci-baseline-template.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.33](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.33) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-215-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.32](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.32) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-213-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.31](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.31) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-211-chore-re-apply-the-repo-ci-baseline-template.md) |
-| [v0.0.30](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.30) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template for the release-post fixes | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-209-chore-re-apply-the-repo-ci-baseline-template-for-the-release-post-fixes.md) |
 
 <!-- RELEASES_END -->
 
