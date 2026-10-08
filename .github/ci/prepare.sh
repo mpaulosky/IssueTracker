@@ -18,28 +18,12 @@ set -euo pipefail
 job="${1:?usage: prepare.sh build|test [test-name]}"
 test_name="${2:-}"
 
-# Sandcastle's orchestration code (.sandcastle/): run its tests when the PR
-# changes it or the root package files, as the local gate's
-# .github/ci/gate-checks.sh does. Without an origin/main to compare with, run
-# them.
+# Sandcastle's tests, when the PR changes anything they cover, as the local
+# gate does. Without an origin/main to compare with, run them.
 sandcastle_tests() {
-  local base
-  if base="$(git merge-base HEAD origin/main 2>/dev/null)" \
-    && git diff --quiet --no-renames "$base" HEAD -- .sandcastle package.json pnpm-lock.yaml; then
-    echo "No Sandcastle or root package changes to test."
-    return
-  fi
-  # ci.yml (Owned by the Template) sets up no Node here, so this uses the
-  # runner image's. node --test strips the .mts files' types only from 22.18.
-  # node --run runs the package.json script without pnpm, so a runner Node
-  # without corepack (25 and later) still works. The tests import only node:
-  # builtins and each other; one that imports a package would need
-  # "pnpm install --frozen-lockfile" here first.
-  if ! node -e 'const [major, minor] = process.versions.node.split(".").map(Number); process.exit(major > 22 || (major === 22 && minor >= 18) ? 0 : 1)' 2>/dev/null; then
-    echo "::error::The Sandcastle tests need Node 22.18 or later; the runner has $(node --version 2>/dev/null || echo none). Add a pinned actions/setup-node to the repo-ci-baseline Template's ci.yml." >&2
-    return 1
-  fi
-  node --run test:sandcastle
+  local base=""
+  base="$(git merge-base HEAD origin/main 2>/dev/null)" || base=""
+  bash .github/ci/sandcastle-tests.sh "$base"
 }
 
 case "$job" in
