@@ -48,17 +48,19 @@ describe("slugFor", () => {
 });
 
 describe("isIssueBranch", () => {
-  it("matches the issue's feature and hotfix branches, not another issue's", () => {
+  it("matches the issue's feature, fix and hotfix branches, not another issue's", () => {
     assert.ok(isIssueBranch("feature/4-add-search", 4));
+    assert.ok(isIssueBranch("fix/4-stop-the-crash", 4));
     assert.ok(isIssueBranch("hotfix/4-stop-the-crash", 4));
     assert.ok(!isIssueBranch("feature/42-add-search", 4));
+    assert.ok(!isIssueBranch("fix/42-stop-the-crash", 4));
     assert.ok(!isIssueBranch("chore/4-add-search", 4));
   });
 });
 
 describe("branchFor", () => {
-  it("names a bug's branch hotfix/{n}-{slug}", () => {
-    assert.equal(branchFor(issue(7, "fix: Stop the crash", ["Sandcastle", "bug"]), []), "hotfix/7-stop-the-crash");
+  it("names a bug's branch fix/{n}-{slug}", () => {
+    assert.equal(branchFor(issue(7, "fix: Stop the crash", ["Sandcastle", "bug"]), []), "fix/7-stop-the-crash");
   });
 
   it("names any other issue's branch feature/{n}-{slug}", () => {
@@ -68,6 +70,11 @@ describe("branchFor", () => {
   it("reuses the issue's existing branch after its title or labels change", () => {
     const existing = ["feature/80-other-work", "feature/8-add-search"];
     assert.equal(branchFor(issue(8, "feat: Add full-text search", ["Sandcastle", "bug"]), existing), "feature/8-add-search");
+  });
+
+  it("reuses an existing fix/ or hotfix/ branch", () => {
+    assert.equal(branchFor(issue(9, "Add search"), ["fix/9-stop-the-crash"]), "fix/9-stop-the-crash");
+    assert.equal(branchFor(issue(9, "Add search", ["bug"]), ["hotfix/9-urgent"]), "hotfix/9-urgent");
   });
 
   it("only names branches that pass the branch standard", () => {
