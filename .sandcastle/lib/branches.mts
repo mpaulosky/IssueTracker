@@ -1,10 +1,16 @@
-// Branch naming. Branch names come from code, never from a model, so
-// re-planning an issue always lands on the branch that holds its earlier work,
-// and every name passes scripts/check-branch-name.sh.
+// Branch naming and fetching. Branch names come from code, never from a model,
+// so re-planning an issue always lands on the branch that holds its earlier
+// work, and every name passes scripts/check-branch-name.sh.
 
-import { execFileSync } from "node:child_process";
+import { BASE_BRANCH } from "./config.mts";
+import { git } from "./shell.mts";
 
 const maxSlugLength = 50;
+
+// The prefixes of a branch that names an issue, from docs/PROCESS.md. Sandcastle
+// names new branches feature/ or fix/; hotfix/ is for a person's urgent fix,
+// recognized so an issue's earlier work on one is still found.
+const issuePrefixes = ["feature", "fix", "hotfix"] as const;
 
 // The parts of an issue its branch name depends on.
 export type BranchIssue = { number: number; title: string; labels: string[] };
@@ -27,11 +33,6 @@ export function slugFor(title: string): string {
   return boundary > 0 ? cut.slice(0, boundary) : slug.slice(0, maxSlugLength);
 }
 
-// The prefixes of a branch that names an issue, from docs/PROCESS.md. Sandcastle
-// names new branches feature/ or fix/; hotfix/ is for a person's urgent fix,
-// recognized so an issue's earlier work on one is still found.
-const issuePrefixes = ["feature", "fix", "hotfix"] as const;
-
 // Whether a branch belongs to the issue: feature/{n}-*, fix/{n}-* or hotfix/{n}-*.
 export function isIssueBranch(branch: string, issueNumber: number): boolean {
   return issuePrefixes.some((prefix) => branch.startsWith(`${prefix}/${issueNumber}-`));
@@ -51,25 +52,99 @@ export function branchFor(issue: BranchIssue, existingBranches: readonly string[
   return `${prefix}/${issue.number}-${slugFor(issue.title)}`;
 }
 
-// The local feature/*, fix/* and hotfix/* branches. Sandcastle's branches live
-// in this clone, so that's where an issue's earlier work is.
-export function localIssueBranches(): string[] {
-  return execFileSync(
-    "git",
-    ["for-each-ref", "--format=%(refname:short)", ...issuePrefixes.map((prefix) => `refs/heads/${prefix}/`)],
-    { encoding: "utf8" },
-  )
-    .split("\n")
-    .filter(Boolean);
+// Hold back every issue that already has an open pull request from one of its
+// branches: its work is waiting for review, and building it again would only
+// pile commits onto that PR.
+export function withoutOpenPullRequests<T extends BranchIssue>(
+  issues: readonly T[],
+  openPrBranches: readonly string[],
+): { ready: T[]; inReview: T[] } {
+  const ready: T[] = [];
+  const inReview: T[] = [];
+  for (const issue of issues) {
+    (openPrBranches.some((branch) => isIssueBranch(branch, issue.number)) ? inReview : ready).push(issue);
+  }
+  return { ready, inReview };
 }
 
-// The open issues labelled Sandcastle, the same list the planner reads.
-export function openSandcastleIssues(): BranchIssue[] {
-  const json = execFileSync(
-    "gh",
-    ["issue", "list", "--state", "open", "--label", "Sandcastle", "--limit", "100", "--json", "number,title,labels"],
-    { encoding: "utf8" },
-  );
-  const issues = JSON.parse(json) as { number: number; title: string; labels: { name: string }[] }[];
-  return issues.map(({ number, title, labels }) => ({ number, title, labels: labels.map((label) => label.name) }));
+// Branch names from `git ls-remote --heads` output, without refs/heads/.
+export function parseHeads(lsRemote: string): string[] {
+  return lsRemote
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => line.split("\t")[1]!.replace(/^refs\/heads\//, ""));
+}
+
+// The git operations prepareBranches needs; tests pass a stub.
+export type BranchGit = {
+  // The issue branches on origin.
+  remoteIssueBranches(): string[];
+  // The issue branches in this clone, including ones a rejected or failed
+  // build left unpushed.
+  localIssueBranches(): string[];
+  // Fetch origin's branch into its remote-tracking ref.
+  fetch(branch: string): void;
+  // Move the local branch up to origin's when that is a fast-forward, so the
+  // sandbox doesn't start from an older copy of the pushed work.
+  fastForward(branch: string): void;
+};
+
+const cloneGit: BranchGit = {
+  remoteIssueBranches: () =>
+    parseHeads(
+      git(process.cwd(), "ls-remote", "--heads", "origin", ...issuePrefixes.map((prefix) => `refs/heads/${prefix}/*`)),
+    ),
+  localIssueBranches: () =>
+    git(process.cwd(), "for-each-ref", "--format=%(refname:short)", ...issuePrefixes.map((prefix) => `refs/heads/${prefix}/`))
+      .split("\n")
+      .filter(Boolean),
+  fetch: (branch) => {
+    git(process.cwd(), "fetch", "--quiet", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`);
+  },
+  fastForward: (branch) => {
+    // `git fetch . a:b` moves b only when that is a fast-forward, and refuses
+    // when b is checked out somewhere. Either refusal leaves the local branch
+    // as it is, and the push later fails rather than overwrite origin's work.
+    try {
+      git(process.cwd(), "fetch", "--quiet", ".", `refs/remotes/origin/${branch}:refs/heads/${branch}`);
+    } catch {
+      console.warn(`  Couldn't fast-forward ${branch} to origin's copy; building on the local branch.`);
+    }
+  },
+};
+
+// Refresh origin/main, the base of every new issue branch, the branch each
+// issue merges before it's checked, and what the reviewer's diff compares with.
+// The host's git calls are synchronous, so two pipelines never fetch at once.
+export function fetchMain(): void {
+  git(process.cwd(), "fetch", "--quiet", "origin", "main");
+}
+
+// Count the commits on the worktree's branch that the base branch doesn't have.
+export function commitsAhead(worktreePath: string): number {
+  return Number(git(worktreePath, "rev-list", "--count", `${BASE_BRANCH}..HEAD`));
+}
+
+// The commit the worktree has checked out.
+export function headOf(worktreePath: string): string {
+  return git(worktreePath, "rev-parse", "HEAD");
+}
+
+// Name each issue's branch, and fetch the ones that already exist on origin,
+// so the sandbox starts from the work already pushed rather than from main.
+export function prepareBranches<T extends BranchIssue>(
+  issues: readonly T[],
+  branchGit: BranchGit = cloneGit,
+): { issue: T; branch: string }[] {
+  const remote = branchGit.remoteIssueBranches();
+  const local = branchGit.localIssueBranches();
+  const known = [...new Set([...remote, ...local])];
+  return issues.map((issue) => {
+    const branch = branchFor(issue, known);
+    if (remote.includes(branch)) {
+      branchGit.fetch(branch);
+      if (local.includes(branch)) branchGit.fastForward(branch);
+    }
+    return { issue, branch };
+  });
 }

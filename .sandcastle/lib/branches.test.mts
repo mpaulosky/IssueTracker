@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { describe, it } from "node:test";
-import { branchFor, isIssueBranch, slugFor } from "./branches.mts";
+import { branchFor, isIssueBranch, parseHeads, prepareBranches, slugFor, withoutOpenPullRequests } from "./branches.mts";
 
 const issue = (number: number, title: string, labels: string[] = ["Sandcastle"]) => ({ number, title, labels });
 
@@ -84,5 +84,58 @@ describe("branchFor", () => {
         assert.ok(passesBranchStandard(branch), `${branch} fails scripts/check-branch-name.sh`);
       }
     }
+  });
+});
+
+describe("withoutOpenPullRequests", () => {
+  it("holds back issues with an open PR from one of their branches", () => {
+    const issues = [issue(1, "One"), issue(2, "Two"), issue(3, "Three")];
+    const { ready, inReview } = withoutOpenPullRequests(issues, ["fix/2-two", "feature/30-other", "chore/tidy"]);
+    assert.deepEqual(ready.map((i) => i.number), [1, 3]);
+    assert.deepEqual(inReview.map((i) => i.number), [2]);
+  });
+});
+
+describe("parseHeads", () => {
+  it("strips refs/heads/ from ls-remote output", () => {
+    assert.deepEqual(parseHeads("abc\trefs/heads/feature/1-a\ndef\trefs/heads/fix/2-b\n"), ["feature/1-a", "fix/2-b"]);
+  });
+});
+
+describe("prepareBranches", () => {
+  // A clone with the given branches, recording what was fetched and moved.
+  const clone = (remote: string[], local: string[]) => {
+    const calls = { fetched: [] as string[], fastForwarded: [] as string[] };
+    return {
+      calls,
+      git: {
+        remoteIssueBranches: () => remote,
+        localIssueBranches: () => local,
+        fetch: (branch: string) => calls.fetched.push(branch),
+        fastForward: (branch: string) => calls.fastForwarded.push(branch),
+      },
+    };
+  };
+
+  it("fetches only the branches that already exist on origin", () => {
+    const { git, calls } = clone(["feature/1-add-search"], []);
+    const work = prepareBranches([issue(1, "Add search"), issue(2, "Stop the crash", ["bug"])], git);
+    assert.deepEqual(work.map((w) => w.branch), ["feature/1-add-search", "fix/2-stop-the-crash"]);
+    assert.deepEqual(calls.fetched, ["feature/1-add-search"]);
+    assert.deepEqual(calls.fastForwarded, []);
+  });
+
+  it("reuses a local branch a failed build left unpushed", () => {
+    const { git, calls } = clone([], ["feature/3-old-title"]);
+    const work = prepareBranches([issue(3, "New title")], git);
+    assert.deepEqual(work.map((w) => w.branch), ["feature/3-old-title"]);
+    assert.deepEqual(calls.fetched, []);
+  });
+
+  it("fast-forwards a local branch that origin also has", () => {
+    const { git, calls } = clone(["feature/4-add-search"], ["feature/4-add-search"]);
+    prepareBranches([issue(4, "Add search")], git);
+    assert.deepEqual(calls.fetched, ["feature/4-add-search"]);
+    assert.deepEqual(calls.fastForwarded, ["feature/4-add-search"]);
   });
 });
