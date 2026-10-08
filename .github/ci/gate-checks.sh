@@ -17,4 +17,20 @@
 set -euo pipefail
 
 base="${1-}"
-: "$base"
+
+# changed <pathspec>...: true when any matching path changed since <base>, or
+# always when there's no base. Deletions count.
+changed() {
+  [[ -z "$base" ]] && return 0
+  ! git diff --quiet --no-renames "$base" HEAD -- "$@"
+}
+
+# Sandcastle's orchestration code: run its tests. CI's Build Solution job runs
+# the same through .github/ci/prepare.sh.
+if changed .sandcastle package.json pnpm-lock.yaml; then
+  echo "Sandcastle tests"
+  pnpm install --frozen-lockfile
+  pnpm run test:sandcastle
+else
+  echo "No Sandcastle or root package changes to test."
+fi

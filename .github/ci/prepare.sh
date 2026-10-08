@@ -18,8 +18,25 @@ set -euo pipefail
 job="${1:?usage: prepare.sh build|test [test-name]}"
 test_name="${2:-}"
 
+# Sandcastle's orchestration code (.sandcastle/): run its tests when the PR
+# changes it or the root package files, as the local gate's
+# .github/ci/gate-checks.sh does. Without an origin/main to compare with, run
+# them. Corepack provides the pnpm version package.json's "packageManager" pins.
+sandcastle_tests() {
+  local base
+  if base="$(git merge-base HEAD origin/main 2>/dev/null)" \
+    && git diff --quiet --no-renames "$base" HEAD -- .sandcastle package.json pnpm-lock.yaml; then
+    echo "No Sandcastle or root package changes to test."
+    return
+  fi
+  export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+  corepack enable pnpm
+  pnpm install --frozen-lockfile
+  pnpm run test:sandcastle
+}
+
 case "$job" in
-  build) ;;
+  build) sandcastle_tests ;;
   test)
     # Required by AppHost's AddConnectionString("mongodb") even though the
     # web app ignores it in Testing mode. ci.yml used to set it on every test

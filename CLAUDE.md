@@ -52,8 +52,11 @@ scripts/gate.sh                                           # everything the pre-p
 - Package versions live in `Directory.Packages.props` (Central Package Management). A `PackageReference` has no `Version`.
 - Builds treat warnings as errors. A `NoWarn` needs a comment saying why and when it goes away.
 - Run test projects one at a time. At the `.slnx` level the test runner can report `Zero tests ran`.
-- Integration tests (`Integration.Tests`, `IssueTracker.PlugIns.Tests.Integration`) and `AppHost.Tests` start containers
-  with Testcontainers or Aspire, so they need Docker.
+- A test project needs Docker when it uses Testcontainers, `Aspire.Hosting.Testing` or Playwright. Today that is
+  `IssueTracker.PlugIns.Tests.Integration`, which starts MongoDB with Testcontainers. `Integration.Tests` and
+  `AppHost.Tests` build Aspire models and fakes without starting containers, so they run without Docker.
+- `.sandcastle/check.sh` is the gate Sandcastle's agents run in their sandbox, which has no Docker: the YAML and shell
+  lints, the Release build and every test project that doesn't need Docker. The pre-push gate and CI run the rest.
 
 ## Tests
 

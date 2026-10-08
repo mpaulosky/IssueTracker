@@ -47,8 +47,8 @@ Review the code changes on branch `{{BRANCH}}` and improve code clarity, consist
 If you find improvements to make:
 
 1. Make the changes directly on this branch
-2. Run `dotnet build IssueTracker.slnx -c Release -warnaserror` and the affected test projects, one at a time, with
-   `dotnet test tests/<Project> -c Release`, to ensure nothing is broken
+2. Run `.sandcastle/check.sh` and confirm it exits 0, to ensure nothing is broken. The sandbox has no Docker, so it
+   skips the test projects that need it; the host's pre-push gate and CI run them
 3. Commit describing the refinements, as `<type>(<scope>): <Summary>` per `.github/instructions/git-commit-instructions.md`
 
 If the code is already clean and well-structured, do nothing.
