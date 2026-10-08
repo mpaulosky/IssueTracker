@@ -21,7 +21,7 @@ test_name="${2:-}"
 # Sandcastle's orchestration code (.sandcastle/): run its tests when the PR
 # changes it or the root package files, as the local gate's
 # .github/ci/gate-checks.sh does. Without an origin/main to compare with, run
-# them. Corepack provides the pnpm version package.json's "packageManager" pins.
+# them.
 sandcastle_tests() {
   local base
   if base="$(git merge-base HEAD origin/main 2>/dev/null)" \
@@ -30,22 +30,16 @@ sandcastle_tests() {
     return
   fi
   # ci.yml (Owned by the Template) sets up no Node here, so this uses the
-  # runner image's. node --test strips the .mts files' types only from 22.18,
-  # and Node 25 and later ship no corepack.
-  local node_version
-  node_version="$(node --version 2>/dev/null || echo none)"
+  # runner image's. node --test strips the .mts files' types only from 22.18.
+  # node --run runs the package.json script without pnpm, so a runner Node
+  # without corepack (25 and later) still works. The tests import only node:
+  # builtins and each other; one that imports a package would need
+  # "pnpm install --frozen-lockfile" here first.
   if ! node -e 'const [major, minor] = process.versions.node.split(".").map(Number); process.exit(major > 22 || (major === 22 && minor >= 18) ? 0 : 1)' 2>/dev/null; then
-    echo "::error::The Sandcastle tests need Node 22.18 or later; the runner has ${node_version}. Add a pinned actions/setup-node to the repo-ci-baseline Template's ci.yml." >&2
+    echo "::error::The Sandcastle tests need Node 22.18 or later; the runner has $(node --version 2>/dev/null || echo none). Add a pinned actions/setup-node to the repo-ci-baseline Template's ci.yml." >&2
     return 1
   fi
-  if ! command -v corepack &>/dev/null; then
-    echo "::error::The runner's Node ${node_version} has no corepack, so pnpm can't be enabled. Add a pinned actions/setup-node (or pnpm/action-setup) to the repo-ci-baseline Template's ci.yml." >&2
-    return 1
-  fi
-  export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-  corepack enable pnpm
-  pnpm install --frozen-lockfile
-  pnpm run test:sandcastle
+  node --run test:sandcastle
 }
 
 case "$job" in
