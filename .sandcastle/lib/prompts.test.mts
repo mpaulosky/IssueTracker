@@ -32,7 +32,7 @@ describe("issuePromptArgs", () => {
   }
 
   it("supplies every placeholder plan-prompt.md uses", () => {
-    const args = plannerPromptArgs([issue]);
+    const args = plannerPromptArgs([issue], []);
     for (const key of placeholders("plan-prompt.md")) assert.ok(key in args, `plan-prompt.md uses {{${key}}}`);
   });
 });

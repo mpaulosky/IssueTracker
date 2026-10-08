@@ -17,6 +17,7 @@ function pipeline(options: {
   ahead?: number[];
   mergeFails?: boolean;
   publishError?: Error;
+  checkFiles?: string[];
 }) {
   const checks = [...(options.checks ?? [true, true])];
   const ahead = [...(options.ahead ?? [1, 1])];
@@ -72,6 +73,7 @@ function pipeline(options: {
       return count;
     },
     head: () => head,
+    checkFileChanges: () => options.checkFiles ?? [],
     commentOnIssue: (_, body) => calls.comments.push(body),
     publish: (commit, _, title, body) => {
       if (options.publishError) throw options.publishError;
@@ -202,6 +204,12 @@ describe("buildIssue", () => {
     assert.equal((await run()).outcome, "nothing-to-publish");
     assert.deepEqual(calls.runs, ["implementer"]);
     assert.deepEqual(calls.comments, []);
+  });
+
+  it("names the check's own files in the PR when the branch changes them", async () => {
+    const { run, calls } = pipeline({ checkFiles: [".sandcastle/check.sh"] });
+    assert.equal((await run()).outcome, "published");
+    assert.match(calls.published[0]!.body, /\[!WARNING\][\s\S]*`\.sandcastle\/check\.sh`/);
   });
 
   it("reports a failed push on the issue", async () => {

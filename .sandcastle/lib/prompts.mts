@@ -19,6 +19,8 @@ export function issuePromptArgs(issue: SandcastleIssue, branch: string) {
   };
 }
 
-export function plannerPromptArgs(ready: readonly SandcastleIssue[]) {
-  return { ISSUES_JSON: JSON.stringify(ready) };
+// The planner gets the issues it may pick, and the ones in review: those
+// aren't on main yet, so they still block the issues that depend on them.
+export function plannerPromptArgs(ready: readonly SandcastleIssue[], inReview: readonly SandcastleIssue[]) {
+  return { ISSUES_JSON: JSON.stringify(ready), IN_REVIEW_JSON: JSON.stringify(inReview) };
 }

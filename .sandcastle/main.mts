@@ -23,8 +23,11 @@
 // The sandbox gets no GitHub token. Agents read the issue from their prompt,
 // and every GitHub write (comments, pushes, PRs) is made by the host, in code.
 //
-// The loop repeats up to MAX_ITERATIONS times so that newly unblocked issues
-// are picked up, and stops early when a round opens no pull request.
+// The loop repeats up to MAX_ITERATIONS times. Nothing reaches main between
+// rounds, so a later round only picks up issues the earlier picks didn't
+// block: the planner sees the issues in review as open blockers. An issue
+// that stopped isn't built again in the same run. The loop stops early when a
+// round opens no pull request.
 //
 // Usage:
 //   pnpm run sandcastle
@@ -35,12 +38,13 @@ import { docker } from "@ai-hero/sandcastle/sandboxes/docker";
 import { fetchMain, prepareBranches, withoutOpenPullRequests } from "./lib/branches.mts";
 import { buildIssue } from "./lib/build.mts";
 import { MAX_ITERATIONS, MODEL } from "./lib/config.mts";
-import { listSandcastleIssues, openPullRequestBranches } from "./lib/github.mts";
+import { listSandcastleIssues, openPullRequestBranches, repoName } from "./lib/github.mts";
 import { planSchema, readyPicks } from "./lib/plan.mts";
 import { plannerPromptArgs } from "./lib/prompts.mts";
-import { githubTokensIn } from "./lib/sandbox-env.mts";
+import { ENV_FILE, githubTokensIn } from "./lib/sandbox-env.mts";
+import { recordGitConfig } from "./lib/shell.mts";
 
-const envFile = ".sandcastle/.env";
+const envFile = ENV_FILE;
 const leakedTokens = existsSync(envFile) ? githubTokensIn(readFileSync(envFile, "utf8")) : [];
 if (leakedTokens.length > 0) {
   throw new Error(
@@ -49,15 +53,33 @@ if (leakedTokens.length > 0) {
   );
 }
 
+// Before any sandbox starts: record the clone's git config, which the host
+// refuses to run git past once an agent has changed it, and read the
+// repository's name, which gh would otherwise take from the clone's remotes.
+// See lib/shell.mts.
+recordGitConfig();
+const { owner, name } = repoName();
+console.log(`Building Sandcastle issues in ${owner}/${name}.`);
+
+// Issues that stopped this run without a pull request. Each already has a
+// comment saying why, and building it again in the next round would most
+// likely stop the same way, so it waits for the next run.
+const stopped = new Set<number>();
+
 for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   console.log(`\n=== Iteration ${iteration}/${MAX_ITERATIONS} ===\n`);
 
   // -------------------------------------------------------------------------
   // Phase 1: Plan
   // -------------------------------------------------------------------------
-  const { ready, inReview } = withoutOpenPullRequests(listSandcastleIssues(), openPullRequestBranches());
+  const open = withoutOpenPullRequests(listSandcastleIssues(), openPullRequestBranches());
+  const { inReview } = open;
+  const ready = open.ready.filter((issue) => !stopped.has(issue.number));
   for (const issue of inReview) {
     console.log(`  ⏸ #${issue.number} is held back: its pull request is open.`);
+  }
+  for (const issue of open.ready.filter((issue) => stopped.has(issue.number))) {
+    console.log(`  ⏸ #${issue.number} is held back: it stopped earlier in this run.`);
   }
   if (ready.length === 0) {
     console.log("No open Sandcastle issues ready to build. Exiting.");
@@ -71,7 +93,7 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
     maxIterations: 1,
     agent: sandcastle.claudeCode(MODEL),
     promptFile: "./.sandcastle/plan-prompt.md",
-    promptArgs: plannerPromptArgs(ready),
+    promptArgs: plannerPromptArgs(ready, inReview),
     // Throws StructuredOutputError if the tag is missing, the JSON is
     // malformed, or validation fails, which aborts the loop.
     output: sandcastle.Output.object({ tag: "plan", schema: planSchema }),
@@ -103,8 +125,11 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
     const { issue, branch } = work[i]!;
     if (outcome.status === "rejected") {
       console.error(`  ✗ #${issue.number} (${branch}) failed: ${outcome.reason}`);
+      stopped.add(issue.number);
     } else if (outcome.value.prUrl) {
       published.push(`  #${issue.number} (${branch}) → ${outcome.value.prUrl}`);
+    } else {
+      stopped.add(issue.number);
     }
   }
 

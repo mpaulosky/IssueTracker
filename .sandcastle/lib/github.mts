@@ -3,7 +3,8 @@
 // every write (comments, pushes, pull requests) is made here, in code.
 
 import { execFileSync } from "node:child_process";
-import { sh } from "./shell.mts";
+import { redactSandboxSecrets } from "./sandbox-env.mts";
+import { assertGitConfigUnchanged, sh } from "./shell.mts";
 
 // The author associations whose text may reach an agent. Anyone else can open
 // or comment on a public issue, so their words could steer an agent.
@@ -54,7 +55,9 @@ export function trustedIssues(raw: readonly RawIssue[]): { issues: SandcastleIss
 let repo: { owner: string; name: string } | undefined;
 
 // The repository in the current directory. Read on first use rather than at
-// import, so importing a module never shells out to gh.
+// import, so importing a module never shells out to gh. main.mts reads it
+// before any sandbox starts: gh finds the repository from the clone's remotes,
+// which the agents could rewrite (see shell.mts).
 export function repoName(): { owner: string; name: string } {
   if (!repo) {
     const [owner, name] = sh(process.cwd(), "gh", "repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner").split("/");
@@ -98,6 +101,7 @@ type IssuesResponse = {
 // The open issues labelled Sandcastle, keeping only what trusted authors wrote.
 export function listSandcastleIssues(): SandcastleIssue[] {
   const { owner, name } = repoName();
+  assertGitConfigUnchanged();
   const response = JSON.parse(
     sh(process.cwd(), "gh", "api", "graphql", "-f", `query=${issuesQuery}`, "-F", `owner=${owner}`, "-F", `name=${name}`),
   ) as IssuesResponse;
@@ -130,9 +134,24 @@ export function sameRepository(prs: readonly OpenPullRequest[]): OpenPullRequest
   return prs.filter((pr) => !pr.isCrossRepository);
 }
 
+// gh on the repository read before any sandbox started, named outright with
+// --repo so gh never looks at the clone's remotes. The command's input, if
+// any, has the sandbox's secrets removed first: it may quote sandbox output,
+// and it is published.
+function gh(args: string[], input?: string): string {
+  assertGitConfigUnchanged();
+  const { owner, name } = repoName();
+  return execFileSync("gh", [...args, "--repo", `${owner}/${name}`], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    stdio: [input === undefined ? "ignore" : "pipe", "pipe", "inherit"],
+    input: input === undefined ? undefined : redactSandboxSecrets(input),
+  }).trim();
+}
+
 function openPullRequests(...args: string[]): OpenPullRequest[] {
   return JSON.parse(
-    sh(process.cwd(), "gh", "pr", "list", "--state", "open", ...args, "--json", "headRefName,isCrossRepository,url"),
+    gh(["pr", "list", "--state", "open", ...args, "--json", "headRefName,isCrossRepository,url"]),
   ) as OpenPullRequest[];
 }
 
@@ -142,12 +161,7 @@ export function openPullRequestBranches(): string[] {
 }
 
 export function commentOnIssue(issue: number, body: string): void {
-  execFileSync("gh", ["issue", "comment", String(issue), "--body-file", "-"], {
-    cwd: process.cwd(),
-    encoding: "utf8",
-    stdio: ["pipe", "pipe", "inherit"],
-    input: body,
-  });
+  gh(["issue", "comment", String(issue), "--body-file", "-"], body);
 }
 
 // Open a draft pull request for the branch, or return the open one it already
@@ -156,9 +170,5 @@ export function commentOnIssue(issue: number, body: string): void {
 export function openPullRequest(branch: string, title: string, body: string): string {
   const existing = sameRepository(openPullRequests("--head", branch)).find((pr) => pr.headRefName === branch);
   if (existing) return existing.url;
-  return execFileSync(
-    "gh",
-    ["pr", "create", "--draft", "--base", "main", "--head", branch, "--title", title, "--body-file", "-"],
-    { cwd: process.cwd(), encoding: "utf8", stdio: ["pipe", "pipe", "inherit"], input: body },
-  ).trim();
+  return gh(["pr", "create", "--draft", "--base", "main", "--head", branch, "--title", title, "--body-file", "-"], body);
 }

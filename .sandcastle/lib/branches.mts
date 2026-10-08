@@ -3,7 +3,7 @@
 // work, and every name passes scripts/check-branch-name.sh.
 
 import { BASE_BRANCH } from "./config.mts";
-import { git } from "./shell.mts";
+import { git, GitConfigChangedError } from "./shell.mts";
 
 const maxSlugLength = 50;
 
@@ -84,9 +84,10 @@ export type BranchGit = {
   localIssueBranches(): string[];
   // Fetch origin's branch into its remote-tracking ref.
   fetch(branch: string): void;
-  // Move the local branch up to origin's when that is a fast-forward, so the
-  // sandbox doesn't start from an older copy of the pushed work.
-  fastForward(branch: string): void;
+  // Create the local branch at origin's, or move it up to origin's when that
+  // is a fast-forward, so the sandbox starts from the pushed work rather than
+  // from main or an older copy.
+  syncLocal(branch: string): void;
 };
 
 const cloneGit: BranchGit = {
@@ -101,14 +102,16 @@ const cloneGit: BranchGit = {
   fetch: (branch) => {
     git(process.cwd(), "fetch", "--quiet", "origin", `+refs/heads/${branch}:refs/remotes/origin/${branch}`);
   },
-  fastForward: (branch) => {
-    // `git fetch . a:b` moves b only when that is a fast-forward, and refuses
-    // when b is checked out somewhere. Either refusal leaves the local branch
-    // as it is, and the push later fails rather than overwrite origin's work.
+  syncLocal: (branch) => {
+    // `git fetch . a:b` creates b at a, or moves it only when that is a
+    // fast-forward, and refuses when b is checked out somewhere. A refusal
+    // leaves the local branch as it is, and the push later fails rather than
+    // overwrite origin's work.
     try {
       git(process.cwd(), "fetch", "--quiet", ".", `refs/remotes/origin/${branch}:refs/heads/${branch}`);
-    } catch {
-      console.warn(`  Couldn't fast-forward ${branch} to origin's copy; building on the local branch.`);
+    } catch (error) {
+      if (error instanceof GitConfigChangedError) throw error;
+      console.warn(`  Couldn't bring ${branch} up to origin's copy; building on the local branch.`);
     }
   },
 };
@@ -143,7 +146,7 @@ export function prepareBranches<T extends BranchIssue>(
     const branch = branchFor(issue, known);
     if (remote.includes(branch)) {
       branchGit.fetch(branch);
-      if (local.includes(branch)) branchGit.fastForward(branch);
+      branchGit.syncLocal(branch);
     }
     return { issue, branch };
   });

@@ -7,7 +7,7 @@
 import * as sandcastle from "@ai-hero/sandcastle";
 import { docker } from "@ai-hero/sandcastle/sandboxes/docker";
 import { commitsAhead, fetchMain, headOf } from "./branches.mts";
-import { fenced, runCheck, tail } from "./check.mts";
+import { checkFileChanges, fenced, runCheck, tail } from "./check.mts";
 import { BASE_BRANCH, CHECK_COMMENT_LINES, copyToWorktree, hooks, IMPLEMENTER_ITERATIONS, MODEL } from "./config.mts";
 import { commentOnIssue, openPullRequest, type SandcastleIssue } from "./github.mts";
 import { issuePromptArgs } from "./prompts.mts";
@@ -25,6 +25,8 @@ export type BuildHost = {
   fetchBase(): void;
   commitsAhead(worktreePath: string): number;
   head(worktreePath: string): string;
+  // The files the branch changes that decide what the check runs.
+  checkFileChanges(worktreePath: string): string[];
   commentOnIssue(issueNumber: number, body: string): void;
   // Push the commit to the branch on origin and open (or reuse) its pull request.
   publish(commit: string, branch: string, title: string, body: string): string;
@@ -47,6 +49,7 @@ const liveHost: BuildHost = {
   fetchBase: fetchMain,
   commitsAhead,
   head: headOf,
+  checkFileChanges,
   commentOnIssue,
   publish,
   log: console.log,
@@ -170,7 +173,9 @@ export async function buildIssue(
 
     // Publish while the worktree still exists; close() may remove it.
     try {
-      const prUrl = host.publish(checked, branch, prTitle(issue), prBody(issue, verdict.summary));
+      const checkFiles = host.checkFileChanges(sandbox.worktreePath);
+      if (checkFiles.length > 0) log(`changes the check's own files: ${checkFiles.join(", ")}`);
+      const prUrl = host.publish(checked, branch, prTitle(issue), prBody(issue, verdict.summary, checkFiles));
       log(`published ${prUrl}`);
       return { outcome: "published", prUrl };
     } catch (error) {
