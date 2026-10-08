@@ -35,12 +35,16 @@ If applicable, use RGR to complete the task.
 
 # FEEDBACK LOOPS
 
-Before committing, build and test as `CLAUDE.md` describes:
+Before each commit, run `.sandcastle/check.sh` and fix whatever it reports until it exits 0. It lints the YAML and
+shell files, builds `IssueTracker.slnx` in Release with warnings as errors, runs every test project that doesn't need
+Docker, then the Sandcastle tests. While you work, run the test projects that cover your change one at a time with
+`dotnet test tests/<Project> -c Release`.
 
-- `dotnet build IssueTracker.slnx -c Release -warnaserror` must pass with no warnings.
-- Run the test projects that cover your change, one at a time: `dotnet test tests/<Project> -c Release`.
-- `tests/Integration.Tests`, `tests/IssueTracker.PlugIns.Tests.Integration` and `tests/AppHost.Tests` start containers,
-  and the sandbox has no Docker. Skip them here; CI runs them.
+The sandbox has no Docker, on purpose. `check.sh` skips the test projects that need it (those using Testcontainers,
+`Aspire.Hosting.Testing` or Playwright, or marked `<RequiresDocker>true</RequiresDocker>`); the host's pre-push gate and
+CI run them. Don't try to start Docker or containers. If a test fails because Docker is missing, don't delete, skip or
+weaken it: say so in your commit body, and mark its project `<RequiresDocker>true</RequiresDocker>` only if it really
+starts containers.
 
 # COMMIT
 

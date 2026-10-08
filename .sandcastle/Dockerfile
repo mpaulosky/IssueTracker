@@ -7,9 +7,27 @@ RUN apt-get update && apt-get install -y \
   jq \
   libicu72 \
   python3 \
-  shellcheck \
-  yamllint \
+  python3-pip \
+  xz-utils \
   && rm -rf /var/lib/apt/lists/*
+
+# The linters .sandcastle/check.sh runs, at the versions CI runs: shellcheck as
+# pinned in .github/workflows/lint-actions.yml (Debian's is 0.9.0, which misses
+# newer checks), and yamllint at a current release rather than Debian's 1.29.
+ARG SHELLCHECK_VERSION=v0.11.0
+ARG YAMLLINT_VERSION=1.38.0
+RUN case "$(uname -m)" in \
+    x86_64) arch=x86_64; sha=8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198 ;; \
+    aarch64) arch=aarch64; sha=12b331c1d2db6b9eb13cfca64306b1b157a86eb69db83023e261eaa7e7c14588 ;; \
+    *) echo "No shellcheck build for $(uname -m)" >&2; exit 1 ;; \
+  esac \
+  && curl -fsSL -o /tmp/shellcheck.tar.xz \
+    "https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.${arch}.tar.xz" \
+  && echo "${sha}  /tmp/shellcheck.tar.xz" | sha256sum -c - \
+  && tar -xJf /tmp/shellcheck.tar.xz -C /tmp \
+  && install -m 0755 "/tmp/shellcheck-${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck \
+  && rm -rf /tmp/shellcheck.tar.xz "/tmp/shellcheck-${SHELLCHECK_VERSION}" \
+  && pip3 install --no-cache-dir --break-system-packages "yamllint==${YAMLLINT_VERSION}"
 
 # Install GitHub CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
