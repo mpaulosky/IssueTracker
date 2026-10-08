@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-10-08 | [chore(sandcastle): Run a Docker-free check.sh in the sandbox](2026-10-08-pr-231-chore-sandcastle-run-a-docker-free-check-sh-in-the-sandbox.md) | release,automation |
 | 2026-10-08 | [test(Integration.Tests): Check a cache hit by its reads, not a 5 ms timer](2026-10-08-pr-235-test-integration-tests-check-a-cache-hit-by-its-reads-not-a-5-ms-timer.md) | release,automation |
 | 2026-10-08 | [fix(sandcastle): Name bug branches fix/ instead of hotfix/](2026-10-08-pr-232-fix-sandcastle-name-bug-branches-fix-instead-of-hotfix.md) | release,automation |
 | 2026-10-08 | [chore: Re-apply the repo-ci-baseline Template](2026-10-08-pr-227-chore-re-apply-the-repo-ci-baseline-template.md) | release,automation |
