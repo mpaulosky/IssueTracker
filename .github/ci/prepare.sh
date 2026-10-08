@@ -29,6 +29,19 @@ sandcastle_tests() {
     echo "No Sandcastle or root package changes to test."
     return
   fi
+  # ci.yml (Owned by the Template) sets up no Node here, so this uses the
+  # runner image's. node --test strips the .mts files' types only from 22.18,
+  # and Node 25 and later ship no corepack.
+  local node_version
+  node_version="$(node --version 2>/dev/null || echo none)"
+  if ! node -e 'const [major, minor] = process.versions.node.split(".").map(Number); process.exit(major > 22 || (major === 22 && minor >= 18) ? 0 : 1)' 2>/dev/null; then
+    echo "::error::The Sandcastle tests need Node 22.18 or later; the runner has ${node_version}. Add a pinned actions/setup-node to the repo-ci-baseline Template's ci.yml." >&2
+    return 1
+  fi
+  if ! command -v corepack &>/dev/null; then
+    echo "::error::The runner's Node ${node_version} has no corepack, so pnpm can't be enabled. Add a pinned actions/setup-node (or pnpm/action-setup) to the repo-ci-baseline Template's ci.yml." >&2
+    return 1
+  fi
   export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
   corepack enable pnpm
   pnpm install --frozen-lockfile
@@ -38,20 +51,11 @@ sandcastle_tests() {
 case "$job" in
   build) sandcastle_tests ;;
   test)
+    : "$test_name"
     # Required by AppHost's AddConnectionString("mongodb") even though the
     # web app ignores it in Testing mode. ci.yml used to set it on every test
     # job, so it still applies to every test project.
     echo "ConnectionStrings__mongodb=mongodb://localhost:27017" >> "${GITHUB_ENV:-/dev/null}"
-
-    # AppHost.Tests starts the whole Aspire app, which serves the UI's Blazor
-    # static assets and pulls the Mongo and Redis containers.
-    if [[ "$test_name" == "AppHost.Tests" ]]; then
-      dotnet publish src/UI/IssueTracker.UI/IssueTracker.UI.csproj \
-        --configuration Release --no-restore
-      docker pull mongo:8.2 &
-      docker pull redis:8.6 &
-      wait
-    fi
     ;;
   *) echo "prepare.sh: unknown job '$job'" >&2; exit 2 ;;
 esac

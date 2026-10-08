@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# The check Sandcastle's agents run before they commit, and the merger runs
-# after each merge: the exit code decides, never what an agent reports. It
-# lints the YAML and shell files, builds the solution as CI does, runs every
-# test project but the ones that need Docker, then the Sandcastle tests.
+# The check the Sandcastle prompts tell the implementer, reviewer and merger
+# to run, and to fix until it exits 0. Nothing on the host runs it yet, so it
+# is advisory: the pre-push gate and CI are what hold a broken branch back.
+# It lints the YAML and shell files, builds the solution as CI does, runs every
+# test project but the ones that need Docker, then the Sandcastle tests. The
+# sandbox image (.sandcastle/Dockerfile) installs the linters at CI's versions.
 #
 # The sandbox has no Docker on purpose: the host's Docker socket is root on
 # the host, and the agents read public issue content. The pre-push gate
