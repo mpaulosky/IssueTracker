@@ -35,19 +35,24 @@ If applicable, use RGR to complete the task.
 
 # FEEDBACK LOOPS
 
-Before committing, run `npm run typecheck` and `npm run test` to ensure the tests pass.
+Before committing, build and test as `CLAUDE.md` describes:
+
+- `dotnet build IssueTracker.slnx -c Release -warnaserror` must pass with no warnings.
+- Run the test projects that cover your change, one at a time: `dotnet test tests/<Project> -c Release`.
+- `tests/Integration.Tests`, `tests/IssueTracker.PlugIns.Tests.Integration` and `tests/AppHost.Tests` start containers,
+  and the sandbox has no Docker. Skip them here; CI runs them.
 
 # COMMIT
 
-Make a git commit. The commit message must:
+Make a git commit that follows `.github/instructions/git-commit-instructions.md`:
 
-1. Start with `RALPH:` prefix
-2. Include task completed + PRD reference
-3. Key decisions made
-4. Files changed
-5. Blockers or notes for next iteration
+1. A subject line `<type>(<scope>): <Summary>`, such as `fix(Services): Clear the Author's issue cache on update`:
+   imperative, capitalized, no closing period, 72 characters or fewer
+2. A body, wrapped at 72 characters, that gives the task completed, the key decisions made, and any blockers or notes
+   for the next iteration
+3. `Refs #{{TASK_ID}}` as the body's last line
 
-Keep it concise.
+Keep it concise. Never use `--no-verify`.
 
 # THE ISSUE
 
