@@ -1,18 +1,20 @@
 {
-  "name": "IssueTracker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "issuetracker",
+  "private": true,
+  "description": "Sandcastle, the agent loop in .sandcastle/. The app itself is .NET: see CLAUDE.md.",
   "scripts": {
+    "sandcastle": "node .sandcastle/main.mts",
     "test:sandcastle": "node --test \".sandcastle/**/*.test.mts\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@ai-hero/sandcastle": "^0.12.0"
   },
   "dependencies": {
     "zod": "^4.6.5"
-  }
+  },
+  "engines": {
+    "npm": "please-use-pnpm"
+  },
+  "packageManager": "pnpm@12.6.0"
 }
