@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.33](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.33) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-215-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.32](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.32) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-213-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.31](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.31) | 2026-10-07 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-07-pr-211-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.30](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.30) | 2026-10-05 | chore: Re-apply the repo-ci-baseline Template for the release-post fixes | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-05-pr-209-chore-re-apply-the-repo-ci-baseline-template-for-the-release-post-fixes.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.26](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.26) | 2026-10-04 | ci(automerge): Re-check a PR when a review is submitted | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-201-ci-automerge-re-check-a-pr-when-a-review-is-submitted.md) |
 | [v0.0.25](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.25) | 2026-10-04 | fix(AppHost): Start the AppHost again on Aspire 13.5 | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-197-fix-apphost-start-the-apphost-again-on-aspire-13-5.md) |
 | [v0.0.24](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.24) | 2026-10-04 | chore(deps): bump the all-actions group with 2 updates | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-198-chore-deps-bump-the-all-actions-group-with-2-updates.md) |
-| [v0.0.23](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.23) | 2026-10-04 | chore: standardize on the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-04-pr-194-chore-standardize-on-the-repo-ci-baseline-template.md) |
 
 <!-- RELEASES_END -->
 
