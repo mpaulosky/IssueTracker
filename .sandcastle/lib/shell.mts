@@ -80,11 +80,6 @@ export function configChanges(before: string, after: string): string[] {
 
 export class GitConfigChangedError extends Error {}
 
-// Whether the clone's config changed since recordGitConfig.
-export function gitConfigChanged(): boolean {
-  return recordedConfig !== undefined && configChanges(recordedConfig, localConfig()).length > 0;
-}
-
 // Throw if the clone's config changed since recordGitConfig.
 export function assertGitConfigUnchanged(): void {
   if (recordedConfig === undefined) return;
@@ -98,9 +93,11 @@ export function assertGitConfigUnchanged(): void {
   }
 }
 
-// Git on the host: refused once the clone's config has changed, and with
-// hooks off.
+// Git on the host: refused once the clone's config has changed, with hooks
+// off, and reading the real objects rather than any replace ref. It passes
+// these itself as well as through protectHostGit, so the secret scan and the
+// check-file warning hold up when an entry point didn't call protectHostGit.
 export const git = (cwd: string, ...args: string[]) => {
   assertGitConfigUnchanged();
-  return sh(cwd, "git", "-c", "core.hooksPath=/dev/null", ...args);
+  return sh(cwd, "git", "-c", "core.hooksPath=/dev/null", "-c", "core.useReplaceRefs=false", ...args);
 };

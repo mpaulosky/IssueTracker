@@ -86,7 +86,9 @@ function pipeline(options: {
       if (options.leaksSecret instanceof Error) throw options.leaksSecret;
       return options.leaksSecret ?? false;
     },
-    gitConfigChanged: () => options.configChangedElsewhere ?? false,
+    assertGitConfigUnchanged: () => {
+      if (options.configChangedElsewhere) throw new GitConfigChangedError(".git/config changed");
+    },
     commentOnIssue: (_, body) => calls.comments.push(body),
     publish: (commit, _, title, body) => {
       if (options.publishError) throw options.publishError;
@@ -245,12 +247,25 @@ describe("buildIssue", () => {
     assert.equal(calls.closed, false);
   });
 
-  it("leaves the sandbox open when another pipeline's agent changed the config", async () => {
+  it("rejects with the config change, and leaves the sandbox open, when a rejected pipeline finds the config changed", async () => {
     const { run, calls } = pipeline({
       reviewer: { stdout: '<verdict>{"approved": false, "summary": "No."}</verdict>' },
       configChangedElsewhere: true,
     });
-    assert.equal((await run()).outcome, "rejected");
+    await assert.rejects(run(), GitConfigChangedError);
+    assert.equal(calls.closed, false);
+  });
+
+  it("rejects with the config change, and leaves the sandbox open, when a published pipeline finds the config changed", async () => {
+    const { run, calls } = pipeline({ configChangedElsewhere: true });
+    await assert.rejects(run(), GitConfigChangedError);
+    assert.equal(calls.published.length, 1);
+    assert.equal(calls.closed, false);
+  });
+
+  it("rejects with the config change when a pipeline with nothing to publish finds the config changed", async () => {
+    const { run, calls } = pipeline({ ahead: [0], configChangedElsewhere: true });
+    await assert.rejects(run(), GitConfigChangedError);
     assert.equal(calls.closed, false);
   });
 

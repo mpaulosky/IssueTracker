@@ -30,13 +30,20 @@ export const CHECK_MSBUILD_PATTERN = "RequiresDocker|IsTestProject|Testcontainer
 // needs-docker.sh read whole XML documents, so a comment or a Condition added
 // on a line of its own can drop or skip a project without touching a line
 // CHECK_MSBUILD_PATTERN matches.
+//
+// The patterns carry explicit :(glob) magic, so they mean the same whatever
+// GIT_GLOB_PATHSPECS or GIT_NOGLOB_PATHSPECS the host has: without it, "*"
+// matches "/" only by default, and a host with GIT_GLOB_PATHSPECS=1 would
+// drop every nested file. A leading "**/" matches at the root too.
 export const CHECK_MSBUILD_FILES = [
-  "tests/*.csproj",
-  "tests/*.props",
-  "tests/*.targets",
-  "Directory.Build.*",
-  "*/Directory.Build.*",
+  ":(glob)tests/**/*.csproj",
+  ":(glob)tests/**/*.props",
+  ":(glob)tests/**/*.targets",
+  ":(glob)**/Directory.Build.*",
 ] as const;
+
+// Every MSBuild file, anywhere in the tree.
+const MSBUILD_FILES = [":(glob)**/*.csproj", ":(glob)**/*.props", ":(glob)**/*.targets"] as const;
 
 // The files the branch changes, since it left `base`, that decide what the
 // check runs: CHECK_FILES, any change to CHECK_MSBUILD_FILES, other MSBuild
@@ -51,7 +58,7 @@ export function checkFileChanges(worktreePath: string, base: string): string[] {
   return [
     ...new Set([
       ...names(range, "--", ...CHECK_FILES, ...CHECK_MSBUILD_FILES),
-      ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", "*.csproj", "*.props", "*.targets"),
+      ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", ...MSBUILD_FILES),
       ...names("--no-renames", "--diff-filter=D", range, "--", "tests/"),
     ]),
   ].sort();
