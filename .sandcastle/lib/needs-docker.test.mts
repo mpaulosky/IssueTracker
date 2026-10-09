@@ -18,8 +18,15 @@ const project = (path: string, body: string) => {
   return path;
 };
 
-const status = (path: string) => spawnSync("bash", [script, path], { cwd: root }).status;
+const run = (path: string) => spawnSync("bash", [script, path], { cwd: root, encoding: "utf8" });
+const status = (path: string) => run(path).status;
 const needsDocker = (path: string) => status(path) === 0;
+// A "no" is exit 1 with nothing on stderr, so a crash that exits 1 doesn't pass for one.
+const assertNo = (path: string) => {
+  const { status, stderr } = run(path);
+  assert.equal(stderr, "");
+  assert.equal(status, 1);
+};
 
 describe("needs-docker.sh", () => {
   it("says yes to a project that references a Testcontainers package", () => {
@@ -54,23 +61,23 @@ describe("needs-docker.sh", () => {
   it("ignores references outside tests/", () => {
     project("src/Tool/Tool.csproj", '<ItemGroup><PackageReference Include="Testcontainers" /></ItemGroup>');
     const path = project("tests/UsesSrc/UsesSrc.csproj", '<ItemGroup><ProjectReference Include="..\\..\\src\\Tool\\Tool.csproj" /></ItemGroup>');
-    assert.equal(needsDocker(path), false);
+    assertNo(path);
   });
 
   it("ignores a commented-out reference", () => {
     const path = project("tests/Commented/Commented.csproj", '<ItemGroup>\n  <!-- <PackageReference Include="Testcontainers" /> -->\n  <PackageReference Include="xunit.v3" />\n</ItemGroup>');
-    assert.equal(needsDocker(path), false);
+    assertNo(path);
   });
 
   it("terminates on a reference cycle and says no when nothing needs Docker", () => {
     project("tests/CycleA/CycleA.csproj", '<ItemGroup><ProjectReference Include="..\\CycleB\\CycleB.csproj" /></ItemGroup>');
     project("tests/CycleB/CycleB.csproj", '<ItemGroup><ProjectReference Include="..\\CycleA\\CycleA.csproj" /></ItemGroup>');
-    assert.equal(status("tests/CycleA/CycleA.csproj"), 1);
+    assertNo("tests/CycleA/CycleA.csproj");
   });
 
   it("says no to a plain unit test project", () => {
     const path = project("tests/Unit/Unit.csproj", '<ItemGroup><PackageReference Include="xunit.v3" /><PackageReference Include="NSubstitute" /></ItemGroup>');
-    assert.equal(status(path), 1);
+    assertNo(path);
   });
 
   it("fails with 2 for a project that doesn't exist", () => {
