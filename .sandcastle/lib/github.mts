@@ -1,0 +1,174 @@
+// GitHub access. Only the host talks to GitHub: the sandbox gets no token, so
+// everything an agent needs from GitHub reaches it through its prompt, and
+// every write (comments, pushes, pull requests) is made here, in code.
+
+import { execFileSync } from "node:child_process";
+import { redactSandboxSecrets } from "./sandbox-env.mts";
+import { assertGitConfigUnchanged, sh } from "./shell.mts";
+
+// The author associations whose text may reach an agent. Anyone else can open
+// or comment on a public issue, so their words could steer an agent.
+export const TRUSTED_ASSOCIATIONS: ReadonlySet<string> = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
+
+export type RawIssue = {
+  number: number;
+  title: string;
+  body: string;
+  authorAssociation: string;
+  labels: string[];
+  comments: { authorAssociation: string; body: string }[];
+};
+
+export type SandcastleIssue = {
+  number: number;
+  title: string;
+  body: string;
+  labels: string[];
+  // Only comments from trusted authors; see trustedIssues.
+  comments: string[];
+};
+
+// Keep only what trusted authors wrote: an issue opened by anyone else is
+// dropped (its body can't be trusted), and so is every untrusted comment.
+// Returns the kept issues and the numbers of the dropped ones.
+export function trustedIssues(raw: readonly RawIssue[]): { issues: SandcastleIssue[]; untrusted: number[] } {
+  const issues: SandcastleIssue[] = [];
+  const untrusted: number[] = [];
+  for (const issue of raw) {
+    if (!TRUSTED_ASSOCIATIONS.has(issue.authorAssociation)) {
+      untrusted.push(issue.number);
+      continue;
+    }
+    issues.push({
+      number: issue.number,
+      title: issue.title,
+      body: issue.body,
+      labels: issue.labels,
+      comments: issue.comments
+        .filter((comment) => TRUSTED_ASSOCIATIONS.has(comment.authorAssociation))
+        .map((comment) => comment.body),
+    });
+  }
+  return { issues, untrusted };
+}
+
+let repo: { owner: string; name: string } | undefined;
+
+// The repository in the current directory. Read on first use rather than at
+// import, so importing a module never shells out to gh. main.mts reads it
+// before any sandbox starts: gh finds the repository from the clone's remotes,
+// which the agents could rewrite (see shell.mts).
+export function repoName(): { owner: string; name: string } {
+  if (!repo) {
+    const [owner, name] = sh(process.cwd(), "gh", "repo", "view", "--json", "nameWithOwner", "--jq", ".nameWithOwner").split("/");
+    repo = { owner: owner!, name: name! };
+  }
+  return repo;
+}
+
+const issuesQuery = `
+query($owner: String!, $name: String!) {
+  repository(owner: $owner, name: $name) {
+    issues(states: OPEN, labels: ["Sandcastle"], first: 100) {
+      pageInfo { hasNextPage }
+      nodes {
+        number title body authorAssociation
+        labels(first: 50) { nodes { name } }
+        comments(last: 100) { nodes { authorAssociation body } }
+      }
+    }
+  }
+}`;
+
+type IssuesResponse = {
+  data: {
+    repository: {
+      issues: {
+        pageInfo: { hasNextPage: boolean };
+        nodes: {
+          number: number;
+          title: string;
+          body: string;
+          authorAssociation: string;
+          labels: { nodes: { name: string }[] };
+          comments: { nodes: { authorAssociation: string; body: string }[] };
+        }[];
+      };
+    };
+  };
+};
+
+// The open issues labelled Sandcastle, keeping only what trusted authors wrote.
+export function listSandcastleIssues(): SandcastleIssue[] {
+  const { owner, name } = repoName();
+  assertGitConfigUnchanged();
+  const response = JSON.parse(
+    sh(process.cwd(), "gh", "api", "graphql", "-f", `query=${issuesQuery}`, "-F", `owner=${owner}`, "-F", `name=${name}`),
+  ) as IssuesResponse;
+  const { pageInfo, nodes } = response.data.repository.issues;
+  if (pageInfo.hasNextPage) console.warn("  More than 100 open Sandcastle issues: only the first 100 are considered.");
+
+  const { issues, untrusted } = trustedIssues(
+    nodes.map((issue) => ({
+      number: issue.number,
+      title: issue.title,
+      body: issue.body,
+      authorAssociation: issue.authorAssociation,
+      labels: issue.labels.nodes.map((label) => label.name),
+      comments: issue.comments.nodes,
+    })),
+  );
+  for (const number of untrusted) {
+    console.warn(`  Skipping #${number}: its author isn't an owner, member or collaborator. Re-file it to have it built.`);
+  }
+  return issues;
+}
+
+// An open pull request as `gh pr list --json headRefName,isCrossRepository,url` lists it.
+export type OpenPullRequest = { headRefName: string; isCrossRepository: boolean; url: string };
+
+// The pull requests whose head branch is in this repository. A fork's PR can
+// carry any branch name, so a fork naming its branch feature/7-x mustn't hold
+// issue 7 back, or pass for the PR Sandcastle opened for it.
+export function sameRepository(prs: readonly OpenPullRequest[]): OpenPullRequest[] {
+  return prs.filter((pr) => !pr.isCrossRepository);
+}
+
+// gh on the repository read before any sandbox started, named outright with
+// --repo so gh never looks at the clone's remotes. The command's input, if
+// any, has the sandbox's secrets removed first: it may quote sandbox output,
+// and it is published.
+function gh(args: string[], input?: string): string {
+  assertGitConfigUnchanged();
+  const { owner, name } = repoName();
+  return execFileSync("gh", [...args, "--repo", `${owner}/${name}`], {
+    cwd: process.cwd(),
+    encoding: "utf8",
+    stdio: [input === undefined ? "ignore" : "pipe", "pipe", "inherit"],
+    input: input === undefined ? undefined : redactSandboxSecrets(input),
+  }).trim();
+}
+
+function openPullRequests(...args: string[]): OpenPullRequest[] {
+  return JSON.parse(
+    gh(["pr", "list", "--state", "open", ...args, "--json", "headRefName,isCrossRepository,url"]),
+  ) as OpenPullRequest[];
+}
+
+// The head branches of this repository's open pull requests.
+export function openPullRequestBranches(): string[] {
+  return sameRepository(openPullRequests("--limit", "1000")).map((pr) => pr.headRefName);
+}
+
+export function commentOnIssue(issue: number, body: string): void {
+  gh(["issue", "comment", String(issue), "--body-file", "-"], body);
+}
+
+// Open a draft pull request for the branch, or return the open one it already
+// has. A draft is never merged, so a person reviews the agents' work and marks
+// it ready.
+export function openPullRequest(branch: string, title: string, body: string): string {
+  const existing = sameRepository(openPullRequests("--head", branch)).find((pr) => pr.headRefName === branch);
+  if (existing) return existing.url;
+  return gh(["pr", "create", "--draft", "--base", "main", "--head", branch, "--title", title, "--body-file", "-"], body);
+}

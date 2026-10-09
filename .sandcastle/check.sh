@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# The check the Sandcastle prompts tell the implementer, reviewer and merger
-# to run, and to fix until it exits 0. Nothing on the host runs it yet, so it
-# is advisory: the pre-push gate and CI are what hold a broken branch back.
+# The check the Sandcastle prompts tell the implementer and reviewer to run,
+# and to fix until it exits 0. The host runs it too (.sandcastle/lib/check.mts)
+# and publishes a branch only when it passes: its exit code decides, never what
+# an agent reports. CI runs everything, the Docker-backed tests included.
 # It lints the YAML and shell files, builds the solution as CI does, runs every
 # test project but the ones that need Docker, then the Sandcastle tests. The
 # sandbox image (.sandcastle/Dockerfile) installs the linters at CI's versions.
 #
 # The sandbox has no Docker on purpose: the host's Docker socket is root on
-# the host, and the agents read public issue content. The pre-push gate
-# (scripts/gate.sh) runs the Docker-backed test projects when a branch is
-# pushed, and CI runs everything.
+# the host, and the agents read public issue content. CI runs the
+# Docker-backed test projects on the branch's pull request.
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"

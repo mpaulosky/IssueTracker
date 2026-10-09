@@ -4,16 +4,19 @@
   "description": "Sandcastle, the agent loop in .sandcastle/. The app itself is .NET: see CLAUDE.md.",
   "scripts": {
     "sandcastle": "node .sandcastle/main.mts",
-    "test:sandcastle": "node --test \".sandcastle/**/*.test.mts\""
+    "test:sandcastle": "tsc --noEmit -p .sandcastle && node --test \".sandcastle/**/*.test.mts\""
   },
   "license": "MIT",
   "devDependencies": {
-    "@ai-hero/sandcastle": "^0.12.0"
+    "@ai-hero/sandcastle": "^0.12.0",
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "zod": "^4.6.5"
   },
   "engines": {
+    "node": ">=22.18",
     "npm": "please-use-pnpm"
   },
   "packageManager": "pnpm@12.6.0"

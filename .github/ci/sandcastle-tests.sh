@@ -30,9 +30,20 @@ if ! node -e 'const [major, minor] = process.versions.node.split(".").map(Number
   exit 1
 fi
 
-# node --run runs the package.json script without pnpm, so a Node without
-# corepack (25 and later) still works. The tests import only node: builtins
-# and each other; one that imports a package would need
-# "pnpm install --frozen-lockfile" here first.
+# The tests import the packages package.json lists (@ai-hero/sandcastle, zod)
+# and the script type-checks with typescript, so install exactly what
+# pnpm-lock.yaml pins first. pnpm comes from the PATH, or from corepack at the
+# version package.json's "packageManager" pins; Node 25 and later ship no
+# corepack, so there pnpm has to be on the PATH.
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm=(pnpm)
+elif command -v corepack >/dev/null 2>&1; then
+  export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+  pnpm=(corepack pnpm)
+else
+  echo "The Sandcastle tests need pnpm, or corepack to provide it; this Node $(node --version) has neither." >&2
+  exit 1
+fi
 echo "Sandcastle tests"
-node --run test:sandcastle
+"${pnpm[@]}" install --frozen-lockfile
+"${pnpm[@]}" run test:sandcastle

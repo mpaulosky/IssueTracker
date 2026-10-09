@@ -22,12 +22,16 @@ Where an instructions file disagrees with `CLAUDE.md`, `CLAUDE.md` wins.
 
 `.sandcastle/check.sh` is the check in the sandbox: the YAML and shell lints, the Release build with warnings as
 errors, every test project that doesn't need Docker, and the Sandcastle tests. A branch isn't done until it exits 0.
-The host doesn't run it itself, so a reviewer runs it rather than trusting the implementer's word.
+The host runs it in the sandbox after the implementer, and again if the reviewer changes the branch, and publishes
+only a commit it passed on: its exit code decides, never what an agent says. The check is the branch's own copy, so a
+PR whose branch changes `check.sh`, `needs-docker.sh`, `discover_tests.py`, `package.json` or a `RequiresDocker` flag
+says so at the top; review those changes before trusting the check.
 
 The sandbox has no Docker, on purpose: the host's Docker socket would give the agents root on the host, and they read
 public issue content. `check.sh` skips each test project that uses Testcontainers, `Aspire.Hosting.Testing` or
 Playwright, directly or through a `tests/` project it references, or that sets `<RequiresDocker>true</RequiresDocker>`.
-The host's pre-push gate (`scripts/gate.sh`) runs those suites when the branch is pushed, and CI runs everything. A test
+The host pushes Sandcastle's branches without the pre-push hook, which is a file in the worktree the agents edit, so
+CI is what runs those suites. A test
 that fails only because the sandbox has no Docker is reported, never deleted, skipped or weakened to pass.
 
 ## What reviews most often catch
