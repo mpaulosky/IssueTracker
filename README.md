@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.48](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.48) | 2026-10-09 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-246-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.47](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.47) | 2026-10-09 | fix(sandcastle): Close the last gaps in the host's config guard and secret scan | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-244-fix-sandcastle-close-the-last-gaps-in-the-host-s-config-guard-and-secret-scan.md) |
 | [v0.0.46](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.46) | 2026-10-09 | fix(sandcastle): Close the gaps Claude Review found after #236 merged | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-242-fix-sandcastle-close-the-gaps-claude-review-found-after-236-merged.md) |
 | [v0.0.45](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.45) | 2026-10-09 | fix(sandcastle): Open one pull request per issue instead of merging locally | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-236-fix-sandcastle-open-one-pull-request-per-issue-instead-of-merging-locally.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.41](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.41) | 2026-10-08 | fix(sandcastle): Name bug branches fix/ instead of hotfix/ | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-232-fix-sandcastle-name-bug-branches-fix-instead-of-hotfix.md) |
 | [v0.0.40](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.40) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-227-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.39](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.39) | 2026-10-08 | chore: Commit the Sandcastle setup | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-228-chore-commit-the-sandcastle-setup.md) |
-| [v0.0.38](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.38) | 2026-10-08 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-225-chore-re-apply-the-repo-ci-baseline-template.md) |
 
 <!-- RELEASES_END -->
 
