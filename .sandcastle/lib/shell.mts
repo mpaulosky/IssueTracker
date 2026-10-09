@@ -22,9 +22,15 @@ export const sh = (cwd: string, cmd: string, ...args: string[]) =>
 // branch's copy of .github/hooks, one the agents may have written in an
 // earlier run. GIT_CONFIG_* outranks every config file, and Sandcastle passes
 // the sandbox only what .sandcastle/.env names, so hooks inside it still run.
+//
+// core.useReplaceRefs=false makes the host read the real objects: refs/replace
+// is in the same writable .git, and a replace ref could show the secret scan
+// and the check-file warning a harmless commit while the push sends the real
+// one.
 export const HOST_GIT_CONFIG: readonly (readonly [string, string])[] = [
   ["core.hooksPath", "/dev/null"],
   ["core.fsmonitor", "false"],
+  ["core.useReplaceRefs", "false"],
 ];
 
 // Add HOST_GIT_CONFIG to the environment, after any GIT_CONFIG_* entries it
@@ -87,9 +93,11 @@ export function assertGitConfigUnchanged(): void {
   }
 }
 
-// Git on the host: refused once the clone's config has changed, and with
-// hooks off.
+// Git on the host: refused once the clone's config has changed, with hooks
+// off, and reading the real objects rather than any replace ref. It passes
+// these itself as well as through protectHostGit, so the secret scan and the
+// check-file warning hold up when an entry point didn't call protectHostGit.
 export const git = (cwd: string, ...args: string[]) => {
   assertGitConfigUnchanged();
-  return sh(cwd, "git", "-c", "core.hooksPath=/dev/null", ...args);
+  return sh(cwd, "git", "-c", "core.hooksPath=/dev/null", "-c", "core.useReplaceRefs=false", ...args);
 };

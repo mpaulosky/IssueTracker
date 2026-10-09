@@ -115,6 +115,22 @@ const cloneGit: BranchGit = {
   },
 };
 
+// main's commit from `git ls-remote origin refs/heads/main` output. ls-remote
+// matches a pattern against the end of each ref, so a branch named
+// feature/refs/heads/main is listed too, and sorts first; only the exact ref
+// counts.
+export function mainCommit(lsRemote: string): string {
+  const commits = lsRemote
+    .split("\n")
+    .map((line) => line.split("\t"))
+    .filter(([, ref]) => ref === "refs/heads/main")
+    .map(([commit]) => commit!);
+  if (commits.length !== 1 || !/^[0-9a-f]{40,64}$/.test(commits[0]!)) {
+    throw new Error(`origin didn't report exactly one commit for refs/heads/main:\n${lsRemote}`);
+  }
+  return commits[0]!;
+}
+
 // Refresh origin/main, the base of every new issue branch, the branch each
 // issue merges before it's checked, and what the reviewer's diff compares with.
 // The host's git calls are synchronous, so two pipelines never fetch at once.
@@ -123,8 +139,7 @@ const cloneGit: BranchGit = {
 // commit rather than refs/remotes/origin/main, which lives in the .git the
 // agents can write.
 export function fetchMain(): string {
-  const commit = git(process.cwd(), "ls-remote", "origin", "refs/heads/main").split("\t")[0]!;
-  if (!/^[0-9a-f]{40,64}$/.test(commit)) throw new Error(`origin didn't report a commit for main: '${commit}'`);
+  const commit = mainCommit(git(process.cwd(), "ls-remote", "origin", "refs/heads/main"));
   git(process.cwd(), "fetch", "--quiet", "origin", "main");
   git(process.cwd(), "cat-file", "-e", `${commit}^{commit}`);
   return commit;

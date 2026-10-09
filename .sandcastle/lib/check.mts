@@ -25,19 +25,40 @@ export const CHECK_FILES = [
 // and discover_tests.py drops one whose IsTestProject isn't true.
 export const CHECK_MSBUILD_PATTERN = "RequiresDocker|IsTestProject|Testcontainers|Aspire\\.Hosting\\.Testing|Playwright|ProjectReference";
 
+// MSBuild files whose every change is named: the test projects' own, and the
+// Directory.Build files every project imports. discover_tests.py and
+// needs-docker.sh read whole XML documents, so a comment or a Condition added
+// on a line of its own can drop or skip a project without touching a line
+// CHECK_MSBUILD_PATTERN matches.
+//
+// The patterns carry explicit :(glob) magic, so they mean the same whatever
+// GIT_GLOB_PATHSPECS or GIT_NOGLOB_PATHSPECS the host has: without it, "*"
+// matches "/" only by default, and a host with GIT_GLOB_PATHSPECS=1 would
+// drop every nested file. A leading "**/" matches at the root too.
+export const CHECK_MSBUILD_FILES = [
+  ":(glob)tests/**/*.csproj",
+  ":(glob)tests/**/*.props",
+  ":(glob)tests/**/*.targets",
+  ":(glob)**/Directory.Build.*",
+] as const;
+
+// Every MSBuild file, anywhere in the tree.
+const MSBUILD_FILES = [":(glob)**/*.csproj", ":(glob)**/*.props", ":(glob)**/*.targets"] as const;
+
 // The files the branch changes, since it left `base`, that decide what the
-// check runs: CHECK_FILES, MSBuild files where a CHECK_MSBUILD_PATTERN line
-// was added or removed, and files deleted or renamed away under tests/ (with
-// renames off, a rename is a deletion and an addition). `base` is a commit
-// id, not origin/main, which the agents could move.
+// check runs: CHECK_FILES, any change to CHECK_MSBUILD_FILES, other MSBuild
+// files where a CHECK_MSBUILD_PATTERN line was added or removed, and files
+// deleted or renamed away under tests/ (with renames off, a rename is a
+// deletion and an addition). `base` is a commit id, not origin/main, which
+// the agents could move.
 export function checkFileChanges(worktreePath: string, base: string): string[] {
   const range = `${base}...HEAD`;
   const names = (...args: string[]) =>
     git(worktreePath, "diff", "--no-ext-diff", "--no-textconv", "--name-only", ...args).split("\n").filter(Boolean);
   return [
     ...new Set([
-      ...names(range, "--", ...CHECK_FILES),
-      ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", "*.csproj", "*.props", "*.targets"),
+      ...names(range, "--", ...CHECK_FILES, ...CHECK_MSBUILD_FILES),
+      ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", ...MSBUILD_FILES),
       ...names("--no-renames", "--diff-filter=D", range, "--", "tests/"),
     ]),
   ].sort();

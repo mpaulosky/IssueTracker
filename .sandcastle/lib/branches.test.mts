@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { describe, it } from "node:test";
-import { branchFor, isIssueBranch, parseHeads, prepareBranches, slugFor, withoutOpenPullRequests } from "./branches.mts";
+import { branchFor, isIssueBranch, mainCommit, parseHeads, prepareBranches, slugFor, withoutOpenPullRequests } from "./branches.mts";
 
 const issue = (number: number, title: string, labels: string[] = ["Sandcastle"]) => ({ number, title, labels });
 
@@ -137,5 +137,17 @@ describe("prepareBranches", () => {
     prepareBranches([issue(4, "Add search")], git);
     assert.deepEqual(calls.fetched, ["feature/4-add-search"]);
     assert.deepEqual(calls.synced, ["feature/4-add-search"]);
+  });
+});
+
+describe("mainCommit", () => {
+  const a = "a".repeat(40);
+  const b = "b".repeat(40);
+  it("takes the exact refs/heads/main, not a branch whose name ends in it", () => {
+    assert.equal(mainCommit(`${b}\trefs/heads/feature/refs/heads/main\n${a}\trefs/heads/main\n`), a);
+  });
+
+  it("throws when origin reports no main", () => {
+    assert.throws(() => mainCommit(`${b}\trefs/heads/feature/refs/heads/main\n`), /exactly one commit/);
   });
 });
