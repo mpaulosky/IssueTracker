@@ -22,9 +22,15 @@ export const sh = (cwd: string, cmd: string, ...args: string[]) =>
 // branch's copy of .github/hooks, one the agents may have written in an
 // earlier run. GIT_CONFIG_* outranks every config file, and Sandcastle passes
 // the sandbox only what .sandcastle/.env names, so hooks inside it still run.
+//
+// core.useReplaceRefs=false makes the host read the real objects: refs/replace
+// is in the same writable .git, and a replace ref could show the secret scan
+// and the check-file warning a harmless commit while the push sends the real
+// one.
 export const HOST_GIT_CONFIG: readonly (readonly [string, string])[] = [
   ["core.hooksPath", "/dev/null"],
   ["core.fsmonitor", "false"],
+  ["core.useReplaceRefs", "false"],
 ];
 
 // Add HOST_GIT_CONFIG to the environment, after any GIT_CONFIG_* entries it
@@ -73,6 +79,11 @@ export function configChanges(before: string, after: string): string[] {
 }
 
 export class GitConfigChangedError extends Error {}
+
+// Whether the clone's config changed since recordGitConfig.
+export function gitConfigChanged(): boolean {
+  return recordedConfig !== undefined && configChanges(recordedConfig, localConfig()).length > 0;
+}
 
 // Throw if the clone's config changed since recordGitConfig.
 export function assertGitConfigUnchanged(): void {

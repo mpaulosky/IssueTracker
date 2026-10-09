@@ -14,7 +14,7 @@ import { issuePromptArgs } from "./prompts.mts";
 import { prBody, prTitle } from "./publish.mts";
 import { containsSandboxSecret } from "./sandbox-env.mts";
 import { publishedText } from "./scan.mts";
-import { git, GitConfigChangedError } from "./shell.mts";
+import { git, GitConfigChangedError, gitConfigChanged } from "./shell.mts";
 import { parseVerdict } from "./verdict.mts";
 
 // The parts of a sandbox buildIssue uses; tests pass a fake.
@@ -35,6 +35,8 @@ export type BuildHost = {
   commentOnIssue(issueNumber: number, body: string): void;
   // Push the commit to the branch on origin and open (or reuse) its pull request.
   publish(commit: string, branch: string, title: string, body: string): string;
+  // Whether the clone's git config has changed since the run started.
+  gitConfigChanged(): boolean;
   log(line: string): void;
 };
 
@@ -63,6 +65,7 @@ const liveHost: BuildHost = {
   leaksSecret,
   commentOnIssue,
   publish,
+  gitConfigChanged,
   log: console.log,
 };
 
@@ -205,12 +208,16 @@ export async function buildIssue(
       log(`published ${prUrl}`);
       return { outcome: "published", prUrl };
     } catch (error) {
+      if (error instanceof GitConfigChangedError) throw error;
       return stop("publish-failed", `Sandcastle couldn't publish \`${branch}\`: ${error}`);
     }
   } catch (error) {
     if (error instanceof GitConfigChangedError) configChanged = true;
     throw error;
   } finally {
-    if (!configChanged) await sandbox.close();
+    // Another pipeline's agent may have changed the config after this
+    // pipeline's last host git call, so ask again rather than rely on having
+    // seen the error.
+    if (!configChanged && !host.gitConfigChanged()) await sandbox.close();
   }
 }

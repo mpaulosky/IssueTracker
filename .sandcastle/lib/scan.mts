@@ -6,15 +6,33 @@
 
 import { git } from "./shell.mts";
 
-// The added lines of `git log -p --cc -U0` output. A commit with one parent
-// marks an added line with "+"; a merge's dense combined diff has a column per
-// parent, and marks a line in its result that no parent had with "+" in at
-// least one column ("++", "+ ", " +"). File headers ("+++ b/path") are left out.
+// What `git log -p --cc -U0` output publishes: each file header line whole
+// (the paths are published too), and the content of each added line. The
+// output is read with state, not by prefix, since an added line can itself
+// start with "++ " and look like a "+++ b/path" header. A hunk header has one
+// "@" per column plus one ("@@" for a commit with one parent, "@@@" for a
+// merge of two), and in a hunk each line starts with that many columns: a
+// line is added when some column is "+" and none is "-". A hunk lasts until
+// the next "diff " line.
 export function addedLines(patch: string): string[] {
-  return patch
-    .split("\n")
-    .filter((line) => !line.startsWith("+++ ") && /^(\+|[ +]\+)/.test(line))
-    .map((line) => line.replace(/^[ +]{1,2}/, ""));
+  const published: string[] = [];
+  let columns = 0;
+  for (const line of patch.split("\n")) {
+    if (line.startsWith("diff ")) {
+      columns = 0;
+      published.push(line);
+    } else if (columns === 0) {
+      const hunk = /^(@{2,}) /.exec(line);
+      if (hunk) columns = hunk[1]!.length - 1;
+      else if (line) published.push(line);
+    } else if (/^@{2,} /.test(line)) {
+      continue;
+    } else {
+      const marks = line.slice(0, columns);
+      if (marks.includes("+") && !marks.includes("-")) published.push(line.slice(columns));
+    }
+  }
+  return published;
 }
 
 // The commit messages and added lines from `base` to `commit`. --cc reads
@@ -23,6 +41,8 @@ export function addedLines(patch: string): string[] {
 export function publishedText(cwd: string, base: string, commit: string): string {
   const range = `${base}..${commit}`;
   const messages = git(cwd, "log", "--format=%B", range);
-  const patch = git(cwd, "log", "--format=", "-p", "--cc", "-U0", "--no-ext-diff", "--no-textconv", "--text", range);
+  // --no-color: with color.diff=always in the user's config, every line would
+  // start with an escape code, and the scan would see no added lines at all.
+  const patch = git(cwd, "log", "--no-color", "--format=", "-p", "--cc", "-U0", "--no-ext-diff", "--no-textconv", "--text", range);
   return [messages, ...addedLines(patch)].join("\n");
 }

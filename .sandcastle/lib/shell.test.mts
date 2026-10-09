@@ -51,7 +51,7 @@ describe("protectHostGit", () => {
   it("appends after GIT_CONFIG_* entries already in the environment", () => {
     const env: NodeJS.ProcessEnv = { GIT_CONFIG_COUNT: "1", GIT_CONFIG_KEY_0: "user.name", GIT_CONFIG_VALUE_0: "x" };
     protectHostGit(env);
-    assert.equal(env.GIT_CONFIG_COUNT, "3");
+    assert.equal(env.GIT_CONFIG_COUNT, "4");
     assert.equal(env.GIT_CONFIG_KEY_0, "user.name");
     assert.equal(env.GIT_CONFIG_KEY_1, "core.hooksPath");
     assert.equal(env.GIT_CONFIG_VALUE_1, "/dev/null");

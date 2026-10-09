@@ -77,6 +77,7 @@ describe("checkFileChanges", () => {
       write("tests/C/C.csproj", "<Project>\n</Project>\n");
       write("tests/D/D.csproj", "<Project>\n</Project>\n");
       write("tests/D/FooTests.cs", "class FooTests {}\n");
+      write("tests/F/F.csproj", "<Project>\n<PropertyGroup>\n<IsTestProject>true</IsTestProject>\n</PropertyGroup>\n</Project>\n");
       write("src/E/E.csproj", "<Project>\n</Project>\n");
       write(".sandcastle/check.sh", "echo check\n");
       git("add", ".");
@@ -87,6 +88,9 @@ describe("checkFileChanges", () => {
       write("tests/B/B.csproj", "<Project>\n<IsTestProject>false</IsTestProject>\n</Project>\n");
       rmSync(join(repo, "tests/C"), { recursive: true });
       git("mv", "tests/D/FooTests.cs", "tests/D/FooTests.cs.bak");
+      // Commented out on lines of their own: no line the pattern matches changes.
+      write("tests/F/F.csproj", "<Project>\n<PropertyGroup>\n<!--\n<IsTestProject>true</IsTestProject>\n-->\n</PropertyGroup>\n</Project>\n");
+      write("Directory.Build.props", "<Project>\n</Project>\n");
       write("src/E/E.csproj", '<Project>\n<PackageReference Include="Radzen.Blazor" />\n</Project>\n');
       write(".sandcastle/check.sh", "exit 0\n");
       git("add", "-A");
@@ -94,10 +98,12 @@ describe("checkFileChanges", () => {
 
       assert.deepEqual(checkFileChanges(repo, base), [
         ".sandcastle/check.sh",
+        "Directory.Build.props",
         "tests/A/A.csproj",
         "tests/B/B.csproj",
         "tests/C/C.csproj",
         "tests/D/FooTests.cs",
+        "tests/F/F.csproj",
       ]);
     } finally {
       rmSync(repo, { recursive: true, force: true });

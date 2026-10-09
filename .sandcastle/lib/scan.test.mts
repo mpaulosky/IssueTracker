@@ -27,7 +27,12 @@ describe("addedLines", () => {
       "+ theirs",
       "- gone",
     ].join("\n");
-    assert.deepEqual(addedLines(patch), ["new", "evil", "ours", "theirs"]);
+    assert.deepEqual(addedLines(patch), ["diff --git a/f b/f", "--- a/f", "+++ b/f", "new", "diff --cc g", "+++ b/g", "evil", "ours", "theirs"]);
+  });
+
+  it("keeps an added line that looks like a file header", () => {
+    const patch = ["diff --git a/f b/f", "--- a/f", "+++ b/f", "@@ -0,0 +1 @@", "+++ sk-ant-api03-token", "diff --cc g", "+++ b/g", "@@@ -1 -1 +1 @@@", "+++ ghp_token"].join("\n");
+    assert.deepEqual(addedLines(patch).filter((line) => line.includes("token")), ["++ sk-ant-api03-token", "+ ghp_token"]);
   });
 });
 
@@ -61,6 +66,8 @@ describe("publishedText", () => {
       git("add", ".");
       git("commit", "--quiet", "-m", "Merge main");
 
+      // A user's color.ui=always mustn't blind the scan.
+      git("config", "color.ui", "always");
       const text = publishedText(repo, base, git("rev-parse", "HEAD"));
       assert.match(text, /s3cr3t-in-a-merge/);
       assert.match(text, /line 2/);

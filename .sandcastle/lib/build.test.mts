@@ -19,8 +19,9 @@ function pipeline(options: {
   mergeFails?: boolean;
   publishError?: Error;
   checkFiles?: string[];
-  leaksSecret?: boolean;
+  leaksSecret?: boolean | Error;
   configChangedAt?: "head";
+  configChangedElsewhere?: boolean;
 }) {
   const checks = [...(options.checks ?? [true, true])];
   const ahead = [...(options.ahead ?? [1, 1])];
@@ -81,7 +82,11 @@ function pipeline(options: {
       return head;
     },
     checkFileChanges: () => options.checkFiles ?? [],
-    leaksSecret: () => options.leaksSecret ?? false,
+    leaksSecret: () => {
+      if (options.leaksSecret instanceof Error) throw options.leaksSecret;
+      return options.leaksSecret ?? false;
+    },
+    gitConfigChanged: () => options.configChangedElsewhere ?? false,
     commentOnIssue: (_, body) => calls.comments.push(body),
     publish: (commit, _, title, body) => {
       if (options.publishError) throw options.publishError;
@@ -230,6 +235,22 @@ describe("buildIssue", () => {
   it("leaves the sandbox open and rethrows when the git config changed", async () => {
     const { run, calls } = pipeline({ configChangedAt: "head" });
     await assert.rejects(run(), GitConfigChangedError);
+    assert.equal(calls.closed, false);
+  });
+
+  it("rethrows a config change found while publishing, and leaves the sandbox open", async () => {
+    const { run, calls } = pipeline({ leaksSecret: new GitConfigChangedError(".git/config changed") });
+    await assert.rejects(run(), GitConfigChangedError);
+    assert.deepEqual(calls.comments, []);
+    assert.equal(calls.closed, false);
+  });
+
+  it("leaves the sandbox open when another pipeline's agent changed the config", async () => {
+    const { run, calls } = pipeline({
+      reviewer: { stdout: '<verdict>{"approved": false, "summary": "No."}</verdict>' },
+      configChangedElsewhere: true,
+    });
+    assert.equal((await run()).outcome, "rejected");
     assert.equal(calls.closed, false);
   });
 
