@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-10-09 | [fix(sandcastle): Close the gaps Claude Review found after #236 merged](2026-10-09-pr-242-fix-sandcastle-close-the-gaps-claude-review-found-after-236-merged.md) | release,automation |
 | 2026-10-09 | [fix(sandcastle): Open one pull request per issue instead of merging locally](2026-10-09-pr-236-fix-sandcastle-open-one-pull-request-per-issue-instead-of-merging-locally.md) | release,automation |
 | 2026-10-09 | [fix(sandcastle): Resolve references portably in needs-docker.sh](2026-10-09-pr-239-fix-sandcastle-resolve-references-portably-in-needs-docker-sh.md) | release,automation |
 | 2026-10-08 | [chore(sandcastle): Run a Docker-free check.sh in the sandbox](2026-10-08-pr-231-chore-sandcastle-run-a-docker-free-check-sh-in-the-sandbox.md) | release,automation |
