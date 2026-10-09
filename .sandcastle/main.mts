@@ -25,9 +25,10 @@
 //
 // The loop repeats up to MAX_ITERATIONS times. Nothing reaches main between
 // rounds, so a later round only picks up issues the earlier picks didn't
-// block: the planner sees the issues in review as open blockers. An issue
-// that stopped isn't built again in the same run. The loop stops early when a
-// round opens no pull request.
+// block: the planner sees the issues in review, and the ones that stopped, as
+// open blockers. An issue that stopped isn't built again in the same run. The
+// loop stops early when a round opens no pull request, and at once when an
+// agent has changed the clone's git config.
 //
 // Usage:
 //   pnpm run sandcastle
@@ -42,7 +43,11 @@ import { listSandcastleIssues, openPullRequestBranches, repoName } from "./lib/g
 import { planSchema, readyPicks } from "./lib/plan.mts";
 import { plannerPromptArgs } from "./lib/prompts.mts";
 import { ENV_FILE, githubTokensIn } from "./lib/sandbox-env.mts";
-import { recordGitConfig } from "./lib/shell.mts";
+import { GitConfigChangedError, protectHostGit, recordGitConfig } from "./lib/shell.mts";
+
+// First, before anything runs git: hooks and fsmonitor off for every git on
+// the host, Sandcastle's own included. See lib/shell.mts.
+protectHostGit();
 
 const envFile = ENV_FILE;
 const leakedTokens = existsSync(envFile) ? githubTokensIn(readFileSync(envFile, "utf8")) : [];
@@ -73,14 +78,16 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   // Phase 1: Plan
   // -------------------------------------------------------------------------
   const open = withoutOpenPullRequests(listSandcastleIssues(), openPullRequestBranches());
-  const { inReview } = open;
   const ready = open.ready.filter((issue) => !stopped.has(issue.number));
-  for (const issue of inReview) {
+  const stoppedEarlier = open.ready.filter((issue) => stopped.has(issue.number));
+  for (const issue of open.inReview) {
     console.log(`  ⏸ #${issue.number} is held back: its pull request is open.`);
   }
-  for (const issue of open.ready.filter((issue) => stopped.has(issue.number))) {
+  for (const issue of stoppedEarlier) {
     console.log(`  ⏸ #${issue.number} is held back: it stopped earlier in this run.`);
   }
+  // Neither kind is on main, so both still block the issues that depend on them.
+  const heldBack = [...open.inReview, ...stoppedEarlier];
   if (ready.length === 0) {
     console.log("No open Sandcastle issues ready to build. Exiting.");
     break;
@@ -93,7 +100,7 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
     maxIterations: 1,
     agent: sandcastle.claudeCode(MODEL),
     promptFile: "./.sandcastle/plan-prompt.md",
-    promptArgs: plannerPromptArgs(ready, inReview),
+    promptArgs: plannerPromptArgs(ready, heldBack),
     // Throws StructuredOutputError if the tag is missing, the JSON is
     // malformed, or validation fails, which aborts the loop.
     output: sandcastle.Output.object({ tag: "plan", schema: planSchema }),
@@ -120,6 +127,12 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   // Promise.allSettled means one failing pipeline doesn't cancel the others.
   const settled = await Promise.allSettled(work.map(({ issue, branch }) => buildIssue(issue, branch)));
 
+  // An agent changed the clone's git config: stop the whole run, with the
+  // warning last, rather than carry on as if one issue had failed.
+  const configChanged = settled.find(
+    (outcome): outcome is PromiseRejectedResult => outcome.status === "rejected" && outcome.reason instanceof GitConfigChangedError,
+  );
+
   const published: string[] = [];
   for (const [i, outcome] of settled.entries()) {
     const { issue, branch } = work[i]!;
@@ -132,6 +145,8 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
       stopped.add(issue.number);
     }
   }
+
+  if (configChanged) throw configChanged.reason;
 
   console.log(`\nRound complete. ${published.length} pull request(s):`);
   for (const line of published) console.log(line);

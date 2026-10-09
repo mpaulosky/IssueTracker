@@ -2,7 +2,6 @@
 // so re-planning an issue always lands on the branch that holds its earlier
 // work, and every name passes scripts/check-branch-name.sh.
 
-import { BASE_BRANCH } from "./config.mts";
 import { git, GitConfigChangedError } from "./shell.mts";
 
 const maxSlugLength = 50;
@@ -119,13 +118,21 @@ const cloneGit: BranchGit = {
 // Refresh origin/main, the base of every new issue branch, the branch each
 // issue merges before it's checked, and what the reviewer's diff compares with.
 // The host's git calls are synchronous, so two pipelines never fetch at once.
-export function fetchMain(): void {
+//
+// Returns main's commit as origin reports it. The host compares with that
+// commit rather than refs/remotes/origin/main, which lives in the .git the
+// agents can write.
+export function fetchMain(): string {
+  const commit = git(process.cwd(), "ls-remote", "origin", "refs/heads/main").split("\t")[0]!;
+  if (!/^[0-9a-f]{40,64}$/.test(commit)) throw new Error(`origin didn't report a commit for main: '${commit}'`);
   git(process.cwd(), "fetch", "--quiet", "origin", "main");
+  git(process.cwd(), "cat-file", "-e", `${commit}^{commit}`);
+  return commit;
 }
 
-// Count the commits on the worktree's branch that the base branch doesn't have.
-export function commitsAhead(worktreePath: string): number {
-  return Number(git(worktreePath, "rev-list", "--count", `${BASE_BRANCH}..HEAD`));
+// Count the commits on the worktree's branch that the base commit doesn't have.
+export function commitsAhead(worktreePath: string, base: string): number {
+  return Number(git(worktreePath, "rev-list", "--count", `${base}..HEAD`));
 }
 
 // The commit the worktree has checked out.

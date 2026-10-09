@@ -60,8 +60,23 @@ export function redact(text: string, secrets: Iterable<string>): string {
   return result;
 }
 
+// The values .sandcastle/.env gives the sandbox.
+function sandboxSecrets(): Iterable<string> {
+  const envFile = existsSync(ENV_FILE) ? readFileSync(ENV_FILE, "utf8") : "";
+  return sandboxEnv(envFile, process.env).values();
+}
+
 // redact with the values .sandcastle/.env gives the sandbox.
 export function redactSandboxSecrets(text: string): string {
-  const envFile = existsSync(ENV_FILE) ? readFileSync(ENV_FILE, "utf8") : "";
-  return redact(text, sandboxEnv(envFile, process.env).values());
+  return redact(text, sandboxSecrets());
+}
+
+// Whether the text holds a secret or token that redact would replace.
+export function containsSecret(text: string, secrets: Iterable<string>): boolean {
+  return redact(text, secrets) !== text;
+}
+
+// containsSecret with the values .sandcastle/.env gives the sandbox.
+export function containsSandboxSecret(text: string): boolean {
+  return containsSecret(text, sandboxSecrets());
 }

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { githubTokensIn, redact, sandboxEnv } from "./sandbox-env.mts";
+import { containsSecret, githubTokensIn, redact, sandboxEnv } from "./sandbox-env.mts";
 
 describe("githubTokensIn", () => {
   it("finds GH_TOKEN and GITHUB_TOKEN, even when blank or exported", () => {
@@ -38,5 +38,13 @@ describe("redact", () => {
   it("replaces token shapes that didn't come from the env file", () => {
     const text = "key sk-ant-oat01-abcdefghijklmnopqrst and ghp_abcdefghijklmnopqrstuvwxyz0123";
     assert.equal(redact(text, []), "key *** and ***");
+  });
+});
+
+describe("containsSecret", () => {
+  it("finds a secret value or a token shape, and nothing else", () => {
+    assert.ok(containsSecret("+ const key = 's3cr3t-value';", ["s3cr3t-value"]));
+    assert.ok(containsSecret("+ token: sk-ant-api03-abcdefghijklmnopqrstuv", []));
+    assert.ok(!containsSecret("+ const key = 'placeholder';", ["s3cr3t-value"]));
   });
 });

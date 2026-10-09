@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, describe, it } from "node:test";
-import { assertGitConfigUnchanged, configChanges, git, GitConfigChangedError, recordGitConfig } from "./shell.mts";
+import { assertGitConfigUnchanged, configChanges, git, GitConfigChangedError, protectHostGit, recordGitConfig } from "./shell.mts";
+
+// These tests make their own repositories. A git hook (pre-push runs these
+// tests) can export GIT_DIR and friends, which would point git at this clone.
+for (const key of ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_PREFIX", "GIT_COMMON_DIR"]) delete process.env[key];
 
 describe("configChanges", () => {
   it("lists removed and added lines", () => {
@@ -40,5 +44,43 @@ describe("the git config guard", () => {
       assert.match(String(error), /\+ core\.fsmonitor=touch pwned/);
       return true;
     });
+  });
+});
+
+describe("protectHostGit", () => {
+  it("appends after GIT_CONFIG_* entries already in the environment", () => {
+    const env: NodeJS.ProcessEnv = { GIT_CONFIG_COUNT: "1", GIT_CONFIG_KEY_0: "user.name", GIT_CONFIG_VALUE_0: "x" };
+    protectHostGit(env);
+    assert.equal(env.GIT_CONFIG_COUNT, "3");
+    assert.equal(env.GIT_CONFIG_KEY_0, "user.name");
+    assert.equal(env.GIT_CONFIG_KEY_1, "core.hooksPath");
+    assert.equal(env.GIT_CONFIG_VALUE_1, "/dev/null");
+    assert.equal(env.GIT_CONFIG_KEY_2, "core.fsmonitor");
+  });
+
+  it("keeps a branch's post-checkout hook from running when any git, not just the host's helper, adds a worktree", () => {
+    const repo = mkdtempSync(join(tmpdir(), "sandcastle-hooks-test-"));
+    try {
+      const run = (env: NodeJS.ProcessEnv, ...args: string[]) => execFileSync("git", args, { cwd: repo, env, stdio: "ignore" });
+      const plain = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
+      run(plain, "init", "--quiet");
+      mkdirSync(join(repo, "hooks"));
+      writeFileSync(join(repo, "hooks", "post-checkout"), `#!/bin/sh\ntouch "${join(repo, "pwned")}"\n`);
+      chmodSync(join(repo, "hooks", "post-checkout"), 0o755);
+      run(plain, "config", "core.hooksPath", "hooks");
+      run(plain, "add", ".");
+      run(plain, "commit", "--quiet", "-m", "hooks");
+
+      const protectedEnv = { ...plain };
+      protectHostGit(protectedEnv);
+      run(protectedEnv, "worktree", "add", "--quiet", join(repo, "wt-protected"), "-b", "a");
+      assert.ok(!existsSync(join(repo, "pwned")), "the hook ran despite protectHostGit");
+
+      // The control: without it, the same command runs the hook.
+      run(plain, "worktree", "add", "--quiet", join(repo, "wt-plain"), "-b", "b");
+      assert.ok(existsSync(join(repo, "pwned")), "the control hook didn't run, so the test proves nothing");
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
   });
 });

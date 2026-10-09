@@ -72,6 +72,19 @@ describe("withoutClosingKeywords", () => {
     );
   });
 
+  it("rewrites full issue and pull request URLs after a closing keyword", () => {
+    assert.equal(
+      withoutClosingKeywords("Fixes https://github.com/o/r/issues/12 and closes https://github.com/o/r/pull/3"),
+      "Fixes o/r issue 12 and closes o/r issue 3",
+    );
+  });
+
+  it("rewrites the issue title in the PR's title and body", () => {
+    assert.equal(prTitle({ title: "Fix #12 regression in search", labels: ["bug"] }), "fix: Fix issue 12 regression in search");
+    const body = prBody({ number: 41, title: "Resolves #40 follow-up" }, "Clean.");
+    assert.deepEqual(body.match(/(?:fix|close|resolve)\w*:?\s+#\d+/gi), ["Fixes #41"]);
+  });
+
   it("leaves other references alone", () => {
     assert.equal(withoutClosingKeywords("Builds on #12; see #40."), "Builds on #12; see #40.");
   });

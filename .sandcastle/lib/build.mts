@@ -12,7 +12,8 @@ import { BASE_BRANCH, CHECK_COMMENT_LINES, copyToWorktree, hooks, IMPLEMENTER_IT
 import { commentOnIssue, openPullRequest, type SandcastleIssue } from "./github.mts";
 import { issuePromptArgs } from "./prompts.mts";
 import { prBody, prTitle } from "./publish.mts";
-import { git } from "./shell.mts";
+import { containsSandboxSecret } from "./sandbox-env.mts";
+import { git, GitConfigChangedError } from "./shell.mts";
 import { parseVerdict } from "./verdict.mts";
 
 // The parts of a sandbox buildIssue uses; tests pass a fake.
@@ -21,12 +22,15 @@ export type BuildSandbox = Pick<sandcastle.Sandbox, "run" | "exec" | "close" | "
 // What buildIssue needs from outside the pipeline; tests pass stubs.
 export type BuildHost = {
   createSandbox(branch: string): Promise<BuildSandbox>;
-  // Refresh BASE_BRANCH from origin.
-  fetchBase(): void;
-  commitsAhead(worktreePath: string): number;
+  // Refresh main from origin and return its commit.
+  fetchBase(): string;
+  commitsAhead(worktreePath: string, base: string): number;
   head(worktreePath: string): string;
   // The files the branch changes that decide what the check runs.
-  checkFileChanges(worktreePath: string): string[];
+  checkFileChanges(worktreePath: string, base: string): string[];
+  // Whether the commits from base to commit, their diffs or messages, hold
+  // one of the sandbox's secrets.
+  leaksSecret(base: string, commit: string): boolean;
   commentOnIssue(issueNumber: number, body: string): void;
   // Push the commit to the branch on origin and open (or reuse) its pull request.
   publish(commit: string, branch: string, title: string, body: string): string;
@@ -43,6 +47,13 @@ function publish(commit: string, branch: string, title: string, body: string): s
   return openPullRequest(branch, title, body);
 }
 
+// Everything the push would publish: each commit's message and its diff,
+// binary files as text.
+function leaksSecret(base: string, commit: string): boolean {
+  const published = git(process.cwd(), "log", "--no-ext-diff", "--no-textconv", "--text", "-p", "--format=%H%n%B", `${base}..${commit}`);
+  return containsSandboxSecret(published);
+}
+
 const liveHost: BuildHost = {
   createSandbox: (branch) =>
     sandcastle.createSandbox({ branch, baseBranch: BASE_BRANCH, sandbox: docker(), hooks, copyToWorktree }),
@@ -50,6 +61,7 @@ const liveHost: BuildHost = {
   commitsAhead,
   head: headOf,
   checkFileChanges,
+  leaksSecret,
   commentOnIssue,
   publish,
   log: console.log,
@@ -62,6 +74,7 @@ export type BuildOutcome =
   | "merge-conflict"
   | "check-failed"
   | "rejected"
+  | "secret-in-commits"
   | "publish-failed";
 
 export async function buildIssue(
@@ -79,6 +92,10 @@ export async function buildIssue(
   const promptArgs = issuePromptArgs(issue, branch);
 
   const sandbox = await host.createSandbox(branch);
+  // Once an agent has changed .git/config, Sandcastle's own git (removing the
+  // worktree in close()) would run under it too, so the sandbox is left as it
+  // is and the error goes up to stop the run.
+  let configChanged = false;
   try {
     // Implement. A run that throws or uses up its iterations without
     // signalling completion stops the issue for this round, whatever it
@@ -103,8 +120,8 @@ export async function buildIssue(
     // Bring in main as it is now, so the check and the review see the branch
     // as it would merge, and the PR isn't behind main when it opens. The merge
     // runs in the sandbox, where the worktree's hooks are the agents' own.
-    host.fetchBase();
-    const merge = await sandbox.exec(`git merge --no-edit ${BASE_BRANCH} 2>&1`);
+    const base = host.fetchBase();
+    const merge = await sandbox.exec(`git merge --no-edit ${base} 2>&1`);
     if (merge.exitCode !== 0) {
       await sandbox.exec("git merge --abort 2>&1");
       return stop(
@@ -117,7 +134,7 @@ export async function buildIssue(
     // Check, review and publish whenever the branch holds work main doesn't,
     // not only when this run added commits: a re-run of a finished issue
     // makes none, and its earlier work still needs a PR.
-    if (host.commitsAhead(sandbox.worktreePath) === 0) {
+    if (host.commitsAhead(sandbox.worktreePath, base) === 0) {
       log("nothing to publish");
       return { outcome: "nothing-to-publish" };
     }
@@ -165,7 +182,7 @@ export async function buildIssue(
     if (host.head(sandbox.worktreePath) !== checked) {
       checked = await checkedCommit("after the reviewer changed the branch");
       if (!checked) return { outcome: "check-failed" };
-      if (host.commitsAhead(sandbox.worktreePath) === 0) {
+      if (host.commitsAhead(sandbox.worktreePath, base) === 0) {
         log("nothing to publish after the review");
         return { outcome: "nothing-to-publish" };
       }
@@ -173,7 +190,17 @@ export async function buildIssue(
 
     // Publish while the worktree still exists; close() may remove it.
     try {
-      const checkFiles = host.checkFileChanges(sandbox.worktreePath);
+      // The push is public, and the sandbox holds the Claude token or API key.
+      // The comment doesn't say where the secret is, since it's public too.
+      if (host.leaksSecret(base, checked)) {
+        return stop(
+          "secret-in-commits",
+          `Sandcastle didn't publish this issue: a commit on \`${branch}\` holds one of the sandbox's secrets, or something ` +
+            `shaped like a Claude or GitHub token. ${notPushed} Find it with \`git log -p ${BASE_BRANCH}..${branch}\` before ` +
+            "anything pushes the branch, and rotate the secret if it has left this machine.",
+        );
+      }
+      const checkFiles = host.checkFileChanges(sandbox.worktreePath, base);
       if (checkFiles.length > 0) log(`changes the check's own files: ${checkFiles.join(", ")}`);
       const prUrl = host.publish(checked, branch, prTitle(issue), prBody(issue, verdict.summary, checkFiles));
       log(`published ${prUrl}`);
@@ -181,7 +208,10 @@ export async function buildIssue(
     } catch (error) {
       return stop("publish-failed", `Sandcastle couldn't publish \`${branch}\`: ${error}`);
     }
+  } catch (error) {
+    if (error instanceof GitConfigChangedError) configChanged = true;
+    throw error;
   } finally {
-    await sandbox.close();
+    if (!configChanged) await sandbox.close();
   }
 }

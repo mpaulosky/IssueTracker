@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { buildIssue, type BuildHost, type BuildSandbox } from "./build.mts";
+import { GitConfigChangedError } from "./shell.mts";
 
 const issue = { number: 7, title: "Add search", body: "Search issues.", labels: ["Sandcastle"], comments: [] };
 const branch = "feature/7-add-search";
@@ -18,6 +19,8 @@ function pipeline(options: {
   mergeFails?: boolean;
   publishError?: Error;
   checkFiles?: string[];
+  leaksSecret?: boolean;
+  configChangedAt?: "head";
 }) {
   const checks = [...(options.checks ?? [true, true])];
   const ahead = [...(options.ahead ?? [1, 1])];
@@ -66,14 +69,19 @@ function pipeline(options: {
     createSandbox: async () => sandbox,
     fetchBase: () => {
       calls.fetches++;
+      return "base-sha";
     },
     commitsAhead: () => {
       const count = ahead.shift();
       if (count === undefined) throw new Error("commitsAhead ran more often than scripted");
       return count;
     },
-    head: () => head,
+    head: () => {
+      if (options.configChangedAt === "head") throw new GitConfigChangedError(".git/config changed");
+      return head;
+    },
     checkFileChanges: () => options.checkFiles ?? [],
+    leaksSecret: () => options.leaksSecret ?? false,
     commentOnIssue: (_, body) => calls.comments.push(body),
     publish: (commit, _, title, body) => {
       if (options.publishError) throw options.publishError;
@@ -99,11 +107,11 @@ describe("buildIssue", () => {
     assert.ok(calls.closed);
   });
 
-  it("merges a freshly fetched origin/main before the check", async () => {
+  it("merges main's freshly fetched commit, by its id, before the check", async () => {
     const { run, calls } = pipeline({});
     await run();
     assert.equal(calls.fetches, 1);
-    const merge = calls.commands.findIndex((command) => command.startsWith("git merge --no-edit origin/main"));
+    const merge = calls.commands.findIndex((command) => command.startsWith("git merge --no-edit base-sha"));
     const check = calls.commands.findIndex((command) => command.startsWith(".sandcastle/check.sh"));
     assert.ok(merge !== -1 && merge < check, calls.commands.join("\n"));
   });
@@ -210,6 +218,19 @@ describe("buildIssue", () => {
     const { run, calls } = pipeline({ checkFiles: [".sandcastle/check.sh"] });
     assert.equal((await run()).outcome, "published");
     assert.match(calls.published[0]!.body, /\[!WARNING\][\s\S]*`\.sandcastle\/check\.sh`/);
+  });
+
+  it("doesn't publish commits that hold a secret, and doesn't quote it", async () => {
+    const { run, calls } = pipeline({ leaksSecret: true });
+    assert.equal((await run()).outcome, "secret-in-commits");
+    assert.deepEqual(calls.published, []);
+    assert.match(calls.comments[0]!, /holds one of the sandbox's secrets/);
+  });
+
+  it("leaves the sandbox open and rethrows when the git config changed", async () => {
+    const { run, calls } = pipeline({ configChangedAt: "head" });
+    await assert.rejects(run(), GitConfigChangedError);
+    assert.equal(calls.closed, false);
   });
 
   it("reports a failed push on the issue", async () => {

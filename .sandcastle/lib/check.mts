@@ -9,7 +9,6 @@
 // the person who reviews it. CI runs everything regardless.
 
 import type { Sandbox } from "@ai-hero/sandcastle";
-import { BASE_BRANCH } from "./config.mts";
 import { git } from "./shell.mts";
 
 // The files that decide what the check runs and skips.
@@ -20,13 +19,27 @@ export const CHECK_FILES = [
   "package.json",
 ] as const;
 
-// The files the branch changes, since it left the base branch, that decide
-// what the check runs: CHECK_FILES, and any MSBuild file where a
-// RequiresDocker line was added or removed.
-export function checkFileChanges(worktreePath: string): string[] {
-  const range = `${BASE_BRANCH}...HEAD`;
-  const names = (...args: string[]) => git(worktreePath, "diff", "--no-ext-diff", "--no-textconv", "--name-only", ...args).split("\n").filter(Boolean);
-  return [...new Set([...names(range, "--", ...CHECK_FILES), ...names("-G", "RequiresDocker", range, "--", "*.csproj", "*.props", "*.targets")])].sort();
+// MSBuild lines that decide whether a project is a test project and whether
+// check.sh runs it: needs-docker.sh skips a project with RequiresDocker or a
+// Docker-backed package (directly or through a tests/ project it references),
+// and discover_tests.py drops one whose IsTestProject isn't true.
+export const CHECK_MSBUILD_PATTERN = "RequiresDocker|IsTestProject|Testcontainers|Aspire\\.Hosting\\.Testing|Playwright|ProjectReference";
+
+// The files the branch changes, since it left `base`, that decide what the
+// check runs: CHECK_FILES, MSBuild files where a CHECK_MSBUILD_PATTERN line
+// was added or removed, and files deleted under tests/. `base` is a commit
+// id, not origin/main, which the agents could move.
+export function checkFileChanges(worktreePath: string, base: string): string[] {
+  const range = `${base}...HEAD`;
+  const names = (...args: string[]) =>
+    git(worktreePath, "diff", "--no-ext-diff", "--no-textconv", "--name-only", ...args).split("\n").filter(Boolean);
+  return [
+    ...new Set([
+      ...names(range, "--", ...CHECK_FILES),
+      ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", "*.csproj", "*.props", "*.targets"),
+      ...names("--diff-filter=D", range, "--", "tests/"),
+    ]),
+  ].sort();
 }
 
 export type CheckRun = { passed: boolean; output: string };

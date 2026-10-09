@@ -19,8 +19,9 @@ export function issuePromptArgs(issue: SandcastleIssue, branch: string) {
   };
 }
 
-// The planner gets the issues it may pick, and the ones in review: those
-// aren't on main yet, so they still block the issues that depend on them.
-export function plannerPromptArgs(ready: readonly SandcastleIssue[], inReview: readonly SandcastleIssue[]) {
-  return { ISSUES_JSON: JSON.stringify(ready), IN_REVIEW_JSON: JSON.stringify(inReview) };
+// The planner gets the issues it may pick, and the ones held back (in review,
+// or stopped earlier in this run): those aren't on main, so they still block
+// the issues that depend on them.
+export function plannerPromptArgs(ready: readonly SandcastleIssue[], heldBack: readonly SandcastleIssue[]) {
+  return { ISSUES_JSON: JSON.stringify(ready), HELD_BACK_JSON: JSON.stringify(heldBack) };
 }
