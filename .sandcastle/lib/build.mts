@@ -13,6 +13,7 @@ import { commentOnIssue, openPullRequest, type SandcastleIssue } from "./github.
 import { issuePromptArgs } from "./prompts.mts";
 import { prBody, prTitle } from "./publish.mts";
 import { containsSandboxSecret } from "./sandbox-env.mts";
+import { publishedText } from "./scan.mts";
 import { git, GitConfigChangedError } from "./shell.mts";
 import { parseVerdict } from "./verdict.mts";
 
@@ -47,11 +48,9 @@ function publish(commit: string, branch: string, title: string, body: string): s
   return openPullRequest(branch, title, body);
 }
 
-// Everything the push would publish: each commit's message and its diff,
-// binary files as text.
+// Whether what the push would publish (see publishedText) holds a secret.
 function leaksSecret(base: string, commit: string): boolean {
-  const published = git(process.cwd(), "log", "--no-ext-diff", "--no-textconv", "--text", "-p", "--format=%H%n%B", `${base}..${commit}`);
-  return containsSandboxSecret(published);
+  return containsSandboxSecret(publishedText(process.cwd(), base, commit));
 }
 
 const liveHost: BuildHost = {

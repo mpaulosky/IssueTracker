@@ -76,6 +76,7 @@ describe("checkFileChanges", () => {
       write("tests/B/B.csproj", "<Project>\n</Project>\n");
       write("tests/C/C.csproj", "<Project>\n</Project>\n");
       write("tests/D/D.csproj", "<Project>\n</Project>\n");
+      write("tests/D/FooTests.cs", "class FooTests {}\n");
       write("src/E/E.csproj", "<Project>\n</Project>\n");
       write(".sandcastle/check.sh", "echo check\n");
       git("add", ".");
@@ -85,6 +86,7 @@ describe("checkFileChanges", () => {
       write("tests/A/A.csproj", '<Project>\n<PackageReference Include="Testcontainers" />\n</Project>\n');
       write("tests/B/B.csproj", "<Project>\n<IsTestProject>false</IsTestProject>\n</Project>\n");
       rmSync(join(repo, "tests/C"), { recursive: true });
+      git("mv", "tests/D/FooTests.cs", "tests/D/FooTests.cs.bak");
       write("src/E/E.csproj", '<Project>\n<PackageReference Include="Radzen.Blazor" />\n</Project>\n');
       write(".sandcastle/check.sh", "exit 0\n");
       git("add", "-A");
@@ -95,6 +97,7 @@ describe("checkFileChanges", () => {
         "tests/A/A.csproj",
         "tests/B/B.csproj",
         "tests/C/C.csproj",
+        "tests/D/FooTests.cs",
       ]);
     } finally {
       rmSync(repo, { recursive: true, force: true });

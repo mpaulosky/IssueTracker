@@ -27,7 +27,8 @@ export const CHECK_MSBUILD_PATTERN = "RequiresDocker|IsTestProject|Testcontainer
 
 // The files the branch changes, since it left `base`, that decide what the
 // check runs: CHECK_FILES, MSBuild files where a CHECK_MSBUILD_PATTERN line
-// was added or removed, and files deleted under tests/. `base` is a commit
+// was added or removed, and files deleted or renamed away under tests/ (with
+// renames off, a rename is a deletion and an addition). `base` is a commit
 // id, not origin/main, which the agents could move.
 export function checkFileChanges(worktreePath: string, base: string): string[] {
   const range = `${base}...HEAD`;
@@ -37,7 +38,7 @@ export function checkFileChanges(worktreePath: string, base: string): string[] {
     ...new Set([
       ...names(range, "--", ...CHECK_FILES),
       ...names("-G", CHECK_MSBUILD_PATTERN, range, "--", "*.csproj", "*.props", "*.targets"),
-      ...names("--diff-filter=D", range, "--", "tests/"),
+      ...names("--no-renames", "--diff-filter=D", range, "--", "tests/"),
     ]),
   ].sort();
 }
