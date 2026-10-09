@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { fenced, runCheck, tail } from "./check.mts";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { checkFileChanges, fenced, runCheck, tail } from "./check.mts";
+
+// These tests make their own repositories. A git hook (pre-push runs these
+// tests) can export GIT_DIR and friends, which would point git at this clone.
+for (const key of ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_PREFIX", "GIT_COMMON_DIR"]) delete process.env[key];
 
 // A sandbox whose exec answers each command from a table.
 const sandboxWith = (results: Record<string, { stdout: string; exitCode: number }>) => ({
@@ -50,5 +58,49 @@ describe("fenced", () => {
   it("uses a fence longer than any backtick run inside", () => {
     assert.equal(fenced("x ```` y"), "`````text\nx ```` y\n`````");
     assert.equal(fenced("plain"), "```text\nplain\n```");
+  });
+});
+
+describe("checkFileChanges", () => {
+  it("names each change that decides what the check runs, and nothing else", () => {
+    const repo = mkdtempSync(join(tmpdir(), "sandcastle-check-files-"));
+    try {
+      const env = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
+      const git = (...args: string[]) => execFileSync("git", args, { cwd: repo, env, encoding: "utf8" }).trim();
+      const write = (file: string, text: string) => {
+        mkdirSync(join(repo, file, ".."), { recursive: true });
+        writeFileSync(join(repo, file), text);
+      };
+      git("init", "--quiet");
+      write("tests/A/A.csproj", "<Project>\n</Project>\n");
+      write("tests/B/B.csproj", "<Project>\n</Project>\n");
+      write("tests/C/C.csproj", "<Project>\n</Project>\n");
+      write("tests/D/D.csproj", "<Project>\n</Project>\n");
+      write("tests/D/FooTests.cs", "class FooTests {}\n");
+      write("src/E/E.csproj", "<Project>\n</Project>\n");
+      write(".sandcastle/check.sh", "echo check\n");
+      git("add", ".");
+      git("commit", "--quiet", "-m", "base");
+      const base = git("rev-parse", "HEAD");
+
+      write("tests/A/A.csproj", '<Project>\n<PackageReference Include="Testcontainers" />\n</Project>\n');
+      write("tests/B/B.csproj", "<Project>\n<IsTestProject>false</IsTestProject>\n</Project>\n");
+      rmSync(join(repo, "tests/C"), { recursive: true });
+      git("mv", "tests/D/FooTests.cs", "tests/D/FooTests.cs.bak");
+      write("src/E/E.csproj", '<Project>\n<PackageReference Include="Radzen.Blazor" />\n</Project>\n');
+      write(".sandcastle/check.sh", "exit 0\n");
+      git("add", "-A");
+      git("commit", "--quiet", "-m", "branch");
+
+      assert.deepEqual(checkFileChanges(repo, base), [
+        ".sandcastle/check.sh",
+        "tests/A/A.csproj",
+        "tests/B/B.csproj",
+        "tests/C/C.csproj",
+        "tests/D/FooTests.cs",
+      ]);
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
   });
 });
