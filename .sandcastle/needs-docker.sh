@@ -29,7 +29,8 @@ needs_docker() {
   grep -qiE "$DOCKER_MARKERS" <<< "$text" && return 0
   dir="$(dirname "$csproj")"
   while read -r reference; do
-    path="$(realpath -m --relative-to=. "$dir/${reference//\\//}")"
+    # Normalised lexically, without GNU realpath's -m, which macOS lacks.
+    path="$(python3 -I -c 'import os, sys; print(os.path.relpath(os.path.normpath(sys.argv[1])))' "$dir/${reference//\\//}")"
     [[ "$path" == tests/* && -f "$path" ]] || continue
     [[ " $* " == *" $path "* ]] && continue
     needs_docker "$path" "$csproj" "$@" && return 0
