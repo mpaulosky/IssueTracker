@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.51](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.51) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-252-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.50](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.50) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-250-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.49](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.49) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-248-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.48](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.48) | 2026-10-09 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-246-chore-re-apply-the-repo-ci-baseline-template.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.44](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.44) | 2026-10-09 | fix(sandcastle): Resolve references portably in needs-docker.sh | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-239-fix-sandcastle-resolve-references-portably-in-needs-docker-sh.md) |
 | [v0.0.43](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.43) | 2026-10-08 | chore(sandcastle): Run a Docker-free check.sh in the sandbox | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-231-chore-sandcastle-run-a-docker-free-check-sh-in-the-sandbox.md) |
 | [v0.0.42](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.42) | 2026-10-08 | test(Integration.Tests): Check a cache hit by its reads, not a 5 ms timer | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-235-test-integration-tests-check-a-cache-hit-by-its-reads-not-a-5-ms-timer.md) |
-| [v0.0.41](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.41) | 2026-10-08 | fix(sandcastle): Name bug branches fix/ instead of hotfix/ | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-08-pr-232-fix-sandcastle-name-bug-branches-fix-instead-of-hotfix.md) |
 
 <!-- RELEASES_END -->
 
