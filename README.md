@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.55](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.55) | 2026-10-16 | build(deps): Pin the patched System.Security.Cryptography packages | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-16-pr-261-build-deps-pin-the-patched-system-security-cryptography-packages.md) |
 | [v0.0.54](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.54) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-258-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.53](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.53) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-256-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.52](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.52) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-254-chore-re-apply-the-repo-ci-baseline-template.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.48](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.48) | 2026-10-09 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-246-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.47](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.47) | 2026-10-09 | fix(sandcastle): Close the last gaps in the host's config guard and secret scan | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-244-fix-sandcastle-close-the-last-gaps-in-the-host-s-config-guard-and-secret-scan.md) |
 | [v0.0.46](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.46) | 2026-10-09 | fix(sandcastle): Close the gaps Claude Review found after #236 merged | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-242-fix-sandcastle-close-the-gaps-claude-review-found-after-236-merged.md) |
-| [v0.0.45](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.45) | 2026-10-09 | fix(sandcastle): Open one pull request per issue instead of merging locally | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-09-pr-236-fix-sandcastle-open-one-pull-request-per-issue-instead-of-merging-locally.md) |
 
 <!-- RELEASES_END -->
 
