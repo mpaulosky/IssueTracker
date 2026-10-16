@@ -25,13 +25,11 @@ public class ArchiveUserTests : IAsyncLifetime
 		_sut = new UserRepository(context);
 	}
 
-	[Fact]
 	public ValueTask InitializeAsync()
 	{
 		return ValueTask.CompletedTask;
 	}
 
-	[Fact]
 	public async ValueTask DisposeAsync()
 	{
 		await _factory.ResetDatabaseAsync();
