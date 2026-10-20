@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.61](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.61) | 2026-10-20 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-20-pr-274-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.60](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.60) | 2026-10-18 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-18-pr-272-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.59](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.59) | 2026-10-18 | chore(deps): Have Dependabot ignore claude-code-action | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-18-pr-270-chore-deps-have-dependabot-ignore-claude-code-action.md) |
 | [v0.0.58](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.58) | 2026-10-18 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-18-pr-267-chore-re-apply-the-repo-ci-baseline-template.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.54](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.54) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-258-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.53](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.53) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-256-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.52](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.52) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-254-chore-re-apply-the-repo-ci-baseline-template.md) |
-| [v0.0.51](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.51) | 2026-10-10 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-10-pr-252-chore-re-apply-the-repo-ci-baseline-template.md) |
 
 <!-- RELEASES_END -->
 
