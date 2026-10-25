@@ -1,183 +1,353 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { checkFileChanges } from "./check.mts";
-import { addedLines, publishedText } from "./scan.mts";
-import { protectHostGit } from "./shell.mts";
+import { additions, describeSecretMatch, firstSecretMatch } from "./scan.mts";
+import { hostGitInvocation, runHostGit } from "./shell.mts";
 
-// These tests make their own repository. A git hook (pre-push runs these
-// tests) can export GIT_DIR and friends, which would point git at this clone.
-for (const key of ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_PREFIX", "GIT_COMMON_DIR"]) delete process.env[key];
+describe("additions", () => {
+  const addedLines = (patch: string) => [...additions(patch)].map(({ text }) => text);
 
-describe("addedLines", () => {
-  it("keeps added lines from plain and combined diffs, not headers or removed lines", () => {
+  it("keeps the lines a commit adds, without file headers or removed lines", () => {
+    const patch = ["diff --git a/x b/x", "--- a/x", "+++ b/x", "@@ -1 +1 @@", "-old", "+new"].join("\n");
+
+    assert.deepEqual(addedLines(patch), ["new"]);
+  });
+
+  it("keeps the lines a merge's combined diff adds in either column", () => {
+    const patch = ["diff --cc x", "--- a/x", "+++ b/x", "@@@ -1,1 -1,1 +1,1 @@@", "++both", "+ first", " +second", "- gone"].join("\n");
+
+    assert.deepEqual(addedLines(patch), ["both", "first", "second"]);
+  });
+
+  it("keeps an added line whose content looks like a file header", () => {
+    const patch = ["diff --git a/x.patch b/x.patch", "--- /dev/null", "+++ b/x.patch", "@@ -0,0 +1,2 @@", "+++ token", "+--- a/y"].join("\n");
+
+    assert.deepEqual(addedLines(patch), ["++ token", "--- a/y"]);
+  });
+
+  it("keeps a merge's added line whose content starts with \"+ \"", () => {
+    const patch = ["diff --cc x", "+++ b/x", "@@@ -1,1 -1,1 +1,1 @@@", "+++ token"].join("\n");
+
+    assert.deepEqual(addedLines(patch), ["+ token"]);
+  });
+
+  it("reads each file's hunks, and ignores what's between them", () => {
     const patch = [
-      "diff --git a/f b/f",
-      "--- a/f",
-      "+++ b/f",
-      "@@ -1 +1 @@",
-      "-old",
-      "+new",
-      "diff --cc g",
-      "+++ b/g",
-      "@@@ -1,1 -1,1 +1,1 @@@",
-      "++evil",
-      " +ours",
-      "+ theirs",
-      "- gone",
+      "diff --git a/x b/x", "index 1..2 100644", "--- a/x", "+++ b/x", "@@ -1 +1 @@", "-a", "+b",
+      "\\ No newline at end of file",
+      "diff --git a/y b/y", "new file mode 100644", "--- /dev/null", "+++ b/y", "@@ -0,0 +1 @@", "+c",
     ].join("\n");
-    assert.deepEqual(addedLines(patch), ["diff --git a/f b/f", "--- a/f", "+++ b/f", "new", "diff --cc g", "+++ b/g", "evil", "ours", "theirs"]);
-  });
 
-  it("keeps an added line that looks like a file header", () => {
-    const patch = ["diff --git a/f b/f", "--- a/f", "+++ b/f", "@@ -0,0 +1 @@", "+++ sk-ant-api03-token", "diff --cc g", "+++ b/g", "@@@ -1 -1 +1 @@@", "+++ ghp_token"].join("\n");
-    assert.deepEqual(addedLines(patch).filter((line) => line.includes("token")), ["++ sk-ant-api03-token", "+ ghp_token"]);
+    assert.deepEqual(addedLines(patch), ["b", "c"]);
   });
 });
 
-describe("publishedText", () => {
-  it("includes what a merge commit adds, and not the context around an edit", () => {
-    const repo = mkdtempSync(join(tmpdir(), "sandcastle-scan-"));
+// A repository with a `base` commit and one commit on top (`leak`), whose
+// author, committer, message and added file a test can set, so a match
+// sits in exactly one field.
+function buildRepo({
+  authorName = "author",
+  authorEmail = "author@x",
+  committerName = "committer",
+  committerEmail = "committer@x",
+  message = "plain commit",
+  fileName = "notes.txt",
+  fileContent = "plain line\n",
+}: {
+  authorName?: string;
+  authorEmail?: string;
+  committerName?: string;
+  committerEmail?: string;
+  message?: string;
+  fileName?: string;
+  fileContent?: string;
+} = {}) {
+  const repo = realpathSync(mkdtempSync(join(tmpdir(), "sandcastle-scan-")));
+  const raw = (...args: string[]) =>
+    execFileSync("git", ["-c", "core.hooksPath=/dev/null", ...args], {
+      cwd: repo,
+      encoding: "utf8",
+      stdio: "pipe",
+      env: {
+        ...process.env,
+        GIT_AUTHOR_NAME: authorName,
+        GIT_AUTHOR_EMAIL: authorEmail,
+        GIT_COMMITTER_NAME: committerName,
+        GIT_COMMITTER_EMAIL: committerEmail,
+      },
+    }).trim();
+  raw("init", "--quiet");
+  raw("commit", "--quiet", "--allow-empty", "-m", "base");
+  const base = raw("rev-parse", "HEAD");
+  writeFileSync(join(repo, fileName), fileContent);
+  raw("add", ".");
+  raw("commit", "--quiet", "-m", message);
+  const leak = raw("rev-parse", "HEAD");
+  const hostGit = (...args: string[]) => runHostGit(repo, hostGitInvocation(repo, join(repo, ".git"), args));
+  return { repo, raw, base, leak, hostGit };
+}
+
+describe("firstSecretMatch", () => {
+  it("reports no match for a clean range", () => {
+    const { repo, base, leak, hostGit } = buildRepo();
     try {
-      const env = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
-      const git = (...args: string[]) => execFileSync("git", args, { cwd: repo, env, encoding: "utf8" }).trim();
-      const write = (file: string, text: string) => writeFileSync(join(repo, file), text);
-
-      git("init", "--quiet", "-b", "main");
-      write("fixture.txt", "token = ghp_FAKEFAKEFAKEFAKEFAKEFAKE\nline two\n");
-      write("other.txt", "one\n");
-      git("add", ".");
-      git("commit", "--quiet", "-m", "base");
-      const base = git("rev-parse", "HEAD");
-
-      // The branch edits the line next to main's fake token.
-      git("checkout", "--quiet", "-b", "issue");
-      write("fixture.txt", "token = ghp_FAKEFAKEFAKEFAKEFAKEFAKE\nline 2\n");
-      git("commit", "--quiet", "-am", "Edit beside the fixture");
-
-      // Main moves on, and the branch's merge of it carries content of its own.
-      git("checkout", "--quiet", "main");
-      write("other.txt", "two\n");
-      git("commit", "--quiet", "-am", "Main moves");
-      git("checkout", "--quiet", "issue");
-      git("merge", "--quiet", "--no-commit", "main");
-      write("other.txt", "two\nleaked = s3cr3t-in-a-merge\n");
-      git("add", ".");
-      git("commit", "--quiet", "-m", "Merge main");
-
-      // A user's color.ui=always mustn't blind the scan.
-      git("config", "color.ui", "always");
-      const text = publishedText(repo, base, git("rev-parse", "HEAD"));
-      assert.match(text, /s3cr3t-in-a-merge/);
-      assert.match(text, /line 2/);
-      assert.match(text, /Merge main/);
-      assert.doesNotMatch(text, /ghp_FAKE/);
+      assert.equal(firstSecretMatch(base, leak, new Map([["ANTHROPIC_API_KEY", "unrelated-secret-value"]]), hostGit), undefined);
     } finally {
       rmSync(repo, { recursive: true, force: true });
     }
   });
 
-  it("includes the commit headers a push publishes: author and committer names and emails", () => {
-    const repo = mkdtempSync(join(tmpdir(), "sandcastle-scan-"));
+  it("reports the commit, file path, line number and pattern kind for an added line shaped like a token", () => {
+    // Built at run time, so this test file isn't itself flagged as a leak.
+    const githubShaped = `${"gh"}p_${"A".repeat(36)}`;
+    const { repo, base, leak, hostGit } = buildRepo({ fileContent: `harmless line\n${githubShaped}\n` });
     try {
-      const env = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
-      const git = (...args: string[]) => execFileSync("git", args, { cwd: repo, env, encoding: "utf8" }).trim();
+      const match = firstSecretMatch(base, leak, new Map(), hostGit);
 
-      git("init", "--quiet", "-b", "main");
-      git("commit", "--quiet", "--allow-empty", "-m", "base");
-      const base = git("rev-parse", "HEAD");
-      // The environment doesn't touch .git/config, so the config guard can't
-      // see these.
-      const commit = (message: string, extra: NodeJS.ProcessEnv) =>
-        execFileSync("git", ["commit", "--quiet", "--allow-empty", "-m", message], { cwd: repo, env: { ...env, ...extra } });
-      commit("One", { GIT_AUTHOR_NAME: "sk-ant-api03-in-the-author-name" });
-      commit("Two", { GIT_COMMITTER_EMAIL: "ghp_in-the-committer-email@example.com" });
-
-      const text = publishedText(repo, base, git("rev-parse", "HEAD"));
-      assert.match(text, /sk-ant-api03-in-the-author-name/);
-      assert.match(text, /ghp_in-the-committer-email/);
+      assert.deepEqual(match, {
+        location: { commit: leak, field: "line", path: "notes.txt", line: 2 },
+        kind: { type: "pattern", shape: "gh*_" },
+      });
+      // Never the matched text itself.
+      assert.ok(!JSON.stringify(match).includes(githubShaped));
     } finally {
       rmSync(repo, { recursive: true, force: true });
     }
   });
-});
 
-// core.useReplaceRefs=false, which the host's git helper passes and
-// protectHostGit puts in the environment, so a replace ref in the writable
-// .git can't show the scan a harmless commit while the push sends the real one.
-describe("replace refs", () => {
-  it("makes the secret scan and the check-file warning read a commit a replace ref hides", () => {
-    const repo = mkdtempSync(join(tmpdir(), "sandcastle-replace-test-"));
+  it("reports the commit, the message field and the env key for a sandbox secret in the commit message", () => {
+    const secretValue = "fake-secret-message-value";
+    const { repo, base, leak, hostGit } = buildRepo({ message: `uses ${secretValue} to connect` });
     try {
-      const plain = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
-      const run = (env: NodeJS.ProcessEnv, ...args: string[]) => execFileSync("git", args, { cwd: repo, env, encoding: "utf8" }).trim();
-      const write = (file: string, text: string) => {
-        mkdirSync(join(repo, file, ".."), { recursive: true });
-        writeFileSync(join(repo, file), text);
-      };
-      run(plain, "init", "--quiet", "-b", "main");
-      write("readme.txt", "hello\n");
-      run(plain, "add", ".");
-      run(plain, "commit", "--quiet", "-m", "base");
-      const base = run(plain, "rev-parse", "HEAD");
+      const match = firstSecretMatch(base, leak, new Map([["ANTHROPIC_API_KEY", secretValue]]), hostGit);
 
-      // A harmless commit, then the real one, which the agents hide behind it.
-      write("readme.txt", "hello, world\n");
-      run(plain, "commit", "--quiet", "-am", "Harmless");
-      const harmless = run(plain, "rev-parse", "HEAD");
-      run(plain, "reset", "--quiet", "--hard", base);
-      write("readme.txt", "token = sk-ant-api03-hidden-by-a-replace-ref\n");
-      write(".sandcastle/check.sh", "exit 0\n");
-      run(plain, "add", ".");
-      run(plain, "commit", "--quiet", "-m", "Real");
-      const real = run(plain, "rev-parse", "HEAD");
-      run(plain, "replace", real, harmless);
+      assert.deepEqual(match, { location: { commit: leak, field: "message" }, kind: { type: "secret", envKey: "ANTHROPIC_API_KEY" } });
+      // Never the matched text itself.
+      assert.ok(!JSON.stringify(match).includes(secretValue));
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
 
-      // The host's helpers, under protectHostGit, read the real commit.
-      const saved = { ...process.env };
-      protectHostGit(process.env);
+  for (const field of ["author", "committer"] as const) {
+    it(`reports the commit, the ${field} field and the env key for a sandbox secret in the commit's ${field}`, () => {
+      const secretValue = `fake-secret-${field}-value`;
+      const { repo, base, leak, hostGit } = buildRepo(field === "author" ? { authorName: secretValue } : { committerName: secretValue });
       try {
-        assert.match(publishedText(repo, base, real), /sk-ant-api03-hidden-by-a-replace-ref/);
-        assert.deepEqual(checkFileChanges(repo, base), [".sandcastle/check.sh"]);
+        const match = firstSecretMatch(base, leak, new Map([["GH_TOKEN", secretValue]]), hostGit);
+
+        assert.deepEqual(match, { location: { commit: leak, field }, kind: { type: "secret", envKey: "GH_TOKEN" } });
+        // Never the matched text itself.
+        assert.ok(!JSON.stringify(match).includes(secretValue));
       } finally {
-        for (const key of Object.keys(process.env)) if (!(key in saved)) delete process.env[key];
-        Object.assign(process.env, saved);
+        rmSync(repo, { recursive: true, force: true });
       }
+    });
+  }
 
-      // So does any other git under protectHostGit.
-      const protectedEnv = { ...plain };
-      protectHostGit(protectedEnv);
-      assert.match(run(protectedEnv, "log", "-p", `${base}..${real}`), /sk-ant-api03-hidden-by-a-replace-ref/);
+  it("reports the commit and the path field, without naming the path, for a sandbox secret in a path", () => {
+    const secretValue = "fake-secret-path-value";
+    const { repo, base, leak, hostGit } = buildRepo({ fileName: `${secretValue}.txt` });
+    try {
+      const match = firstSecretMatch(base, leak, new Map([["ANTHROPIC_API_KEY", secretValue]]), hostGit);
 
-      // The control: a git without it reads the harmless commit.
-      assert.doesNotMatch(run(plain, "log", "-p", `${base}..${real}`), /sk-ant-api03-hidden-by-a-replace-ref/);
+      assert.deepEqual(match, { location: { commit: leak, field: "path" }, kind: { type: "secret", envKey: "ANTHROPIC_API_KEY" } });
+      // Never the matched text itself.
+      assert.ok(!JSON.stringify(match).includes(secretValue));
     } finally {
       rmSync(repo, { recursive: true, force: true });
     }
   });
 
-  it("reads past a replace ref through the host's git helper alone, without protectHostGit", () => {
-    const repo = mkdtempSync(join(tmpdir(), "sandcastle-replace-test-"));
-    try {
-      const plain = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
-      const run = (...args: string[]) => execFileSync("git", args, { cwd: repo, env: plain, encoding: "utf8" }).trim();
-      run("init", "--quiet", "-b", "main");
-      run("commit", "--quiet", "--allow-empty", "-m", "base");
-      const base = run("rev-parse", "HEAD");
-      run("commit", "--quiet", "--allow-empty", "-m", "Harmless");
-      const harmless = run("rev-parse", "HEAD");
-      run("reset", "--quiet", "--hard", base);
-      run("commit", "--quiet", "--allow-empty", "-m", "ghp_hidden-by-a-replace-ref");
-      const real = run("rev-parse", "HEAD");
-      run("replace", real, harmless);
+  for (const fileName of ["my notes.txt", "café.txt", 'say "hi".txt']) {
+    it(`reports the path of an added line as git stores it, for ${fileName}`, () => {
+      const githubShaped = `${"gh"}p_${"A".repeat(36)}`;
+      const { repo, base, leak, hostGit } = buildRepo({ fileName, fileContent: `${githubShaped}\n` });
+      try {
+        assert.deepEqual(firstSecretMatch(base, leak, new Map(), hostGit)?.location, { commit: leak, field: "line", path: fileName, line: 1 });
+      } finally {
+        rmSync(repo, { recursive: true, force: true });
+      }
+    });
+  }
 
-      assert.ok(!process.env.GIT_CONFIG_COUNT, "the test environment already sets GIT_CONFIG_*, so it proves nothing");
-      assert.match(publishedText(repo, base, real), /ghp_hidden-by-a-replace-ref/);
-      // The control: plain git shows the harmless message.
-      assert.doesNotMatch(run("log", `${base}..${real}`), /ghp_hidden-by-a-replace-ref/);
+  it("reports the line number in the new file, counting the lines around the hunk", () => {
+    const githubShaped = `${"gh"}p_${"A".repeat(36)}`;
+    const { repo, raw, base, hostGit } = buildRepo({ fileContent: "one\ntwo\nthree\nfour\n" });
+    try {
+      writeFileSync(join(repo, "notes.txt"), `one\ntwo\nthree changed\n${githubShaped}\nfour\n`);
+      raw("commit", "--quiet", "-am", "second");
+      const second = raw("rev-parse", "HEAD");
+
+      assert.deepEqual(firstSecretMatch(base, second, new Map(), hostGit)?.location, { commit: second, field: "line", path: "notes.txt", line: 4 });
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("finds the match in the commit git push sends, whatever a planted replace ref says", () => {
+    const secretValue = "fake-secret-message-value";
+    const { repo, raw, base, leak, hostGit } = buildRepo({ message: `uses ${secretValue}` });
+    try {
+      // What an agent could plant: show a clean commit in place of the leak.
+      raw("replace", leak, raw("commit-tree", `${base}^{tree}`, "-p", base, "-m", "clean"));
+      // The control: git log follows the replacement by default.
+      assert.ok(!raw("log", "--format=%B", "-1", leak).includes(secretValue));
+
+      assert.equal(firstSecretMatch(base, leak, new Map([["ANTHROPIC_API_KEY", secretValue]]), hostGit)?.location.field, "message");
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("finds the match in the commit's real parents, whatever a planted grafts file says", () => {
+    const secretValue = "fake-secret-message-value";
+    const { repo, raw, base, leak, hostGit } = buildRepo({ message: `uses ${secretValue}` });
+    try {
+      // What an agent could plant: make the leak look like an ancestor of base,
+      // which empties base..leak.
+      writeFileSync(join(repo, ".git", "info", "grafts"), `${base} ${leak}\n`);
+      // The control: git log honours the grafts file by default.
+      assert.equal(raw("log", "--format=%H", `${base}..${leak}`), "");
+
+      assert.equal(firstSecretMatch(base, leak, new Map([["ANTHROPIC_API_KEY", secretValue]]), hostGit)?.location.field, "message");
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("describeSecretMatch", () => {
+  const commit = "1".repeat(40);
+
+  it("names an added line's path, line number and commit, and the token shape", () => {
+    const text = describeSecretMatch({ location: { commit, field: "line", path: "src/x.ts", line: 3 }, kind: { type: "pattern", shape: "gh*_" } });
+
+    assert.equal(text, `something shaped like a gh*_ token in line 3 of src/x.ts, added by commit ${commit}`);
+  });
+
+  it("names the env key a sandbox secret came from, and the field of the commit it sits in", () => {
+    const text = describeSecretMatch({ location: { commit, field: "committer" }, kind: { type: "secret", envKey: "GH_TOKEN" } });
+
+    assert.equal(text, `the sandbox's GH_TOKEN value in the committer of commit ${commit}`);
+  });
+
+  it("doesn't name a path that holds the match", () => {
+    const text = describeSecretMatch({ location: { commit, field: "path" }, kind: { type: "secret", envKey: "GH_TOKEN" } });
+
+    assert.equal(text, `the sandbox's GH_TOKEN value in a path commit ${commit} touches`);
+  });
+
+  // The secret-scan criterion, end to end: what reaches the log and the run report,
+  // for a fake token and a fake secret a commit really holds.
+  it("holds no part of the matched text, for a fake token in a line or a fake secret in a message", () => {
+    const githubShaped = `${"gh"}p_${"A".repeat(36)}`;
+    const secretValue = "fake-secret-message-value";
+    const { repo, base, leak, hostGit } = buildRepo({ message: `uses ${secretValue}`, fileContent: `${githubShaped}\n` });
+    try {
+      for (const [secrets, matched] of [
+        [new Map<string, string>(), githubShaped],
+        [new Map([["ANTHROPIC_API_KEY", secretValue]]), secretValue],
+      ] as const) {
+        const match = firstSecretMatch(base, leak, secrets, hostGit);
+        assert.ok(match !== undefined);
+        const text = describeSecretMatch(match);
+        assert.ok(!text.includes(matched), text);
+        // Nor its tail, the part a token shape's name doesn't already give away.
+        assert.ok(!text.includes(matched.slice(-8)), text);
+      }
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+});
+
+// With the latest main merged into the branch, `base..commit` also holds
+// the commits main gained after `base`, which the branch didn't write.
+describe("firstSecretMatch with a merged main commit", () => {
+  // Built at run time, so this test file isn't itself flagged as a leak.
+  const githubShaped = `${"gh"}p_${"A".repeat(36)}`;
+
+  // `base`, then a branch commit and a main commit on top of it, then main
+  // merged into the branch. Each commit adds one file with the given content.
+  function mergedRepo({ branchContent, mainContent }: { branchContent: string; mainContent: string }) {
+    const { repo, raw, base, hostGit } = buildRepo();
+    const trunk = raw("rev-parse", "--abbrev-ref", "HEAD");
+    raw("checkout", "--quiet", "-b", "feature", base);
+    writeFileSync(join(repo, "branch.txt"), branchContent);
+    raw("add", ".");
+    raw("commit", "--quiet", "-m", "branch work");
+    raw("checkout", "--quiet", trunk);
+    raw("reset", "--quiet", "--hard", base);
+    writeFileSync(join(repo, "main.txt"), mainContent);
+    raw("add", ".");
+    raw("commit", "--quiet", "-m", "main work");
+    const main = raw("rev-parse", "HEAD");
+    raw("checkout", "--quiet", "feature");
+    raw("merge", "--quiet", "--no-edit", "-m", "Merge main", main);
+    const merged = raw("rev-parse", "HEAD");
+    return { repo, raw, base, main, merged, hostGit };
+  }
+
+  it("reports a token-shaped string in main's commits when the merged main commit isn't excluded", () => {
+    const { repo, base, main, merged, hostGit } = mergedRepo({ branchContent: "plain\n", mainContent: `${githubShaped}\n` });
+    try {
+      assert.deepEqual(firstSecretMatch(base, merged, new Map(), hostGit)?.location, { commit: main, field: "line", path: "main.txt", line: 1 });
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("reports nothing for a token-shaped string only in the main commit that was merged in", () => {
+    const { repo, base, main, merged, hostGit } = mergedRepo({ branchContent: "plain\n", mainContent: `${githubShaped}\n` });
+    try {
+      assert.equal(firstSecretMatch(base, merged, new Map(), hostGit, main), undefined);
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("still reports a token-shaped string in the branch's own commits when main is excluded", () => {
+    const { repo, base, main, merged, hostGit } = mergedRepo({ branchContent: `${githubShaped}\n`, mainContent: "plain\n" });
+    try {
+      const match = firstSecretMatch(base, merged, new Map(), hostGit, main);
+
+      assert.equal(match?.location.field, "line");
+      assert.equal(match?.location.field === "line" ? match.location.path : undefined, "branch.txt");
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("still reports a token-shaped string written into the merge commit itself when main is excluded", () => {
+    const { repo, raw, base, main, hostGit } = mergedRepo({ branchContent: "plain\n", mainContent: "plain\n" });
+    try {
+      writeFileSync(join(repo, "resolved.txt"), `${githubShaped}\n`);
+      raw("add", ".");
+      raw("commit", "--quiet", "--amend", "--no-edit");
+      const mergeCommit = raw("rev-parse", "HEAD");
+
+      const match = firstSecretMatch(base, mergeCommit, new Map(), hostGit, main);
+
+      assert.deepEqual(match?.location, { commit: mergeCommit, field: "line", path: "resolved.txt", line: 1 });
+    } finally {
+      rmSync(repo, { recursive: true, force: true });
+    }
+  });
+
+  it("still reports a sandbox secret in the branch's own commit message when main is excluded", () => {
+    const secretValue = "fake-secret-branch-message-value";
+    const { repo, raw, base, main, hostGit } = mergedRepo({ branchContent: "plain\n", mainContent: "plain\n" });
+    try {
+      raw("commit", "--quiet", "--allow-empty", "-m", `uses ${secretValue}`);
+      const tip = raw("rev-parse", "HEAD");
+
+      const match = firstSecretMatch(base, tip, new Map([["ANTHROPIC_API_KEY", secretValue]]), hostGit, main);
+
+      assert.deepEqual(match, { location: { commit: tip, field: "message" }, kind: { type: "secret", envKey: "ANTHROPIC_API_KEY" } });
     } finally {
       rmSync(repo, { recursive: true, force: true });
     }

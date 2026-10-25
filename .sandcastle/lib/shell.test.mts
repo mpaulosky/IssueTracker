@@ -1,86 +1,87 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { after, describe, it } from "node:test";
-import { assertGitConfigUnchanged, configChanges, git, GitConfigChangedError, protectHostGit, recordGitConfig } from "./shell.mts";
+import { describe, it } from "node:test";
+import { forgetGatedHead, hostGitInvocation, runHostGit } from "./shell.mts";
 
-// These tests make their own repositories. A git hook (pre-push runs these
-// tests) can export GIT_DIR and friends, which would point git at this clone.
-for (const key of ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_PREFIX", "GIT_COMMON_DIR"]) delete process.env[key];
+describe("hostGitInvocation", () => {
+  it("turns hooks off with -c and in the environment, and pins the git directories to the main checkout", () => {
+    const { args, env } = hostGitInvocation("/repo", "/repo/.git", ["push", "origin", "abc:refs/heads/x"], { PATH: "/bin" });
 
-describe("configChanges", () => {
-  it("lists removed and added lines", () => {
-    assert.deepEqual(configChanges("core.bare=false\nremote.origin.url=a\n", "core.bare=false\nremote.origin.url=b\n"), [
-      "- remote.origin.url=a",
-      "+ remote.origin.url=b",
-    ]);
+    assert.deepEqual(args, ["-c", "core.hooksPath=/dev/null", "push", "origin", "abc:refs/heads/x"]);
+    assert.equal(env.PATH, "/bin");
+    assert.equal(env.GIT_DIR, "/repo/.git");
+    assert.equal(env.GIT_COMMON_DIR, "/repo/.git");
+    assert.equal(env.GIT_WORK_TREE, "/repo");
+    assert.equal(env.GIT_NO_REPLACE_OBJECTS, "1");
+    assert.ok(env.GIT_GRAFT_FILE?.startsWith("/dev/null/"));
+    assert.equal(env[`GIT_CONFIG_KEY_${Number(env.GIT_CONFIG_COUNT) - 1}`], "core.hooksPath");
+    assert.equal(env[`GIT_CONFIG_VALUE_${Number(env.GIT_CONFIG_COUNT) - 1}`], "/dev/null");
   });
 
-  it("finds nothing when the config is the same", () => {
-    assert.deepEqual(configChanges("a=1\nb=2\n", "a=1\nb=2\n"), []);
-  });
-});
-
-describe("the git config guard", () => {
-  const repo = mkdtempSync(join(tmpdir(), "sandcastle-shell-test-"));
-  const original = process.cwd();
-  after(() => {
-    process.chdir(original);
-    rmSync(repo, { recursive: true, force: true });
-  });
-
-  it("refuses host git once an agent has written a command into the clone's config", () => {
-    execFileSync("git", ["init", "--quiet", repo]);
-    process.chdir(repo);
-    recordGitConfig();
-    assert.doesNotThrow(() => assertGitConfigUnchanged());
-    assert.equal(git(repo, "rev-parse", "--is-inside-work-tree"), "true");
-
-    execFileSync("git", ["config", "core.fsmonitor", "touch pwned"], { cwd: repo });
-    assert.throws(() => git(repo, "status"), (error: unknown) => {
-      assert.ok(error instanceof GitConfigChangedError);
-      assert.match(String(error), /\+ core\.fsmonitor=touch pwned/);
-      return true;
-    });
-  });
-});
-
-describe("protectHostGit", () => {
-  it("appends after GIT_CONFIG_* entries already in the environment", () => {
-    const env: NodeJS.ProcessEnv = { GIT_CONFIG_COUNT: "1", GIT_CONFIG_KEY_0: "user.name", GIT_CONFIG_VALUE_0: "x" };
-    protectHostGit(env);
-    assert.equal(env.GIT_CONFIG_COUNT, "4");
-    assert.equal(env.GIT_CONFIG_KEY_0, "user.name");
-    assert.equal(env.GIT_CONFIG_KEY_1, "core.hooksPath");
-    assert.equal(env.GIT_CONFIG_VALUE_1, "/dev/null");
-    assert.equal(env.GIT_CONFIG_KEY_2, "core.fsmonitor");
-  });
-
-  it("keeps a branch's post-checkout hook from running when any git, not just the host's helper, adds a worktree", () => {
-    const repo = mkdtempSync(join(tmpdir(), "sandcastle-hooks-test-"));
+  it("pushes a commit by its id without running the branch's pre-push hook", () => {
+    const root = realpathSync(mkdtempSync(join(tmpdir(), "sandcastle-push-")));
     try {
-      const run = (env: NodeJS.ProcessEnv, ...args: string[]) => execFileSync("git", args, { cwd: repo, env, stdio: "ignore" });
-      const plain = { ...process.env, GIT_AUTHOR_NAME: "t", GIT_AUTHOR_EMAIL: "t@t", GIT_COMMITTER_NAME: "t", GIT_COMMITTER_EMAIL: "t@t" };
-      run(plain, "init", "--quiet");
-      mkdirSync(join(repo, "hooks"));
-      writeFileSync(join(repo, "hooks", "post-checkout"), `#!/bin/sh\ntouch "${join(repo, "pwned")}"\n`);
-      chmodSync(join(repo, "hooks", "post-checkout"), 0o755);
-      run(plain, "config", "core.hooksPath", "hooks");
-      run(plain, "add", ".");
-      run(plain, "commit", "--quiet", "-m", "hooks");
+      const repo = join(root, "repo");
+      const remote = join(root, "remote.git");
+      mkdirSync(repo);
+      const run = (cwd: string, args: string[], env: NodeJS.ProcessEnv = process.env) =>
+        execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@t", ...args], { cwd, env, encoding: "utf8", stdio: "pipe" }).trim();
+      run(root, ["init", "--quiet", "--bare", remote]);
+      run(repo, ["init", "--quiet"]);
+      run(repo, ["remote", "add", "origin", remote]);
+      run(repo, ["config", "core.hooksPath", ".github/hooks"]);
+      mkdirSync(join(repo, ".github/hooks"), { recursive: true });
+      const ran = join(root, "hook-ran");
+      writeFileSync(join(repo, ".github/hooks/pre-push"), `#!/bin/sh\ntouch "${ran}"\n`);
+      chmodSync(join(repo, ".github/hooks/pre-push"), 0o755);
+      run(repo, ["commit", "--quiet", "--allow-empty", "-m", "work"]);
+      const commit = run(repo, ["rev-parse", "HEAD"]);
 
-      const protectedEnv = { ...plain };
-      protectHostGit(protectedEnv);
-      run(protectedEnv, "worktree", "add", "--quiet", join(repo, "wt-protected"), "-b", "a");
-      assert.ok(!existsSync(join(repo, "pwned")), "the hook ran despite protectHostGit");
+      const { args, env } = hostGitInvocation(repo, join(repo, ".git"), ["push", "--quiet", "origin", `${commit}:refs/heads/fix/1-x`]);
+      run(repo, args, env);
 
-      // The control: without it, the same command runs the hook.
-      run(plain, "worktree", "add", "--quiet", join(repo, "wt-plain"), "-b", "b");
-      assert.ok(existsSync(join(repo, "pwned")), "the control hook didn't run, so the test proves nothing");
+      assert.equal(existsSync(ran), false, "the pre-push hook ran on the host");
+      assert.equal(run(root, ["--git-dir", remote, "rev-parse", "refs/heads/fix/1-x"]), commit);
     } finally {
-      rmSync(repo, { recursive: true, force: true });
+      rmSync(root, { recursive: true, force: true });
     }
+  });
+});
+
+describe("runHostGit", () => {
+  it("puts git's stderr in the error, so a caller can say why it failed", () => {
+    const dir = realpathSync(mkdtempSync(join(tmpdir(), "sandcastle-stderr-")));
+    try {
+      assert.throws(
+        () => runHostGit(dir, hostGitInvocation(dir, join(dir, ".git"), ["rev-parse", "HEAD"])),
+        /git rev-parse HEAD failed:\n.*(not a git repository|fatal)/s,
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("forgetGatedHead", () => {
+  it("unsets the marker an earlier Sandcastle left", () => {
+    const calls: string[][] = [];
+
+    forgetGatedHead((...args) => {
+      calls.push(args);
+      return "";
+    });
+
+    assert.deepEqual(calls, [["config", "--local", "--unset-all", "sandcastle.gatedHead"]]);
+  });
+
+  it("carries on when there's no marker to unset", () => {
+    assert.doesNotThrow(() =>
+      forgetGatedHead(() => {
+        throw new Error("exit 5");
+      }),
+    );
   });
 });

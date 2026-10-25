@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs Sandcastle's tests (pnpm's test:sandcastle script) when anything they
+# Runs Sandcastle's tests (pnpm's check:sandcastle script) when anything they
 # cover changed since <base>, or always when <base> is empty. The pre-push
 # gate (.github/ci/gate-checks.sh) and CI's Build Solution job
 # (.github/ci/prepare.sh build) both call this, so they watch the same paths.
@@ -46,4 +46,4 @@ else
 fi
 echo "Sandcastle tests"
 "${pnpm[@]}" install --frozen-lockfile
-"${pnpm[@]}" run test:sandcastle
+"${pnpm[@]}" run check:sandcastle
