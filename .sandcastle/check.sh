@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 # The check the Sandcastle prompts tell the implementer and reviewer to run,
-# and to fix until it exits 0. The host runs it too (.sandcastle/lib/check.mts)
-# and publishes a branch only when it passes: its exit code decides, never what
-# an agent reports. CI runs everything, the Docker-backed tests included.
+# and to fix until it exits 0. CI runs everything, the Docker-backed tests included.
 # It lints the YAML and shell files, builds the solution as CI does, runs every
 # test project but the ones that need Docker, then the Sandcastle tests. The
 # sandbox image (.sandcastle/Dockerfile) installs the linters at CI's versions.
@@ -57,6 +55,6 @@ for project in "${projects[@]}"; do
 done
 
 echo "▶ Sandcastle tests"
-pnpm run test:sandcastle
+pnpm run check:sandcastle
 
 echo "✅ Sandcastle check passed."

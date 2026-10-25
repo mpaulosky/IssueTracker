@@ -1,103 +1,70 @@
 import { execFileSync } from "node:child_process";
+import { hostGitEnv, repoGitDir } from "./host-safety.mts";
 
 // Run a command on the host in `cwd` and return trimmed stdout. Throws on failure.
-// The buffer is large enough for a branch's whole diff, which the secret scan reads.
 export const sh = (cwd: string, cmd: string, ...args: string[]) =>
-  execFileSync(cmd, args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"], maxBuffer: 256 * 1024 * 1024 }).trim();
+  execFileSync(cmd, args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] }).trim();
 
-// Sandcastle mounts this clone's .git into every sandbox, writable, so the
-// agents can commit. That also lets them write .git/config, and git runs
-// commands named there: credential helpers, core.sshCommand, core.fsmonitor,
-// filter and diff drivers, and remotes or url.*.insteadOf rewrites that send a
-// push elsewhere. So the host records the clone's own config before any
-// sandbox starts, and refuses to run git once it has changed.
-//
-// Hooks are a second way in: core.hooksPath is .github/hooks, a path inside
-// the checkout, so in an issue worktree it names hooks the agents can edit.
-// The host's git runs with hooks off.
-
-// Config every git on the host gets through the environment, Sandcastle's own
-// included: it runs git on the host to add and remove the issue worktrees, and
-// `git worktree add` runs post-checkout from the new worktree, which is the
-// branch's copy of .github/hooks, one the agents may have written in an
-// earlier run. GIT_CONFIG_* outranks every config file, and Sandcastle passes
-// the sandbox only what .sandcastle/.env names, so hooks inside it still run.
-//
-// core.useReplaceRefs=false makes the host read the real objects: refs/replace
-// is in the same writable .git, and a replace ref could show the secret scan
-// and the check-file warning a harmless commit while the push sends the real
-// one.
-export const HOST_GIT_CONFIG: readonly (readonly [string, string])[] = [
-  ["core.hooksPath", "/dev/null"],
-  ["core.fsmonitor", "false"],
-  ["core.useReplaceRefs", "false"],
-];
-
-// Add HOST_GIT_CONFIG to the environment, after any GIT_CONFIG_* entries it
-// already has. main.mts calls this first, so every child process inherits it.
-export function protectHostGit(env: NodeJS.ProcessEnv = process.env): void {
-  const existing = Number(env.GIT_CONFIG_COUNT ?? 0) || 0;
-  HOST_GIT_CONFIG.forEach(([key, value], i) => {
-    env[`GIT_CONFIG_KEY_${existing + i}`] = key;
-    env[`GIT_CONFIG_VALUE_${existing + i}`] = value;
-  });
-  env.GIT_CONFIG_COUNT = String(existing + HOST_GIT_CONFIG.length);
+// The environment and arguments for a host git command in the main checkout at
+// `checkout`, whose .git directory is `gitDir`: hooks off, both in the
+// environment and with -c, and GIT_DIR, GIT_COMMON_DIR and GIT_WORK_TREE pinned,
+// so no file an agent wrote decides which config git reads (see
+// lib/host-safety.mts). Replace refs and grafts are off too: agents can write
+// both, and they'd make git log show the host other commits than the ones
+// git push sends.
+export function hostGitInvocation(
+  checkout: string,
+  gitDir: string,
+  args: readonly string[],
+  env: NodeJS.ProcessEnv = process.env,
+): { env: NodeJS.ProcessEnv; args: string[] } {
+  return {
+    env: {
+      ...hostGitEnv(env, gitDir),
+      GIT_DIR: gitDir,
+      GIT_WORK_TREE: checkout,
+      GIT_NO_REPLACE_OBJECTS: "1",
+      GIT_GRAFT_FILE: "/dev/null/no-grafts",
+    },
+    args: ["-c", "core.hooksPath=/dev/null", ...args],
+  };
 }
 
-// The clone's own config: .git/config, and the include and worktree-config
-// switches it holds, as `git config --local --list` prints it. Reading config
-// runs nothing.
-const localConfig = () => {
+// Run git with the invocation's arguments and environment in `cwd`, and
+// return trimmed stdout. On failure, throws with git's stderr in the message,
+// so the caller can say why.
+export function runHostGit(cwd: string, invocation: { env: NodeJS.ProcessEnv; args: string[] }): string {
   try {
-    return execFileSync("git", ["config", "--local", "--list"], {
-      cwd: process.cwd(),
+    return execFileSync("git", invocation.args, {
+      cwd,
+      env: invocation.env,
       encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    });
+      stdio: ["ignore", "pipe", "pipe"],
+      // The secret scan reads every patch the push would publish.
+      maxBuffer: 512 * 1024 * 1024,
+    }).trim();
+  } catch (error) {
+    const stderr = (error as { stderr?: unknown }).stderr;
+    const detail = typeof stderr === "string" ? stderr.trim() : "";
+    throw new Error(`git ${invocation.args.slice(2).join(" ")} failed${detail ? `:\n${detail}` : ""}`, { cause: error });
+  }
+}
+
+// Run git on the host, always in the main checkout and never in a worktree,
+// and return trimmed stdout. Throws on failure, with git's stderr.
+export function git(...args: string[]): string {
+  const checkout = process.cwd();
+  return runHostGit(checkout, hostGitInvocation(checkout, repoGitDir(), args));
+}
+
+// Remove a sandcastle.gatedHead marker an earlier version of Sandcastle left in
+// .git/config. The pre-push hook skips the gate for the commit it names, and
+// nothing writes or clears it any more: the host now pushes with hooks off.
+// git exits non-zero when the key isn't set, which is the usual case.
+export function forgetGatedHead(run: (...args: string[]) => string = git): void {
+  try {
+    run("config", "--local", "--unset-all", "sandcastle.gatedHead");
   } catch {
-    // Exit 1 with no output: the file has no entries.
-    return "";
-  }
-};
-
-let recordedConfig: string | undefined;
-
-// Record the clone's config. main.mts calls this once, before any sandbox.
-export function recordGitConfig(): void {
-  recordedConfig = localConfig();
-}
-
-// The config lines added or removed between two `git config --list` outputs.
-export function configChanges(before: string, after: string): string[] {
-  const lines = (text: string) => new Set(text.split("\n").filter(Boolean));
-  const was = lines(before);
-  const now = lines(after);
-  return [
-    ...[...was].filter((line) => !now.has(line)).map((line) => `- ${line}`),
-    ...[...now].filter((line) => !was.has(line)).map((line) => `+ ${line}`),
-  ];
-}
-
-export class GitConfigChangedError extends Error {}
-
-// Throw if the clone's config changed since recordGitConfig.
-export function assertGitConfigUnchanged(): void {
-  if (recordedConfig === undefined) return;
-  const changes = configChanges(recordedConfig, localConfig());
-  if (changes.length > 0) {
-    throw new GitConfigChangedError(
-      ".git/config changed while Sandcastle ran, and only the agents' sandboxes could have changed it. " +
-        "Sandcastle stopped before running git on the host. Inspect .git/config before running any git command " +
-        `in this clone:\n${changes.join("\n")}`,
-    );
+    // Not set.
   }
 }
-
-// Git on the host: refused once the clone's config has changed, with hooks
-// off, and reading the real objects rather than any replace ref. It passes
-// these itself as well as through protectHostGit, so the secret scan and the
-// check-file warning hold up when an entry point didn't call protectHostGit.
-export const git = (cwd: string, ...args: string[]) => {
-  assertGitConfigUnchanged();
-  return sh(cwd, "git", "-c", "core.hooksPath=/dev/null", "-c", "core.useReplaceRefs=false", ...args);
-};
