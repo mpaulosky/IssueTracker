@@ -80,6 +80,7 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 
 | Version | Date | Title | Blog post |
 | ------- | ---- | ----- | --------- |
+| [v0.0.66](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.66) | 2026-10-26 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-26-pr-286-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.65](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.65) | 2026-10-26 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-26-pr-284-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.64](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.64) | 2026-10-26 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-26-pr-283-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.63](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.63) | 2026-10-26 | chore(sandcastle): Add the names the local review and the Owned modules read | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-26-pr-281-chore-sandcastle-add-the-names-the-local-review-and-the-owned-modules-read.md) |
@@ -89,7 +90,6 @@ For security concerns, please review our [Security Policy](docs/SECURITY.md).
 | [v0.0.59](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.59) | 2026-10-18 | chore(deps): Have Dependabot ignore claude-code-action | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-18-pr-270-chore-deps-have-dependabot-ignore-claude-code-action.md) |
 | [v0.0.58](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.58) | 2026-10-18 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-18-pr-267-chore-re-apply-the-repo-ci-baseline-template.md) |
 | [v0.0.57](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.57) | 2026-10-16 | build(deps): Update NuGet packages | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-16-pr-265-build-deps-update-nuget-packages.md) |
-| [v0.0.56](https://github.com/mpaulosky/IssueTracker/releases/tag/v0.0.56) | 2026-10-16 | chore: Re-apply the repo-ci-baseline Template | [Post](https://github.com/mpaulosky/IssueTracker/blob/main/docs/blogs/2026-10-16-pr-263-chore-re-apply-the-repo-ci-baseline-template.md) |
 
 <!-- RELEASES_END -->
 
