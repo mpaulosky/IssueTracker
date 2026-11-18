@@ -4,6 +4,7 @@ This directory contains concise release-review posts for merged PR releases.
 
 | Date | Title | Tags |
 | ---- | ----- | ---- |
+| 2026-11-18 | [chore(sandcastle): Rename the sandbox gate to sandbox-gate.sh](2026-11-18-pr-296-chore-sandcastle-rename-the-sandbox-gate-to-sandbox-gate-sh.md) | release,automation |
 | 2026-10-26 | [chore: Re-apply the repo-ci-baseline Template](2026-10-26-pr-286-chore-re-apply-the-repo-ci-baseline-template.md) | release,automation |
 | 2026-10-26 | [chore: Re-apply the repo-ci-baseline Template](2026-10-26-pr-284-chore-re-apply-the-repo-ci-baseline-template.md) | release,automation |
 | 2026-10-26 | [chore: Re-apply the repo-ci-baseline Template](2026-10-26-pr-283-chore-re-apply-the-repo-ci-baseline-template.md) | release,automation |
