@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, describe, it } from "node:test";
 
-// .sandcastle/needs-docker.sh decides which test projects check.sh skips in
+// .sandcastle/needs-docker.sh decides which test projects sandbox-gate.sh skips in
 // the Docker-free sandbox. These run it against fixture projects in a temp repo.
 const script = resolve(".sandcastle/needs-docker.sh");
 const root = mkdtempSync(join(tmpdir(), "needs-docker-"));

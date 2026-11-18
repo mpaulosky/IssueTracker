@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Whether a test project needs Docker, which Sandcastle's sandbox doesn't have.
-# .sandcastle/check.sh skips the projects this says yes to.
+# .sandcastle/sandbox-gate.sh skips the projects this says yes to.
 #
 #   needs-docker.sh <csproj>    exits 0 when it needs Docker, 1 when it doesn't,
 #                               2 when the project doesn't exist

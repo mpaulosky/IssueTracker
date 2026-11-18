@@ -55,7 +55,7 @@ scripts/gate.sh                                           # everything the pre-p
 - A test project needs Docker when it uses Testcontainers, `Aspire.Hosting.Testing` or Playwright. Today that is
   `IssueTracker.PlugIns.Tests.Integration`, which starts MongoDB with Testcontainers. `Integration.Tests` and
   `AppHost.Tests` build Aspire models and fakes without starting containers, so they run without Docker.
-- `.sandcastle/check.sh` is the check Sandcastle's agents run in their sandbox, which has no Docker: the YAML and shell
+- `.sandcastle/sandbox-gate.sh` is the check Sandcastle's agents run in their sandbox, which has no Docker: the YAML and shell
   lints, the Release build, every test project that doesn't need Docker, and the Sandcastle tests. The host runs it in
   the sandbox before it publishes a branch, and publishes only the commit it passed on; CI runs the rest.
 
