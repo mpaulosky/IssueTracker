@@ -5,7 +5,7 @@
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AngleSharp" Version="1.8.5" />
+    <PackageVersion Include="AngleSharp" Version="1.10.0" />
     <PackageVersion Include="Blazored.SessionStorage" Version="2.4.0" />
     <PackageVersion Include="Blazored.SessionStorage.TestExtensions" Version="2.4.0" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
